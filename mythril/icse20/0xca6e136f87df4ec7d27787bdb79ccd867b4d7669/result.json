@@ -1,0 +1,101 @@
+{
+  "contract": "0xca6e136f87df4ec7d27787bdb79ccd867b4d7669",
+  "tool": "mythril",
+  "start": 1563622258.70028,
+  "end": 1563622530.0417917,
+  "duration": 271.3415117263794,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1130,
+        "code": "e[] public messages;\n    ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Ethertag_4: 0x0\nstorage_4: 0x0\ncalldata_Ethertag_0: 0xd80fefd00000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "_function_0x0d80fefd",
+        "lineno": 7,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1787,
+        "code": "messages[i]",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Ethertag_4: 0x0\nstorage_4: 0x0\ncalldata_Ethertag_0: 0x6653301400000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "supportMessage(uint256)",
+        "lineno": 61,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1811,
+        "code": "messages[i].value);\n    }\n   \n",
+        "debug": "callvalue: 0x57f25cd000000000000000000000000000000000000000000000000000000000\nstorage_1 +\n62514009886607029107290561805838585334079798074568712924583230797734656856475 +\n3*calldata_Ethertag_4: 0xa8795cd3fffffffffffffffffffffffffffffffffffffffffffffffffffffffe\ncalldata_Ethertag_4: 0x0\nstorage_4: 0x1\ncalldata_Ethertag_0: 0x6653301400000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\n",
+        "description": "A possible integer overflow exists in the function `supportMessage(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "supportMessage(uint256)",
+        "lineno": 61,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2519,
+        "code": ";\ncontract Etherta",
+        "debug": "storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_3: 0x0\ncallvalue: 0x0\ncalldata_Ethertag_4 + calldata_Ethertag_4: 0x0\nstorage_2: 0x0\ncalldata_Ethertag_0: 0xfa4c5dc000000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addMessage(string,uint8,uint8,uint8)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "addMessage(string,uint8,uint8,uint8)",
+        "lineno": 1,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2571,
+        "code": ");\n        emit newMessage(\n            messages",
+        "debug": "mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Ethertag_4 + calldata_Ethertag_4)) +\n0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_3: 0x0\ncallvalue: 0x0\ncalldata_Ethertag_4 + calldata_Ethertag_4: 0x0\nstorage_2: 0x0\ncalldata_Ethertag_0: 0xfa4c5dc000000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addMessage(string,uint8,uint8,uint8)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "addMessage(string,uint8,uint8,uint8)",
+        "lineno": 48,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3250,
+        "code": "ontract Ethertag {\n    address public owner;\n    address public thisContract = this;\n    uint public minValue;\n    uint public maxTextLength;\n    message[] public messages;\n    \n    struct message {\n        string text;\n        uint value;\n        rgb color;\n    }\n    \n    struct rgb {\n        uint8 red;\n        uint8 green;\n        uint8 blue;\n    }\n    \n    event newMessage(uint id, string text, uint value, uint8 red, uint8 green, uint8 blue);\n    event newSupport(uint id, uint value);\n    \n    constructor() public {\n        owner = msg.sender;\n        minValue = 10000000000000;\n        maxTextLength = 200;\n    }\n    \n    function getMessagesCount() public view returns(uint) {\n        return messages.length;\n    }\n\n    function getMessage(uint i) public view returns(string text, uint value, uint8 red, uint8 green, uint8 blue) {\n        require(i<messages.length);\n        return (\n            messages[i].text, \n            messages[i].value,\n            messages[i].color.red,\n            messages[i].color.green,\n            messages[i].color.blue\n            );\n    }\n  \n    function addMessage(string m, uint8 r, uint8 g, uint8 b) public payable {\n        require(msg.value >= minValue);\n        require(bytes(m).length <= maxTextLength);\n        messages.push(message(m, msg.value, rgb(r,g,b)));\n        emit newMessage(\n            messages.length-1,\n            messages[messages.length-1].text, \n            messages[messages.length-1].value, \n            messages[messages.length-1].color.red,\n            messages[messages.length-1].color.green,\n            messages[messages.length-1].color.blue\n            );\n    }\n    \n    function supportMessage(uint i) public payable {\n        messages[i].value += msg.value;\n        emit newSupport(i, messages[i].value);\n    }\n   \n    function changeSettings(uint newMaxTextLength, uint newMinValue) public {\n        require(msg.sender == owner);\n        maxTextLength = newMaxTextLength;\n        minValue = newMinValue;\n    }\n    \n    function withdraw() public {\n        require(msg.sender == owner);\n        msg.sender.transfer(thisContract.balance);\n    }\n}",
+        "debug": "keccac_0_+\n62514009886607029107290561805838585334079798074568712924583230797734656856475_+\n3*storage_4: 0xff13e6a7459ae5a4c49c419171c3f89100a371508000000000129200000219e2\nstorage_0 +\n62514009886607029107290561805838585334079798074568712924583230797734656856475 +\n3*storage_4: 0xbac1c3147749165dd7d1977fffffffffffffffffffffffffffffffffffffffc5\nstorage_3: 0x0\ncallvalue: 0x0\ncalldata_Ethertag_4 + calldata_Ethertag_4: 0x0\nstorage_2: 0x0\ncalldata_Ethertag_0: 0xfa4c5dc000000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addMessage(string,uint8,uint8,uint8)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "addMessage(string,uint8,uint8,uint8)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3279,
+        "code": "ontract Ethertag {\n    address public owner;\n    address public thisContract = this;\n    uint public minValue;\n    uint public maxTextLength;\n    message[] public messages;\n    \n    struct message {\n        string text;\n        uint value;\n        rgb color;\n    }\n    \n    struct rgb {\n        uint8 red;\n        uint8 green;\n        uint8 blue;\n    }\n    \n    event newMessage(uint id, string text, uint value, uint8 red, uint8 green, uint8 blue);\n    event newSupport(uint id, uint value);\n    \n    constructor() public {\n        owner = msg.sender;\n        minValue = 10000000000000;\n        maxTextLength = 200;\n    }\n    \n    function getMessagesCount() public view returns(uint) {\n        return messages.length;\n    }\n\n    function getMessage(uint i) public view returns(string text, uint value, uint8 red, uint8 green, uint8 blue) {\n        require(i<messages.length);\n        return (\n            messages[i].text, \n            messages[i].value,\n            messages[i].color.red,\n            messages[i].color.green,\n            messages[i].color.blue\n            );\n    }\n  \n    function addMessage(string m, uint8 r, uint8 g, uint8 b) public payable {\n        require(msg.value >= minValue);\n        require(bytes(m).length <= maxTextLength);\n        messages.push(message(m, msg.value, rgb(r,g,b)));\n        emit newMessage(\n            messages.length-1,\n            messages[messages.length-1].text, \n            messages[messages.length-1].value, \n            messages[messages.length-1].color.red,\n            messages[messages.length-1].color.green,\n            messages[messages.length-1].color.blue\n            );\n    }\n    \n    function supportMessage(uint i) public payable {\n        messages[i].value += msg.value;\n        emit newSupport(i, messages[i].value);\n    }\n   \n    function changeSettings(uint newMaxTextLength, uint newMinValue) public {\n        require(msg.sender == owner);\n        maxTextLength = newMaxTextLength;\n        minValue = newMinValue;\n    }\n    \n    function withdraw() public {\n        require(msg.sender == owner);\n        msg.sender.transfer(thisContract.balance);\n    }\n}",
+        "debug": "mem_mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Ethertag_4 + calldata_Ethertag_4)) +\n0: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_3: 0x0\ncallvalue: 0x0\ncalldata_Ethertag_4 + calldata_Ethertag_4: 0x0\nstorage_2: 0x0\ncalldata_Ethertag_0: 0xfa4c5dc000000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addMessage(string,uint8,uint8,uint8)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "addMessage(string,uint8,uint8,uint8)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3293,
+        "code": "ontract Ethertag {\n    address public owner;\n    address public thisContract = this;\n    uint public minValue;\n    uint public maxTextLength;\n    message[] public messages;\n    \n    struct message {\n        string text;\n        uint value;\n        rgb color;\n    }\n    \n    struct rgb {\n        uint8 red;\n        uint8 green;\n        uint8 blue;\n    }\n    \n    event newMessage(uint id, string text, uint value, uint8 red, uint8 green, uint8 blue);\n    event newSupport(uint id, uint value);\n    \n    constructor() public {\n        owner = msg.sender;\n        minValue = 10000000000000;\n        maxTextLength = 200;\n    }\n    \n    function getMessagesCount() public view returns(uint) {\n        return messages.length;\n    }\n\n    function getMessage(uint i) public view returns(string text, uint value, uint8 red, uint8 green, uint8 blue) {\n        require(i<messages.length);\n        return (\n            messages[i].text, \n            messages[i].value,\n            messages[i].color.red,\n            messages[i].color.green,\n            messages[i].color.blue\n            );\n    }\n  \n    function addMessage(string m, uint8 r, uint8 g, uint8 b) public payable {\n        require(msg.value >= minValue);\n        require(bytes(m).length <= maxTextLength);\n        messages.push(message(m, msg.value, rgb(r,g,b)));\n        emit newMessage(\n            messages.length-1,\n            messages[messages.length-1].text, \n            messages[messages.length-1].value, \n            messages[messages.length-1].color.red,\n            messages[messages.length-1].color.green,\n            messages[messages.length-1].color.blue\n            );\n    }\n    \n    function supportMessage(uint i) public payable {\n        messages[i].value += msg.value;\n        emit newSupport(i, messages[i].value);\n    }\n   \n    function changeSettings(uint newMaxTextLength, uint newMinValue) public {\n        require(msg.sender == owner);\n        maxTextLength = newMaxTextLength;\n        minValue = newMinValue;\n    }\n    \n    function withdraw() public {\n        require(msg.sender == owner);\n        msg.sender.transfer(thisContract.balance);\n    }\n}",
+        "debug": "mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Ethertag_4 + calldata_Ethertag_4)) +\n0: 0xc48c04261444f7ce9c1a66f6c355debe3fffffffffffffffffffffffffffffed\nmem_mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Ethertag_4 + calldata_Ethertag_4)) +\n0: 0xe9ed542651000003d76906f7c018193fbfffffffffffffffffffffffffffffcb\nstorage_3: 0x0\ncallvalue: 0x0\ncalldata_Ethertag_4 + calldata_Ethertag_4: 0x0\nstorage_2: 0x0\ncalldata_Ethertag_0: 0xfa4c5dc000000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethertag: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addMessage(string,uint8,uint8,uint8)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/24/0xca6e136f87df4ec7d27787bdb79ccd867b4d7669.sol",
+        "function": "addMessage(string,uint8,uint8,uint8)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

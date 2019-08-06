@@ -1,0 +1,57 @@
+{
+  "contract": "0xc330a5ba9ec82fd8b550c120681a80666b9c75f6",
+  "tool": "mythril",
+  "start": 1563583252.12421,
+  "end": 1563583859.4721057,
+  "duration": 607.347895860672,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 417,
+        "code": "iptionHash(\n            from, to, tokenAddress, tokenAmount, periodSeconds, gasPrice\n        );\n        address signer = getSubscriptionSigner(subscriptionHash, signature);\n        uint256 allowance = ERC20(tokenAddress).allowance(from, address(this));\n        return (\n            signer == from &&\n            block.timestamp >= nextValidTimestamp[subscriptionHash] &&\n            allowance >= tokenAmount.add(gasPrice)\n        );\n    }\n\n    // you don't really need this if you are using the approve/transferFrom method\n    // because you control the flow of tokens by approving this contract address,\n    // but to make the contract an extensible example for later user I'll add this\n    function cancelSubscription(\n        address from, //the subscriber\n        address to, //the publisher\n        address tokenAddress, //the token address paid to the publisher\n        uint256 tokenAmount, //the token amount paid to the publisher\n        uint256 periodSeconds, //the period in seconds between payments\n        uint256 gasPrice, //the amou",
+        "debug": "calldata_Subscription_32 + 164: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Subscription_0: 0xad8ad6600000000000000000000000000000000000000000000000000000000\ncalldatasize_Subscription: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x0ad8ad66`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/19/0xc330a5ba9ec82fd8b550c120681a80666b9c75f6.sol",
+        "function": "_function_0x0ad8ad66",
+        "lineno": 597,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 603,
+        "code": "he token address paid to the publisher\n        uint256 tokenAmount, //the token amount paid to the publisher\n        uint256 periodSeconds, //the period in seconds between payments\n        uint256 gasPrice, //the amount of the token to incentivize the relay network\n        bytes signature //proof the subscriber signed ",
+        "debug": "calldata_Subscription_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Subscription_0: 0x18f321a300000000000000000000000000000000000000000000000000000000\ncalldatasize_Subscription: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x18f321a3`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/19/0xc330a5ba9ec82fd8b550c120681a80666b9c75f6.sol",
+        "function": "_function_0x18f321a3",
+        "lineno": 587,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1028,
+        "code": "uld be exact code as \"isSubscriptionReady\"\n        bytes32 subscriptionHash = getSubscriptionHash(\n            from, to, tokenAddress, tokenAmount, periodSeconds, gasPrice\n        );\n        address signer = getSubscriptionSigner(subscriptionHash, signature);\n\n        //the signature must be valid\n        require(signer == from, \"Invalid Signature\");\n        //timestamp must be equal to or past the next period\n        require(\n            block.timestamp >= nextValidTimestamp[subscriptionHash],\n            \"Subscription is not ready\"\n        );\n\n        // if there are requirements from the deployer, let's make sure\n        // those are met exactly\n        require( requiredToAddress == address(0) || to == requiredToAddress );\n        require( requiredTokenAddress == address(0) || tokenAddress == requiredTokenAddress );\n        require( requiredTokenAmount == 0 || tokenAmount == requiredTokenAmount );\n        require( requiredPeriodSeconds == 0 || periodSeconds == requiredPeriodSeconds );\n        require( requiredGasPrice == 0 || gasPrice == requiredGasPrice );\n\n        nextValidTimestamp[subscriptionHash] = block.timestamp.add(periodSeconds);\n\n        // now, let make the transfer from the subscriber to the publisher\n        uint256 startingBalance = ERC20(tokenAddress).balanceOf(to);\n        require(\n          ERC20(tokenAddress).transferFrom(from,to,tokenAmount),\n          \"Transfer Failed\"\n        );\n        require(\n          (startingBalance+tokenAmount) == ERC20(tokenAddress).balanceOf(to),\n          \"Crappy ERC20 is a bad kitty.\"\n        );\n\n        emit ExecuteSubscription(\n            from, to, tokenAddress, tokenAmount, periodSeconds, gasPrice\n        );\n\n        // it is possible for the subscription execution to be run by a third party\n        // incentivized in the terms of the subscription with a gasPrice of the tokens\n        //  - pay that out now...\n        if (gasPrice > 0) {\n            //the relayer is incentivized by a little of the same token from\n            // the subscriber ... as far as the subscriber knows, they are\n            // just sending X tokens to the publisher, but the publisher can\n            // choose to send Y of those X to a relayer to run their transactions\n            // the publisher will receive X - Y tokens\n            // this must all be setup in the constructor\n            // if not, the subscriber chooses all the params including what goes\n            // to the publisher and what goes to the relayer\n\n            require(\n                ERC20(tokenAddress).transferFrom(from, msg.sender, gasPrice),\n                \"Failed to pay gas as from account\"\n            );\n        }\n\n        return true;\n    }\n}",
+        "debug": "calldata_Subscription_32 + 164: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Subscription_0: 0x691d935200000000000000000000000000000000000000000000000000000000\ncalldatasize_Subscription: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x691d9352`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/19/0xc330a5ba9ec82fd8b550c120681a80666b9c75f6.sol",
+        "function": "_function_0x691d9352",
+        "lineno": 654,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2605,
+        "code": " address tokenAddress, //the token address paid to",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/19/0xc330a5ba9ec82fd8b550c120681a80666b9c75f6.sol",
+        "function": "_function_0x0ad8ad66",
+        "lineno": 615,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

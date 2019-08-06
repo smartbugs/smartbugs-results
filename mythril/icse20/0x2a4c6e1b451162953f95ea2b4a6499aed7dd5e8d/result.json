@@ -1,0 +1,156 @@
+{
+  "contract": "0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d",
+  "tool": "mythril",
+  "start": 1563570255.6852922,
+  "end": 1563570314.561703,
+  "duration": 58.876410722732544,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 337,
+        "code": " _data) onlyOwner readWrite public {\n\n        uint startPoint;\n\n        if(remainder != 0) {\n\n            startPoint = 32 - remainder;\n            bytes memory rest = new bytes(32);\n            for(uint i = 0; i < remainder; i++) {\n                rest[i] = data[data.length - 1][i];\n            }\n            for(i = 0; i < startPoint; i++) {\n                rest[remainder + i] = _data[i];\n            }\n            bytes32 p;\n            assembly {\n                p := mload(add(rest, 32))\n            }\n            data[data.length - 1] = p;\n        }\n        for(i = 0; i < (uint(_data.length - startPoint) / 32); i++) {\n            bytes32 word;\n            assembly {\n                word:= mload(add(_data, add(add(32, startPoint), mul(i, 32))))\n            }\n            data.push(word);\n        }\n        uint loose = (_data.length - startPoint) % 32;\n        if(loose != 0) {\n            uint position = _data.length - loose;\n            bytes32 leftover;\n            assembly {\n                leftover := mload(add(_data, add(32, position)))\n            }\n            data.push(leftover);\n        }\n        remainder = loose;\n    }\n    // If a mistake is done during upload, reverse using eras",
+        "debug": "calldata_Storage_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `uploadData(bytes)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 26,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 729,
+        "code": "ytes32 word = da",
+        "debug": "storage_1: 0x800000000000000000000000000000000000000000000000000000000000000\ncalldata_Storage_0: 0x3bc5de3000000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getData()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "getData()",
+        "lineno": 83,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1018,
+        "code": "es memory rest",
+        "debug": "storage_2: 0x30\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer underflow exists in the function `uploadData(bytes)`.\nThe subtraction may result in a value < 0.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 33,
+        "title": "Integer Underflow",
+        "type": "Warning"
+      },
+      {
+        "address": 1110,
+        "code": "    }\n            for",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_1: 0x0\nstorage_2: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 36,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1183,
+        "code": ";\n     ",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa\nstorage_2: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 + calldata_Storage_4 + calldata_Storage_4)): 0x0\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 35,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1271,
+        "code": "ytes32 p",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_2: 0x1\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 + calldata_Storage_4 + calldata_Storage_4)): 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncalldata_Storage_4 + calldata_Storage_4: 0x0\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 40,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1364,
+        "code": "       }\n          ",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_2: 0x1\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 + calldata_Storage_4 + calldata_Storage_4)): 0x1\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa\ncalldata_Storage_4 + calldata_Storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 39,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1526,
+        "code": ";\n\ncontract Storag",
+        "debug": "storage_1: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_Storage_4 + calldata_Storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\nstorage_2: 0x0\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `uploadData(bytes)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 1,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1632,
+        "code": ";\n\ncontract Storag",
+        "debug": "storage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Storage_4 + calldata_Storage_4: 0x70\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x69cef46c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\nstorage_2: 0x0\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `uploadData(bytes)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "uploadData(bytes)",
+        "lineno": 1,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1825,
+        "code": "32[] public data; // ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Storage_4: 0x0\nstorage_1: 0x0\ncalldata_Storage_0: 0xf0ba844000000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "_function_0xf0ba8440",
+        "lineno": 6,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1865,
+        "code": "ntract Storage {\n    address owner; // This address has permission to upload data\n    \n    bytes32[] public data; // Storage container in pieces of 32 byte\n    uint remainder; // Where the previous uploadData() left off\n    \n    bool readOnly; // Set the contract to read only once upload is finished\n\n    constructor() {\n        owner = msg.sender;\n    }\n    \n    modifier onlyOwner() {\n        require(msg.sender == owner);\n        _;\n    }\n\n    modifier readWrite () {\n        require(readOnly != true);\n        _;\n    }\n\n    // Data is uploaded over many transactions, until the whole file is stored in the contract\n    function uploadData(bytes _data) onlyOwner readWrite public {\n\n        uint startPoint;\n\n        if(remainder != 0) {\n\n            startPoint = 32 - remainder;\n            bytes memory rest = new bytes(32);\n            for(uint i = 0; i < remainder; i++) {\n                rest[i] = data[data.length - 1][i];\n            }\n            for(i = 0; i < startPoint; i++) {\n                rest[remainder + i] = _data[i];\n            }\n            bytes32 p;\n            assembly {\n                p := mload(add(rest, 32))\n            }\n            data[data.length - 1] = p;\n        }\n        for(i = 0; i < (uint(_data.length - startPoint) / 32); i++) {\n            bytes32 word;\n            assembly {\n                word:= mload(add(_data, add(add(32, startPoint), mul(i, 32))))\n            }\n            data.push(word);\n        }\n        uint loose = (_data.length - startPoint) % 32;\n        if(loose != 0) {\n            uint position = _data.length - loose;\n            bytes32 leftover;\n            assembly {\n                leftover := mload(add(_data, add(32, position)))\n            }\n            data.push(leftover);\n        }\n        remainder = loose;\n    }\n    // If a mistake is done during upload, reverse using erase()\n    function erase(uint _entriesToDelete) onlyOwner readWrite public {\n        require(_entriesToDelete != 0);\n        if(data.length < _entriesToDelete) { \n            delete data;\n        }\n        else data.length -= _entriesToDelete;\n        remainder = 0;\n    }\n    function uploadFinish() onlyOwner public {\n        readOnly = true;\n    }\n\n    // This loads the entire file as a single byte array. Since it does not\n    // affect the contract state, there are no gas costs\n\n    function getData() public view returns (bytes){\n        bytes memory result = new bytes(data.length*0x20);\n        for(uint i = 0; i < data.length; i++) {\n            bytes32 word = data[i];\n            assembly {\n                mstore(add(result, add(0x20, mul(i, 32))), word)\n            }\n        }\n        return result;\n    }\n}",
+        "debug": "calldata_Storage_4: 0x6000000000000004000000000000000000000000000000060000000000000001\nstorage_1: 0x6000000000000004000000000000000000000000000000060000000000000000\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x1007f75300000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `erase(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "erase(uint256)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1905,
+        "code": "ntract Storage {\n    address owner; // This address has permission to upload data\n    \n    bytes32[] public data; // Storage container in pieces of 32 byte\n    uint remainder; // Where the previous uploadData() left off\n    \n    bool readOnly; // Set the contract to read only once upload is finished\n\n    constructor() {\n        owner = msg.sender;\n    }\n    \n    modifier onlyOwner() {\n        require(msg.sender == owner);\n        _;\n    }\n\n    modifier readWrite () {\n        require(readOnly != true);\n        _;\n    }\n\n    // Data is uploaded over many transactions, until the whole file is stored in the contract\n    function uploadData(bytes _data) onlyOwner readWrite public {\n\n        uint startPoint;\n\n        if(remainder != 0) {\n\n            startPoint = 32 - remainder;\n            bytes memory rest = new bytes(32);\n            for(uint i = 0; i < remainder; i++) {\n                rest[i] = data[data.length - 1][i];\n            }\n            for(i = 0; i < startPoint; i++) {\n                rest[remainder + i] = _data[i];\n            }\n            bytes32 p;\n            assembly {\n                p := mload(add(rest, 32))\n            }\n            data[data.length - 1] = p;\n        }\n        for(i = 0; i < (uint(_data.length - startPoint) / 32); i++) {\n            bytes32 word;\n            assembly {\n                word:= mload(add(_data, add(add(32, startPoint), mul(i, 32))))\n            }\n            data.push(word);\n        }\n        uint loose = (_data.length - startPoint) % 32;\n        if(loose != 0) {\n            uint position = _data.length - loose;\n            bytes32 leftover;\n            assembly {\n                leftover := mload(add(_data, add(32, position)))\n            }\n            data.push(leftover);\n        }\n        remainder = loose;\n    }\n    // If a mistake is done during upload, reverse using erase()\n    function erase(uint _entriesToDelete) onlyOwner readWrite public {\n        require(_entriesToDelete != 0);\n        if(data.length < _entriesToDelete) { \n            delete data;\n        }\n        else data.length -= _entriesToDelete;\n        remainder = 0;\n    }\n    function uploadFinish() onlyOwner public {\n        readOnly = true;\n    }\n\n    // This loads the entire file as a single byte array. Since it does not\n    // affect the contract state, there are no gas costs\n\n    function getData() public view returns (bytes){\n        bytes memory result = new bytes(data.length*0x20);\n        for(uint i = 0; i < data.length; i++) {\n            bytes32 word = data[i];\n            assembly {\n                mstore(add(result, add(0x20, mul(i, 32))), word)\n            }\n        }\n        return result;\n    }\n}",
+        "debug": "calldata_Storage_4: 0x4000\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffeffffffffeffffffffffffffe\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x1007f75300000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `erase(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "erase(uint256)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1907,
+        "code": "ntract Storage {\n    address owner; // This address has permission to upload data\n    \n    bytes32[] public data; // Storage container in pieces of 32 byte\n    uint remainder; // Where the previous uploadData() left off\n    \n    bool readOnly; // Set the contract to read only once upload is finished\n\n    constructor() {\n        owner = msg.sender;\n    }\n    \n    modifier onlyOwner() {\n        require(msg.sender == owner);\n        _;\n    }\n\n    modifier readWrite () {\n        require(readOnly != true);\n        _;\n    }\n\n    // Data is uploaded over many transactions, until the whole file is stored in the contract\n    function uploadData(bytes _data) onlyOwner readWrite public {\n\n        uint startPoint;\n\n        if(remainder != 0) {\n\n            startPoint = 32 - remainder;\n            bytes memory rest = new bytes(32);\n            for(uint i = 0; i < remainder; i++) {\n                rest[i] = data[data.length - 1][i];\n            }\n            for(i = 0; i < startPoint; i++) {\n                rest[remainder + i] = _data[i];\n            }\n            bytes32 p;\n            assembly {\n                p := mload(add(rest, 32))\n            }\n            data[data.length - 1] = p;\n        }\n        for(i = 0; i < (uint(_data.length - startPoint) / 32); i++) {\n            bytes32 word;\n            assembly {\n                word:= mload(add(_data, add(add(32, startPoint), mul(i, 32))))\n            }\n            data.push(word);\n        }\n        uint loose = (_data.length - startPoint) % 32;\n        if(loose != 0) {\n            uint position = _data.length - loose;\n            bytes32 leftover;\n            assembly {\n                leftover := mload(add(_data, add(32, position)))\n            }\n            data.push(leftover);\n        }\n        remainder = loose;\n    }\n    // If a mistake is done during upload, reverse using erase()\n    function erase(uint _entriesToDelete) onlyOwner readWrite public {\n        require(_entriesToDelete != 0);\n        if(data.length < _entriesToDelete) { \n            delete data;\n        }\n        else data.length -= _entriesToDelete;\n        remainder = 0;\n    }\n    function uploadFinish() onlyOwner public {\n        readOnly = true;\n    }\n\n    // This loads the entire file as a single byte array. Since it does not\n    // affect the contract state, there are no gas costs\n\n    function getData() public view returns (bytes){\n        bytes memory result = new bytes(data.length*0x20);\n        for(uint i = 0; i < data.length; i++) {\n            bytes32 word = data[i];\n            assembly {\n                mstore(add(result, add(0x20, mul(i, 32))), word)\n            }\n        }\n        return result;\n    }\n}",
+        "debug": "calldata_Storage_4: 0x847c9cbf80000ca7858020e80cb0b1890002000000000000000000000000000\nstorage_1: 0xba19af1930e3f32bf8b37c0d0acc73f02fffe09c025c5fc023fffffe00001000\nstorage_3: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Storage_0: 0x1007f75300000000000000000000000000000000000000000000000000000000\ncalldatasize_Storage: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `erase(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0x2a4c6e1b451162953f95ea2b4a6499aed7dd5e8d.sol",
+        "function": "erase(uint256)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

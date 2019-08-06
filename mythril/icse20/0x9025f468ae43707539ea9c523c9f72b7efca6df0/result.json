@@ -1,0 +1,46 @@
+{
+  "contract": "0x9025f468ae43707539ea9c523c9f72b7efca6df0",
+  "tool": "mythril",
+  "start": 1563595142.6268506,
+  "end": 1563596209.758295,
+  "duration": 1067.1314444541931,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 190,
+        "code": "sfers 10% to the advertiseme",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 443\nCall at address: 443\n",
+        "filename": "/unique_chucks/22/0x9025f468ae43707539ea9c523c9f72b7efca6df0.sol",
+        "function": "fallback",
+        "lineno": 37,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 255,
+        "code": "th / 10) && ra",
+        "debug": "storage_13: 0x105\nblock_number: 0x0\nretval_190: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldatasize_RESERVED: 0x0\n",
+        "description": "A possible integer underflow exists in the function `fallback`.\nThe subtraction may result in a value < 0.",
+        "filename": "/unique_chucks/22/0x9025f468ae43707539ea9c523c9f72b7efca6df0.sol",
+        "function": "fallback",
+        "lineno": 53,
+        "title": "Integer Underflow",
+        "type": "Warning"
+      },
+      {
+        "address": 5076,
+        "code": "ct RESERVED {\n   \n    address owner; //address of contract creator\n    address investor; //address of user who just invested money to the contract\n    mapping (address => uint256) balances; //amount of investment for each address\n    mapping (address => uint256) timestamp; //time from the last payment for each address\n    mapping (address => uint16) rate; //rate for each address \n    mapping (address => uint256) referrers; //structure for checking whether investor had referrer or not\n    uint16 default_rate = 300; //default rate (minimal rate) for investors\n    uint16 max_rate = 1000; //maximal possible rate\n    uint256 eth = 1000000000000000000; //eth in wei\n    uint256 jackpot = 0; //amount of jackpot\n    uint256 random_number; //random number from 1 to 100\n    uint256 referrer_bonus; //amount of referrer bonus\n    uint256 deposit; //amount of investment\n    uint256 day = 86400; //seconds in 24 hours\n    bytes msg_data; //referrer address\n    \n    //Store owner as a person created that contract\n    constructor() public { owner = msg.sender;}\n    \n    //Function calls in the moment of investment\n    function() external payable{\n        \n        deposit = msg.value; //amount of investment\n        \n        investor = msg.sender; //address of investor\n        \n        msg_data = bytes(msg.data); //address of referrer\n        \n        owner.transfer(deposit / 10); //transfers 10% to the advertisement fund\n        \n        tryToWin(); //jackpot\n        \n        sendPayment(); //sends payment to investors\n        \n        updateRate(); //updates rates of investors depending on amount of investment\n        \n        upgradeReferrer(); //sends bonus to referrers and upgrates their rates, also increases the rate of referral\n        \n        \n    }\n    \n    //Collects jackpot and sends it to lucky investor\n    function tryToWin() internal{\n        random_number = uint(blockhash(block.number-1))%100 + 1;\n        if (deposit >= (eth / 10) && random_number<(deposit/(eth / 10) + 1) && jackpot>0) {\n            investor.transfer(jackpot);\n            jackpot = deposit / 20;\n        }\n        else jackpot += deposit / 20;\n    }\n    \n    //Sends payment to investor\n    function sendPayment() internal{\n        if (balances[investor] != 0){\n            uint256 paymentAmount = balances[investor]*rate[investor]/10000*(now-timestamp[investor])/day;\n            investor.transfer(paymentAmount);\n        }\n        timestamp[investor] = now;\n        balances[investor] += deposit;\n    }\n    \n    //Assigns a rate depending on the amount of the deposit\n    function updateRate() internal{\n        require (balances[investor]>0);\n        if (balances[investor]>=(10*eth) && rate[investor]<default_rate+75){\n                    rate[investor]=default_rate+75;\n                }\n                else if (balances[investor]>=(5*eth) && rate[investor]<default_rate+50){\n                        rate[investor]=default_rate+50;\n                    }\n                    else if (balances[investor]>=eth && rate[investor]<default_rate+25){\n                            rate[investor]=default_rate+25;\n                        }\n                        else if (rate[investor]<default_rate){\n                                rate[investor]=default_rate;\n                            }\n    }\n    \n    //Sends bonus to referrers and upgrates their rates, also increases the rate of referral\n    function upgradeReferrer() internal{\n        if(msg_data.length == 20 && referrers[investor] == 0) {\n            address referrer = bytesToAddress(msg_data);\n            if(referrer != investor && balances[referrer]>0){\n                referrers[investor] = 1;\n                rate[investor] += 50; \n                referrer_bonus = deposit * rate[referrer] / 10000;\n                referrer.transfer(referrer_bonus); \n                if(rate[referrer]<max_rate){\n                    if (deposit >= 10*eth){\n                        rate[referrer] = rate[referrer] + 100;\n                    }\n                    else if (deposit >= 3*eth){\n                            rate[referrer] = rate[referrer] + 50;\n                        }\n                        else if (deposit >= eth / 2){\n                                rate[referrer] = rate[referrer] + 25;\n                            }\n                            else if (deposit >= eth / 10){\n                                    rate[referrer] = rate[referrer] + 10;\n                                }\n                }\n            }\n        }    \n        referrers[investor] = 1; //Protection from the writing referrer address with the next investment\n    }\n    \n    //Transmits bytes to address\n    function bytesToAddress(bytes source) internal pure returns(address) {\n        uint result;\n        uint mul = 1;\n        for(uint i = 20; i > 0; i--) {\n            result += uint8(source[i-1])*mul;\n            mul = mul*256;\n        }\n        return address(result);\n    }\n    \n}",
+        "debug": "calldatasize_RESERVED: 0x8000000000000000000000000000000000000000000000000000000000000000\n",
+        "description": "A possible integer overflow exists in the function `fallback`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/22/0x9025f468ae43707539ea9c523c9f72b7efca6df0.sol",
+        "function": "fallback",
+        "lineno": 7,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

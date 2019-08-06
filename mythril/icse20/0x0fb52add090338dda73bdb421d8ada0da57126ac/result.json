@@ -1,0 +1,90 @@
+{
+  "contract": "0x0fb52add090338dda73bdb421d8ada0da57126ac",
+  "tool": "mythril",
+  "start": 1563493509.2501411,
+  "end": 1563493923.0264564,
+  "duration": 413.77631521224976,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 599,
+        "code": "-= _amount;\n        emit Transfer(0, _user, _amount);\n        return ",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/6/0x0fb52add090338dda73bdb421d8ada0da57126ac.sol",
+        "function": "fallback",
+        "lineno": 437,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 599,
+        "code": "-= _amount;\n        emit Transfer(0, _user, _amount);\n        return ",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function fallback. The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/6/0x0fb52add090338dda73bdb421d8ada0da57126ac.sol",
+        "function": "fallback",
+        "lineno": 437,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 1456,
+        "code": "unt < balanceOfSender); //check enough and not overflow\n        balanceOf[msg.sender] = balanceOf[msg.sender].sub(amount);\n        for(uint256 i; i<len; i++){\n            address _toI = _to[i];\n            uint256 _valueI = _value[i];\n            balanceOf[_toI] = balanceOf[_toI].add(_valueI);\n            emit Transfer(msg.sender, _toI, _valueI);\n        }\n        emit TransferMulti(len, amount);\n    }\n    \n    //\u5bf9\u591a\u4eba\u6309\u76f8\u540c\u6570\u91cf\u8f6c\u8d26\n    function transferMultiSameVaule(address[] _to, uint256 _value) transable public returns (bool success){\n        uint256 len = _to.length;\n        uint256 amount = _value.mul(len);\n        balanceOf[msg.sender] = balanceOf[msg.sender].sub(amount); //this will check enough automatically\n        for(uint256 i; i<len; i++){\n            address _toI = _to[i];\n            balanceOf[_toI] = balanceOf[_toI].add(_value);\n            emit Transfer(msg.sen",
+        "debug": "calldata_TokenI_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_TokenI_0: 0x35bce6e400000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenI: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `transferMulti(address[],uint256[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x0fb52add090338dda73bdb421d8ada0da57126ac.sol",
+        "function": "transferMulti(address[],uint256[])",
+        "lineno": 358,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1784,
+        "code": "rMulti(len, amount);\n        return true;\n    }\n    \n    //\u53ea\u80fd\u81ea\u5df1\u6216\u8005 owner,controller \u624d\u80fd\u51bb\u7ed3\u8d26\u6237\n    function freeze(address _user, uint256 _value, uint8 _step) moreThanZero(_value) userOrController(_user) public returns (bool success) {\n        //info256(\"balanceOf[_user]\", balanceOf[_user]);\n        require(balanceOf[_user] >= _value);\n        balanceOf[_user] = balanceOf[_user] - _value;\n        freezeOf[_step][lastFreezeSeq[_step]] = FreezeInfo({user:_user, amount:_value});\n        lastFreezeSeq[_step]++;\n        emit Freeze(_user, _value);\n        retur",
+        "debug": "calldata_TokenI_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_TokenI_0: 0x4e6b97f300000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenI: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `transferMultiSameVaule(address[],uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x0fb52add090338dda73bdb421d8ada0da57126ac.sol",
+        "function": "transferMultiSameVaule(address[],uint256)",
+        "lineno": 379,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 7026,
+        "code": "ssigned to `_owner`\n    /// @par",
+        "debug": "storage_keccac_255_&_255_&_255_&_calldata_TokenI_4: 0x4000\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\nUDiv(storage_0_+\nkeccac_4294967295_&\n4294967295_&\nConcat(0,\n_______Extract(39,\n_______________8,\n_______________storage_keccac_255_&_255_&_255_&_calldata_TokenI_4))_-\n1,\n_____256): 0xbf927284090475daa967e367bd06cfc2850e6d6a4043dfc0724e0b44cd050381\nstorage_1 +\nkeccac_4294967295_&\n4294967295_&\nConcat(0,\n_______Extract(39,\n_______________8,\n_______________storage_keccac_255_&_255_&_255_&_calldata_TokenI_4))_-\n1: 0xc03273400b4423d08142022bf3b500dec16f728a7f73dea37b67f1b68dd67be5\nstorage_3: 0x0\nstorage_9: 0xffffffffffffffffffffffffffffffffffffffff00\ncaller: 0x0\ncalldata_TokenI_0: 0x492d06cf00000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenI: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `unFreeze(uint8)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x0fb52add090338dda73bdb421d8ada0da57126ac.sol",
+        "function": "unFreeze(uint8)",
+        "lineno": 430,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 8244,
+        "code": "n true;\n    }\n\n    ////////",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_TokenI_4: 0x9c9efb7ae5acd378025256a3945f5859076e809243093d9ecae2636c9fd28979\ncalldata_TokenI_32 + 4: 0xc290137095b13347e55005a6dc184559e0489f1233480050d0fb4bba17d34179\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\nUDiv(storage_9,_256): 0xc290137095b13347e55005a6dc184559e0489f1233480050d0fb4bba17d34179\nstorage_3: 0x0\ncaller: 0x0\ncalldata_TokenI_0: 0x827f32c000000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenI: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `generateTokens(address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x0fb52add090338dda73bdb421d8ada0da57126ac.sol",
+        "function": "generateTokens(address,uint256)",
+        "lineno": 452,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 12994,
+        "code": "      return a",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_TokenI_4 + calldata_TokenI_4: 0x3fdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\ncalldata_TokenI_32 + 4: 0x4001\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff83fdffffffffffffffffffffffffffffffffffffffffffffffffffffff7ffd\nstorage_12: 0xff00\ncalldata_TokenI_0: 0x4e6b97f300000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenI: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/6/0x0fb52add090338dda73bdb421d8ada0da57126ac.sol",
+        "function": "transferMultiSameVaule(address[],uint256)",
+        "lineno": 20,
+        "title": "Exception state",
+        "type": "Informational"
+      }
+    ],
+    "success": true
+  }
+}

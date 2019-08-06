@@ -1,0 +1,35 @@
+{
+  "contract": "0xb82545e883a22787b8912c4fbcdbf64156358701",
+  "tool": "mythril",
+  "start": 1563536639.1211116,
+  "end": 1563537124.5938177,
+  "duration": 485.47270607948303,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 463,
+        "code": "e length next\n    string memory header = \"\\x19Ethereum Signed Message:\\n000000\";\n    uint256 lengthOffset;\n    uint256 length;\n    assembly {\n    // The first word of a string is its length\n      length := mload(message)\n    // The beginning of the base-10 message length in the prefix\n      lengthOffset := add(header, 57)\n    }\n    // Maximum length we support\n    require(length <= 999999);\n    // The length of the message's length in base-10\n    uint256 lengthLength = 0;\n    // The divisor to get the next left-most message length digit\n    uint256 divisor = 100000;\n    // Move one digit of the message length to the right at a time\n    while (divisor != 0) {\n      // The place value at the divisor\n      uint256 digit = length / divisor;\n      if (digit == 0) {\n        // Skip leading zeros\n        if (lengthLength == 0) {\n          divisor /= 10;\n          continue;\n        }\n      }\n      // Found a non-zero digit or non-leading zero digit\n      lengthLength++;\n      // Remove this digit from the message length's current value\n      length -= digit * divisor;\n      // Shift our base-10 divisor over\n      divisor /= 10;\n\n      // Convert the digit to its ASCII representation (man ascii)\n      digit += 0x30;\n      // Move to the next character and write the digit\n      lengthOffset++;\n      assembly {\n        mstore8(lengthOffset, digit)\n      }\n    }\n    // The null string requires exactly 1 zero (unskip 1 leading 0)\n    if (lengthLength == 0) {\n      lengthLength = 1 + 0x19 + 1;\n    } else {\n      lengthLength += 1 + 0x19;\n    }\n    // Truncate the tailing zeros from the header\n    assembly {\n      mstore(header, lengthLength)\n    }\n    // Perform the elliptic curve recover operation\n    bytes32 check = keccak256(header, message);\n    return ecrecover(check, v, r, s);\n  }\n}",
+        "debug": "calldata_PromoCode_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_PromoCode_0: 0xd2c3fbb700000000000000000000000000000000000000000000000000000000\ncalldatasize_PromoCode: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `verifyString(string,uint8,bytes32,bytes32)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/16/0xb82545e883a22787b8912c4fbcdbf64156358701.sol",
+        "function": "verifyString(string,uint8,bytes32,bytes32)",
+        "lineno": 155,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 740,
+        "code": "bytes32 s;\n    uint8 v;\n    assembly {\n      r := mload(add(signature, 32))\n      s := mload(add(signature, 64))\n      v := and(mload(add(signature, 65)), 255)\n    }\n    if (v < 27) v += 27;\n\n    require(!used[hash]);\n    used[hash] = true;\n    require(verifyString(promoCode, v, r, s) == owner);\n    address user = msg.sender;\n    require(token.transferFrom(owner, user, amount));\n    emit Redeem(user, amount, promoCode);\n  }\n\n  // https://blog.ricmoo.com/verifying-messages-in-solidity-50a94f82b2ca\n  // Returns the address that signed a given string message\n  function ver",
+        "debug": "calldata_PromoCode_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_PromoCode_0: 0xf4ec3ce200000000000000000000000000000000000000000000000000000000\ncalldatasize_PromoCode: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `redeem(string,bytes)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/16/0xb82545e883a22787b8912c4fbcdbf64156358701.sol",
+        "function": "redeem(string,bytes)",
+        "lineno": 135,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "contract": "0x2b52db26d97a193e8882fc4ebf2ec9d3b8668d07",
+  "tool": "mythril",
+  "start": 1563525077.8545284,
+  "end": 1563525293.939986,
+  "duration": 216.08545756340027,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1231,
+        "code": "ic{\n        symbol = _symbol;\n    }\n    function setDecimals(uint _decimals) onlyOwner",
+        "debug": "calldata_NetkillerTestToken_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_NetkillerTestToken_0: 0xb84c824600000000000000000000000000000000000000000000000000000000\ncalldatasize_NetkillerTestToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setSymbol(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/13/0x2b52db26d97a193e8882fc4ebf2ec9d3b8668d07.sol",
+        "function": "setSymbol(string)",
+        "lineno": 50,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1336,
+        "code": "c{\n        name = _name;\n    }\n    function setSymbol(string _symbol) onlyOwne",
+        "debug": "calldata_NetkillerTestToken_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_NetkillerTestToken_0: 0xc47f002700000000000000000000000000000000000000000000000000000000\ncalldatasize_NetkillerTestToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setName(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/13/0x2b52db26d97a193e8882fc4ebf2ec9d3b8668d07.sol",
+        "function": "setName(string)",
+        "lineno": 47,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2405,
+        "code": "  }\n    function setName(string _name) o",
+        "debug": "10_EXP_storage_3: 0xde9aa0007ffff9dbbb05d00001000207fffdffbfffbfbfbfffbfbfefbfbff7f6\ncalldata_NetkillerTestToken_4: 0xff3717ddf147ba7fd6976a72ee859c9c251431c6dd4346e384e0fd941c87b69c\nstorage_0: 0x0\ncaller: 0x0\ncalldata_NetkillerTestToken_0: 0x3b4c4b2500000000000000000000000000000000000000000000000000000000\ncalldatasize_NetkillerTestToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setSupply(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/13/0x2b52db26d97a193e8882fc4ebf2ec9d3b8668d07.sol",
+        "function": "setSupply(uint256)",
+        "lineno": 46,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3849,
+        "code": "etkillerTestToken {\n    address public owner;\n\n    string public name;\n    string public symbol;\n    uint public decimals;\n    uint256 public totalSupply;\n\n    mapping (address => uint256) public balanceOf;\n    mapping (address => mapping (address => uint256)) public allowance;\n\n    event Transfer(address indexed from, address indexed to, uint256 value);\n    event Approval(address indexed owner, address indexed spender, uint256 value);\n\n\n    constructor(\n        uint256 initialSupply,\n        string tokenName,\n        string tokenSymbol,\n        uint decimalUnits\n    ) public {\n        owner = msg.sender;\n        name = tokenName; \n        symbol = tokenSymbol; \n        decimals = decimalUnits;\n        totalSupply = initialSupply * 10 ** uint256(decimals); \n        balanceOf[msg.sender] = totalSupply;\n    }\n\n    modifier onlyOwner {\n        require(msg.sender == owner);\n        _;\n    }\n    function setSupply(uint256 _initialSupply) onlyOwner public{\n        totalSupply = _initialSupply * 10 ** uint256(decimals);\n    }\n    function setName(string _name) onlyOwner public{\n        name = _name;\n    }\n    function setSymbol(string _symbol) onlyOwner public{\n        symbol = _symbol;\n    }\n    function setDecimals(uint _decimals) onlyOwner public{\n        decimals = _decimals;\n    }\n\n    function transferOwnership(address newOwner) onlyOwner public {\n        if (newOwner != address(0)) {\n            owner = newOwner;\n        }\n    }\n \n    function _transfer(address _from, address _to, uint _value) internal {\n        require (_to != address(0));                        // Prevent transfer to 0x0 address. Use burn() instead\n        require (balanceOf[_from] >= _value);               // Check if the sender has enough\n        require (balanceOf[_to] + _value > balanceOf[_to]); // Check for overflows\n        balanceOf[_from] -= _value;                         // Subtract from the sender\n        balanceOf[_to] += _value;                           // Add the same to the recipient\n        emit Transfer(_from, _to, _value);\n    }\n\n    function transfer(address _to, uint256 _value) public returns (bool success){\n        _transfer(msg.sender, _to, _value);\n        return true;\n    }\n\n    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {\n        require(_value <= allowance[_from][msg.sender]);     // Check allowance\n        allowance[_from][msg.sender] -= _value;\n        _transfer(_from, _to, _value);\n        return true;\n    }\n\n    function approve(address _spender, uint256 _value) public returns (bool success) {\n        allowance[msg.sender][_spender] = _value;\n        emit Approval(msg.sender, _spender, _value);\n        return true;\n    }\n}",
+        "debug": "calldata_NetkillerTestToken_4 + calldata_NetkillerTestToken_4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_0: 0x0\ncaller: 0x0\ncalldata_NetkillerTestToken_0: 0xc47f002700000000000000000000000000000000000000000000000000000000\ncalldatasize_NetkillerTestToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setName(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/13/0x2b52db26d97a193e8882fc4ebf2ec9d3b8668d07.sol",
+        "function": "setName(string)",
+        "lineno": 11,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3863,
+        "code": "etkillerTestToken {\n    address public owner;\n\n    string public name;\n    string public symbol;\n    uint public decimals;\n    uint256 public totalSupply;\n\n    mapping (address => uint256) public balanceOf;\n    mapping (address => mapping (address => uint256)) public allowance;\n\n    event Transfer(address indexed from, address indexed to, uint256 value);\n    event Approval(address indexed owner, address indexed spender, uint256 value);\n\n\n    constructor(\n        uint256 initialSupply,\n        string tokenName,\n        string tokenSymbol,\n        uint decimalUnits\n    ) public {\n        owner = msg.sender;\n        name = tokenName; \n        symbol = tokenSymbol; \n        decimals = decimalUnits;\n        totalSupply = initialSupply * 10 ** uint256(decimals); \n        balanceOf[msg.sender] = totalSupply;\n    }\n\n    modifier onlyOwner {\n        require(msg.sender == owner);\n        _;\n    }\n    function setSupply(uint256 _initialSupply) onlyOwner public{\n        totalSupply = _initialSupply * 10 ** uint256(decimals);\n    }\n    function setName(string _name) onlyOwner public{\n        name = _name;\n    }\n    function setSymbol(string _symbol) onlyOwner public{\n        symbol = _symbol;\n    }\n    function setDecimals(uint _decimals) onlyOwner public{\n        decimals = _decimals;\n    }\n\n    function transferOwnership(address newOwner) onlyOwner public {\n        if (newOwner != address(0)) {\n            owner = newOwner;\n        }\n    }\n \n    function _transfer(address _from, address _to, uint _value) internal {\n        require (_to != address(0));                        // Prevent transfer to 0x0 address. Use burn() instead\n        require (balanceOf[_from] >= _value);               // Check if the sender has enough\n        require (balanceOf[_to] + _value > balanceOf[_to]); // Check for overflows\n        balanceOf[_from] -= _value;                         // Subtract from the sender\n        balanceOf[_to] += _value;                           // Add the same to the recipient\n        emit Transfer(_from, _to, _value);\n    }\n\n    function transfer(address _to, uint256 _value) public returns (bool success){\n        _transfer(msg.sender, _to, _value);\n        return true;\n    }\n\n    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {\n        require(_value <= allowance[_from][msg.sender]);     // Check allowance\n        allowance[_from][msg.sender] -= _value;\n        _transfer(_from, _to, _value);\n        return true;\n    }\n\n    function approve(address _spender, uint256 _value) public returns (bool success) {\n        allowance[msg.sender][_spender] = _value;\n        emit Approval(msg.sender, _spender, _value);\n        return true;\n    }\n}",
+        "debug": "calldata_NetkillerTestToken_4 + calldata_NetkillerTestToken_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_NetkillerTestToken_0: 0xc47f002700000000000000000000000000000000000000000000000000000000\ncalldatasize_NetkillerTestToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setName(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/13/0x2b52db26d97a193e8882fc4ebf2ec9d3b8668d07.sol",
+        "function": "setName(string)",
+        "lineno": 11,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

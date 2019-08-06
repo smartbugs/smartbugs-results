@@ -1,0 +1,46 @@
+{
+  "contract": "0x93ecd2badb4ef90cdf913d26ecd7a29feece19ac",
+  "tool": "mythril",
+  "start": 1563596496.369315,
+  "end": 1563596519.9264824,
+  "duration": 23.557167530059814,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 91,
+        "code": "nction batch(uint256[] amounts, address[] recipients)\n    public\n    payable\n    {\n        require(amounts.length == recipients.length);\n\n        for (uint8 i = 0; i < amounts.length; i++) {\n            recipients[i].transfer(amounts[i]);\n        }\n    }\n}",
+        "debug": "calldata_InternalTxsTest_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_InternalTxsTest_0: 0x70590ca200000000000000000000000000000000000000000000000000000000\ncalldatasize_InternalTxsTest: 0x4\n",
+        "description": "A possible integer overflow exists in the function `batch(uint256[],address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x93ecd2badb4ef90cdf913d26ecd7a29feece19ac.sol",
+        "function": "batch(uint256[],address[])",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 361,
+        "code": "s[i].transfer(amounts[i]);\n       ",
+        "debug": "SOLVER OUTPUT:\nmem_128 +\n32 +\n32*calldata_InternalTxsTest_4 + calldata_InternalTxsTest_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_InternalTxsTest_0: 0x70590ca200000000000000000000000000000000000000000000000000000000\ncalldatasize_InternalTxsTest: 0x4\ncalldata_InternalTxsTest_4 + calldata_InternalTxsTest_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\n",
+        "description": "In the function `batch(uint256[],address[])` a non-zero amount of Ether is sent to an address taken from function arguments.\nIt seems that this function can be called without restrictions.",
+        "filename": "/unique_chucks/20/0x93ecd2badb4ef90cdf913d26ecd7a29feece19ac.sol",
+        "function": "batch(uint256[],address[])",
+        "lineno": 10,
+        "title": "Ether send",
+        "type": "Warning"
+      },
+      {
+        "address": 361,
+        "code": "s[i].transfer(amounts[i]);\n       ",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 361\nCall at address: 361\nCall at address: 361\n",
+        "filename": "/unique_chucks/20/0x93ecd2badb4ef90cdf913d26ecd7a29feece19ac.sol",
+        "function": "batch(uint256[],address[])",
+        "lineno": 10,
+        "title": "Multiple Calls",
+        "type": "Information"
+      }
+    ],
+    "success": true
+  }
+}

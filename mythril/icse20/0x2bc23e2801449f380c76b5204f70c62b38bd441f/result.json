@@ -1,0 +1,57 @@
+{
+  "contract": "0x2bc23e2801449f380c76b5204f70c62b38bd441f",
+  "tool": "mythril",
+  "start": 1563534047.0848963,
+  "end": 1563534275.7908676,
+  "duration": 228.70597124099731,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1169,
+        "code": " i = 0;\n\t\tfor(i = 0; i < wallets.length && i < 50; i = i + 1) {\n\t\t\twalletApproved[wallets[i]] = false;\n\t\t\temit WalletRejected(wallets[i], address(0), \"Wallet approval removed!\");\n\t\t}\n\t}\n\tfunction isWalletApproved(address wallet) public view returns (bool) {\n\t\treturn walletApproved[wallet];\n\t}\n\n\n\tfunction vote(uint256[] candidateIndexes) public {\n\t\trequire",
+        "debug": "calldata_Voting_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Voting_0: 0xe27c77b600000000000000000000000000000000000000000000000000000000\ncalldatasize_Voting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `disapproveMultipleWallets(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x2bc23e2801449f380c76b5204f70c62b38bd441f.sol",
+        "function": "disapproveMultipleWallets(address[])",
+        "lineno": 168,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1358,
+        "code": " 0, \"Voting already started!\");\n\t\trequire(wallets.length <= 50, \"Cannot approve more than 50 wallets at a time!\");\n\t\trequire(wallets.length == ERC725Addresses.length, \"Arrays are not the same length!\");\n\t\tuint256 i = 0;\n\t\tfor(i = 0; i < wallets.length && i < 50; i = i + 1) {\n\t\t\twalletApproved[wallets[i]] = false;\n\n\t\t\tif (wallets[i] == address(0) && ERC725Addresses[i] == address(0)) {\n\t\t\t\temit WalletRejected(wallets[i], ERC725Addresses[i], \n\t\t\t\t\t\t\"Cannot verify an empty application!\");\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif(ERC725Addresses[i] != address(0)) {\n\t\t\t\t\tif(profileStorageContract.getStake(ERC725Addresses[i]) >= 10^21) {\n\t\t\t\t\t\twalletApproved[ERC725Addresses[i]] = true;\n\t\t\t\t\t\temit WalletApproved(address(0), ERC725Addresses[i]);\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\temit WalletRejected(wallets[i], ERC725Addresses[i], \n\t\t\t\t\t\t\t\"Profile does not have at least 1000 trac at the time of approval!\");\n\t\t\t\t\t}\t\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\t// Only wallet was submitted \n\t\t\t\t\t\t// -> Verify wallet balance and approve wallet\n\t\t\t\t\tif(tokenContract.balanceOf(wallets[i]) >= 10^21) {\n\t\t\t\t\t\twalletApproved[wallets[i]] = true;\n\t\t\t\t\t\temit WalletApproved(wallets[i], address(0));\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\temit WalletRejected(wallets[i], address(0), \n\t\t\t\t\t\t\t\"Wallet does not have at least 1000 trac at the time of approval!\");\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\tfunction disapproveMultipleWallets(address[] wallets) public onlyOwner {\n\t\trequire(wallets.length <= 50, \"Cannot approve more than 50 wallets at a time!\");\n\t\tuint",
+        "debug": "calldata_Voting_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Voting_0: 0xec2d126a00000000000000000000000000000000000000000000000000000000\ncalldatasize_Voting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `approveMultipleWallets(address[],address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x2bc23e2801449f380c76b5204f70c62b38bd441f.sol",
+        "function": "approveMultipleWallets(address[],address[])",
+        "lineno": 129,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1922,
+        "code": "ss wallet, address ERC72",
+        "debug": "timestamp: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7e400\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Voting_0: 0x1ec6b60a00000000000000000000000000000000000000000000000000000000\ncalldatasize_Voting: 0x4\nstorage_5: 0x0\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `startVoting()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x2bc23e2801449f380c76b5204f70c62b38bd441f.sol",
+        "function": "startVoting()",
+        "lineno": 124,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1944,
+        "code": "ress, address profileStorageCon",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Voting_4: 0x22\ncalldata_Voting_0: 0x3477ee2e00000000000000000000000000000000000000000000000000000000\ncalldatasize_Voting: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/10/0x2bc23e2801449f380c76b5204f70c62b38bd441f.sol",
+        "function": "_function_0x3477ee2e",
+        "lineno": 75,
+        "title": "Exception state",
+        "type": "Informational"
+      }
+    ],
+    "success": true
+  }
+}

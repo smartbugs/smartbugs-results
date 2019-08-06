@@ -1,0 +1,155 @@
+{
+  "contract": "0x94cd3981edba9306e60704b75aa6e4adf07384a6",
+  "tool": "mythril",
+  "start": 1563597048.6533468,
+  "end": 1563597651.5558355,
+  "duration": 602.9024887084961,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 652,
+        "debug": "calldata_EscrowGoods_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EscrowGoods_0: 0x6909f6900000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `cancel(string,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "cancel(string,uint256)",
+        "lineno": 484,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 894,
+        "code": "    if((feePromille + rewardPromille) > 1000) throw;\n\n        //create default EscrowInfo struct or access existing\n        EscrowInfo info = escrows[_lockId];\n\n        //lock only once for a given id\n        if(info.lockedFunds > 0) throw;\n\n        //lock funds\n\n        uint fee = (msg.value * feePromille) / 1000;\n        //limit fees\n        if(fee > msg.value) throw;\n\n        uint funds = (msg.value - fee);\n        feeFunds += fee;\n        totalEscrows += 1;\n\n        info.buyer = msg.sender;\n        info.lockedFunds = funds;\n        info.frozenFunds = 0;\n        info.buyerNo = false;\n        info.sellerNo = false;\n        info.count = _count;\n\n        pendingCount += _count;\n        buyers[msg.sender] = true;\n\n        //Buy order to event log\n        logEvent(_lockId, _dataInfo, _version, Buy, msg.sender, _count, msg.value);\n    }\n\n    function accept(uint _lockId, string _dataInfo, uint _version) onlyOwner {\n\n        EscrowInfo info = escrows[_lockId];\n        \n        if(info.count > availableCount) {\n            logDebug(\"info.count > availableCount\");\n            return;\n        }\n        if(info.count > pendingCount) {\n            logDebug(\"info.count > pendingCount\");\n            return;\n        }\n\n        pendingCount -= info.count;\n      ",
+        "debug": "calldata_EscrowGoods_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EscrowGoods_0: 0xfb59f9500000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string,uint256,uint16)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "buy(uint256,string,uint256,uint16)",
+        "lineno": 395,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1172,
+        "code": "        }\n        if(msg.sender != info.buyer && msg.sender != seller) {\n            logDebug(\"msg.sender != info.buyer && msg.sender != seller\");\n            return;\n        }\n\n        //freeze funds\n        //only allow one time freeze\n        if(info.frozenFunds == 0) {\n            info.frozenFunds = info.lockedFunds;\n            info.frozenTime = uint64(now);\n        }\n\n        if(msg.sender == info.buyer) {\n            info.buyerNo = true;\n        }\n        else if(msg.sender == seller) {\n            info.sellerNo = true;\n        } else {\n            //HACK: should not get here\n            logDebug(\"unknown msg.sender\");\n            return;\n        }\n\n        logEvent(_lockId, _dataInfo, _version, Freeze, msg.sender, info.count, info.lockedFunds);\n    }\n\n    //arbiter's decision on the case.\n    //arbiter can only decide when both buyer and seller voted NO\n    //arbiter decides on his own reward but not bigger than announced percentage (rewardPromille)\n    function arbYes(uint _lockId, addr",
+        "debug": "calldata_EscrowGoods_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EscrowGoods_0: 0x34d24bff00000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `no(uint256,string,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "no(uint256,string,uint256)",
+        "lineno": 218,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1445,
+        "code": "bleCount -= info.count;\n\n        //Accept order to event log\n        logEvent(_lockId, _dataInfo, _version, Accept, msg.sender, info.count, info.lockedFunds);\n    }\n\n    function reject(uint _lockId, string _dataInfo, uint _version) onlyOwner {\n        \n        EscrowInfo info = escrows[_lockId];\n\n        if(info.count > pendingCount) {\n            logDebug(\"info.count > pendingCount\");\n            return;\n        }\n\n        pendingCount -= info.count;\n\n        //send money back\n        yes(_lockId, _dataInfo, _version);\n\n        //Reject order to event log\n        //HACK: \"yes\" call above may fail an",
+        "debug": "calldata_EscrowGoods_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EscrowGoods_0: 0x553bf56d00000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `accept(uint256,string,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "accept(uint256,string,uint256)",
+        "lineno": 441,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3123,
+        "code": "       buyers[msg.sende",
+        "debug": "storage_5: 0x1da\ncallvalue: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_11: 0x0\nstorage_6: 0x0\ncalldata_EscrowGoods_32 + 68: 0x1\nstorage_10: 0x100\ncalldata_EscrowGoods_0: 0xfb59f9500000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\nstorage_1 + keccac_calldata_EscrowGoods_4: 0x0\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string,uint256,uint16)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "buy(uint256,string,uint256,uint16)",
+        "lineno": 421,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3775,
+        "code": "ce\");\n            return;\n    ",
+        "debug": "storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffff801b00019c880121\nstorage_3 + keccac_calldata_EscrowGoods_4: 0xffa7000000000a8200\nstorage_2 + keccac_calldata_EscrowGoods_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_1 + keccac_calldata_EscrowGoods_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_EscrowGoods_0: 0x3262fd9a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getMoney(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "getMoney(uint256)",
+        "lineno": 339,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4085,
+        "code": "        }\n\n        if(info.buy",
+        "debug": "storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffaafc200000000000\nstorage_3 + keccac_calldata_EscrowGoods_4: 0xa1f7cc000800108400\nstorage_1 + keccac_calldata_EscrowGoods_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nbalance_at_1461501637330902918203684832716283019655932542975 & 0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ntimestamp: 0x4cf3ec0008001084\nstorage_2 + keccac_calldata_EscrowGoods_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_EscrowGoods_0: 0x3262fd9a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getMoney(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "getMoney(uint256)",
+        "lineno": 357,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4086,
+        "code": "        }\n\n        if(info.buyerNo) {\n\n           ",
+        "debug": "storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffca5d980b24853ccf\nstorage_3 + keccac_calldata_EscrowGoods_4: 0x35a267f4db56bb3100\nstorage_1 + keccac_calldata_EscrowGoods_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nbalance_at_1461501637330902918203684832716283019655932542975 & 0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ntimestamp: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdbf800\nstorage_2 + keccac_calldata_EscrowGoods_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_EscrowGoods_0: 0x3262fd9a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getMoney(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "getMoney(uint256)",
+        "lineno": 357,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 6331,
+        "code": "ngCount -= info.count;\n\n    ",
+        "debug": "storage_10: 0x237600\nstorage_3 + keccac_calldata_EscrowGoods_4: 0x140200\nstorage_0: 0x0\ncaller: 0x0\ncalldata_EscrowGoods_0: 0x553bf56d00000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer underflow exists in the function `accept(uint256,string,uint256)`.\nThe subtraction may result in a value < 0.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "accept(uint256,string,uint256)",
+        "lineno": 456,
+        "title": "Integer Underflow",
+        "type": "Warning"
+      },
+      {
+        "address": 9039,
+        "code": "\n        //do ",
+        "debug": "storage_1: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_10: 0x0\nstorage_3 + keccac_calldata_EscrowGoods_4: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_EscrowGoods_0: 0x553bf56d00000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `accept(uint256,string,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "accept(uint256,string,uint256)",
+        "lineno": 141,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 9279,
+        "code": ",\n         ",
+        "debug": "storage_2: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_EscrowGoods_0: 0x95a5dfc000000000000000000000000000000000000000000000000000000000\ncalldatasize_EscrowGoods: 0x4\nstorage_1 + keccac_calldata_EscrowGoods_4: 0x0\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `yes(uint256,string,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "yes(uint256,string,uint256)",
+        "lineno": 134,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 9539,
+        "code": "  //vote YES - immediately sends fund",
+        "debug": "",
+        "description": "In the function `getMoney(uint256)` the following predictable state variables are used to determine Ether recipient:\n- block.timestamp\n- block.timestamp\n",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "getMoney(uint256)",
+        "lineno": 168,
+        "title": "Dependence on predictable environment variable",
+        "type": "Warning"
+      },
+      {
+        "address": 9539,
+        "code": "  //vote YES - immediately sends fund",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/20/0x94cd3981edba9306e60704b75aa6e4adf07384a6.sol",
+        "function": "getMoney(uint256)",
+        "lineno": 168,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "contract": "0xf6724838820fd9c44a06bb5c4da84719ebda6793",
+  "tool": "mythril",
+  "start": 1563563580.6690009,
+  "end": 1563563652.8392692,
+  "duration": 72.17026829719543,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 743,
+        "code": "\n     * @param _price",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_StagedCrowdsale_4: 0x0\nstorage_1: 0x0\ncalldata_StagedCrowdsale_0: 0x845ddcb200000000000000000000000000000000000000000000000000000000\ncalldatasize_StagedCrowdsale: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/15/0xf6724838820fd9c44a06bb5c4da84719ebda6793.sol",
+        "function": "_function_0x845ddcb2",
+        "lineno": 534,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 942,
+        "code": "bool) {\n        requ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_StagedCrowdsale_4: 0x0\nstorage_1: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_StagedCrowdsale_0: 0x8e7558cd00000000000000000000000000000000000000000000000000000000\ncalldatasize_StagedCrowdsale: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/15/0xf6724838820fd9c44a06bb5c4da84719ebda6793.sol",
+        "function": "closeStage(uint256)",
+        "lineno": 567,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 2010,
+        "code": "6) {\n        for(uint256 i=0; i < stages.length; i++) {\n            if(stages[i].closed == 0) {\n                return i;\n            }\n        }\n        revert();\n    }\n\n\n    /**\n     * @dev Function to add the stage to the crowdsale.\n     *\n     * @param _hardcap The hardcap of the stage.\n     * @param _price The amount of tokens you will receive per 1 ETH for this stage.\n     */\n    function addStage(uint256 _hardcap, uint256 _price, uint256 _minInvestment, uint _invested) onlyOwner public {\n        require(_hardcap > 0 && _price > 0);\n        Stage memory stage = Stage(_hardcap.mul(1 ether), _price, _minInvestment.mul(1 ether).div(10), _invested.mul(1 ether), 0);\n        stages.push(stage);\n    }\n\n\n    /**\n     * @dev Function to close the stage manually.\n     *\n     * @param _stageNumber Stage number to close.\n     */\n    function closeStage(uint256 _stageNumber) onlyOwner public {\n        require(stages[_stageNumber].closed == 0);\n        if (_stageNumber != 0) require(stages[_stageNumber - 1].closed != 0);\n\n        stages[_stageNumber].closed = now;\n        stages[_stageNumber].invested = stages[_stageNumber].hardcap;\n\n        if (_stageNumber + 1 <= stages.length - 1) {\n            stages[_stageNumber + 1].invested = stages[_stageNumber].hardcap;\n        }\n    }\n\n\n    /**\n     * @dev Function to remove all stages.\n     *\n     * @return True if the operation was successful.\n    */\n    function removeStages() onlyOwner public returns (bool) {\n        require(stages.length > 0);\n\n        stages.length = 0;\n\n        return true;\n    }\n}\n\n/**\n * @title PULS crowdsale\n * @dev PULS crowdsale functionality.\n */\ncontract PULSCrowdsale is StagedCrowdsale {\n\tusing SafeMath for uint256;\n\n\tPULSToken public token;\n\n\t// Public variables of the crowdsale\n\taddress public multiSigWallet; \t// address where funds are collected\n\tbool public hasEnded;\n\tbool public isPaused;\t\n\n\n\tevent TokenReservation(address purchaser, address indexed beneficiary, uint256 indexed sendEther, uint256 indexed pulsAmount);\n\tevent ForwardingFunds(uint256 indexed value);\n\n\n\t/**\n     * @dev Throws if crowdsale has ended.\n     */\n\tmodifier ",
+        "debug": "storage_1: 0xd54d5519e3666c1d69ccd4d3999da7333eace1af1b3000000000000029c7053c\nstorage_0: 0x0\ncaller: 0x0\ncalldata_StagedCrowdsale_0: 0x45626ecb00000000000000000000000000000000000000000000000000000000\ncalldatasize_StagedCrowdsale: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `removeStages()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0xf6724838820fd9c44a06bb5c4da84719ebda6793.sol",
+        "function": "removeStages()",
+        "lineno": 521,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2026,
+        "code": "6) {\n        for(uint256 i=0; i < stages.length; i++) {\n            if(stages[i].closed == 0) {\n                return i;\n            }\n        }\n        revert();\n    }\n\n\n    /**\n     * @dev Function to add the stage to the crowdsale.\n     *\n     * @param _hardcap The hardcap of the stage.\n     * @param _price The amount of tokens you will receive per 1 ETH for this stage.\n     */\n    function addStage(uint256 _hardcap, uint256 _price, uint256 _minInvestment, uint _invested) onlyOwner public {\n        require(_hardcap > 0 && _price > 0);\n        Stage memory stage = Stage(_hardcap.mul(1 ether), _price, _minInvestment.mul(1 ether).div(10), _invested.mul(1 ether), 0);\n        stages.push(stage);\n    }\n\n\n    /**\n     * @dev Function to close the stage manually.\n     *\n     * @param _stageNumber Stage number to close.\n     */\n    function closeStage(uint256 _stageNumber) onlyOwner public {\n        require(stages[_stageNumber].closed == 0);\n        if (_stageNumber != 0) require(stages[_stageNumber - 1].closed != 0);\n\n        stages[_stageNumber].closed = now;\n        stages[_stageNumber].invested = stages[_stageNumber].hardcap;\n\n        if (_stageNumber + 1 <= stages.length - 1) {\n            stages[_stageNumber + 1].invested = stages[_stageNumber].hardcap;\n        }\n    }\n\n\n    /**\n     * @dev Function to remove all stages.\n     *\n     * @return True if the operation was successful.\n    */\n    function removeStages() onlyOwner public returns (bool) {\n        require(stages.length > 0);\n\n        stages.length = 0;\n\n        return true;\n    }\n}\n\n/**\n * @title PULS crowdsale\n * @dev PULS crowdsale functionality.\n */\ncontract PULSCrowdsale is StagedCrowdsale {\n\tusing SafeMath for uint256;\n\n\tPULSToken public token;\n\n\t// Public variables of the crowdsale\n\taddress public multiSigWallet; \t// address where funds are collected\n\tbool public hasEnded;\n\tbool public isPaused;\t\n\n\n\tevent TokenReservation(address purchaser, address indexed beneficiary, uint256 indexed sendEther, uint256 indexed pulsAmount);\n\tevent ForwardingFunds(uint256 indexed value);\n\n\n\t/**\n     * @dev Throws if crowdsale has ended.\n     */\n\tmodifier ",
+        "debug": "storage_1: 0x7ffffffffffffffffffffffffffffffffe38be6666666665fffffff333333332\nstorage_0: 0x0\ncaller: 0x0\ncalldata_StagedCrowdsale_0: 0x45626ecb00000000000000000000000000000000000000000000000000000000\ncalldatasize_StagedCrowdsale: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `removeStages()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/15/0xf6724838820fd9c44a06bb5c4da84719ebda6793.sol",
+        "function": "removeStages()",
+        "lineno": 521,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "contract": "0x7a8b95ea91db7bf53fe1f341dd9dc0f285a65f6f",
+  "tool": "mythril",
+  "start": 1563659818.7825975,
+  "end": 1563660592.6486506,
+  "duration": 773.8660531044006,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 2343,
+        "code": "ntract JNS {\n    mapping (string => address) strToAddr;\n    mapping (address => string) addrToStr;\n    address payable private wallet;\n\n    constructor (address payable _wallet) public {\n        require(_wallet != address(0), \"You must inform a valid address\");\n        wallet = _wallet;\n    }\n    \n    function registerAddress (string memory _nickname, address _address) public payable returns (bool) {\n        require (msg.value >= 1000000000000000, \"Send more money\");\n        require (strToAddr[_nickname] == address(0), \"Name already registered\");\n        require (keccak256(abi.encodePacked(addrToStr[_address])) == keccak256(abi.encodePacked(\"\")), \"Address already registered\");\n        \n        strToAddr[_nickname] = _address;\n        addrToStr[_address] = _nickname;\n\n        wallet.transfer(msg.value);\n        return true;\n    }\n    \n    function getAddress (string memory _nickname) public view returns (address _address) {\n        _address = strToAddr[_nickname];\n    }\n    \n    function getNickname (address _address) public view returns (string memory _nickname) {\n        _nickname = addrToStr[_address];\n    }\n}",
+        "debug": "calldatasize_JNS: 0x4000000000000000000000000000000000000000000000000000000000000043\ncalldata_JNS_4: 0x0\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_JNS_32_+_4: 0x20\ncalldata_JNS_4 + calldata_JNS_4: 0x1d\nkeccac_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_JNS_32_+_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_KECCAC_mem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255, 5, 31 + calldata_JNS_4 + calldata_JNS_4))): 0x0\ncallvalue: 0x38d7ea4c68000\ncalldata_JNS_0: 0xb13f5f1900000000000000000000000000000000000000000000000000000000\nKECCAC_mem_32 +\n160 +\n32*\nConcat(0,\n       Extract(255, 5, 31 + calldata_JNS_4 + calldata_JNS_4))): 0x0\nKECCAC_mem_32 +\n192 +\n32*\nConcat(0,\n       Extract(255, 5, 31 + calldata_JNS_4 + calldata_JNS_4))): 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xb13f5f19`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/30/0x7a8b95ea91db7bf53fe1f341dd9dc0f285a65f6f.sol",
+        "function": "_function_0xb13f5f19",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "contract": "0xe5701af1d9474707cf85bf6fa31aa0f892951817",
+  "tool": "mythril",
+  "start": 1563647693.6136842,
+  "end": 1563647978.2987273,
+  "duration": 284.68504309654236,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1334,
+        "code": "eturned.\n    function tokenMetadata(uint256 _tokenId) external view returns (string infoUrl) {\n        return app",
+        "debug": "calldata_PixelPainting_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_PixelPainting_0: 0x4f224baa00000000000000000000000000000000000000000000000000000000\ncalldatasize_PixelPainting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setMetaBaseUrl(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xe5701af1d9474707cf85bf6fa31aa0f892951817.sol",
+        "function": "setMetaBaseUrl(string)",
+        "lineno": 350,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1340,
+        "code": "eturned.\n    function tokenMetadata(uint256 _tokenId) external view returns (string infoUrl) {\n        return app",
+        "debug": "calldata_PixelPainting_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdc\ncalldata_PixelPainting_0: 0x4f224baa00000000000000000000000000000000000000000000000000000000\ncalldatasize_PixelPainting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setMetaBaseUrl(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xe5701af1d9474707cf85bf6fa31aa0f892951817.sol",
+        "function": "setMetaBaseUrl(string)",
+        "lineno": 350,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 9344,
+        "code": "!= address(0)) {\n         ",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_PixelPainting_32_+_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_PixelPainting_4: 0x0\ncaller: 0x0\nstorage_keccac_calldata_PixelPainting_32_+_36: 0x0\ncalldata_PixelPainting_32 + 4: 0xffffffffffffffffffffffffffffffffffffffff\ncalldata_PixelPainting_0: 0x23b872dd00000000000000000000000000000000000000000000000000000000\ncalldatasize_PixelPainting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `transferFrom(address,address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xe5701af1d9474707cf85bf6fa31aa0f892951817.sol",
+        "function": "transferFrom(address,address,uint256)",
+        "lineno": 92,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 9560,
+        "code": "       // Emit the transfer ",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_PixelPainting_4: 0x0\ncalldata_PixelPainting_4: 0xffffffffffffffffffffffffffffffffffffffff\ncaller: 0xffffffffffffffffffffffffffffffffffffffff\nstorage_keccac_calldata_PixelPainting_32_+_36: 0xffffffffffffffffffffffffffffffffffffffff00\ncalldata_PixelPainting_32 + 4: 0xffffffffffffffffffffffffffffffffffffffff\ncalldata_PixelPainting_0: 0x23b872dd00000000000000000000000000000000000000000000000000000000\ncalldatasize_PixelPainting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer underflow exists in the function `transferFrom(address,address,uint256)`.\nThe subtraction may result in a value < 0.",
+        "filename": "/unique_chucks/25/0xe5701af1d9474707cf85bf6fa31aa0f892951817.sol",
+        "function": "transferFrom(address,address,uint256)",
+        "lineno": 96,
+        "title": "Integer Underflow",
+        "type": "Warning"
+      },
+      {
+        "address": 9852,
+        "code": "xel\n        require(_owns(msg.sender, _tokenId));\n        colors[_tokenId] = _color;\n    }\n\n    // Sets the color of the pixels in an area, left to right and then top to bottom\n    function setPixelAreaColor(uint256 x, uint256 y, uint256 x2, uint256 y2, uint32[] _colors) external {\n        require(x2 > x && y2 > y);\n        require(x2 <= WIDTH && y2 <= HEIGHT);\n        require(_colors.length == (y2 - y) * (x2 - x));\n        uint256 r = 0;\n        for (uint256 i = y; i < y2; i++) {\n            uint256 tokenId = i * WIDTH;\n            for (uint256 j = x; j < x2; j++) {\n                if (_owns(msg.sender, tokenId + j)) {\n                    uint32 color = _colors[r];\n                    colors[tokenId + j] = color;\n                    Paint(tokenId + j, color);\n                }\n                r++;\n            }\n        }\n    }\n\n    // Returns the color of a given pixel\n    function getPixelColor(uint256 _tokenId) external view returns (uint32 color) {\n        require(_tokenId < HEIGHT * WIDTH);\n        color = colors[_tokenId];\n    }\n\n    // Returns the colors of the pixels in an area, left to right and then top to bottom\n    function getPixelAreaColor(uint256 x, uint256 y, uint256 x2, uint256 y2) external view returns (uint32[] result) {\n        require(x2 > x && y2 > y);\n        require(x2 <= WIDTH && y2 <= HEIGHT);\n        result = new uint32[]((y2 - y) * (x2 - x));\n        uint256 r = 0;\n        for (uint256 i = y; i < y2; i++) {\n            uint256 tokenId = i * WIDTH;\n            for (uint256 j = x; j < x2; j++) {\n                result[r] = colors[tokenId + j];\n                r++;\n            }\n        }\n    }\n}\n\n\n/// @title all functions for buying empty pixels\ncontract PixelMinting is PixelPainting {\n\n    uint public pixelPrice = 3030 szabo;\n\n    // Set the price for a pixel\n    function setNewPixelPrice(uint _pixelPrice) external onlyAuthority {\n        pixelPrice = _pixelPrice;\n    }\n    \n    // buy en empty pixel\n    function buyEmptyPixel(uint256 _tokenId) external payable {\n        require(msg.value == p",
+        "debug": "calldata_PixelPainting_4 + calldata_PixelPainting_4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_0: 0x0\ncaller: 0x0\ncalldata_PixelPainting_0: 0x4f224baa00000000000000000000000000000000000000000000000000000000\ncalldatasize_PixelPainting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setMetaBaseUrl(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xe5701af1d9474707cf85bf6fa31aa0f892951817.sol",
+        "function": "setMetaBaseUrl(string)",
+        "lineno": 364,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 9866,
+        "code": "xel\n        require(_owns(msg.sender, _tokenId));\n        colors[_tokenId] = _color;\n    }\n\n    // Sets the color of the pixels in an area, left to right and then top to bottom\n    function setPixelAreaColor(uint256 x, uint256 y, uint256 x2, uint256 y2, uint32[] _colors) external {\n        require(x2 > x && y2 > y);\n        require(x2 <= WIDTH && y2 <= HEIGHT);\n        require(_colors.length == (y2 - y) * (x2 - x));\n        uint256 r = 0;\n        for (uint256 i = y; i < y2; i++) {\n            uint256 tokenId = i * WIDTH;\n            for (uint256 j = x; j < x2; j++) {\n                if (_owns(msg.sender, tokenId + j)) {\n                    uint32 color = _colors[r];\n                    colors[tokenId + j] = color;\n                    Paint(tokenId + j, color);\n                }\n                r++;\n            }\n        }\n    }\n\n    // Returns the color of a given pixel\n    function getPixelColor(uint256 _tokenId) external view returns (uint32 color) {\n        require(_tokenId < HEIGHT * WIDTH);\n        color = colors[_tokenId];\n    }\n\n    // Returns the colors of the pixels in an area, left to right and then top to bottom\n    function getPixelAreaColor(uint256 x, uint256 y, uint256 x2, uint256 y2) external view returns (uint32[] result) {\n        require(x2 > x && y2 > y);\n        require(x2 <= WIDTH && y2 <= HEIGHT);\n        result = new uint32[]((y2 - y) * (x2 - x));\n        uint256 r = 0;\n        for (uint256 i = y; i < y2; i++) {\n            uint256 tokenId = i * WIDTH;\n            for (uint256 j = x; j < x2; j++) {\n                result[r] = colors[tokenId + j];\n                r++;\n            }\n        }\n    }\n}\n\n\n/// @title all functions for buying empty pixels\ncontract PixelMinting is PixelPainting {\n\n    uint public pixelPrice = 3030 szabo;\n\n    // Set the price for a pixel\n    function setNewPixelPrice(uint _pixelPrice) external onlyAuthority {\n        pixelPrice = _pixelPrice;\n    }\n    \n    // buy en empty pixel\n    function buyEmptyPixel(uint256 _tokenId) external payable {\n        require(msg.value == p",
+        "debug": "calldata_PixelPainting_4: 0xda439b2041c8c00602000000000000000000000000000000000000000000001a\ncalldata_PixelPainting_4 + calldata_PixelPainting_4: 0x98b80124e0c0001a297fffffffffffffffffffffffffffffffffffffffffffc4\nstorage_0: 0x0\ncaller: 0x0\ncalldata_PixelPainting_0: 0x4f224baa00000000000000000000000000000000000000000000000000000000\ncalldatasize_PixelPainting: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setMetaBaseUrl(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xe5701af1d9474707cf85bf6fa31aa0f892951817.sol",
+        "function": "setMetaBaseUrl(string)",
+        "lineno": 364,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

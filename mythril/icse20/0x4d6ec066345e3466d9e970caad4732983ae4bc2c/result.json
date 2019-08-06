@@ -1,0 +1,134 @@
+{
+  "contract": "0x4d6ec066345e3466d9e970caad4732983ae4bc2c",
+  "tool": "mythril",
+  "start": 1563547900.1176894,
+  "end": 1563548392.254333,
+  "duration": 492.1366436481476,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 909,
+        "code": "ingToBytes32(name)] != address(0x0) ||\n        _inTransfer[stringToBytes32(name)];\n    }\n\n    function hasName(address addr) public view returns(bool) {\n        return bytes(names[",
+        "debug": "calldata_NicknameRegistrar_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_NicknameRegistrar_0: 0x91fc437e00000000000000000000000000000000000000000000000000000000\ncalldatasize_NicknameRegistrar: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `nameTaken(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "nameTaken(string)",
+        "lineno": 91,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1218,
+        "code": "ytes32(name)];\n    }\n    \n    function setMyName(string newName) public payable\n    onlyUniqueName(newName)\n    limitedL",
+        "debug": "calldata_NicknameRegistrar_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_NicknameRegistrar_0: 0xbdfe7d4700000000000000000000000000000000000000000000000000000000\ncalldatasize_NicknameRegistrar: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `addresses(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "addresses(string)",
+        "lineno": 100,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1461,
+        "code": "e) \n    onlyPaid\n    {\n        names[msg.sender] = newName;\n        _addresses[stringToBytes32(newName)] = msg.sender;\n        emit NameSet(msg.sender, newName);\n    }\n\n    function unsetMyName() public {\n        _addresses[stringToBytes32(names[msg.sender])] = address(0x0);\n ",
+        "debug": "calldata_NicknameRegistrar_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_NicknameRegistrar_0: 0xc7857d2700000000000000000000000000000000000000000000000000000000\ncalldatasize_NicknameRegistrar: 0x4\n",
+        "description": "A possible integer overflow exists in the function `setMyName(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "setMyName(string)",
+        "lineno": 105,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1676,
+        "code": "ogSetOwner(own",
+        "debug": "",
+        "description": "The contract account state is changed after an external call. Consider that the called contract could re-enter the function before this state change takes place. This can lead to business logic vulnerabilities.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "setOwner(address)",
+        "lineno": 32,
+        "title": "State change after external call",
+        "type": "Warning"
+      },
+      {
+        "address": 3909,
+        "code": "        bytes memory tempEmptyStringT",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function getMoney(). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "getMoney()",
+        "lineno": 143,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 7727,
+        "code": "ontract NicknameRegistrar is DSAu",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "getMoney()",
+        "lineno": 61,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 7727,
+        "code": "ontract NicknameRegistrar is DSAu",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 3909\n",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "getMoney()",
+        "lineno": 61,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 7727,
+        "code": "ontract NicknameRegistrar is DSAu",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function getMoney(). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "getMoney()",
+        "lineno": 61,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 7874,
+        "code": "rice = 10 finney;\n\n    mapping (address => string) public names;\n    mapping (bytes32 => address) internal _addresses;\n    mapping (address => string) public pendingNameTransfers;\n    mapping (bytes32 => bool) internal _inTransfer;\n\n    modifier onlyUniqueName(string name) {\n        require(!nameTaken(name), \"Name taken!\");\n        _;\n    }\n\n    modifier onlyPaid() {\n        require(msg.value >= namePrice, \"Not enough value sent!\");\n        _;\n    }\n\n    modifier limitedLength(string s) {\n        require(bytes(s).length <= 32, \"Name too long!\");\n        require(bytes(s).length >= 1, \"Name too short!\");\n        _;\n    }\n\n    event NameSet(address addr, string name);\n    event NameUnset(address addr);\n    event NameTransferRequested(address from, address to, string name);\n    event NameTransferAccepted(address by, string name);\n\n    function nameTaken(string name) public view returns(bool) {\n        return _addresses[stringToBytes32(name)] != address(0x0) ||\n        _inTransfer[stringToBytes32(name)];\n    }\n\n    function hasName(address addr) public view returns(bool) {\n        return bytes(names[addr]).length > 0;\n    }\n\n    function addresses(string name) public view returns(address) {\n        return _addresses[stringToBytes32(name)];\n    }\n    \n    function setMyName(string newName) public payable\n    onlyUniqueName(newName)\n    limitedLength(newName) \n    onlyPaid\n    {\n        names[msg.sender] = newName;\n        _addresses[stringToBytes32(newName)] = msg.sender;\n        emit NameSet(msg.sender, newName);\n    }\n\n    function unsetMyName() public {\n        _addresses[stringToBytes32(names[msg.sender])] = address(0x0);\n        names[msg.sender] = \"\";      \n        emit NameUnset(msg.sender);  \n    }\n\n    function transferMyName(address to) public payable onlyPaid {\n        require(hasName(msg.sender), \"You don't have a name to transfer!\");\n        pendingNameTransfers[to] = names[msg.sender];\n        _inTransfer[stringToBytes32(names[msg.sender])] = true;\n        \n        emit NameTransferRequested(msg.sender, to, names[msg.sender]);\n        names[msg.sender] = \"\";\n    }\n\n    function acceptNameTranfer() public\n    limitedLength(pendingNameTransfers[msg.sender]) {\n        names[msg.sender] = pendingNameTransfers[msg.sender];\n        _addresses[stringToBytes32(pendingNameTransfers[msg.sender])] = msg.sender;\n        \n        _inTransfer[stringToBytes32(pendingNameTransfers[msg.sender])] = false;\n        pendingNameTransfers[msg.sender] = \"\";\n        emit NameTransferAccepted(msg.sender, names[msg.sender]);\n    }\n\n    function getMoney() public auth {\n        owner.transfer(address(this).balance);\n    }\n\n    function stringToBytes32(string memory source) internal pure returns (bytes32 result) {\n        bytes memory tempEmptyStringTest = bytes(source);\n        if (tempEmptyStringTest.length == 0) {\n            return 0x0;\n        }\n        // solium-disable security/no-inline-assembly\n        assembly {\n            result := mload(add(source, 32))\n        }\n    }\n}",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0x10\nkeccac_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_NicknameRegistrar_0: 0xacdfa0ac00000000000000000000000000000000000000000000000000000000\ncalldatasize_NicknameRegistrar: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `acceptNameTranfer()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "acceptNameTranfer()",
+        "lineno": 62,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 7924,
+        "code": "rice = 10 finney;\n\n    mapping (address => string) public names;\n    mapping (bytes32 => address) internal _addresses;\n    mapping (address => string) public pendingNameTransfers;\n    mapping (bytes32 => bool) internal _inTransfer;\n\n    modifier onlyUniqueName(string name) {\n        require(!nameTaken(name), \"Name taken!\");\n        _;\n    }\n\n    modifier onlyPaid() {\n        require(msg.value >= namePrice, \"Not enough value sent!\");\n        _;\n    }\n\n    modifier limitedLength(string s) {\n        require(bytes(s).length <= 32, \"Name too long!\");\n        require(bytes(s).length >= 1, \"Name too short!\");\n        _;\n    }\n\n    event NameSet(address addr, string name);\n    event NameUnset(address addr);\n    event NameTransferRequested(address from, address to, string name);\n    event NameTransferAccepted(address by, string name);\n\n    function nameTaken(string name) public view returns(bool) {\n        return _addresses[stringToBytes32(name)] != address(0x0) ||\n        _inTransfer[stringToBytes32(name)];\n    }\n\n    function hasName(address addr) public view returns(bool) {\n        return bytes(names[addr]).length > 0;\n    }\n\n    function addresses(string name) public view returns(address) {\n        return _addresses[stringToBytes32(name)];\n    }\n    \n    function setMyName(string newName) public payable\n    onlyUniqueName(newName)\n    limitedLength(newName) \n    onlyPaid\n    {\n        names[msg.sender] = newName;\n        _addresses[stringToBytes32(newName)] = msg.sender;\n        emit NameSet(msg.sender, newName);\n    }\n\n    function unsetMyName() public {\n        _addresses[stringToBytes32(names[msg.sender])] = address(0x0);\n        names[msg.sender] = \"\";      \n        emit NameUnset(msg.sender);  \n    }\n\n    function transferMyName(address to) public payable onlyPaid {\n        require(hasName(msg.sender), \"You don't have a name to transfer!\");\n        pendingNameTransfers[to] = names[msg.sender];\n        _inTransfer[stringToBytes32(names[msg.sender])] = true;\n        \n        emit NameTransferRequested(msg.sender, to, names[msg.sender]);\n        names[msg.sender] = \"\";\n    }\n\n    function acceptNameTranfer() public\n    limitedLength(pendingNameTransfers[msg.sender]) {\n        names[msg.sender] = pendingNameTransfers[msg.sender];\n        _addresses[stringToBytes32(pendingNameTransfers[msg.sender])] = msg.sender;\n        \n        _inTransfer[stringToBytes32(pendingNameTransfers[msg.sender])] = false;\n        pendingNameTransfers[msg.sender] = \"\";\n        emit NameTransferAccepted(msg.sender, names[msg.sender]);\n    }\n\n    function getMoney() public auth {\n        owner.transfer(address(this).balance);\n    }\n\n    function stringToBytes32(string memory source) internal pure returns (bytes32 result) {\n        bytes memory tempEmptyStringTest = bytes(source);\n        if (tempEmptyStringTest.length == 0) {\n            return 0x0;\n        }\n        // solium-disable security/no-inline-assembly\n        assembly {\n            result := mload(add(source, 32))\n        }\n    }\n}",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0x40\nkeccac_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_NicknameRegistrar_0: 0xacdfa0ac00000000000000000000000000000000000000000000000000000000\ncalldatasize_NicknameRegistrar: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `acceptNameTranfer()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "acceptNameTranfer()",
+        "lineno": 62,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 7946,
+        "code": "rice = 10 finney;\n\n    mapping (address => string) public names;\n    mapping (bytes32 => address) internal _addresses;\n    mapping (address => string) public pendingNameTransfers;\n    mapping (bytes32 => bool) internal _inTransfer;\n\n    modifier onlyUniqueName(string name) {\n        require(!nameTaken(name), \"Name taken!\");\n        _;\n    }\n\n    modifier onlyPaid() {\n        require(msg.value >= namePrice, \"Not enough value sent!\");\n        _;\n    }\n\n    modifier limitedLength(string s) {\n        require(bytes(s).length <= 32, \"Name too long!\");\n        require(bytes(s).length >= 1, \"Name too short!\");\n        _;\n    }\n\n    event NameSet(address addr, string name);\n    event NameUnset(address addr);\n    event NameTransferRequested(address from, address to, string name);\n    event NameTransferAccepted(address by, string name);\n\n    function nameTaken(string name) public view returns(bool) {\n        return _addresses[stringToBytes32(name)] != address(0x0) ||\n        _inTransfer[stringToBytes32(name)];\n    }\n\n    function hasName(address addr) public view returns(bool) {\n        return bytes(names[addr]).length > 0;\n    }\n\n    function addresses(string name) public view returns(address) {\n        return _addresses[stringToBytes32(name)];\n    }\n    \n    function setMyName(string newName) public payable\n    onlyUniqueName(newName)\n    limitedLength(newName) \n    onlyPaid\n    {\n        names[msg.sender] = newName;\n        _addresses[stringToBytes32(newName)] = msg.sender;\n        emit NameSet(msg.sender, newName);\n    }\n\n    function unsetMyName() public {\n        _addresses[stringToBytes32(names[msg.sender])] = address(0x0);\n        names[msg.sender] = \"\";      \n        emit NameUnset(msg.sender);  \n    }\n\n    function transferMyName(address to) public payable onlyPaid {\n        require(hasName(msg.sender), \"You don't have a name to transfer!\");\n        pendingNameTransfers[to] = names[msg.sender];\n        _inTransfer[stringToBytes32(names[msg.sender])] = true;\n        \n        emit NameTransferRequested(msg.sender, to, names[msg.sender]);\n        names[msg.sender] = \"\";\n    }\n\n    function acceptNameTranfer() public\n    limitedLength(pendingNameTransfers[msg.sender]) {\n        names[msg.sender] = pendingNameTransfers[msg.sender];\n        _addresses[stringToBytes32(pendingNameTransfers[msg.sender])] = msg.sender;\n        \n        _inTransfer[stringToBytes32(pendingNameTransfers[msg.sender])] = false;\n        pendingNameTransfers[msg.sender] = \"\";\n        emit NameTransferAccepted(msg.sender, names[msg.sender]);\n    }\n\n    function getMoney() public auth {\n        owner.transfer(address(this).balance);\n    }\n\n    function stringToBytes32(string memory source) internal pure returns (bytes32 result) {\n        bytes memory tempEmptyStringTest = bytes(source);\n        if (tempEmptyStringTest.length == 0) {\n            return 0x0;\n        }\n        // solium-disable security/no-inline-assembly\n        assembly {\n            result := mload(add(source, 32))\n        }\n    }\n}",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc9\nkeccac_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0x7bfffffffffffcff963b1984011e18f9e4ca0e667d4073e1fffa000000000017\nkeccac_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_NicknameRegistrar_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncallvalue: 0x0\nstorage_2: 0x0\ncalldata_NicknameRegistrar_0: 0x562bde2800000000000000000000000000000000000000000000000000000000\ncalldatasize_NicknameRegistrar: 0x4\n",
+        "description": "A possible integer overflow exists in the function `transferMyName(address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/10/0x4d6ec066345e3466d9e970caad4732983ae4bc2c.sol",
+        "function": "transferMyName(address)",
+        "lineno": 62,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

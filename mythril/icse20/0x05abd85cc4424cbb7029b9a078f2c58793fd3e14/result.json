@@ -1,0 +1,112 @@
+{
+  "contract": "0x05abd85cc4424cbb7029b9a078f2c58793fd3e14",
+  "tool": "mythril",
+  "start": 1563410934.8364286,
+  "end": 1563411115.2971363,
+  "duration": 180.46070766448975,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 567,
+        "code": ") public returns(bool){\n        if(!devices[msg.sender].permissioned || hash_index >= ipfs_hashes.length-1) return false;\n        ipfs_hashes[hash_index].ipfs_hash = newIPFS_Hash;\n        hash_index++;\n        return true;\n    }\n\n    /// Get a submited IPFS_Hash\n    funct",
+        "debug": "calldata_WyoMesh_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_WyoMesh_0: 0xfb94bec100000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `submitHash(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "submitHash(string)",
+        "lineno": 40,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 778,
+        "code": "urn true;\n    }\n}",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_2: 0x0\ncalldata_WyoMesh_4: 0x0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_WyoMesh_0: 0x2ffc321400000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "signAudit(uint8)",
+        "lineno": 56,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1082,
+        "code": "gn-off on event as ",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_2: 0x0\ncalldata_WyoMesh_4: 0x0\ncalldata_WyoMesh_0: 0xe11d57ab00000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "getHash(uint8)",
+        "lineno": 52,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1358,
+        "code": "    ipfs_hashes[hash",
+        "debug": "storage_2: 0x0\nstorage_1 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff00\ncalldata_WyoMesh_0: 0xfb94bec100000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer underflow exists in the function `submitHash(string)`.\nThe subtraction may result in a value < 0.",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "submitHash(string)",
+        "lineno": 42,
+        "title": "Integer Underflow",
+        "type": "Warning"
+      },
+      {
+        "address": 1395,
+        "code": "FS_Hash;\n        hash_i",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_3: 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_2: 0x0\nstorage_1 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff00\ncalldata_WyoMesh_0: 0xfb94bec100000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "submitHash(string)",
+        "lineno": 42,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1500,
+        "code": "ontract WyoMesh {\n\n    struct Device {\n        string name;\n        bool permissioned;\n        // last TX hash?\n        //more meta data\n    }\n    struct IPFS_Hash {\n        string ipfs_hash;\n        bool auditor_signed; //\n    }\n\n    // need a store of the last *transaction* that a device successfully submitted - so you get a list you can scan back in the contrac twith latest -> latest -1 -> ... original.\n\n    address public auditor;\n    mapping(address => Device) private devices;\n    IPFS_Hash[] ipfs_hashes;\n    uint hash_index;\n\n    /// Create a new Master and auditor with $(_maxHashes) different ipfs_hashes.\n    constructor(uint8 _maxHashes) public {\n        auditor = msg.sender;\n        ipfs_hashes.length = _maxHashes;\n        devices[msg.sender].permissioned = true;\n        hash_index = 0;\n    }\n\n    /// Give $(toDevice) the right to add data on this contract\n    /// May only be called by $(auditor).\n    function addDevice(address toDevice) public returns(bool){\n        if (msg.sender != auditor) return false;\n        devices[toDevice].permissioned = true;\n        return true;\n    }\n\n\n    /// Submit an IPFS_Hash\n    function submitHash(string newIPFS_Hash) public returns(bool){\n        if(!devices[msg.sender].permissioned || hash_index >= ipfs_hashes.length-1) return false;\n        ipfs_hashes[hash_index].ipfs_hash = newIPFS_Hash;\n        hash_index++;\n        return true;\n    }\n\n    /// Get a submited IPFS_Hash\n    function getHash(uint8 index_) public returns(string){\n        return ipfs_hashes[index_].ipfs_hash;\n    }\n\n    /// Sign-off on event as a known auditor\n    function signAudit(uint8 index_) public returns(bool){\n      if(msg.sender != auditor) return false;\n        ipfs_hashes[index_].auditor_signed = true;\n        return true;\n    }\n}",
+        "debug": "storage_3: 0x26991caff66f970fffdabbef7e9f7ca1ccbffffffefff7ffffe77fffbfbfde5f\nstorage_2: 0x4216dc0000910485802044840234890821b00400000000000000000000000000\nstorage_0 +\n29102676481673041902632991033461445430619272659676223336789171408008386403022 +\n2*storage_3: 0xc7d616f31d7fffffffffffffffffffffffffffffffffffffffffffffffffffc9\nkeccac_0_+\n29102676481673041902632991033461445430619272659676223336789171408008386403022_+\n2*storage_3: 0xfe304f5a0f54dfed00160bb35e01c283cb7dabff7ffbfd71a72650dc845e0226\nstorage_1 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff00\ncalldata_WyoMesh_0: 0xfb94bec100000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `submitHash(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "submitHash(string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1529,
+        "code": "ontract WyoMesh {\n\n    struct Device {\n        string name;\n        bool permissioned;\n        // last TX hash?\n        //more meta data\n    }\n    struct IPFS_Hash {\n        string ipfs_hash;\n        bool auditor_signed; //\n    }\n\n    // need a store of the last *transaction* that a device successfully submitted - so you get a list you can scan back in the contrac twith latest -> latest -1 -> ... original.\n\n    address public auditor;\n    mapping(address => Device) private devices;\n    IPFS_Hash[] ipfs_hashes;\n    uint hash_index;\n\n    /// Create a new Master and auditor with $(_maxHashes) different ipfs_hashes.\n    constructor(uint8 _maxHashes) public {\n        auditor = msg.sender;\n        ipfs_hashes.length = _maxHashes;\n        devices[msg.sender].permissioned = true;\n        hash_index = 0;\n    }\n\n    /// Give $(toDevice) the right to add data on this contract\n    /// May only be called by $(auditor).\n    function addDevice(address toDevice) public returns(bool){\n        if (msg.sender != auditor) return false;\n        devices[toDevice].permissioned = true;\n        return true;\n    }\n\n\n    /// Submit an IPFS_Hash\n    function submitHash(string newIPFS_Hash) public returns(bool){\n        if(!devices[msg.sender].permissioned || hash_index >= ipfs_hashes.length-1) return false;\n        ipfs_hashes[hash_index].ipfs_hash = newIPFS_Hash;\n        hash_index++;\n        return true;\n    }\n\n    /// Get a submited IPFS_Hash\n    function getHash(uint8 index_) public returns(string){\n        return ipfs_hashes[index_].ipfs_hash;\n    }\n\n    /// Sign-off on event as a known auditor\n    function signAudit(uint8 index_) public returns(bool){\n      if(msg.sender != auditor) return false;\n        ipfs_hashes[index_].auditor_signed = true;\n        return true;\n    }\n}",
+        "debug": "storage_3: 0x0\nstorage_2: 0x3\ncalldata_WyoMesh_4 + calldata_WyoMesh_4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_1 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff00\ncalldata_WyoMesh_0: 0xfb94bec100000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `submitHash(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "submitHash(string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1543,
+        "code": "ontract WyoMesh {\n\n    struct Device {\n        string name;\n        bool permissioned;\n        // last TX hash?\n        //more meta data\n    }\n    struct IPFS_Hash {\n        string ipfs_hash;\n        bool auditor_signed; //\n    }\n\n    // need a store of the last *transaction* that a device successfully submitted - so you get a list you can scan back in the contrac twith latest -> latest -1 -> ... original.\n\n    address public auditor;\n    mapping(address => Device) private devices;\n    IPFS_Hash[] ipfs_hashes;\n    uint hash_index;\n\n    /// Create a new Master and auditor with $(_maxHashes) different ipfs_hashes.\n    constructor(uint8 _maxHashes) public {\n        auditor = msg.sender;\n        ipfs_hashes.length = _maxHashes;\n        devices[msg.sender].permissioned = true;\n        hash_index = 0;\n    }\n\n    /// Give $(toDevice) the right to add data on this contract\n    /// May only be called by $(auditor).\n    function addDevice(address toDevice) public returns(bool){\n        if (msg.sender != auditor) return false;\n        devices[toDevice].permissioned = true;\n        return true;\n    }\n\n\n    /// Submit an IPFS_Hash\n    function submitHash(string newIPFS_Hash) public returns(bool){\n        if(!devices[msg.sender].permissioned || hash_index >= ipfs_hashes.length-1) return false;\n        ipfs_hashes[hash_index].ipfs_hash = newIPFS_Hash;\n        hash_index++;\n        return true;\n    }\n\n    /// Get a submited IPFS_Hash\n    function getHash(uint8 index_) public returns(string){\n        return ipfs_hashes[index_].ipfs_hash;\n    }\n\n    /// Sign-off on event as a known auditor\n    function signAudit(uint8 index_) public returns(bool){\n      if(msg.sender != auditor) return false;\n        ipfs_hashes[index_].auditor_signed = true;\n        return true;\n    }\n}",
+        "debug": "storage_3: 0x84c1a964001cefd012e400015fed57de7977f7b24ffffffffffffffffffff\nstorage_2: 0x8000000000000000000000000000000000000000000000000000000000000000\ncalldata_WyoMesh_4 + calldata_WyoMesh_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_1 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff00\ncalldata_WyoMesh_0: 0xfb94bec100000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `submitHash(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "submitHash(string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1565,
+        "code": "ontract WyoMesh {\n\n    struct Device {\n        string name;\n        bool permissioned;\n        // last TX hash?\n        //more meta data\n    }\n    struct IPFS_Hash {\n        string ipfs_hash;\n        bool auditor_signed; //\n    }\n\n    // need a store of the last *transaction* that a device successfully submitted - so you get a list you can scan back in the contrac twith latest -> latest -1 -> ... original.\n\n    address public auditor;\n    mapping(address => Device) private devices;\n    IPFS_Hash[] ipfs_hashes;\n    uint hash_index;\n\n    /// Create a new Master and auditor with $(_maxHashes) different ipfs_hashes.\n    constructor(uint8 _maxHashes) public {\n        auditor = msg.sender;\n        ipfs_hashes.length = _maxHashes;\n        devices[msg.sender].permissioned = true;\n        hash_index = 0;\n    }\n\n    /// Give $(toDevice) the right to add data on this contract\n    /// May only be called by $(auditor).\n    function addDevice(address toDevice) public returns(bool){\n        if (msg.sender != auditor) return false;\n        devices[toDevice].permissioned = true;\n        return true;\n    }\n\n\n    /// Submit an IPFS_Hash\n    function submitHash(string newIPFS_Hash) public returns(bool){\n        if(!devices[msg.sender].permissioned || hash_index >= ipfs_hashes.length-1) return false;\n        ipfs_hashes[hash_index].ipfs_hash = newIPFS_Hash;\n        hash_index++;\n        return true;\n    }\n\n    /// Get a submited IPFS_Hash\n    function getHash(uint8 index_) public returns(string){\n        return ipfs_hashes[index_].ipfs_hash;\n    }\n\n    /// Sign-off on event as a known auditor\n    function signAudit(uint8 index_) public returns(bool){\n      if(msg.sender != auditor) return false;\n        ipfs_hashes[index_].auditor_signed = true;\n        return true;\n    }\n}",
+        "debug": "storage_3: 0x25afffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_2: 0xd500000000000000000000000000000000000000000000000000000000000000\nkeccac_0_+\n29102676481673041902632991033461445430619272659676223336789171408008386403022_+\n2*storage_3: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_WyoMesh_4 + calldata_WyoMesh_4: 0x200\nstorage_1 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff00\ncalldata_WyoMesh_0: 0xfb94bec100000000000000000000000000000000000000000000000000000000\ncalldatasize_WyoMesh: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `submitHash(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x05abd85cc4424cbb7029b9a078f2c58793fd3e14.sol",
+        "function": "submitHash(string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

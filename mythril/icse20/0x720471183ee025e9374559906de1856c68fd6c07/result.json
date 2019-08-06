@@ -1,0 +1,57 @@
+{
+  "contract": "0x720471183ee025e9374559906de1856c68fd6c07",
+  "tool": "mythril",
+  "start": 1563289503.6136186,
+  "end": 1563289523.2391808,
+  "duration": 19.62556219100952,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 736,
+        "code": "{\n            reg := sload(slot)\n       ",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_contracts/0x720471183ee025e9374559906de1856c68fd6c07.sol",
+        "function": "fallback",
+        "lineno": 331,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 736,
+        "code": "{\n            reg := sload(slot)\n       ",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 811\n",
+        "filename": "/unique_contracts/0x720471183ee025e9374559906de1856c68fd6c07.sol",
+        "function": "fallback",
+        "lineno": 331,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 811,
+        "code": "            default { return(0, returndatasize) }\n      ",
+        "debug": "",
+        "description": "This contract forwards its call data via DELEGATECALL in its fallback function. This means that any function in the called contract can be executed. Note that the callee contract will have access to the storage of the calling contract.\n DELEGATECALL target: retval_736",
+        "filename": "/unique_contracts/0x720471183ee025e9374559906de1856c68fd6c07.sol",
+        "function": "fallback",
+        "lineno": 275,
+        "title": "Call data forwarded with delegatecall()",
+        "type": "Informational"
+      },
+      {
+        "address": 811,
+        "code": "            default { return(0, returndatasize) }\n      ",
+        "debug": "",
+        "description": "Be aware that the called contract gets unrestricted access to this contract's state.",
+        "filename": "/unique_contracts/0x720471183ee025e9374559906de1856c68fd6c07.sol",
+        "function": "fallback",
+        "lineno": 275,
+        "title": "DELEGATECALL to a user-supplied address",
+        "type": "Informational"
+      }
+    ],
+    "success": true
+  }
+}

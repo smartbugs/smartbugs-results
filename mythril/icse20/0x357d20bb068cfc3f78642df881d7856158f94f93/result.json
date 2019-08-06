@@ -1,0 +1,57 @@
+{
+  "contract": "0x357d20bb068cfc3f78642df881d7856158f94f93",
+  "tool": "mythril",
+  "start": 1563554556.3895547,
+  "end": 1563554724.7873337,
+  "duration": 168.39777898788452,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1835,
+        "code": "    migrationInfo = _migrationInfo;\n    MigrationInfoSet(_migrationInfo);\n  }\n  function changeMigrationInfoSetter(address _newMigrationInfoSetter) onlyFromMigrationI",
+        "debug": "calldata_ERC20TokenInterface_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_ERC20TokenInterface_0: 0xab1f792900000000000000000000000000000000000000000000000000000000\ncalldatasize_ERC20TokenInterface: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setMigrationInfo(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/11/0x357d20bb068cfc3f78642df881d7856158f94f93.sol",
+        "function": "setMigrationInfo(string)",
+        "lineno": 88,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3151,
+        "code": "      return true;\n    ",
+        "debug": "calldata_ERC20TokenInterface_32 + 36: 0xfe51000008ce80008001c1d33616877ffffffffffffff7ffffe10000398d50ac\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_ERC20TokenInterface_32_+_4: 0xc050fffff320c00020003d81af848540000000000000040000110001bd062022\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xfe51000008ce80008001c1d33616877ffffffffffffff7ffffe10000398d50ac\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_ERC20TokenInterface_4: 0xfe51000008ce80008001c1d33616877ffffffffffffff7ffffe10000398d50ac\ncalldata_ERC20TokenInterface_0: 0x23b872dd00000000000000000000000000000000000000000000000000000000\ncalldatasize_ERC20TokenInterface: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `transferFrom(address,address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/11/0x357d20bb068cfc3f78642df881d7856158f94f93.sol",
+        "function": "transferFrom(address,address,uint256)",
+        "lineno": 64,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3952,
+        "code": ", _to, _value);\n      r",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_ERC20TokenInterface_4: 0x9c9efb7ae5acd378025256a3945f5859076e809243093d9ecae2636c9fd28979\ncalldata_ERC20TokenInterface_32 + 4: 0xc290137095b13347e55005a6dc184559e0489f1233480050d0fb4bba17d34179\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xc290137095b13347e55005a6dc184559e0489f1233480050d0fb4bba17d34179\ncalldata_ERC20TokenInterface_0: 0xa9059cbb00000000000000000000000000000000000000000000000000000000\ncalldatasize_ERC20TokenInterface: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `transfer(address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/11/0x357d20bb068cfc3f78642df881d7856158f94f93.sol",
+        "function": "transfer(address,uint256)",
+        "lineno": 52,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4557,
+        "code": " is ERC20TokenInterface {\n  string public constant name = 'CAF1';\n  uint256 public constant decimals = 2;\n  string public constant symbol = 'CAF1';\n  string public constant version = 'v0.0.1';\n\n  uint256 private constant totalTokens = 277777 * (10 ** decimals);\n\n  mapping (address => uint256) public balances;\n  mapping (address => mapping (address => uint256)) public allowed;\n\n  event MigrationInfoSet(string newMigrationInfo);\n\n  string public migrationInfo = \"\";\n\n  address public migrationInfoSetter;\n\n  modifier onlyFromMigrationInfoSetter {\n    if (msg.sender != migrationInfoSetter) {\n      throw;\n    }\n    _;\n  }\n\n  function CAF1(address _migrationInfoSetter) {\n    if (_migrationInfoSetter == 0) throw;\n    migrationInfoSetter = _migrationInfoSetter;\n    balances[msg.sender] = totalTokens;\n  }\n\n  function totalSupply() constant returns (uint256) {\n    return totalTokens;\n  }\n\n  function transfer(address _to, uint256 _value) public returns (bool) {\n    if (balances[msg.sender] >= _value) {\n      balances[msg.sender] -= _value;\n      balances[_to] += _value;\n      Transfer(msg.sender, _to, _value);\n      return true;\n    }\n    return false;\n  }\n\n  function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {\n    if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value) {\n      balances[_from] -= _value;\n      allowed[_from][msg.sender] -= _value;\n      balances[_to] += _value;\n      Transfer(_from, _to, _value);\n      return true;\n    }\n    return false;\n  }\n\n  function balanceOf(address _owner) constant public returns (uint256) {\n    return balances[_owner];\n  }\n\n  function approve(address _spender, uint256 _value) public returns (bool) {\n    allowed[msg.sender][_spender] = _value;\n    Approval(msg.sender, _spender, _value);\n    return true;\n  }\n  function compareAndApprove(address _spender, uint256 _currentValue, uint256 _newValue) public returns(bool) {\n    if (allowed[msg.sender][_spender] != _currentValue) {\n      return false;\n    }\n    return approve(_spender, _newValue);\n  }\n  function allowance(address _owner, address _spender) constant public returns (uint256 remaining) {\n    return allowed[_owner][_spender];\n  }\n  function setMigrationInfo(string _migrationInfo) onlyFromMigrationInfoSetter public {\n    migrationInfo = _migrationInfo;\n    MigrationInfoSet(_migrationInfo);\n  }\n  function changeMigrationInfoSetter(address _newMigrationInfoSetter) onlyFromMigrationInfoSetter public {\n    migrationInfoSetter = _newMigrationInfoSetter;\n  }\n}",
+        "debug": "calldata_ERC20TokenInterface_4 + calldata_ERC20TokenInterface_4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_3: 0x0\ncaller: 0x0\ncalldata_ERC20TokenInterface_0: 0xab1f792900000000000000000000000000000000000000000000000000000000\ncalldatasize_ERC20TokenInterface: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setMigrationInfo(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/11/0x357d20bb068cfc3f78642df881d7856158f94f93.sol",
+        "function": "setMigrationInfo(string)",
+        "lineno": 14,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

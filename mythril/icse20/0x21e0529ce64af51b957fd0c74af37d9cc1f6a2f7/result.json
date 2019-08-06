@@ -1,0 +1,68 @@
+{
+  "contract": "0x21e0529ce64af51b957fd0c74af37d9cc1f6a2f7",
+  "tool": "mythril",
+  "start": 1563711861.1291661,
+  "end": 1563712103.050457,
+  "duration": 241.9212908744812,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 911,
+        "code": "       uint8 _decimalUnits,\n        string _tokenSymbol\n    ) public {\n        balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens\n        totalSupply = _initialAmount;                        // Update total supply\n        name = _tokenName;                                   // Set the name for display purposes\n        decimals = _decimalUnits;                            // Amount of decimals for display purposes\n        symbol = _tokenSymbol;                               // Set the symbol for display purposes\n    }\n\n    function transfer(address _to, uint256 _value) public returns (bool success) {\n",
+        "debug": "calldata_TDZ_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_TDZ_0: 0x69ffadc900000000000000000000000000000000000000000000000000000000\ncalldatasize_TDZ: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `TDz(uint256,string,uint8,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/38/0x21e0529ce64af51b957fd0c74af37d9cc1f6a2f7.sol",
+        "function": "TDz(uint256,string,uint8,string)",
+        "lineno": 78,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2212,
+        "code": "\n            allowed[_f",
+        "debug": "calldata_TDZ_32 + 36: 0xfe51000008ce80008001c1d33616877ffffffffffffff7ffffe10000398d50ac\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_TDZ_32_+_4: 0xc050fffff320c00020003d81af848540000000000000040000110001bd062022\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xfe51000008ce80008001c1d33616877ffffffffffffff7ffffe10000398d50ac\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_TDZ_4: 0xfe51000008ce80008001c1d33616877ffffffffffffff7ffffe10000398d50ac\ncalldata_TDZ_0: 0x23b872dd00000000000000000000000000000000000000000000000000000000\ncalldatasize_TDZ: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `transferFrom(address,address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/38/0x21e0529ce64af51b957fd0c74af37d9cc1f6a2f7.sol",
+        "function": "transferFrom(address,address,uint256)",
+        "lineno": 101,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3280,
+        "code": "-line indent, no-unused",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_TDZ_4: 0x9c9efb7ae5acd378025256a3945f5859076e809243093d9ecae2636c9fd28979\ncalldata_TDZ_32 + 4: 0xc290137095b13347e55005a6dc184559e0489f1233480050d0fb4bba17d34179\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xc290137095b13347e55005a6dc184559e0489f1233480050d0fb4bba17d34179\ncalldata_TDZ_0: 0xa9059cbb00000000000000000000000000000000000000000000000000000000\ncalldatasize_TDZ: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `transfer(address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/38/0x21e0529ce64af51b957fd0c74af37d9cc1f6a2f7.sol",
+        "function": "transfer(address,uint256)",
+        "lineno": 92,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3601,
+        "code": "ate MAX_UINT256 = 2**256 - 1;\n    mapping (address => uint256) public balances;\n    mapping (address => mapping (address => uint256)) public allowed;\n    /*\n    NOTE:\n    The following variables are OPTIONAL vanities. One does not have to include them.\n    They allow one to customise the token contract & in no way influences the core functionality.\n    Some wallets/interfaces might not even bother to look at this information.\n    */\n    string public name;                   //fancy name: eg Simon Bucks\n    uint8 public decimals;                //How many decimals to show.\n    string public symbol;                 //An identifier: eg SBX\n\n    function TDz(\n        uint256 _initialAmount,\n        string _tokenName,\n        uint8 _decimalUnits,\n        string _tokenSymbol\n    ) public {\n        balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens\n        totalSupply = _initialAmount;                        // Update total supply\n        name = _tokenName;                                   // Set the name for display purposes\n        decimals = _decimalUnits;                            // Amount of decimals for display purposes\n        symbol = _tokenSymbol;                               // Set the symbol for display purposes\n    }\n\n    function transfer(address _to, uint256 _value) public returns (bool success) {\n        require(balances[msg.sender] >= _value);\n        balances[msg.sender] -= _value;\n        balances[_to] += _value;\n        emit Transfer(msg.sender, _to, _value); //solhint-disable-line indent, no-unused-vars\n        return true;\n    }\n\n    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {\n        uint256 allowance = allowed[_from][msg.sender];\n        require(balances[_from] >= _value && allowance >= _value);\n        balances[_to] += _value;\n        balances[_from] -= _value;\n        if (allowance < MAX_UINT256) {\n            allowed[_from][msg.sender] -= _value;\n        }\n        emit Transfer(_from, _to, _value); //solhint-disable-line indent, no-unused-vars\n        return true;\n    }\n\n    function balanceOf(address _owner) public view returns (uint256 balance) {\n        return balances[_owner];\n    }\n\n    function approve(address _spender, uint256 _value) public returns (bool success) {\n        allowed[msg.sender][_spender] = _value;\n        emit Approval(msg.sender, _spender, _value); //solhint-disable-line indent, no-unused-vars\n        return true;\n    }\n\n    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {\n        return allowed[_owner][_spender];\n    }\n}",
+        "debug": "storage_3: 0x3fffffffffffffffffffffffffffffffffffffffffffffffffffff00\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 + calldata_TDZ_4 + calldata_TDZ_32 + 4)): 0x8000000000000000000000000000000000000000000000000000000000000000\ncalldata_TDZ_4 + calldata_TDZ_32 + 4: 0x0\ncalldata_TDZ_0: 0x69ffadc900000000000000000000000000000000000000000000000000000000\ncalldatasize_TDZ: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `TDz(uint256,string,uint8,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/38/0x21e0529ce64af51b957fd0c74af37d9cc1f6a2f7.sol",
+        "function": "TDz(uint256,string,uint8,string)",
+        "lineno": 62,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3615,
+        "code": "ate MAX_UINT256 = 2**256 - 1;\n    mapping (address => uint256) public balances;\n    mapping (address => mapping (address => uint256)) public allowed;\n    /*\n    NOTE:\n    The following variables are OPTIONAL vanities. One does not have to include them.\n    They allow one to customise the token contract & in no way influences the core functionality.\n    Some wallets/interfaces might not even bother to look at this information.\n    */\n    string public name;                   //fancy name: eg Simon Bucks\n    uint8 public decimals;                //How many decimals to show.\n    string public symbol;                 //An identifier: eg SBX\n\n    function TDz(\n        uint256 _initialAmount,\n        string _tokenName,\n        uint8 _decimalUnits,\n        string _tokenSymbol\n    ) public {\n        balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens\n        totalSupply = _initialAmount;                        // Update total supply\n        name = _tokenName;                                   // Set the name for display purposes\n        decimals = _decimalUnits;                            // Amount of decimals for display purposes\n        symbol = _tokenSymbol;                               // Set the symbol for display purposes\n    }\n\n    function transfer(address _to, uint256 _value) public returns (bool success) {\n        require(balances[msg.sender] >= _value);\n        balances[msg.sender] -= _value;\n        balances[_to] += _value;\n        emit Transfer(msg.sender, _to, _value); //solhint-disable-line indent, no-unused-vars\n        return true;\n    }\n\n    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {\n        uint256 allowance = allowed[_from][msg.sender];\n        require(balances[_from] >= _value && allowance >= _value);\n        balances[_to] += _value;\n        balances[_from] -= _value;\n        if (allowance < MAX_UINT256) {\n            allowed[_from][msg.sender] -= _value;\n        }\n        emit Transfer(_from, _to, _value); //solhint-disable-line indent, no-unused-vars\n        return true;\n    }\n\n    function balanceOf(address _owner) public view returns (uint256 balance) {\n        return balances[_owner];\n    }\n\n    function approve(address _spender, uint256 _value) public returns (bool success) {\n        allowed[msg.sender][_spender] = _value;\n        emit Approval(msg.sender, _spender, _value); //solhint-disable-line indent, no-unused-vars\n        return true;\n    }\n\n    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {\n        return allowed[_owner][_spender];\n    }\n}",
+        "debug": "calldata_TDZ_4 + calldata_TDZ_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\ncalldata_TDZ_0: 0x69ffadc900000000000000000000000000000000000000000000000000000000\ncalldatasize_TDZ: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `TDz(uint256,string,uint8,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/38/0x21e0529ce64af51b957fd0c74af37d9cc1f6a2f7.sol",
+        "function": "TDz(uint256,string,uint8,string)",
+        "lineno": 62,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

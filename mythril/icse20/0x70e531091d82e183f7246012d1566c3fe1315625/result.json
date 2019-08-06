@@ -1,0 +1,101 @@
+{
+  "contract": "0x70e531091d82e183f7246012d1566c3fe1315625",
+  "tool": "mythril",
+  "start": 1563660262.427619,
+  "end": 1563660283.5706215,
+  "duration": 21.1430025100708,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 236,
+        "code": "ecipients(address[] newRecipientsList) public\n    {\n        require(msg.sender == owner);\n        \n        recipients = newRecipientsList;\n    }\n    \n    function",
+        "debug": "calldata_SendToMany_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_SendToMany_0: 0x4e7602d300000000000000000000000000000000000000000000000000000000\ncalldatasize_SendToMany: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setRecipients(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "setRecipients(address[])",
+        "lineno": 14,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 423,
+        "code": ";\n\ncontract SendTo",
+        "debug": "storage_1: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_SendToMany_0: 0x1c3101d300000000000000000000000000000000000000000000000000000000\ncalldatasize_SendToMany: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `addRecipient(address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "addRecipient(address)",
+        "lineno": 1,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 642,
+        "code": "PerRecipient);\n        }\n    }\n}",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 642\nCall at address: 642\nCall at address: 642\nCall at address: 642\n",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "sendToAll(uint256)",
+        "lineno": 30,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 642,
+        "code": "PerRecipient);\n        }\n    }\n}",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function sendToAll(uint256). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "sendToAll(uint256)",
+        "lineno": 30,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 813,
+        "code": "s[] public recipients;\n    ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_SendToMany_4: 0x0\nstorage_1: 0x0\ncalldata_SendToMany_0: 0xd1bc76a100000000000000000000000000000000000000000000000000000000\ncalldatasize_SendToMany: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "_function_0xd1bc76a1",
+        "lineno": 7,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 879,
+        "code": "ntract SendToMany\n{\n    address owner;\n    \n    address[] public recipients;\n    \n    function SendToMany() public\n    {\n        owner = msg.sender;\n    }\n    \n    function setRecipients(address[] newRecipientsList) public\n    {\n        require(msg.sender == owner);\n        \n        recipients = newRecipientsList;\n    }\n    \n    function addRecipient(address newRecipient) public\n    {\n        recipients.push(newRecipient);\n    }\n    \n    function sendToAll(uint256 amountPerRecipient) payable public\n    {\n        for (uint256 i=0; i<recipients.length; i++)\n        {\n            recipients[i].transfer(amountPerRecipient);\n        }\n    }\n}",
+        "debug": "storage_1: 0x8e79cffffffffffffffffffffffffffdf7cfffffe7ffffffffffff9fffffff7c\nstorage_0: 0x0\ncaller: 0x0\ncalldata_SendToMany_0: 0x4e7602d300000000000000000000000000000000000000000000000000000000\ncalldatasize_SendToMany: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setRecipients(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "setRecipients(address[])",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 890,
+        "code": "ntract SendToMany\n{\n    address owner;\n    \n    address[] public recipients;\n    \n    function SendToMany() public\n    {\n        owner = msg.sender;\n    }\n    \n    function setRecipients(address[] newRecipientsList) public\n    {\n        require(msg.sender == owner);\n        \n        recipients = newRecipientsList;\n    }\n    \n    function addRecipient(address newRecipient) public\n    {\n        recipients.push(newRecipient);\n    }\n    \n    function sendToAll(uint256 amountPerRecipient) payable public\n    {\n        for (uint256 i=0; i<recipients.length; i++)\n        {\n            recipients[i].transfer(amountPerRecipient);\n        }\n    }\n}",
+        "debug": "calldata_SendToMany_4 + calldata_SendToMany_4: 0x8421003f084001f4210815cf88407c00000000000000037c1d000e8d178001f\nstorage_0: 0x0\ncaller: 0x0\ncalldata_SendToMany_0: 0x4e7602d300000000000000000000000000000000000000000000000000000000\ncalldatasize_SendToMany: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setRecipients(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "setRecipients(address[])",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 892,
+        "code": "ntract SendToMany\n{\n    address owner;\n    \n    address[] public recipients;\n    \n    function SendToMany() public\n    {\n        owner = msg.sender;\n    }\n    \n    function setRecipients(address[] newRecipientsList) public\n    {\n        require(msg.sender == owner);\n        \n        recipients = newRecipientsList;\n    }\n    \n    function addRecipient(address newRecipient) public\n    {\n        recipients.push(newRecipient);\n    }\n    \n    function sendToAll(uint256 amountPerRecipient) payable public\n    {\n        for (uint256 i=0; i<recipients.length; i++)\n        {\n            recipients[i].transfer(amountPerRecipient);\n        }\n    }\n}",
+        "debug": "calldata_SendToMany_4 + calldata_SendToMany_4: 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb\nstorage_0: 0x0\ncaller: 0x0\ncalldata_SendToMany_0: 0x4e7602d300000000000000000000000000000000000000000000000000000000\ncalldatasize_SendToMany: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setRecipients(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/33/0x70e531091d82e183f7246012d1566c3fe1315625.sol",
+        "function": "setRecipients(address[])",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

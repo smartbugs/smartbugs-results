@@ -1,0 +1,145 @@
+{
+  "contract": "0xf238f55ede5120915b36715b0fffe20ff57f8134",
+  "tool": "mythril",
+  "start": 1563573748.8535323,
+  "end": 1563573795.672448,
+  "duration": 46.818915605545044,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 265,
+        "code": "arantee a good deal for the buyer)\n    require(\n      SafeMath.safeDiv(volumeEthEffective, volumeEffective) <=\n      SafeMath.safeDiv(msg.value, volume)\n    );\n\n    // Return remaining ethers\n    if(address(this).balance > 0) {\n      destinationAddr.transfer(address(this).balance);\n    }\n\n    // Send the tokens\n    transferTradeable(tradeable, destinationAddr, volumeEffective);\n\n    emit Buy(msg.sender, destinationAddr, tradeable, volume, msg.value, volumeEffective, volumeEthEffective);\n  }\n\n  /// @dev sell a token.\n  function sell(\n    ITradeable tradeable,\n    uint volume,\n    uint volumeEth,\n    bytes ordersData,\n    address destinationAddr,\n    address affiliate\n  ) external\n  {\n    require(tradingEnabled);\n\n    // We transfer to ouselves the user's trading volume, to operate on it\n    // note: Our balance is 0 before this\n    require(tradeable.transferFrom(msg.sender, this, volume));\n\n    // Execute the trade (at most fullfilling volume)\n    trade(\n      true,\n      tradeable,\n      volume,\n      ordersData,\n      affiliate\n    );\n\n    // Check how much we traded. Our balance = volume - tradedVolume\n    // then: tradedVolume = volume - balance\n    uint volumeEffective = SafeMath.safeSub(volume, tradeable.balanceOf(this));\n\n    // We make sure that something was traded\n    require(volumeEffective > 0);\n\n    // Collects service fee\n    uint volumeE",
+        "debug": "calldata_ZodiacERC20_32 + 36: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_ZodiacERC20_0: 0x321a9ab900000000000000000000000000000000000000000000000000000000\ncalldatasize_ZodiacERC20: 0x4\n",
+        "description": "A possible integer overflow exists in the function `_function_0x321a9ab9`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0x321a9ab9",
+        "lineno": 864,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 574,
+        "code": "\n    // IMPORTANT: Check that: effective_price >= agreed_price (guarantee a good deal for the seller)\n    require(\n      SafeMath.safeDiv(volumeEthEffective, volumeEffective) >=\n      SafeMath.safeDiv(volumeEth, volume)\n    );\n\n    // Return remaining volume\n    if (volumeEffective < volume) {\n     transferTradeable(tradeable, destinationAddr, SafeMath.safeSub(volume, volumeEffective));\n    }\n\n    // Send ethers obtained\n    destinationAddr.transfer(volumeEthEffective);\n\n    emit Sell(msg.sender, destinationAddr, tradeable, volume, volumeEth, volumeEffective, volumeEthEffective);\n  }\n\n\n  /// @dev Trade buy or sell orders.\n  function trade(\n    bool isSell,\n    ITradeable tradeable,\n    uint volume,\n    bytes ordersData,\n    address affiliate\n  ) internal\n  {\n    uint remainingVolume = volume;\n    uint offset = ordersData.length;\n\n    while(offset > 0 && remainingVolume > 0) {\n      //Get the trader\n      uint8 protocolId = bytesToUint8(offset, ordersData);\n      ITrader trader = traders.getTrader(protocolId);\n      require(trader != address(0));\n\n      //Get the order data\n      uint dataLength = trader.getDataLength();\n      offset = SafeMath.safeSub(offset, dataLength);\n      bytes memory orderData = slice(ordersData, offset, dataLength);\n\n      //Fill order\n      remainingVolume = fillOrder(\n         isSell,\n         tradeable,\n         trader,\n         remainingVolume,\n         orderData,\n         affiliate\n      );\n    }\n  }\n\n  /// @dev Fills a buy order.\n  function fillOrder(\n    bool isSe",
+        "debug": "calldata_ZodiacERC20_32 + 68: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_ZodiacERC20_0: 0xce68736100000000000000000000000000000000000000000000000000000000\ncalldatasize_ZodiacERC20: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xce687361`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0xce687361",
+        "lineno": 915,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1301,
+        "code": ", volumeEthEffective);\n  ",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0x321a9ab9",
+        "lineno": 878,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 2129,
+        "code": "Addr, SafeMath.safeSub(volume, volumeEffective))",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0xce687361",
+        "lineno": 924,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 2129,
+        "code": "Addr, SafeMath.safeSub(volume, volumeEffective))",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 2422\nCall at address: 3605\nCall at address: 2422\nCall at address: 3605\n",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0xce687361",
+        "lineno": 924,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 2422,
+        "code": "ersData,\n    address affi",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0xce687361",
+        "lineno": 939,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 3605,
+        "code": "ll) {\n        //Approve avail",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0xce687361",
+        "lineno": 992,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 3605,
+        "code": "ll) {\n        //Approve avail",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 3826\n",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0x321a9ab9",
+        "lineno": 992,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 3605,
+        "code": "ll) {\n        //Approve avail",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function _function_0xce687361. The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0xce687361",
+        "lineno": 992,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 3826,
+        "code": " {\n        //Collects ",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0x321a9ab9",
+        "lineno": 995,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 3956,
+        "code": "nction safeAdd",
+        "debug": "The exception is triggered under the following conditions:\n\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_ZodiacERC20_4 + calldata_ZodiacERC20_32 + 68)): 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nretval_2422: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_ZodiacERC20_4 + calldata_ZodiacERC20_32 + 68: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nreturndatasize: 0x20\nretval_2129: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nextcodesize: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_1: 0xff00\ncalldata_ZodiacERC20_0: 0xce68736100000000000000000000000000000000000000000000000000000000\ncalldatasize_ZodiacERC20: 0x4\ncalldata_ZodiacERC20_32 + 4: 0x0\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0xce687361",
+        "lineno": 56,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 3981,
+        "code": "on sa",
+        "debug": "The exception is triggered under the following conditions:\n\ncallvalue: 0x0\nbalance_at_1461501637330902918203684832716283019655932542975 & 0: 0x0\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_ZodiacERC20_4 + calldata_ZodiacERC20_32 + 36)): 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nreturndatasize: 0x20\nretval_1301: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nextcodesize: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_ZodiacERC20_4 + calldata_ZodiacERC20_32 + 36: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_1: 0xff00\ncalldata_ZodiacERC20_0: 0x321a9ab900000000000000000000000000000000000000000000000000000000\ncalldatasize_ZodiacERC20: 0x4\ncalldata_ZodiacERC20_32 + 4: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/12/0xf238f55ede5120915b36715b0fffe20ff57f8134.sol",
+        "function": "_function_0x321a9ab9",
+        "lineno": 47,
+        "title": "Exception state",
+        "type": "Informational"
+      }
+    ],
+    "success": true
+  }
+}

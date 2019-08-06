@@ -1,0 +1,57 @@
+{
+  "contract": "0xb6b2aadddbef17d3a2e67d2e1e321a394176784a",
+  "tool": "mythril",
+  "start": 1563580214.8654706,
+  "end": 1563580231.0989628,
+  "duration": 16.233492136001587,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 104,
+        "code": "[] receivers, uint256[] amounts, address token) external {\n        address sender = msg.sender;\n        uint256 length = receivers.length;\n        for (uint256 i = 0; i < length; i++) {\n            if (!ERC20(token).transferFrom(sender, receivers[i], amounts[i])) {\n                emit TransferFail(i, receivers[i], amounts[i]);\n                return;\n            }\n        }\n    }\n}",
+        "debug": "calldata_TokenSender_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_TokenSender_0: 0x89ef829200000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenSender: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `bulkTransfer(address[],uint256[],address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/18/0xb6b2aadddbef17d3a2e67d2e1e321a394176784a.sol",
+        "function": "bulkTransfer(address[],uint256[],address)",
+        "lineno": 30,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 297,
+        "code": "it Transfe",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_TokenSender_4 + calldata_TokenSender_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_TokenSender_0: 0x89ef829200000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenSender: 0x4\ncalldata_TokenSender_4 + calldata_TokenSender_32 + 4: 0x0\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/18/0xb6b2aadddbef17d3a2e67d2e1e321a394176784a.sol",
+        "function": "bulkTransfer(address[],uint256[],address)",
+        "lineno": 35,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 492,
+        "code": " receivers[i], amounts[i])) {\n                emit Transfer",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/18/0xb6b2aadddbef17d3a2e67d2e1e321a394176784a.sol",
+        "function": "bulkTransfer(address[],uint256[],address)",
+        "lineno": 34,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 492,
+        "code": " receivers[i], amounts[i])) {\n                emit Transfer",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 492\n",
+        "filename": "/unique_chucks/18/0xb6b2aadddbef17d3a2e67d2e1e321a394176784a.sol",
+        "function": "bulkTransfer(address[],uint256[],address)",
+        "lineno": 34,
+        "title": "Multiple Calls",
+        "type": "Information"
+      }
+    ],
+    "success": true
+  }
+}

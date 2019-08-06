@@ -1,0 +1,112 @@
+{
+  "contract": "0x9fadbdac1b57b08381e74a3591b84a138102dc23",
+  "tool": "mythril",
+  "start": 1563611055.626793,
+  "end": 1563611617.6019635,
+  "duration": 561.9751706123352,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 2069,
+        "code": "\n\ncontract Ethraff",
+        "debug": "storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_72984518589826227531578991903372844090998219903258077796093728159832249402700: 0x0\ncaller: 0x0\ncalldata_Ethraffle_0: 0xb2d5ae4400000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethraffle: 0x4\nstorage_72984518589826227531578991903372844090998219903258077796093728159832249402701: 0x0\nstorage_1: 0x0\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRefund()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "getRefund()",
+        "lineno": 1,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2363,
+        "code": "alse;\n\n    // Init",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Ethraffle_4: 0x0\nstorage_4: 0x0\ncalldata_Ethraffle_0: 0xb4894b1d00000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethraffle: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "_function_0xb4894b1d",
+        "lineno": 48,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 3131,
+        "code": ", address(0), address(0), 0);\n            ra",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function endRaffle(). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "endRaffle()",
+        "lineno": 150,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 4070,
+        "code": "  }\n\n    /",
+        "debug": "storage_2: 0x10000000000000000000000000000000000000000000\nstorage_1: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncallvalue: 0x470de4df820000\nstorage_5: 0x0\ncalldata_Ethraffle_0: 0xc819982600000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethraffle: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buyTickets()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "buyTickets()",
+        "lineno": 119,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4139,
+        "code": "fle occurs\n    function getRef",
+        "debug": "",
+        "description": "In the function `buyTickets()` the following predictable state variables are used to determine Ether recipient:\n- block.timestamp\n",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "buyTickets()",
+        "lineno": 121,
+        "title": "Dependence on predictable environment variable",
+        "type": "Warning"
+      },
+      {
+        "address": 4139,
+        "code": "fle occurs\n    function getRef",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 4250\n",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "buyTickets()",
+        "lineno": 121,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 4250,
+        "code": "c {\n        uint refunds =",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 1536\n",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "fallback",
+        "lineno": 122,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 4304,
+        "code": "ntract Ethraffle {\n    struct Contestant {\n        address addr;\n        uint raffleId;\n    }\n\n    event RaffleResult(\n        uint indexed raffleId,\n        uint winningNumber,\n        address winningAddress,\n        uint blockTimestamp,\n        uint blockNumber,\n        uint gasLimit,\n        uint difficulty,\n        uint gas,\n        uint value,\n        address msgSender,\n        address blockCoinbase,\n        bytes32 sha\n    );\n\n    event TicketPurchase(\n        uint indexed raffleId,\n        address contestant,\n        uint number\n    );\n\n    event TicketRefund(\n        uint indexed raffleId,\n        address contestant,\n        uint number\n    );\n\n    // Constants\n    address public rakeAddress;\n    uint constant public prize = 0.1 ether;\n    uint constant public rake = 0.02 ether;\n    uint constant public totalTickets = 6;\n    uint constant public pricePerTicket = (prize + rake) / totalTickets;\n\n    // Other internal variables\n    uint public raffleId = 1;\n    uint public nextTicket = 1;\n    mapping (uint => Contestant) public contestants;\n    uint[] public gaps;\n    bool public paused = false;\n\n    // Initialization\n    function Ethraffle() public {\n        rakeAddress = msg.sender;\n    }\n\n    // Call buyTickets() when receiving Ether outside a function\n    function () payable public {\n        buyTickets();\n    }\n\n    function buyTickets() payable public {\n        if (paused) {\n            msg.sender.transfer(msg.value);\n            return;\n        }\n\n        uint moneySent = msg.value;\n\n        while (moneySent >= pricePerTicket && nextTicket <= totalTickets) {\n            uint currTicket = 0;\n            if (gaps.length > 0) {\n                currTicket = gaps[gaps.length-1];\n                gaps.length--;\n            } else {\n                currTicket = nextTicket++;\n            }\n\n            contestants[currTicket] = Contestant(msg.sender, raffleId);\n            TicketPurchase(raffleId, msg.sender, currTicket);\n            moneySent -= pricePerTicket;\n        }\n\n        // Choose winner if we sold all the tickets\n        if (nextTicket > totalTickets) {\n            chooseWinner();\n        }\n\n        // Send back leftover money\n        if (moneySent > 0) {\n            msg.sender.transfer(moneySent);\n        }\n    }\n\n    function chooseWinner() private {\n        // Pseudorandom number generator\n        bytes32 sha = sha3(\n            block.timestamp,\n            block.number,\n            block.gaslimit,\n            block.difficulty,\n            msg.gas,\n            msg.value,\n            msg.sender,\n            block.coinbase\n        );\n\n        uint winningNumber = (uint(sha) % totalTickets) + 1;\n        address winningAddress = contestants[winningNumber].addr;\n        RaffleResult(\n            raffleId, winningNumber, winningAddress, block.timestamp,\n            block.number, block.gaslimit, block.difficulty, msg.gas,\n            msg.value, msg.sender, block.coinbase, sha\n        );\n\n        // Start next raffle and distribute prize\n        raffleId++;\n        nextTicket = 1;\n        winningAddress.transfer(prize);\n        rakeAddress.transfer(rake);\n    }\n\n    // Get your money back before the raffle occurs\n    function getRefund() public {\n        uint refunds = 0;\n        for (uint i = 1; i <= totalTickets; i++) {\n            if (msg.sender == contestants[i].addr && raffleId == contestants[i].raffleId) {\n                refunds++;\n                contestants[i] = Contestant(address(0), 0);\n                gaps.push(i);\n                TicketRefund(raffleId, msg.sender, i);\n            }\n        }\n\n        if (refunds > 0) {\n            msg.sender.transfer(refunds * pricePerTicket);\n        }\n    }\n\n    // Refund everyone's money, start a new raffle, then pause it\n    function endRaffle() public {\n        if (msg.sender == rakeAddress) {\n            paused = true;\n\n            for (uint i = 1; i <= totalTickets; i++) {\n                if (raffleId == contestants[i].raffleId) {\n                    TicketRefund(raffleId, contestants[i].addr, i);\n                    contestants[i].addr.transfer(pricePerTicket);\n                }\n            }\n\n            RaffleResult(raffleId, 0, address(0), 0, 0, 0, 0, 0, 0, address(0), address(0), 0);\n            raffleId++;\n            nextTicket = 1;\n            gaps.length = 0;\n        }\n    }\n\n    function togglePause() public {\n        if (msg.sender == rakeAddress) {\n            paused = !paused;\n        }\n    }\n\n    function kill() public {\n        if (msg.sender == rakeAddress) {\n            selfdestruct(rakeAddress);\n        }\n    }\n}",
+        "debug": "storage_4: 0x7ffffffffffffffffffffffffffffffbfff80000000000000000000000000000\nstorage_2: 0x0\ncallvalue: 0x470de4df820000\nstorage_5: 0x0\ncalldata_Ethraffle_0: 0xc819982600000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethraffle: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buyTickets()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "buyTickets()",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4306,
+        "code": "ntract Ethraffle {\n    struct Contestant {\n        address addr;\n        uint raffleId;\n    }\n\n    event RaffleResult(\n        uint indexed raffleId,\n        uint winningNumber,\n        address winningAddress,\n        uint blockTimestamp,\n        uint blockNumber,\n        uint gasLimit,\n        uint difficulty,\n        uint gas,\n        uint value,\n        address msgSender,\n        address blockCoinbase,\n        bytes32 sha\n    );\n\n    event TicketPurchase(\n        uint indexed raffleId,\n        address contestant,\n        uint number\n    );\n\n    event TicketRefund(\n        uint indexed raffleId,\n        address contestant,\n        uint number\n    );\n\n    // Constants\n    address public rakeAddress;\n    uint constant public prize = 0.1 ether;\n    uint constant public rake = 0.02 ether;\n    uint constant public totalTickets = 6;\n    uint constant public pricePerTicket = (prize + rake) / totalTickets;\n\n    // Other internal variables\n    uint public raffleId = 1;\n    uint public nextTicket = 1;\n    mapping (uint => Contestant) public contestants;\n    uint[] public gaps;\n    bool public paused = false;\n\n    // Initialization\n    function Ethraffle() public {\n        rakeAddress = msg.sender;\n    }\n\n    // Call buyTickets() when receiving Ether outside a function\n    function () payable public {\n        buyTickets();\n    }\n\n    function buyTickets() payable public {\n        if (paused) {\n            msg.sender.transfer(msg.value);\n            return;\n        }\n\n        uint moneySent = msg.value;\n\n        while (moneySent >= pricePerTicket && nextTicket <= totalTickets) {\n            uint currTicket = 0;\n            if (gaps.length > 0) {\n                currTicket = gaps[gaps.length-1];\n                gaps.length--;\n            } else {\n                currTicket = nextTicket++;\n            }\n\n            contestants[currTicket] = Contestant(msg.sender, raffleId);\n            TicketPurchase(raffleId, msg.sender, currTicket);\n            moneySent -= pricePerTicket;\n        }\n\n        // Choose winner if we sold all the tickets\n        if (nextTicket > totalTickets) {\n            chooseWinner();\n        }\n\n        // Send back leftover money\n        if (moneySent > 0) {\n            msg.sender.transfer(moneySent);\n        }\n    }\n\n    function chooseWinner() private {\n        // Pseudorandom number generator\n        bytes32 sha = sha3(\n            block.timestamp,\n            block.number,\n            block.gaslimit,\n            block.difficulty,\n            msg.gas,\n            msg.value,\n            msg.sender,\n            block.coinbase\n        );\n\n        uint winningNumber = (uint(sha) % totalTickets) + 1;\n        address winningAddress = contestants[winningNumber].addr;\n        RaffleResult(\n            raffleId, winningNumber, winningAddress, block.timestamp,\n            block.number, block.gaslimit, block.difficulty, msg.gas,\n            msg.value, msg.sender, block.coinbase, sha\n        );\n\n        // Start next raffle and distribute prize\n        raffleId++;\n        nextTicket = 1;\n        winningAddress.transfer(prize);\n        rakeAddress.transfer(rake);\n    }\n\n    // Get your money back before the raffle occurs\n    function getRefund() public {\n        uint refunds = 0;\n        for (uint i = 1; i <= totalTickets; i++) {\n            if (msg.sender == contestants[i].addr && raffleId == contestants[i].raffleId) {\n                refunds++;\n                contestants[i] = Contestant(address(0), 0);\n                gaps.push(i);\n                TicketRefund(raffleId, msg.sender, i);\n            }\n        }\n\n        if (refunds > 0) {\n            msg.sender.transfer(refunds * pricePerTicket);\n        }\n    }\n\n    // Refund everyone's money, start a new raffle, then pause it\n    function endRaffle() public {\n        if (msg.sender == rakeAddress) {\n            paused = true;\n\n            for (uint i = 1; i <= totalTickets; i++) {\n                if (raffleId == contestants[i].raffleId) {\n                    TicketRefund(raffleId, contestants[i].addr, i);\n                    contestants[i].addr.transfer(pricePerTicket);\n                }\n            }\n\n            RaffleResult(raffleId, 0, address(0), 0, 0, 0, 0, 0, 0, address(0), address(0), 0);\n            raffleId++;\n            nextTicket = 1;\n            gaps.length = 0;\n        }\n    }\n\n    function togglePause() public {\n        if (msg.sender == rakeAddress) {\n            paused = !paused;\n        }\n    }\n\n    function kill() public {\n        if (msg.sender == rakeAddress) {\n            selfdestruct(rakeAddress);\n        }\n    }\n}",
+        "debug": "storage_4: 0x7fffffffffffffdffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_2: 0x0\ncallvalue: 0x470de4df820000\nstorage_5: 0x0\ncalldata_Ethraffle_0: 0xc819982600000000000000000000000000000000000000000000000000000000\ncalldatasize_Ethraffle: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buyTickets()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/22/0x9fadbdac1b57b08381e74a3591b84a138102dc23.sol",
+        "function": "buyTickets()",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

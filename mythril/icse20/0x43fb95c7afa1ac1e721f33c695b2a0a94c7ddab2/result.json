@@ -1,0 +1,100 @@
+{
+  "contract": "0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2",
+  "tool": "mythril",
+  "start": 1563481523.7356315,
+  "end": 1563481744.9301174,
+  "duration": 221.19448590278625,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 600,
+        "code": "eturns(bool)\n  {\n    LunarPlot plot = plots[id];\n\n    if (isUnowned(id)) {\n      require(msg.value >= initialPrice);\n    } else {\n      require(plot.forSale && msg.value >= plot.price);\n    }\n\n    if (plot.owner != 0x0) {\n      // We only send money to owner if the owner is set\n      uint fee = plot.price * feePercentage / 100;\n      uint saleProceeds = plot.price - fee;\n      plot.owner.transfer(saleProceeds);\n      removePlot(plot.owner, id);\n    } else {\n      totalOwned++;\n    }\n\n    addPlot(msg.sender, id);\n    plot.owner = msg.sender;\n    plot.forSale = forSale;\n    plot.price = newPrice;\n\n    if (bytes(metadata).length != 0) {\n      plot.metadata = metadata;\n    }\n\n    Purchase(msg.sender, id, msg.value);\n    totalPurchases++;\n    return true;\n  }\n\n  function subdivide(\n    uint id,\n    bool forSale1,\n    bool forSale2,\n    uint price1,\n    uint price2,\n    string metadata1,\n    string metada",
+        "debug": "calldata_LunarToken_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_LunarToken_0: 0x7d5259800000000000000000000000000000000000000000000000000000000\ncalldatasize_LunarToken: 0x4\n",
+        "description": "A possible integer overflow exists in the function `purchase(uint256,string,bool,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "purchase(uint256,string,bool,uint256)",
+        "lineno": 117,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3551,
+        "code": "r, id);\n    plot.owner = msg.send",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function purchase(uint256,string,bool,uint256). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "purchase(uint256,string,bool,uint256)",
+        "lineno": 137,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 3638,
+        "code": "\n\n    if (by",
+        "debug": "storage_3: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_LunarToken_4: 0x0\ncallvalue: 0x0\nstorage_5: 0x0\nstorage_0 + keccac_calldata_LunarToken_4: 0x0\nstorage_6: 0xff00\nstorage_4 + keccac_calldata_LunarToken_4: 0x0\nstorage_2: 0x1\ncalldata_LunarToken_0: 0x7d5259800000000000000000000000000000000000000000000000000000000\ncalldatasize_LunarToken: 0x4\n",
+        "description": "A possible integer overflow exists in the function `purchase(uint256,string,bool,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "purchase(uint256,string,bool,uint256)",
+        "lineno": 140,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3923,
+        "code": "\n    string meta",
+        "debug": "storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_LunarToken_4: 0x0\ncallvalue: 0x0\nstorage_5: 0x0\nstorage_0 + keccac_calldata_LunarToken_4: 0x0\nstorage_6: 0xff00\nstorage_4 + keccac_calldata_LunarToken_4: 0x0\nstorage_2: 0x1\ncalldata_LunarToken_0: 0x7d5259800000000000000000000000000000000000000000000000000000000\ncalldatasize_LunarToken: 0x4\ncalldata_LunarToken_4 + calldata_LunarToken_32 + 4: 0x0\n",
+        "description": "A possible integer overflow exists in the function `purchase(uint256,string,bool,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "purchase(uint256,string,bool,uint256)",
+        "lineno": 156,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4481,
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function withdraw(). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "withdraw()",
+        "lineno": 257,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 4583,
+        "code": "ress) {\n    return pl",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_LunarToken_32 + 4: 0x0\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_LunarToken_4: 0x0\ncalldata_LunarToken_0: 0x4707f44f00000000000000000000000000000000000000000000000000000000\ncalldatasize_LunarToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "tokensOfOwnerByIndex(address,uint256)",
+        "lineno": 93,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 8734,
+        "code": ";\n\ncontract LunarT",
+        "debug": "storage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_LunarToken_4: 0x0\ncallvalue: 0x0\nstorage_5: 0x0\nstorage_0 + keccac_calldata_LunarToken_4: 0x0\nstorage_6: 0xff00\nstorage_4 + keccac_calldata_LunarToken_4: 0x0\nstorage_2: 0x1\ncalldata_LunarToken_0: 0x7d5259800000000000000000000000000000000000000000000000000000000\ncalldatasize_LunarToken: 0x4\n",
+        "description": "A possible integer overflow exists in the function `purchase(uint256,string,bool,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "purchase(uint256,string,bool,uint256)",
+        "lineno": 1,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 8840,
+        "code": "ntract LunarToken {\n\n  struct LunarPlot {\n    address owner;\n    uint price;\n    bool forSale;\n    string metadata;\n    bool disabled;\n    uint8 subdivision;\n    uint parentID;\n  }\n\n  address owner;\n  address beneficiary;\n  uint public numPlots;\n  uint public totalOwned;\n  uint public totalPurchases;\n  uint public initialPrice;\n  uint8 public feePercentage;\n  bool public tradingEnabled;\n  bool public subdivisionEnabled;\n  uint8 public maxSubdivisions;\n\n  // ERC20-compatible fields\n  uint public totalSupply;\n  string public symbol = \"LUNA\";\n  string public name = \"lunars\";\n\n  mapping (uint => LunarPlot) public plots;\n  mapping (address => uint[]) public plotsOwned;\n\n  event Transfer(address indexed _from, address indexed _to, uint id);\n  event Purchase(address _from, uint id, uint256 price);\n  event PriceChanged(address _from, uint id, uint256 newPrice);\n  event MetadataUpdated(address _from, uint id, string newData);\n\n  modifier validID(uint id) {\n    require(id < numPlots);\n    require(!plots[id].disabled);\n    _;\n  }\n\n  modifier ownerOnly() {\n    require(msg.sender == owner);\n    _;\n  }\n\n  modifier isOwnerOf(uint id) {\n    require(msg.sender == ownerOf(id));\n    _;\n  }\n\n  modifier tradingIsEnabled() {\n    require(tradingEnabled);\n    _;\n  }\n\n  modifier subdivisionIsEnabled() {\n    require(subdivisionEnabled);\n    _;\n  }\n\n  function LunarToken(\n    uint _numPlots,\n    uint _initialPriceInWei,\n    uint8 _feePercentage,\n    bool _tradingEnabled,\n    bool _subdivisionEnabled,\n    uint8 _maxSubdivisions\n  ) {\n    numPlots = _numPlots;\n    totalSupply = _numPlots;\n    initialPrice = _initialPriceInWei;\n    feePercentage = _feePercentage > 100 ? 100 : _feePercentage;\n    tradingEnabled = _tradingEnabled;\n    subdivisionEnabled = _subdivisionEnabled;\n    maxSubdivisions = _maxSubdivisions;\n    owner = msg.sender;\n    beneficiary = msg.sender;\n  }\n\n  /** An ERC20-compatible balance that returns the number of plots owned */\n  function balanceOf(address addr) constant returns(uint) {\n    return plotsOwned[addr].length;\n  }\n\n  function tokensOfOwnerByIndex(address addr, uint idx) constant returns(uint) {\n    return plotsOwned[addr][idx];\n  }\n\n  function ownerOf(uint id) constant validID(id) returns (address) {\n    return plots[id].owner;\n  }\n\n  function isUnowned(uint id) constant validID(id) returns(bool) {\n    return plots[id].owner == 0x0;\n  }\n\n  function transfer(uint id, address newOwner, string newData)\n    validID(id) isOwnerOf(id) tradingIsEnabled returns(bool)\n  {\n    plots[id].owner = newOwner;\n\n    if (bytes(newData).length != 0) {\n      plots[id].metadata = newData;\n    }\n\n    Transfer(msg.sender, newOwner, id);\n    addPlot(newOwner, id);\n    removePlot(msg.sender, id);\n    return true;\n  }\n\n  function purchase(uint id, string metadata, bool forSale, uint newPrice)\n    validID(id) tradingIsEnabled payable returns(bool)\n  {\n    LunarPlot plot = plots[id];\n\n    if (isUnowned(id)) {\n      require(msg.value >= initialPrice);\n    } else {\n      require(plot.forSale && msg.value >= plot.price);\n    }\n\n    if (plot.owner != 0x0) {\n      // We only send money to owner if the owner is set\n      uint fee = plot.price * feePercentage / 100;\n      uint saleProceeds = plot.price - fee;\n      plot.owner.transfer(saleProceeds);\n      removePlot(plot.owner, id);\n    } else {\n      totalOwned++;\n    }\n\n    addPlot(msg.sender, id);\n    plot.owner = msg.sender;\n    plot.forSale = forSale;\n    plot.price = newPrice;\n\n    if (bytes(metadata).length != 0) {\n      plot.metadata = metadata;\n    }\n\n    Purchase(msg.sender, id, msg.value);\n    totalPurchases++;\n    return true;\n  }\n\n  function subdivide(\n    uint id,\n    bool forSale1,\n    bool forSale2,\n    uint price1,\n    uint price2,\n    string metadata1,\n    string metadata2\n  ) isOwnerOf(id) subdivisionIsEnabled {\n    // Prevent more subdivisions than max\n    require(plots[id].subdivision < maxSubdivisions);\n\n    LunarPlot storage oldPlot = plots[id];\n\n    uint id1 = numPlots++;\n    plots[id1] = LunarPlot({\n      owner: msg.sender,\n      price: price1,\n      forSale: forSale1,\n      metadata: metadata1,\n      disabled: false,\n      parentID: id,\n      subdivision: oldPlot.subdivision + 1\n    });\n\n    uint id2 = numPlots++;\n    plots[id2] = LunarPlot({\n      owner: msg.sender,\n      price: price2,\n      forSale: forSale2,\n      metadata: metadata2,\n      disabled: false,\n      parentID: id,\n      subdivision: oldPlot.subdivision + 1\n    });\n\n    // Disable old plot and add new plots\n    plots[id].disabled = true;\n    totalOwned += 1;\n    totalSupply += 1;\n\n    removePlot(msg.sender, id);\n    addPlot(msg.sender, id1);\n    addPlot(msg.sender, id2);\n  }\n\n  function setPrice(uint id, bool forSale, uint newPrice) validID(id) isOwnerOf(id) {\n    plots[id].price = newPrice;\n    plots[id].forSale = forSale;\n    PriceChanged(msg.sender, id, newPrice);\n  }\n\n  function setMetadata(uint id, string newData) validID(id) isOwnerOf(id) {\n    plots[id].metadata = newData;\n    MetadataUpdated(msg.sender, id, newData);\n  }\n\n  // Private methods\n\n  function removePlot(address addr, uint id) private {\n    // Copy the last entry to id and then delete the last one\n    uint n = plotsOwned[addr].length;\n    for (uint8 i = 0; i < n; i++) {\n      if (plotsOwned[addr][i] == id) {\n        // If found, copy the last element to the idx and then delete last element\n        plotsOwned[addr][i] = plotsOwned[addr][n - 1];\n        delete plotsOwned[addr][n - 1];\n        plotsOwned[addr].length--;\n        break;\n      }\n    }\n  }\n\n  function addPlot(address addr, uint id) private {\n    plotsOwned[addr].push(id);\n  }\n\n  // Contract management methods\n\n  function setOwner(address newOwner) ownerOnly {\n    owner = newOwner;\n  }\n\n  function setBeneficiary(address newBeneficiary) ownerOnly {\n    beneficiary = newBeneficiary;\n  }\n\n  function setSubdivisionEnabled(bool enabled) ownerOnly {\n    subdivisionEnabled = enabled;\n  }\n\n  function setTradingEnabled(bool enabled) ownerOnly {\n    tradingEnabled = enabled;\n  }\n\n  function setFeePercentage(uint8 _percentage) ownerOnly {\n    feePercentage = _percentage > 100 ? 100 : _percentage;\n  }\n\n  function setInitialPrice(uint _priceInWei) ownerOnly {\n    initialPrice = _priceInWei;\n  }\n\n  function withdraw() ownerOnly {\n    beneficiary.transfer(this.balance);\n  }\n}",
+        "debug": "calldata_LunarToken_4 + calldata_LunarToken_32 + 4: 0x8000000000000000000000000000000000000000000000000000000000000000\ncalldata_LunarToken_4: 0x0\ncallvalue: 0x0\nstorage_5: 0x0\nstorage_0 + keccac_calldata_LunarToken_4: 0x0\nstorage_6: 0xff00\nstorage_4 + keccac_calldata_LunarToken_4: 0x0\nstorage_2: 0x1\ncalldata_LunarToken_0: 0x7d5259800000000000000000000000000000000000000000000000000000000\ncalldatasize_LunarToken: 0x4\n",
+        "description": "A possible integer overflow exists in the function `purchase(uint256,string,bool,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol",
+        "function": "purchase(uint256,string,bool,uint256)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}
