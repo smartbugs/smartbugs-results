@@ -1,0 +1,60 @@
+WARNING:root:You are using evm version 1.8.2. The supported version is 1.7.3
+WARNING:root:You are using solc version 0.4.25, The latest supported version is 0.4.19
+INFO:root:contract /unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:HourlyPay:
+INFO:symExec:	============ Results ===========
+INFO:symExec:	  EVM Code Coverage: 			 80.5%
+INFO:symExec:	  Integer Underflow: 			 True
+INFO:symExec:	  Integer Overflow: 			 True
+INFO:symExec:	  Parity Multisig Bug 2: 		 False
+INFO:symExec:	  Callstack Depth Attack Vulnerability:  False
+INFO:symExec:	  Transaction-Ordering Dependence (TOD): True
+INFO:symExec:	  Timestamp Dependency: 		 True
+INFO:symExec:	  Re-Entrancy Vulnerability: 		 False
+INFO:symExec:/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:222:18: Warning: Integer Underflow.
+                (address(this).balance - earnings
+Integer Underflow occurs if:
+    currentDayTS = 85070591730234615865843651857942052880
+    earnings = 57896044618658097711785492504343953926634992332820282019728792003956564819968
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:99:5: Warning: Integer Underflow.
+    string public contractName = "Hourly Pay Contract"
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:226:17: Warning: Integer Underflow.
+        return (now - currentDayTS
+Integer Underflow occurs if:
+    currentDayTS = 1
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:78:1: Warning: Integer Underflow.
+contract HourlyPay { 
+^
+Spanning multiple lines.
+Integer Underflow occurs if:
+    hired = 0
+    employeeAddress = 0
+    owner = 0
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:212:16: Warning: Integer Underflow.
+        return now - startedWorkTS
+Integer Underflow occurs if:
+    startedWorkTS = 1
+    working = 65280
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:222:74: Warning: Integer Underflow.
+                (address(this).balance - earnings >= ratePerHourInWei * (dailyHourLimit * 1 hours - (isNewDay() ? 0 : workedTodayInSeconds)
+Integer Underflow occurs if:
+    currentDayTS = 0
+    workedTodayInSeconds = 1
+    earnings = 0
+    dailyHourLimit = 0
+INFO:symExec:/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:216:13: Warning: Integer Overflow.
+        if (workedTodayInSeconds + getWorkSecondsInProgress()
+Integer Overflow occurs if:
+    workedTodayInSeconds = 1
+    startedWorkTS = 0
+    working = 65280
+INFO:symExec:Flow1
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:388:9: Warning: Transaction-Ordering Dependency.
+        owner.transfer(amount)
+Flow2
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:399:9: Warning: Transaction-Ordering Dependency.
+        owner.transfer(amount)
+INFO:symExec:/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:338:9: Warning: Timestamp Dependency.
+        require(now - lastPaydayTS > paydayFrequencyInDays * 1 days)
+/unique_contracts/0x7772b70b870ac29501276a5fc8b19a375bc4f550.sol:351:9: Warning: Timestamp Dependency.
+        require(now > beginTimeTS + (contractDurationInDays * 1 days))
+INFO:symExec:	====== Analysis Completed ======

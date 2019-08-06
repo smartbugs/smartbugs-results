@@ -1,0 +1,70 @@
+WARNING:root:You are using evm version 1.8.2. The supported version is 1.7.3
+WARNING:root:You are using solc version 0.4.25, The latest supported version is 0.4.19
+INFO:root:contract /unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:BurnableOpenPayment:
+INFO:symExec:	============ Results ===========
+INFO:symExec:	  EVM Code Coverage: 			 52.3%
+INFO:symExec:	  Integer Underflow: 			 True
+INFO:symExec:	  Integer Overflow: 			 True
+INFO:symExec:	  Parity Multisig Bug 2: 		 False
+INFO:symExec:	  Callstack Depth Attack Vulnerability:  False
+INFO:symExec:	  Transaction-Ordering Dependence (TOD): True
+INFO:symExec:	  Timestamp Dependency: 		 True
+INFO:symExec:	  Re-Entrancy Vulnerability: 		 False
+INFO:symExec:/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:97:9: Warning: Integer Underflow.
+        return (state, payerString, recipient, recipientString, amountDeposited, amountBurned, amountReleased, defaultTriggerTime)
+Integer Underflow occurs if:
+    return (state, payerString, recipient, recipientString, amountDeposited, amountBurned, amountReleased, defaultTriggerTime) = 1
+/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:31:5: Warning: Integer Underflow.
+    string public payerString
+/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:32:5: Warning: Integer Underflow.
+    string public recipientString
+INFO:symExec:/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:140:34: Warning: Integer Overflow.
+            defaultTriggerTime = now + defaultTimeoutLength
+Integer Overflow occurs if:
+    defaultAction = 1
+    state = 0
+    defaultTimeoutLength = 115792089237316195423570985008687907853269984665640564039457584007913129639935
+    commitThreshold = 0
+/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:223:30: Warning: Integer Overflow.
+        defaultTriggerTime = now + defaultTimeoutLength
+Integer Overflow occurs if:
+    defaultAction = 1
+    state = 1
+    defaultTimeoutLength = 115792089237316195423570985008687907853269984665640564039457584007913129639935
+    payer = 0
+/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:207:5: Warning: Integer Overflow.
+    function setRecipientString(string _string)
+    ^
+Spanning multiple lines.
+Integer Overflow occurs if:
+    _string = 115792089237316195423570985008687907853269984665640564039457584007913129639935
+INFO:symExec:Flow1
+/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:177:24: Warning: Transaction-Ordering Dependency.
+        bool success = recipient.send(amount)
+Flow2
+/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:149:24: Warning: Transaction-Ordering Dependency.
+        bool success = burnAddress.send(amount)
+INFO:symExec:/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:232:9: Warning: Timestamp Dependency.
+        if (now < defaultTriggerTime) throw
+INFO:symExec:	====== Analysis Completed ======
+INFO:root:contract /unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:BurnableOpenPaymentFactory:
+INFO:symExec:	============ Results ===========
+INFO:symExec:	  EVM Code Coverage: 			 2.1%
+INFO:symExec:	  Integer Underflow: 			 False
+INFO:symExec:	  Integer Overflow: 			 True
+INFO:symExec:	  Parity Multisig Bug 2: 		 False
+INFO:symExec:	  Callstack Depth Attack Vulnerability:  True
+INFO:symExec:	  Transaction-Ordering Dependence (TOD): False
+INFO:symExec:	  Timestamp Dependency: 		 False
+INFO:symExec:	  Re-Entrancy Vulnerability: 		 False
+INFO:symExec:/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:247:5: Warning: Integer Overflow.
+    function newBurnableOpenPayment(address payer, uint commitThreshold, BurnableOpenPayment.DefaultAction defaultAction, uint defaultTimeoutLength, string initialPayerString)
+    ^
+Spanning multiple lines.
+Integer Overflow occurs if:
+    initialPayerString = 115792089237316195423570985008687907853269984665640564039457584007913129639935
+INFO:symExec:/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:149:24: Warning: Callstack Depth Attack Vulnerability.
+        bool success = burnAddress.send(amount)
+/unique_contracts/0xbaeb0499524ebdcaf4367ef940fa9ebc845b4e4d.sol:177:24: Warning: Callstack Depth Attack Vulnerability.
+        bool success = recipient.send(amount)
+INFO:symExec:	====== Analysis Completed ======
