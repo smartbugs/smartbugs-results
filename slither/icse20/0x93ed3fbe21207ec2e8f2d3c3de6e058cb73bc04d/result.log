@@ -1,0 +1,144 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:66:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Controlled() public { controller = msg.sender;}
+    ^------------------------------------------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:143:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MiniMeToken(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:222:12: Warning: Use of the "var" keyword is deprecated.
+           var previousBalanceFrom = balanceOfAt(_from, block.number);
+           ^---------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:237:12: Warning: Use of the "var" keyword is deprecated.
+           var previousBalanceTo = balanceOfAt(_to, block.number);
+           ^-------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:211:16: Warning: Invoking events without "emit" prefix is deprecated.
+               Transfer(_from, _to, _amount);    // Follow the spec to louch the event when transfer 0
+               ^---------------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:242:12: Warning: Invoking events without "emit" prefix is deprecated.
+           Transfer(_from, _to, _amount);
+           ^---------------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:266:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _amount);
+        ^-------------------------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:397:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewCloneToken(address(cloneToken), _snapshotBlock);
+        ^------------------------------------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:417:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(0, _owner, _amount);
+        ^--------------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:434:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_owner, 0, _amount);
+        ^--------------------------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:532:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            controller.transfer(this.balance);
+                                ^----------^
+/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:539:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ClaimedTokens(_token, controller, balance);
+        ^----------------------------------------^
+
+INFO:Detectors:[91m
+MiniMeToken.balances (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#114-115) is never initialized. It is used in:
+	- doTransfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#211-249)
+	- balanceOfAt (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#321-344)
+	- generateTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#415-430)
+	- destroyTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#433-450)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+MiniMeToken.isContract (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#515-519) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+MiniMeToken.claimTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#546-561) does not use the value returned by external calls:
+	-token.transfer(controller,balance) (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#558-561)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MiniMeToken.getValueAt.min (local variable @ /unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#482) shadows:
+	- MiniMeToken.min (function @ /unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#522-526)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in MiniMeToken.approve (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#262-273):
+	External calls:
+	- require(bool)(TokenController(controller).onApprove(msg.sender,_spender,_amount)) (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#270-271)
+	State variables written after the call(s):
+	- allowed (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#272)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+MiniMeToken.isContract uses assembly (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#515-519)
+	- /unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#517-519
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+MiniMeToken.version should be constant (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#86)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ApproveAndCallFallBack.receiveApproval (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#31-34) should be declared external
+TokenController.proxyPayment (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#39-41) should be declared external
+TokenController.onTransfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#47-49) should be declared external
+TokenController.onApprove (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#55-60) should be declared external
+Controlled.changeController (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#70-75) should be declared external
+MiniMeToken.transfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#174-179) should be declared external
+MiniMeToken.transferFrom (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#187-203) should be declared external
+MiniMeToken.allowance (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#281-283) should be declared external
+MiniMeToken.approveAndCall (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#295-310) should be declared external
+MiniMeToken.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#387-410) should be declared external
+MiniMeToken.generateTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#415-430) should be declared external
+MiniMeToken.destroyTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#433-450) should be declared external
+MiniMeToken.enableTransfers (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#456-458) should be declared external
+MiniMeToken.fallback (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#530-537) should be declared external
+MiniMeToken.claimTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#546-561) should be declared external
+MiniMeTokenFactory.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Controlled.Controlled' (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#68-69) is not in mixedCase
+Parameter '_newController' of Controlled.changeController (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#71-73) is not in mixedCase
+Function 'MiniMeToken.MiniMeToken' (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#147-168) is not in mixedCase
+Parameter '_tokenFactory' of MiniMeToken.MiniMeToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#149) is not in mixedCase
+Parameter '_parentToken' of MiniMeToken.MiniMeToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#150) is not in mixedCase
+Parameter '_parentSnapShotBlock' of MiniMeToken.MiniMeToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#151-152) is not in mixedCase
+Parameter '_tokenName' of MiniMeToken.MiniMeToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#152) is not in mixedCase
+Parameter '_decimalUnits' of MiniMeToken.MiniMeToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#152-153) is not in mixedCase
+Parameter '_tokenSymbol' of MiniMeToken.MiniMeToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#153) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.MiniMeToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#153-154) is not in mixedCase
+Parameter '_to' of MiniMeToken.transfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#177) is not in mixedCase
+Parameter '_amount' of MiniMeToken.transfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#177) is not in mixedCase
+Parameter '_from' of MiniMeToken.transferFrom (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#187) is not in mixedCase
+Parameter '_to' of MiniMeToken.transferFrom (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#187) is not in mixedCase
+Parameter '_amount' of MiniMeToken.transferFrom (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#187) is not in mixedCase
+Parameter '_from' of MiniMeToken.doTransfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#212-213) is not in mixedCase
+Parameter '_to' of MiniMeToken.doTransfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#213-215) is not in mixedCase
+Parameter '_amount' of MiniMeToken.doTransfer (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#215) is not in mixedCase
+Parameter '_owner' of MiniMeToken.balanceOf (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#253) is not in mixedCase
+Parameter '_spender' of MiniMeToken.approve (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#262) is not in mixedCase
+Parameter '_amount' of MiniMeToken.approve (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#262) is not in mixedCase
+Parameter '_owner' of MiniMeToken.allowance (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#281-282) is not in mixedCase
+Parameter '_spender' of MiniMeToken.allowance (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#282) is not in mixedCase
+Parameter '_spender' of MiniMeToken.approveAndCall (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#296-298) is not in mixedCase
+Parameter '_amount' of MiniMeToken.approveAndCall (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#298-301) is not in mixedCase
+Parameter '_extraData' of MiniMeToken.approveAndCall (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#301) is not in mixedCase
+Parameter '_owner' of MiniMeToken.balanceOfAt (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#322) is not in mixedCase
+Parameter '_blockNumber' of MiniMeToken.balanceOfAt (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#322) is not in mixedCase
+Parameter '_blockNumber' of MiniMeToken.totalSupplyAt (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#347) is not in mixedCase
+Parameter '_cloneTokenName' of MiniMeToken.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#388-389) is not in mixedCase
+Parameter '_cloneDecimalUnits' of MiniMeToken.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#389-390) is not in mixedCase
+Parameter '_cloneTokenSymbol' of MiniMeToken.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#390-391) is not in mixedCase
+Parameter '_snapshotBlock' of MiniMeToken.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#391-394) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#394) is not in mixedCase
+Parameter '_owner' of MiniMeToken.generateTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#415-416) is not in mixedCase
+Parameter '_amount' of MiniMeToken.generateTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#416) is not in mixedCase
+Parameter '_owner' of MiniMeToken.destroyTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#434) is not in mixedCase
+Parameter '_amount' of MiniMeToken.destroyTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#434-435) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.enableTransfers (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#456) is not in mixedCase
+Parameter '_block' of MiniMeToken.getValueAt (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#469) is not in mixedCase
+Parameter '_value' of MiniMeToken.updateValueAtNow (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#493) is not in mixedCase
+Parameter '_addr' of MiniMeToken.isContract (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#515) is not in mixedCase
+Parameter '_token' of MiniMeToken.claimTokens (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol#546) is not in mixedCase
+Parameter '_parentToken' of MiniMeTokenFactory.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol) is not in mixedCase
+Parameter '_snapshotBlock' of MiniMeTokenFactory.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol) is not in mixedCase
+Parameter '_tokenName' of MiniMeTokenFactory.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol) is not in mixedCase
+Parameter '_decimalUnits' of MiniMeTokenFactory.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol) is not in mixedCase
+Parameter '_tokenSymbol' of MiniMeTokenFactory.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeTokenFactory.createCloneToken (/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.sol analyzed (5 contracts), 73 result(s) found

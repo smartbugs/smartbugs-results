@@ -1,0 +1,236 @@
+INFO:Detectors:[91m
+SuperFOMO.withdraw (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#340-403) sends eth to arbitrary user
+	Dangerous calls:
+	- advertising.transfer(_payout * 3 / 25) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#399-401)
+	- techsupport.transfer(_payout * 3 / 100) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#401-402)
+	- msg.sender.transfer(_payout * 17 / 20) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#402)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+SuperFOMO.bytesToAddress (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#277-286) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+SuperFOMO.getInterest (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#308-315) uses a dangerous strict equality:
+	- multiplier == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in SuperFOMO.withdraw (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#340-403):
+	External calls:
+	- block.timestamp > x.c(msg.sender) + 172800 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#341-344)
+	- i <= x.ind(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#345-396)
+	- x.w(msg.sender,i) < x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#346-395)
+	- x.s(msg.sender,i) <= x.c(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#347-395)
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.c(msg.sender).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#349-358)
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#359-361)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#364-375)
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#366)
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#369-374)
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#374-375)
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.s(msg.sender,i).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#376-382)
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#384-388)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#389-395)
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#392-393)
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394)
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394-395)
+	State variables written after the call(s):
+	- x (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#398)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+_sum in SuperFOMO.getDeposits (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#407-408) is a local variable never initialiazed
+_multiplier in SuperFOMO.getDividends (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#429-431) is a local variable never initialiazed
+_sum in SuperFOMO.getWithdrawals (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol) is a local variable never initialiazed
+_payout in SuperFOMO.withdraw (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#340) is a local variable never initialiazed
+_multiplier in SuperFOMO.withdraw (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#340-341) is a local variable never initialiazed
+_payout in SuperFOMO.getDividends (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#428) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+SuperFOMO.withdraw has external calls inside a loop:
+	- i <= x.ind(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#345-396)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.w(msg.sender,i) < x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#346-395)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.s(msg.sender,i) <= x.c(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#347-395)
+SuperFOMO.withdraw has external calls inside a loop:
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.c(msg.sender).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#349-358)
+SuperFOMO.withdraw has external calls inside a loop:
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#359-361)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#364-375)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#366)
+SuperFOMO.withdraw has external calls inside a loop:
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#369-374)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#374-375)
+SuperFOMO.withdraw has external calls inside a loop:
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.s(msg.sender,i).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#376-382)
+SuperFOMO.withdraw has external calls inside a loop:
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#384-388)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#389-395)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#392-393)
+SuperFOMO.withdraw has external calls inside a loop:
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394)
+SuperFOMO.withdraw has external calls inside a loop:
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394-395)
+SuperFOMO.getDeposits has external calls inside a loop:
+	- i <= x.ind(_address) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#408-417)
+SuperFOMO.getDeposits has external calls inside a loop:
+	- x.w(_address,i) < x.d(_address,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#414-417)
+SuperFOMO.getDeposits has external calls inside a loop:
+	- _sum += x.d(_address,i) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#417)
+SuperFOMO.getDividends has external calls inside a loop:
+	- i <= x.ind(_address) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#435-439)
+SuperFOMO.getDividends has external calls inside a loop:
+	- x.w(_address,i) < x.d(_address,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#436-439)
+SuperFOMO.getDividends has external calls inside a loop:
+	- x.s(_address,i) <= x.c(_address) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- dividends = (x.d(_address,i).mul(_multiplier.mul(15).add(x.i(_address,i))).div(1000)).mul(block.timestamp.sub(x.c(_address).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- dividends += (x.d(_address,i).mul(x.i(_address,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- x.w(_address,i) + dividends <= x.d(_address,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- _payout = _payout.add((x.d(_address,i).mul(2)).sub(x.w(_address,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- dividends = (x.d(_address,i).mul(_multiplier.mul(15).add(x.i(_address,i))).div(1000)).mul(block.timestamp.sub(x.s(_address,i).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- dividends += (x.d(_address,i).mul(x.i(_address,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- x.w(_address,i) + dividends <= x.d(_address,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getDividends has external calls inside a loop:
+	- _payout = _payout.add((x.d(_address,i).mul(2)).sub(x.w(_address,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getWithdrawals has external calls inside a loop:
+	- i <= x.ind(_address) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getWithdrawals has external calls inside a loop:
+	- x.w(_address,i) < x.d(_address,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+SuperFOMO.getWithdrawals has external calls inside a loop:
+	- _sum += x.d(_address,i) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in SuperFOMO.invest (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#325-340):
+	External calls:
+	- x.d(msg.sender,0) > 0 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#327-329)
+	- x.updateIndex(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#327)
+	- x.updateCheckpoint(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#328)
+	- addend = setRef() (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#329-330)
+	- x.updateInfo(msg.sender,msg.value + addend,getInterest()) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#331-332)
+	External calls sending eth:
+	- addend = setRef() (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#329-330)
+	- advertising.transfer(msg.value / 20) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#331)
+	State variables written after the call(s):
+	- lastLeader (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#333-334)
+	- top (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#333-334)
+Reentrancy in SuperFOMO.withdraw (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#340-403):
+	External calls:
+	- block.timestamp > x.c(msg.sender) + 172800 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#341-344)
+	- i <= x.ind(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#345-396)
+	- x.w(msg.sender,i) < x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#346-395)
+	- x.s(msg.sender,i) <= x.c(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#347-395)
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.c(msg.sender).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#349-358)
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#359-361)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#364-375)
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#366)
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#369-374)
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#374-375)
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.s(msg.sender,i).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#376-382)
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#384-388)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#389-395)
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#392-393)
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394)
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394-395)
+	State variables written after the call(s):
+	- top (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#398)
+	- waveStartUp (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#398)
+Reentrancy in SuperFOMO.withdraw (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#340-403):
+	External calls:
+	- block.timestamp > x.c(msg.sender) + 172800 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#341-344)
+	- i <= x.ind(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#345-396)
+	- x.w(msg.sender,i) < x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#346-395)
+	- x.s(msg.sender,i) <= x.c(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#347-395)
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.c(msg.sender).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#349-358)
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#359-361)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#364-375)
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#366)
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#369-374)
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#374-375)
+	- dividends = (x.d(msg.sender,i).mul(_multiplier.mul(15).add(x.i(msg.sender,i))).div(1000)).mul(block.timestamp.sub(x.s(msg.sender,i).add(_multiplier.mul(172800)))).div(86400) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#376-382)
+	- dividends = dividends.add(x.d(msg.sender,i).mul(x.i(msg.sender,i)).div(1000).mul(_multiplier).mul(2)) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#384-388)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#389-395)
+	- x.updateWithdrawals(msg.sender,i,dividends) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#392-393)
+	- _payout = _payout.add((x.d(msg.sender,i).mul(2)).sub(x.w(msg.sender,i))) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394)
+	- x.updateWithdrawals(msg.sender,i,x.d(msg.sender,i) * 2) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#394-395)
+	- x.updateCheckpoint(msg.sender) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#399)
+	External calls sending eth:
+	- advertising.transfer(_payout * 3 / 25) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#399-401)
+	- techsupport.transfer(_payout * 3 / 100) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#401-402)
+	- msg.sender.transfer(_payout * 17 / 20) (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#402)
+	- payDay() (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#403)
+	State variables written after the call(s):
+	- jackPot (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#403)
+	- lastLeader (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#403)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SuperFOMO.getInterest (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#308-315) uses timestamp for comparisons
+	Dangerous comparisons:
+	- multiplier <= 8 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#314-315)
+	- multiplier == 0 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#313-314)
+SuperFOMO.withdraw (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#340-403) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > x.c(msg.sender) + 172800 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#341-344)
+	- _payout > 0 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#396-402)
+	- _payout > address(this).balance && address(this).balance <= 100000000000000000 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#396-399)
+	- block.timestamp >= lastLeader + 86400 && top.length >= 5 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#402-403)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#389-395)
+	- x.w(msg.sender,i) + dividends <= x.d(msg.sender,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#364-375)
+SuperFOMO.getDividends (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#428-439) uses timestamp for comparisons
+	Dangerous comparisons:
+	- x.w(_address,i) + dividends <= x.d(_address,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+	- block.timestamp > x.c(_address) + 172800 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#431-435)
+	- x.w(_address,i) + dividends <= x.d(_address,i) * 2 (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+SuperFOMO.bytesToAddress uses assembly (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#277-286)
+	- /unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#281-284
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+SuperFOMO.getDeposits (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#407-419) should be declared external
+SuperFOMO.getDepositN (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#419-428) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_a' of SafeMath.mul (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#135) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#135) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#140) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#140-143) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#147) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#147) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#151) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#151-152) is not in mixedCase
+Parameter '_address' of Storage.updateInfo (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#184-185) is not in mixedCase
+Parameter '_value' of Storage.updateInfo (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#185) is not in mixedCase
+Parameter '_interest' of Storage.updateInfo (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#185) is not in mixedCase
+Parameter '_address' of Storage.updateCheckpoint (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#191) is not in mixedCase
+Parameter '_address' of Storage.updateWithdrawals (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#197-198) is not in mixedCase
+Parameter '_index' of Storage.updateWithdrawals (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#198) is not in mixedCase
+Parameter '_withdrawal' of Storage.updateWithdrawals (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#198) is not in mixedCase
+Parameter '_address' of Storage.updateIndex (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#203-204) is not in mixedCase
+Parameter '_address' of Storage.ind (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#207) is not in mixedCase
+Parameter '_address' of Storage.d (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#211-212) is not in mixedCase
+Parameter '_index' of Storage.d (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#212) is not in mixedCase
+Parameter '_address' of Storage.i (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#216) is not in mixedCase
+Parameter '_index' of Storage.i (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#216-217) is not in mixedCase
+Parameter '_address' of Storage.w (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#222-223) is not in mixedCase
+Parameter '_index' of Storage.w (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#223) is not in mixedCase
+Parameter '_address' of Storage.s (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#225) is not in mixedCase
+Parameter '_index' of Storage.s (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#225) is not in mixedCase
+Parameter '_address' of Storage.c (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#228) is not in mixedCase
+Parameter '_advertising' of SuperFOMO. (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#263) is not in mixedCase
+Parameter '_techsupport' of SuperFOMO. (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#263-266) is not in mixedCase
+Parameter '_address' of SuperFOMO.getDeposits (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#407) is not in mixedCase
+Parameter '_address' of SuperFOMO.getDepositN (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#419-420) is not in mixedCase
+Parameter '_number' of SuperFOMO.getDepositN (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#420) is not in mixedCase
+Parameter '_address' of SuperFOMO.getDividends (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol#428) is not in mixedCase
+Parameter '_address' of SuperFOMO.getWithdrawals (/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/38/0x4c557f359bc981915e8e67c9c2dc49e1d1cb9c44.sol analyzed (3 contracts), 84 result(s) found

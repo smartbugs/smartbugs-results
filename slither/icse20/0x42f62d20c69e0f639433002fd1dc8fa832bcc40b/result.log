@@ -1,0 +1,135 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:60:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:127:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function LANCCrowdsale() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:27:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:80:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:234:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
+    ^-------------------------------------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:357:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:373:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:399:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:420:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:447:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Mint(_to, _amount);
+    ^----------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:448:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(address(0), _to, _amount);
+    ^--------------------------------^
+/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:458:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+
+INFO:Detectors:[93m
+Reentrancy in LANCCrowdsale.finalizeSale (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#287-300):
+	External calls:
+	- newTokens = token.totalSupply() (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#293-294)
+	- token.mint(fundDepositAddress,newTokens) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#297-298)
+	- token.finishMinting() (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#298)
+	- token.transferOwnership(owner) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#298-299)
+	State variables written after the call(s):
+	- isFinalized (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#299-300)
+Reentrancy in LANCCrowdsale.setTokenContract (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#141-150):
+	External calls:
+	- require(bool)(LANCToken(_token).owner() == address(this)) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#143-145)
+	- require(bool)(LANCToken(_token).totalSupply() == 0) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#146-148)
+	- require(bool)(! LANCToken(_token).mintingFinished()) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#148-149)
+	State variables written after the call(s):
+	- token (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#150)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+LANCCrowdsale.mint (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#150-159) does not use the value returned by external calls:
+	-token.mint(_to,_amount) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#158-159)
+LANCCrowdsale.buyTokens (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#200-246) does not use the value returned by external calls:
+	-token.mint(beneficiary,tokens) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#241)
+LANCCrowdsale.finalizeSale (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#287-300) does not use the value returned by external calls:
+	-token.mint(fundDepositAddress,newTokens) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#297-298)
+	-token.finishMinting() (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#298)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in LANCCrowdsale.buyTokens (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#200-246):
+	External calls:
+	- checkedSupply = token.totalSupply().add(tokens) (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#220)
+	State variables written after the call(s):
+	- powerDayAddressLimits (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#234-239)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+LANCCrowdsale.fundDepositAddress should be constant (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#91-93)
+LANCCrowdsale.powerDayEthPerPerson should be constant (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#106-108)
+LANCToken.decimals should be constant (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol)
+LANCToken.name should be constant (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol)
+LANCToken.symbol should be constant (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Basic.balanceOf (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#5-6) should be declared external
+BasicToken.balanceOf (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#36-43) should be declared external
+BasicToken.transfer (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#20-32) should be declared external
+ERC20Basic.transfer (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#6-7) should be declared external
+StandardToken.allowance (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#392-395) should be declared external
+ERC20.allowance (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#43-44) should be declared external
+StandardToken.transferFrom (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#356-366) should be declared external
+ERC20.transferFrom (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#44-45) should be declared external
+StandardToken.approve (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#380-383) should be declared external
+ERC20.approve (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#45-46) should be declared external
+Ownable.transferOwnership (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#79-89) should be declared external
+LANCCrowdsale.setTokenContract (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#141-150) should be declared external
+LANCCrowdsale.mint (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#150-159) should be declared external
+LANCCrowdsale.updateRates (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#162-174) should be declared external
+LANCCrowdsale.updatePowerDayRate (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#174-180) should be declared external
+LANCCrowdsale.switchSaleState (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#180-196) should be declared external
+LANCCrowdsale.finalizeSale (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#287-300) should be declared external
+LANCCrowdsale.hasEnded (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#303-304) should be declared external
+LANCCrowdsale.powerDayRemainingLimitOf (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#315-320) should be declared external
+StandardToken.increaseApproval (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#406-411) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#426-442) should be declared external
+MintableToken.mint (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#457-469) should be declared external
+MintableToken.finishMinting (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#36) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#20) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#20) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#65-66) is not in mixedCase
+Function 'LANCCrowdsale.LANCCrowdsale' (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#132-141) is not in mixedCase
+Parameter '_token' of LANCCrowdsale.setTokenContract (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#141) is not in mixedCase
+Parameter '_to' of LANCCrowdsale.mint (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#151) is not in mixedCase
+Parameter '_amount' of LANCCrowdsale.mint (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#151) is not in mixedCase
+Parameter '_owner' of LANCCrowdsale.powerDayRemainingLimitOf (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#319) is not in mixedCase
+Constant 'LANCCrowdsale.capPresale' (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#109-110) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'LANCCrowdsale.capRound1' (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#110-112) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'LANCCrowdsale.capRound2' (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#114-118) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#392-393) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#393) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#356) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#357) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#357) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#380) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#380-381) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#407) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#407) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#426-427) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#427) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#457) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol#457-458) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/16/0x42f62d20c69e0f639433002fd1dc8fa832bcc40b.sol analyzed (9 contracts), 56 result(s) found

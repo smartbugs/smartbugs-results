@@ -1,0 +1,55 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol:
+/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol:119:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            TECH_AND_PROMO.send(support);
+            ^--------------------------^
+/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol:139:17: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+                dep.depositor.send(dep.expect); //Send money to him
+                ^----------------------------^
+/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol:147:17: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+                dep.depositor.send(money); //Send to him everything we have
+                ^-----------------------^
+
+INFO:Detectors:[93m
+Multiplier2.fallback (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#115-147) uses a dangerous strict equality:
+	- require(bool,string)(numInQueue[msg.sender] == 0,Only one deposit at a time!)
+Multiplier2.fallback (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#115-147) uses a dangerous strict equality:
+	- require(bool,string)(numInQueue[msg.sender] == 0,Only one deposit at a time!)
+Multiplier2.getDepositsCount (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#199-203) uses a dangerous strict equality:
+	- queue[i].depositor == depositor
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+Multiplier2.pay has external calls inside a loop:
+	- dep.depositor.send(dep.expect) (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#161-162)
+Multiplier2.pay has external calls inside a loop:
+	- dep.depositor.send(money) (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#170-172)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Multiplier2.fallback (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#115-147):
+	External calls:
+	- require(bool)(FATHER.call.value(donation).gas(gasleft()())()) (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#131-134)
+	State variables written after the call(s):
+	- numInQueue (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#140)
+	- queue (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#138-139)
+Reentrancy in Multiplier2.fallback (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#115-147):
+	External calls:
+	- require(bool)(FATHER.call.value(donation).gas(gasleft()())()) (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#131-134)
+	External calls sending eth:
+	- require(bool)(FATHER.call.value(donation).gas(gasleft()())()) (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#131-134)
+	- TECH_AND_PROMO.send(support) (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#145-146)
+	- pay() (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#147)
+	State variables written after the call(s):
+	- currentReceiverIndex (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#147)
+	- numInQueue (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#147)
+	- queue (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#147)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Multiplier2.fallback (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#115-147) should be declared external
+Multiplier2.getDeposit (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#188-195) should be declared external
+Multiplier2.getDeposits (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol) should be declared external
+Multiplier2.getQueueLength (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in Multiplier2.fallback (/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#115-147):
+	-require(bool)(FATHER.call.value(donation).gas(gasleft()())()) /unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol#131-134
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Slither:/unique_chucks/15/0xfa0ccb7b23015e1afe28bf0dbd33a3448acf6f5d.sol analyzed (1 contracts), 11 result(s) found

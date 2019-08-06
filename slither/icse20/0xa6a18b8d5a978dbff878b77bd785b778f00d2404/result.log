@@ -1,0 +1,280 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:764:5: Warning: Variable is declared as a storage pointer. Use an explicit "storage" keyword to silence this warning.
+    Character archer = characters[characterId];
+    ^--------------^
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:724:3: Warning: Variable is shadowed in inline assembly by an instruction of the same name
+  function stop() public onlyOwner {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:724:3: Warning: Variable is shadowed in inline assembly by an instruction of the same name
+  function stop() public onlyOwner {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:609:17: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    return uint(keccak256(block.blockhash(block.number - 1), now, numCharacters, nonce));
+                ^---------------------------------------------------------------------^
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:565:3: Warning: No visibility specified. Defaulting to "public". 
+  function isValidAdversary(uint8 characterType, uint8 adversaryType) pure returns (bool) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:609:27: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+    return uint(keccak256(block.blockhash(block.number - 1), now, numCharacters, nonce));
+                          ^-------------^
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:1007:21: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function toUint32(bytes b) internal pure returns(uint32) {
+                    ^-----^
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:1015:27: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function secondToUint32(bytes b) internal pure returns(uint32){
+                          ^-----^
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:147:3: Warning: Function state mutability can be restricted to view
+  function hasEnoughTokensToPurchase(address buyer, uint8 characterType) external returns (bool canBuy) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol:739:3: Warning: Function state mutability can be restricted to pure
+  function roll(uint128 nonce) internal view returns(uint128) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+DragonKingConfig.purchaseRequirements (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#123) is never initialized. It is used in:
+	- hasEnoughTokensToPurchase (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#148-158)
+	- getPurchaseRequirements (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#158-172)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+DragonKing.toUint32 (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol) is declared view but contains assembly code
+DragonKing.secondToUint32 (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+DragonKing.distributeCastleLoot (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#772-802) uses a dangerous strict equality:
+	- lastCastleLootDistributionTimestamp[characterId] == 0
+DragonKing.distributeCastleLoot (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#772-802) uses a dangerous strict equality:
+	- lastCastleLootDistributionTimestamp[characterId] == 0
+DragonKing.exit (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#367-407) uses a dangerous strict equality:
+	- characters[ids[i]].owner == msg.sender && characters[ids[i]].purchaseTimestamp + 86400 < now && (characters[ids[i]].characterType < BALLOON_MIN_TYPE || characters[ids[i]].characterType > BALLOON_MAX_TYPE)
+	- nchars > 0 && characters[ids[nchars - 1]].owner == msg.sender && characters[ids[nchars - 1]].purchaseTimestamp + 86400 < now && (characters[ids[i]].characterType < BALLOON_MIN_TYPE || characters[ids[i]].characterType > BALLOON_MAX_TYPE)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in DragonKing._addCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#313-349):
+	External calls:
+	- amount = uint16(msg.value / config.costs(characterType)) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#314-316)
+	- require(bool,string)(config.hasEnoughTokensToPurchase(receiver,characterType),insufficinet amount of tokens to purchase a given type of character) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#317-319)
+	- characterType >= INVALID_CHARACTER_TYPE || msg.value < config.costs(characterType) || nchars + amount > config.maxCharacters() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#319-323)
+	- characters[nid + i] = Character(characterType,config.values(characterType),receiver,uint64(now),0) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#332-333)
+	State variables written after the call(s):
+	- ids (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#331-332)
+	- numCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#337)
+Reentrancy in DragonKing._addCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#313-349):
+	External calls:
+	- amount = uint16(msg.value / config.costs(characterType)) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#314-316)
+	- require(bool,string)(config.hasEnoughTokensToPurchase(receiver,characterType),insufficinet amount of tokens to purchase a given type of character) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#317-319)
+	- characterType >= INVALID_CHARACTER_TYPE || msg.value < config.costs(characterType) || nchars + amount > config.maxCharacters() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#319-323)
+	- characters[nid + i] = Character(characterType,config.values(characterType),receiver,uint64(now),0) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#332-333)
+	- characters[nid + j] = Character(characterType,config.values(characterType),receiver,uint64(now),0) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#344-345)
+	State variables written after the call(s):
+	- nextId (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#347)
+Reentrancy in DragonKing.distributeCastleLoot (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#772-802):
+	External calls:
+	- require(bool,string)(now - archer.purchaseTimestamp >= config.castleLootDistributionThreshold(),not enough time has passed since the purchase) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#782-789)
+	- require(bool,string)(now >= lastCastleLootDistributionTimestamp[characterId] + config.castleLootDistributionThreshold(),not enough time passed since the last castle loot distribution) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#790-793)
+	State variables written after the call(s):
+	- castleTreasury (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#801)
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#795)
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#800)
+	- lastCastleLootDistributionTimestamp (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#794-795)
+Reentrancy in DragonKing.fight (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#480-569):
+	External calls:
+	- require(bool,string)(cooldown[characterID] + config.CooldownThreshold() <= now,not enough time passed since the last fight of this character) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#487-490)
+	- luckToken.balanceOf(msg.sender) >= config.luckThreshold() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#504-509)
+	- characterPower = sklToken.balanceOf(character.owner) / 10 ** 15 + xperToken.balanceOf(character.owner) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#509-512)
+	- adversaryPower = sklToken.balanceOf(adversary.owner) / 10 ** 15 + xperToken.balanceOf(adversary.owner) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#512-514)
+	- base_probability += uint16(100 / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#517)
+	- base_probability -= uint16(100 / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#520-522)
+	- base_probability -= uint16((100 * adversary.value) / character.value / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#526-527)
+	- base_probability += uint16((100 * character.value) / adversary.value / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#530-533)
+	State variables written after the call(s):
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#534-535)
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#540-541)
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#549-550)
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#563-565)
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#568)
+	- cooldown (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#545)
+	- cooldown (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#562-563)
+	- ids (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#540-541)
+	- ids (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#563-565)
+	- numCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#544)
+	- numCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#565)
+Reentrancy in DragonKing.receiveApproval (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#837-895):
+	External calls:
+	- require(bool,string)(characters[id].value == config.values(cType),protection could be bought only before the first fight and before the first volcano eruption) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#857-863)
+	- lifePrice = ((cType % NUMBER_OF_LEVELS) + 1) * config.protectionPrice() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#867-873)
+	- lifePrice = (((cType + 3) % NUMBER_OF_LEVELS) + 1) * config.protectionPrice() * 2 (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#873-876)
+	- lifePrice = (((cType + 3) % NUMBER_OF_LEVELS) + 1) * config.protectionPrice() * 2 (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#879-881)
+	- lifePrice = (((cType + 3) % NUMBER_OF_LEVELS) + 1) * config.protectionPrice() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#883)
+	- assert(bool)(teleportToken.transferFrom(sender,this,price)) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#892-893)
+	State variables written after the call(s):
+	- protection (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#895)
+Reentrancy in DragonKing.triggerVolcanoEruption (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#430-471):
+	External calls:
+	- require(bool,string)(now >= lastEruptionTimestamp + config.eruptionThreshold(),not enough time passed since last eruption) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#431-433)
+	State variables written after the call(s):
+	- lastEruptionTimestamp (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#435-436)
+Reentrancy in DragonKing.triggerVolcanoEruption (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#430-471):
+	External calls:
+	- require(bool,string)(now >= lastEruptionTimestamp + config.eruptionThreshold(),not enough time passed since last eruption) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#431-433)
+	- howmany = nchars * config.percentageToKill() / 100 (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#440-441)
+	State variables written after the call(s):
+	- numCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#467-468)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+pot in DragonKing.triggerVolcanoEruption (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#437) is a local variable never initialiazed
+base_probability in DragonKing.fight (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#502) is a local variable never initialiazed
+playerBalance in DragonKing.exit (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#368) is a local variable never initialiazed
+lifePrice in DragonKing.receiveApproval (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#865) is a local variable never initialiazed
+valueSum in DragonKing.distribute (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#679) is a local variable never initialiazed
+max in DragonKing.receiveApproval (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#865-867) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+DragonKingConfig.hasEnoughTokensToPurchase has external calls inside a loop:
+	- ERC20(purchaseRequirements[characterType].tokens[i]).balanceOf(buyer) < purchaseRequirements[characterType].amounts[i] (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#151-158)
+DragonKing._addCharacters has external calls inside a loop:
+	- characters[nid + i] = Character(characterType,config.values(characterType),receiver,uint64(now),0) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#332-333)
+DragonKing._addCharacters has external calls inside a loop:
+	- characters[nid + j] = Character(characterType,config.values(characterType),receiver,uint64(now),0) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#344-345)
+DragonKing.distribute has external calls inside a loop:
+	- shares[m] = amount * config.values(m) / valueSum / numCharactersXType[m] (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#690-691)
+DragonKing.distribute has external calls inside a loop:
+	- valueSum += config.values(v) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#686-687)
+DragonKing.payOut has external calls inside a loop:
+	- characters[ids[i]].owner.transfer(characters[ids[i]].value) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#742-745)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in DragonKing._addCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#313-349):
+	External calls:
+	- amount = uint16(msg.value / config.costs(characterType)) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#314-316)
+	- require(bool,string)(config.hasEnoughTokensToPurchase(receiver,characterType),insufficinet amount of tokens to purchase a given type of character) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#317-319)
+	- characterType >= INVALID_CHARACTER_TYPE || msg.value < config.costs(characterType) || nchars + amount > config.maxCharacters() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#319-323)
+	State variables written after the call(s):
+	- oldest (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#331)
+Reentrancy in DragonKing._addCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#313-349):
+	External calls:
+	- amount = uint16(msg.value / config.costs(characterType)) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#314-316)
+	- require(bool,string)(config.hasEnoughTokensToPurchase(receiver,characterType),insufficinet amount of tokens to purchase a given type of character) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#317-319)
+	- characterType >= INVALID_CHARACTER_TYPE || msg.value < config.costs(characterType) || nchars + amount > config.maxCharacters() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#319-323)
+	- characters[nid + i] = Character(characterType,config.values(characterType),receiver,uint64(now),0) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#332-333)
+	State variables written after the call(s):
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#332-333)
+	- numCharactersXType (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#334-337)
+Reentrancy in DragonKing._addCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#313-349):
+	External calls:
+	- amount = uint16(msg.value / config.costs(characterType)) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#314-316)
+	- require(bool,string)(config.hasEnoughTokensToPurchase(receiver,characterType),insufficinet amount of tokens to purchase a given type of character) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#317-319)
+	- characterType >= INVALID_CHARACTER_TYPE || msg.value < config.costs(characterType) || nchars + amount > config.maxCharacters() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#319-323)
+	- characters[nid + j] = Character(characterType,config.values(characterType),receiver,uint64(now),0) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#344-345)
+	State variables written after the call(s):
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#344-345)
+Reentrancy in DragonKing.fight (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#480-569):
+	External calls:
+	- require(bool,string)(cooldown[characterID] + config.CooldownThreshold() <= now,not enough time passed since the last fight of this character) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#487-490)
+	- luckToken.balanceOf(msg.sender) >= config.luckThreshold() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#504-509)
+	- characterPower = sklToken.balanceOf(character.owner) / 10 ** 15 + xperToken.balanceOf(character.owner) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#509-512)
+	- adversaryPower = sklToken.balanceOf(adversary.owner) / 10 ** 15 + xperToken.balanceOf(adversary.owner) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#512-514)
+	- base_probability += uint16(100 / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#517)
+	- base_probability -= uint16(100 / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#520-522)
+	- base_probability -= uint16((100 * adversary.value) / character.value / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#526-527)
+	- base_probability += uint16((100 * character.value) / adversary.value / config.fightFactor()) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#530-533)
+	State variables written after the call(s):
+	- castleTreasury (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#549)
+	- castleTreasury (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#567)
+	- numCharactersXType (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#540-541)
+	- numCharactersXType (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#563-565)
+	- oldest (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#540-541)
+	- oldest (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#563-565)
+	- oldest (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#568)
+	- protection (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#540-541)
+	- protection (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#563-565)
+Reentrancy in DragonKing.receiveApproval (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#837-895):
+	External calls:
+	- price = config.teleportPrice() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#843-844)
+	- assert(bool)(teleportToken.transferFrom(sender,this,price)) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#851-852)
+	State variables written after the call(s):
+	- ids (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#852)
+	- numCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#852)
+	- numCharactersXType (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#852)
+	- teleported (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#852)
+Reentrancy in DragonKing.stop (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#754-756):
+	External calls:
+	- withdraw() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#755)
+	External calls sending eth:
+	- payOut() (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#755-756)
+	State variables written after the call(s):
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#755-756)
+	- ids (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#755-756)
+	- numCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#755-756)
+Reentrancy in DragonKing.triggerVolcanoEruption (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#430-471):
+	External calls:
+	- require(bool,string)(now >= lastEruptionTimestamp + config.eruptionThreshold(),not enough time passed since last eruption) (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#431-433)
+	- howmany = nchars * config.percentageToKill() / 100 (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#440-441)
+	State variables written after the call(s):
+	- characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#459-463)
+	- ids (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#459-463)
+	- numCharactersXType (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#459-463)
+	- oldest (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#459-463)
+	- protection (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#459-463)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+DragonKing.toUint32 uses assembly (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol)
+	- /unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol
+DragonKing.secondToUint32 uses assembly (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol)
+	- /unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+DragonKingConfig.castleLootDistributionThreshold should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#133-135)
+DragonKingConfig.eruptionThreshold should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#132)
+DragonKingConfig.fee should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#129)
+DragonKingConfig.fightFactor should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#143)
+DragonKingConfig.giftTokenAmount should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#120-121)
+DragonKingConfig.luckThreshold should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#148)
+DragonKingConfig.maxCharacters should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#130-131)
+DragonKingConfig.percentageToKill should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#137)
+DragonKingConfig.protectionPrice should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#147)
+DragonKingConfig.teleportPrice should be constant (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#145-147)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#621-623:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#15-16) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#16-17) should be declared external
+ERC20Basic.transfer (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#17-18) should be declared external
+ERC20.allowance (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#22-25) should be declared external
+ERC20.transferFrom (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#25-28) should be declared external
+ERC20.approve (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#28-30) should be declared external
+Ownable.transferOwnership (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#73-78) should be declared external
+Destructible.destroyAndSend (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#102-110) should be declared external
+DragonKing.giftCharacter (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#299-306) should be declared external
+DragonKing.addCharacters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#310-313) should be declared external
+DragonKing.exit (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#367-407) should be declared external
+DragonKing.triggerVolcanoEruption (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#430-471) should be declared external
+DragonKing.fight (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#480-569) should be declared external
+DragonKing.collectFees (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#714-723) should be declared external
+DragonKing.stop (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#754-756) should be declared external
+DragonKing.sellCharacter (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#809-828) should be declared external
+DragonKing.receiveApproval (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#837-895) should be declared external
+DragonKing.setLuckRound (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#932-937) should be declared external
+DragonKing.getCharacter (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#939-945) should be declared external
+DragonKing.get10Characters (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#967-984) should be declared external
+DragonKing.getNumDragons (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#985-993) should be declared external
+DragonKing.getNumWizards (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#996-1005) should be declared external
+DragonKing.getNumArchers (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#1009-1018) should be declared external
+DragonKing.getNumKnights (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#73-77) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#81-89) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#82) is not in mixedCase
+Parameter '_recipient' of Destructible.destroyAndSend (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#105) is not in mixedCase
+Constant 'DragonKingConfig.CooldownThreshold' (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#138-141) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_configAddress' of DragonKing. (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#285-289) is not in mixedCase
+Function 'DragonKing._addCharacters' (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#313-349) is not in mixedCase
+Constant 'DragonKing.noKing' (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#226-227) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+DragonKingConfig.fee (/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol#129) is never used in DragonKingConfig
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/4/0xa6a18b8d5a978dbff878b77bd785b778f00d2404.sol analyzed (6 contracts), 68 result(s) found

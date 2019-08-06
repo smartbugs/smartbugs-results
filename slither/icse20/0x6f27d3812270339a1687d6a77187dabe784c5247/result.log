@@ -1,0 +1,193 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:37:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function Ownable() public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:95:3: Warning: Use of the "var" keyword is deprecated.
+		var _allowance = allowed[_from][msg.sender];
+		^------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:147:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function SIGToken(uint256 _freezeTransferTime) public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:193:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function SIGICO(uint256 _startTime, uint256 _endTime, uint256 _rate) public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:48:3: Warning: Invoking events without "emit" prefix is deprecated.
+		OwnershipTransferred(owner, newOwner);
+		^-----------------------------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:78:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Transfer(msg.sender, _to, _value);
+		^-------------------------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:99:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Transfer(_from, _to, _value);
+		^--------------------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:106:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Approval(msg.sender, _spender, _value);
+		^------------------------------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:130:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Mint(_to, _amount);
+		^----------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:136:3: Warning: Invoking events without "emit" prefix is deprecated.
+		MintFinished();
+		^------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:234:3: Warning: Invoking events without "emit" prefix is deprecated.
+		TokenPurchase(msg.sender, buyer, round, rate, msg.value, tokens, bonus);
+		^---------------------------------------------------------------------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:263:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Finalized();
+		^---------^
+/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:300:3: Warning: Invoking events without "emit" prefix is deprecated.
+		ChangeRate(now, rate, _rate, totalSupply);
+		^---------------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in SIGICO.finalize (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#270-272):
+	External calls:
+	- finalization() (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#271)
+	State variables written after the call(s):
+	- isFinalized (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#272)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+SIGICO.buyTokens (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#218-251) does not use the value returned by external calls:
+	-token.mint(buyer,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#244-245)
+SIGICO.finalization (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#272-302) does not use the value returned by external calls:
+	-token.mint(FundOwnerAddr_1,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#278-279)
+	-token.mint(FundOwnerAddr_2,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#279-280)
+	-token.mint(FundOwnerAddr_3,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#280-282)
+	-token.mint(DeveloperTokensStoreAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#287)
+	-token.mint(OtherTokensStoreAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#292-295)
+	-token.mint(ReserveFundAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#299-300)
+	-token.finishMinting() (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#300-302)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in SIGICO.buyTokens (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#218-251):
+	External calls:
+	- token.mint(buyer,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#244-245)
+	State variables written after the call(s):
+	- Buyers (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#250)
+	- TotalBuyers (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#249)
+Reentrancy in SIGICO.changeRate (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#302-313):
+	External calls:
+	- totalSupply = token.totalSupply().div(1000000000000000000) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#307-311)
+	State variables written after the call(s):
+	- rate (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#312-313)
+	- tokenCost (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#311)
+Reentrancy in SIGICO.finalization (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#272-302):
+	External calls:
+	- totalSupply = token.totalSupply().div(1000000000000000000) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#273-274)
+	- token.mint(FundOwnerAddr_1,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#278-279)
+	- token.mint(FundOwnerAddr_2,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#279-280)
+	- token.mint(FundOwnerAddr_3,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#280-282)
+	State variables written after the call(s):
+	- Restricted (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#282)
+Reentrancy in SIGICO.finalization (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#272-302):
+	External calls:
+	- totalSupply = token.totalSupply().div(1000000000000000000) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#273-274)
+	- token.mint(FundOwnerAddr_1,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#278-279)
+	- token.mint(FundOwnerAddr_2,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#279-280)
+	- token.mint(FundOwnerAddr_3,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#280-282)
+	- token.mint(DeveloperTokensStoreAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#287)
+	State variables written after the call(s):
+	- Restricted (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#287)
+Reentrancy in SIGICO.finalization (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#272-302):
+	External calls:
+	- totalSupply = token.totalSupply().div(1000000000000000000) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#273-274)
+	- token.mint(FundOwnerAddr_1,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#278-279)
+	- token.mint(FundOwnerAddr_2,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#279-280)
+	- token.mint(FundOwnerAddr_3,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#280-282)
+	- token.mint(DeveloperTokensStoreAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#287)
+	- token.mint(OtherTokensStoreAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#292-295)
+	State variables written after the call(s):
+	- Restricted (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#295)
+Reentrancy in SIGICO.finalization (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#272-302):
+	External calls:
+	- totalSupply = token.totalSupply().div(1000000000000000000) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#273-274)
+	- token.mint(FundOwnerAddr_1,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#278-279)
+	- token.mint(FundOwnerAddr_2,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#279-280)
+	- token.mint(FundOwnerAddr_3,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#280-282)
+	- token.mint(DeveloperTokensStoreAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#287)
+	- token.mint(OtherTokensStoreAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#292-295)
+	- token.mint(ReserveFundAddr,tokens2mint) (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#299-300)
+	State variables written after the call(s):
+	- Restricted (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#300)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SIGICO.DeveloperTokensStoreAddr should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#178-180)
+SIGICO.FundOwnerAddr_1 should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#170-172)
+SIGICO.FundOwnerAddr_2 should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#172-174)
+SIGICO.FundOwnerAddr_3 should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#174-175)
+SIGICO.OtherTokensStoreAddr should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#180-182)
+SIGICO.PercentageForDevelopers should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#187-189)
+SIGICO.PercentageForFounders should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#185-186)
+SIGICO.PercentageForOther should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#189)
+SIGICO.PercentageForReserveFund should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#186-187)
+SIGICO.ReserveFundAddr should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#175-177)
+SIGICO.Round1 should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#166-168)
+SIGICO.Round2 should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#168)
+SIGICO.SafeAddr should be constant (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#169-170)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#46-54) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#56-57) should be declared external
+BasicToken.balanceOf (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#83-89) should be declared external
+ERC20Basic.transfer (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#57-58) should be declared external
+BasicToken.transfer (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#74-82) should be declared external
+StandardToken.allowance (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#111-118) should be declared external
+ERC20.allowance (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#62-63) should be declared external
+StandardToken.transferFrom (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#92-104) should be declared external
+ERC20.transferFrom (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#63-64) should be declared external
+StandardToken.approve (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#104-111) should be declared external
+ERC20.approve (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#64-65) should be declared external
+MintableToken.mint (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#128-141) should be declared external
+MintableToken.finishMinting (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#141-145) should be declared external
+SIGICO.finalize (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#270-272) should be declared external
+SIGICO.changeRate (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#302-313) should be declared external
+SIGICO.getRestrictedTokens (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#316-319) should be declared external
+SIGICO.getBonusTokens (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol) should be declared external
+SIGICO.getTotalBuyers (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#38-42) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#83-87) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#74-75) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#75) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#111-115) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#115) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#92-93) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#93) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#93) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#104) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#104-105) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#129) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#129) is not in mixedCase
+Function 'SIGToken.SIGToken' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#153-159) is not in mixedCase
+Parameter '_freezeTransferTime' of SIGToken.SIGToken (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#154-157) is not in mixedCase
+Function 'SIGICO.SIGICO' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#198-216) is not in mixedCase
+Parameter '_startTime' of SIGICO.SIGICO (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#198-199) is not in mixedCase
+Parameter '_endTime' of SIGICO.SIGICO (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#199) is not in mixedCase
+Parameter '_rate' of SIGICO.SIGICO (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#199) is not in mixedCase
+Parameter '_rate' of SIGICO.changeRate (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#305) is not in mixedCase
+Parameter '_who' of SIGICO.getRestrictedTokens (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#316) is not in mixedCase
+Parameter '_round' of SIGICO.getBonusTokens (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol) is not in mixedCase
+Variable 'SIGICO.Round1' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#166-168) is not in mixedCase
+Variable 'SIGICO.Round2' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#168) is not in mixedCase
+Variable 'SIGICO.SafeAddr' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#169-170) is not in mixedCase
+Variable 'SIGICO.FundOwnerAddr_1' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#170-172) is not in mixedCase
+Variable 'SIGICO.FundOwnerAddr_2' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#172-174) is not in mixedCase
+Variable 'SIGICO.FundOwnerAddr_3' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#174-175) is not in mixedCase
+Variable 'SIGICO.ReserveFundAddr' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#175-177) is not in mixedCase
+Variable 'SIGICO.DeveloperTokensStoreAddr' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#178-180) is not in mixedCase
+Variable 'SIGICO.OtherTokensStoreAddr' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#180-182) is not in mixedCase
+Variable 'SIGICO.TotalBuyers' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#183-185) is not in mixedCase
+Variable 'SIGICO.PercentageForFounders' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#185-186) is not in mixedCase
+Variable 'SIGICO.PercentageForReserveFund' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#186-187) is not in mixedCase
+Variable 'SIGICO.PercentageForDevelopers' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#187-189) is not in mixedCase
+Variable 'SIGICO.PercentageForOther' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#189) is not in mixedCase
+Variable 'SIGICO.Buyers' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#189) is not in mixedCase
+Variable 'SIGICO.BonusTokens' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#189) is not in mixedCase
+Variable 'SIGICO.Restricted' (/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol#190) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/7/0x6f27d3812270339a1687d6a77187dabe784c5247.sol analyzed (9 contracts), 68 result(s) found

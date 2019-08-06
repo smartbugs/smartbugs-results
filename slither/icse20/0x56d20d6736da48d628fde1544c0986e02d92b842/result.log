@@ -1,0 +1,193 @@
+INFO:Detectors:[91m
+EarnEveryDay_v1_355.sendDividends (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#669-671) sends eth to arbitrary user
+	Dangerous calls:
+	- addr.send(value) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#669-670)
+EarnEveryDay_v1_355.sendDividendsWithRefBonus (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#671-682) sends eth to arbitrary user
+	Dangerous calls:
+	- addr.send(value + refBonus) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#673-682)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+ToAddress.toAddr (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#782-786) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+DT.getDaysInMonth (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#291-309) uses a dangerous strict equality:
+	- month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+	- month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+	- month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+	- month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+	- month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+	- month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+	- month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+	- month == 4 || month == 6 || month == 9 || month == 11
+	- month == 4 || month == 6 || month == 9 || month == 11
+	- month == 4 || month == 6 || month == 9 || month == 11
+	- month == 4 || month == 6 || month == 9 || month == 11
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in EarnEveryDay_v1_355._getMyDividents (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#540-573):
+	External calls:
+	- investor = getMemInvestor(msg.sender) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#542-545)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#560-561)
+	State variables written after the call(s):
+	- m_investors (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#566)
+Reentrancy in EarnEveryDay_v1_355.doInvest (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#574-639):
+	External calls:
+	- notZeroNotSender(ref) && m_investors.contains(ref) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#581-609)
+	- assert(bool)(m_investors.addRefBonusWithRefs(ref,reward)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#584-585)
+	State variables written after the call(s):
+	- m_referrals (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#585)
+Reentrancy in EarnEveryDay_v1_355.doInvest (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#574-639):
+	External calls:
+	- bestInvestor = getMemBestInvestor() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#592-596)
+	- bestPromouter = getMemBestPromouter() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#596-597)
+	- assert(bool)(m_investors.addRefBonus(bestInvestor.addr,m_refPercent1.mul(value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#597-601)
+	State variables written after the call(s):
+	- m_referrals (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#604)
+Reentrancy in EarnEveryDay_v1_355.doInvest (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#574-639):
+	External calls:
+	- bestInvestor = getMemBestInvestor() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#592-596)
+	- bestPromouter = getMemBestPromouter() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#596-597)
+	- assert(bool)(m_investors.addRefBonus(bestInvestor.addr,m_refPercent1.mul(value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#597-601)
+	- assert(bool)(m_investors.addRefBonus(bestPromouter.addr,m_refPercent2.mul(value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#607)
+	State variables written after the call(s):
+	- m_referrals (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#607-609)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in EarnEveryDay_v1_355._getMyDividents (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#540-573):
+	External calls:
+	- investor = getMemInvestor(msg.sender) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#542-545)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#560-561)
+	State variables written after the call(s):
+	- m_nextWave (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#566)
+	- totalInvestments (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#566)
+	- waveStartup (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#566)
+Reentrancy in EarnEveryDay_v1_355.doInvest (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#574-639):
+	External calls:
+	- notZeroNotSender(ref) && m_investors.contains(ref) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#581-609)
+	- assert(bool)(m_investors.addRefBonusWithRefs(ref,reward)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#584-585)
+	- notZeroNotSender(m_referrals[ref]) && m_investors.contains(m_referrals[ref]) && ref != m_referrals[ref] (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#587-592)
+	- assert(bool)(m_investors.addRefBonus(m_referrals[ref],reward)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#591)
+	- bestInvestor = getMemBestInvestor() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#592-596)
+	- bestPromouter = getMemBestPromouter() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#596-597)
+	- assert(bool)(m_investors.addRefBonus(bestInvestor.addr,m_refPercent1.mul(value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#597-601)
+	- assert(bool)(m_investors.addRefBonus(bestPromouter.addr,m_refPercent2.mul(value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#607)
+	- assert(bool)(m_investors.addRefBonus(adtransfers[msg.sender],m_adBonus.mul(msg.value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#612-614)
+	- _getMyDividents(true) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#615-616)
+	External calls sending eth:
+	- _getMyDividents(true) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#615-616)
+	State variables written after the call(s):
+	- m_nextWave (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#615-616)
+	- totalInvestments (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#615-616)
+	- waveStartup (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#615-616)
+Reentrancy in EarnEveryDay_v1_355.doInvest (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#574-639):
+	External calls:
+	- notZeroNotSender(ref) && m_investors.contains(ref) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#581-609)
+	- assert(bool)(m_investors.addRefBonusWithRefs(ref,reward)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#584-585)
+	- notZeroNotSender(m_referrals[ref]) && m_investors.contains(m_referrals[ref]) && ref != m_referrals[ref] (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#587-592)
+	- assert(bool)(m_investors.addRefBonus(m_referrals[ref],reward)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#591)
+	- bestInvestor = getMemBestInvestor() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#592-596)
+	- bestPromouter = getMemBestPromouter() (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#596-597)
+	- assert(bool)(m_investors.addRefBonus(bestInvestor.addr,m_refPercent1.mul(value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#597-601)
+	- assert(bool)(m_investors.addRefBonus(bestPromouter.addr,m_refPercent2.mul(value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#607)
+	- notZeroNotSender(adtransfers[msg.sender]) && m_investors.contains(adtransfers[msg.sender]) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#610-615)
+	- assert(bool)(m_investors.addRefBonus(adtransfers[msg.sender],m_adBonus.mul(msg.value))) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#612-614)
+	- _getMyDividents(true) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#615-616)
+	- m_investors.contains(msg.sender) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#628-634)
+	- assert(bool)(m_investors.addValue(msg.sender,value)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#628-629)
+	- m_investors.updateStats(today,value,0) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#629-632)
+	- assert(bool)(m_investors.insert(msg.sender,value)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#632-633)
+	- m_investors.updateStats(today,value,1) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#633)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#637)
+	External calls sending eth:
+	- _getMyDividents(true) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#615-616)
+	- adminAddr.transfer(m_adminPercent.mul(msg.value)) (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#616-619)
+	State variables written after the call(s):
+	- totalInvested (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#638-639)
+	- totalInvestments (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#638)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ToAddress.toAddr uses assembly (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#782-786)
+	- /unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#785-786
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+InvestorsStorage.insert (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#117-130) should be declared external
+InvestorsStorage.investorFullInfo (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#130-141) should be declared external
+InvestorsStorage.investorBaseInfo (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#141-150) should be declared external
+InvestorsStorage.investorShortInfo (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#151-161) should be declared external
+InvestorsStorage.getBestInvestor (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#161-168) should be declared external
+InvestorsStorage.getBestPromouter (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#168-170) should be declared external
+InvestorsStorage.addRefBonus (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#170-176) should be declared external
+InvestorsStorage.addRefBonusWithRefs (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#176-186) should be declared external
+InvestorsStorage.addValue (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#186-196) should be declared external
+InvestorsStorage.updateStats (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#196-203) should be declared external
+InvestorsStorage.stats (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#203-206) should be declared external
+InvestorsStorage.setPaymentTime (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#225-231) should be declared external
+InvestorsStorage.setRefBonus (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#231-239) should be declared external
+InvestorsStorage.keyFromIndex (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#239-243) should be declared external
+InvestorsStorage.contains (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#244-252) should be declared external
+InvestorsStorage.size (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#252-255) should be declared external
+InvestorsStorage.iterStart (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#255-257) should be declared external
+ERC20AdToken.transfer (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#397-413) should be declared external
+ERC20AdToken.massAdvertiseTransfer (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#413-431) should be declared external
+ERC20AdToken.fallback (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#431-433) should be declared external
+EarnEveryDay_v1_355.fallback (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#487-493) should be declared external
+EarnEveryDay_v1_355.investorsNumber (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#493-497) should be declared external
+EarnEveryDay_v1_355.balanceETH (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#497-498) should be declared external
+EarnEveryDay_v1_355.dividendsPercent (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#499-505) should be declared external
+EarnEveryDay_v1_355.adminPercent (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#505-509) should be declared external
+EarnEveryDay_v1_355.referrer1Percent (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#509-510) should be declared external
+EarnEveryDay_v1_355.referrer2Percent (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#510-515) should be declared external
+EarnEveryDay_v1_355.stats (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#515-519) should be declared external
+EarnEveryDay_v1_355.investorInfo (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#519-527) should be declared external
+EarnEveryDay_v1_355.bestInvestorInfo (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#528-534) should be declared external
+EarnEveryDay_v1_355.bestPromouterInfo (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#534-540) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Struct 'InvestorsStorage.investor' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#81-88) is not in CapWords
+Struct 'InvestorsStorage.bestAddress' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#88-93) is not in CapWords
+Struct 'InvestorsStorage.recordStats' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#93-94) is not in CapWords
+Struct 'InvestorsStorage.itmap' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#94-103) is not in CapWords
+Parameter '_symbol' of ERC20AdToken. (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#394) is not in mixedCase
+Parameter '_name' of ERC20AdToken. (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#394) is not in mixedCase
+Contract 'EarnEveryDay_v1_355' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#433-685) is not in CapWords
+Function 'EarnEveryDay_v1_355._getMyDividents' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#540-573) is not in mixedCase
+Variable 'EarnEveryDay_v1_355.m_investors' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#438-440) is not in mixedCase
+Variable 'EarnEveryDay_v1_355.m_referrals' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#440-441) is not in mixedCase
+Variable 'EarnEveryDay_v1_355.m_nextWave' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#441) is not in mixedCase
+Constant 'EarnEveryDay_v1_355.minInvesment' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#443-444) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'EarnEveryDay_v1_355.maxBalance' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#444) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'EarnEveryDay_v1_355.dividendsPeriod' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#445) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'EarnEveryDay_v1_355.m_dividendsPercent' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#445-448) is not in mixedCase
+Variable 'EarnEveryDay_v1_355.m_adminPercent' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#448-449) is not in mixedCase
+Variable 'EarnEveryDay_v1_355.m_refPercent1' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#450) is not in mixedCase
+Variable 'EarnEveryDay_v1_355.m_refPercent2' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#451-452) is not in mixedCase
+Variable 'EarnEveryDay_v1_355.m_adBonus' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#452-453) is not in mixedCase
+Parameter '_a' of SafeMath.mul (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#690) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#690) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#710-711) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#711) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#723) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#723) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#728) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#728-729) is not in mixedCase
+Struct 'Percent.percent' (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#743-744) is not in CapWords
+Parameter '_a' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#810-812) is not in mixedCase
+Parameter '_b' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#812-813) is not in mixedCase
+Parameter '_c' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#813) is not in mixedCase
+Parameter '_d' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#813) is not in mixedCase
+Parameter '_e' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#813) is not in mixedCase
+Parameter '_a' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_b' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_c' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_d' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_a' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_b' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_c' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_a' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Parameter '_b' of Convert.strConcat (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+DT.HOUR_IN_SECONDS (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#271-272) is never used in EarnEveryDay_v1_355
+DT.MINUTE_IN_SECONDS (/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol#272-274) is never used in EarnEveryDay_v1_355
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0x56d20d6736da48d628fde1544c0986e02d92b842.sol analyzed (9 contracts), 86 result(s) found

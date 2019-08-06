@@ -1,0 +1,470 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol:
+/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol:1374:84: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x0bFb5147E4B459200EdB21e220A3DC4137d01028'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    ReferralInterface constant public referralContract = ReferralInterface(address(0x0bfb5147e4b459200edb21e220a3dc4137d01028));
+                                                                                   ^----------------------------------------^
+/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol:1375:81: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xB3775fB83F7D12A36E0475aBdD1FCA35c091efBe'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    HourglassInterface constant public p3dContract = HourglassInterface(address(0xb3775fb83f7d12a36e0475abdd1fca35c091efbe));
+                                                                                ^----------------------------------------^
+/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol:1378:52: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x0000000000000000000000000000000000000000'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    address constant public NULL_ADDRESS = address(0x000000000000000000000000000000000000000);
+                                                   ^---------------------------------------^
+/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol:1578:25: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function __callback(bytes32 myid, string result) public {
+                        ^----------^
+/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol:1582:9: Warning: Unused local variable.
+        uint256 LOCAL_ETH_TO_USD = parseInt(result, 0);
+        ^----------------------^
+/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol:2130:25: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        uint256 price = oraclize_getPrice("URL");
+                        ^----------------------^
+
+INFO:Detectors:[91m
+Reentrancy in MegaBall.CreateStage (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2253-2313):
+	External calls:
+	- buyP3d(owner) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2306)
+	- withdrawP3dDividends() (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2308)
+	External calls sending eth:
+	- buyP3d(owner) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2306)
+	State variables written after the call(s):
+	- numberOfStages (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2312)
+Reentrancy in MegaBall.buyP3d (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2223-2236):
+	External calls:
+	- p3dContract.buy.value(funds)(player) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2227-2229)
+	State variables written after the call(s):
+	- buyP3dFunds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2229-2230)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Buffer.init (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#82-95) is declared view but contains assembly code
+Buffer.append (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#115-157) is declared view but contains assembly code
+Buffer.append (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#164-183) is declared view but contains assembly code
+Buffer.appendInt (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#188-212) is declared view but contains assembly code
+usingOraclize.getCodeSize (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#779-785) is declared view but contains assembly code
+usingOraclize.copyBytes (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1154-1175) is declared view but contains assembly code
+usingOraclize.safeMemoryCleaner (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1274-1284) is declared view but contains assembly code
+MegaBall.basePrice (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2206-2208) is declared view but changes state variables:
+	- usingOraclize.oraclize
+	- usingOraclize.oraclize_network_name
+	- usingOraclize.OAR
+MegaBall.calcEntryFee (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2210-2214) is declared view but changes state variables:
+	- usingOraclize.oraclize
+	- usingOraclize.oraclize_network_name
+	- usingOraclize.OAR
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+MegaBall.cmp (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) uses a dangerous strict equality:
+	- _draw == _player
+MegaBall.cmp (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) uses a dangerous strict equality:
+	- _draw == _player
+MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1665-1753) uses a dangerous strict equality:
+	- require(bool)(msg.value == stages[_stage].stageSplits.INCOMING_DENOMINATION)
+MegaBall.cmp (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) uses a dangerous strict equality:
+	- _draw == _player
+MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1665-1753) uses a dangerous strict equality:
+	- require(bool)(msg.value == stages[_stage].stageSplits.INCOMING_DENOMINATION)
+MegaBall.redeemTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2416-2470) uses a dangerous strict equality:
+	- numMatches == 2
+	- numMatches == 3
+	- numMatches == 4
+	- numMatches == 5
+	- numMatches == 3
+	- numMatches == 4
+	- numMatches == 5
+MegaBall.cmp (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) uses a dangerous strict equality:
+	- _draw == _player
+MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1665-1753) uses a dangerous strict equality:
+	- require(bool)(msg.value == stages[_stage].stageSplits.INCOMING_DENOMINATION)
+MegaBall.redeemTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2416-2470) uses a dangerous strict equality:
+	- numMatches == 2
+	- numMatches == 3
+	- numMatches == 4
+	- numMatches == 5
+	- numMatches == 3
+	- numMatches == 4
+	- numMatches == 5
+MegaBall.validateAndClaimTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2076-2115) uses a dangerous strict equality:
+	- require(bool)(stages[_stage].playerTickets[msg.sender][position].owner == msg.sender)
+	- require(bool)(stages[_stage].playerTickets[msg.sender][position].isValidated == false)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1665-1753):
+	External calls:
+	- referralContract.isAnOwner(_referredBy) == false (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1684-1698)
+	- referralContract.isAnOwner(_referredBy) == true (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1707-1732)
+	State variables written after the call(s):
+	- dividendFunds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1726-1728)
+	- dividendFunds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1728-1732)
+	- lotteryPortion (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1713-1718)
+	- moneyballVault (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1723-1725)
+	- rafflePortion (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1718-1722)
+Reentrancy in MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1665-1753):
+	External calls:
+	- referralContract.isAnOwner(_referredBy) == false (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1684-1698)
+	State variables written after the call(s):
+	- stages (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1750-1751)
+Reentrancy in usingOraclize.oraclizeAPI (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#308-316):
+	External calls:
+	- address(oraclize) != OAR.getAddress() (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#313-315)
+	- oraclize = OraclizeI(OAR.getAddress()) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#314-315)
+	State variables written after the call(s):
+	- oraclize (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#314-315)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+buf in usingOraclize.stra2cbor (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#934) is a local variable never initialiazed
+buf in usingOraclize.ba2cbor (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#941-942) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+CBOR.encodeType (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#222-241) does not use the value returned by external calls:
+	-buf.appendInt(value,1) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#228-229)
+	-buf.appendInt(value,2) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#231)
+	-buf.appendInt(value,4) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#236)
+	-buf.appendInt(value,8) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#240)
+CBOR.encodeBytes (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#258-262) does not use the value returned by external calls:
+	-buf.append(value) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#262)
+CBOR.encodeString (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#263-268) does not use the value returned by external calls:
+	-buf.append(bytes(value)) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#267)
+MegaBall.buyP3d (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2223-2236) does not use the value returned by external calls:
+	-p3dContract.buy.value(funds)(player) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2227-2229)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in MegaBall.CreateStage (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2253-2313):
+	External calls:
+	- buyP3d(owner) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2306)
+	- withdrawP3dDividends() (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2308)
+	External calls sending eth:
+	- buyP3d(owner) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2306)
+	State variables written after the call(s):
+	- denominationActiveTimestamp (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2308-2312)
+	- raffleTicketsRewardPerBuy (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2313)
+Reentrancy in MegaBall.buyP3d (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2223-2236):
+	External calls:
+	- p3dContract.buy.value(funds)(player) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2227-2229)
+	State variables written after the call(s):
+	- dividendFunds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2234)
+Reentrancy in MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1665-1753):
+	External calls:
+	- referralContract.isAnOwner(_referredBy) == false (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1684-1698)
+	State variables written after the call(s):
+	- buyP3dFunds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1694-1695)
+	- dividendFunds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1697-1698)
+	- lotteryPortion (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1686-1687)
+	- moneyballVault (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1689-1692)
+	- playerRaffleTickets (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1751-1752)
+	- rafflePortion (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1687-1688)
+Reentrancy in usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#950-1010):
+	External calls:
+	- sessionKeyHash_bytes32 = oraclize_randomDS_getSessionPubKeyHash() (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#963-966)
+	- queryId = oraclize_query(random,args,_customGasLimit) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#973)
+	External calls sending eth:
+	- queryId = oraclize_query(random,args,_customGasLimit) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#973)
+	State variables written after the call(s):
+	- oraclize_network_name (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#973)
+	- oraclize_randomDS_args (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1004-1009)
+Reentrancy in MegaBall.updateDenomination (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1638-1652):
+	External calls:
+	- USD_DENOM = calcEntryFee() (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1644)
+	State variables written after the call(s):
+	- DENOMINATION (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1647)
+	- playerRaffleTickets (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1648-1649)
+Reentrancy in MegaBall.updatePrice (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1652-1657):
+	External calls:
+	- oraclize_getPrice(URL) < msg.value (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1653-1657)
+	- oraclize_query(URL,ethUsdUrl) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1654-1655)
+	External calls sending eth:
+	- oraclize_query(URL,ethUsdUrl) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1654-1655)
+	State variables written after the call(s):
+	- oraclize_network_name (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1654-1655)
+Reentrancy in MegaBall.withdrawP3dDividends (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2237-2249):
+	External calls:
+	- dividends = p3dContract.myDividends(true) (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2239-2241)
+	- p3dContract.withdraw() (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2244-2245)
+	State variables written after the call(s):
+	- rafflePortion (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2247-2249)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Buffer.init uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#82-95)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#89-95
+Buffer.append uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#115-157)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#125-140
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#143-146
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#148-157
+Buffer.append uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#164-183)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#170-183
+Buffer.appendInt uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#188-212)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#197-212
+usingOraclize.getCodeSize uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#779-785)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#782-785
+usingOraclize.oraclize_newRandomDSQuery uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#950-1010)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#966-970
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#971
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#974-1005
+usingOraclize.verifySig uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1017-1038)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1029-1030
+usingOraclize.copyBytes uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1154-1175)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1169-1171
+usingOraclize.safer_ecrecover uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1179-1206)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1196-1206
+usingOraclize.ecrecovery uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1209-1274)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1223-1266
+usingOraclize.safeMemoryCleaner uses assembly (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1274-1284)
+	- /unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1277-1284
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+MegaBall.ETH_TO_USD should be constant (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1554)
+MegaBall.drawingTimeOffset should be constant (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1571)
+MegaBall.ethUsdUrl should be constant (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1590-1592)
+MegaBall.raffleTicketsPerDraw should be constant (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1546-1547)
+OraclizeI.cbAddress should be constant (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#36)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+OraclizeI.query2 (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#38-39) should be declared external
+OraclizeI.queryN (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#40-41) should be declared external
+OraclizeI.getPrice (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#42-43) should be declared external
+OraclizeI.getPrice (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#43-44) should be declared external
+OraclizeAddrResolverI.getAddress (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#50-55) should be declared external
+usingOraclize.__callback (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#358-361) should be declared external
+MegaBall.__callback (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1628-1638) should be declared external
+MegaBall.initFirstStage (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1595-1610) should be declared external
+MegaBall.fallback (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1615-1617) should be declared external
+MegaBall.updatePrice (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1652-1657) should be declared external
+MegaBall.seedJackpot (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1657-1665) should be declared external
+MegaBall.p3dDividends (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1753-1754) should be declared external
+MegaBall.p3dBalance (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1754-1756) should be declared external
+MegaBall.getDrawBlocknumbers (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1756-1771) should be declared external
+MegaBall.isFinalizeValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1773-1794) should be declared external
+MegaBall.getPayoutsNMB (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1926-1933) should be declared external
+MegaBall.getPayoutsMB (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1934-1944) should be declared external
+MegaBall.getRafflePlayerCount (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1945-1950) should be declared external
+MegaBall.getStageDenomination (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1951-1954) should be declared external
+MegaBall.getStageBlocks (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1954-1961) should be declared external
+MegaBall.checkRedemptionPeriod (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1961-1968) should be declared external
+MegaBall.getStageStatus (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1969-1979) should be declared external
+MegaBall.getTicketByPosition (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1982-2006) should be declared external
+MegaBall.getTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2010-2030) should be declared external
+MegaBall.getDrawnTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2032-2044) should be declared external
+MegaBall.getTicketCount (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2044-2047) should be declared external
+MegaBall.isTicketRedeemed (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2047-2052) should be declared external
+MegaBall.stageMoveDetail (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2052-2067) should be declared external
+MegaBall.getMoneyballBalance (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2119-2124) should be declared external
+MegaBall.getContractBalance (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2125-2129) should be declared external
+MegaBall.getPlayerRaffleTickets (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2195-2200) should be declared external
+MegaBall.checkTicketValue (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2471-2501) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'OraclizeI.query_withGasLimit' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#37-38) is not in mixedCase
+Function 'OraclizeI.query2_withGasLimit' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#39-40) is not in mixedCase
+Function 'OraclizeI.queryN_withGasLimit' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#41-42) is not in mixedCase
+Function 'OraclizeI.randomDS_getSessionPubKeyHash' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#46-50) is not in mixedCase
+Struct 'Buffer.buffer' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#81-82) is not in CapWords
+Parameter '_capacity' of Buffer.init (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#83) is not in mixedCase
+Contract 'usingOraclize' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#286-1284) is not in CapWords
+Function 'usingOraclize.oraclize_setNetwork' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#317-322) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetwork' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#322-358) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#358-361) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#361-372) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#372-374) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#374-377) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#377-382) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#382-386) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#387-392) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#392-397) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#397-402) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#402-405) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#406-412) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#412-418) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#418-424) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#424-428) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#428-436) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#436-443) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#443-447) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#447-452) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#452-459) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#459-465) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#465-470) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#470-476) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#476-483) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#483-489) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#490-496) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#496-503) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#503-512) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#512-519) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#520-527) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#527-535) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#535-544) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#544-552) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#553-561) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#561-570) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#570-580) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#580-586) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#586-592) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#592-597) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#597-605) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#605-612) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#612-617) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#617-623) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#623-629) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#629-635) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#635-641) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#641-647) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#647-654) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#654-661) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#661-666) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#666-673) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#673-684) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#684-690) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#690-698) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#698-706) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#706-715) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#715-724) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#724-732) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#732-741) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#741-752) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#752-765) is not in mixedCase
+Function 'usingOraclize.oraclize_cbAddress' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#765-770) is not in mixedCase
+Function 'usingOraclize.oraclize_setProof' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#770-773) is not in mixedCase
+Function 'usingOraclize.oraclize_setCustomGasPrice' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#773-776) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_getSessionPubKeyHash' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#776-779) is not in mixedCase
+Parameter '_a' of usingOraclize.parseAddr (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#786) is not in mixedCase
+Parameter '_a' of usingOraclize.strCompare (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#807-808) is not in mixedCase
+Parameter '_b' of usingOraclize.strCompare (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#808) is not in mixedCase
+Parameter '_haystack' of usingOraclize.indexOf (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#825-826) is not in mixedCase
+Parameter '_needle' of usingOraclize.indexOf (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#826-827) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#847) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#847) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#847) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#847) is not in mixedCase
+Parameter '_e' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#847) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#871) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#871-872) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#872) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#872) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#876) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#876-877) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#877) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#881-883) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#883) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#887) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#893) is not in mixedCase
+Parameter '_b' of usingOraclize.parseInt (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#893-894) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetworkName' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#947-948) is not in mixedCase
+Parameter '_network_name' of usingOraclize.oraclize_setNetworkName (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#947) is not in mixedCase
+Function 'usingOraclize.oraclize_getNetworkName' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#948-950) is not in mixedCase
+Function 'usingOraclize.oraclize_newRandomDSQuery' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#950-1010) is not in mixedCase
+Parameter '_delay' of usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#951-952) is not in mixedCase
+Parameter '_nbytes' of usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#952) is not in mixedCase
+Parameter '_customGasLimit' of usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#952-953) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_setCommitment' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1010-1013) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__sessionKeyValidity' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1038-1073) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__returnCode' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1087-1095) is not in mixedCase
+Parameter '_queryId' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1087-1088) is not in mixedCase
+Parameter '_result' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1088) is not in mixedCase
+Parameter '_proof' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1088) is not in mixedCase
+Parameter 'n_random_bytes' of usingOraclize.matchBytes32Prefix (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1095) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__main' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1099-1152) is not in mixedCase
+Parameter 'context_name' of usingOraclize.oraclize_randomDS_proofVerify__main (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1100) is not in mixedCase
+Function 'usingOraclize.safer_ecrecover' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1179-1206) is not in mixedCase
+Constant 'usingOraclize.day' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#286-287) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.week' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#287-288) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.month' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#288-289) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_NONE' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#289-290) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_TLSNotary' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#290-291) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Ledger' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#291-292) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Android' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#292-293) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Native' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#293-295) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofStorage_IPFS' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#297-298) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_auto' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#298-299) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_mainnet' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#299-300) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_testnet' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#300-302) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_morden' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#302) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_consensys' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#303) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'usingOraclize.OAR' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#305-307) is not in mixedCase
+Variable 'usingOraclize.oraclize_network_name' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#946) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_args' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1013-1017) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_sessionKeysHashVerified' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1017) is not in mixedCase
+Modifier 'usingOraclize.oraclize_randomDS_proofVerify' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1073-1086) is not in mixedCase
+Function 'MegaBall.__callback' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1628-1638) is not in mixedCase
+Parameter '_stage' of MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1665) is not in mixedCase
+Parameter '_referredBy' of MegaBall.createTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1669) is not in mixedCase
+Parameter '_stage' of MegaBall.getDrawBlocknumbers (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1756) is not in mixedCase
+Parameter '_stage' of MegaBall.isFinalizeValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1773) is not in mixedCase
+Parameter '_stage' of MegaBall.finalizeStage (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1794) is not in mixedCase
+Parameter '_stage' of MegaBall.setDrawBlocks (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1874) is not in mixedCase
+Parameter '_stage' of MegaBall.getPayoutsNMB (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1926) is not in mixedCase
+Parameter '_stage' of MegaBall.getPayoutsMB (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1935-1936) is not in mixedCase
+Parameter '_stage' of MegaBall.getRafflePlayerCount (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1945) is not in mixedCase
+Parameter '_stage' of MegaBall.getStageDenomination (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1951) is not in mixedCase
+Parameter '_stage' of MegaBall.getStageBlocks (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1955) is not in mixedCase
+Parameter '_stage' of MegaBall.checkRedemptionPeriod (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1964) is not in mixedCase
+Parameter '_stage' of MegaBall.getStageStatus (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1969-1970) is not in mixedCase
+Parameter '_stage' of MegaBall.getTicketByPosition (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1982-1985) is not in mixedCase
+Parameter '_position' of MegaBall.getTicketByPosition (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1985) is not in mixedCase
+Parameter '_stage' of MegaBall.getTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2010) is not in mixedCase
+Parameter '_position' of MegaBall.getTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2010-2012) is not in mixedCase
+Parameter '_player' of MegaBall.getTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2012) is not in mixedCase
+Parameter '_stage' of MegaBall.getDrawnTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2033) is not in mixedCase
+Parameter '_stage' of MegaBall.getTicketCount (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2045) is not in mixedCase
+Parameter '_stage' of MegaBall.isTicketRedeemed (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2047) is not in mixedCase
+Parameter '_position' of MegaBall.isTicketRedeemed (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2048) is not in mixedCase
+Parameter '_stage' of MegaBall.stageMoveDetail (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2054) is not in mixedCase
+Parameter '_stage' of MegaBall.validateAndClaimTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2076-2077) is not in mixedCase
+Parameter '_n1' of MegaBall.isDrawValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2134) is not in mixedCase
+Parameter '_n2' of MegaBall.isDrawValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2134) is not in mixedCase
+Parameter '_n3' of MegaBall.isDrawValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2134) is not in mixedCase
+Parameter '_n4' of MegaBall.isDrawValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2134) is not in mixedCase
+Parameter '_n5' of MegaBall.isDrawValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2134) is not in mixedCase
+Parameter '_pb' of MegaBall.isDrawValid (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2134) is not in mixedCase
+Parameter '_player' of MegaBall.addPlayerToRaffle (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2162) is not in mixedCase
+Parameter '_n1' of MegaBall.checkNumbers (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2201) is not in mixedCase
+Parameter '_n2' of MegaBall.checkNumbers (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2201) is not in mixedCase
+Parameter '_denomination' of MegaBall.calculatePayoutDenomination (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2217-2218) is not in mixedCase
+Parameter '_multiple' of MegaBall.calculatePayoutDenomination (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2218) is not in mixedCase
+Parameter '_denomination' of MegaBall.calculateOnePercentTicketCostSplit (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2220-2221) is not in mixedCase
+Function 'MegaBall.CreateStage' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2253-2313) is not in mixedCase
+Parameter '_stage' of MegaBall.resetDrawBlocks (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2313) is not in mixedCase
+Parameter '_stage' of MegaBall.doRaffle (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2325) is not in mixedCase
+Parameter '_player' of MegaBall.payRafflePlayer (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2383-2384) is not in mixedCase
+Parameter '_amount' of MegaBall.payRafflePlayer (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2384) is not in mixedCase
+Parameter '_stage' of MegaBall.payRafflePlayer (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2384-2385) is not in mixedCase
+Parameter '_player' of MegaBall.payMainRafflePlayer (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2394) is not in mixedCase
+Parameter '_amount' of MegaBall.payMainRafflePlayer (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2394-2395) is not in mixedCase
+Parameter '_stage' of MegaBall.payMainRafflePlayer (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2395-2396) is not in mixedCase
+Parameter '_amount' of MegaBall.payTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2402) is not in mixedCase
+Parameter '_player' of MegaBall.payTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2402-2404) is not in mixedCase
+Parameter '_stage' of MegaBall.redeemTicket (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2417) is not in mixedCase
+Parameter '_stage' of MegaBall.checkTicketValue (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2471) is not in mixedCase
+Parameter '_stage' of MegaBall.checkPlayerN1 (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2502) is not in mixedCase
+Parameter '_stage' of MegaBall.checkPlayerN2 (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2512) is not in mixedCase
+Parameter '_stage' of MegaBall.checkPlayerN3 (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2535) is not in mixedCase
+Parameter '_stage' of MegaBall.checkPlayerN4 (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#2554) is not in mixedCase
+Parameter '_stage' of MegaBall.checkPlayerN5 (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_draw' of MegaBall.cmp (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_player' of MegaBall.cmp (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_n1' of MegaBall.isSubmittedNumberWithinBounds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_n2' of MegaBall.isSubmittedNumberWithinBounds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_n3' of MegaBall.isSubmittedNumberWithinBounds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_n4' of MegaBall.isSubmittedNumberWithinBounds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_n5' of MegaBall.isSubmittedNumberWithinBounds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Parameter '_pb' of MegaBall.isSubmittedNumberWithinBounds (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol) is not in mixedCase
+Constant 'MegaBall.referralContract' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1403-1408) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MegaBall.p3dContract' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1408-1415) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MegaBall.Divies' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1415-1418) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'MegaBall.ETH_TO_USD' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1554) is not in mixedCase
+Variable 'MegaBall.DENOMINATION' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1555) is not in mixedCase
+Constant 'MegaBall.denominationFloor' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1559-1562) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MegaBall.denominationCeiling' (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#1563-1569) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+usingOraclize.day (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#286-287) is never used in MegaBall
+usingOraclize.week (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#287-288) is never used in MegaBall
+usingOraclize.month (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#288-289) is never used in MegaBall
+usingOraclize.proofType_NONE (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#289-290) is never used in MegaBall
+usingOraclize.proofType_TLSNotary (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#290-291) is never used in MegaBall
+usingOraclize.proofType_Ledger (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#291-292) is never used in MegaBall
+usingOraclize.proofType_Android (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#292-293) is never used in MegaBall
+usingOraclize.proofType_Native (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#293-295) is never used in MegaBall
+usingOraclize.proofStorage_IPFS (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#297-298) is never used in MegaBall
+usingOraclize.networkID_mainnet (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#299-300) is never used in MegaBall
+usingOraclize.networkID_testnet (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#300-302) is never used in MegaBall
+usingOraclize.networkID_morden (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#302) is never used in MegaBall
+usingOraclize.networkID_consensys (/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol#303) is never used in MegaBall
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0x3fe2b3e8feb33ed523ce8f786c22cb6556f8a33f.sol analyzed (10 contracts), 277 result(s) found

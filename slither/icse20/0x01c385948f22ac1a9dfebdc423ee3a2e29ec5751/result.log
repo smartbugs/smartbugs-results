@@ -1,0 +1,221 @@
+INFO:Detectors:[93m
+Reentrancy in OwnerContract.changeOwnershipto (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#298-314):
+	External calls:
+	- ownedContract.owner() != pendingOwnedOwner (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#301-314)
+	- ownedContract.transferOwnership(_nextOwner) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#302-303)
+	State variables written after the call(s):
+	- pendingOwnedOwner (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#303-307)
+Reentrancy in OwnerContract.ownedOwnershipTransferred (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#316-335):
+	External calls:
+	- ownedContract.owner() == pendingOwnedOwner (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#324-335)
+	State variables written after the call(s):
+	- ownedContract (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#328-330)
+	- pendingOwnedOwner (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#330)
+Reentrancy in ReleaseAndLockToken.releaseWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#581-649):
+	External calls:
+	- ! lockedStorage.isExisted(frozenAddr) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#583-584)
+	- timeRecLen = lockedStorage.lockedStagesNum(frozenAddr) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#584-585)
+	- releaseTokens(frozenAddr,_tk,preReleaseAmounts[frozenAddr]) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#641)
+	State variables written after the call(s):
+	- preReleaseAmounts (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#642-643)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+ReleaseAndLockToken.freeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#414-431) does not use the value returned by external calls:
+	-lockedStorage.addAccount(_target,_name,_value) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#425-427)
+ReleaseAndLockToken.releaseWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#581-649) does not use the value returned by external calls:
+	-lockedStorage.decreaseRemainLockedOf(frozenAddr,j,value) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#603-604)
+	-lockedStorage.decreaseRemainLockedOf(frozenAddr,j,remain) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#620-621)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ReleaseAndLockToken.needRelease has external calls inside a loop:
+	- frozenAddr = lockedStorage.addressByIndex(i) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#369-374)
+ReleaseAndLockToken.needRelease has external calls inside a loop:
+	- timeRecLen = lockedStorage.lockedStagesNum(frozenAddr) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#375-378)
+ReleaseAndLockToken.needRelease has external calls inside a loop:
+	- now >= lockedStorage.endTimeOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#379-383)
+ReleaseAndLockToken.needReleaseFor has external calls inside a loop:
+	- now >= lockedStorage.endTimeOfStage(_target,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#404-405)
+ReleaseAndLockToken.releaseAllOnceLock has external calls inside a loop:
+	- target = lockedStorage.addressByIndex(i) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#502)
+ReleaseAndLockToken.releaseAllOnceLock has external calls inside a loop:
+	- lockedStorage.lockedStagesNum(target) == 1 && lockedStorage.endTimeOfStage(target,0) == lockedStorage.releaseEndTimeOfStage(target,0) && lockedStorage.endTimeOfStage(target,0) > 0 && now >= lockedStorage.endTimeOfStage(target,0) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#502-534)
+ReleaseAndLockToken.releaseAllOnceLock has external calls inside a loop:
+	- releasedAmount = lockedStorage.amountOfStage(target,0) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#512-514)
+ReleaseAndLockToken.releaseAllOnceLock has external calls inside a loop:
+	- ! lockedStorage.removeLockedTime(target,0) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#516-524)
+ReleaseAndLockToken.releaseAllOnceLock has external calls inside a loop:
+	- ! lockedStorage.removeAccount(target) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#525-527)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- endTime = lockedStorage.endTimeOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#589-591)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- releasedEndTime = lockedStorage.releaseEndTimeOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#592-593)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- amount = lockedStorage.amountOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#593-595)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- remain = lockedStorage.remainOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#595-596)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- lockedStorage.decreaseRemainLockedOf(frozenAddr,j,value) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#603-604)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- lockedStorage.remainOfStage(frozenAddr,j) < 1e8 (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#606-616)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- ! lockedStorage.removeLockedTime(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#607-611)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- lockedStorage.decreaseRemainLockedOf(frozenAddr,j,remain) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#620-621)
+ReleaseAndLockToken.releaseWithStage has external calls inside a loop:
+	- ! lockedStorage.removeLockedTime(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#627-628)
+ReleaseAndLockToken.setNewEndtime has external calls inside a loop:
+	- endTime = lockedStorage.endTimeOfStage(_target,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#674-675)
+ReleaseAndLockToken.setNewEndtime has external calls inside a loop:
+	- releasedEndTime = lockedStorage.releaseEndTimeOfStage(_target,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#675-676)
+ReleaseAndLockToken.setNewEndtime has external calls inside a loop:
+	- res = lockedStorage.changeEndTime(_target,j,_newEndTime) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#679)
+ReleaseAndLockToken.setNewEndtime has external calls inside a loop:
+	- res = lockedStorage.setNewReleaseEndTime(_target,j,_newEndTime.add(duration)) && res (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#679-681)
+ReleaseAndLockToken.setNewReleasePeriod has external calls inside a loop:
+	- endTime = lockedStorage.endTimeOfStage(_target,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#710-714)
+ReleaseAndLockToken.setNewReleasePeriod has external calls inside a loop:
+	- releasedEndTime = lockedStorage.releaseEndTimeOfStage(_target,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#714-716)
+ReleaseAndLockToken.setNewReleasePeriod has external calls inside a loop:
+	- lockedStorage.setNewReleaseEndTime(_target,j,_origEndTime.add(_newDuration)) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#719-720)
+ReleaseAndLockToken.getRemainLockedOf has external calls inside a loop:
+	- totalRemain = totalRemain.add(lockedStorage.remainOfStage(_account,j)) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#774-775)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in ReleaseAndLockToken.initialize (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#346-361):
+	External calls:
+	- require(bool)(super.bindContract(_contract)) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#356-357)
+	State variables written after the call(s):
+	- flyDropMgr (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#359-360)
+	- lockedStorage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#357-359)
+Reentrancy in ReleaseAndLockToken.releaseWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#581-649):
+	External calls:
+	- ! lockedStorage.isExisted(frozenAddr) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#583-584)
+	- timeRecLen = lockedStorage.lockedStagesNum(frozenAddr) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#584-585)
+	- endTime = lockedStorage.endTimeOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#589-591)
+	- releasedEndTime = lockedStorage.releaseEndTimeOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#592-593)
+	- amount = lockedStorage.amountOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#593-595)
+	- remain = lockedStorage.remainOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#595-596)
+	- lockedStorage.decreaseRemainLockedOf(frozenAddr,j,value) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#603-604)
+	State variables written after the call(s):
+	- preReleaseAmounts (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#605-606)
+Reentrancy in ReleaseAndLockToken.releaseWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#581-649):
+	External calls:
+	- ! lockedStorage.isExisted(frozenAddr) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#583-584)
+	- timeRecLen = lockedStorage.lockedStagesNum(frozenAddr) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#584-585)
+	- endTime = lockedStorage.endTimeOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#589-591)
+	- releasedEndTime = lockedStorage.releaseEndTimeOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#592-593)
+	- amount = lockedStorage.amountOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#593-595)
+	- remain = lockedStorage.remainOfStage(frozenAddr,j) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#595-596)
+	- lockedStorage.decreaseRemainLockedOf(frozenAddr,j,remain) (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#620-621)
+	State variables written after the call(s):
+	- preReleaseAmounts (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#623-627)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#176-179) should be declared external
+Claimable.transferOwnership (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#216-218) should be declared external
+Ownable.transferOwnership (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#185-187) should be declared external
+DelayedClaimable.claimOwnership (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#252-262) should be declared external
+Claimable.claimOwnership (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#225-231) should be declared external
+DelayedClaimable.setLimits (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#241-245) should be declared external
+OwnerContract.changeOwnershipto (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#298-314) should be declared external
+OwnerContract.ownedOwnershipTransferred (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#316-335) should be declared external
+ReleaseAndLockToken.initialize (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#346-361) should be declared external
+ReleaseAndLockToken.needRelease (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#364-387) should be declared external
+ReleaseAndLockToken.needReleaseFor (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#393-407) should be declared external
+ReleaseAndLockToken.releaseAllOnceLock (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#497-537) should be declared external
+ReleaseAndLockToken.setNewEndtime (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#658-685) should be declared external
+ReleaseAndLockToken.setNewReleasePeriod (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#692-722) should be declared external
+ReleaseAndLockToken.getLockedStages (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#728-731) should be declared external
+ReleaseAndLockToken.getEndTimeOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#740-746) should be declared external
+ReleaseAndLockToken.getRemainOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#750-761) should be declared external
+ReleaseAndLockToken.getRemainLockedOf (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#764-779) should be declared external
+ReleaseAndLockToken.getRemainReleaseTimeOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#786-805) should be declared external
+ReleaseAndLockToken.releaseMultiAccounts (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#812-825) should be declared external
+ReleaseAndLockToken.releaseMultiWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#829-845) should be declared external
+ReleaseAndLockToken.freezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#862-880) should be declared external
+ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#890-917) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol) should be declared external
+ERC20Basic.transfer (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol) should be declared external
+ERC20.allowance (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol) should be declared external
+ERC20.transferFrom (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol) should be declared external
+ERC20.approve (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol:
+	- pragma solidity^0.4.13 (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_a' of SafeMath.mul (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#97) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#97) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#113) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#113-114) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#128) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#128) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#137-138) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#138) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#185) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#194-200) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#195) is not in mixedCase
+Parameter '_start' of DelayedClaimable.setLimits (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#242) is not in mixedCase
+Parameter '_end' of DelayedClaimable.setLimits (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#242) is not in mixedCase
+Parameter '_contract' of OwnerContract.bindContract (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#270) is not in mixedCase
+Parameter '_nextOwner' of OwnerContract.changeOwnershipto (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#298-299) is not in mixedCase
+Parameter '_contract' of ReleaseAndLockToken.initialize (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#347) is not in mixedCase
+Parameter '_flyDropContract' of ReleaseAndLockToken.initialize (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#347-350) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.needReleaseFor (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#395-398) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.freeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#414-416) is not in mixedCase
+Parameter '_name' of ReleaseAndLockToken.freeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#417) is not in mixedCase
+Parameter '_value' of ReleaseAndLockToken.freeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#417) is not in mixedCase
+Parameter '_frozenEndTime' of ReleaseAndLockToken.freeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#417) is not in mixedCase
+Parameter '_releasePeriod' of ReleaseAndLockToken.freeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#417-418) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.transferAndFreeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#444) is not in mixedCase
+Parameter '_name' of ReleaseAndLockToken.transferAndFreeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#445-447) is not in mixedCase
+Parameter '_from' of ReleaseAndLockToken.transferAndFreeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#447) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.transferAndFreeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#448) is not in mixedCase
+Parameter '_value' of ReleaseAndLockToken.transferAndFreeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#449) is not in mixedCase
+Parameter '_frozenEndTime' of ReleaseAndLockToken.transferAndFreeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#449-450) is not in mixedCase
+Parameter '_releasePeriod' of ReleaseAndLockToken.transferAndFreeze (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#450) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.releaseTokens (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#488) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.releaseTokens (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#488) is not in mixedCase
+Parameter '_value' of ReleaseAndLockToken.releaseTokens (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#488) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.releaseAllOnceLock (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#498) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.releaseAccount (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#541) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.releaseAccount (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#541-543) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.releaseWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#581) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.releaseWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#581-582) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.setNewEndtime (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#659) is not in mixedCase
+Parameter '_oldEndTime' of ReleaseAndLockToken.setNewEndtime (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#659) is not in mixedCase
+Parameter '_oldDuration' of ReleaseAndLockToken.setNewEndtime (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#659) is not in mixedCase
+Parameter '_newEndTime' of ReleaseAndLockToken.setNewEndtime (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#659-660) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.setNewReleasePeriod (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#693) is not in mixedCase
+Parameter '_origEndTime' of ReleaseAndLockToken.setNewReleasePeriod (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#693) is not in mixedCase
+Parameter '_origDuration' of ReleaseAndLockToken.setNewReleasePeriod (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#693) is not in mixedCase
+Parameter '_newDuration' of ReleaseAndLockToken.setNewReleasePeriod (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#693-694) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.getLockedStages (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#729) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.getEndTimeOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#741-742) is not in mixedCase
+Parameter '_num' of ReleaseAndLockToken.getEndTimeOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#742) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.getRemainOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#750-751) is not in mixedCase
+Parameter '_num' of ReleaseAndLockToken.getRemainOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#751) is not in mixedCase
+Parameter '_account' of ReleaseAndLockToken.getRemainLockedOf (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#764) is not in mixedCase
+Parameter '_target' of ReleaseAndLockToken.getRemainReleaseTimeOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#786) is not in mixedCase
+Parameter '_num' of ReleaseAndLockToken.getRemainReleaseTimeOfStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#786-788) is not in mixedCase
+Parameter '_targets' of ReleaseAndLockToken.releaseMultiAccounts (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#813) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.releaseMultiAccounts (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#813) is not in mixedCase
+Parameter '_targets' of ReleaseAndLockToken.releaseMultiWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#830-831) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.releaseMultiWithStage (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#831) is not in mixedCase
+Parameter '_b32' of ReleaseAndLockToken.bytes32ToString (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#848) is not in mixedCase
+Parameter '_targets' of ReleaseAndLockToken.freezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#865-866) is not in mixedCase
+Parameter '_names' of ReleaseAndLockToken.freezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#868-869) is not in mixedCase
+Parameter '_values' of ReleaseAndLockToken.freezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#869) is not in mixedCase
+Parameter '_frozenEndTimes' of ReleaseAndLockToken.freezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#869) is not in mixedCase
+Parameter '_releasePeriods' of ReleaseAndLockToken.freezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#869) is not in mixedCase
+Parameter '_targets' of ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#890-893) is not in mixedCase
+Parameter '_names' of ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#893-894) is not in mixedCase
+Parameter '_from' of ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#894-897) is not in mixedCase
+Parameter '_tk' of ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#897) is not in mixedCase
+Parameter '_values' of ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#897-898) is not in mixedCase
+Parameter '_frozenEndTimes' of ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#898) is not in mixedCase
+Parameter '_releasePeriods' of ReleaseAndLockToken.transferAndFreezeMulti (/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol#898-899) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/21/0x01c385948f22ac1a9dfebdc423ee3a2e29ec5751.sol analyzed (10 contracts), 135 result(s) found

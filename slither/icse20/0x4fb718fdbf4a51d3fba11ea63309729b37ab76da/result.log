@@ -1,0 +1,148 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:126:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function AVStarsToken() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:147:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _to, _tokenId);
+    ^---------------------------------^
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:294:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenSold(_tokenId, sellingPrice, personIndexToPrice[_tokenId], oldOwner, newOwner, persons[_tokenId].name);
+    ^---------------------------------------------------------------------------------------------------------^
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:336:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MoreActivity(_tokenId, msg.sender, startTime, person.cooldownTime, _type);
+    ^-----------------------------------------------------------------------^
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:344:5: Warning: Invoking events without "emit" prefix is deprecated.
+    ChangeSlogan(person.slogan);
+    ^-------------------------^
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:483:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Birth(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:506:27: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      ceoAddress.transfer(this.balance);
+                          ^----------^
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:508:20: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      _to.transfer(this.balance);
+                   ^----------^
+/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:527:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _tokenId);
+    ^----------------------------^
+
+INFO:Detectors:[91m
+AVStarsToken.purchase (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#265-304) sends eth to arbitrary user
+	Dangerous calls:
+	- oldOwner.transfer(payment) (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#299)
+AVStarsToken._payout (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#519-522) sends eth to arbitrary user
+	Dangerous calls:
+	- ceoAddress.transfer(this.balance) (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#520-521)
+	- _to.transfer(this.balance) (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#522)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#6-28) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#8-9)
+	-transferFrom (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#14-15)
+	-transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#15-17)
+AVStarsToken (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#28-550) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#143-153)
+	-transferFrom (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#454-463)
+	-transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#437-443)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+AVStarsToken._createPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#479-513) uses a dangerous strict equality:
+	- require(bool)(newPersonId == uint256(uint32(newPersonId)))
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+AVStarsToken.firstStepLimit should be constant (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#66-68)
+AVStarsToken.startingPrice should be constant (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#64-65)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+AVStarsToken.approve (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#143-153) should be declared external
+ERC721.approve (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#8-9) should be declared external
+ERC721.implementsERC721 (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#10-11) should be declared external
+AVStarsToken.implementsERC721 (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#228-230) should be declared external
+AVStarsToken.ownerOf (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#257-260) should be declared external
+ERC721.ownerOf (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#11-12) should be declared external
+ERC721.takeOwnership (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#12-13) should be declared external
+AVStarsToken.takeOwnership (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#385-393) should be declared external
+AVStarsToken.transferFrom (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#454-463) should be declared external
+ERC721.transferFrom (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#14-15) should be declared external
+ERC721.transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#15-17) should be declared external
+AVStarsToken.transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#437-443) should be declared external
+AVStarsToken.createPromoPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#164-192) should be declared external
+AVStarsToken.createContractPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#197-199) should be declared external
+AVStarsToken.getPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#205-228) should be declared external
+AVStarsToken.name (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#233-236) should be declared external
+AVStarsToken.pauseGame (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#241-242) should be declared external
+AVStarsToken.unPauseGame (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#242-244) should be declared external
+AVStarsToken.GetIsPauded (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#244-249) should be declared external
+AVStarsToken.payout (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#260-263) should be declared external
+AVStarsToken.purchase (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#265-304) should be declared external
+AVStarsToken.activity (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#304-347) should be declared external
+AVStarsToken.modifySlogan (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#347-354) should be declared external
+AVStarsToken.priceOf (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#356-360) should be declared external
+AVStarsToken.setCEO (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#364-369) should be declared external
+AVStarsToken.setCOO (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#373-375) should be declared external
+AVStarsToken.symbol (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#377-379) should be declared external
+AVStarsToken.tokensOfOwner (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#404-423) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol:
+	- pragma solidity^0.4.20 (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_to' of AVStarsToken.approve (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#145) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.approve (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#145-147) is not in mixedCase
+Parameter '_owner' of AVStarsToken.balanceOf (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#157) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.ownerOf (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#257) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.takeOwnership (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#388) is not in mixedCase
+Parameter '_from' of AVStarsToken.transferFrom (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#457) is not in mixedCase
+Parameter '_to' of AVStarsToken.transferFrom (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#457) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.transferFrom (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#457-458) is not in mixedCase
+Parameter '_to' of AVStarsToken.transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#437) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#437) is not in mixedCase
+Function 'AVStarsToken.AVStarsToken' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#132-133) is not in mixedCase
+Parameter '_owner' of AVStarsToken.createPromoPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#165) is not in mixedCase
+Parameter '_name' of AVStarsToken.createPromoPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#165) is not in mixedCase
+Parameter '_satisfaction' of AVStarsToken.createPromoPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#166-167) is not in mixedCase
+Parameter '_cooldownTime' of AVStarsToken.createPromoPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#167-168) is not in mixedCase
+Parameter '_slogan' of AVStarsToken.createPromoPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#168) is not in mixedCase
+Parameter '_price' of AVStarsToken.createPromoPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#169) is not in mixedCase
+Parameter '_name' of AVStarsToken.createContractPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#197) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.getPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#206-208) is not in mixedCase
+Function 'AVStarsToken.GetIsPauded' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#244-249) is not in mixedCase
+Parameter '_to' of AVStarsToken.payout (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#261) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.purchase (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#265-266) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.activity (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#304-305) is not in mixedCase
+Parameter '_type' of AVStarsToken.activity (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#305-306) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.modifySlogan (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#348) is not in mixedCase
+Parameter '_slogan' of AVStarsToken.modifySlogan (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#348) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken.priceOf (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#356-359) is not in mixedCase
+Parameter '_newCEO' of AVStarsToken.setCEO (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#365-367) is not in mixedCase
+Parameter '_newCOO' of AVStarsToken.setCOO (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#373) is not in mixedCase
+Parameter '_owner' of AVStarsToken.tokensOfOwner (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#404) is not in mixedCase
+Function 'AVStarsToken._addressNotNull' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#468-472) is not in mixedCase
+Parameter '_to' of AVStarsToken._addressNotNull (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#469) is not in mixedCase
+Function 'AVStarsToken._approved' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#473-479) is not in mixedCase
+Parameter '_to' of AVStarsToken._approved (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#474-475) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken._approved (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#475) is not in mixedCase
+Function 'AVStarsToken._createPerson' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#479-513) is not in mixedCase
+Parameter '_name' of AVStarsToken._createPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#480) is not in mixedCase
+Parameter '_satisfaction' of AVStarsToken._createPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#480) is not in mixedCase
+Parameter '_cooldownTime' of AVStarsToken._createPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#480-481) is not in mixedCase
+Parameter '_slogan' of AVStarsToken._createPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#481) is not in mixedCase
+Parameter '_owner' of AVStarsToken._createPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#481-483) is not in mixedCase
+Parameter '_basePrice' of AVStarsToken._createPerson (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#483-484) is not in mixedCase
+Function 'AVStarsToken._owns' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#514-517) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken._owns (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#514) is not in mixedCase
+Function 'AVStarsToken._payout' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#519-522) is not in mixedCase
+Parameter '_to' of AVStarsToken._payout (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#519) is not in mixedCase
+Function 'AVStarsToken._transfer' (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#526-550) is not in mixedCase
+Parameter '_from' of AVStarsToken._transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#526-527) is not in mixedCase
+Parameter '_to' of AVStarsToken._transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#527) is not in mixedCase
+Parameter '_tokenId' of AVStarsToken._transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#527) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+AVStarsToken (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#28-550) does not mark important ERC20 parameters as 'indexed':
+	-Transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#52-54) does not index parameter 'from'
+	-Transfer (/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol#52-54) does not index parameter 'to'
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unindexed-erc20-event-parameters[0m
+INFO:Slither:/unique_chucks/13/0x4fb718fdbf4a51d3fba11ea63309729b37ab76da.sol analyzed (3 contracts), 86 result(s) found

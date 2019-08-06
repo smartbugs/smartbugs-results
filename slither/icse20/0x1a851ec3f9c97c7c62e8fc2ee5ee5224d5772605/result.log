@@ -1,0 +1,146 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol:
+/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol:64:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function SafeNetToken(uint _totalSupply) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol:161:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Treaties(address _wallet, SafeNetToken _token) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Reentrancy in Treaties.confirmRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#266-316):
+	External calls:
+	- tokensConfirmed += token.balanceOf(msg.sender) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#279-280)
+	- token.transfer(creator,requests[id].tokensAmount / 10) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#291-292)
+	- token.transfer(requests[id].beneficiary,requests[id].tokensAmount) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#311-312)
+	External calls sending eth:
+	- assert(bool)(wallet.send(requests[id].ethAmount)) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#306-310)
+	State variables written after the call(s):
+	- requests (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#315)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in Treaties.confirmRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#266-316):
+	External calls:
+	- tokensConfirmed += token.balanceOf(msg.sender) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#279-280)
+	- token.transfer(creator,requests[id].tokensAmount / 10) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#291-292)
+	State variables written after the call(s):
+	- inList (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#302)
+Reentrancy in Treaties.initCreator (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#176-187):
+	External calls:
+	- assert(bool)(token.transfer(creator,_tokensAmount)) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#183)
+	State variables written after the call(s):
+	- creatorInited (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#186-187)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Treaties.confirmRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#266-316) does not use the value returned by external calls:
+	-token.transfer(creator,requests[id].tokensAmount / 10) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#291-292)
+	-token.transfer(requests[id].beneficiary,requests[id].tokensAmount) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#311-312)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Treaties.confirmRequest has external calls inside a loop:
+	- tokensInOwners += token.balanceOf(owners[i]) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#283-284)
+Treaties.confirmRequest has external calls inside a loop:
+	- tokensConfirmed += token.balanceOf(requests[id].ownersConfirm[i]) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#274-276)
+Treaties.splitProfit has external calls inside a loop:
+	- refund = profit.mul(token.balanceOf(addr)).mul(100 - walletPercentage).div(100).div(tokensInUse) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#353-355)
+Treaties.splitProfit has external calls inside a loop:
+	- refund = profit.mul(token.balanceOf(addr)).mul(100 - walletPercentage).div(100).div(tokensInUse) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#342-345)
+Treaties.splitProfit has external calls inside a loop:
+	- refund = profit.mul(token.balanceOf(addr)).mul(100 - walletPercentage).div(100).div(tokensInUse) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#336-339)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Treaties.confirmRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#266-316):
+	External calls:
+	- tokensConfirmed += token.balanceOf(msg.sender) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#279-280)
+	State variables written after the call(s):
+	- owners (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#291)
+	- walletPercentage (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#286-287)
+Reentrancy in Treaties.confirmRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#266-316):
+	External calls:
+	- tokensConfirmed += token.balanceOf(msg.sender) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#279-280)
+	- token.transfer(creator,requests[id].tokensAmount / 10) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#291-292)
+	State variables written after the call(s):
+	- investors (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#301)
+	- teams (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#295-297)
+Reentrancy in Treaties.confirmRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#266-316):
+	External calls:
+	- tokensConfirmed += token.balanceOf(msg.sender) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#279-280)
+	- token.transfer(creator,requests[id].tokensAmount / 10) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#291-292)
+	- token.transfer(requests[id].beneficiary,requests[id].tokensAmount) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#311-312)
+	External calls sending eth:
+	- assert(bool)(wallet.send(requests[id].ethAmount)) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#306-310)
+	State variables written after the call(s):
+	- tokensInUse (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#314)
+Reentrancy in Treaties.initCreator (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#176-187):
+	External calls:
+	- assert(bool)(token.transfer(creator,_tokensAmount)) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#183)
+	State variables written after the call(s):
+	- inList (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#184-186)
+	- tokensInUse (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#183-184)
+Reentrancy in Treaties.splitProfit (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#331-357):
+	External calls:
+	- refund = profit.mul(token.balanceOf(addr)).mul(100 - walletPercentage).div(100).div(tokensInUse) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#336-339)
+	State variables written after the call(s):
+	- refunds (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#340)
+Reentrancy in Treaties.splitProfit (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#331-357):
+	External calls:
+	- refund = profit.mul(token.balanceOf(addr)).mul(100 - walletPercentage).div(100).div(tokensInUse) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#342-345)
+	State variables written after the call(s):
+	- refunds (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#347)
+Reentrancy in Treaties.splitProfit (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#331-357):
+	External calls:
+	- refund = profit.mul(token.balanceOf(addr)).mul(100 - walletPercentage).div(100).div(tokensInUse) (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#353-355)
+	State variables written after the call(s):
+	- refunds (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#356-357)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SafeNetToken.decimals should be constant (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#64-65)
+SafeNetToken.name should be constant (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#61-62)
+SafeNetToken.symbol should be constant (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#62-64)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+StandardToken.transfer (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#9-17) should be declared external
+StandardToken.transferFrom (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#17-26) should be declared external
+StandardToken.balanceOf (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#26-30) should be declared external
+StandardToken.approve (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#30-36) should be declared external
+StandardToken.allowance (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#36-40) should be declared external
+MintableToken.mint (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#52-60) should be declared external
+Treaties.initCreator (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#176-187) should be declared external
+Treaties.createTreatyRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#188-205) should be declared external
+Treaties.createEthInvestorRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#206-220) should be declared external
+Treaties.removeEthInvestorRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#220-232) should be declared external
+Treaties.createFiatInvestorRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#233-249) should be declared external
+Treaties.createPercentageRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#249-266) should be declared external
+Treaties.confirmRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#266-316) should be declared external
+Treaties.rejectRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#316-331) should be declared external
+Treaties.withdrawRefunds (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_to' of StandardToken.transfer (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#9) is not in mixedCase
+Parameter '_value' of StandardToken.transfer (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#9) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#17) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#17) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#17) is not in mixedCase
+Parameter '_owner' of StandardToken.balanceOf (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#26) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#30) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#30) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#36) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#36) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#52) is not in mixedCase
+Function 'SafeNetToken.SafeNetToken' (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#65-73) is not in mixedCase
+Parameter '_totalSupply' of SafeNetToken.SafeNetToken (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#66) is not in mixedCase
+Function 'Treaties.Treaties' (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#167-173) is not in mixedCase
+Parameter '_wallet' of Treaties.Treaties (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#167-168) is not in mixedCase
+Parameter '_token' of Treaties.Treaties (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#168) is not in mixedCase
+Parameter '_tokensAmount' of Treaties.initCreator (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#176-177) is not in mixedCase
+Parameter '_rType' of Treaties.createTreatyRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#188-189) is not in mixedCase
+Parameter '_treatyHash' of Treaties.createTreatyRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#189) is not in mixedCase
+Parameter '_tokensAmount' of Treaties.createTreatyRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#189-190) is not in mixedCase
+Parameter '_tokensAmount' of Treaties.createEthInvestorRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#207) is not in mixedCase
+Parameter '_tokensAmount' of Treaties.createFiatInvestorRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#234-235) is not in mixedCase
+Parameter '_percentage' of Treaties.createPercentageRequest (/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol#250-251) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/22/0x1a851ec3f9c97c7c62e8fc2ee5ee5224d5772605.sol analyzed (5 contracts), 56 result(s) found

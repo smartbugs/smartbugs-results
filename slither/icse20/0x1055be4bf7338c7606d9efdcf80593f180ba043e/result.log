@@ -1,0 +1,221 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol:
+/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol:2719:5: Warning: Function state mutability can be restricted to view
+    function oracleTouched() internal returns(bool) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+EIP20NonStandardInterface (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#49-109) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#78-79)
+	-transferFrom (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#90-91)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+LiquidationChecker.oracleTouched (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2781-2783) uses a dangerous strict equality:
+	- sameBlock = oracle.mostRecentBlock() == block.number
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol:
+	Contract MoneyMarket has payable functions:
+	 - fallback (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#711)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in MoneyMarket.borrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2619-2765):
+	External calls:
+	- (err,localResults.accountLiquidity,localResults.accountShortfall) = calculateAccountLiquidity(msg.sender) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2657-2660)
+	- (err,localResults.ethValueOfBorrowAmountWithFee) = getPriceForAssetAmountMulCollatRatio(asset,localResults.borrowAmountWithFee) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2673-2678)
+	- localResults.currentCash = getCash(asset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2685-2686)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2710-2716)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2722-2728)
+	- err = doTransferOut(asset,msg.sender,amount) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2742-2743)
+	State variables written after the call(s):
+	- borrowBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2759-2761)
+	- borrowBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2761-2762)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2751-2752)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2752-2755)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2755)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2755)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2756)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2756-2757)
+Reentrancy in MoneyMarket.liquidateBorrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2196-2448):
+	External calls:
+	- (err,localResults.collateralPrice) = fetchAssetPrice(assetCollateral) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2216-2217)
+	- (err,localResults.underwaterAssetPrice) = fetchAssetPrice(assetBorrow) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2218)
+	- (err,localResults.discountedRepayToEvenAmount) = calculateDiscountedRepayToEvenAmount(targetAccount,localResults.underwaterAssetPrice) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2292-2294)
+	- err = checkTransferIn(assetBorrow,localResults.liquidator,localResults.closeBorrowAmount_TargetUnderwaterAsset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2325-2328)
+	- localResults.currentCash_ProtocolUnderwaterAsset = getCash(assetBorrow) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2349-2350)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa_ProtocolUnderwaterAsset) = borrowMarket.interestRateModel.getSupplyRate(assetBorrow,localResults.updatedCash_ProtocolUnderwaterAsset,localResults.newTotalBorrows_ProtocolUnderwaterAsset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2360-2364)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa_ProtocolUnderwaterAsset) = borrowMarket.interestRateModel.getBorrowRate(assetBorrow,localResults.updatedCash_ProtocolUnderwaterAsset,localResults.newTotalBorrows_ProtocolUnderwaterAsset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2365-2367)
+	- err = doTransferIn(assetBorrow,localResults.liquidator,localResults.closeBorrowAmount_TargetUnderwaterAsset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2408-2409)
+	State variables written after the call(s):
+	- borrowBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2437)
+	- borrowBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2437-2438)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2417-2418)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2419-2420)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2420)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2421)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2421-2422)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2422-2423)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2426-2427)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2427-2429)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2429-2430)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2430-2432)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2439-2441)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2441)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2444-2445)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2445-2446)
+Reentrancy in MoneyMarket.repayBorrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2004-2126):
+	External calls:
+	- localResults.repayAmount = min(getBalanceOf(asset,msg.sender),localResults.userBorrowCurrent) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2027)
+	- err = checkTransferIn(asset,msg.sender,localResults.repayAmount) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2037-2040)
+	- localResults.currentCash = getCash(asset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2056-2057)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2071-2079)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2086-2095)
+	- err = doTransferIn(asset,msg.sender,localResults.repayAmount) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2103-2104)
+	State variables written after the call(s):
+	- borrowBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2122-2123)
+	- borrowBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2123-2124)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2110)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2110-2111)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2111-2115)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2115-2116)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2116-2117)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2117-2119)
+Reentrancy in MoneyMarket.supply (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1556-1666):
+	External calls:
+	- err = checkTransferIn(asset,msg.sender,amount) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1572-1573)
+	- localResults.currentCash = getCash(asset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1601)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1609-1612)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1623-1629)
+	- err = doTransferIn(asset,msg.sender,amount) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1647)
+	State variables written after the call(s):
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1651)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1651-1653)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1653-1654)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1655)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1655-1658)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1658-1659)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1662)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1662-1663)
+Reentrancy in MoneyMarket.withdraw (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1682-1824):
+	External calls:
+	- (err,localResults.accountLiquidity,localResults.accountShortfall) = calculateAccountLiquidity(msg.sender) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1695-1697)
+	- (err,localResults.withdrawCapacity) = getAssetAmountForValue(asset,localResults.accountLiquidity) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1715-1716)
+	- localResults.currentCash = getCash(asset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1724)
+	- (err,localResults.ethValueOfWithdrawal) = getPriceForAssetAmount(asset,localResults.withdrawAmount) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1742-1743)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1768-1770)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1782-1788)
+	- err = doTransferOut(asset,msg.sender,localResults.withdrawAmount) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1800-1801)
+	State variables written after the call(s):
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1806-1807)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1807)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1807-1809)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1809-1812)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1812-1814)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1814-1815)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1817-1819)
+	- supplyBalances (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1819-1820)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+localResults in MoneyMarket.supply (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1563) is a local variable never initialiazed
+localResults in MoneyMarket.calculateAccountValuesInternal (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1889) is a local variable never initialiazed
+localResults in MoneyMarket.borrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2624) is a local variable never initialiazed
+localResults in MoneyMarket.withdraw (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1686-1688) is a local variable never initialiazed
+localResults in MoneyMarket.liquidateBorrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2200) is a local variable never initialiazed
+localResults in MoneyMarket.repayBorrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2007-2008) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+MoneyMarket._setOracle (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1206-1221) does not use the value returned by external calls:
+	-oracleInterface.assetPrices(address(0)) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1217-1218)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in MoneyMarket._setOracle (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1206-1221):
+	External calls:
+	- oracleInterface.assetPrices(address(0)) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1217-1218)
+	State variables written after the call(s):
+	- oracle (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1219)
+Reentrancy in MoneyMarket._supportMarket (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1330-1353):
+	External calls:
+	- (err,assetPrice) = fetchAssetPrice(asset) (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1333-1334)
+	State variables written after the call(s):
+	- collateralMarkets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1344-1345)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1341-1344)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1345-1346)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1347)
+	- markets (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1349-1352)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SafeToken.doTransferIn uses assembly (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#360-391)
+	- /unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#365-389
+SafeToken.doTransferOut uses assembly (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#416-450)
+	- /unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#420-446
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+EIP20Interface.totalSupply should be constant (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#13-15)
+EIP20NonStandardInterface.totalSupply should be constant (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#61)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+EIP20Interface.balanceOf (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#17-19) should be declared external
+EIP20Interface.transfer (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#23-25) should be declared external
+EIP20Interface.transferFrom (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#30-32) should be declared external
+EIP20Interface.approve (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#36-38) should be declared external
+EIP20Interface.allowance (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#41-43) should be declared external
+EIP20NonStandardInterface.balanceOf (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#63-67) should be declared external
+EIP20NonStandardInterface.transfer (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#78-79) should be declared external
+EIP20NonStandardInterface.transferFrom (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#90-91) should be declared external
+EIP20NonStandardInterface.approve (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#96-97) should be declared external
+EIP20NonStandardInterface.allowance (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#101-102) should be declared external
+InterestRateModel.getSupplyRate (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#280-281) should be declared external
+InterestRateModel.getBorrowRate (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#295-297) should be declared external
+PriceOracleInterface.assetPrices (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#305-309) should be declared external
+PriceOracleProxy.assetPrices (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#324-327) should be declared external
+MoneyMarket.fallback (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#711) should be declared external
+MoneyMarket.getCollateralMarketsLength (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#954-959) should be declared external
+MoneyMarket.assetPrices (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1120-1123) should be declared external
+MoneyMarket._setPendingAdmin (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1155-1173) should be declared external
+MoneyMarket._acceptAdmin (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1180-1198) should be declared external
+MoneyMarket._setOracle (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1206-1221) should be declared external
+MoneyMarket._setPaused (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1228-1236) should be declared external
+MoneyMarket.getAccountLiquidity (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1247-1253) should be declared external
+MoneyMarket.getSupplyBalance (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1263-1279) should be declared external
+MoneyMarket.getBorrowBalance (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1292-1316) should be declared external
+MoneyMarket._supportMarket (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1330-1353) should be declared external
+MoneyMarket._suspendMarket (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1364-1382) should be declared external
+MoneyMarket._setRiskParameters (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1389-1445) should be declared external
+MoneyMarket._setOriginationFee (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1457-1465) should be declared external
+MoneyMarket._setMarketInterestRateModel (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1471-1484) should be declared external
+MoneyMarket._withdrawEquity (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1495-1533) should be declared external
+MoneyMarket.supply (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1556-1666) should be declared external
+MoneyMarket.withdraw (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1682-1824) should be declared external
+MoneyMarket.calculateAccountValues (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1984-1991) should be declared external
+MoneyMarket.repayBorrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2004-2126) should be declared external
+MoneyMarket.liquidateBorrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2196-2448) should be declared external
+MoneyMarket.borrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2619-2765) should be declared external
+LiquidationChecker.setAllowLiquidation (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2783-2786) should be declared external
+Liquidator.liquidateBorrow (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Constant 'Exponential.expScale' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#523-524) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Exponential.halfExpScale' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#524-525) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Exponential.mantissaOne' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#527-529) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Exponential.mantissaOneTenth' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#529-530) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'MoneyMarket._setPendingAdmin' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1155-1173) is not in mixedCase
+Function 'MoneyMarket._acceptAdmin' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1180-1198) is not in mixedCase
+Function 'MoneyMarket._setOracle' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1206-1221) is not in mixedCase
+Function 'MoneyMarket._setPaused' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1228-1236) is not in mixedCase
+Function 'MoneyMarket._supportMarket' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1330-1353) is not in mixedCase
+Function 'MoneyMarket._suspendMarket' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1364-1382) is not in mixedCase
+Function 'MoneyMarket._setRiskParameters' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1389-1445) is not in mixedCase
+Function 'MoneyMarket._setOriginationFee' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1457-1465) is not in mixedCase
+Function 'MoneyMarket._setMarketInterestRateModel' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1471-1484) is not in mixedCase
+Function 'MoneyMarket._withdrawEquity' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#1495-1533) is not in mixedCase
+Parameter 'supplyCurrent_TargetCollateralAsset' of MoneyMarket.calculateDiscountedBorrowDenominatedCollateral (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2535-2536) is not in mixedCase
+Parameter 'closeBorrowAmount_TargetUnderwaterAsset' of MoneyMarket.calculateAmountSeize (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#2582-2583) is not in mixedCase
+Constant 'MoneyMarket.initialInterestIndex' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#684) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MoneyMarket.defaultOriginationFee' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#684-686) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MoneyMarket.minimumCollateralRatioMantissa' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#688-691) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MoneyMarket.maximumLiquidationDiscountMantissa' (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#693-696) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+Exponential.mantissaOneTenth (/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol#529-530) is never used in MoneyMarket
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/6/0x1055be4bf7338c7606d9efdcf80593f180ba043e.sol analyzed (12 contracts), 79 result(s) found

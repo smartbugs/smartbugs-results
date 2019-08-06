@@ -1,0 +1,71 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:40:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Survey(address tokenAddress, uint duration, string _question, bytes32[] _responseOptions) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:62:9: Warning: Use of the "var" keyword is deprecated.
+        var tokenId = devcon2Token.ownedToken(msg.sender);
+        ^---------^
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:66:29: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+        if (tokenId == 0x0) throw;
+                            ^---^
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:89:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MainnetSurvey(uint duration, string _question, bytes32[] _responseOptions) Survey(0xabf65a51c7adc3bdef0adf8992884be38072c184, duration, _question, _responseOptions) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:95:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ETCSurvey() MainnetSurvey(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:1:1: Warning: Source file does not specify required compiler version!Consider adding "pragma solidity ^0.4.25;"
+contract Devcon2Interface {
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:77:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Response(tokenId, responseId);
+        ^---------------------------^
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:89:96: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xaBF65A51c7aDC3BDef0Adf8992884be38072c184'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+ ... 0xabf65a51c7adc3bdef0adf8992884be38072c184 ... 
+     ^----------------------------------------^
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:2:5: Warning: No visibility specified. Defaulting to "public". 
+    function isTokenOwner(address _owner) constant returns (bool);
+    ^------------------------------------------------------------^
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:3:5: Warning: No visibility specified. Defaulting to "public". 
+    function ownedToken(address _owner) constant returns (bytes32 tokenId);
+    ^---------------------------------------------------------------------^
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:40:5: Warning: No visibility specified. Defaulting to "public". 
+    function Survey(address tokenAddress, uint duration, string _question, bytes32[] _responseOptions) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:52:5: Warning: No visibility specified. Defaulting to "public". 
+    function respond(uint responseId) returns (bool) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:89:5: Warning: No visibility specified. Defaulting to "public". 
+    function MainnetSurvey(uint duration, string _question, bytes32[] _responseOptions) Survey(0xabf65a51c7adc3bdef0adf8992884be38072c184, duration, _question, _responseOptions) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol:95:5: Warning: No visibility specified. Defaulting to "public". 
+    function ETCSurvey() MainnetSurvey(
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[92m
+Reentrancy in Survey.respond (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#53-89):
+	External calls:
+	- ! devcon2Token.isTokenOwner(msg.sender) (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#57-59)
+	- tokenId = devcon2Token.ownedToken(msg.sender) (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#64)
+	State variables written after the call(s):
+	- hasResponded (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#83-85)
+	- numResponses (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#89)
+	- responseCounts (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#77-79)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#69:
+	- Usage of "throw" should be replaced with "revert()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Devcon2Interface.isTokenOwner (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#2-3) should be declared external
+Devcon2Interface.ownedToken (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#3-4) should be declared external
+Survey.respond (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#53-89) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Survey.Survey' (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#40-51) is not in mixedCase
+Parameter '_question' of Survey.Survey (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#40-41) is not in mixedCase
+Parameter '_responseOptions' of Survey.Survey (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#41) is not in mixedCase
+Function 'MainnetSurvey.MainnetSurvey' (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#89-96) is not in mixedCase
+Function 'ETCSurvey.ETCSurvey' (/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol#97-107) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/40/0xf2602d298541cd9d1fd742d78b2b1cd394d2ce3b.sol analyzed (4 contracts), 10 result(s) found

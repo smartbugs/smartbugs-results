@@ -1,0 +1,181 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:73:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Disbursement(address _receiver, uint _disbursementPeriod, uint _startDate)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:250:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function HumanStandardToken(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:343:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Sale(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:191:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(msg.sender, _to, _value);
+        ^-------------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:206:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_from, _to, _value);
+        ^--------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:217:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _value);
+        ^------------------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:270:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _value);
+        ^------------------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:287:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_tokenHolder, sale, value);
+        ^---------------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:395:25: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        wallet.transfer(this.balance);
+                        ^----------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:399:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PurchasedTokens(msg.sender, purchaseAmount);
+        ^-----------------------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:418:9: Warning: Invoking events without "emit" prefix is deprecated.
+        LockedUnsoldTokens(amountToLock, disbursement);
+        ^--------------------------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:454:13: Warning: Invoking events without "emit" prefix is deprecated.
+            TransferredTimelockedTokens(beneficiary, disbursement, beneficiaryTokens);
+            ^-----------------------------------------------------------------------^
+/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:473:13: Warning: Invoking events without "emit" prefix is deprecated.
+            PurchasedTokens(_buyers[i], _amounts[i]);
+            ^--------------------------------------^
+
+INFO:Detectors:[93m
+Sale.Sale (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#353-372) uses a dangerous strict equality:
+	- assert(bool)(token.balanceOf(this) == token.totalSupply())
+	- assert(bool)(token.balanceOf(this) == TOTAL_SUPPLY)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Sale.distributePresaleTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#472-499):
+	External calls:
+	- assert(bool)(token.transfer(_buyers[i],_amounts[i])) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#491)
+	State variables written after the call(s):
+	- privateAllocated (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#492-493)
+Reentrancy in Disbursement.withdraw (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#106-115):
+	External calls:
+	- maxTokens = calcMaxWithdraw() (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#110-111)
+	State variables written after the call(s):
+	- withdrawnTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#114-115)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Disbursement.withdraw (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#106-115) does not use the value returned by external calls:
+	-token.transfer(_to,_value) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#115)
+Sale.lockUnsoldTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#416-435) does not use the value returned by external calls:
+	-token.transfer(disbursement,amountToLock) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#434-435)
+Sale.distributeTimelockedTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#436-472) does not use the value returned by external calls:
+	-token.transfer(disbursement,beneficiaryTokens) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#466-467)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Sale.distributeTimelockedTokens has external calls inside a loop:
+	- disbursement.setup(token) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#465)
+Sale.distributeTimelockedTokens has external calls inside a loop:
+	- token.transfer(disbursement,beneficiaryTokens) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#466-467)
+Sale.distributePresaleTokens has external calls inside a loop:
+	- assert(bool)(token.transfer(_buyers[i],_amounts[i])) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#491)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Sale.distributeTimelockedTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#436-472):
+	External calls:
+	- disbursement.setup(token) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#465)
+	- token.transfer(disbursement,beneficiaryTokens) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#466-467)
+	State variables written after the call(s):
+	- disbursements (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#467-469)
+Reentrancy in Sale.lockUnsoldTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#416-435):
+	External calls:
+	- disbursement.setup(token) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#427-428)
+	- amountToLock = token.balanceOf(this) (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#429-431)
+	State variables written after the call(s):
+	- disbursements (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#433)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+HumanStandardToken.version should be constant (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#254-256)
+Sale.presale_price_in_wei should be constant (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#339)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Disbursement.setup (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#93-101) should be declared external
+Disbursement.withdraw (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#106-115) should be declared external
+Token.balanceOf (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#150-151) should be declared external
+StandardToken.balanceOf (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#215-217) should be declared external
+StandardToken.transfer (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#184-200) should be declared external
+Token.transfer (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#155-157) should be declared external
+Token.transferFrom (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#162-164) should be declared external
+StandardToken.transferFrom (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#200-214) should be declared external
+Token.approve (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#169-170) should be declared external
+StandardToken.approve (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#217-226) should be declared external
+StandardToken.allowance (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#226-235) should be declared external
+Token.allowance (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#173-176) should be declared external
+HumanStandardToken.approveAndCall (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#272-287) should be declared external
+HumanStandardToken.reversePurchase (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#287-311) should be declared external
+HumanStandardToken.removeTransferLock (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#311-312) should be declared external
+Sale.purchaseTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#372-416) should be declared external
+Sale.lockUnsoldTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#416-435) should be declared external
+Sale.distributeTimelockedTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#436-472) should be declared external
+Sale.distributePresaleTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#472-499) should be declared external
+Sale.removeTransferLock (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#499-504) should be declared external
+Sale.reversePurchase (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#505-528) should be declared external
+Sale.setSetupComplete (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#529-538) should be declared external
+Sale.configureWallet (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#538-542) should be declared external
+Sale.changeOwner (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#542-550) should be declared external
+Sale.changePrice (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#550-558) should be declared external
+Sale.changeStartBlock (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#558-568) should be declared external
+Sale.emergencyToggle (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#568-577) should be declared external
+Sale.addWhitelist (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#577-595) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol:
+	- pragma solidity^0.4.11 (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in HumanStandardToken.approveAndCall (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#272-287):
+	-require(bool)(_spender.call(bytes4(bytes32(keccak256()(receiveApproval(address,uint256,address,bytes)))),msg.sender,_value,this,_extraData)) /unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#283-287
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Function 'Disbursement.Disbursement' (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#73-88) is not in mixedCase
+Parameter '_receiver' of Disbursement.Disbursement (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#74-76) is not in mixedCase
+Parameter '_disbursementPeriod' of Disbursement.Disbursement (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#76) is not in mixedCase
+Parameter '_startDate' of Disbursement.Disbursement (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#76) is not in mixedCase
+Parameter '_token' of Disbursement.setup (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#93) is not in mixedCase
+Parameter '_to' of Disbursement.withdraw (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#107) is not in mixedCase
+Parameter '_value' of Disbursement.withdraw (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#107) is not in mixedCase
+Parameter '_owner' of StandardToken.balanceOf (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#215) is not in mixedCase
+Parameter '_to' of StandardToken.transfer (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#185) is not in mixedCase
+Parameter '_value' of StandardToken.transfer (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#185) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#200) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#200) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#200-201) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#218) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#218-221) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#226-228) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#228) is not in mixedCase
+Function 'HumanStandardToken.HumanStandardToken' (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#258-270) is not in mixedCase
+Parameter '_initialAmount' of HumanStandardToken.HumanStandardToken (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#258-259) is not in mixedCase
+Parameter '_tokenName' of HumanStandardToken.HumanStandardToken (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#259) is not in mixedCase
+Parameter '_decimalUnits' of HumanStandardToken.HumanStandardToken (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#259) is not in mixedCase
+Parameter '_tokenSymbol' of HumanStandardToken.HumanStandardToken (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#260) is not in mixedCase
+Parameter '_sale' of HumanStandardToken.HumanStandardToken (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#260) is not in mixedCase
+Parameter '_spender' of HumanStandardToken.approveAndCall (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#272) is not in mixedCase
+Parameter '_value' of HumanStandardToken.approveAndCall (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#272) is not in mixedCase
+Parameter '_extraData' of HumanStandardToken.approveAndCall (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#272) is not in mixedCase
+Parameter '_tokenHolder' of HumanStandardToken.reversePurchase (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#290) is not in mixedCase
+Function 'Sale.Sale' (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#353-372) is not in mixedCase
+Parameter '_owner' of Sale.Sale (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#354) is not in mixedCase
+Parameter '_freezeBlock' of Sale.Sale (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#354-355) is not in mixedCase
+Parameter '_startBlock' of Sale.Sale (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#355-356) is not in mixedCase
+Parameter '_endBlock' of Sale.Sale (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#356) is not in mixedCase
+Parameter '_unsoldTokensWallet' of Sale.lockUnsoldTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#417) is not in mixedCase
+Parameter '_beneficiaries' of Sale.distributeTimelockedTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#437) is not in mixedCase
+Parameter '_beneficiariesTokens' of Sale.distributeTimelockedTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#437-439) is not in mixedCase
+Parameter '_timelockStarts' of Sale.distributeTimelockedTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#439) is not in mixedCase
+Parameter '_periods' of Sale.distributeTimelockedTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#439-440) is not in mixedCase
+Parameter '_buyers' of Sale.distributePresaleTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#473) is not in mixedCase
+Parameter '_amounts' of Sale.distributePresaleTokens (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#473) is not in mixedCase
+Parameter '_tokenHolder' of Sale.reversePurchase (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#507) is not in mixedCase
+Parameter '_wallet' of Sale.configureWallet (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#541) is not in mixedCase
+Parameter '_newOwner' of Sale.changeOwner (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#542-543) is not in mixedCase
+Parameter '_newPrice' of Sale.changePrice (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#550-553) is not in mixedCase
+Parameter '_newBlock' of Sale.changeStartBlock (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#559) is not in mixedCase
+Parameter '_purchaser' of Sale.addWhitelist (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#578) is not in mixedCase
+Parameter '_amount' of Sale.addWhitelist (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#578-579) is not in mixedCase
+Variable 'Sale.presale_price_in_wei' (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#339) is not in mixedCase
+Variable 'Sale.price_in_wei' (/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol#341-344) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/42/0xb5c0651560e200d3e82be20799e47d9247947324.sol analyzed (6 contracts), 90 result(s) found

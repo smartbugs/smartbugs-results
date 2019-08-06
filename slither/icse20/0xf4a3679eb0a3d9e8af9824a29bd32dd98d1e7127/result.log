@@ -1,0 +1,379 @@
+INFO:Detectors:[91m
+EtheramaCore.withdrawRemainingEthAfterAll (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#550-557) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(address(this).balance) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#554-557)
+Etherama.finish (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#911-919) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(getTotalEthBalance()) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#915-917)
+Etherama.withdrawTokenOwnerReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#976-983) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(reward) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#982)
+Etherama.migrateToNewNewControllerContract (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1041-1058) sends eth to arbitrary user
+	Dangerous calls:
+	- newController.migrateFunds.value(ethBalance)() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1054-1055)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Etherama.migrateToNewNewControllerContract (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1041-1058):
+	External calls:
+	- _data.setNewControllerAddress(migrationContractAddress) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1047-1050)
+	- remainingTokenAmount = getRemainingTokenAmount() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1050-1051)
+	- _token.transfer(migrationContractAddress,remainingTokenAmount) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1052-1054)
+	- newController.migrateFunds.value(ethBalance)() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1054-1055)
+	External calls sending eth:
+	- newController.migrateFunds.value(ethBalance)() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1054-1055)
+	State variables written after the call(s):
+	- isActualContractVer (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1058)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in Etherama.activate (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#904-909):
+	External calls:
+	- getTotalTokenSupply() == 0 (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#907)
+	- setTotalSupply() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#907)
+	- require(bool)(getTotalTokenSupply() > 0) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#907-908)
+	State variables written after the call(s):
+	- isActive (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#908)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Etherama.finish (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#911-919) does not use the value returned by external calls:
+	-_token.transfer(msg.sender,getRemainingTokenAmount()) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#913-915)
+Etherama.transferTokens (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#956-964) does not use the value returned by external calls:
+	-_token.transferFrom(msg.sender,toUser,tokenAmount) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#963-964)
+Etherama.migrateToNewNewControllerContract (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1041-1058) does not use the value returned by external calls:
+	-_token.transfer(migrationContractAddress,remainingTokenAmount) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1052-1054)
+Etherama.addUserTokens (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1432-1436) does not use the value returned by external calls:
+	-_token.transfer(msg.sender,tokenAmount) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1436)
+Etherama.subUserTokens (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1437-1440) does not use the value returned by external calls:
+	-_token.transferFrom(user,address(this),tokenAmount) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1438-1440)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+RealMath.toReal.ipart (local variable @ /unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1696) shadows:
+	- RealMath.ipart (function @ /unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1728-1735)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+EtheramaCore.getTotalBonusPerShare has external calls inside a loop:
+	- res = SafeMath.add(res,_bonusesPerShare[Etherama(_controllerIndexer[i]).getDataContractAddress()]) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#306-308)
+EtheramaCore.getTotalBuyCount has external calls inside a loop:
+	- res = SafeMath.add(res,_buyCounts[Etherama(_controllerIndexer[i]).getDataContractAddress()]) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#386-387)
+EtheramaCore.getTotalSellCount has external calls inside a loop:
+	- res = SafeMath.add(res,_sellCounts[Etherama(_controllerIndexer[i]).getDataContractAddress()]) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#396-399)
+EtheramaCore.getUserTotalEthVolumeSaldo has external calls inside a loop:
+	- res = SafeMath.add(res,_userEthVolumeSaldos[Etherama(_controllerIndexer[i]).getDataContractAddress()][userAddress]) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#413-414)
+EtheramaCore.getUserTotalReward has external calls inside a loop:
+	- dataContractAddress = Etherama(_controllerIndexer[i]).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#467-471)
+EtheramaCore.getRewardAndPrepareWithdraw has external calls inside a loop:
+	- dataContractAddress = Etherama(_controllerIndexer[i]).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#525-528)
+EtheramaCore.withdrawRemainingEthAfterAll has external calls inside a loop:
+	- Etherama(_controllerIndexer[i]).isActive() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#552-554)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Etherama.activate (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#904-909):
+	External calls:
+	- getTotalTokenSupply() == 0 (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#907)
+	- setTotalSupply() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#907)
+	- require(bool)(getTotalTokenSupply() > 0) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#907-908)
+	State variables written after the call(s):
+	- isMigrationToNewControllerInProgress (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#908)
+Reentrancy in EtheramaCore.addBonusPerShare (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#308-315):
+	External calls:
+	- data = Etherama(msg.sender)._data() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#311)
+	- shareBonus = (msg.value * MAGNITUDE) / data.getTotalTokenSold() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#311-313)
+	State variables written after the call(s):
+	- _bonusesPerShare (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#315)
+Reentrancy in EtheramaCore.addUserRefBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#332-337):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#333-334)
+	State variables written after the call(s):
+	- _refBalances (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#336-337)
+Reentrancy in EtheramaCore.addUserTokenLocalBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#437-442):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#438)
+	State variables written after the call(s):
+	- _userTokenLocalBalances (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#438-442)
+Reentrancy in Etherama.constructor (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#863-876):
+	External calls:
+	- _data.init() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#871)
+	- _data.addAdministator(msg.sender) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#871-873)
+	State variables written after the call(s):
+	- _creator (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#873-875)
+Reentrancy in Etherama.constructor (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#863-876):
+	External calls:
+	- ! _data.isInited() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#869-876)
+	- _data.init() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#871)
+	- _data.addAdministator(msg.sender) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#871-873)
+	- _token = _data._token() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#876)
+	State variables written after the call(s):
+	- _token (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#876)
+Reentrancy in Etherama.constructor (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#863-876):
+	External calls:
+	- ! _data.isInited() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#869-876)
+	- _data.init() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#871)
+	- _data.addAdministator(msg.sender) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#871-873)
+	- _token = _data._token() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#876)
+	- _core = _data._core() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#876)
+	State variables written after the call(s):
+	- _core (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#876)
+Reentrancy in Etherama.finish (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#911-919):
+	External calls:
+	- require(bool)(uint64(now) >= _data._expirationTime()) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#912)
+	- _token.transfer(msg.sender,getRemainingTokenAmount()) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#913-915)
+	External calls sending eth:
+	- msg.sender.transfer(getTotalEthBalance()) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#915-917)
+	State variables written after the call(s):
+	- isActive (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#919)
+Reentrancy in EtheramaCore.getRewardAndPrepareWithdraw (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#523-547):
+	External calls:
+	- dataContractAddress = Etherama(_controllerIndexer[i]).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#525-528)
+	- reward = SafeMath.add(reward,getUserReward(dataContractAddress,msg.sender,true,false,false)) (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#528-529)
+	State variables written after the call(s):
+	- _promoBigBonuses (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#546)
+	- _promoQuickBonuses (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#546)
+	- _refBalances (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#537-538)
+	- _rewardPayouts (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#533-535)
+Reentrancy in EtheramaCore.payoutBigBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#259-271):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#260-264)
+	State variables written after the call(s):
+	- _currentBigPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#268-269)
+	- _promoBigBonuses (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#264-268)
+Reentrancy in EtheramaCore.payoutQuickBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#253-259):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#254-257)
+	State variables written after the call(s):
+	- _currentQuickPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#259)
+	- _promoQuickBonuses (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#257-259)
+Reentrancy in EtheramaCore.subUserTokenLocalBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#442-447):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#443-446)
+	State variables written after the call(s):
+	- _userTokenLocalBalances (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#446-447)
+Reentrancy in EtheramaCore.trackBuy (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#353-361):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#355-358)
+	State variables written after the call(s):
+	- _buyCounts (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#358-359)
+	- _totalVolumeEth (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#361)
+	- _totalVolumeToken (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#361)
+	- _userEthVolumeSaldos (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#359-360)
+Reentrancy in EtheramaCore.trackSell (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#361-371):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#363-366)
+	State variables written after the call(s):
+	- _sellCounts (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#366-367)
+	- _totalVolumeEth (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#368-371)
+	- _totalVolumeToken (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#368-371)
+	- _userEthVolumeSaldos (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#367-368)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+EtheramaCore._devRewardPercent should be constant (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#107-108)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+IStdToken.balanceOf (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#4-5) should be declared external
+IStdToken.transfer (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#5-6) should be declared external
+IStdToken.transferFrom (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#6-9) should be declared external
+EtheramaCommon.addAdministator (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#33-37) should be declared external
+EtheramaCommon.removeAdministator (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#37-41) should be declared external
+EtheramaCommon.isAdministrator (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#41-45) should be declared external
+EtheramaCommon.addManager (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#45-49) should be declared external
+EtheramaCommon.removeManager (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#49-53) should be declared external
+EtheramaCommon.isManager (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#53-59) should be declared external
+EtheramaCore.addControllerContract (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#189-196) should be declared external
+EtheramaCore.removeControllerContract (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#196-198) should be declared external
+EtheramaCore.changeControllerContract (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#198-205) should be declared external
+EtheramaCore.setBigPromoInterval (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#206-210) should be declared external
+EtheramaCore.setQuickPromoInterval (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#210-213) should be declared external
+EtheramaCore.addBigPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#213-218) should be declared external
+EtheramaCore.addQuickPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#218-223) should be declared external
+EtheramaCore.setPromoMinPurchaseEth (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#223-227) should be declared external
+EtheramaCore.setMinRefEthPurchase (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#227-233) should be declared external
+EtheramaCore.setTotalIncomeFeePercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#233-234) should be declared external
+EtheramaCore.setRewardPercentages (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#235-253) should be declared external
+EtheramaCore.payoutQuickBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#253-259) should be declared external
+EtheramaCore.payoutBigBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#259-271) should be declared external
+EtheramaCore.addDevReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#271-275) should be declared external
+EtheramaCore.withdrawDevReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#275-279) should be declared external
+EtheramaCore.getQuickPromoRemainingBlocks (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#285-293) should be declared external
+EtheramaCore.getBigPromoRemainingBlocks (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#293-298) should be declared external
+EtheramaCore.getBonusPerShare (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#299-304) should be declared external
+EtheramaCore.getTotalBonusPerShare (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#304-308) should be declared external
+EtheramaCore.addBonusPerShare (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#308-315) should be declared external
+EtheramaCore.getUserRewardPayouts (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#320-324) should be declared external
+EtheramaCore.resetUserRefBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#324-328) should be declared external
+EtheramaCore.addUserRefBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#332-337) should be declared external
+EtheramaCore.addUserRewardPayouts (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#337-341) should be declared external
+EtheramaCore.resetUserPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#346-350) should be declared external
+EtheramaCore.trackBuy (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#353-361) should be declared external
+EtheramaCore.trackSell (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#361-371) should be declared external
+EtheramaCore.getBuyCount (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#377-382) should be declared external
+EtheramaCore.getTotalBuyCount (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#382-387) should be declared external
+EtheramaCore.getSellCount (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#387-392) should be declared external
+EtheramaCore.getTotalSellCount (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#392-399) should be declared external
+EtheramaCore.getTotalVolumeEth (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#399-403) should be declared external
+EtheramaCore.getTotalVolumeToken (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#403-405) should be declared external
+EtheramaCore.getUserEthVolumeSaldo (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#405-410) should be declared external
+EtheramaCore.getTotalCollectedPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#415-418) should be declared external
+EtheramaCore.getUserQuickPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#426-431) should be declared external
+EtheramaCore.getUserBigPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#431-433) should be declared external
+EtheramaCore.getUserTokenLocalBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#433-436) should be declared external
+EtheramaCore.addUserTokenLocalBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#437-442) should be declared external
+EtheramaCore.subUserTokenLocalBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#442-447) should be declared external
+EtheramaCore.getCurrentUserReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#476-480) should be declared external
+EtheramaCore.getCurrentUserTotalReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#481-485) should be declared external
+EtheramaCore.getCurrentUserShareBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#486-491) should be declared external
+EtheramaCore.getCurrentUserRefBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#492-496) should be declared external
+EtheramaCore.getCurrentUserPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#497-502) should be declared external
+EtheramaCore.isRefAvailable (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#512-514) should be declared external
+EtheramaCore.withdrawUserReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#516-521) should be declared external
+EtheramaCore.withdrawRemainingEthAfterAll (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#550-557) should be declared external
+EtheramaCore.calcPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#557-560) should be declared external
+EtheramaCore.convertRealTo256 (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#562-569) should be declared external
+EtheramaCore.convert256ToReal (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#570-575) should be declared external
+EtheramaData.init (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#630-651) should be declared external
+EtheramaData.isInited (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#651-655) should be declared external
+EtheramaData.getCoreAddress (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#655-659) should be declared external
+EtheramaData.setNewControllerAddress (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#659-663) should be declared external
+EtheramaData.getPromoMinPurchaseEth (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#663-668) should be declared external
+EtheramaData.addAdministator (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#668-677) should be declared external
+EtheramaData.removeAdministator (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#677-681) should be declared external
+EtheramaData.getAdministratorCount (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#681-686) should be declared external
+EtheramaData.isAdministrator (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#686-690) should be declared external
+EtheramaData.getCommonInitBlockNum (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#690-694) should be declared external
+EtheramaData.resetTokenOwnerReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#694-698) should be declared external
+EtheramaData.addTokenOwnerReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#698-703) should be declared external
+EtheramaData.getCurrentBigPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#703-707) should be declared external
+EtheramaData.getCurrentQuickPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#707-711) should be declared external
+EtheramaData.getTotalCollectedPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#711-712) should be declared external
+EtheramaData.setTotalSupply (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#712-716) should be declared external
+EtheramaData.setRealTokenPrice (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#716-719) should be declared external
+EtheramaData.setHasMaxPurchaseLimit (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#719-723) should be declared external
+EtheramaData.getActualUserTokenBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#727-731) should be declared external
+EtheramaData.getBonusPerShare (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#731-732) should be declared external
+EtheramaData.getUserRewardPayouts (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#733-736) should be declared external
+EtheramaData.getUserRefBalance (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#739-740) should be declared external
+EtheramaData.getUserReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#743-748) should be declared external
+EtheramaData.getUserTotalPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#748-752) should be declared external
+EtheramaData.getUserBigPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#752-765) should be declared external
+EtheramaData.getUserQuickPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#765-768) should be declared external
+EtheramaData.getTotalTokenSold (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#774-776) should be declared external
+EtheramaData.getUserEthVolumeSaldo (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#776-780) should be declared external
+Etherama.transferOwnershipRequest (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#885-889) should be declared external
+Etherama.acceptOwnership (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#892-894) should be declared external
+Etherama.setHasMaxPurchaseLimit (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#897-903) should be declared external
+Etherama.activate (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#904-909) should be declared external
+Etherama.finish (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#911-919) should be declared external
+Etherama.buy (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#921-924) should be declared external
+Etherama.sell (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#929-954) should be declared external
+Etherama.transferTokens (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#956-964) should be declared external
+Etherama.withdrawTokenOwnerReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#976-983) should be declared external
+Etherama.prepareForMigration (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#989-993) should be declared external
+Etherama.migrateFunds (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#995-999) should be declared external
+Etherama.getMaxGasPrice (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1003) should be declared external
+Etherama.getExpirationTime (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1004-1006) should be declared external
+Etherama.getRemainingTimeTillExpiration (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1009-1011) should be declared external
+Etherama.getTokenAddress (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1017-1019) should be declared external
+Etherama.requestControllerContractMigration (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1022-1027) should be declared external
+Etherama.approveControllerContractMigration (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1030-1035) should be declared external
+Etherama.migrateToNewNewControllerContract (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1041-1058) should be declared external
+Etherama.getBuyCount (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1059-1063) should be declared external
+Etherama.getSellCount (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1063-1067) should be declared external
+Etherama.getTotalVolumeEth (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1070-1074) should be declared external
+Etherama.getTotalVolumeToken (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1074-1079) should be declared external
+Etherama.getBonusPerShare (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1082-1086) should be declared external
+Etherama.getTokenInitialPrice (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1087-1091) should be declared external
+Etherama.getDevRewardPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1091-1096) should be declared external
+Etherama.getTokenOwnerRewardPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1096-1100) should be declared external
+Etherama.getShareRewardPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1100-1104) should be declared external
+Etherama.getRefBonusPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1104-1108) should be declared external
+Etherama.getBigPromoPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1108-1112) should be declared external
+Etherama.getQuickPromoPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1112-1116) should be declared external
+Etherama.getBigPromoBlockInterval (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1116-1120) should be declared external
+Etherama.getQuickPromoBlockInterval (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1120-1125) should be declared external
+Etherama.getPromoMinPurchaseEth (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1125-1129) should be declared external
+Etherama.getPriceSpeedPercent (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1129-1131) should be declared external
+Etherama.getPriceSpeedTokenBlock (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1131-1135) should be declared external
+Etherama.getMinRefEthPurchase (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1135-1139) should be declared external
+Etherama.getTotalCollectedPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1139-1141) should be declared external
+Etherama.getCurrentBigPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1141-1145) should be declared external
+Etherama.getCurrentQuickPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1145-1149) should be declared external
+Etherama.getCurrentTokenPrice (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1149-1151) should be declared external
+Etherama.isCurrentUserRefAvailable (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1182-1184) should be declared external
+Etherama.getCurrentUserRefBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1184-1188) should be declared external
+Etherama.getCurrentUserPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1188-1192) should be declared external
+Etherama.getUserReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1210-1214) should be declared external
+Etherama.get1TokenSellPrice (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1214-1222) should be declared external
+Etherama.get1TokenBuyPrice (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1223-1231) should be declared external
+Etherama.calcReward (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1231-1233) should be declared external
+Etherama.getCurrentUserTotalPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1295-1297) should be declared external
+Etherama.getCurrentUserBigPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1299-1301) should be declared external
+Etherama.getCurrentUserQuickPromoBonus (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1304-1306) should be declared external
+Etherama.getBlockNumSinceInit (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1306-1312) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Event 'EtheramaGasPriceLimit.onSetMaxGasPrice' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#65) is not in CapWords
+Variable 'EtheramaGasPriceLimit.MAX_GAS_PRICE' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#63-65) is not in mixedCase
+Event 'EtheramaCore.onWithdrawUserBonus' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#175-178) is not in CapWords
+Variable 'EtheramaCore._bigPromoPercent' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#101-102) is not in mixedCase
+Variable 'EtheramaCore._quickPromoPercent' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#104-105) is not in mixedCase
+Variable 'EtheramaCore._devRewardPercent' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#107-108) is not in mixedCase
+Variable 'EtheramaCore._tokenOwnerRewardPercent' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#110) is not in mixedCase
+Variable 'EtheramaCore._shareRewardPercent' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#113) is not in mixedCase
+Variable 'EtheramaCore._refBonusPercent' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#116) is not in mixedCase
+Variable 'EtheramaCore._bigPromoBlockInterval' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#120-122) is not in mixedCase
+Variable 'EtheramaCore._quickPromoBlockInterval' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#122-123) is not in mixedCase
+Variable 'EtheramaCore._promoMinPurchaseEth' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#126) is not in mixedCase
+Variable 'EtheramaCore._minRefEthPurchase' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#129-131) is not in mixedCase
+Variable 'EtheramaCore._totalIncomeFeePercent' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#132-133) is not in mixedCase
+Variable 'EtheramaCore._currentBigPromoBonus' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#136-139) is not in mixedCase
+Variable 'EtheramaCore._currentQuickPromoBonus' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#141) is not in mixedCase
+Variable 'EtheramaCore._devReward' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#142) is not in mixedCase
+Variable 'EtheramaCore._initBlockNum' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#142-143) is not in mixedCase
+Variable 'EtheramaData._initTime' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#609-611) is not in mixedCase
+Variable 'EtheramaData._expirationTime' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#611-612) is not in mixedCase
+Variable 'EtheramaData._tokenOwnerReward' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#612-613) is not in mixedCase
+Variable 'EtheramaData._totalSupply' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#615-616) is not in mixedCase
+Variable 'EtheramaData._realTokenPrice' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#616) is not in mixedCase
+Variable 'EtheramaData._controllerAddress' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#616-617) is not in mixedCase
+Variable 'EtheramaData._core' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#617-618) is not in mixedCase
+Variable 'EtheramaData._initBlockNum' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#618) is not in mixedCase
+Variable 'EtheramaData._hasMaxPurchaseLimit' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#618-619) is not in mixedCase
+Variable 'EtheramaData._token' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#619) is not in mixedCase
+Event 'Etherama.onTokenPurchase' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#795-799) is not in CapWords
+Event 'Etherama.onTokenSell' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#799-802) is not in CapWords
+Event 'Etherama.onReinvestment' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#802-807) is not in CapWords
+Event 'Etherama.onWithdrawTokenOwnerReward' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#807-808) is not in CapWords
+Event 'Etherama.onWinQuickPromo' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#808-810) is not in CapWords
+Event 'Etherama.onWinBigPromo' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#813) is not in CapWords
+Variable 'Etherama._token' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#780) is not in mixedCase
+Variable 'Etherama._data' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#780-782) is not in mixedCase
+Variable 'Etherama._core' (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#782) is not in mixedCase
+Parameter 'real_value' of RealMath.fromReal (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1699) is not in mixedCase
+Parameter 'real_value' of RealMath.abs (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1707) is not in mixedCase
+Parameter 'real_value' of RealMath.fpart (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1714) is not in mixedCase
+Parameter 'real_value' of RealMath.fpartSigned (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1721) is not in mixedCase
+Parameter 'real_value' of RealMath.ipart (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1728-1729) is not in mixedCase
+Parameter 'real_a' of RealMath.mul (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1737-1738) is not in mixedCase
+Parameter 'real_b' of RealMath.mul (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1738) is not in mixedCase
+Parameter 'real_numerator' of RealMath.div (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1748-1749) is not in mixedCase
+Parameter 'real_denominator' of RealMath.div (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1749-1752) is not in mixedCase
+Parameter 'real_base' of RealMath.ipow (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1780) is not in mixedCase
+Parameter 'real_arg' of RealMath.rescale (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1871) is not in mixedCase
+Parameter 'real_arg' of RealMath.lnLimited (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1899) is not in mixedCase
+Parameter 'max_iterations' of RealMath.lnLimited (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1899) is not in mixedCase
+Parameter 'real_arg' of RealMath.ln (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1954) is not in mixedCase
+Parameter 'real_arg' of RealMath.expLimited (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1971) is not in mixedCase
+Parameter 'max_iterations' of RealMath.expLimited (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1971-1972) is not in mixedCase
+Parameter 'real_arg' of RealMath.expLimited (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1999) is not in mixedCase
+Parameter 'max_iterations' of RealMath.expLimited (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1999) is not in mixedCase
+Parameter 'real_arg' of RealMath.exp (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol) is not in mixedCase
+Parameter 'real_base' of RealMath.pow (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol) is not in mixedCase
+Parameter 'real_exponent' of RealMath.pow (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+RealMath.REAL_BITS (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1625-1628) is never used in RealMath
+RealMath.REAL_IBITS (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1632-1633) is never used in RealMath
+RealMath.REAL_HALF (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1637-1641) is never used in RealMath
+RealMath.REAL_PI (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1650-1651) is never used in RealMath
+RealMath.REAL_HALF_PI (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1659) is never used in RealMath
+RealMath.REAL_TWO_PI (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1662-1663) is never used in RealMath
+RealMath.SIGN_MASK (/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol#1666-1671) is never used in RealMath
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0xf4a3679eb0a3d9e8af9824a29bd32dd98d1e7127.sol analyzed (8 contracts), 232 result(s) found

@@ -1,0 +1,125 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol:
+/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol:857:20: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+      rewards[i] = withdraw(i);
+                   ^---------^
+
+INFO:Detectors:[91m
+MineableToken.blockReward_ (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#419) is never initialized. It is used in:
+	- commit (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#434-472)
+	- getReward (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#511-533)
+	- blockReward (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#603-604)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+MCoinDistribution.getAllRewards (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#872-882) is declared view but changes state variables:
+	- MCoinDistribution.commitment
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+MineableToken.getReward (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#511-533) uses a dangerous strict equality:
+	- miners[_miner].value == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in MCoinDistribution.init (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#692-702):
+	External calls:
+	- require(bool)(_MCoin.owner() == address(this)) (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#697-698)
+	- require(bool)(_MCoin.totalSupply() == 0) (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#699)
+	State variables written after the call(s):
+	- MCoin (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#699-700)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+MCoinDistribution.init (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#692-702) does not use the value returned by external calls:
+	-MCoin.mint(address(this),firstPeriodSupply.add(secondPeriodSupply)) (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#700-702)
+	-MCoin.finishMinting() (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#702)
+MCoinDistribution.withdraw (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#830-858) does not use the value returned by external calls:
+	-MCoin.transfer(msg.sender,reward) (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#855)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MCoinDistributionWrap.constructor.firstPeriodWindows (local variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol) shadows:
+	- MCoinDistribution.firstPeriodWindows (state variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#636-638)
+MCoinDistributionWrap.constructor.firstPeriodSupply (local variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol) shadows:
+	- MCoinDistribution.firstPeriodSupply (state variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#638-639)
+MCoinDistributionWrap.constructor.secondPeriodWindows (local variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol) shadows:
+	- MCoinDistribution.secondPeriodWindows (state variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#639-642)
+MCoinDistributionWrap.constructor.secondPeriodSupply (local variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol) shadows:
+	- MCoinDistribution.secondPeriodSupply (state variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#642-643)
+MCoinDistributionWrap.constructor.foundationWallet (local variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol) shadows:
+	- MCoinDistribution.foundationWallet (state variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#645-646)
+MCoinDistributionWrap.constructor.windowLength (local variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol) shadows:
+	- MCoinDistribution.windowLength (state variable @ /unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#647-648)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+MCoinDistribution.windowOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#722-725) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (startTimestamp < timestamp) (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#723-725)
+MCoinDistribution.detailsOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#737-759) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (block.timestamp < end) (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#754-757)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+MineableToken.blockReward_ should be constant (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#419)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#160-163) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#16-17) should be declared external
+BasicToken.balanceOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#191-194) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#17-18) should be declared external
+ERC20Basic.transfer (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#18-19) should be declared external
+BasicToken.transfer (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#167-176) should be declared external
+Ownable.transferOwnership (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#58-65) should be declared external
+Ownable.renounceOwnership (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#68-79) should be declared external
+StandardToken.allowance (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#283-285) should be declared external
+ERC20.allowance (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#200-202) should be declared external
+ERC20.transferFrom (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#202-211) should be declared external
+StandardToken.transferFrom (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#238-251) should be declared external
+StandardToken.approve (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#264-267) should be declared external
+ERC20.approve (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#211-214) should be declared external
+StandardToken.increaseApproval (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#300-309) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#324-341) should be declared external
+MintableToken.mint (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#381-396) should be declared external
+MintableToken.finishMinting (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#397-398) should be declared external
+MineableToken.commit (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#434-472) should be declared external
+MineableToken.commitmentOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#566-568) should be declared external
+MineableToken.getCommitment (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#582-601) should be declared external
+MineableToken.totalStake (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#602-603) should be declared external
+MineableToken.blockReward (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#603-604) should be declared external
+MCoinDistribution.fallback (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#688-689) should be declared external
+MCoinDistribution.init (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#692-702) should be declared external
+MCoinDistribution.detailsOfWindow (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#776-787) should be declared external
+MCoinDistribution.withdrawAll (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#863-865) should be declared external
+MCoinDistribution.getAllRewards (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#872-882) should be declared external
+MCoinDistribution.getCommitmentsOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#892-908) should be declared external
+MCoinDistribution.getTotals (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#914-921) should be declared external
+MCoinDistribution.moveFunds (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#926-929) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#192-193) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#167) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#167) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#283) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#284) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#240) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#240) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#241) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#264-265) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#265) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#304) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#304) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#326) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#326) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#382) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#382) is not in mixedCase
+Parameter '_value' of MineableToken.commit (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#435-436) is not in mixedCase
+Parameter '_miner' of MineableToken.getReward (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#511) is not in mixedCase
+Parameter '_miner' of MineableToken.commitmentOf (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#566) is not in mixedCase
+Parameter '_miner' of MineableToken.getCommitment (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#582-583) is not in mixedCase
+Parameter '_firstPeriodWindows' of MCoinDistribution. (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#652-653) is not in mixedCase
+Parameter '_firstPeriodSupply' of MCoinDistribution. (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#653-654) is not in mixedCase
+Parameter '_secondPeriodWindows' of MCoinDistribution. (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#654-655) is not in mixedCase
+Parameter '_secondPeriodSupply' of MCoinDistribution. (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#655) is not in mixedCase
+Parameter '_foundationWallet' of MCoinDistribution. (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#656) is not in mixedCase
+Parameter '_startTimestamp' of MCoinDistribution. (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#658) is not in mixedCase
+Parameter '_windowLength' of MCoinDistribution. (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#658) is not in mixedCase
+Parameter '_MCoin' of MCoinDistribution.init (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#693) is not in mixedCase
+Variable 'MCoinDistribution.MCoin' (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol#635-636) is not in mixedCase
+Parameter '_value' of MCoinDistributionWrap.toDecimals (/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/6/0x928d06fba1226f83aa3df853ecae911e0c0ec499.sol analyzed (10 contracts), 76 result(s) found

@@ -1,0 +1,141 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol:
+/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol:294:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            winner.send(silver[1]);
+            ^--------------------^
+/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol:308:17: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+                addresses[k].send(goldenPrize);
+                ^----------------------------^
+/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol:325:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        players[winnerIdx].send(brilliant[1]);
+        ^-----------------------------------^
+/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol:335:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        msg.sender.send(txCost);
+        ^---------------------^
+/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol:339:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        owner.send(fee);
+        ^-------------^
+
+INFO:Detectors:[91m
+Lottery100ETH.drawing (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#292-354) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.send(txCost) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#350-352)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Lottery100ETH.drawing (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#292-354):
+	External calls:
+	- x.count() < gold[0] (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#308-311)
+	- goldenWinners = x.count() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#309)
+	- goldenPrize = gold[0] * gold[1] / x.count() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#310)
+	- addresses = x.draw(goldenWinners) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#311-315)
+	- RS.sendBonus(addresses[k]) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#318-319)
+	- WT.emitEvent(addresses[k]) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#319-320)
+	- WT.emitEvent(players[winnerIdx]) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#336-338)
+	External calls sending eth:
+	- addresses[k].send(goldenPrize) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#317-318)
+	- players[winnerIdx].send(brilliant[1]) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#335-336)
+	State variables written after the call(s):
+	- futureblock (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#344)
+	- gameCount (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#345-346)
+	- players (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#340)
+	- x (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#344-345)
+Reentrancy in Lottery100ETH.fallback (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#252-292):
+	External calls:
+	- drawing() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#262)
+	- RS.addReferrer(bytesToAddress(bytes(msg.data))) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#275-281)
+	External calls sending eth:
+	- drawing() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#262)
+	- msg.sender.transfer(msg.value - PRICE) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#272-273)
+	State variables written after the call(s):
+	- players (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#281-283)
+Reentrancy in Lottery100ETH.fallback (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#252-292):
+	External calls:
+	- drawing() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#262)
+	- RS.addReferrer(bytesToAddress(bytes(msg.data))) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#275-281)
+	- x.purchase(msg.sender) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#283)
+	- RS.newTicket() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#283)
+	- LT.emitEvent(msg.sender) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#285)
+	- drawing() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#290)
+	External calls sending eth:
+	- drawing() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#262)
+	- msg.sender.transfer(msg.value - PRICE) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#272-273)
+	- drawing() (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#290)
+	State variables written after the call(s):
+	- futureblock (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#290)
+	- gameCount (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#290)
+	- players (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#290)
+	- x (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#290)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Lottery100ETH.bytesToAddress (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#368-376) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Lottery100ETH.drawing (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#292-354) uses a dangerous strict equality:
+	- uint256(blockhash(uint256)(futureblock - j)) % 2 == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+RefStorage.newTicket uses tx.origin for authorization:
+	- players[tx.origin].referrer != address(0) && (players[tx.origin].tickets - players[tx.origin].checkpoint) % interval == 0 (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#157-167)
+RefStorage.addReferrer uses tx.origin for authorization:
+	- players[tx.origin].referrer == address(0) && players[referrer].tickets >= interval && referrer != tx.origin (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#169-179)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-usage-of-txorigin[0m
+INFO:Detectors:[93m
+winnerIdx in Lottery100ETH.drawing (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#324-325) is a local variable never initialiazed
+winnersCount in Storage.draw (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#99) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+RefStorage.newTicket (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#156-167) does not use the value returned by external calls:
+	-token.transfer(tx.origin,prize) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#161)
+	-token.transfer(players[tx.origin].referrer,prize) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#166)
+RefStorage.sendBonus (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#179-185) does not use the value returned by external calls:
+	-token.transfer(winner,prize) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#184)
+RefStorage.withdrawERC20 (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#185-192) does not use the value returned by external calls:
+	-IERC20(ERC20Token).transfer(recipient,amount) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#192)
+Lottery100ETH.withdrawERC20 (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#359-368) does not use the value returned by external calls:
+	-IERC20(ERC20Token).transfer(recipient,amount) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#366-368)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Lottery100ETH.drawing has external calls inside a loop:
+	- addresses[k].send(goldenPrize) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#317-318)
+Lottery100ETH.drawing has external calls inside a loop:
+	- RS.sendBonus(addresses[k]) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#318-319)
+Lottery100ETH.drawing has external calls inside a loop:
+	- WT.emitEvent(addresses[k]) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#319-320)
+Lottery100ETH.drawing has external calls inside a loop:
+	- winner.send(silver[1]) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#303)
+Lottery100ETH.drawing has external calls inside a loop:
+	- WT.emitEvent(winner) (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#303-305)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Lottery100ETH.bytesToAddress uses assembly (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#368-376)
+	- /unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#372-376
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Lottery100ETH.limit should be constant (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#218)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+LotteryTicket.emitEvent (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#16-22) should be declared external
+WinnerTicket.emitEvent (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#30-37) should be declared external
+Ownable.renounceOwnership (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#48-51) should be declared external
+Ownable.transferOwnership (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#51-61) should be declared external
+Storage.purchase (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#71-95) should be declared external
+Storage.draw (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#95-119) should be declared external
+RefStorage.changeContracts (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#146-150) should be declared external
+RefStorage.changePrize (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#150-154) should be declared external
+RefStorage.changeInterval (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#155-156) should be declared external
+RefStorage.ticketsOf (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#193-200) should be declared external
+RefStorage.referrerOf (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#200-206) should be declared external
+Lottery100ETH.fallback (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#252-292) should be declared external
+Lottery100ETH.pause (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#354-357) should be declared external
+Lottery100ETH.unpause (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#357-359) should be declared external
+Lottery100ETH.amountOfPlayers (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter 'ERC20Token' of RefStorage.withdrawERC20 (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#186-188) is not in mixedCase
+Event 'Lottery100ETH.txCostRefunded' (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#230-232) is not in CapWords
+Parameter 'RS_Addr' of Lottery100ETH. (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#245) is not in mixedCase
+Parameter 'ERC20Token' of Lottery100ETH.withdrawERC20 (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#359-361) is not in mixedCase
+Variable 'Lottery100ETH.RS' (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#210) is not in mixedCase
+Variable 'Lottery100ETH.LT' (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#212) is not in mixedCase
+Variable 'Lottery100ETH.WT' (/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol#214) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/12/0xb02ae0bd0e1431337fce668d76a6ba4b6ecadd84.sol analyzed (7 contracts), 43 result(s) found

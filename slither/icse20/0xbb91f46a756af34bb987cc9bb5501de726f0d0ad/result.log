@@ -1,0 +1,62 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol:
+/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol:190:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+       winningNumber = uint256(keccak256(block.timestamp, block.difficulty))%300;
+                               ^------------------------------------------^
+
+INFO:Detectors:[91m
+Lottery.payWinner (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#173-186) sends eth to arbitrary user
+	Dangerous calls:
+	- winner.transfer(balance) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#182)
+Lottery.payDev (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#186-195) sends eth to arbitrary user
+	Dangerous calls:
+	- dev.transfer(balance) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#190-192)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Lottery.deposit (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#80-120):
+	External calls:
+	- poohContract.buy.value(msg.value)(customerAddress) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#86-88)
+	- poohContract.exit() (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#106-107)
+	External calls sending eth:
+	- poohContract.buy.value(msg.value)(customerAddress) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#86-88)
+	- payDev(owner) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#109-110)
+	- payWinner(customerAddress) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#112-114)
+	State variables written after the call(s):
+	- ticketNumber (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#118)
+	- winningNumber (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#118)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Lottery.deposit (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#80-120) does not use the value returned by external calls:
+	-poohContract.buy.value(msg.value)(customerAddress) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#86-88)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Lottery.deposit (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#80-120):
+	External calls:
+	- poohContract.buy.value(msg.value)(customerAddress) (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#86-88)
+	State variables written after the call(s):
+	- ticketNumber (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#98)
+	- ticketNumber (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#119)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Lottery.deposit (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#80-120) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ticketNumber >= winningNumber (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#100-119)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Lottery.fallback (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#77-79) should be declared external
+Lottery.deposit (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#80-120) should be declared external
+Lottery.myTokens (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#124-127) should be declared external
+Lottery.myDividends (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#130-134) should be declared external
+Lottery.ethBalance (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#137-139) should be declared external
+Lottery.openToThePublic (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#151-152) should be declared external
+Lottery.returnAnyERC20Token (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#158-169) should be declared external
+ERC20Interface.transfer (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#204-206) should be declared external
+POOH.buy (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#210-213) should be declared external
+POOH.exit (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#213) should be declared external
+POOH.myTokens (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#213-215) should be declared external
+POOH.myDividends (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#215-217) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '' of POOH.buy (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#210-212) is not in mixedCase
+Parameter '' of POOH.myDividends (/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol#215) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0xbb91f46a756af34bb987cc9bb5501de726f0d0ad.sol analyzed (4 contracts), 20 result(s) found

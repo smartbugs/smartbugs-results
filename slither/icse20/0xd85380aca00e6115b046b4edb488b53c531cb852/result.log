@@ -1,0 +1,186 @@
+INFO:Detectors:[91m
+Revolution.sendDividends (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#561-566) sends eth to arbitrary user
+	Dangerous calls:
+	- addr.send(value) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#564-566)
+Revolution.sendDividendsWithRefBonus (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol) sends eth to arbitrary user
+	Dangerous calls:
+	- addr.send(value + refBonus) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Revolution.payout (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#482-533):
+	External calls:
+	- m_paysys.latestKeyIndex == m_investors.iterStart() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#493-498)
+	- size = m_investors.size() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#503)
+	- investorAddr = m_investors.keyFromIndex(i) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#508-512)
+	- (value,refBonus) = m_investors.investorShortInfo(investorAddr) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#512-514)
+	- require(bool,string)(m_investors.setRefBonus(investorAddr,0),internal error) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#521-525)
+	External calls sending eth:
+	- sendDividendsWithRefBonus(investorAddr,value,refBonus) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#525-526)
+	- sendDividends(investorAddr,value) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#527-529)
+	State variables written after the call(s):
+	- m_nextWave (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#518)
+	- m_paysys (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#533)
+Reentrancy in Revolution.payout (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#482-533):
+	External calls:
+	- m_paysys.latestKeyIndex == m_investors.iterStart() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#493-498)
+	- size = m_investors.size() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#503)
+	- investorAddr = m_investors.keyFromIndex(i) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#508-512)
+	- (value,refBonus) = m_investors.investorShortInfo(investorAddr) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#512-514)
+	- require(bool,string)(m_investors.setRefBonus(investorAddr,0),internal error) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#521-525)
+	- m_paysys.latestKeyIndex = m_investors.iterStart() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#530-533)
+	External calls sending eth:
+	- sendDividendsWithRefBonus(investorAddr,value,refBonus) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#525-526)
+	- sendDividends(investorAddr,value) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#527-529)
+	State variables written after the call(s):
+	- m_paysys (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#530-533)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+ToAddress.toAddr (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#293-297) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Revolution.doInvest (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#437-482) uses a dangerous strict equality:
+	- m_paysys.mode == Paymode.Pull
+Revolution.doInvest (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#437-482) uses a dangerous strict equality:
+	- m_paysys.mode == Paymode.Pull
+Revolution.payout (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#482-533) uses a dangerous strict equality:
+	- m_paysys.latestKeyIndex == m_investors.iterStart()
+	- i == size
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Revolution.doInvest (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#437-482):
+	External calls:
+	- notZeroNotSender(refs[0]) && m_investors.contains(refs[0]) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#444-467)
+	- assert(bool)(m_investors.addRefBonus(refs[0],reward)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#446-447)
+	State variables written after the call(s):
+	- m_referrals (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#447)
+Reentrancy in Revolution.getMyDividends (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#405-437):
+	External calls:
+	- investor = getMemInvestor(msg.sender) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#409-410)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,m_paysys.latestTime)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#414-415)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#423-425)
+	- nextWave() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#430)
+	State variables written after the call(s):
+	- m_investors (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#430)
+	- m_paysys (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#430)
+Reentrancy in Revolution.payout (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#482-533):
+	External calls:
+	- m_paysys.latestKeyIndex == m_investors.iterStart() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#493-498)
+	State variables written after the call(s):
+	- m_paysys (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#497)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+refs in Revolution.fallback (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#371) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Revolution.payout has external calls inside a loop:
+	- investorAddr = m_investors.keyFromIndex(i) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#508-512)
+Revolution.payout has external calls inside a loop:
+	- (value,refBonus) = m_investors.investorShortInfo(investorAddr) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#512-514)
+Revolution.payout has external calls inside a loop:
+	- require(bool,string)(m_investors.setRefBonus(investorAddr,0),internal error) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#521-525)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Revolution.constructor (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#349-365):
+	External calls:
+	- nextWave() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#359)
+	State variables written after the call(s):
+	- waveStartup (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#360-365)
+Reentrancy in Revolution.doInvest (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#437-482):
+	External calls:
+	- notZeroNotSender(refs[0]) && m_investors.contains(refs[0]) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#444-467)
+	- assert(bool)(m_investors.addRefBonus(refs[0],reward)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#446-447)
+	- notZeroNotSender(refs[1]) && m_investors.contains(refs[1]) && refs[0] != refs[1] (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#454-466)
+	- assert(bool)(m_investors.addRefBonus(refs[1],reward)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#456-458)
+	- notZeroNotSender(refs[2]) && m_investors.contains(refs[2]) && refs[0] != refs[2] && refs[1] != refs[2] (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#460-466)
+	- assert(bool)(m_investors.addRefBonus(refs[2],reward)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#463-464)
+	- m_investors.contains(msg.sender) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#473-479)
+	- assert(bool)(m_investors.addValue(msg.sender,value)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#473-476)
+	- assert(bool)(m_investors.insert(msg.sender,value)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#478-479)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#480-481)
+	External calls sending eth:
+	- adminAddr.transfer(m_adminPercent.mul(msg.value)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#467-469)
+	- payerAddr.transfer(m_payerPercent.mul(msg.value)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#469-473)
+	State variables written after the call(s):
+	- investmentsNum (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#481-482)
+Reentrancy in Revolution.getMyDividends (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#405-437):
+	External calls:
+	- investor = getMemInvestor(msg.sender) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#409-410)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,m_paysys.latestTime)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#414-415)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#423-425)
+	- nextWave() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#430)
+	State variables written after the call(s):
+	- investmentsNum (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#430)
+	- m_nextWave (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#430)
+	- waveStartup (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#430)
+Reentrancy in Revolution.nextWave (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol):
+	External calls:
+	- m_paysys.latestKeyIndex = m_investors.iterStart() (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol)
+	State variables written after the call(s):
+	- investmentsNum (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol)
+	- m_nextWave (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol)
+	- waveStartup (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ToAddress.toAddr uses assembly (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#293-297)
+	- /unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#296-297
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+InvestorsStorage.insert (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#45-55) should be declared external
+InvestorsStorage.investorFullInfo (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#55-64) should be declared external
+InvestorsStorage.investorBaseInfo (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#64-72) should be declared external
+InvestorsStorage.investorShortInfo (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#72-79) should be declared external
+InvestorsStorage.addRefBonus (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#79-86) should be declared external
+InvestorsStorage.addValue (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#86-91) should be declared external
+InvestorsStorage.setPaymentTime (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#92-98) should be declared external
+InvestorsStorage.setRefBonus (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#98-107) should be declared external
+InvestorsStorage.keyFromIndex (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#107-109) should be declared external
+InvestorsStorage.contains (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#111-115) should be declared external
+InvestorsStorage.size (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#115-122) should be declared external
+InvestorsStorage.iterStart (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#122-123) should be declared external
+Accessibility.provideAccess (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#214-228) should be declared external
+Accessibility.access (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#228-232) should be declared external
+PaymentSystem.paymode (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#250) should be declared external
+Revolution.fallback (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#365-375) should be declared external
+Revolution.investorsNumber (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#375-379) should be declared external
+Revolution.balanceETH (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#379-382) should be declared external
+Revolution.payerPercent (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#382-386) should be declared external
+Revolution.dividendsPercent (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#386-390) should be declared external
+Revolution.adminPercent (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#390-392) should be declared external
+Revolution.referrerPercent (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#392-399) should be declared external
+Revolution.investorInfo (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#399-403) should be declared external
+Revolution.latestPayout (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#403-405) should be declared external
+Revolution.payout (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#482-533) should be declared external
+Revolution.setAdminAddr (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#534-539) should be declared external
+Revolution.setPayerAddr (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#539-546) should be declared external
+Revolution.setPullPaymode (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#546-550) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Struct 'InvestorsStorage.investor' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#23-29) is not in CapWords
+Struct 'InvestorsStorage.itmap' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#29-33) is not in CapWords
+Parameter '_a' of SafeMath.mul (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#123) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#123-124) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#137-138) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#138) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#151) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#151) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#158) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#158) is not in mixedCase
+Struct 'Percent.percent' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#176-179) is not in CapWords
+Variable 'Accessibility.m_admins' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#201-205) is not in mixedCase
+Variable 'PaymentSystem.m_paysys' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#243) is not in mixedCase
+Variable 'Revolution.m_investors' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#305-306) is not in mixedCase
+Variable 'Revolution.m_referrals' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#306) is not in mixedCase
+Variable 'Revolution.m_nextWave' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#306-307) is not in mixedCase
+Constant 'Revolution.minInvesment' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#311) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Revolution.maxBalance' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#311-312) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Revolution.pauseOnNextWave' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#312-313) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'Revolution.m_dividendsPercent' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#313-315) is not in mixedCase
+Variable 'Revolution.m_adminPercent' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#316-317) is not in mixedCase
+Variable 'Revolution.m_payerPercent' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#317-318) is not in mixedCase
+Variable 'Revolution.m_refPercent' (/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol#318-319) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/32/0xd85380aca00e6115b046b4edb488b53c531cb852.sol analyzed (8 contracts), 71 result(s) found

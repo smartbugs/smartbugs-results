@@ -1,0 +1,121 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol:
+/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol:227:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in ZodiaqDistribution.payPartners (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#495-497):
+	External calls:
+	- assert(bool)(token.transfer(partners,partnersReward)) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol)
+	State variables written after the call(s):
+	- partnersReward (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol)
+Reentrancy in ZodiaqDistribution.payTeam (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol):
+	External calls:
+	- assert(bool)(token.transfer(team,teamReward)) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol)
+	State variables written after the call(s):
+	- teamReward (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+ZodiaqDistribution.init (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#449-467) does not use the value returned by external calls:
+	-token.mint(address(this),240000000 * BASE) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#462-465)
+	-token.mint(bountyOwner,9000000 * BASE) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#465-466)
+	-token.mint(referralProgramOwner,6000000 * BASE) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#466-467)
+ZodiaqDistribution.stopICO (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#474-494) does not use the value returned by external calls:
+	-token.mint(address(this),teamReward + partnersReward) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#491-492)
+	-token.finishMinting() (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#493)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ZodiaqDistribution.sendTokensTo has external calls inside a loop:
+	- assert(bool)(token.transfer(recipients[i],values[i])) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#471-472)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in ZodiaqDistribution.stopICO (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#474-494):
+	External calls:
+	- token.burn(address(this),token.balanceOf(address(this))) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#476-478)
+	- token.burn(referralProgramOwner,token.balanceOf(referralProgramOwner)) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#479-483)
+	- token.burn(bountyOwner,token.balanceOf(bountyOwner)) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#483-484)
+	- totalSupply = token.totalSupply().mulToFraction(100,85) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#485-486)
+	State variables written after the call(s):
+	- partnersReward (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#487-491)
+	- teamReward (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#486-487)
+Reentrancy in ZodiaqDistribution.stopICO (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#474-494):
+	External calls:
+	- token.burn(address(this),token.balanceOf(address(this))) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#476-478)
+	- token.burn(referralProgramOwner,token.balanceOf(referralProgramOwner)) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#479-483)
+	- token.burn(bountyOwner,token.balanceOf(bountyOwner)) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#483-484)
+	- totalSupply = token.totalSupply().mulToFraction(100,85) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#485-486)
+	- token.mint(address(this),teamReward + partnersReward) (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#491-492)
+	- token.finishMinting() (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#493)
+	State variables written after the call(s):
+	- icoFinishedDate (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#494)
+	- isICOFinished (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#493-494)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ZodiaqDistribution.BASE should be constant (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#431-432)
+ZodiaqToken.decimals should be constant (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#360-361)
+ZodiaqToken.name should be constant (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#356-360)
+ZodiaqToken.symbol should be constant (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#360)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#76-81) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#9-10) should be declared external
+BasicToken.balanceOf (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#101-109) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#10-11) should be declared external
+BasicToken.transfer (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#85-96) should be declared external
+ERC20Basic.transfer (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#11-12) should be declared external
+StandardToken.allowance (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#173-176) should be declared external
+ERC20.allowance (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#111-112) should be declared external
+StandardToken.transferFrom (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#136-149) should be declared external
+ERC20.transferFrom (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#112-113) should be declared external
+StandardToken.approve (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#158-165) should be declared external
+ERC20.approve (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#113-117) should be declared external
+StandardToken.increaseApproval (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#184-192) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#201-216) should be declared external
+Ownable.transferOwnership (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#253-255) should be declared external
+MintableToken.mint (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#281-295) should be declared external
+MintableToken.finishMinting (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#298-304) should be declared external
+BurnableByOwnerToken.burn (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#313-315) should be declared external
+MultiTransferableToken.multiTransfer (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#332-353) should be declared external
+Managable.changeManager (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#374-382) should be declared external
+ZodiaqDistribution.init (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#449-467) should be declared external
+ZodiaqDistribution.sendTokensTo (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#467-472) should be declared external
+ZodiaqDistribution.stopICO (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#474-494) should be declared external
+ZodiaqDistribution.payPartners (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#495-497) should be declared external
+ZodiaqDistribution.payTeam (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#106) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#85-86) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#86) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#173) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#173-175) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#136-137) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#137) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#137) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#159-160) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#162-163) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#184) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#184) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#202-203) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#203) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#240) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#284) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#284) is not in mixedCase
+Parameter '_who' of BurnableByOwnerToken.burn (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#313) is not in mixedCase
+Parameter '_value' of BurnableByOwnerToken.burn (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#313) is not in mixedCase
+Function 'BurnableByOwnerToken._burn' (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#315-330) is not in mixedCase
+Parameter '_who' of BurnableByOwnerToken._burn (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#316) is not in mixedCase
+Parameter '_value' of BurnableByOwnerToken._burn (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#316) is not in mixedCase
+Parameter '_to' of MultiTransferableToken.multiTransfer (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#332-333) is not in mixedCase
+Parameter '_values' of MultiTransferableToken.multiTransfer (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#333) is not in mixedCase
+Parameter '_bountyOwner' of ZodiaqDistribution.init (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#450-451) is not in mixedCase
+Parameter '_referralProgramOwner' of ZodiaqDistribution.init (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#451-452) is not in mixedCase
+Parameter '_team' of ZodiaqDistribution.init (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#453) is not in mixedCase
+Parameter '_partners' of ZodiaqDistribution.init (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#453) is not in mixedCase
+Variable 'ZodiaqDistribution.BASE' (/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol#431-432) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/15/0xaf9c1035fad1e520161e5ea5b3701f1e48d319fa.sol analyzed (13 contracts), 63 result(s) found

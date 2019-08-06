@@ -1,0 +1,152 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol:
+/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol:144:5: Warning: Variable is declared as a storage pointer. Use an explicit "storage" keyword to silence this warning.
+    Tier t = tiers[tier];
+    ^----^
+/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol:148:24: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x89EC1273A56f232D96cD17C08E9f129E15Cf16F1'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+  address public dev = 0x89ec1273a56f232d96cd17c08e9f129e15cf16f1;
+                       ^----------------------------------------^
+/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol:154:26: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x89EC1273A56f232D96cD17C08E9f129E15Cf16F1'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+  address public admin = 0x89ec1273a56f232d96cd17c08e9f129e15cf16f1;
+                         ^----------------------------------------^
+/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol:215:5: Warning: Function state mutability can be restricted to view
+    function isContract(address addr) internal {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol:221:5: Warning: Function state mutability can be restricted to pure
+    function handleReturnData() internal returns (bool result) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in FUTB1._mine (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#648-697):
+	External calls:
+	- _startSwap() (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#687)
+	State variables written after the call(s):
+	- cycleMintSupply (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#693-694)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+FUTB1._mine (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#648-697) does not use the value returned by external calls:
+	-ERC20(_token).asmTransfer(msg.sender,refund) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#683-686)
+	-MintableToken(this).mint(msg.sender,_tokens) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#694-695)
+	-ERC20(_token).asmTransfer(FUTC,fee) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#696-697)
+FUTB1.swap (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#717-730) does not use the value returned by external calls:
+	-ERC20(_token).asmTransfer(msg.sender,amt.mul(swapRates[_token]).div(decimalOffset)) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#726-730)
+FUTB1.restart (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#730-752) does not use the value returned by external calls:
+	-ERC20(_token).asmTransfer(FUTC,amtLeft.div(5)) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#741-742)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+FUTB1._mine has external calls inside a loop:
+	- (futbLeftInCurrent,miningTokenLeftInCurrent,currentRate) = tierContract.getTier(currentTier) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#688-691)
+FUTB1._startSwap has external calls inside a loop:
+	- swapAmt = ERC20(_token).balanceOf(this) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#710-712)
+FUTB1.restart has external calls inside a loop:
+	- amtLeft = ERC20(_token).balanceOf(this) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#740-741)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in FUTB1._startSwap (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#702-717):
+	External calls:
+	- swapAmt = ERC20(_token).balanceOf(this) (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#710-712)
+	State variables written after the call(s):
+	- swapRates (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#712-716)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20AsmFn.isContract uses assembly (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#222-227)
+	- /unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#224-227
+ERC20AsmFn.handleReturnData uses assembly (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#227-242)
+	- /unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#229-242
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+FUTB1.FUTC should be constant (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#606-613)
+FUTB1.baseRate should be constant (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#597-598)
+FUTB1.decimalOffset should be constant (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#596-597)
+FUTB1.offset should be constant (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#595-596)
+FUTBTiers.offset should be constant (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#130-132)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#97-102) should be declared external
+Ownable.transferOwnership (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#106-110) should be declared external
+FUTBTiers.getTier (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#145-150) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#288) should be declared external
+BasicToken.totalSupply (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#313-317) should be declared external
+BasicToken.balanceOf (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#342-346) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#289-292) should be declared external
+ERC20Basic.transfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#292-295) should be declared external
+BasicToken.transfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#320-334) should be declared external
+StandardToken.allowance (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#461-465) should be declared external
+ERC20.allowance (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#385-388) should be declared external
+StandardToken.transferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#419-428) should be declared external
+ERC20.transferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#388-391) should be declared external
+ERC20.approve (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#391-392) should be declared external
+StandardToken.approve (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#443-453) should be declared external
+StandardToken.increaseApproval (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#481-487) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#506-521) should be declared external
+MintableToken.mint (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#558-572) should be declared external
+MintableToken.finishMinting (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#574-577) should be declared external
+FUTB1.swap (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#717-730) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in ERC20AsmFn.asmTransfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#243-254):
+	-require(bool)(_erc20Addr.call(bytes4(keccak256()(transfer(address,uint256))),_to,_value)) /unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#249-251
+Low level call in ERC20AsmFn.asmTransferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#255-267):
+	-require(bool)(_erc20Addr.call(bytes4(keccak256()(transferFrom(address,address,uint256))),_from,_to,_value)) /unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#261-264
+Low level call in ERC20AsmFn.asmApprove (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#267-282):
+	-require(bool)(_erc20Addr.call(bytes4(keccak256()(approve(address,uint256))),_spender,_value)) /unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#278-280
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_a' of SafeMath.mul (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#14) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#14) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#30) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#30) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#40) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#40-41) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#48) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#48-49) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#109) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#114-124) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#114-115) is not in mixedCase
+Parameter '_startingTier' of FUTBTiers.addTiers (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#136-137) is not in mixedCase
+Parameter '_futb' of FUTBTiers.addTiers (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#137) is not in mixedCase
+Parameter '_futrx' of FUTBTiers.addTiers (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#137) is not in mixedCase
+Parameter '_receiver' of FUTBTiers.changeDev (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#154-155) is not in mixedCase
+Parameter '_receiver' of FUTBTiers.changeAdmin (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#161) is not in mixedCase
+Parameter '_erc20Addr' of ERC20AsmFn.asmTransfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#243) is not in mixedCase
+Parameter '_to' of ERC20AsmFn.asmTransfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#243) is not in mixedCase
+Parameter '_value' of ERC20AsmFn.asmTransfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#243) is not in mixedCase
+Parameter '_erc20Addr' of ERC20AsmFn.asmTransferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#255) is not in mixedCase
+Parameter '_from' of ERC20AsmFn.asmTransferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#255) is not in mixedCase
+Parameter '_to' of ERC20AsmFn.asmTransferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#255) is not in mixedCase
+Parameter '_value' of ERC20AsmFn.asmTransferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#255) is not in mixedCase
+Parameter '_erc20Addr' of ERC20AsmFn.asmApprove (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#267) is not in mixedCase
+Parameter '_spender' of ERC20AsmFn.asmApprove (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#267) is not in mixedCase
+Parameter '_value' of ERC20AsmFn.asmApprove (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#267-268) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#342) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#324) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#324) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#357) is not in mixedCase
+Function 'BurnableToken._burn' (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#358-375) is not in mixedCase
+Parameter '_who' of BurnableToken._burn (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#359) is not in mixedCase
+Parameter '_value' of BurnableToken._burn (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#359-360) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#462) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#462) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#420) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#421) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#422-425) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#443) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#443) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#481) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#481-482) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#509) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#510) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#559-560) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#563) is not in mixedCase
+Function 'FUTB1._mine' (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#648-697) is not in mixedCase
+Parameter '_token' of FUTB1._mine (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#648-649) is not in mixedCase
+Parameter '_inAmount' of FUTB1._mine (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#649) is not in mixedCase
+Function 'FUTB1._startSwap' (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#702-717) is not in mixedCase
+Parameter '_tiersAddr' of FUTB1.setFutbTiers (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#786) is not in mixedCase
+Parameter '_lastTier' of FUTB1.setLastTier (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#798) is not in mixedCase
+Parameter '_receiver' of FUTB1.changeAdmin (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol) is not in mixedCase
+Parameter '_receiver' of FUTB1.changeTierAdmin (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol) is not in mixedCase
+Parameter '_addr' of FUTB1.removeToken (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol) is not in mixedCase
+Parameter '_position' of FUTB1.removeToken (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol) is not in mixedCase
+Variable 'FUTB1.FUTC' (/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol#606-613) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/9/0x30c6fe3ac0260a855c90cab79aa33e76091d4904.sol analyzed (11 contracts), 91 result(s) found

@@ -1,0 +1,150 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:16:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:321:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function ReporterTokenSale() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:110:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:146:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:164:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:206:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(0X0, _to, _amount);
+    ^-------------------------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:216:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:426:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenPurchase(beneficiary, amount, _tokens);
+    ^-----------------------------------------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:448:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenPurchase(beneficiary, amount, tokens);
+    ^----------------------------------------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:449:23: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    multiSig.transfer(this.balance); // better in case any other ether ends up here
+                      ^----------^
+/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:464:5: Warning: Invoking events without "emit" prefix is deprecated.
+    SaleClosed();
+    ^----------^
+
+INFO:Detectors:[91m
+ReporterTokenSale.buyTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#444-467) sends eth to arbitrary user
+	Dangerous calls:
+	- multiSig.transfer(this.balance) (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#462-463)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+ReporterTokenSale.buyTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#444-467) uses a dangerous strict equality:
+	- token.balanceOf(beneficiary) == 0
+ReporterTokenSale.buyTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#444-467) uses a dangerous strict equality:
+	- token.balanceOf(beneficiary) == 0
+ReporterTokenSale.placeTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#426-443) uses a dangerous strict equality:
+	- token.balanceOf(beneficiary) == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in ReporterTokenSale.buyTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#444-467):
+	External calls:
+	- token.balanceOf(beneficiary) == 0 (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#454-456)
+	State variables written after the call(s):
+	- tokenRaised (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#457-458)
+Reentrancy in ReporterTokenSale.placeTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#426-443):
+	External calls:
+	- token.balanceOf(beneficiary) == 0 (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#435-436)
+	State variables written after the call(s):
+	- tokenRaised (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#438)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+ReporterToken.emergencyERC20Drain (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#273-277) does not use the value returned by external calls:
+	-oddToken.transfer(owner,amount) (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#276)
+ReporterTokenSale.placeTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#426-443) does not use the value returned by external calls:
+	-token.mint(beneficiary,_tokens) (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#439-442)
+ReporterTokenSale.buyTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#444-467) does not use the value returned by external calls:
+	-token.mint(beneficiary,tokens) (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#459-460)
+ReporterTokenSale.finishSale (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#469-475) does not use the value returned by external calls:
+	-token.mint(multiSig,unassigned) (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol)
+	-token.finishMinting() (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol)
+ReporterTokenSale.emergencyERC20Drain (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol) does not use the value returned by external calls:
+	-oddToken.transfer(owner,amount) (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in ReporterTokenSale.ReporterTokenSale (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#329-342):
+	External calls:
+	- decimals = token.decimals() (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#338)
+	State variables written after the call(s):
+	- maxTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#340-341)
+	- oneCoin (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#338-340)
+	- tokensForSale (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#341-342)
+Reentrancy in ReporterTokenSale.buyTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#444-467):
+	External calls:
+	- token.balanceOf(beneficiary) == 0 (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#454-456)
+	State variables written after the call(s):
+	- numberOfPurchasers (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#456)
+Reentrancy in ReporterTokenSale.placeTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#426-443):
+	External calls:
+	- token.balanceOf(beneficiary) == 0 (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#435-436)
+	State variables written after the call(s):
+	- numberOfPurchasers (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#436)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ReporterToken.decimals should be constant (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#237)
+ReporterToken.name should be constant (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#231-232)
+ReporterToken.symbol should be constant (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#232-236)
+ReporterTokenSale.freeForAll should be constant (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#322-323)
+ReporterTokenSale.maxContribution should be constant (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#300-303)
+ReporterTokenSale.minContribution should be constant (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#295-298)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#33-42) should be declared external
+BasicToken.balanceOf (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#124-128) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#47-48) should be declared external
+StandardToken.allowance (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#181-182) should be declared external
+ERC20.allowance (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#57-58) should be declared external
+ERC20.approve (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#59-60) should be declared external
+StandardToken.approve (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#158-171) should be declared external
+MintableToken.mint (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#206-216) should be declared external
+MintableToken.finishMinting (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#222-229) should be declared external
+ReporterToken.startTrading (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#246-248) should be declared external
+ReporterToken.emergencyERC20Drain (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#273-277) should be declared external
+ReporterTokenSale.setWallet (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#289-290) should be declared external
+ReporterTokenSale.authoriseAccount (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#405-408) should be declared external
+ReporterTokenSale.authoriseManyAccounts (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#412-417) should be declared external
+ReporterTokenSale.blockAccount (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#420-424) should be declared external
+ReporterTokenSale.setCS (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#424-426) should be declared external
+ReporterTokenSale.placeTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#426-443) should be declared external
+ReporterTokenSale.finishSale (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#469-475) should be declared external
+ReporterTokenSale.fallback (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol) should be declared external
+ReporterTokenSale.emergencyERC20Drain (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol:
+	- pragma solidity^0.4.12 (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#16-22) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#125-126) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#108-109) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#109) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#181) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#181) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#143-144) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#144) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#144) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#158) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#158) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#207) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#208-211) is not in mixedCase
+Parameter '_to' of ReporterToken.transfer (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#254) is not in mixedCase
+Parameter '_value' of ReporterToken.transfer (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#254-255) is not in mixedCase
+Parameter '_from' of ReporterToken.transferFrom (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#267) is not in mixedCase
+Parameter '_to' of ReporterToken.transferFrom (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#267) is not in mixedCase
+Parameter '_value' of ReporterToken.transferFrom (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#267-268) is not in mixedCase
+Parameter '_newWallet' of ReporterTokenSale.setWallet (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#290) is not in mixedCase
+Function 'ReporterTokenSale.ReporterTokenSale' (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#329-342) is not in mixedCase
+Parameter '_tokens' of ReporterTokenSale.placeTokens (/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol#429) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x31cd4e0345c75739cd7ce973b152ef20653a5740.sol analyzed (9 contracts), 56 result(s) found

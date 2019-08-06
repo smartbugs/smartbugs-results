@@ -1,0 +1,110 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol:
+/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol:247:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(token.call(bytes4(keccak256("name()"))));
+                ^-------------------------------------^
+/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol:254:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(token.call(bytes4(keccak256("symbol()"))));
+                ^---------------------------------------^
+
+INFO:Detectors:[91m
+MultiChanger.sendEthValue (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#312-319) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool)(target.call.value(value)()) (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#317-319)
+MultiChanger.sendEthProportion (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#319-324) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool)(target.call.value(value)()) (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#324)
+MultiChanger.depositEtherTokenAmount (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#325-329) sends eth to arbitrary user
+	Dangerous calls:
+	- etherToken.deposit.value(amount)() (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#328-329)
+MultiChanger.depositEtherTokenProportion (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#329-334) sends eth to arbitrary user
+	Dangerous calls:
+	- etherToken.deposit.value(amount)() (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#333-334)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+CheckedERC20.isContract (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#160-167) is declared view but contains assembly code
+CheckedERC20.handleReturnBool (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#167-184) is declared view but contains assembly code
+CheckedERC20.handleReturnBytes32 (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#184-206) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+CheckedERC20.checkedTransfer (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#230-238) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(this) == balance.sub(value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransfer (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#230-238) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(this) == balance.sub(value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransferFrom (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#238-248) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(to) == toBalance.add(value),checkedTransfer: Final balance didn't match)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+MultiChanger.transferFromTokenAmount uses tx.origin for authorization:
+	- require(bool)(fromToken.asmTransferFrom(tx.origin,this,amount)) (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#359)
+MultiChanger.transferFromTokenProportion uses tx.origin for authorization:
+	- require(bool)(fromToken.asmTransferFrom(tx.origin,this,amount)) (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#363-366)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-usage-of-txorigin[0m
+INFO:Detectors:[93m
+MultiChanger.multitokenChangeAmount (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#366-370) does not use the value returned by external calls:
+	-fromToken.asmApprove(mtkn,uint256(- 1)) (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#368)
+	-mtkn.change(fromToken,toToken,amount,minReturn) (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#369-370)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+CheckedERC20.isContract uses assembly (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#160-167)
+	- /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#165-167
+CheckedERC20.handleReturnBool uses assembly (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#167-184)
+	- /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#172-184
+CheckedERC20.handleReturnBytes32 uses assembly (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#184-206)
+	- /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#188-206
+ExternalCall.externalCall uses assembly (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#268-296)
+	- /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#270-296
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#11-12) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#12-13) should be declared external
+ERC20Basic.transfer (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#13-14) should be declared external
+ERC20.allowance (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#24-27) should be declared external
+ERC20.transferFrom (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#27-30) should be declared external
+ERC20.approve (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#30-32) should be declared external
+IBasicMultiToken.tokensCount (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#44-45) should be declared external
+IBasicMultiToken.tokens (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#45-46) should be declared external
+IBasicMultiToken.bundlingEnabled (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#46-48) should be declared external
+IBasicMultiToken.bundleFirstTokens (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#48-49) should be declared external
+IBasicMultiToken.bundle (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#49-51) should be declared external
+IBasicMultiToken.unbundle (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#51-52) should be declared external
+IBasicMultiToken.unbundleSome (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#52-55) should be declared external
+IBasicMultiToken.disableBundling (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#56-58) should be declared external
+IBasicMultiToken.enableBundling (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#58) should be declared external
+IMultiToken.weights (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#80-82) should be declared external
+IMultiToken.changesEnabled (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#82) should be declared external
+IMultiToken.getReturn (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#82-83) should be declared external
+IMultiToken.change (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#83-88) should be declared external
+IMultiToken.disableChanges (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#88-90) should be declared external
+IEtherToken.deposit (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#298) should be declared external
+IEtherToken.withdraw (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#298-299) should be declared external
+MultiChanger.change (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#304-312) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in CheckedERC20.asmTransfer (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#206-212):
+	-require(bool)(token.call(bytes4(keccak256()(transfer(address,uint256))),to,value)) /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#210-212
+Low level call in CheckedERC20.asmTransferFrom (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#213-220):
+	-require(bool)(token.call(bytes4(keccak256()(transferFrom(address,address,uint256))),from,to,value)) /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#217-219
+Low level call in CheckedERC20.asmApprove (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#220-230):
+	-require(bool)(token.call(bytes4(keccak256()(approve(address,uint256))),spender,value)) /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#227-229
+Low level call in CheckedERC20.asmName (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#248-255):
+	-require(bool)(token.call(bytes4(keccak256()(name())))) /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#253-254
+Low level call in CheckedERC20.asmSymbol (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#255-264):
+	-require(bool)(token.call(bytes4(keccak256()(symbol())))) /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#262-263
+Low level call in MultiChanger.sendEthValue (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#312-319):
+	-require(bool)(target.call.value(value)()) /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#317-319
+Low level call in MultiChanger.sendEthProportion (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#319-324):
+	-require(bool)(target.call.value(value)()) /unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#324
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Constant 'IBasicMultiToken.InterfaceId_IBasicMultiToken' (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#58-61) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'IMultiToken.InterfaceId_IMultiToken' (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#90-91) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_a' of SafeMath.mul (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#112) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#112) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#128-129) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#129) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#143) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#143-144) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#152) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol#152-154) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x9ef74f01c70c80f008b51ae434e56ee79b6f4016.sol analyzed (9 contracts), 56 result(s) found

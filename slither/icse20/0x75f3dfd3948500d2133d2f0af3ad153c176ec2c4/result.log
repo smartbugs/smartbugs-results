@@ -1,0 +1,92 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:
+/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:66:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:84:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:341:17: Warning: Invoking events without "emit" prefix is deprecated.
+                ReleaseFunds(target, frozenTimes[target][0].amount);
+                ^-------------------------------------------------^
+/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:379:21: Warning: Invoking events without "emit" prefix is deprecated.
+                    ReleaseFunds(destAddr, frozenTimes[destAddr][0].amount);
+                    ^-----------------------------------------------------^
+/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:465:25: Warning: Invoking events without "emit" prefix is deprecated.
+                        ReleaseFunds(frozenAddr, value);
+                        ^-----------------------------^
+/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:480:25: Warning: Invoking events without "emit" prefix is deprecated.
+                        ReleaseFunds(frozenAddr, timePair.amount);
+                        ^---------------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in OwnerContract.changeContractOwner (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#119-130):
+	External calls:
+	- owned.transferOwnership(_newOwner) (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#127-128)
+	State variables written after the call(s):
+	- owned (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#128-130)
+Reentrancy in ReleaseToken.releaseWithStage (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#432-529):
+	External calls:
+	- assert(bool)(owned.allowance(_target,this) > 0) (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#441-442)
+	- owned.freezeAccount(frozenAddr,false) (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#505-506)
+	- ! owned.transferFrom(_target,_dest,preReleaseAmounts[frozenAddr]) (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#506-510)
+	State variables written after the call(s):
+	- frozenAccounts (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#522-523)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+ReleaseToken.releaseAllOnceLock has external calls inside a loop:
+	- owned.freezeAccount(target,false) (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#344-345)
+ReleaseToken.releaseAccount has external calls inside a loop:
+	- owned.freezeAccount(destAddr,false) (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#383-385)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in ReleaseToken.releaseWithStage (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#432-529):
+	External calls:
+	- assert(bool)(owned.allowance(_target,this) > 0) (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#441-442)
+	State variables written after the call(s):
+	- frozenTimes (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#462)
+	- frozenTimes (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#463-464)
+	- frozenTimes (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#466-467)
+	- frozenTimes (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#481-482)
+	- preReleaseAmounts (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#473-475)
+	- preReleaseAmounts (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#491-493)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#83-93) should be declared external
+OwnerContract.setContract (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#110-116) should be declared external
+OwnerContract.changeContractOwner (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#119-130) should be declared external
+ReleaseToken.getRemainLockedOf (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#192-219) should be declared external
+ReleaseToken.needRelease (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#222-244) should be declared external
+ReleaseToken.transferAndFreeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#308-329) should be declared external
+ReleaseToken.releaseAllOnceLock (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#332-362) should be declared external
+ReleaseToken.releaseMultiAccounts (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#417-423) should be declared external
+ReleaseToken.releaseMultiWithStage (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#71) is not in mixedCase
+Contract 'itoken' (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#93-104) is not in CapWords
+Parameter '_contract' of OwnerContract.setContract (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#110-113) is not in mixedCase
+Parameter '_newOwner' of OwnerContract.changeContractOwner (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#120) is not in mixedCase
+Parameter '_ind' of ReleaseToken.removeAccount (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#149) is not in mixedCase
+Parameter '_target' of ReleaseToken.removeLockedTime (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#167) is not in mixedCase
+Parameter '_ind' of ReleaseToken.removeLockedTime (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#167-168) is not in mixedCase
+Parameter '_account' of ReleaseToken.getRemainLockedOf (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#193-194) is not in mixedCase
+Parameter '_target' of ReleaseToken.freeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#251) is not in mixedCase
+Parameter '_value' of ReleaseToken.freeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#251) is not in mixedCase
+Parameter '_frozenEndTime' of ReleaseToken.freeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#251-253) is not in mixedCase
+Parameter '_releasePeriod' of ReleaseToken.freeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#253) is not in mixedCase
+Parameter '_target' of ReleaseToken.transferAndFreeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#310) is not in mixedCase
+Parameter '_value' of ReleaseToken.transferAndFreeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#310) is not in mixedCase
+Parameter '_frozenEndTime' of ReleaseToken.transferAndFreeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#310) is not in mixedCase
+Parameter '_releasePeriod' of ReleaseToken.transferAndFreeze (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#310-311) is not in mixedCase
+Parameter '_target' of ReleaseToken.releaseAccount (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#370) is not in mixedCase
+Parameter '_targets' of ReleaseToken.releaseMultiAccounts (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#417) is not in mixedCase
+Parameter '_target' of ReleaseToken.releaseWithStage (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#432-433) is not in mixedCase
+Parameter '_dest' of ReleaseToken.releaseWithStage (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol#433-434) is not in mixedCase
+Parameter '_targets' of ReleaseToken.releaseMultiWithStage (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol) is not in mixedCase
+Parameter '_dests' of ReleaseToken.releaseMultiWithStage (/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/20/0x75f3dfd3948500d2133d2f0af3ad153c176ec2c4.sol analyzed (5 contracts), 37 result(s) found

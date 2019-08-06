@@ -1,0 +1,62 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:
+/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:18:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function PearlBonus() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:4:5: Warning: Functions in interfaces should be declared external.
+    function balanceOf(address _owner) public constant returns (uint256 balance);
+    ^---------------------------------------------------------------------------^
+/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:5:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address _to, uint256 _value) public;
+    ^----------------------------------------------------^
+/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:71:27: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        director.transfer(this.balance);
+                          ^----------^
+/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:95:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        uint256 partnerShare = (this.balance / 100) * share;
+                                ^----------^
+/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:96:27: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        director.transfer(this.balance - partnerShare);
+                          ^----------^
+
+INFO:Detectors:[91m
+PearlBonus.fallback (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#79-99) sends eth to arbitrary user
+	Dangerous calls:
+	- director.transfer(this.balance - partnerShare) (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#99)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+OysterPearl (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#3-8) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#5-8)
+PearlBonus (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#8-99) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#56-61)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[92m
+Reentrancy in PearlBonus.fallback (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#79-99):
+	External calls:
+	- require(bool)(amount <= pearl.balanceOf(this)) (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#89-91)
+	- pearl.transfer(msg.sender,amount) (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#92-94)
+	State variables written after the call(s):
+	- funds (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#95)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+PearlBonus.pearlContract should be constant (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#9-10)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+OysterPearl.balanceOf (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#4-5) should be declared external
+OysterPearl.transfer (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#5-8) should be declared external
+PearlBonus.closeSale (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#35-45) should be declared external
+PearlBonus.openSale (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#47-56) should be declared external
+PearlBonus.transfer (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#56-61) should be declared external
+PearlBonus.transferDirector (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#63-68) should be declared external
+PearlBonus.withdrawFunds (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#71-77) should be declared external
+PearlBonus.fallback (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#79-99) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'PearlBonus.PearlBonus' (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#18-26) is not in mixedCase
+Parameter '_send' of PearlBonus.transfer (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#57) is not in mixedCase
+Parameter '_amount' of PearlBonus.transfer (/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol#57) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/31/0x1ff826b46424033d54e5c9ef092ac575604f9295.sol analyzed (2 contracts), 17 result(s) found

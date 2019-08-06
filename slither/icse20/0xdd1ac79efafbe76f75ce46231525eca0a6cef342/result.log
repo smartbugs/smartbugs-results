@@ -1,0 +1,129 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:36:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:66:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Pausable() public {}
+  ^---------------------------^
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:150:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function TokenSale(address _tokenAddress, uint256 _startTime, uint256 _endTime) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:327:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Controllable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:89:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Pause();
+    ^-----^
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:98:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Unpause();
+    ^-------^
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:189:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenPurchase(msg.sender, _beneficiary, weiAmount, tokens);
+    ^--------------------------------------------------------^
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:297:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Finalized();
+    ^---------^
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:4:3: Warning: Function state mutability can be restricted to pure
+  function mul(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:10:3: Warning: Function state mutability can be restricted to pure
+  function div(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:17:3: Warning: Function state mutability can be restricted to pure
+  function sub(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:22:3: Warning: Function state mutability can be restricted to pure
+  function add(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+TokenSale.isContract (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#321-331) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in TokenSale.allocateProofTokens (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#293-304):
+	External calls:
+	- proofToken.mint(proofMultiSig,TOKENS_ALLOCATED_TO_PROOF) (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#299-303)
+	State variables written after the call(s):
+	- proofTokensAllocated (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#303)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+TokenSale.buyTokens (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#178-202) does not use the value returned by external calls:
+	-proofToken.mint(_beneficiary,tokens) (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#196-198)
+TokenSale.allocateProofTokens (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#293-304) does not use the value returned by external calls:
+	-proofToken.mint(proofMultiSig,TOKENS_ALLOCATED_TO_PROOF) (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#299-303)
+TokenSale.finalize (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#304-320) does not use the value returned by external calls:
+	-proofToken.finishMinting() (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#310-313)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in TokenSale.finalize (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#304-320):
+	External calls:
+	- proofToken.finishMinting() (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#310-313)
+	- proofToken.enableTransfers(true) (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#313-314)
+	State variables written after the call(s):
+	- finalized (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#317-320)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TokenSale.isContract uses assembly (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#321-331)
+	- /unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#325-328
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+TokenSale.allocatedTokens should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#120)
+TokenSale.firstDiscountPrice should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#134-135)
+TokenSale.proofMultiSig should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#122-123)
+TokenSale.remainingTokens should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#119-120)
+TokenSale.secondDiscountPrice should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#135-138)
+TokenSale.thirdDiscountPrice should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#138-139)
+TokenSale.tokenCap should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#131-133)
+TokenSale.totalSupply should be constant (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#113-114)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#52-62) should be declared external
+Pausable.pause (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#89-96) should be declared external
+Pausable.unpause (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#98-107) should be declared external
+TokenSale.fallback (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#174) should be declared external
+TokenSale.totalSupply (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#246-248) should be declared external
+TokenSale.balanceOf (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#256-261) should be declared external
+TokenSale.changeController (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#265-270) should be declared external
+TokenSale.enableTransfers (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#271-277) should be declared external
+TokenSale.lockTransfers (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#277-283) should be declared external
+TokenSale.enableMasterTransfers (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#285-286) should be declared external
+TokenSale.lockMasterTransfers (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#287-291) should be declared external
+TokenSale.forceStart (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#291-293) should be declared external
+TokenSale.allocateProofTokens (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#293-304) should be declared external
+TokenSale.finalize (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#304-320) should be declared external
+Controllable.transferControl (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#355-357) should be declared external
+ProofTokenInterface.totalSupply (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#364-365) should be declared external
+ProofTokenInterface.totalSupplyAt (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#365-366) should be declared external
+ProofTokenInterface.balanceOf (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#366-367) should be declared external
+ProofTokenInterface.balanceOfAt (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#367) should be declared external
+ProofTokenInterface.transfer (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#367-368) should be declared external
+ProofTokenInterface.transferFrom (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#368-369) should be declared external
+ProofTokenInterface.approve (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#370) should be declared external
+ProofTokenInterface.approveAndCall (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#370-372) should be declared external
+ProofTokenInterface.allowance (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#372-374) should be declared external
+ProofTokenInterface.mint (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#374-375) should be declared external
+ProofTokenInterface.importPresaleBalances (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#375-377) should be declared external
+ProofTokenInterface.lockPresaleBalances (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol) should be declared external
+ProofTokenInterface.finishMinting (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol) should be declared external
+ProofTokenInterface.enableTransfers (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol) should be declared external
+ProofTokenInterface.enableMasterTransfers (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol) should be declared external
+ProofTokenInterface.createCloneToken (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol:
+	- pragma solidity^0.4.15 (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#37-41) is not in mixedCase
+Function 'Pausable.Pausable' (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#69) is not in mixedCase
+Function 'TokenSale.TokenSale' (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#152-171) is not in mixedCase
+Parameter '_tokenAddress' of TokenSale.TokenSale (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#153-154) is not in mixedCase
+Parameter '_startTime' of TokenSale.TokenSale (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#155) is not in mixedCase
+Parameter '_endTime' of TokenSale.TokenSale (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#155-156) is not in mixedCase
+Parameter '_beneficiary' of TokenSale.buyTokens (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#179) is not in mixedCase
+Parameter '_owner' of TokenSale.balanceOf (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#256) is not in mixedCase
+Parameter '_newController' of TokenSale.changeController (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#268) is not in mixedCase
+Parameter '_addr' of TokenSale.isContract (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#321-324) is not in mixedCase
+Function 'Controllable.Controllable' (/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol#341-343) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/35/0xdd1ac79efafbe76f75ce46231525eca0a6cef342.sol analyzed (6 contracts), 51 result(s) found

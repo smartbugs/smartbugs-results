@@ -1,0 +1,376 @@
+INFO:Detectors:[91m
+EtheramaCore.withdrawRemainingEthAfterAll (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#550-557) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(address(this).balance) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#554-557)
+Etherama.finish (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#911-919) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(getTotalEthBalance()) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#915-917)
+Etherama.withdrawTokenOwnerReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#968-975) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(reward) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#974)
+Etherama.migrateToNewNewControllerContract (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1033-1050) sends eth to arbitrary user
+	Dangerous calls:
+	- newController.migrateFunds.value(ethBalance)() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1046-1047)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Etherama.migrateToNewNewControllerContract (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1033-1050):
+	External calls:
+	- _data.setNewControllerAddress(migrationContractAddress) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1039-1041)
+	- remainingTokenAmount = getRemainingTokenAmount() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1042-1043)
+	- _token.transfer(migrationContractAddress,remainingTokenAmount) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1044-1046)
+	- newController.migrateFunds.value(ethBalance)() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1046-1047)
+	External calls sending eth:
+	- newController.migrateFunds.value(ethBalance)() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1046-1047)
+	State variables written after the call(s):
+	- isActualContractVer (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1050)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in Etherama.activate (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#904-909):
+	External calls:
+	- getTotalTokenSupply() == 0 (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#907)
+	- setTotalSupply() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#907)
+	- require(bool)(getTotalTokenSupply() > 0) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#907-908)
+	State variables written after the call(s):
+	- isActive (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#908)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Etherama.finish (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#911-919) does not use the value returned by external calls:
+	-_token.transfer(msg.sender,getRemainingTokenAmount()) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#913-915)
+Etherama.migrateToNewNewControllerContract (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1033-1050) does not use the value returned by external calls:
+	-_token.transfer(migrationContractAddress,remainingTokenAmount) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1044-1046)
+Etherama.addUserTokens (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1424-1428) does not use the value returned by external calls:
+	-_token.transfer(msg.sender,tokenAmount) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1428)
+Etherama.subUserTokens (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1428-1432) does not use the value returned by external calls:
+	-_token.transferFrom(user,address(this),tokenAmount) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1430-1432)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+RealMath.toReal.ipart (local variable @ /unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1688) shadows:
+	- RealMath.ipart (function @ /unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1720-1727)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+EtheramaCore.getTotalBonusPerShare has external calls inside a loop:
+	- res = SafeMath.add(res,_bonusesPerShare[Etherama(_controllerIndexer[i]).getDataContractAddress()]) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#306-308)
+EtheramaCore.getTotalBuyCount has external calls inside a loop:
+	- res = SafeMath.add(res,_buyCounts[Etherama(_controllerIndexer[i]).getDataContractAddress()]) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#386-387)
+EtheramaCore.getTotalSellCount has external calls inside a loop:
+	- res = SafeMath.add(res,_sellCounts[Etherama(_controllerIndexer[i]).getDataContractAddress()]) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#396-399)
+EtheramaCore.getUserTotalEthVolumeSaldo has external calls inside a loop:
+	- res = SafeMath.add(res,_userEthVolumeSaldos[Etherama(_controllerIndexer[i]).getDataContractAddress()][userAddress]) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#413-414)
+EtheramaCore.getUserTotalReward has external calls inside a loop:
+	- dataContractAddress = Etherama(_controllerIndexer[i]).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#467-471)
+EtheramaCore.getRewardAndPrepareWithdraw has external calls inside a loop:
+	- dataContractAddress = Etherama(_controllerIndexer[i]).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#525-528)
+EtheramaCore.withdrawRemainingEthAfterAll has external calls inside a loop:
+	- Etherama(_controllerIndexer[i]).isActive() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#552-554)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Etherama.activate (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#904-909):
+	External calls:
+	- getTotalTokenSupply() == 0 (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#907)
+	- setTotalSupply() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#907)
+	- require(bool)(getTotalTokenSupply() > 0) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#907-908)
+	State variables written after the call(s):
+	- isMigrationToNewControllerInProgress (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#908)
+Reentrancy in EtheramaCore.addBonusPerShare (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#308-315):
+	External calls:
+	- data = Etherama(msg.sender)._data() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#311)
+	- shareBonus = (msg.value * MAGNITUDE) / data.getTotalTokenSold() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#311-313)
+	State variables written after the call(s):
+	- _bonusesPerShare (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#315)
+Reentrancy in EtheramaCore.addUserRefBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#332-337):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#333-334)
+	State variables written after the call(s):
+	- _refBalances (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#336-337)
+Reentrancy in EtheramaCore.addUserTokenLocalBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#437-442):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#438)
+	State variables written after the call(s):
+	- _userTokenLocalBalances (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#438-442)
+Reentrancy in Etherama.constructor (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#863-876):
+	External calls:
+	- _data.init() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#871)
+	- _data.addAdministator(msg.sender) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#871-873)
+	State variables written after the call(s):
+	- _creator (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#873-875)
+Reentrancy in Etherama.constructor (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#863-876):
+	External calls:
+	- ! _data.isInited() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#869-876)
+	- _data.init() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#871)
+	- _data.addAdministator(msg.sender) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#871-873)
+	- _token = _data._token() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#876)
+	State variables written after the call(s):
+	- _token (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#876)
+Reentrancy in Etherama.constructor (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#863-876):
+	External calls:
+	- ! _data.isInited() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#869-876)
+	- _data.init() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#871)
+	- _data.addAdministator(msg.sender) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#871-873)
+	- _token = _data._token() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#876)
+	- _core = _data._core() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#876)
+	State variables written after the call(s):
+	- _core (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#876)
+Reentrancy in Etherama.finish (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#911-919):
+	External calls:
+	- require(bool)(uint64(now) >= _data._expirationTime()) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#912)
+	- _token.transfer(msg.sender,getRemainingTokenAmount()) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#913-915)
+	External calls sending eth:
+	- msg.sender.transfer(getTotalEthBalance()) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#915-917)
+	State variables written after the call(s):
+	- isActive (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#919)
+Reentrancy in EtheramaCore.getRewardAndPrepareWithdraw (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#523-547):
+	External calls:
+	- dataContractAddress = Etherama(_controllerIndexer[i]).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#525-528)
+	- reward = SafeMath.add(reward,getUserReward(dataContractAddress,msg.sender,true,false,false)) (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#528-529)
+	State variables written after the call(s):
+	- _promoBigBonuses (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#546)
+	- _promoQuickBonuses (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#546)
+	- _refBalances (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#537-538)
+	- _rewardPayouts (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#533-535)
+Reentrancy in EtheramaCore.payoutBigBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#259-271):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#260-264)
+	State variables written after the call(s):
+	- _currentBigPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#268-269)
+	- _promoBigBonuses (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#264-268)
+Reentrancy in EtheramaCore.payoutQuickBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#253-259):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#254-257)
+	State variables written after the call(s):
+	- _currentQuickPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#259)
+	- _promoQuickBonuses (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#257-259)
+Reentrancy in EtheramaCore.subUserTokenLocalBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#442-447):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#443-446)
+	State variables written after the call(s):
+	- _userTokenLocalBalances (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#446-447)
+Reentrancy in EtheramaCore.trackBuy (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#353-361):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#355-358)
+	State variables written after the call(s):
+	- _buyCounts (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#358-359)
+	- _totalVolumeEth (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#361)
+	- _totalVolumeToken (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#361)
+	- _userEthVolumeSaldos (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#359-360)
+Reentrancy in EtheramaCore.trackSell (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#361-371):
+	External calls:
+	- dataContractAddress = Etherama(msg.sender).getDataContractAddress() (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#363-366)
+	State variables written after the call(s):
+	- _sellCounts (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#366-367)
+	- _totalVolumeEth (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#368-371)
+	- _totalVolumeToken (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#368-371)
+	- _userEthVolumeSaldos (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#367-368)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+EtheramaCore._devRewardPercent should be constant (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#107-108)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+IStdToken.balanceOf (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#4-5) should be declared external
+IStdToken.transfer (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#5-6) should be declared external
+IStdToken.transferFrom (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#6-9) should be declared external
+EtheramaCommon.addAdministator (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#33-37) should be declared external
+EtheramaCommon.removeAdministator (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#37-41) should be declared external
+EtheramaCommon.isAdministrator (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#41-45) should be declared external
+EtheramaCommon.addManager (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#45-49) should be declared external
+EtheramaCommon.removeManager (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#49-53) should be declared external
+EtheramaCommon.isManager (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#53-59) should be declared external
+EtheramaCore.addControllerContract (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#189-196) should be declared external
+EtheramaCore.removeControllerContract (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#196-198) should be declared external
+EtheramaCore.changeControllerContract (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#198-205) should be declared external
+EtheramaCore.setBigPromoInterval (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#206-210) should be declared external
+EtheramaCore.setQuickPromoInterval (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#210-213) should be declared external
+EtheramaCore.addBigPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#213-218) should be declared external
+EtheramaCore.addQuickPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#218-223) should be declared external
+EtheramaCore.setPromoMinPurchaseEth (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#223-227) should be declared external
+EtheramaCore.setMinRefEthPurchase (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#227-233) should be declared external
+EtheramaCore.setTotalIncomeFeePercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#233-234) should be declared external
+EtheramaCore.setRewardPercentages (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#235-253) should be declared external
+EtheramaCore.payoutQuickBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#253-259) should be declared external
+EtheramaCore.payoutBigBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#259-271) should be declared external
+EtheramaCore.addDevReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#271-275) should be declared external
+EtheramaCore.withdrawDevReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#275-279) should be declared external
+EtheramaCore.getQuickPromoRemainingBlocks (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#285-293) should be declared external
+EtheramaCore.getBigPromoRemainingBlocks (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#293-298) should be declared external
+EtheramaCore.getBonusPerShare (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#299-304) should be declared external
+EtheramaCore.getTotalBonusPerShare (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#304-308) should be declared external
+EtheramaCore.addBonusPerShare (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#308-315) should be declared external
+EtheramaCore.getUserRewardPayouts (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#320-324) should be declared external
+EtheramaCore.resetUserRefBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#324-328) should be declared external
+EtheramaCore.addUserRefBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#332-337) should be declared external
+EtheramaCore.addUserRewardPayouts (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#337-341) should be declared external
+EtheramaCore.resetUserPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#346-350) should be declared external
+EtheramaCore.trackBuy (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#353-361) should be declared external
+EtheramaCore.trackSell (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#361-371) should be declared external
+EtheramaCore.getBuyCount (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#377-382) should be declared external
+EtheramaCore.getTotalBuyCount (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#382-387) should be declared external
+EtheramaCore.getSellCount (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#387-392) should be declared external
+EtheramaCore.getTotalSellCount (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#392-399) should be declared external
+EtheramaCore.getTotalVolumeEth (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#399-403) should be declared external
+EtheramaCore.getTotalVolumeToken (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#403-405) should be declared external
+EtheramaCore.getUserEthVolumeSaldo (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#405-410) should be declared external
+EtheramaCore.getTotalCollectedPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#415-418) should be declared external
+EtheramaCore.getUserQuickPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#426-431) should be declared external
+EtheramaCore.getUserBigPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#431-433) should be declared external
+EtheramaCore.getUserTokenLocalBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#433-436) should be declared external
+EtheramaCore.addUserTokenLocalBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#437-442) should be declared external
+EtheramaCore.subUserTokenLocalBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#442-447) should be declared external
+EtheramaCore.getCurrentUserReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#476-480) should be declared external
+EtheramaCore.getCurrentUserTotalReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#481-485) should be declared external
+EtheramaCore.getCurrentUserShareBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#486-491) should be declared external
+EtheramaCore.getCurrentUserRefBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#492-496) should be declared external
+EtheramaCore.getCurrentUserPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#497-502) should be declared external
+EtheramaCore.isRefAvailable (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#512-514) should be declared external
+EtheramaCore.withdrawUserReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#516-521) should be declared external
+EtheramaCore.withdrawRemainingEthAfterAll (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#550-557) should be declared external
+EtheramaCore.calcPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#557-560) should be declared external
+EtheramaCore.convertRealTo256 (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#562-569) should be declared external
+EtheramaCore.convert256ToReal (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#570-575) should be declared external
+EtheramaData.init (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#630-651) should be declared external
+EtheramaData.isInited (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#651-655) should be declared external
+EtheramaData.getCoreAddress (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#655-659) should be declared external
+EtheramaData.setNewControllerAddress (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#659-663) should be declared external
+EtheramaData.getPromoMinPurchaseEth (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#663-668) should be declared external
+EtheramaData.addAdministator (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#668-677) should be declared external
+EtheramaData.removeAdministator (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#677-681) should be declared external
+EtheramaData.getAdministratorCount (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#681-686) should be declared external
+EtheramaData.isAdministrator (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#686-690) should be declared external
+EtheramaData.getCommonInitBlockNum (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#690-694) should be declared external
+EtheramaData.resetTokenOwnerReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#694-698) should be declared external
+EtheramaData.addTokenOwnerReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#698-703) should be declared external
+EtheramaData.getCurrentBigPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#703-707) should be declared external
+EtheramaData.getCurrentQuickPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#707-711) should be declared external
+EtheramaData.getTotalCollectedPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#711-712) should be declared external
+EtheramaData.setTotalSupply (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#712-716) should be declared external
+EtheramaData.setRealTokenPrice (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#716-719) should be declared external
+EtheramaData.setHasMaxPurchaseLimit (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#719-723) should be declared external
+EtheramaData.getActualUserTokenBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#727-731) should be declared external
+EtheramaData.getBonusPerShare (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#731-732) should be declared external
+EtheramaData.getUserRewardPayouts (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#733-736) should be declared external
+EtheramaData.getUserRefBalance (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#739-740) should be declared external
+EtheramaData.getUserReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#743-748) should be declared external
+EtheramaData.getUserTotalPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#748-752) should be declared external
+EtheramaData.getUserBigPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#752-765) should be declared external
+EtheramaData.getUserQuickPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#765-768) should be declared external
+EtheramaData.getTotalTokenSold (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#774-776) should be declared external
+EtheramaData.getUserEthVolumeSaldo (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#776-780) should be declared external
+Etherama.transferOwnershipRequest (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#885-889) should be declared external
+Etherama.acceptOwnership (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#892-894) should be declared external
+Etherama.setHasMaxPurchaseLimit (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#897-903) should be declared external
+Etherama.activate (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#904-909) should be declared external
+Etherama.finish (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#911-919) should be declared external
+Etherama.buy (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#921-928) should be declared external
+Etherama.sell (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#932-956) should be declared external
+Etherama.withdrawTokenOwnerReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#968-975) should be declared external
+Etherama.prepareForMigration (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#979-985) should be declared external
+Etherama.migrateFunds (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#986-991) should be declared external
+Etherama.getMaxGasPrice (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#993-995) should be declared external
+Etherama.getExpirationTime (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#996-997) should be declared external
+Etherama.getRemainingTimeTillExpiration (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1000-1003) should be declared external
+Etherama.getTokenAddress (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1009-1011) should be declared external
+Etherama.requestControllerContractMigration (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1014-1019) should be declared external
+Etherama.approveControllerContractMigration (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1022-1027) should be declared external
+Etherama.migrateToNewNewControllerContract (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1033-1050) should be declared external
+Etherama.getBuyCount (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1051-1055) should be declared external
+Etherama.getSellCount (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1055-1059) should be declared external
+Etherama.getTotalVolumeEth (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1062-1066) should be declared external
+Etherama.getTotalVolumeToken (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1066-1071) should be declared external
+Etherama.getBonusPerShare (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1074-1078) should be declared external
+Etherama.getTokenInitialPrice (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1079-1083) should be declared external
+Etherama.getDevRewardPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1083-1088) should be declared external
+Etherama.getTokenOwnerRewardPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1088-1092) should be declared external
+Etherama.getShareRewardPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1092-1096) should be declared external
+Etherama.getRefBonusPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1096-1100) should be declared external
+Etherama.getBigPromoPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1100-1104) should be declared external
+Etherama.getQuickPromoPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1104-1107) should be declared external
+Etherama.getBigPromoBlockInterval (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1108-1112) should be declared external
+Etherama.getQuickPromoBlockInterval (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1112-1117) should be declared external
+Etherama.getPromoMinPurchaseEth (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1117-1121) should be declared external
+Etherama.getPriceSpeedPercent (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1121-1123) should be declared external
+Etherama.getPriceSpeedTokenBlock (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1123-1127) should be declared external
+Etherama.getMinRefEthPurchase (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1127-1131) should be declared external
+Etherama.getTotalCollectedPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1131-1133) should be declared external
+Etherama.getCurrentBigPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1133-1137) should be declared external
+Etherama.getCurrentQuickPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1137-1139) should be declared external
+Etherama.getCurrentTokenPrice (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1141-1143) should be declared external
+Etherama.isCurrentUserRefAvailable (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1174-1176) should be declared external
+Etherama.getCurrentUserRefBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1176-1180) should be declared external
+Etherama.getCurrentUserPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1180-1184) should be declared external
+Etherama.getUserReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1202-1206) should be declared external
+Etherama.get1TokenSellPrice (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1206-1212) should be declared external
+Etherama.get1TokenBuyPrice (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1214-1223) should be declared external
+Etherama.calcReward (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1223-1225) should be declared external
+Etherama.getCurrentUserTotalPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1287-1289) should be declared external
+Etherama.getCurrentUserBigPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1291-1293) should be declared external
+Etherama.getCurrentUserQuickPromoBonus (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1294-1298) should be declared external
+Etherama.getBlockNumSinceInit (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1298-1304) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Event 'EtheramaGasPriceLimit.onSetMaxGasPrice' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#65) is not in CapWords
+Variable 'EtheramaGasPriceLimit.MAX_GAS_PRICE' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#63-65) is not in mixedCase
+Event 'EtheramaCore.onWithdrawUserBonus' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#175-178) is not in CapWords
+Variable 'EtheramaCore._bigPromoPercent' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#101-102) is not in mixedCase
+Variable 'EtheramaCore._quickPromoPercent' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#104-105) is not in mixedCase
+Variable 'EtheramaCore._devRewardPercent' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#107-108) is not in mixedCase
+Variable 'EtheramaCore._tokenOwnerRewardPercent' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#110) is not in mixedCase
+Variable 'EtheramaCore._shareRewardPercent' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#113) is not in mixedCase
+Variable 'EtheramaCore._refBonusPercent' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#116) is not in mixedCase
+Variable 'EtheramaCore._bigPromoBlockInterval' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#120-122) is not in mixedCase
+Variable 'EtheramaCore._quickPromoBlockInterval' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#122-123) is not in mixedCase
+Variable 'EtheramaCore._promoMinPurchaseEth' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#126) is not in mixedCase
+Variable 'EtheramaCore._minRefEthPurchase' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#129-131) is not in mixedCase
+Variable 'EtheramaCore._totalIncomeFeePercent' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#132-133) is not in mixedCase
+Variable 'EtheramaCore._currentBigPromoBonus' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#136-139) is not in mixedCase
+Variable 'EtheramaCore._currentQuickPromoBonus' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#141) is not in mixedCase
+Variable 'EtheramaCore._devReward' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#142) is not in mixedCase
+Variable 'EtheramaCore._initBlockNum' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#142-143) is not in mixedCase
+Variable 'EtheramaData._initTime' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#609-611) is not in mixedCase
+Variable 'EtheramaData._expirationTime' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#611-612) is not in mixedCase
+Variable 'EtheramaData._tokenOwnerReward' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#612-613) is not in mixedCase
+Variable 'EtheramaData._totalSupply' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#615-616) is not in mixedCase
+Variable 'EtheramaData._realTokenPrice' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#616) is not in mixedCase
+Variable 'EtheramaData._controllerAddress' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#616-617) is not in mixedCase
+Variable 'EtheramaData._core' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#617-618) is not in mixedCase
+Variable 'EtheramaData._initBlockNum' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#618) is not in mixedCase
+Variable 'EtheramaData._hasMaxPurchaseLimit' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#618-619) is not in mixedCase
+Variable 'EtheramaData._token' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#619) is not in mixedCase
+Event 'Etherama.onTokenPurchase' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#795-799) is not in CapWords
+Event 'Etherama.onTokenSell' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#799-802) is not in CapWords
+Event 'Etherama.onReinvestment' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#802-807) is not in CapWords
+Event 'Etherama.onWithdrawTokenOwnerReward' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#807-808) is not in CapWords
+Event 'Etherama.onWinQuickPromo' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#808-810) is not in CapWords
+Event 'Etherama.onWinBigPromo' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#813) is not in CapWords
+Variable 'Etherama._token' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#780) is not in mixedCase
+Variable 'Etherama._data' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#780-782) is not in mixedCase
+Variable 'Etherama._core' (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#782) is not in mixedCase
+Parameter 'real_value' of RealMath.fromReal (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1691) is not in mixedCase
+Parameter 'real_value' of RealMath.abs (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1699) is not in mixedCase
+Parameter 'real_value' of RealMath.fpart (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1706) is not in mixedCase
+Parameter 'real_value' of RealMath.fpartSigned (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1713) is not in mixedCase
+Parameter 'real_value' of RealMath.ipart (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1720) is not in mixedCase
+Parameter 'real_a' of RealMath.mul (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1729) is not in mixedCase
+Parameter 'real_b' of RealMath.mul (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1730) is not in mixedCase
+Parameter 'real_numerator' of RealMath.div (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1740-1741) is not in mixedCase
+Parameter 'real_denominator' of RealMath.div (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1741-1743) is not in mixedCase
+Parameter 'real_base' of RealMath.ipow (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1771-1772) is not in mixedCase
+Parameter 'real_arg' of RealMath.rescale (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1863) is not in mixedCase
+Parameter 'real_arg' of RealMath.lnLimited (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1891) is not in mixedCase
+Parameter 'max_iterations' of RealMath.lnLimited (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1891) is not in mixedCase
+Parameter 'real_arg' of RealMath.ln (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1946) is not in mixedCase
+Parameter 'real_arg' of RealMath.expLimited (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1963) is not in mixedCase
+Parameter 'max_iterations' of RealMath.expLimited (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1963) is not in mixedCase
+Parameter 'real_arg' of RealMath.expLimited (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1991) is not in mixedCase
+Parameter 'max_iterations' of RealMath.expLimited (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1991) is not in mixedCase
+Parameter 'real_arg' of RealMath.exp (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol) is not in mixedCase
+Parameter 'real_base' of RealMath.pow (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol) is not in mixedCase
+Parameter 'real_exponent' of RealMath.pow (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+RealMath.REAL_BITS (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1617-1620) is never used in RealMath
+RealMath.REAL_IBITS (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1624) is never used in RealMath
+RealMath.REAL_HALF (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1629-1632) is never used in RealMath
+RealMath.REAL_PI (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1642-1643) is never used in RealMath
+RealMath.REAL_HALF_PI (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1651) is never used in RealMath
+RealMath.REAL_TWO_PI (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1654-1655) is never used in RealMath
+RealMath.SIGN_MASK (/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol#1658-1663) is never used in RealMath
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/17/0x625e6220290ad1dc99dd623b6e277f62a2fc87d6.sol analyzed (8 contracts), 230 result(s) found

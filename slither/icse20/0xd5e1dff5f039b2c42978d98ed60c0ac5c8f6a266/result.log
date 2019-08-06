@@ -1,0 +1,262 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol:
+/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol:244:59: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function checkAndUpdateUniqueness(BaseWallet _wallet, uint256 _nonce, bytes32 _signHash) internal returns (bool) {
+                                                          ^------------^
+/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol:1584:75: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function checkAndUpdateUniqueness(BaseWallet _wallet, uint256 _nonce, bytes32 _signHash) internal returns (bool) {
+                                                                          ^---------------^
+/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol:1607:36: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function getRequiredSignatures(BaseWallet _wallet, bytes _data) internal view returns (uint256) {
+                                   ^----------------^
+/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol:595:5: Warning: Function state mutability can be restricted to pure
+    function kyberNetwork() internal view returns (KyberNetwork) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+BaseWallet.invoke (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1283-1294) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool,string)(_target.call.value(_value)(_data),BW: call to target failed) (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1287-1294)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+RelayerModule.recoverSigner (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#281-299) is declared view but contains assembly code
+RelayerModule.verifyData (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#343-355) is declared view but contains assembly code
+RelayerModule.functionPrefix (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#362-368) is declared view but contains assembly code
+DappManager.validateSignatures (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+BaseModule.recoverToken (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#100-106) does not use the value returned by external calls:
+	-ERC20(_token).transfer(address(registry),total) (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#105-106)
+ModuleRegistry.recoverToken (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#866-873) does not use the value returned by external calls:
+	-ERC20(_token).transfer(msg.sender,total) (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#869-873)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+LimitManager.changeLimit.currentLimit (local variable @ /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#439-444) shadows:
+	- LimitManager.currentLimit (function @ /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#559-565)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+BaseWallet.init has external calls inside a loop:
+	- Module(_modules[i]).init(this) (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1239)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in DappManager.callContract (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1426-1437):
+	External calls:
+	- require(bool,string)(isAuthorizedCall(_wallet,_dapp,_to,_data),DM: Contract call not authorized) (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1429-1434)
+	State variables written after the call(s):
+	- limits (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1434-1436)
+Reentrancy in TokenPriceProvider.syncPrice (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#581-585):
+	External calls:
+	- (expectedRate,None) = kyberNetwork().getExpectedRate(token,ERC20(ETH_TOKEN_ADDRESS),10000) (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#583-585)
+	State variables written after the call(s):
+	- cachedPrices (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#585)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+RelayerModule.recoverSigner uses assembly (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#281-299)
+	- /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#290-297
+RelayerModule.verifyData uses assembly (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#343-355)
+	- /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#352-355
+RelayerModule.functionPrefix uses assembly (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#362-368)
+	- /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#367-368
+BaseWallet.fallback uses assembly (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1301-1326)
+	- /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1313-1326
+DappManager.validateSignatures uses assembly (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol)
+	- /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+BaseWallet.implementation should be constant (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1198-1199)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+TokenPriceProvider.syncPriceForTokenList (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#586-595) should be declared external
+TokenPriceProvider.getEtherValue (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#609-621) should be declared external
+KyberNetwork.getExpectedRate (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#630-632) should be declared external
+KyberNetwork.trade (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#633-638) should be declared external
+ERC20.totalSupply (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#747-750) should be declared external
+ERC20.decimals (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#750-751) should be declared external
+ERC20.balanceOf (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#752-753) should be declared external
+ERC20.allowance (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#754-762) should be declared external
+ERC20.transfer (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#762-763) should be declared external
+ERC20.approve (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#763-765) should be declared external
+ERC20.transferFrom (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#765-767) should be declared external
+BaseWallet.fallback (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1301-1326) should be declared external
+DappManager.cancelAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1522-1536) should be declared external
+DappManager.changeLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1558-1564) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in RelayerModule.execute (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#178-205):
+	-success = address(this).call(_data) /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#196-197
+Low level call in BaseWallet.invoke (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1283-1294):
+	-require(bool,string)(_target.call.value(_value)(_data),BW: call to target failed) /unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1287-1294
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_wallet' of BaseModule.init (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#81-82) is not in mixedCase
+Parameter '_wallet' of BaseModule.addModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#90) is not in mixedCase
+Parameter '_module' of BaseModule.addModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#90) is not in mixedCase
+Parameter '_token' of BaseModule.recoverToken (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#101) is not in mixedCase
+Parameter '_registry' of BaseModule. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#46-47) is not in mixedCase
+Parameter '_name' of BaseModule. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#47-48) is not in mixedCase
+Parameter '_wallet' of BaseModule.isOwner (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#111-115) is not in mixedCase
+Parameter '_addr' of BaseModule.isOwner (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#115) is not in mixedCase
+Parameter '_wallet' of RelayerModule.execute (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#181) is not in mixedCase
+Parameter '_data' of RelayerModule.execute (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#181-183) is not in mixedCase
+Parameter '_nonce' of RelayerModule.execute (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#183) is not in mixedCase
+Parameter '_signatures' of RelayerModule.execute (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#184) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.execute (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#184) is not in mixedCase
+Parameter '_gasLimit' of RelayerModule.execute (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#184) is not in mixedCase
+Parameter '_wallet' of RelayerModule.getNonce (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#210) is not in mixedCase
+Parameter '_from' of RelayerModule.getSignHash (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#229-230) is not in mixedCase
+Parameter '_to' of RelayerModule.getSignHash (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#231) is not in mixedCase
+Parameter '_value' of RelayerModule.getSignHash (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#232) is not in mixedCase
+Parameter '_data' of RelayerModule.getSignHash (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#233) is not in mixedCase
+Parameter '_nonce' of RelayerModule.getSignHash (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#233) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.getSignHash (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#233-234) is not in mixedCase
+Parameter '_gasLimit' of RelayerModule.getSignHash (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#234) is not in mixedCase
+Parameter '_wallet' of RelayerModule.checkAndUpdateUniqueness (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#249-252) is not in mixedCase
+Parameter '_signHash' of RelayerModule.checkAndUpdateUniqueness (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#253) is not in mixedCase
+Parameter '_wallet' of RelayerModule.checkAndUpdateNonce (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#262-263) is not in mixedCase
+Parameter '_nonce' of RelayerModule.checkAndUpdateNonce (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#263) is not in mixedCase
+Parameter '_signedHash' of RelayerModule.recoverSigner (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#282) is not in mixedCase
+Parameter '_wallet' of RelayerModule.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#305) is not in mixedCase
+Parameter '_gasUsed' of RelayerModule.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#305) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#306) is not in mixedCase
+Parameter '_gasLimit' of RelayerModule.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#306) is not in mixedCase
+Parameter '_signatures' of RelayerModule.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#306) is not in mixedCase
+Parameter '_relayer' of RelayerModule.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#306) is not in mixedCase
+Parameter '_wallet' of RelayerModule.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#330-333) is not in mixedCase
+Parameter '_gasUsed' of RelayerModule.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#333) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#333) is not in mixedCase
+Parameter '_signatures' of RelayerModule.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#333) is not in mixedCase
+Parameter '_wallet' of RelayerModule.verifyData (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#343-344) is not in mixedCase
+Parameter '_data' of RelayerModule.verifyData (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#345) is not in mixedCase
+Parameter '_data' of RelayerModule.functionPrefix (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#362) is not in mixedCase
+Parameter '_wallet' of LimitManager.init (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#427) is not in mixedCase
+Parameter '_defaultLimit' of LimitManager. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#417-418) is not in mixedCase
+Parameter '_wallet' of LimitManager.changeLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#436) is not in mixedCase
+Parameter '_newLimit' of LimitManager.changeLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#437) is not in mixedCase
+Parameter '_securityPeriod' of LimitManager.changeLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#437) is not in mixedCase
+Parameter '_wallet' of LimitManager.getCurrentLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#459) is not in mixedCase
+Parameter '_wallet' of LimitManager.getPendingLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#468) is not in mixedCase
+Parameter '_wallet' of LimitManager.getDailyUnspent (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#479-480) is not in mixedCase
+Parameter '_wallet' of LimitManager.checkAndUpdateDailySpent (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#502-503) is not in mixedCase
+Parameter '_amount' of LimitManager.checkAndUpdateDailySpent (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#503) is not in mixedCase
+Parameter '_wallet' of LimitManager.updateDailySpent (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#520) is not in mixedCase
+Parameter '_limit' of LimitManager.updateDailySpent (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#520-521) is not in mixedCase
+Parameter '_amount' of LimitManager.updateDailySpent (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#521) is not in mixedCase
+Parameter '_wallet' of LimitManager.isWithinDailyLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#539-540) is not in mixedCase
+Parameter '_limit' of LimitManager.isWithinDailyLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#540) is not in mixedCase
+Parameter '_amount' of LimitManager.isWithinDailyLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#540) is not in mixedCase
+Parameter '_current' of LimitManager.currentLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#559-561) is not in mixedCase
+Parameter '_pending' of LimitManager.currentLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#561) is not in mixedCase
+Parameter '_changeAfter' of LimitManager.currentLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#561) is not in mixedCase
+Parameter '_amount' of TokenPriceProvider.getEtherValue (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#609-611) is not in mixedCase
+Parameter '_token' of TokenPriceProvider.getEtherValue (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#611-612) is not in mixedCase
+Parameter '_newOwner' of Owned.changeOwner (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#789) is not in mixedCase
+Parameter '_module' of ModuleRegistry.registerModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#820) is not in mixedCase
+Parameter '_name' of ModuleRegistry.registerModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#820) is not in mixedCase
+Parameter '_module' of ModuleRegistry.deregisterModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#830) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.registerUpgrader (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#840-841) is not in mixedCase
+Parameter '_name' of ModuleRegistry.registerUpgrader (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#841) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.deregisterUpgrader (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#852-855) is not in mixedCase
+Parameter '_token' of ModuleRegistry.recoverToken (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#867-868) is not in mixedCase
+Parameter '_module' of ModuleRegistry.moduleInfo (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#877) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.upgraderInfo (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#887) is not in mixedCase
+Parameter '_module' of ModuleRegistry.isRegisteredModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#897-898) is not in mixedCase
+Parameter '_modules' of ModuleRegistry.isRegisteredModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#903-905) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.isRegisteredUpgrader (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#916) is not in mixedCase
+Parameter '_contract' of DappRegistry.register (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#941) is not in mixedCase
+Parameter '_methods' of DappRegistry.register (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#941) is not in mixedCase
+Parameter '_contract' of DappRegistry.deregister (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#951-952) is not in mixedCase
+Parameter '_methods' of DappRegistry.deregister (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#952) is not in mixedCase
+Parameter '_contract' of DappRegistry.isRegistered (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#972) is not in mixedCase
+Parameter '_method' of DappRegistry.isRegistered (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#972) is not in mixedCase
+Parameter '_contract' of DappRegistry.isRegistered (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#983) is not in mixedCase
+Parameter '_methods' of DappRegistry.isRegistered (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#983) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.addGuardian (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1037) is not in mixedCase
+Parameter '_guardian' of GuardianStorage.addGuardian (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1037) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.revokeGuardian (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1050) is not in mixedCase
+Parameter '_guardian' of GuardianStorage.revokeGuardian (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1050-1051) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.guardianCount (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1070) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.getGuardians (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1075) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.isGuardian (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1093) is not in mixedCase
+Parameter '_guardian' of GuardianStorage.isGuardian (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1093) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.setLock (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1102) is not in mixedCase
+Parameter '_releaseAfter' of GuardianStorage.setLock (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1102) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.isLocked (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1114-1116) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.getLock (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1124) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.getLocker (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1132-1133) is not in mixedCase
+Parameter '_wallet' of DappStorage.setMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1163-1165) is not in mixedCase
+Parameter '_dapp' of DappStorage.setMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1165-1167) is not in mixedCase
+Parameter '_contract' of DappStorage.setMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1167) is not in mixedCase
+Parameter '_signatures' of DappStorage.setMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1168) is not in mixedCase
+Parameter '_authorized' of DappStorage.setMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1169) is not in mixedCase
+Parameter '_wallet' of DappStorage.getMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1185) is not in mixedCase
+Parameter '_dapp' of DappStorage.getMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1185) is not in mixedCase
+Parameter '_contract' of DappStorage.getMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1185) is not in mixedCase
+Parameter '_signature' of DappStorage.getMethodAuthorization (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1185-1187) is not in mixedCase
+Parameter '_owner' of BaseWallet.init (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1225-1226) is not in mixedCase
+Parameter '_modules' of BaseWallet.init (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1226-1227) is not in mixedCase
+Parameter '_module' of BaseWallet.authoriseModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1248) is not in mixedCase
+Parameter '_value' of BaseWallet.authoriseModule (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1248-1249) is not in mixedCase
+Parameter '_module' of BaseWallet.enableStaticCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1267) is not in mixedCase
+Parameter '_method' of BaseWallet.enableStaticCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1267) is not in mixedCase
+Parameter '_newOwner' of BaseWallet.setOwner (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1277) is not in mixedCase
+Parameter '_target' of BaseWallet.invoke (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1284) is not in mixedCase
+Parameter '_value' of BaseWallet.invoke (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1284) is not in mixedCase
+Parameter '_data' of BaseWallet.invoke (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1284) is not in mixedCase
+Parameter '_data' of DappManager.getRequiredSignatures (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is not in mixedCase
+Parameter '_wallet' of DappManager.validateSignatures (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is not in mixedCase
+Parameter '_data' of DappManager.validateSignatures (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is not in mixedCase
+Parameter '_signHash' of DappManager.validateSignatures (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is not in mixedCase
+Parameter '_signatures' of DappManager.validateSignatures (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is not in mixedCase
+Parameter '_wallet' of DappManager.checkAndUpdateUniqueness (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is not in mixedCase
+Parameter '_nonce' of DappManager.checkAndUpdateUniqueness (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol) is not in mixedCase
+Parameter '_wallet' of DappManager.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1588) is not in mixedCase
+Parameter '_gasUsed' of DappManager.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1588) is not in mixedCase
+Parameter '_gasPrice' of DappManager.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1588) is not in mixedCase
+Parameter '_gasLimit' of DappManager.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1588-1589) is not in mixedCase
+Parameter '_signatures' of DappManager.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1589) is not in mixedCase
+Parameter '_relayer' of DappManager.refund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1589) is not in mixedCase
+Parameter '_wallet' of DappManager.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1607) is not in mixedCase
+Parameter '_gasUsed' of DappManager.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1607) is not in mixedCase
+Parameter '_gasPrice' of DappManager.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1607) is not in mixedCase
+Parameter '_signatures' of DappManager.verifyRefund (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1608) is not in mixedCase
+Parameter '_dappRegistry' of DappManager. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1400-1404) is not in mixedCase
+Parameter '_dappStorage' of DappManager. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1404) is not in mixedCase
+Parameter '_guardianStorage' of DappManager. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1404) is not in mixedCase
+Parameter '_securityPeriod' of DappManager. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1404-1405) is not in mixedCase
+Parameter '_securityWindow' of DappManager. (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1405-1406) is not in mixedCase
+Parameter '_wallet' of DappManager.callContract (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1427) is not in mixedCase
+Parameter '_dapp' of DappManager.callContract (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1427) is not in mixedCase
+Parameter '_to' of DappManager.callContract (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1427) is not in mixedCase
+Parameter '_amount' of DappManager.callContract (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1427-1428) is not in mixedCase
+Parameter '_data' of DappManager.callContract (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1428) is not in mixedCase
+Parameter '_wallet' of DappManager.authorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1450) is not in mixedCase
+Parameter '_dapp' of DappManager.authorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1450) is not in mixedCase
+Parameter '_contract' of DappManager.authorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1450) is not in mixedCase
+Parameter '_signatures' of DappManager.authorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1451) is not in mixedCase
+Parameter '_wallet' of DappManager.deauthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1475-1476) is not in mixedCase
+Parameter '_dapp' of DappManager.deauthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1476-1477) is not in mixedCase
+Parameter '_contract' of DappManager.deauthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1477) is not in mixedCase
+Parameter '_signatures' of DappManager.deauthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1477) is not in mixedCase
+Parameter '_wallet' of DappManager.confirmAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1497) is not in mixedCase
+Parameter '_dapp' of DappManager.confirmAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1497-1498) is not in mixedCase
+Parameter '_contract' of DappManager.confirmAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1498) is not in mixedCase
+Parameter '_signatures' of DappManager.confirmAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1498-1499) is not in mixedCase
+Parameter '_wallet' of DappManager.cancelAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1523) is not in mixedCase
+Parameter '_dapp' of DappManager.cancelAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1524) is not in mixedCase
+Parameter '_contract' of DappManager.cancelAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1524-1525) is not in mixedCase
+Parameter '_signatures' of DappManager.cancelAuthorizeCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1526) is not in mixedCase
+Parameter '_wallet' of DappManager.isAuthorizedCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1548) is not in mixedCase
+Parameter '_dapp' of DappManager.isAuthorizedCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1548) is not in mixedCase
+Parameter '_to' of DappManager.isAuthorizedCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1548-1549) is not in mixedCase
+Parameter '_data' of DappManager.isAuthorizedCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1549) is not in mixedCase
+Parameter '_wallet' of DappManager.changeLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1559) is not in mixedCase
+Parameter '_newLimit' of DappManager.changeLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1559-1560) is not in mixedCase
+Parameter '_wallet' of DappManager.disableLimit (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1570-1571) is not in mixedCase
+Parameter '_wallet' of DappManager.doCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1578-1579) is not in mixedCase
+Parameter '_to' of DappManager.doCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1579-1580) is not in mixedCase
+Parameter '_value' of DappManager.doCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1580-1581) is not in mixedCase
+Parameter '_data' of DappManager.doCall (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1581-1583) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+DappManager.NAME (/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol#1331) is never used in DappManager
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/14/0xd5e1dff5f039b2c42978d98ed60c0ac5c8f6a266.sol analyzed (16 contracts), 202 result(s) found

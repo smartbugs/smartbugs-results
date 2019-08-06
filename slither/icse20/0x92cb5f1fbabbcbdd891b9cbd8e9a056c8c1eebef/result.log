@@ -1,0 +1,139 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:69:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function ItemToken () public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:119:20: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    owner.transfer(this.balance);
+                   ^----------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:215:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Bought(_itemId, newOwner, price);
+    ^------------------------------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:216:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Sold(_itemId, oldOwner, price);
+    ^----------------------------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:293:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, 0, _itemId);
+        ^------------------------------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:297:7: Warning: Invoking events without "emit" prefix is deprecated.
+      Approval(msg.sender, _to, _itemId);
+      ^--------------------------------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:321:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _itemId);
+    ^---------------------------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:364:3: Warning: Functions in interfaces should be declared external.
+  function itemsForSaleLimit (uint256 _from, uint256 _take) public view returns (uint256[] _items);
+  ^-----------------------------------------------------------------------------------------------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:365:3: Warning: Functions in interfaces should be declared external.
+  function ownerOf (uint256 _itemId) public view returns (address _owner);
+  ^----------------------------------------------------------------------^
+/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:366:3: Warning: Functions in interfaces should be declared external.
+  function priceOf (uint256 _itemId) public view returns (uint256 _price);
+  ^----------------------------------------------------------------------^
+
+INFO:Detectors:[93m
+ItemToken.isContract (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#365-367) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ItemToken (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#46-367) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#293-307)
+	-transfer (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#309-314)
+	-transferFrom (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#314-321)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[92m
+ItemToken.populateFromItemRegistry has external calls inside a loop:
+	- priceOfItem[_itemIds[i]] > 0 || itemRegistry.priceOf(_itemIds[i]) == 0 (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#133-138)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in ItemToken.listItemFromRegistry (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#139-148):
+	External calls:
+	- require(bool)(itemRegistry.ownerOf(_itemId) != address(0)) (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#142-143)
+	- require(bool)(itemRegistry.priceOf(_itemId) > 0) (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#143-144)
+	- price = itemRegistry.priceOf(_itemId) (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#144-147)
+	- itemOwner = itemRegistry.ownerOf(_itemId) (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#147)
+	State variables written after the call(s):
+	- listedItems (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#147-148)
+	- ownerOfItem (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#147-148)
+	- priceOfItem (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#147-148)
+	- startingPriceOfItem (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#147-148)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ItemToken.isContract uses assembly (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#365-367)
+	- /unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#366-367
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ItemToken.increaseLimit1 should be constant (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#59-60)
+ItemToken.increaseLimit2 should be constant (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#60-61)
+ItemToken.increaseLimit3 should be constant (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#61-63)
+ItemToken.increaseLimit4 should be constant (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#63-64)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ItemToken.setOwner (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#95-96) should be declared external
+ItemToken.setItemRegistry (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#96-103) should be declared external
+ItemToken.addAdmin (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#103-107) should be declared external
+ItemToken.removeAdmin (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#107-108) should be declared external
+ItemToken.enableERC721 (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#114-115) should be declared external
+ItemToken.withdrawAll (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#122-127) should be declared external
+ItemToken.withdrawAmount (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#127-128) should be declared external
+ItemToken.populateFromItemRegistry (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#128-139) should be declared external
+ItemToken.buy (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#203-239) should be declared external
+ItemToken.implementsERC721 (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#239-243) should be declared external
+ItemToken.name (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#243-247) should be declared external
+ItemToken.symbol (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#247-250) should be declared external
+ItemToken.totalSupply (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#250-256) should be declared external
+ItemToken.tokensOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#268-285) should be declared external
+ItemToken.approve (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#293-307) should be declared external
+ItemToken.transfer (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#309-314) should be declared external
+ItemToken.transferFrom (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#314-321) should be declared external
+ItemToken.isAdmin (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#334-337) should be declared external
+ItemToken.itemsForSaleLimit (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#357-365) should be declared external
+IItemRegistry.itemsForSaleLimit (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol) should be declared external
+IItemRegistry.ownerOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol) should be declared external
+IItemRegistry.priceOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol:
+	- pragma solidity^0.4.13 (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'ItemToken.ItemToken' (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#71-76) is not in mixedCase
+Parameter '_owner' of ItemToken.setOwner (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#95) is not in mixedCase
+Parameter '_itemRegistry' of ItemToken.setItemRegistry (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#97-99) is not in mixedCase
+Parameter '_admin' of ItemToken.addAdmin (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#103) is not in mixedCase
+Parameter '_admin' of ItemToken.removeAdmin (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#107) is not in mixedCase
+Parameter '_amount' of ItemToken.withdrawAmount (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#127) is not in mixedCase
+Parameter '_itemIds' of ItemToken.populateFromItemRegistry (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#129) is not in mixedCase
+Parameter '_itemId' of ItemToken.listItemFromRegistry (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#139-140) is not in mixedCase
+Parameter '_itemIds' of ItemToken.listMultipleItems (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#149) is not in mixedCase
+Parameter '_price' of ItemToken.listMultipleItems (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#149-151) is not in mixedCase
+Parameter '_owner' of ItemToken.listMultipleItems (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#151-153) is not in mixedCase
+Parameter '_itemId' of ItemToken.listItem (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#156) is not in mixedCase
+Parameter '_price' of ItemToken.listItem (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#156) is not in mixedCase
+Parameter '_owner' of ItemToken.listItem (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#157-158) is not in mixedCase
+Parameter '_price' of ItemToken.calculateNextPrice (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#168-169) is not in mixedCase
+Parameter '_price' of ItemToken.calculateDevCut (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#183) is not in mixedCase
+Parameter '_itemId' of ItemToken.buy (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#203-204) is not in mixedCase
+Parameter '_owner' of ItemToken.balanceOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#259) is not in mixedCase
+Parameter '_itemId' of ItemToken.ownerOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#266-267) is not in mixedCase
+Parameter '_owner' of ItemToken.tokensOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#269) is not in mixedCase
+Parameter '_itemId' of ItemToken.tokenExists (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#285-286) is not in mixedCase
+Parameter '_itemId' of ItemToken.approvedFor (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#288-290) is not in mixedCase
+Parameter '_to' of ItemToken.approve (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#293) is not in mixedCase
+Parameter '_itemId' of ItemToken.approve (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#293-294) is not in mixedCase
+Parameter '_to' of ItemToken.transfer (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#309) is not in mixedCase
+Parameter '_itemId' of ItemToken.transfer (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#309-312) is not in mixedCase
+Parameter '_from' of ItemToken.transferFrom (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#314-315) is not in mixedCase
+Parameter '_to' of ItemToken.transferFrom (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#315) is not in mixedCase
+Parameter '_itemId' of ItemToken.transferFrom (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#315-316) is not in mixedCase
+Function 'ItemToken._transfer' (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#321-333) is not in mixedCase
+Parameter '_from' of ItemToken._transfer (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#324-325) is not in mixedCase
+Parameter '_to' of ItemToken._transfer (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#325) is not in mixedCase
+Parameter '_itemId' of ItemToken._transfer (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#325) is not in mixedCase
+Parameter '_admin' of ItemToken.isAdmin (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#334-337) is not in mixedCase
+Parameter '_itemId' of ItemToken.startingPriceOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#338) is not in mixedCase
+Parameter '_itemId' of ItemToken.priceOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#341) is not in mixedCase
+Parameter '_itemId' of ItemToken.nextPriceOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#342-344) is not in mixedCase
+Parameter '_itemId' of ItemToken.allOf (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#346) is not in mixedCase
+Parameter '_from' of ItemToken.itemsForSaleLimit (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#358) is not in mixedCase
+Parameter '_take' of ItemToken.itemsForSaleLimit (/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol#358) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/2/0x92cb5f1fbabbcbdd891b9cbd8e9a056c8c1eebef.sol analyzed (3 contracts), 69 result(s) found

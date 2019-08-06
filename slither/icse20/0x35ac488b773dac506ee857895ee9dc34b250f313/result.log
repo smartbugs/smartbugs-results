@@ -1,0 +1,182 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:282:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:401:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Mineral() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:102:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:151:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:167:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:189:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:200:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:258:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Burn(burner, _value);
+        ^------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:302:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:330:46: Warning: Initial value for constant variable has to be compile-time constant. This will fail to compile with the next breaking version change.
+    uint256 public constant INITIAL_SUPPLY = 800 * 1000 * 1000 * (10 ** uint256(decimals));
+                                             ^-------------------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:506:9: Warning: Uninitialized storage pointer.
+        uint32[3] storage ptUser;
+        ^----------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:535:9: Warning: Uninitialized storage pointer.
+        uint32[3] storage ptArea;
+        ^----------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:674:13: Warning: Invoking events without "emit" prefix is deprecated.
+            DeployMiner(_user, area[index], _hour, _hour + period[index], count[index]);
+            ^-------------------------------------------------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:811:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Collect(_user, area, start, end, result);
+        ^--------------------------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:877:9: Warning: Uninitialized storage pointer.
+        uint32[3] storage ptUser;
+        ^----------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:878:9: Warning: Uninitialized storage pointer.
+        uint32[3] storage ptArea;
+        ^----------------------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:935:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Pause();
+        ^-----^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:940:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Unpause();
+        ^-------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:533:9: Warning: Unused local variable.
+        int64 userInc = 0;
+        ^-----------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:861:125: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... uint week ... 
+     ^-------^
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:412:5: Warning: Function state mutability can be restricted to pure
+    function parseAddr(string _a) internal returns (address){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:469:5: Warning: Function state mutability can be restricted to pure
+    function bytesToAddress (bytes b) internal view returns (address) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in Mineral._collect (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#804-829):
+	External calls:
+	- (income,writeCount) = _collectMinersByCheckPoints(_user,area,start,ps,totalMiners,userMiners,writeCount) (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#816-821)
+	- (income,writeCount) = _collectMinersByCheckPoints(_user,area,ps,uint32(Math.min64(end,ps + CHECK_POINT_HOUR)),totalMiners,userMiners,writeCount) (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#821-824)
+	State variables written after the call(s):
+	- dayAverageOutput (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#821-824)
+Reentrancy in Mineral.collect (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#767-804):
+	External calls:
+	- total += _collect(_user,uint32(s),current,area[a]) (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#788-789)
+	State variables written after the call(s):
+	- deployRange (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#791-792)
+Reentrancy in Mineral.incise (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol):
+	External calls:
+	- ret = jewelContract.incise(msg.sender,count) (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol)
+	State variables written after the call(s):
+	- balances (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Mineral.collect (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#767-804) does not use the value returned by external calls:
+	-ERC20(this).transfer(_user,total) (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#801-802)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Mineral.incise (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol):
+	External calls:
+	- ret = jewelContract.incise(msg.sender,count) (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol)
+	State variables written after the call(s):
+	- totalSupply (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Mineral.decimals should be constant (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#336-340)
+Mineral.name should be constant (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#334)
+Mineral.symbol should be constant (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#336)
+Mineral.timeScale should be constant (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#357)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Basic.balanceOf (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#50-51) should be declared external
+BasicToken.balanceOf (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#115-129) should be declared external
+StandardToken.allowance (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#182-184) should be declared external
+ERC20.allowance (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#67-68) should be declared external
+ERC20.approve (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#69-70) should be declared external
+StandardToken.approve (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#168-174) should be declared external
+StandardToken.increaseApproval (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#189-196) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#196-219) should be declared external
+Ownable.transferOwnership (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#320-327) should be declared external
+Mineral.setColdWallet (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#459-463) should be declared external
+Mineral.disableWhiteUserList (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#463-465) should be declared external
+Mineral.disableCheckArea (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#465-469) should be declared external
+Mineral.setServerAddress (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#472-474) should be declared external
+Mineral.authUser (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#475-481) should be declared external
+Mineral.setDayQualitys (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#498-500) should be declared external
+Mineral.getMyDeployAt (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#500-501) should be declared external
+Mineral.getMyMinersAt (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#502-507) should be declared external
+Mineral.getDeployAt (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#534-540) should be declared external
+Mineral.getMinersAt (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#541-542) should be declared external
+Mineral.deployMiners (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#619-647) should be declared external
+Mineral.getDeployArrayLength (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#714-716) should be declared external
+Mineral.getDeploy (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#716-722) should be declared external
+Mineral.getMyLastCollectHour (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#764-766) should be declared external
+Mineral.collect (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#767-804) should be declared external
+Mineral.withdraw (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#947-952) should be declared external
+Mineral.withdrawMinerFee (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#953-958) should be declared external
+Mineral.pause (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#963-968) should be declared external
+Mineral.unpause (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) should be declared external
+Mineral.setJewelContract (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) should be declared external
+Mineral.incise (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#126) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#97) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#97) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#182-183) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#183) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#146) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#146) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#146) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#169-172) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#172) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#189) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#189-190) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#196-197) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#198) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#257) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#297-298) is not in mixedCase
+Parameter '_to' of Mineral.transfer (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) is not in mixedCase
+Parameter '_value' of Mineral.transfer (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) is not in mixedCase
+Parameter '_from' of Mineral.transferFrom (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) is not in mixedCase
+Parameter '_to' of Mineral.transferFrom (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) is not in mixedCase
+Parameter '_value' of Mineral.transferFrom (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol) is not in mixedCase
+Function 'Mineral.Mineral' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#406-423) is not in mixedCase
+Parameter '_a' of Mineral.parseAddr (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#423-424) is not in mixedCase
+Parameter '_coldWallet' of Mineral.setColdWallet (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#459) is not in mixedCase
+Function 'Mineral._getUserMinersAt' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#507-534) is not in mixedCase
+Function 'Mineral._getMinersAt' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#542-567) is not in mixedCase
+Function 'Mineral._deployMiners' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#662-695) is not in mixedCase
+Parameter '_user' of Mineral._deployMiners (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#662) is not in mixedCase
+Parameter '_hour' of Mineral._deployMiners (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#662-663) is not in mixedCase
+Function 'Mineral._updateCheckPoints' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#722-759) is not in mixedCase
+Parameter '_user' of Mineral._updateCheckPoints (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#722) is not in mixedCase
+Parameter '_hour' of Mineral._updateCheckPoints (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#723) is not in mixedCase
+Function 'Mineral._collect' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#804-829) is not in mixedCase
+Parameter '_user' of Mineral._collect (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#804-805) is not in mixedCase
+Function 'Mineral._collectMinersByCheckPoints' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#829-878) is not in mixedCase
+Parameter '_user' of Mineral._collectMinersByCheckPoints (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#830) is not in mixedCase
+Parameter '_writeCount' of Mineral._collectMinersByCheckPoints (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#834) is not in mixedCase
+Function 'Mineral._getTotalIncomeAt' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#878-887) is not in mixedCase
+Function 'Mineral._getMinersByCheckPoints' (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#887-947) is not in mixedCase
+Parameter '_user' of Mineral._getMinersByCheckPoints (/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol#888) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/2/0x35ac488b773dac506ee857895ee9dc34b250f313.sol analyzed (11 contracts), 77 result(s) found

@@ -1,0 +1,167 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol:
+/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol:163:3: Warning: No visibility specified. Defaulting to "public". 
+  function transferOwnership(address newOwner) onlyOwner 
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol:417:26: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+	function tokenFallback( address _sender, uint256 _amount, bytes _data) public returns (bool ok) {
+	                        ^-------------^
+/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol:417:43: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+	function tokenFallback( address _sender, uint256 _amount, bytes _data) public returns (bool ok) {
+	                                         ^-------------^
+/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol:417:60: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+	function tokenFallback( address _sender, uint256 _amount, bytes _data) public returns (bool ok) {
+	                                                          ^---------^
+/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol:417:2: Warning: Function state mutability can be restricted to view
+	function tokenFallback( address _sender, uint256 _amount, bytes _data) public returns (bool ok) {
+ ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Reentrancy in Balance.migrateFund (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#575-627):
+	External calls:
+	- require(bool)(_newContract != address(0) && ILoanLogic(contractLoanLogic).hasUnpaidLoan(msg.sender) == false) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#577-583)
+	- _newBalance.depositFromUserMigration.value(_amountEther)(msg.sender) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#595-601)
+	- require(bool)(IToken(_token).approve(_newBalance,_amountToken)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#613-617)
+	External calls sending eth:
+	- _newBalance.depositFromUserMigration.value(_amountEther)(msg.sender) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#595-601)
+	State variables written after the call(s):
+	- account2Token2Balance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#617-619)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in Balance.shareProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#537-575):
+	External calls:
+	- _amountBLKMined = IBiLinkToken(contractBLK).totalSupply() (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#543-549)
+	State variables written after the call(s):
+	- token2ProfitShare (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#551)
+Reentrancy in Balance.withdrawToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#401-435):
+	External calls:
+	- require(bool)(_amount <= account2Token2Balance[msg.sender][_token].sub(ILoanLogic(contractLoanLogic).getTotalBorrowAmount(_token))) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#411-417)
+	State variables written after the call(s):
+	- account2Token2Balance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#421-425)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Balance.distributeEthProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#489-519) does not use the value returned by external calls:
+	-IBiLinkToken(contractBLK).mint(_profitMaker,_amountToBuyBLK.mul(ETH_BLK_MULTIPLIER)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#513-515)
+Balance.distributeTokenProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#519-537) does not use the value returned by external calls:
+	-IBiLinkToken(contractBLK).mint(_profitMaker,_amount.mul(_num * 5).div(_denom * 8).mul(ETH_BLK_MULTIPLIER)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#533-537)
+Balance.shareProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#537-575) does not use the value returned by external calls:
+	-IToken(_token).transfer(_accounts[i],_balance.mul(_amountProfit).div(_amountBLKMined)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#565-571)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Balance.shareProfit has external calls inside a loop:
+	- _balance = IBiLinkToken(contractBLK).balanceOf(_accounts[i]) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#559-563)
+Balance.shareProfit has external calls inside a loop:
+	- IToken(_token).transfer(_accounts[i],_balance.mul(_amountProfit).div(_amountBLKMined)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#565-571)
+Balance.migrateFund has external calls inside a loop:
+	- require(bool)(IToken(_token).approve(_newBalance,_amountToken)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#613-617)
+Balance.migrateFund has external calls inside a loop:
+	- _newBalance.depositTokenFromUserMigration(_token,_amountToken,msg.sender) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#621-623)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Balance.depositToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#381-401):
+	External calls:
+	- require(bool)(IToken(_token).transferFrom(msg.sender,this,_amount)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#383-389)
+	State variables written after the call(s):
+	- account2Token2Balance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#397-399)
+	- assuranceAccount2LastDepositTime (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#393)
+	- depositingTokenFlag (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#389)
+Reentrancy in Balance.depositTokenFromUserMigration (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#645-659):
+	External calls:
+	- require(bool)(IToken(_token).transferFrom(msg.sender,this,_amount)) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#651)
+	State variables written after the call(s):
+	- account2Token2Balance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#651-659)
+	- depositingTokenFlag (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#651)
+Reentrancy in Balance.migrateFund (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#575-627):
+	External calls:
+	- require(bool)(_newContract != address(0) && ILoanLogic(contractLoanLogic).hasUnpaidLoan(msg.sender) == false) (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#577-583)
+	State variables written after the call(s):
+	- account2Token2Balance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#587-595)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Balance.ETH_BLK_MULTIPLIER should be constant (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#239)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+IToken.transfer (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#15-19) should be declared external
+IToken.transferFrom (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#29-33) should be declared external
+IToken.approve (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#33-39) should be declared external
+IBiLinkToken.getCanShareProfitAccounts (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#41-43) should be declared external
+IBiLinkToken.totalSupply (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#43-45) should be declared external
+IBiLinkToken.balanceOf (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#45-47) should be declared external
+IBiLinkToken.mint (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#47-53) should be declared external
+IBiLinkToken.burn (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#53-59) should be declared external
+Ownable.transferOwnership (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#177-179) should be declared external
+ILoanLogic.getTotalPledgeAmount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#181-185) should be declared external
+ILoanLogic.hasUnpaidLoan (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#185-187) should be declared external
+ILoanLogic.getTotalBorrowAmount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#187-192) should be declared external
+IMarketData.getTokenExchangeRatio (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#195-199) should be declared external
+Balance.setThisContractAsLegacy (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#299-305) should be declared external
+Balance.setRatioProfit2Cost (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#305-311) should be declared external
+Balance.setRatioProfit2BuyBLK (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#312-319) should be declared external
+Balance.setTokenAssuranceAccount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#319-333) should be declared external
+Balance.getTokenAssuranceAccount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#333-339) should be declared external
+Balance.getTokenAssuranceAmount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#339-347) should be declared external
+Balance.depositEther (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#349-363) should be declared external
+Balance.withdrawEther (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#363-377) should be declared external
+Balance.depositToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#381-401) should be declared external
+Balance.withdrawToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#401-435) should be declared external
+Balance.tokenFallback (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#440-453) should be declared external
+Balance.getBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#457-465) should be declared external
+Balance.modifyBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#475-489) should be declared external
+Balance.distributeEthProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#489-519) should be declared external
+Balance.distributeTokenProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#519-537) should be declared external
+Balance.shareProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#537-575) should be declared external
+Balance.migrateFund (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#575-627) should be declared external
+Balance.depositFromUserMigration (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#627-643) should be declared external
+Balance.depositTokenFromUserMigration (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#645-659) should be declared external
+Balance.getRemainBuyBLKAmount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol) should be declared external
+Balance.sellBLK (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol:
+	- pragma solidity^0.4.13 (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of Ownable. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#163) is not in mixedCase
+Parameter '_contractBLK' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#255-257) is not in mixedCase
+Parameter '_contractBiLinkLoan' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#257-259) is not in mixedCase
+Parameter '_contractLoanLogic' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#259) is not in mixedCase
+Parameter '_contractBiLinkExchange' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#259-261) is not in mixedCase
+Parameter '_contractMarketData' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#261) is not in mixedCase
+Parameter '_accountCost' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#263) is not in mixedCase
+Parameter '_ratioProfit2Cost' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#263-265) is not in mixedCase
+Parameter '_ratioProfit2BuyBLK' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#265) is not in mixedCase
+Parameter '_priceBLK' of Balance. (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#265-267) is not in mixedCase
+Parameter '_ratio' of Balance.setRatioProfit2Cost (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#305-307) is not in mixedCase
+Parameter '_ratio' of Balance.setRatioProfit2BuyBLK (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#317) is not in mixedCase
+Parameter '_token' of Balance.setTokenAssuranceAccount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#325) is not in mixedCase
+Parameter '_account' of Balance.setTokenAssuranceAccount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#325) is not in mixedCase
+Parameter '_token' of Balance.getTokenAssuranceAccount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#335) is not in mixedCase
+Parameter '_token' of Balance.getTokenAssuranceAmount (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#341) is not in mixedCase
+Parameter '_amount' of Balance.withdrawEther (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#363) is not in mixedCase
+Parameter '_token' of Balance.depositToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#381) is not in mixedCase
+Parameter '_amount' of Balance.depositToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#381) is not in mixedCase
+Parameter '_token' of Balance.withdrawToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#401) is not in mixedCase
+Parameter '_amount' of Balance.withdrawToken (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#401-406) is not in mixedCase
+Parameter '_token' of Balance.getBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#457) is not in mixedCase
+Parameter '_account' of Balance.getBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#457) is not in mixedCase
+Parameter '_token' of Balance.getAvailableBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#465) is not in mixedCase
+Parameter '_account' of Balance.getAvailableBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#465) is not in mixedCase
+Parameter '_account' of Balance.modifyBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#475-477) is not in mixedCase
+Parameter '_token' of Balance.modifyBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#477) is not in mixedCase
+Parameter '_amount' of Balance.modifyBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#477) is not in mixedCase
+Parameter '_addOrSub' of Balance.modifyBalance (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#477) is not in mixedCase
+Parameter '_profitMaker' of Balance.distributeEthProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#489-493) is not in mixedCase
+Parameter '_amount' of Balance.distributeEthProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#493) is not in mixedCase
+Parameter '_profitMaker' of Balance.distributeTokenProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#519) is not in mixedCase
+Parameter '_token' of Balance.distributeTokenProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#519-523) is not in mixedCase
+Parameter '_amount' of Balance.distributeTokenProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#523) is not in mixedCase
+Parameter '_token' of Balance.shareProfit (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#537) is not in mixedCase
+Parameter '_newContract' of Balance.migrateFund (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#575) is not in mixedCase
+Parameter '_tokens' of Balance.migrateFund (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#575-577) is not in mixedCase
+Parameter '_account' of Balance.depositFromUserMigration (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#627) is not in mixedCase
+Parameter '_token' of Balance.depositTokenFromUserMigration (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#645) is not in mixedCase
+Parameter '_amount' of Balance.depositTokenFromUserMigration (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#645) is not in mixedCase
+Parameter '_account' of Balance.depositTokenFromUserMigration (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#645) is not in mixedCase
+Parameter '_amountBLK' of Balance.sellBLK (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol) is not in mixedCase
+Variable 'Balance.ETH_BLK_MULTIPLIER' (/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol#239) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/25/0x9d4d892312f3b3a802379bd55b2ecb755e5b03f1.sol analyzed (7 contracts), 92 result(s) found

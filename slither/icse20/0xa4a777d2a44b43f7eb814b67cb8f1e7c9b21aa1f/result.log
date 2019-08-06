@@ -1,0 +1,66 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:
+/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:229:34: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+                id:         uint(keccak256(block.number, player, bet)),
+                                 ^----------------------------------^
+/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:286:55: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        return SafeMath.div(SafeMath.div(SafeMath.mul(this.balance - balanceInPlay, maxBetThresholdPct), 100), 12);
+                                                      ^----------^
+/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:367:9: Warning: Invoking events without "emit" prefix is deprecated.
+[91m        GameError(player, game.id);[0m
+        ^------------------------^
+/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:404:30: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        if (transferAmount > this.balance) {
+                             ^----------^
+/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:405:28: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            if (game.bet < this.balance) {
+                           ^----------^
+/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:408:60: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+                transferAmount = SafeMath.div(SafeMath.mul(this.balance, 90), 100);
+                                                           ^----------^
+/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol:423:9: Warning: Invoking events without "emit" prefix is deprecated.
+        GameFinished(player, game.id, game.bet, game.firstRoll, finalRoll, winnings, transferAmount);
+        ^------------------------------------------------------------------------------------------^
+
+INFO:Detectors:[93m
+EtherHiLo.beginGame (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#224-253) uses a dangerous strict equality:
+	- require(bool)(gamesInProgress[player].state == GameState.None || gamesInProgress[player].state == GameState.Finished)
+	- require(bool)(gamesInProgress[player].state == GameState.None || gamesInProgress[player].state == GameState.Finished)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in EtherHiLo.beginGame (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#224-253):
+	External calls:
+	- ! random.generateRandomNumber(player,NUM_DICE_SIDES) (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#248-252)
+	State variables written after the call(s):
+	- balanceInPlay (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#252-253)
+	- gamesInProgress (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#253)
+Reentrancy in EtherHiLo.finishGame (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#253-270):
+	External calls:
+	- ! random.generateRandomNumber(player,NUM_DICE_SIDES) (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#262-266)
+	State variables written after the call(s):
+	- gamesInProgress (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#267)
+	- gamesInProgress (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#268-269)
+	- gamesInProgress (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#269-270)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Ownable.owner (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#100-102) should be declared external
+Ownable.renounceOwnership (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#122-127) should be declared external
+Ownable.transferOwnership (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#134-135) should be declared external
+EtherHiLoRandomNumberRequester.incomingRandomNumber (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#153-155) should be declared external
+EtherHiLo.incomingRandomNumber (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#381-439) should be declared external
+EtherHiLo.incomingRandomNumberError (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#370-381) should be declared external
+EtherHiLoRandomNumberRequester.incomingRandomNumberError (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#155-159) should be declared external
+EtherHiLo.beginGame (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#224-253) should be declared external
+EtherHiLo.finishGame (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#253-270) should be declared external
+EtherHiLo.getGameState (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#271-286) should be declared external
+EtherHiLo.getMinBet (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#286-290) should be declared external
+EtherHiLo.transferBalance (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#442-446) should be declared external
+EtherHiLo.cleanupAbandonedGame (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#450-461) should be declared external
+EtherHiLo.setRandomAddress (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#461-465) should be declared external
+EtherHiLo.destroyAndSend (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Ownable._transferOwnership' (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#139-147) is not in mixedCase
+Parameter '_address' of EtherHiLo.setRandomAddress (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol#461-462) is not in mixedCase
+Parameter '_recipient' of EtherHiLo.destroyAndSend (/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/28/0xa4a777d2a44b43f7eb814b67cb8f1e7c9b21aa1f.sol analyzed (5 contracts), 21 result(s) found

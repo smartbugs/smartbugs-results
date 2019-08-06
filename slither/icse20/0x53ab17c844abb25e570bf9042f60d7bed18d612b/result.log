@@ -1,0 +1,98 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol:
+/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol:532:9: Warning: This declaration shadows an existing declaration.
+        Grant storage grant = grants[_holder];
+        ^-----------------^
+/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol:499:5: The shadowed declaration is here:
+    function grant(address _to, uint256 _value, uint256 _start, uint256 _cliff, uint256 _end, bool _revokable)
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol:552:9: Warning: This declaration shadows an existing declaration.
+        Grant storage grant = grants[_holder];
+        ^-----------------^
+/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol:499:5: The shadowed declaration is here:
+    function grant(address _to, uint256 _value, uint256 _start, uint256 _cliff, uint256 _end, bool _revokable)
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol:596:9: Warning: This declaration shadows an existing declaration.
+        Grant storage grant = grants[msg.sender];
+        ^-----------------^
+/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol:499:5: The shadowed declaration is here:
+    function grant(address _to, uint256 _value, uint256 _start, uint256 _cliff, uint256 _end, bool _revokable)
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+
+INFO:Detectors:[93m
+VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510-544) uses a dangerous strict equality:
+	- require(bool)(grants[_to].value == 0)
+VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510-544) uses a dangerous strict equality:
+	- require(bool)(grants[_to].value == 0)
+VestingTrustee.unlockVestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#612-617) uses a dangerous strict equality:
+	- vested == 0
+	- transferable == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510-544):
+	External calls:
+	- require(bool)(totalVesting.add(_value) <= veganCoin.balanceOf(address(this))) (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#529-530)
+	State variables written after the call(s):
+	- grants (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#530-537)
+	- totalVesting (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#540-542)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+VestingTrustee.unlockVestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#612-617) does not use the value returned by external calls:
+	-veganCoin.transfer(msg.sender,transferable) (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+VestingTrustee.revoke.grant (local variable @ /unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#550) shadows:
+	- VestingTrustee.grant (function @ /unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510-544)
+VestingTrustee.vestedTokens.grant (local variable @ /unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#566-567) shadows:
+	- VestingTrustee.grant (function @ /unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510-544)
+VestingTrustee.unlockVestedTokens.grant (local variable @ /unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#613) shadows:
+	- VestingTrustee.grant (function @ /unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510-544)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+VeganCoin.decimals should be constant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#477)
+VeganCoin.name should be constant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#474-475)
+VeganCoin.symbol should be constant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#475-477)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#34-41) should be declared external
+Ownable.acceptOwnership (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#44-53) should be declared external
+ERC20.totalSupply (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#173-174) should be declared external
+IERC20.totalSupply (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#122-124) should be declared external
+ERC20.balanceOf (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#181-183) should be declared external
+IERC20.balanceOf (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#125-127) should be declared external
+ERC20.allowance (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#198-202) should be declared external
+IERC20.allowance (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#127-129) should be declared external
+ERC20.approve (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#219-231) should be declared external
+IERC20.approve (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#132-136) should be declared external
+ERC20.increaseAllowance (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#266-274) should be declared external
+ERC20.decreaseAllowance (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#290-301) should be declared external
+MintableToken.burn (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#362-373) should be declared external
+MintableToken.finishMinting (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#380-386) should be declared external
+FreezableToken.enableTransfers (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#405-409) should be declared external
+VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510-544) should be declared external
+VestingTrustee.revoke (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#548-560) should be declared external
+VestingTrustee.vestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#564-572) should be declared external
+VestingTrustee.unlockVestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#612-617) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwnerCandidate' of Ownable.transferOwnership (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#34-35) is not in mixedCase
+Function 'ERC20._transfer' (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#311-316) is not in mixedCase
+Variable 'ERC20._balances' (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#164-165) is not in mixedCase
+Variable 'ERC20._totalSupply' (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#168-172) is not in mixedCase
+Constant 'CappedToken.cap' (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#440-448) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_veganCoin' of VestingTrustee. (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#498) is not in mixedCase
+Parameter '_to' of VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510) is not in mixedCase
+Parameter '_value' of VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510) is not in mixedCase
+Parameter '_start' of VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#510) is not in mixedCase
+Parameter '_cliff' of VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#511) is not in mixedCase
+Parameter '_end' of VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#511) is not in mixedCase
+Parameter '_revokable' of VestingTrustee.grant (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#511) is not in mixedCase
+Parameter '_holder' of VestingTrustee.revoke (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#549) is not in mixedCase
+Parameter '_holder' of VestingTrustee.vestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#564-565) is not in mixedCase
+Parameter '_time' of VestingTrustee.vestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#565) is not in mixedCase
+Parameter '_grant' of VestingTrustee.calculateVestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#593) is not in mixedCase
+Parameter '_time' of VestingTrustee.calculateVestedTokens (/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol#593) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/31/0x53ab17c844abb25e570bf9042f60d7bed18d612b.sol analyzed (9 contracts), 44 result(s) found

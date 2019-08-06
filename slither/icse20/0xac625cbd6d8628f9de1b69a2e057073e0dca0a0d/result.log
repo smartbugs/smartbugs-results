@@ -1,0 +1,191 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:
+/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:10:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function AccessControl() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:143:17: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    return uint(keccak256(now, msg.sender, randNonce)) % _modulus;
+                ^-----------------------------------^
+/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:215:25: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    msg.sender.transfer(this.balance);
+                        ^----------^
+/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:302:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Bought(auctions[_auctionId].monsterId, newOwner, price);
+    ^-----------------------------------------------------^
+/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:303:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Sold(auctions[_auctionId].monsterId, oldOwner, price);
+    ^---------------------------------------------------^
+/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:325:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Hatch(msg.sender, 1);
+    ^------------------^
+/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:363:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Hatch(msg.sender, _table);
+    ^-----------------------^
+
+INFO:Detectors:[93m
+CryptoAndDragonsPresale.isContract (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in CryptoAndDragonsPresale.buy (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#279-312):
+	External calls:
+	- require(bool)(CNDERC721.ownerOf(auctions[_auctionId].monsterId) != address(0)) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#282-283)
+	- require(bool)(CNDERC721.ownerOf(auctions[_auctionId].monsterId) != msg.sender) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#285-287)
+	- oldOwner = CNDERC721.ownerOf(auctions[_auctionId].monsterId) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#288-289)
+	- setGenes(price,auctions[_auctionId].monsterId) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#292)
+	- CNDERC721.transferAuction(oldOwner,newOwner,auctions[_auctionId].monsterId) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#292-293)
+	State variables written after the call(s):
+	- auctions (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#293)
+	- auctions (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#293-294)
+Reentrancy in CryptoAndDragonsPresale.buyRareEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#336-372):
+	External calls:
+	- DTTtoken.approve(masterToReferral[msg.sender],DTTtoken.allowance(this,masterToReferral[msg.sender]) + price / 10000000000 * 5 * bonus * _amount) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#346-349)
+	- DTTtoken.approve(_referral,DTTtoken.allowance(this,_referral) + price / 10000000000 * 5 * bonus * _amount) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#352-354)
+	- DTTtoken.approve(msg.sender,DTTtoken.allowance(this,msg.sender) + price / 10000000000 * 5 * bonus * _amount) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#355-357)
+	- monsterId = data.getTotalMonster() + 1 (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#369-370)
+	- data.addMonsterObj(monsterId,genes,classId,msg.sender,,) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#370-371)
+	State variables written after the call(s):
+	- EggTotal (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#368-369)
+	- randNonce (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#358-360)
+	- randNonce (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#360-361)
+	- randNonce (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#361-362)
+	- randNonce (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#363-366)
+	- randNonce (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#366)
+	- randNonce (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#367)
+	- randNonce (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#367-368)
+Reentrancy in CryptoAndDragonsPresale.hatchEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#372-389):
+	External calls:
+	- monsterId = CNDDB.getTotalMonster() + 1 (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#378-379)
+	- CNDDB.addMonsterObj(monsterId,eggs[_eggId].genes,eggs[_eggId].classId,msg.sender,_name,skills) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#380-384)
+	State variables written after the call(s):
+	- eggs (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#385-386)
+	- eggs (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#387-389)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+CryptoAndDragonsPresale.userWithdraw (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#113-121) does not use the value returned by external calls:
+	-DTTtoken.transferFrom(this,msg.sender,_value) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#119-121)
+CryptoAndDragonsPresale.buy (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#279-312) does not use the value returned by external calls:
+	-DTTtoken.approve(masterToReferral[msg.sender],DTTtoken.allowance(this,masterToReferral[msg.sender]) + price / 1000000000 * 5) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#296-299)
+	-DTTtoken.approve(_referral,DTTtoken.allowance(this,_referral) + price / 1000000000 * 5) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#302-306)
+	-DTTtoken.approve(msg.sender,DTTtoken.allowance(this,msg.sender) + price / 1000000000 * 5) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#306-307)
+CryptoAndDragonsPresale.buyRareEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#336-372) does not use the value returned by external calls:
+	-DTTtoken.approve(masterToReferral[msg.sender],DTTtoken.allowance(this,masterToReferral[msg.sender]) + price / 10000000000 * 5 * bonus * _amount) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#346-349)
+	-DTTtoken.approve(_referral,DTTtoken.allowance(this,_referral) + price / 10000000000 * 5 * bonus * _amount) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#352-354)
+	-DTTtoken.approve(msg.sender,DTTtoken.allowance(this,msg.sender) + price / 10000000000 * 5 * bonus * _amount) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#355-357)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+NFTToken.ownerOf.owner (local variable @ /unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#72-73) shadows:
+	- AccessControl.owner (state variable @ /unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#4-5)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+CryptoAndDragonsPresale.buyBlueStarEgg has external calls inside a loop:
+	- monsterId = data.getTotalMonster() + 1 (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#331-332)
+CryptoAndDragonsPresale.buyBlueStarEgg has external calls inside a loop:
+	- data.addMonsterObj(monsterId,genes,classId,_sender,,) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#333)
+CryptoAndDragonsPresale.buyRareEgg has external calls inside a loop:
+	- monsterId = data.getTotalMonster() + 1 (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#369-370)
+CryptoAndDragonsPresale.buyRareEgg has external calls inside a loop:
+	- data.addMonsterObj(monsterId,genes,classId,msg.sender,,) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#370-371)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in CryptoAndDragonsPresale.buy (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#279-312):
+	External calls:
+	- require(bool)(CNDERC721.ownerOf(auctions[_auctionId].monsterId) != address(0)) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#282-283)
+	- require(bool)(CNDERC721.ownerOf(auctions[_auctionId].monsterId) != msg.sender) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#285-287)
+	- oldOwner = CNDERC721.ownerOf(auctions[_auctionId].monsterId) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#288-289)
+	- setGenes(price,auctions[_auctionId].monsterId) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#292)
+	- CNDERC721.transferAuction(oldOwner,newOwner,auctions[_auctionId].monsterId) (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#292-293)
+	State variables written after the call(s):
+	- masterToReferral (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#301-302)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CryptoAndDragonsPresale.isContract uses assembly (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol)
+	- /unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+CryptoAndDragonsPresale.increaseRate should be constant (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#88)
+CryptoAndDragonsPresale.thisAddress should be constant (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#81-82)
+CryptoAndDragonsPresale.totalClass should be constant (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#85-86)
+CryptoAndDragonsPresale.totalMonster should be constant (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#86-87)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+AccessControl.ChangeOwner (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#30-36) should be declared external
+AccessControl.AddModerator (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#36-43) should be declared external
+AccessControl.RemoveModerator (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#43-50) should be declared external
+AccessControl.UpdateMaintaining (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#50-56) should be declared external
+DTT.approve (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#56-57) should be declared external
+DTT.transferFrom (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#57-58) should be declared external
+DTT.balanceOf (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#59) should be declared external
+DataBase.addMonsterObj (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#63-64) should be declared external
+DataBase.getTotalMonster (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#65) should be declared external
+DataBase.setMonsterGene (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#65-68) should be declared external
+NFTToken.ownerOf (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#69-73) should be declared external
+CryptoAndDragonsPresale.setNewMonster (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#91-98) should be declared external
+CryptoAndDragonsPresale.setMasterToReferral (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#98-101) should be declared external
+CryptoAndDragonsPresale.setEggTotal (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#101-103) should be declared external
+CryptoAndDragonsPresale.setAddresses (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#103-109) should be declared external
+CryptoAndDragonsPresale.setEggTable (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#109-113) should be declared external
+CryptoAndDragonsPresale.userWithdraw (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#113-121) should be declared external
+CryptoAndDragonsPresale.setCooldown (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#150-152) should be declared external
+CryptoAndDragonsPresale.withdrawAll (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#223) should be declared external
+CryptoAndDragonsPresale.withdrawAmount (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#223-226) should be declared external
+CryptoAndDragonsPresale.addAuction (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#227-244) should be declared external
+CryptoAndDragonsPresale.buy (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#279-312) should be declared external
+CryptoAndDragonsPresale.buyBlueStarEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#312-336) should be declared external
+CryptoAndDragonsPresale.buyRareEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#336-372) should be declared external
+CryptoAndDragonsPresale.hatchEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#372-389) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'AccessControl.AccessControl' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#10-15) is not in mixedCase
+Function 'AccessControl.ChangeOwner' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#30-36) is not in mixedCase
+Parameter '_newOwner' of AccessControl.ChangeOwner (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#30-31) is not in mixedCase
+Function 'AccessControl.AddModerator' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#36-43) is not in mixedCase
+Parameter '_newModerator' of AccessControl.AddModerator (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#36-37) is not in mixedCase
+Function 'AccessControl.RemoveModerator' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#43-50) is not in mixedCase
+Parameter '_oldModerator' of AccessControl.RemoveModerator (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#44) is not in mixedCase
+Function 'AccessControl.UpdateMaintaining' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#50-56) is not in mixedCase
+Parameter '_isMaintaining' of AccessControl.UpdateMaintaining (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#51) is not in mixedCase
+Parameter '_genes' of CryptoAndDragonsPresale.setNewMonster (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#91) is not in mixedCase
+Parameter '_classId' of CryptoAndDragonsPresale.setNewMonster (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#91) is not in mixedCase
+Parameter '_master' of CryptoAndDragonsPresale.setNewMonster (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#91-92) is not in mixedCase
+Parameter '_name' of CryptoAndDragonsPresale.setNewMonster (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#92) is not in mixedCase
+Parameter '_skills' of CryptoAndDragonsPresale.setNewMonster (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#92) is not in mixedCase
+Parameter '_master' of CryptoAndDragonsPresale.setMasterToReferral (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#98-100) is not in mixedCase
+Parameter '_referral' of CryptoAndDragonsPresale.setMasterToReferral (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#100) is not in mixedCase
+Parameter '_tableNum' of CryptoAndDragonsPresale.setEggTotal (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#103) is not in mixedCase
+Parameter '_tableVal' of CryptoAndDragonsPresale.setEggTotal (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#103) is not in mixedCase
+Parameter '_dragonTreasureToken' of CryptoAndDragonsPresale.setAddresses (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#104) is not in mixedCase
+Parameter '_databaseContract' of CryptoAndDragonsPresale.setAddresses (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#104-105) is not in mixedCase
+Parameter '_ERC721Contract' of CryptoAndDragonsPresale.setAddresses (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#105) is not in mixedCase
+Parameter '_tableNum' of CryptoAndDragonsPresale.setEggTable (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#111) is not in mixedCase
+Parameter '_tableVals' of CryptoAndDragonsPresale.setEggTable (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#111) is not in mixedCase
+Parameter '_value' of CryptoAndDragonsPresale.userWithdraw (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#113-115) is not in mixedCase
+Parameter '_modulus' of CryptoAndDragonsPresale.randMod (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#146) is not in mixedCase
+Parameter '_time' of CryptoAndDragonsPresale.setCooldown (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#151) is not in mixedCase
+Function 'CryptoAndDragonsPresale.quicksort_core' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#189-212) is not in mixedCase
+Parameter '_amount' of CryptoAndDragonsPresale.withdrawAmount (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#224) is not in mixedCase
+Parameter '_classId' of CryptoAndDragonsPresale.addAuction (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#228) is not in mixedCase
+Parameter '_monsterId' of CryptoAndDragonsPresale.addAuction (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#228-229) is not in mixedCase
+Parameter '_price' of CryptoAndDragonsPresale.addAuction (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#229) is not in mixedCase
+Parameter '_rarity' of CryptoAndDragonsPresale.addAuction (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#229-230) is not in mixedCase
+Parameter '_endTime' of CryptoAndDragonsPresale.addAuction (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#230-231) is not in mixedCase
+Parameter '_price' of CryptoAndDragonsPresale.setGenes (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#265) is not in mixedCase
+Parameter '_monsterId' of CryptoAndDragonsPresale.setGenes (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#265-266) is not in mixedCase
+Parameter '_auctionId' of CryptoAndDragonsPresale.buy (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#279) is not in mixedCase
+Parameter '_referral' of CryptoAndDragonsPresale.buy (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#279) is not in mixedCase
+Parameter '_sender' of CryptoAndDragonsPresale.buyBlueStarEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#313) is not in mixedCase
+Parameter '_tokens' of CryptoAndDragonsPresale.buyBlueStarEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#313-314) is not in mixedCase
+Parameter '_amount' of CryptoAndDragonsPresale.buyBlueStarEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#314) is not in mixedCase
+Parameter '_table' of CryptoAndDragonsPresale.buyRareEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#336-337) is not in mixedCase
+Parameter '_amount' of CryptoAndDragonsPresale.buyRareEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#337) is not in mixedCase
+Parameter '_referral' of CryptoAndDragonsPresale.buyRareEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#337) is not in mixedCase
+Parameter '_eggId' of CryptoAndDragonsPresale.hatchEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#372) is not in mixedCase
+Parameter '_name' of CryptoAndDragonsPresale.hatchEgg (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#372) is not in mixedCase
+Parameter '_mcount' of CryptoAndDragonsPresale.sortAuction (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#396-397) is not in mixedCase
+Variable 'CryptoAndDragonsPresale.ERC721Contract' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#84-85) is not in mixedCase
+Variable 'CryptoAndDragonsPresale.EggTable' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#90-91) is not in mixedCase
+Variable 'CryptoAndDragonsPresale.EggTotal' (/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol#91) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/11/0xac625cbd6d8628f9de1b69a2e057073e0dca0a0d.sol analyzed (5 contracts), 90 result(s) found

@@ -1,0 +1,106 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol:
+/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol:3:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+
+INFO:Detectors:[93m
+SalesPipe.fallback (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#203-250) uses a dangerous strict equality:
+	- availableAmount == purchaseAmount
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+tokenPrice in SalesPipe.fallback (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#205) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+SalesPool.createPipe (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#84-102) does not use the value returned by external calls:
+	-smartToken.approve(pipeAddress,_allowance) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#95-96)
+SalesPool.setSalesPipeAllowance (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#102-107) does not use the value returned by external calls:
+	-smartToken.approve(_pipeAddress,_value) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#106-107)
+SalesPool.transferToken (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#117-125) does not use the value returned by external calls:
+	-erc20.transfer(_to,_value) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#122-125)
+SalesPipe.fallback (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#203-250) does not use the value returned by external calls:
+	-smartToken.transferFrom(poolAddress,msg.sender,purchaseAmount) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#239-241)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in SalesPool.createPipe (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#84-102):
+	External calls:
+	- smartToken.approve(pipeAddress,_allowance) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#95-96)
+	State variables written after the call(s):
+	- indexToPipe (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#98)
+	- pipeIndex (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#101)
+	- pipeToIndex (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#98-101)
+Reentrancy in SalesPipe.fallback (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#203-250):
+	External calls:
+	- (tokenPrice.numerator,tokenPrice.denominator) = pool.getTokenPrice() (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#205-207)
+	- availableAmount = Math.min(smartToken.allowance(poolAddress,address(this)),smartToken.balanceOf(poolAddress)) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#209-218)
+	State variables written after the call(s):
+	- available (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#232)
+	- available (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#234-236)
+Reentrancy in SalesPipe.fallback (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#203-250):
+	External calls:
+	- (tokenPrice.numerator,tokenPrice.denominator) = pool.getTokenPrice() (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#205-207)
+	- availableAmount = Math.min(smartToken.allowance(poolAddress,address(this)),smartToken.balanceOf(poolAddress)) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#209-218)
+	- smartToken.transferFrom(poolAddress,msg.sender,purchaseAmount) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#239-241)
+	External calls sending eth:
+	- msg.sender.transfer(msg.value - revenue) (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#236-239)
+	State variables written after the call(s):
+	- totalEtherReceived (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#247-250)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol:
+	- Version used: ['ABIEncoderV2', '^0.4.24', 'v0.5.0']
+	- /unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#1 declares pragma solidity^0.4.24
+	- /unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#2-3 declares pragma experimentalv0.5.0
+	- /unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#3-5 declares pragma experimentalABIEncoderV2
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+ERC20.balanceOf (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#6-7) should be declared external
+ERC20.allowance (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#7-8) should be declared external
+ERC20.transfer (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#8-9) should be declared external
+ERC20.transferFrom (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#9-10) should be declared external
+ERC20.approve (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#10-13) should be declared external
+SalesPool.pushTerms (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#70-84) should be declared external
+SalesPool.createPipe (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#84-102) should be declared external
+SalesPool.setSalesPipeAllowance (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#102-107) should be declared external
+SalesPool.poolTokenAmount (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#107-112) should be declared external
+SalesPool.transferEther (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#112-117) should be declared external
+SalesPool.transferToken (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#117-125) should be declared external
+SalesPool.setOwner (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#125-127) should be declared external
+SalesPool.setSmartToken (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#127-133) should be declared external
+SalesPool.setTokenPrice (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#133-145) should be declared external
+SalesPool.getTokenPrice (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#145-149) should be declared external
+SalesPool.getCommissions (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#149-159) should be declared external
+SalesPipe.declareRF (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#250-262) should be declared external
+SalesPipe.finalize (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#262-278) should be declared external
+SalesPipe.setOwner (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#298-306) should be declared external
+SalesPipe.setTermsNumber (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#307-312) should be declared external
+SalesPipe.setAvailability (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#312-315) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_smartTokenAddress' of SalesPool. (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#43-44) is not in mixedCase
+Parameter '_priceNumerator' of SalesPool. (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#44-45) is not in mixedCase
+Parameter '_priceDenominator' of SalesPool. (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#46-47) is not in mixedCase
+Parameter '_array' of SalesPool.pushTerms (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#72) is not in mixedCase
+Parameter '_termsNumber' of SalesPool.createPipe (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#85-86) is not in mixedCase
+Parameter '_allowance' of SalesPool.createPipe (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#86-88) is not in mixedCase
+Parameter '_secretHash' of SalesPool.createPipe (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#88) is not in mixedCase
+Parameter '_pipeAddress' of SalesPool.setSalesPipeAllowance (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#103) is not in mixedCase
+Parameter '_value' of SalesPool.setSalesPipeAllowance (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#103-106) is not in mixedCase
+Parameter '_to' of SalesPool.transferEther (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#115) is not in mixedCase
+Parameter '_value' of SalesPool.transferEther (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#115) is not in mixedCase
+Parameter '_to' of SalesPool.transferToken (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#120) is not in mixedCase
+Parameter '_value' of SalesPool.transferToken (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#120) is not in mixedCase
+Parameter '_owner' of SalesPool.setOwner (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#125) is not in mixedCase
+Parameter '_smartTokenAddress' of SalesPool.setSmartToken (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#130) is not in mixedCase
+Parameter '_termsNumber' of SalesPool.getCommissions (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#153-154) is not in mixedCase
+Parameter '_owner' of SalesPipe. (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#191-192) is not in mixedCase
+Parameter '_termsNumber' of SalesPipe. (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#192-193) is not in mixedCase
+Parameter '_smartToken' of SalesPipe. (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#194) is not in mixedCase
+Parameter '_secretHash' of SalesPipe. (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#195-197) is not in mixedCase
+Parameter '_secret' of SalesPipe.declareRF (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#252) is not in mixedCase
+Parameter '_totalReceivedEther' of SalesPipe.calculateCommission (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#278-279) is not in mixedCase
+Parameter '_termsNumber' of SalesPipe.calculateCommission (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#279) is not in mixedCase
+Parameter '_owner' of SalesPipe.setOwner (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#298) is not in mixedCase
+Parameter '_termsNumber' of SalesPipe.setTermsNumber (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#308-309) is not in mixedCase
+Parameter '_available' of SalesPipe.setAvailability (/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol#312) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/28/0x8084b7f4614a1a66ad5322ca9c261265338fb67d.sol analyzed (4 contracts), 57 result(s) found

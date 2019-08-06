@@ -1,0 +1,169 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:126:31: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xF84C61bB982041c030B8580d1634f00Fffb89059'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+        setMiningWarInterface(0xf84c61bb982041c030b8580d1634f00fffb89059);
+                              ^----------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:127:30: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x69fd0E5d0a93bf8BAc02C154d343A8e3709aDAbF'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+        setEngineerInterface(0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf);
+                             ^----------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:128:28: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xa2E6461e7a109Ae070B9b064ca9448b301404784'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+        setMemoryInterface(0xa2e6461e7a109ae070b9b064ca9448b301404784);
+                           ^----------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:70:5: Warning: Function state mutability can be restricted to pure
+    function setFactoryToal(uint256 /*_value*/) public {}
+    ^---------------------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:71:5: Warning: Function state mutability can be restricted to pure
+    function updateFactory(address /*_addr*/, uint256 /*_levelUp*/, uint256 /*_time*/) public {}
+    ^------------------------------------------------------------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:72:5: Warning: Function state mutability can be restricted to pure
+    function updateLevel(address /*_addr*/) public {}
+    ^-----------------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:73:5: Warning: Function state mutability can be restricted to pure
+    function addProgram(address /*_addr*/, uint256 /*_idx*/, uint256 /*_program*/) public {}
+    ^--------------------------------------------------------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:74:5: Warning: Function state mutability can be restricted to pure
+    function subProgram(address /*_addr*/, uint256 /*_idx*/, uint256 /*_program*/) public {}
+    ^--------------------------------------------------------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:76:5: Warning: Function state mutability can be restricted to pure
+    function getPrograms(address /*_addr*/) public view returns(uint256[]) {}
+    ^-----------------------------------------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:77:5: Warning: Function state mutability can be restricted to pure
+    function getLevel(address /*_addr*/) public view returns(uint256 /*_level*/) {}
+    ^-----------------------------------------------------------------------------^
+/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:78:5: Warning: Function state mutability can be restricted to pure
+    function getData(address /*_addr*/) public view returns(uint256 /*_level*/, uint256 /*_updateTime*/, uint256[] /*_programs*/) {} 
+    ^------------------------------------------------------------------------------------------------------------------------------^
+
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol:
+	Contract CryptoEngineerInterface has payable functions:
+	 - fallback (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#63-64)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+CryptoProgramFactory.updateFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#251-280) does not use the value returned by external calls:
+	-Engineer.fallback.value(SafeMath.sub(msg.value,2 * fee)) (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#274-275)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+CryptoProgramFactory.buyProgarams has external calls inside a loop:
+	- Memory.addProgram(msg.sender,idx,_programs[idx]) (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#296-298)
+CryptoProgramFactory.subPrograms has external calls inside a loop:
+	- Memory.subProgram(_addr,idx,_programs[idx]) (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#316-317)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#205-218):
+	External calls:
+	- factoryTotal = Memory.factoryTotal() (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#210-211)
+	State variables written after the call(s):
+	- factories (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#211-215)
+Reentrancy in CryptoProgramFactory.constructor (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#126-132):
+	External calls:
+	- setEngineerInterface(0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf) (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#128-131)
+	State variables written after the call(s):
+	- Memory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#132)
+Reentrancy in CryptoProgramFactory.setContractMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#188-196):
+	External calls:
+	- MiniGame.isContractMiniGame() == false (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#192-194)
+	State variables written after the call(s):
+	- miniGames (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#196)
+Reentrancy in CryptoProgramFactory.setEngineerInterface (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#178-184):
+	External calls:
+	- require(bool)(engineerInterface.isContractMiniGame() == true) (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#182-184)
+	State variables written after the call(s):
+	- Engineer (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#184)
+Reentrancy in CryptoProgramFactory.startGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#243-251):
+	External calls:
+	- miningWarDeadline = MiningWar.deadline() (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#249)
+	- initFactory() (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#249)
+	State variables written after the call(s):
+	- factories (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#249)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CryptoEngineerInterface.gameSponsor should be constant (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#58)
+CryptoEngineerInterface.prizePool should be constant (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#56-58)
+CryptoMiningWarInterface.deadline should be constant (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#65)
+CryptoProgramFactory.BASE_PRICE should be constant (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#91-92)
+CryptoProgramFactory.BASE_TIME should be constant (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#93)
+MemoryFactoryInterface.factoryTotal should be constant (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#70-71)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+CryptoEngineerInterface.subVirus (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#58-59) should be declared external
+CryptoEngineerInterface.claimPrizePool (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#59-60) should be declared external
+CryptoEngineerInterface.isContractMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#60-63) should be declared external
+CryptoMiningWarInterface.subCrystal (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#65-68) should be declared external
+MemoryFactoryInterface.setFactoryToal (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#71) should be declared external
+MemoryFactoryInterface.updateFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#71-73) should be declared external
+MemoryFactoryInterface.updateLevel (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#73) should be declared external
+MemoryFactoryInterface.addProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#73-74) should be declared external
+MemoryFactoryInterface.subProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#74-76) should be declared external
+MemoryFactoryInterface.getPrograms (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#77) should be declared external
+MemoryFactoryInterface.getLevel (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#77-78) should be declared external
+MemoryFactoryInterface.getData (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#78-81) should be declared external
+CryptoProgramFactory.fallback (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#147) should be declared external
+CryptoProgramFactory.isContractMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#151-156) should be declared external
+CryptoProgramFactory.upgrade (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#156-158) should be declared external
+CryptoProgramFactory.setupMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#161-164) should be declared external
+CryptoProgramFactory.setContractMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#188-196) should be declared external
+CryptoProgramFactory.removeContractMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#196-199) should be declared external
+CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#205-218) should be declared external
+CryptoProgramFactory.setProgramValue (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#218-223) should be declared external
+CryptoProgramFactory.setProgramPriceByCrystals (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#223-228) should be declared external
+CryptoProgramFactory.setProgramPriceByDarkCrystals (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#228-230) should be declared external
+CryptoProgramFactory.startGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#243-251) should be declared external
+CryptoProgramFactory.updateFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#251-280) should be declared external
+CryptoProgramFactory.buyProgarams (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#280-304) should be declared external
+CryptoProgramFactory.subPrograms (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#304-317) should be declared external
+CryptoProgramFactory.getData (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#317-325) should be declared external
+CryptoProgramFactory.getProgramsValue (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#325-336) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '' of CryptoEngineerInterface.subVirus (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#59) is not in mixedCase
+Parameter '_scope_0' of CryptoEngineerInterface.subVirus (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#59) is not in mixedCase
+Parameter '' of CryptoEngineerInterface.claimPrizePool (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#60) is not in mixedCase
+Parameter '_scope_0' of CryptoEngineerInterface.claimPrizePool (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#60) is not in mixedCase
+Parameter '' of CryptoMiningWarInterface.subCrystal (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#67) is not in mixedCase
+Parameter '_scope_0' of CryptoMiningWarInterface.subCrystal (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#67) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.setFactoryToal (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#71) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.updateFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#72) is not in mixedCase
+Parameter '_scope_0' of MemoryFactoryInterface.updateFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#72) is not in mixedCase
+Parameter '_scope_1' of MemoryFactoryInterface.updateFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#72) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.updateLevel (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#73) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.addProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#74) is not in mixedCase
+Parameter '_scope_0' of MemoryFactoryInterface.addProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#74) is not in mixedCase
+Parameter '_scope_1' of MemoryFactoryInterface.addProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#74) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.subProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#76) is not in mixedCase
+Parameter '_scope_0' of MemoryFactoryInterface.subProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#76) is not in mixedCase
+Parameter '_scope_1' of MemoryFactoryInterface.subProgram (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#76) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.getPrograms (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#77) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.getLevel (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#78) is not in mixedCase
+Parameter '' of MemoryFactoryInterface.getData (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#78) is not in mixedCase
+Parameter '' of CryptoProgramFactory.setupMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#162) is not in mixedCase
+Parameter '_miningWarDeadline' of CryptoProgramFactory.setupMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#162) is not in mixedCase
+Parameter '_addr' of CryptoProgramFactory.setMemoryInterface (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#170-172) is not in mixedCase
+Parameter '_addr' of CryptoProgramFactory.setMiningWarInterface (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#174-176) is not in mixedCase
+Parameter '_addr' of CryptoProgramFactory.setEngineerInterface (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#178) is not in mixedCase
+Parameter '_contractAddress' of CryptoProgramFactory.setContractMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#188-190) is not in mixedCase
+Parameter '_contractAddress' of CryptoProgramFactory.removeContractMiniGame (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#197-198) is not in mixedCase
+Parameter '_crystals' of CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#206) is not in mixedCase
+Parameter '_programPriceByCrystals' of CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#208) is not in mixedCase
+Parameter '_programPriceByDarkCrystals' of CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#208-209) is not in mixedCase
+Parameter '_programValue' of CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#209) is not in mixedCase
+Parameter '_eth' of CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#209) is not in mixedCase
+Parameter '_time' of CryptoProgramFactory.addFactory (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#209) is not in mixedCase
+Parameter '_idx' of CryptoProgramFactory.setProgramValue (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#218) is not in mixedCase
+Parameter '_value' of CryptoProgramFactory.setProgramValue (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#218) is not in mixedCase
+Parameter '_idx' of CryptoProgramFactory.setProgramPriceByCrystals (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#223) is not in mixedCase
+Parameter '_value' of CryptoProgramFactory.setProgramPriceByCrystals (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#223) is not in mixedCase
+Parameter '_idx' of CryptoProgramFactory.setProgramPriceByDarkCrystals (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#228) is not in mixedCase
+Parameter '_value' of CryptoProgramFactory.setProgramPriceByDarkCrystals (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#228) is not in mixedCase
+Parameter '_programs' of CryptoProgramFactory.buyProgarams (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#281) is not in mixedCase
+Parameter '_addr' of CryptoProgramFactory.subPrograms (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#304) is not in mixedCase
+Parameter '_programs' of CryptoProgramFactory.subPrograms (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#304-305) is not in mixedCase
+Parameter '_addr' of CryptoProgramFactory.getData (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#318-319) is not in mixedCase
+Parameter '_amount' of CryptoProgramFactory.devFee (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol) is not in mixedCase
+Variable 'CryptoProgramFactory.BASE_PRICE' (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#91-92) is not in mixedCase
+Variable 'CryptoProgramFactory.BASE_TIME' (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#93) is not in mixedCase
+Variable 'CryptoProgramFactory.Memory' (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#94) is not in mixedCase
+Variable 'CryptoProgramFactory.MiningWar' (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#96-97) is not in mixedCase
+Variable 'CryptoProgramFactory.Engineer' (/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol#97-98) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/18/0x6fa883afde9bc8d9bec0fc7bff25db3c71864402.sol analyzed (6 contracts), 87 result(s) found

@@ -1,0 +1,95 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol:
+/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol:34:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol:258:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function TokenVesting(address _beneficiary, uint256 _start, uint256 _cliff, uint256 _duration, bool _revocable) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol:322:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ETVRToken() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in TokenVesting.release (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#278-288):
+	External calls:
+	- unreleased = releasableAmount(token) (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#281-282)
+	State variables written after the call(s):
+	- released (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#285-287)
+Reentrancy in TokenVesting.revoke (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#290-303):
+	External calls:
+	- balance = token.balanceOf(this) (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#297)
+	- unreleased = releasableAmount(token) (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#297-298)
+	State variables written after the call(s):
+	- revoked (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#301)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+TokenVesting.vestedAmount (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#307-322) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < cliff (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#315-322)
+	- block.timestamp >= start.add(duration) || revoked[token] (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#316-322)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#43-51) should be declared external
+StandardToken.totalSupply (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#71-74) should be declared external
+ERC20Interface.totalSupply (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#51-52) should be declared external
+StandardToken.balanceOf (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#75-78) should be declared external
+ERC20Interface.balanceOf (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#52-53) should be declared external
+StandardToken.allowance (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#106-110) should be declared external
+ERC20Interface.allowance (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#56-58) should be declared external
+Pausable.pause (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#148-154) should be declared external
+Pausable.unpause (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#154-156) should be declared external
+BurnableToken.burn (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#184-187) should be declared external
+BurnableToken.burnFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#196-206) should be declared external
+MintableToken.mint (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#214-227) should be declared external
+MintableToken.finishMinting (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#227-231) should be declared external
+TokenVesting.release (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#278-288) should be declared external
+TokenVesting.revoke (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#290-303) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol:
+	- pragma solidity^0.4.21 (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#35-39) is not in mixedCase
+Parameter '_owner' of StandardToken.balanceOf (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#75-77) is not in mixedCase
+Parameter '_to' of StandardToken.transfer (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#79) is not in mixedCase
+Parameter '_value' of StandardToken.transfer (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#80) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#89) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#89-90) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#90) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#100-101) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#101) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#106-109) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#109) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#110) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#110) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#116-117) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#117) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#159) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#159) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#163) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#163) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#163) is not in mixedCase
+Parameter '_spender' of PausableToken.approve (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#167) is not in mixedCase
+Parameter '_value' of PausableToken.approve (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#167) is not in mixedCase
+Parameter '_spender' of PausableToken.increaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#171) is not in mixedCase
+Parameter '_addedValue' of PausableToken.increaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#171) is not in mixedCase
+Parameter '_spender' of PausableToken.decreaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#176) is not in mixedCase
+Parameter '_subtractedValue' of PausableToken.decreaseApproval (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#176-177) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#186) is not in mixedCase
+Function 'BurnableToken._burn' (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#187-195) is not in mixedCase
+Parameter '_who' of BurnableToken._burn (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#187-188) is not in mixedCase
+Parameter '_value' of BurnableToken._burn (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#188) is not in mixedCase
+Parameter '_from' of BurnableToken.burnFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#196-197) is not in mixedCase
+Parameter '_value' of BurnableToken.burnFrom (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#197-200) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#215) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#215) is not in mixedCase
+Function 'TokenVesting.TokenVesting' (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#263-278) is not in mixedCase
+Parameter '_beneficiary' of TokenVesting.TokenVesting (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#264) is not in mixedCase
+Parameter '_start' of TokenVesting.TokenVesting (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#264-265) is not in mixedCase
+Parameter '_cliff' of TokenVesting.TokenVesting (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#265) is not in mixedCase
+Parameter '_duration' of TokenVesting.TokenVesting (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#265-266) is not in mixedCase
+Parameter '_revocable' of TokenVesting.TokenVesting (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol#266-267) is not in mixedCase
+Function 'ETVRToken.ETVRToken' (/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x6ed8c49228397cbd0b62db04beaf0b7e9a4da93a.sol analyzed (11 contracts), 60 result(s) found

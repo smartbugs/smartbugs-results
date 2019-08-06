@@ -1,0 +1,220 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:143:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:180:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function DeveryVesting(address _crowdsale) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:326:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function DeveryCrowdsale() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:151:9: Warning: Invoking events without "emit" prefix is deprecated.
+        OwnershipTransferred(owner, newOwner);
+        ^-----------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:207:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewEntry(holder, proportion, periods, periodLength);
+        ^-------------------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:252:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Withdrawn(msg.sender, _withdrawable);
+        ^----------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:332:9: Warning: Invoking events without "emit" prefix is deprecated.
+        BTTSTokenUpdated(address(bttsToken), _bttsToken);
+        ^----------------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:337:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PICOPSCertifierUpdated(address(picopsCertifier), _picopsCertifier);
+        ^----------------------------------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:341:9: Warning: Invoking events without "emit" prefix is deprecated.
+        WalletUpdated(wallet, _wallet);
+        ^----------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:345:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ReserveWalletUpdated(reserveWallet, _reserveWallet);
+        ^-------------------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:350:9: Warning: Invoking events without "emit" prefix is deprecated.
+        StartDateUpdated(startDate, _startDate);
+        ^-------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:356:9: Warning: Invoking events without "emit" prefix is deprecated.
+        FirstPeriodEndDateUpdated(firstPeriodEndDate, _firstPeriodEndDate);
+        ^----------------------------------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:362:9: Warning: Invoking events without "emit" prefix is deprecated.
+        EndDateUpdated(endDate, _endDate);
+        ^-------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:367:9: Warning: Invoking events without "emit" prefix is deprecated.
+        UsdPerKEtherUpdated(usdPerKEther, _usdPerKEther);
+        ^----------------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:372:9: Warning: Invoking events without "emit" prefix is deprecated.
+        FirstPeriodCapUpdated(firstPeriodCap, _firstPeriodCap);
+        ^----------------------------------------------------^
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:428:17: Warning: Invoking events without "emit" prefix is deprecated.
+                Contributed(account, ethAmount, 0, ethAmount, usdAmount, PRESALE_BONUS_PERCENT, eveAmount,
+                ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:471:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Contributed(msg.sender, ethAmount, ethRefund, accountEthAmount[msg.sender], usdAmount, 0, eveAmount,
+        ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+DeveryVesting.addEntry (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#197-214) uses a dangerous strict equality:
+	- require(bool)(entries[holder].proportion == 0)
+DeveryCrowdsale.generateTokensForPresaleAccounts (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#418-447) uses a dangerous strict equality:
+	- eveAmount == 0 && ethAmount != 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in DeveryCrowdsale.fallback (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#447-488):
+	External calls:
+	- require(bool)(picopsCertifier.certified(msg.sender)) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#458)
+	- eveAmount = eveFromEth(ethAmount,0) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#466)
+	- picopsCertifier.certified(msg.sender) && ! bonusTokensAllocate[msg.sender] (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#466-471)
+	State variables written after the call(s):
+	- bonusTokensAllocate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#471)
+Reentrancy in DeveryCrowdsale.fallback (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#447-488):
+	External calls:
+	- require(bool)(picopsCertifier.certified(msg.sender)) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#458)
+	- eveAmount = eveFromEth(ethAmount,0) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#466)
+	State variables written after the call(s):
+	- accountEthAmount (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#476-479)
+	- contributedEth (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#472-473)
+Reentrancy in DeveryCrowdsale.finalise (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#492-509):
+	External calls:
+	- bttsToken.mint(address(vestingTeamWallet),amountTeam,false) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol)
+	- bttsToken.mint(reserveWallet,amountReserve,false) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol)
+	- bttsToken.disableMinting() (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol)
+	- vestingTeamWallet.finalise() (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol)
+	State variables written after the call(s):
+	- finalised (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol)
+Reentrancy in DeveryCrowdsale.generateTokensForPresaleAccounts (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#418-447):
+	External calls:
+	- presaleEthAmountsProcessed == presaleToken.totalSupply() (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#446-447)
+	State variables written after the call(s):
+	- presaleProcessed (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#446-447)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+DeveryCrowdsale.generateTokensForPresaleAccounts (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#418-447) does not use the value returned by external calls:
+	-bttsToken.mint(account,eveAmount,false) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#444-445)
+DeveryCrowdsale.fallback (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#447-488) does not use the value returned by external calls:
+	-bttsToken.mint(msg.sender,eveAmount,false) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#479-480)
+DeveryCrowdsale.finalise (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#492-509) does not use the value returned by external calls:
+	-bttsToken.mint(address(vestingTeamWallet),amountTeam,false) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol)
+	-bttsToken.mint(reserveWallet,amountReserve,false) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+DeveryCrowdsale.generateTokensForPresaleAccounts has external calls inside a loop:
+	- ethAmount = presaleToken.balanceOf(account) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#422)
+DeveryCrowdsale.generateTokensForPresaleAccounts has external calls inside a loop:
+	- eveAmount = bttsToken.balanceOf(account) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#422-423)
+DeveryCrowdsale.generateTokensForPresaleAccounts has external calls inside a loop:
+	- bttsToken.mint(account,eveAmount,false) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#444-445)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in DeveryVesting.addEntry (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#197-214):
+	External calls:
+	- require(bool)(msg.sender == crowdsale.owner()) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#200-201)
+	State variables written after the call(s):
+	- entries (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#206-211)
+	- totalProportion (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#211-212)
+Reentrancy in DeveryCrowdsale.fallback (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#447-488):
+	External calls:
+	- require(bool)(picopsCertifier.certified(msg.sender)) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#458)
+	- eveAmount = eveFromEth(ethAmount,0) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#466)
+	State variables written after the call(s):
+	- contributedUsd (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#474-475)
+	- generatedEve (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#471-472)
+Reentrancy in DeveryVesting.finalise (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#268-274):
+	External calls:
+	- totalTokens = crowdsale.bttsToken().balanceOf(address(this)) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#270-271)
+	State variables written after the call(s):
+	- startDate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#272)
+Reentrancy in DeveryCrowdsale.generateTokensForPresaleAccounts (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#418-447):
+	External calls:
+	- ethAmount = presaleToken.balanceOf(account) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#422)
+	- eveAmount = bttsToken.balanceOf(account) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#422-423)
+	State variables written after the call(s):
+	- accountEthAmount (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#426-427)
+	- presaleEthAmountsProcessed (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#424-425)
+Reentrancy in DeveryCrowdsale.generateTokensForPresaleAccounts (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#418-447):
+	External calls:
+	- ethAmount = presaleToken.balanceOf(account) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#422)
+	- eveAmount = bttsToken.balanceOf(account) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#422-423)
+	- eveAmount = eveFromEth(ethAmount,PRESALE_BONUS_PERCENT) (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#427-428)
+	State variables written after the call(s):
+	- bonusTokensAllocate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#429)
+	- contributedEth (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#432-433)
+	- contributedUsd (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#433-434)
+	- generatedEve (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#437-439)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Interface.totalSupply (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#21-22) should be declared external
+ERC20Interface.balanceOf (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#22-23) should be declared external
+ERC20Interface.allowance (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#23-24) should be declared external
+ERC20Interface.transfer (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#24-25) should be declared external
+ERC20Interface.approve (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#25-26) should be declared external
+ERC20Interface.transferFrom (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#26-28) should be declared external
+BTTSTokenInterface.approveAndCall (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#54-56) should be declared external
+BTTSTokenInterface.signedTransferHash (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#59-60) should be declared external
+BTTSTokenInterface.signedTransferCheck (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#60-61) should be declared external
+BTTSTokenInterface.signedTransfer (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#61-63) should be declared external
+BTTSTokenInterface.signedApproveHash (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#63-64) should be declared external
+BTTSTokenInterface.signedApproveCheck (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#64-65) should be declared external
+BTTSTokenInterface.signedApprove (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#65-67) should be declared external
+BTTSTokenInterface.signedTransferFromHash (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#67-68) should be declared external
+BTTSTokenInterface.signedTransferFromCheck (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#68-69) should be declared external
+BTTSTokenInterface.signedTransferFrom (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#69-71) should be declared external
+BTTSTokenInterface.signedApproveAndCallHash (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#71-72) should be declared external
+BTTSTokenInterface.signedApproveAndCallCheck (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#72-73) should be declared external
+BTTSTokenInterface.signedApproveAndCall (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#73-75) should be declared external
+BTTSTokenInterface.mint (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#75-77) should be declared external
+BTTSTokenInterface.unlockAccount (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#77-78) should be declared external
+BTTSTokenInterface.disableMinting (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#80) should be declared external
+BTTSTokenInterface.enableTransfers (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#80) should be declared external
+PICOPSCertifier.certified (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#106-108) should be declared external
+Owned.transferOwnership (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#150-152) should be declared external
+Owned.acceptOwnership (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#152-160) should be declared external
+DeveryVesting.addEntryInDays (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#187-190) should be declared external
+DeveryVesting.addEntryInMonths (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#190-194) should be declared external
+DeveryVesting.addEntryInYears (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#194-197) should be declared external
+DeveryVesting.tokenShare (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#214-222) should be declared external
+DeveryVesting.withdrawable (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#238-248) should be declared external
+DeveryVesting.withdraw (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#248-261) should be declared external
+DeveryVesting.withdrawn (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#261-268) should be declared external
+DeveryVesting.finalise (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#268-274) should be declared external
+DeveryCrowdsale.setBTTSToken (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#337-341) should be declared external
+DeveryCrowdsale.setPICOPSCertifier (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#341-348) should be declared external
+DeveryCrowdsale.setWallet (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#348-351) should be declared external
+DeveryCrowdsale.setReserveWallet (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#351-355) should be declared external
+DeveryCrowdsale.setStartDate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#355-359) should be declared external
+DeveryCrowdsale.setFirstPeriodEndDate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#359-367) should be declared external
+DeveryCrowdsale.setEndDate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#367-372) should be declared external
+DeveryCrowdsale.setUsdPerKEther (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#372-378) should be declared external
+DeveryCrowdsale.setFirstPeriodCap (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#379-383) should be declared external
+DeveryCrowdsale.evePerEth (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#413-415) should be declared external
+DeveryCrowdsale.usdPerEve (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#415-418) should be declared external
+DeveryCrowdsale.generateTokensForPresaleAccounts (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#418-447) should be declared external
+DeveryCrowdsale.fallback (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#447-488) should be declared external
+DeveryCrowdsale.finalise (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#492-509) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Constant 'BTTSTokenInterface.bttsVersion' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#39-41) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'BTTSTokenInterface.signingPrefix' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#41-42) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'BTTSTokenInterface.signedTransferSig' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#42-43) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'BTTSTokenInterface.signedApproveSig' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#43-44) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'BTTSTokenInterface.signedTransferFromSig' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#44-45) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'BTTSTokenInterface.signedApproveAndCallSig' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#45-47) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '' of PICOPSCertifier.certified (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#106) is not in mixedCase
+Function 'Owned.Owned' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#147-149) is not in mixedCase
+Parameter '_newOwner' of Owned.transferOwnership (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#150-151) is not in mixedCase
+Function 'DeveryVesting.DeveryVesting' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#184-187) is not in mixedCase
+Parameter '_crowdsale' of DeveryVesting.DeveryVesting (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#185) is not in mixedCase
+Function 'DeveryCrowdsale.DeveryCrowdsale' (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#335-336) is not in mixedCase
+Parameter '_bttsToken' of DeveryCrowdsale.setBTTSToken (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#337) is not in mixedCase
+Parameter '_picopsCertifier' of DeveryCrowdsale.setPICOPSCertifier (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#342-344) is not in mixedCase
+Parameter '_wallet' of DeveryCrowdsale.setWallet (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#348-349) is not in mixedCase
+Parameter '_reserveWallet' of DeveryCrowdsale.setReserveWallet (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#353) is not in mixedCase
+Parameter '_startDate' of DeveryCrowdsale.setStartDate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#356) is not in mixedCase
+Parameter '_firstPeriodEndDate' of DeveryCrowdsale.setFirstPeriodEndDate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#360-361) is not in mixedCase
+Parameter '_endDate' of DeveryCrowdsale.setEndDate (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#368) is not in mixedCase
+Parameter '_usdPerKEther' of DeveryCrowdsale.setUsdPerKEther (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#372-373) is not in mixedCase
+Parameter '_firstPeriodCap' of DeveryCrowdsale.setFirstPeriodCap (/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol#379-380) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/4/0x87766c251f604163b23802c6b30dae398f49528c.sol analyzed (7 contracts), 87 result(s) found

@@ -1,0 +1,107 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:201:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:314:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Crowdsale(address _multisig, address _restricted) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:89:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:130:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:146:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:168:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:179:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:221:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:255:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Mint(_to, _amount);
+    ^----------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:256:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(address(0), _to, _amount);
+    ^--------------------------------^
+/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:266:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+
+INFO:Detectors:[91m
+Reentrancy in Crowdsale.buyTokens (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#353-400):
+	External calls:
+	- token.mint(to,tokensBase.add(bonusTokens)) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#385-389)
+	External calls sending eth:
+	- multisig.transfer(msg.value) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#362)
+	State variables written after the call(s):
+	- sold (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#392-393)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Crowdsale.Crowdsale (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#323-350) does not use the value returned by external calls:
+	-token.mint(restricted,restrictedAmount) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#348)
+Crowdsale.buyTokens (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#353-400) does not use the value returned by external calls:
+	-token.mint(to,tokensBase.add(bonusTokens)) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#385-389)
+	-token.mint(referer,refererTokens) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol)
+	-token.finishMinting() (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Crowdsale.buyTokens (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#353-400):
+	External calls:
+	- token.mint(to,tokensBase.add(bonusTokens)) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#385-389)
+	- token.mint(referer,refererTokens) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol)
+	External calls sending eth:
+	- multisig.transfer(msg.value) (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#362)
+	State variables written after the call(s):
+	- saleOn (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BasicToken.balanceOf (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#99-108) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#10-11) should be declared external
+BasicToken.transfer (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#83-95) should be declared external
+ERC20Basic.transfer (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#11-12) should be declared external
+StandardToken.allowance (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#161-162) should be declared external
+ERC20.allowance (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#20-21) should be declared external
+ERC20.transferFrom (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#21-22) should be declared external
+StandardToken.transferFrom (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#123-137) should be declared external
+StandardToken.approve (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#146-152) should be declared external
+ERC20.approve (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#22-23) should be declared external
+StandardToken.increaseApproval (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#167-174) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#174-188) should be declared external
+Ownable.transferOwnership (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#229-231) should be declared external
+MintableToken.mint (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#257-271) should be declared external
+MintableToken.finishMinting (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#274-279) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#105) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#83-84) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#84) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#161) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#161-162) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#124) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#124-125) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#125) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#146-147) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#147-151) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#168) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#168) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#175) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#175-177) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#212-216) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#260-261) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#261) is not in mixedCase
+Struct 'Crowdsale.tier' (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#300-304) is not in CapWords
+Function 'Crowdsale.Crowdsale' (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#323-350) is not in mixedCase
+Parameter '_multisig' of Crowdsale.Crowdsale (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#323-324) is not in mixedCase
+Parameter '_restricted' of Crowdsale.Crowdsale (/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol#324-325) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/12/0x203be9cdc7f646a3eb3a941ab3ad2e29e80de58a.sol analyzed (10 contracts), 41 result(s) found

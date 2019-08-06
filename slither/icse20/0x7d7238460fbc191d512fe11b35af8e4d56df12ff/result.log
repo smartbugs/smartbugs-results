@@ -1,0 +1,95 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol:
+/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol:24:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function AcceptsHalo3D(address _tokenContract) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol:59:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Halo3DShrimpFarmer(address _baseContract)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol:81:59: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function tokenFallback(address _from, uint256 _value, bytes _data)
+                                                          ^---------^
+/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol:166:5: Warning: Function state mutability can be restricted to pure
+    function devFee(uint256 amount) public view returns(uint256){
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Halo3DShrimpFarmer._isContract (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#203-213) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol:
+	Contract Halo3DShrimpFarmer has payable functions:
+	 - fallback (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#70-76)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in Halo3DShrimpFarmer.sellEggs (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#120-131):
+	External calls:
+	- eggValue = calculateEggSell(hasEggs) (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#123-124)
+	State variables written after the call(s):
+	- claimedEggs (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#125)
+	- lastHatch (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#125-126)
+	- marketEggs (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#126-127)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Halo3DShrimpFarmer.tokenFallback (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#82-101) does not use the value returned by external calls:
+	-tokenContract.transfer(ceoAddress,devFee(_value)) (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#94-96)
+Halo3DShrimpFarmer.sellEggs (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#120-131) does not use the value returned by external calls:
+	-tokenContract.transfer(ceoAddress,fee) (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#129)
+	-tokenContract.transfer(msg.sender,SafeMath.sub(eggValue,fee)) (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#129-131)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Halo3DShrimpFarmer.tokenFallback (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#82-101):
+	External calls:
+	- halo3DBalance = tokenContract.myTokens() (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#91)
+	- tokenContract.transfer(ceoAddress,devFee(_value)) (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#94-96)
+	State variables written after the call(s):
+	- claimedEggs (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#99-100)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Halo3DShrimpFarmer._isContract uses assembly (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#203-213)
+	- /unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#208-211
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Halo3DShrimpFarmer.EGGS_TO_HATCH_1SHRIMP should be constant (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#47)
+Halo3DShrimpFarmer.PSN should be constant (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#51)
+Halo3DShrimpFarmer.PSNH should be constant (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#51-52)
+Halo3DShrimpFarmer.STARTING_SHRIMP should be constant (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#49-50)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Interface.transfer (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#5-8) should be declared external
+Halo3D.buy (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#10-11) should be declared external
+Halo3D.transfer (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#11-12) should be declared external
+Halo3D.myTokens (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#12-13) should be declared external
+Halo3D.myDividends (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#13-14) should be declared external
+Halo3D.reinvest (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#14-18) should be declared external
+Halo3DShrimpFarmer.fallback (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#70-76) should be declared external
+Halo3DShrimpFarmer.hatchEggs (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#101-120) should be declared external
+Halo3DShrimpFarmer.sellEggs (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#120-131) should be declared external
+Halo3DShrimpFarmer.seedMarket (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#132-138) should be declared external
+Halo3DShrimpFarmer.reinvest (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#145-146) should be declared external
+Halo3DShrimpFarmer.calculateEggBuySimple (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#165-168) should be declared external
+Halo3DShrimpFarmer.getMyShrimp (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#176-177) should be declared external
+Halo3DShrimpFarmer.getContractDividends (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#192-196) should be declared external
+Halo3DShrimpFarmer.getBalance (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#197-199) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '' of Halo3D.buy (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#10) is not in mixedCase
+Parameter '' of Halo3D.transfer (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#11) is not in mixedCase
+Parameter '_scope_0' of Halo3D.transfer (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#11) is not in mixedCase
+Parameter '' of Halo3D.myDividends (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#13) is not in mixedCase
+Function 'AcceptsHalo3D.AcceptsHalo3D' (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#24-28) is not in mixedCase
+Parameter '_tokenContract' of AcceptsHalo3D.AcceptsHalo3D (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#24-25) is not in mixedCase
+Parameter '_from' of Halo3DShrimpFarmer.tokenFallback (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#83-84) is not in mixedCase
+Parameter '_value' of Halo3DShrimpFarmer.tokenFallback (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#84-85) is not in mixedCase
+Function 'Halo3DShrimpFarmer.Halo3DShrimpFarmer' (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#60-66) is not in mixedCase
+Function 'Halo3DShrimpFarmer._isContract' (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#203-213) is not in mixedCase
+Variable 'Halo3DShrimpFarmer.EGGS_TO_HATCH_1SHRIMP' (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#47) is not in mixedCase
+Variable 'Halo3DShrimpFarmer.STARTING_SHRIMP' (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#49-50) is not in mixedCase
+Variable 'Halo3DShrimpFarmer.PSN' (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#51) is not in mixedCase
+Variable 'Halo3DShrimpFarmer.PSNH' (/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol#51-52) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/44/0x7d7238460fbc191d512fe11b35af8e4d56df12ff.sol analyzed (5 contracts), 38 result(s) found

@@ -1,0 +1,184 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol:
+/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol:666:25: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        _sum = _sum.add(TicketContract.getEarlyIncomeView(_sender, false));
+                        ^-----------------------------------------------^
+/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol:667:25: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        _sum = _sum.add(DAAContract.getDividendView(_sender));
+                        ^----------------------------------^
+/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol:672:48: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        return citizenEthDividend[_sender].add(DAAContract.getDividendView(_sender));
+                                               ^----------------------------------^
+/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol:678:25: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        _sum = _sum.add(TicketContract.getEarlyIncomeView(_sender, true));
+                        ^----------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in Citizen.withdrawEth (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#635-655):
+	External calls:
+	- _earlyIncome = TicketContract.getEarlyIncomePull(_sender) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#636)
+	- _devidend = DAAContract.getDividendView(msg.sender) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#636-637)
+	- _total = _earlyIncome.add(_devidend).add(_citizenBalanceEth).add(DAAContract.getCitizenBalanceEth(_sender)) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#637-639)
+	- CitizenStorageContract.pushCitizenWithdrawed(_sender,_total) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#640-643)
+	- DAAContract.getDividendPull(_sender,_citizenBalanceEth + _earlyIncome) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#643-644)
+	External calls sending eth:
+	- _sender.transfer(_citizenBalanceEth + _earlyIncome) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#644-645)
+	State variables written after the call(s):
+	- citizen (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#646-647)
+	- citizen (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#647-651)
+	- citizen (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#654-655)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Helper.stringToBytes32 (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#138-153) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in Citizen.pushGametRefIncomeToken (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#549-582):
+	External calls:
+	- DAAContract.payOut(ref,1,money,0) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#573-575)
+	State variables written after the call(s):
+	- citizen (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#575-577)
+Reentrancy in Citizen.pushGametRefIncomeToken (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#549-582):
+	External calls:
+	- DAAContract.payOut(ref,1,money,0) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#573-575)
+	- DAAContract.payOut(devTeam3,1,forDaa,0) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#578-579)
+	State variables written after the call(s):
+	- citizen (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#579-580)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+_sum in Citizen.getTotalEth (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#675) is a local variable never initialiazed
+i in Helper.validUsername (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#170) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+Citizen.addTicketEthSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#613-618) does not use the value returned by external calls:
+	-DAAContract.citizenMintToken(_citizen,_value,0) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#617)
+Citizen.addGameEthSpendLose (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#627-631) does not use the value returned by external calls:
+	-DAAContract.citizenMintToken(_citizen,_value,- 1) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#630-631)
+Citizen.withdrawEth (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#635-655) does not use the value returned by external calls:
+	-DAAContract.getDividendPull(_sender,_citizenBalanceEth + _earlyIncome) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#643-644)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Citizen.pushGametRefIncomeToken has external calls inside a loop:
+	- DAAContract.payOut(ref,1,money,0) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#573-575)
+Citizen.pushGametRefIncomeToken has external calls inside a loop:
+	- DAAContract.payOut(devTeam3,1,forDaa,0) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#578-579)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Citizen.addGameEthSpendLose (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#627-631):
+	External calls:
+	- DAAContract.citizenMintToken(_citizen,_value,- 1) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#630-631)
+	State variables written after the call(s):
+	- mostTotalSpender (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#631)
+	- mostTotalSpenderId (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#631)
+Reentrancy in Citizen.addGameEthSpendWin (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#618-627):
+	External calls:
+	- CitizenStorageContract.addGameWinIncome(_citizen,_valuewin,_enough) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#623-626)
+	State variables written after the call(s):
+	- mostTotalSpender (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#626-627)
+	- mostTotalSpenderId (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#626-627)
+Reentrancy in Citizen.addTicketEthSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#613-618):
+	External calls:
+	- DAAContract.citizenMintToken(_citizen,_value,0) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#617)
+	State variables written after the call(s):
+	- mostTotalSpender (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#618)
+	- mostTotalSpenderId (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#618)
+Reentrancy in Citizen.withdrawEth (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#635-655):
+	External calls:
+	- _earlyIncome = TicketContract.getEarlyIncomePull(_sender) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#636)
+	- _devidend = DAAContract.getDividendView(msg.sender) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#636-637)
+	- _total = _earlyIncome.add(_devidend).add(_citizenBalanceEth).add(DAAContract.getCitizenBalanceEth(_sender)) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#637-639)
+	- CitizenStorageContract.pushCitizenWithdrawed(_sender,_total) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#640-643)
+	- DAAContract.getDividendPull(_sender,_citizenBalanceEth + _earlyIncome) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#643-644)
+	External calls sending eth:
+	- _sender.transfer(_citizenBalanceEth + _earlyIncome) (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#644-645)
+	State variables written after the call(s):
+	- citizenEthDividend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#652-653)
+	- earlyIncomeBalanceEth (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#653-654)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Helper.stringToBytes32 uses assembly (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#138-153)
+	- /unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#150-153
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Helper.stringToUint (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#153-162) should be declared external
+Helper.validUsername (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#162-183) should be declared external
+CitizenStorage.addWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#217-222) should be declared external
+CitizenStorage.addGameWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#222-229) should be declared external
+CitizenStorage.pushCitizenWithdrawed (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#229-239) should be declared external
+Citizen.joinNetwork (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#357-376) should be declared external
+Citizen.addCoreContract (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#385-393) should be declared external
+Citizen.register (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#401-431) should be declared external
+Citizen.getUsername (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#466-471) should be declared external
+Citizen.isDev (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#474-479) should be declared external
+Citizen.getAddressById (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#479-483) should be declared external
+Citizen.getAddressByUserName (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#483-488) should be declared external
+Citizen.pushTicketRefIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#488-512) should be declared external
+Citizen.pushGametRefIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#512-549) should be declared external
+Citizen.pushGametRefIncomeToken (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#549-582) should be declared external
+Citizen.pushEarlyIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#583-586) should be declared external
+Citizen.addTicketEthSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#613-618) should be declared external
+Citizen.addGameEthSpendWin (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#618-627) should be declared external
+Citizen.addGameEthSpendLose (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#627-631) should be declared external
+Citizen.addGameTokenSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#631-634) should be declared external
+Citizen.withdrawEth (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#635-655) should be declared external
+Citizen.addWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#655-660) should be declared external
+Citizen.getTotalEth (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#672-686) should be declared external
+Citizen.getTotalDividend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#686-688) should be declared external
+Citizen.getTotalEarlyIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#690-696) should be declared external
+Citizen.getMemberByLevelToTal (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) should be declared external
+Citizen.getMemberByLevel (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) should be declared external
+Citizen.citizenPayForRef (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_username' of Helper.validUsername (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#163) is not in mixedCase
+Parameter '_is_win' of DAAInterface.citizenMintToken (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#184) is not in mixedCase
+Parameter '_citizen' of CitizenStorage.addWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#217-219) is not in mixedCase
+Parameter '_value' of CitizenStorage.addWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#219) is not in mixedCase
+Parameter '_citizen' of CitizenStorage.addGameWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#222) is not in mixedCase
+Parameter '_value' of CitizenStorage.addGameWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#222) is not in mixedCase
+Parameter '_enough' of CitizenStorage.addGameWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#222) is not in mixedCase
+Parameter '_sender' of CitizenStorage.pushCitizenWithdrawed (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#231) is not in mixedCase
+Parameter '_value' of CitizenStorage.pushCitizenWithdrawed (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#231-232) is not in mixedCase
+Parameter '_contract' of CitizenStorage. (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#239) is not in mixedCase
+Parameter '_devTeam' of Citizen. (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#336-337) is not in mixedCase
+Parameter '_contract' of Citizen.joinNetwork (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#357-358) is not in mixedCase
+Parameter '_address' of Citizen.updateTotalChild (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#377) is not in mixedCase
+Parameter '_address' of Citizen.addCoreContract (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#385) is not in mixedCase
+Parameter '_address' of Citizen.updateRefTo (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#395-396) is not in mixedCase
+Parameter '_sUsername' of Citizen.register (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#401) is not in mixedCase
+Parameter '_ref' of Citizen.register (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#401-402) is not in mixedCase
+Parameter '_address' of Citizen.getRef (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#455-457) is not in mixedCase
+Parameter '_address' of Citizen.getUsername (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#466-467) is not in mixedCase
+Parameter '_id' of Citizen.getAddressById (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#480) is not in mixedCase
+Parameter '_username' of Citizen.getAddressByUserName (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#485-486) is not in mixedCase
+Parameter '_sender' of Citizen.pushTicketRefIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#488-489) is not in mixedCase
+Parameter '_sender' of Citizen.pushGametRefIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#512) is not in mixedCase
+Parameter '_sender' of Citizen.pushGametRefIncomeToken (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#550) is not in mixedCase
+Parameter '_amount' of Citizen.pushGametRefIncomeToken (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#550) is not in mixedCase
+Parameter '_citizen' of Citizen.sortMostSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#586-587) is not in mixedCase
+Parameter '_citizen' of Citizen.addTicketEthSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#613) is not in mixedCase
+Parameter '_value' of Citizen.addTicketEthSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#613-614) is not in mixedCase
+Parameter '_citizen' of Citizen.addGameEthSpendWin (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#619) is not in mixedCase
+Parameter '_value' of Citizen.addGameEthSpendWin (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#619) is not in mixedCase
+Parameter '_valuewin' of Citizen.addGameEthSpendWin (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#619) is not in mixedCase
+Parameter '_enough' of Citizen.addGameEthSpendWin (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#619) is not in mixedCase
+Parameter '_citizen' of Citizen.addGameEthSpendLose (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#628) is not in mixedCase
+Parameter '_value' of Citizen.addGameEthSpendLose (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#628) is not in mixedCase
+Parameter '_citizen' of Citizen.addGameTokenSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#632) is not in mixedCase
+Parameter '_value' of Citizen.addGameTokenSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#632-633) is not in mixedCase
+Parameter '_citizen' of Citizen.addWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#655-656) is not in mixedCase
+Parameter '_value' of Citizen.addWinIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#656) is not in mixedCase
+Parameter '_sender' of Citizen.getTotalDividend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#686) is not in mixedCase
+Parameter '_sender' of Citizen.getTotalEarlyIncome (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#691) is not in mixedCase
+Parameter '_sender' of Citizen.getTotalSpend (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#697-698) is not in mixedCase
+Parameter '_level' of Citizen.getMemberByLevelToTal (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) is not in mixedCase
+Parameter '_level' of Citizen.getMemberByLevel (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) is not in mixedCase
+Parameter '_sender' of Citizen.getMemberByLevel (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) is not in mixedCase
+Parameter '_id' of Citizen.getMemberByLevel (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) is not in mixedCase
+Parameter '_citizen' of Citizen.citizenPayForRef (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) is not in mixedCase
+Parameter '_ref' of Citizen.citizenPayForRef (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol) is not in mixedCase
+Variable 'Citizen.TICKET_LEVEL_REF' (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#272-273) is not in mixedCase
+Variable 'Citizen.GAME_LEVEL_REF' (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#274-277) is not in mixedCase
+Variable 'Citizen.DAAContract' (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#326-327) is not in mixedCase
+Variable 'Citizen.TicketContract' (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#328-329) is not in mixedCase
+Variable 'Citizen.CitizenStorageContract' (/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol#329-330) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/9/0xace024458674fe19c02c15624e4afefad71b60b6.sol analyzed (6 contracts), 96 result(s) found

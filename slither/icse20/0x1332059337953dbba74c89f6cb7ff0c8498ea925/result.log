@@ -1,0 +1,156 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol:
+/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol:1022:5: Warning: Uninitialized storage pointer.
+    Bet storage playerBet;
+    ^-------------------^
+/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol:1028:7: Warning: The use of non-functional instructions is deprecated. Please use functional notation instead.
+      swap1
+      ^---^
+/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol:925:39: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+ ... getRollOutput(playerBet.blockNumber, playerBet.rollUnder, playerBet.numRolls, playerBet.tokenValue.mul(1e14), _playerAddress) ... 
+     ^---------------------------------------------------------------------------------------------------------------------------^
+/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol:1004:3: Warning: Function state mutability can be restricted to pure
+  function calculateProfit(uint _initBet, uint _roll)
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+ZethrDice.minBet (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#925) shadows:
+	- ZethrGame.minBet (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#647)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variable-shadowing[0m
+INFO:Detectors:[91m
+ZethrGame.bets (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#625-626) is never initialized. It is used in:
+	- resolveExpiredBets (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#732-784)
+	- getBet (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1053-1065)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[91m
+playerBet in ZethrDice.getBet (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1058) is a storage variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-storage-variables[0m
+INFO:Detectors:[93m
+ZethrDice.getBet (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1053-1065) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in ZethrDice.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1130-1145):
+	External calls:
+	- finishBetFrom(_player) (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1140-1141)
+	State variables written after the call(s):
+	- pendingBetsMapping (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in ZethrDice.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1130-1145):
+	External calls:
+	- finishBetFrom(_player) (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1140-1141)
+	State variables written after the call(s):
+	- pendingBetsQueue (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol)
+	- pendingBetsQueue (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol)
+	- queueTail (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol)
+Reentrancy in ZethrDice.finishBetFrom (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1070-1119):
+	External calls:
+	- tokenBankrollAddress = controller.getTokenBankrollAddressFromTier(playerBet.tier) (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1089-1090)
+	- bankroll.gameTokenResolution(winAmount,_playerAddress,0,address(0x0),playerBet.tokenValue.mul(1e14).mul(playerBet.numRolls)) (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1094-1100)
+	State variables written after the call(s):
+	- pendingBetsMapping (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1111-1112)
+	- pendingBetsQueue (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1108-1110)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ZethrDice.getBet uses assembly (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1053-1065)
+	- /unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1058-1063
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ZethrBankrollControllerInterface.jackpotAddress should be constant (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#568-570)
+ZethrGame.minBet should be constant (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#647)
+ZethrMultiSigWallet.reEntered should be constant (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#143-144)
+ZethrTokenBankrollInterface.jackpotBalance should be constant (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#553-554)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC223Receiving.tokenFallback (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#101-106) should be declared external
+ZethrMultiSigWallet.tokenFallback (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#544-548) should be declared external
+ZethrBankrollControllerInterface.tokenFallback (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#589-594) should be declared external
+ZethrMultiSigWallet.fallback (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#278-279) should be declared external
+ZethrMultiSigWallet.addOwner (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#286-295) should be declared external
+ZethrMultiSigWallet.removeOwner (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#298-314) should be declared external
+ZethrMultiSigWallet.replaceOwner (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#323-336) should be declared external
+ZethrMultiSigWallet.submitTransaction (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#354-361) should be declared external
+ZethrMultiSigWallet.revokeConfirmation (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#378-386) should be declared external
+ZethrMultiSigWallet.getConfirmationCount (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#458-465) should be declared external
+ZethrMultiSigWallet.getTransactionCount (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#479-487) should be declared external
+ZethrMultiSigWallet.getOwners (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#489-492) should be declared external
+ZethrMultiSigWallet.getConfirmations (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#499-513) should be declared external
+ZethrMultiSigWallet.getTransactionIds (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#525-544) should be declared external
+ZethrTokenBankrollInterface.getMaxProfit (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#555-557) should be declared external
+ZethrTokenBankrollInterface.payJackpotToWinner (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#561-563) should be declared external
+ZethrBankrollControllerInterface.gamePayoutResolver (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#576-581) should be declared external
+ZethrBankrollControllerInterface.isTokenBankroll (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#581-584) should be declared external
+ZethrBankrollControllerInterface.getTokenBankrollAddressFromTier (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#585-588) should be declared external
+ZethrGame.ownerPauseGame (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#680-683) should be declared external
+ZethrGame.ownerResumeGame (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#686-690) should be declared external
+ZethrGame.ownerSetResolverPercentage (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#700-710) should be declared external
+ZethrGame.ownerSetControllerAddress (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#711-715) should be declared external
+ZethrGame.ownerSetGameName (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#721) should be declared external
+ZethrGame.getGameName (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#724-726) should be declared external
+ZethrGame.resolveExpiredBets (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#732-784) should be declared external
+ZethrGame.finishBet (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#792-794) should be declared external
+ZethrGame.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#864-866) should be declared external
+ZethrDice.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1130-1145) should be declared external
+ZethrDice.getLastRollOutput (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#942-954) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in ZethrMultiSigWallet.executeTransaction (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#389-407):
+	-txToExecute.destination.call.value(txToExecute.value)(txToExecute.data) /unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#398-407
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_tier' of ZethrTierLibrary.getDivRate (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#76-77) is not in mixedCase
+Constant 'ZethrTierLibrary.magnitude' (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#43-45) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '' of ZethrMultiSigWallet.tokenFallback (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#544) is not in mixedCase
+Parameter '_scope_0' of ZethrMultiSigWallet.tokenFallback (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#545) is not in mixedCase
+Parameter '_scope_1' of ZethrMultiSigWallet.tokenFallback (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#545) is not in mixedCase
+Parameter '_owners' of ZethrMultiSigWallet. (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#243) is not in mixedCase
+Parameter '_required' of ZethrMultiSigWallet. (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#243-244) is not in mixedCase
+Parameter '_required' of ZethrMultiSigWallet.changeRequirement (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#342) is not in mixedCase
+Parameter '' of ZethrTokenBankrollInterface.getMaxProfit (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#555) is not in mixedCase
+Parameter '_controllerAddress' of ZethrGame. (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#657-659) is not in mixedCase
+Parameter '_resolverPercentage' of ZethrGame. (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#659-660) is not in mixedCase
+Parameter '_name' of ZethrGame. (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#661) is not in mixedCase
+Parameter '_percentage' of ZethrGame.ownerSetResolverPercentage (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#701) is not in mixedCase
+Parameter '_controllerAddress' of ZethrGame.ownerSetControllerAddress (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#712) is not in mixedCase
+Parameter '_name' of ZethrGame.ownerSetGameName (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#721) is not in mixedCase
+Parameter '_numToResolve' of ZethrGame.resolveExpiredBets (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#732) is not in mixedCase
+Parameter '_blockn' of ZethrGame.maxRandom (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#804) is not in mixedCase
+Parameter '_entropy' of ZethrGame.maxRandom (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#804) is not in mixedCase
+Parameter '_index' of ZethrGame.maxRandom (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#804) is not in mixedCase
+Parameter '_upper' of ZethrGame.random (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#826) is not in mixedCase
+Parameter '_blockn' of ZethrGame.random (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#826) is not in mixedCase
+Parameter '_entropy' of ZethrGame.random (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#826-828) is not in mixedCase
+Parameter '_index' of ZethrGame.random (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#828-830) is not in mixedCase
+Parameter '_player' of ZethrDice.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1130) is not in mixedCase
+Parameter '_tokenCount' of ZethrDice.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1131) is not in mixedCase
+Parameter '_tier' of ZethrDice.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1131) is not in mixedCase
+Parameter '_data' of ZethrDice.execute (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1131) is not in mixedCase
+Parameter '_playerAddress' of ZethrDice.finishBetFrom (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1070) is not in mixedCase
+Parameter '_tokenCount' of ZethrDice.isBetValid (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol) is not in mixedCase
+Parameter '' of ZethrDice.isBetValid (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol) is not in mixedCase
+Parameter '_data' of ZethrDice.isBetValid (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol) is not in mixedCase
+Parameter '_playerAddress' of ZethrDice.getLastRollOutput (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#943) is not in mixedCase
+Parameter '_blockNumber' of ZethrDice.getRollOutput (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#976) is not in mixedCase
+Parameter '_rollUnder' of ZethrDice.getRollOutput (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#976) is not in mixedCase
+Parameter '_numRolls' of ZethrDice.getRollOutput (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#976-979) is not in mixedCase
+Parameter '_tokenValue' of ZethrDice.getRollOutput (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#979) is not in mixedCase
+Parameter '_target' of ZethrDice.getRollOutput (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#979) is not in mixedCase
+Parameter '_blockNumber' of ZethrDice.getRollResults (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1020-1022) is not in mixedCase
+Parameter '_rollUnder' of ZethrDice.getRollResults (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1022) is not in mixedCase
+Parameter '_numRolls' of ZethrDice.getRollResults (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1022-1023) is not in mixedCase
+Parameter '_tokenValue' of ZethrDice.getRollResults (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1024) is not in mixedCase
+Parameter '_target' of ZethrDice.getRollResults (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1024) is not in mixedCase
+Parameter '_initBet' of ZethrDice.calculateProfit (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1041) is not in mixedCase
+Parameter '_roll' of ZethrDice.calculateProfit (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1041) is not in mixedCase
+Parameter '_playerAddress' of ZethrDice.getBet (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#1053) is not in mixedCase
+Constant 'ZethrDice.minBet' (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#925) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZethrDice.maxProfitDivisor' (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#918-919) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZethrDice.maxNumber' (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#919-920) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZethrDice.minNumber' (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#920-922) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZethrDice.houseEdgeDivisor' (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#922-923) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZethrDice.houseEdge' (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#925) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+ZethrMultiSigWallet.reEntered (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#143-144) is never used in ZethrMultiSigWallet
+ZethrDice.MAX_INT (/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol#916-918) is never used in ZethrDice
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/7/0x1332059337953dbba74c89f6cb7ff0c8498ea925.sol analyzed (8 contracts), 93 result(s) found

@@ -1,0 +1,87 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:40:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function testBank(){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:18:26: Warning: This declaration shadows an existing declaration.
+    function changeOwner(address adr){
+                         ^---------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:6:5: The shadowed declaration is here:
+    address adr;
+    ^---------^
+
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:8:22: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x25dF6E3DA49F41EF5b99E139C87ABC12c3583D13'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    address emails = 0x25df6e3da49f41ef5b99e139c87abc12c3583d13;
+                     ^----------------------------------------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:30:40: Warning: "sha3" has been deprecated in favour of "keccak256"
+            emails.delegatecall(bytes4(sha3("logEvent()")));
+                                       ^----------------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:30:13: Warning: Return value of low-level calls not used.
+            emails.delegatecall(bytes4(sha3("logEvent()")));
+            ^---------------------------------------------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:31:22: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            adr.send(this.balance);
+                     ^----------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:31:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            adr.send(this.balance);
+            ^--------------------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:11:5: Warning: No visibility specified. Defaulting to "public". 
+    function Update(address dataBase, uint256 limit) 
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:18:5: Warning: No visibility specified. Defaulting to "public". 
+    function changeOwner(address adr){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:18:26: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function changeOwner(address adr){
+                         ^---------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:22:5: Warning: No visibility specified. Defaulting to "public". 
+    function()payable{}
+    ^-----------------^
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:35:5: Warning: No visibility specified. Defaulting to "public". 
+    function kill() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:40:5: Warning: No visibility specified. Defaulting to "public". 
+    function testBank(){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:18:5: Warning: Function state mutability can be restricted to pure
+    function changeOwner(address adr){
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+testBank.withdrawal (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#25-36) sends eth to arbitrary user
+	Dangerous calls:
+	- adr.send(this.balance) (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#32-35)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+testBank.withdrawal (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#25-36) uses delegatecall to a input-controlled function id
+	emails.delegatecall(bytes4(sha3()(logEvent()))) (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#30-31)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#controlled-delegatecall[0m
+INFO:Detectors:[92m
+testBank.changeOwner.adr (local variable @ /unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#19) shadows:
+	- testBank.adr (state variable @ /unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#6-7)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#30-31:
+	- Usage of "sha3()" should be replaced with "keccak256()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+testBank.Update (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#11-18) should be declared external
+testBank.changeOwner (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#18-22) should be declared external
+testBank.fallback (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#23-24) should be declared external
+testBank.withdrawal (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#25-36) should be declared external
+testBank.kill (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#36-41) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol:
+	- pragma solidity^0.4.16 (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in testBank.withdrawal (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#25-36):
+	-emails.delegatecall(bytes4(sha3()(logEvent()))) /unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#30-31
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Contract 'testBank' (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#3-43) is not in CapWords
+Function 'testBank.Update' (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#11-18) is not in mixedCase
+Variable 'testBank.Owner' (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#5-6) is not in mixedCase
+Variable 'testBank.Limit' (/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol#7-8) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/46/0x477d1ee2f953a2f85dbecbcb371c2613809ea452.sol analyzed (1 contracts), 15 result(s) found

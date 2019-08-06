@@ -1,0 +1,175 @@
+INFO:Detectors:[91m
+Market.sendMoneyMother (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#509-536) sends eth to arbitrary user
+	Dangerous calls:
+	- publicContract.ownerOf(mother[m]).transfer(motherMoney) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#527)
+Market.sendMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#541-549) sends eth to arbitrary user
+	Dangerous calls:
+	- _to.transfer(procentOne * (100 - (commission + percentBank + commission_mom))) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#544-545)
+	- ownerMoney.transfer(procentOne * commission) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#547-548)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Market.buyBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#478-509):
+	External calls:
+	- require(bool)(checkContract()) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#481-483)
+	- require(bool)(publicContract.ownerOf(_bunnyId) != msg.sender) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#483-485)
+	- sendMoney(publicContract.ownerOf(_bunnyId),lastmoney) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#498-499)
+	- publicContract.transferFrom(publicContract.ownerOf(_bunnyId),msg.sender,_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#500-501)
+	- sendMoneyMother(_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#502-503)
+	- stopMarket(_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#503-504)
+	External calls sending eth:
+	- checkTimeWin() (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	- sendMoney(publicContract.ownerOf(_bunnyId),lastmoney) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#498-499)
+	- sendMoneyMother(_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#502-503)
+	State variables written after the call(s):
+	- bunnyCost (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#503-504)
+	- lastOwner (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#504-506)
+	- lastSaleTime (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#506)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Market.transferFromBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#467-471) does not use the value returned by external calls:
+	-publicContract.transferFrom(publicContract.ownerOf(_bunnyId),msg.sender,_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#469-471)
+Market.buyBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#478-509) does not use the value returned by external calls:
+	-publicContract.transferFrom(publicContract.ownerOf(_bunnyId),msg.sender,_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#500-501)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Market.sendMoneyMother has external calls inside a loop:
+	- publicContract.ownerOf(mother[m]).transfer(motherMoney) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#527)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Market.buyAdvert (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#598-601):
+	External calls:
+	- require(bool)(checkContract()) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol)
+	State variables written after the call(s):
+	- added_to_the_bank (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol)
+	- advertising (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol)
+	- bankMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol)
+Reentrancy in Market.buyBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#478-509):
+	External calls:
+	- require(bool)(checkContract()) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#481-483)
+	- require(bool)(publicContract.ownerOf(_bunnyId) != msg.sender) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#483-485)
+	State variables written after the call(s):
+	- lastmoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#485)
+	- totalClosedBID (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#493)
+Reentrancy in Market.buyBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#478-509):
+	External calls:
+	- require(bool)(checkContract()) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#481-483)
+	- require(bool)(publicContract.ownerOf(_bunnyId) != msg.sender) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#483-485)
+	External calls sending eth:
+	- checkTimeWin() (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	State variables written after the call(s):
+	- added_to_the_bank (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	- advertising (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	- bankMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	- lastSaleTime (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	- numberOfWins (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	- reallyPrice (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+Reentrancy in Market.buyBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#478-509):
+	External calls:
+	- require(bool)(checkContract()) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#481-483)
+	- require(bool)(publicContract.ownerOf(_bunnyId) != msg.sender) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#483-485)
+	- sendMoney(publicContract.ownerOf(_bunnyId),lastmoney) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#498-499)
+	- publicContract.transferFrom(publicContract.ownerOf(_bunnyId),msg.sender,_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#500-501)
+	- sendMoneyMother(_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#502-503)
+	- stopMarket(_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#503-504)
+	External calls sending eth:
+	- checkTimeWin() (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#496)
+	- sendMoney(publicContract.ownerOf(_bunnyId),lastmoney) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#498-499)
+	- sendMoneyMother(_bunnyId) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#502-503)
+	State variables written after the call(s):
+	- reallyPrice (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#504)
+Reentrancy in Market.startMarket (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#410-426):
+	External calls:
+	- require(bool)(checkContract()) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#415)
+	- require(bool)(publicContract.ownerOf(_bunnyId) == msg.sender) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#418-419)
+	State variables written after the call(s):
+	- bunnyCost (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#419-420)
+	- marketCount (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#424)
+	- timeCost (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#420-421)
+Reentrancy in Market.stopMarket (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#429-440):
+	External calls:
+	- require(bool)(checkContract()) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#430-431)
+	- require(bool)(publicContract.ownerOf(_bunnyId) == msg.sender) (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#432-439)
+	State variables written after the call(s):
+	- bunnyCost (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#439)
+	- marketCount (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#439-440)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Market.timeBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#450-467) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _tmp > 0 (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#463-466)
+	- timeCost[_bunnyId] > 0 && block.timestamp >= _tmp (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#457-466)
+Market.checkTimeWin (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#549-556) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastSaleTime + stepTimeBank < block.timestamp (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#550-551)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Market.commission_mom should be constant (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#229-230)
+Market.sec should be constant (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#242)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#44-51) should be declared external
+Ownable.transferOwner (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#51-57) should be declared external
+Ownable.getOwnerMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#57-67) should be declared external
+Whitelist.getInWhitelist (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#102-107) should be declared external
+Whitelist.addAddressesToWhitelist (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#111-121) should be declared external
+Whitelist.removeAddressesFromWhitelist (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#139-152) should be declared external
+PublicInterface.transferFrom (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#185-186) should be declared external
+PublicInterface.ownerOf (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#186-187) should be declared external
+PublicInterface.isUIntPublic (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#187-190) should be declared external
+PublicInterface.getRabbitMother (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#190-194) should be declared external
+PublicInterface.getRabbitMotherSumm (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#194-195) should be declared external
+Market.getProperty (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#268-308) should be declared external
+Market.setRangePrice (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#315-318) should be declared external
+Market.setStepTimeSale (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#318-323) should be declared external
+Market.setMinTimeBank (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#324-330) should be declared external
+Market.setCoefficientTimeStep (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#331-339) should be declared external
+Market.setPercentCommission (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#339-343) should be declared external
+Market.setPercentBank (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#344-349) should be declared external
+Market.setMinPrice (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#355-358) should be declared external
+Market.setStepTime (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#358-361) should be declared external
+Market.setPause (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#378-380) should be declared external
+Market.startMarket (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#410-426) should be declared external
+Market.transferFromBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#467-471) should be declared external
+Market.buyBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#478-509) should be declared external
+Market.ownerOf (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#588-595) should be declared external
+Market.buyAdvert (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#598-601) should be declared external
+Market.noAdvert (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol) should be declared external
+Market.getMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_add' of Ownable.transferMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#45) is not in mixedCase
+Parameter '_add' of Ownable.transferOwner (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#52) is not in mixedCase
+Parameter '_rangePrice' of Market.setRangePrice (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#315-316) is not in mixedCase
+Parameter '_stepTimeSale' of Market.setStepTimeSale (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#321) is not in mixedCase
+Parameter '_minTimeBank' of Market.setMinTimeBank (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#324) is not in mixedCase
+Parameter '_coefficientTimeStep' of Market.setCoefficientTimeStep (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#334) is not in mixedCase
+Parameter '_commission' of Market.setPercentCommission (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#341) is not in mixedCase
+Parameter '_percentBank' of Market.setPercentBank (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#347) is not in mixedCase
+Parameter '_minPrice' of Market.setMinPrice (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#355) is not in mixedCase
+Parameter '_stepTimeBank' of Market.setStepTime (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#358) is not in mixedCase
+Parameter '_pubAddress' of Market.transferContract (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#372-373) is not in mixedCase
+Parameter '_bunnyid' of Market.currentPrice (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#385) is not in mixedCase
+Parameter '_bunnyId' of Market.startMarket (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#410-411) is not in mixedCase
+Parameter '_money' of Market.startMarket (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#411) is not in mixedCase
+Parameter '_bunnyId' of Market.stopMarket (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#430) is not in mixedCase
+Parameter '_bunnyId' of Market.timeBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#450-452) is not in mixedCase
+Parameter '_bunnyId' of Market.transferFromBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#468) is not in mixedCase
+Parameter '_bunnyId' of Market.buyBunny (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#479) is not in mixedCase
+Parameter '_bunnyId' of Market.sendMoneyMother (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#509-510) is not in mixedCase
+Parameter '_to' of Market.sendMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#541-542) is not in mixedCase
+Parameter '_money' of Market.sendMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#542) is not in mixedCase
+Parameter '_money' of Market.addBank (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#578-579) is not in mixedCase
+Parameter '_bunnyId' of Market.ownerOf (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#588-589) is not in mixedCase
+Parameter '_text' of Market.buyAdvert (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#599) is not in mixedCase
+Parameter '_value' of Market.getMoney (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol) is not in mixedCase
+Variable 'Market.commission_mom' (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#229-230) is not in mixedCase
+Variable 'Market.added_to_the_bank' (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#235) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+Market.sec (/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol#242) is never used in Market
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/12/0xa49c034bc86b16f260f992262556be188c5a722f.sol analyzed (5 contracts), 72 result(s) found

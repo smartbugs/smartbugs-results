@@ -1,0 +1,96 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:362:22: Warning: Use of the "var" keyword is deprecated.
+                var (winNumber, winner) = getWinner(lotteryId);
+                     ^-------^
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:362:33: Warning: Use of the "var" keyword is deprecated.
+                var (winNumber, winner) = getWinner(lotteryId);
+                                ^----^
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:469:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function EthereumJackpot(address ownerAddress) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:379:25: Warning: Invoking events without "emit" prefix is deprecated.
+                        LostPayment(affiliate,affiliatePrize);
+                        ^-----------------------------------^
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:390:21: Warning: Invoking events without "emit" prefix is deprecated.
+                    LostPayment(winner,prize);
+                    ^-----------------------^
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:398:17: Warning: Invoking events without "emit" prefix is deprecated.
+                WinnerPicked(lotteryId,winner,winNumber);
+                ^--------------------------------------^
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:401:17: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+                owner.send(ownerComValue);
+                ^-----------------------^
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:462:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TicketsBought(lotteryId,msg.sender,tickets);
+        ^-----------------------------------------^
+/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:88:49: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+                    uint256 blockHash = uint256(block.blockhash(randomBlockStart[lotteryId]+i));
+                                                ^-------------^
+
+INFO:Detectors:[91m
+EthereumJackpot.finalizeRoom (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#355-418) sends eth to arbitrary user
+	Dangerous calls:
+	- prizeSendResult = winner.send(prize) (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#396-397)
+	- owner.send(ownerComValue) (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#414)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+EthereumJackpot.bitMaskForPlayFields (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#173) is never initialized. It is used in:
+	- getTickets (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#191-200)
+	- clearState (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#223-252)
+	- getPlayers (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#261-290)
+	- buyTicket (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#420-472)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+EthereumJackpot.addWinner (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#493-502) uses a dangerous strict equality:
+	- winners.length == winnersCount
+EthereumJackpot.addWinner (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#493-502) uses a dangerous strict equality:
+	- winners.length == winnersCount
+Random32BigInteger.generate (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#64-101) uses a dangerous strict equality:
+	- randomBlockStart[lotteryId] == 0
+EthereumJackpot.addWinner (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#493-502) uses a dangerous strict equality:
+	- winners.length == winnersCount
+Random32BigInteger.generate (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#64-101) uses a dangerous strict equality:
+	- randomBlockStart[lotteryId] == 0
+EthereumJackpot.roomNeedsFinalization (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#473-484) uses a dangerous strict equality:
+	- (state[lotteryId] == State.Running && (ticketsSold[lotteryId] >= maxTickets[lotteryId]) && ((randomBlockStart[lotteryId] == 0) || ((randomBlockStart[lotteryId] > 0) && (block.number - randomBlockStart[lotteryId]) >= 32)))
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+i in EthereumJackpot.buyTicket (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#448) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+EthereumJackpot.buyTicket (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#420-472) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)((pInfo.ticketsCount + ticketsToBuy) <= ((maxTickets[lotteryId] * maxPercentPerPlayer) / 100)) (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#444-447)
+EthereumJackpot.addWinner (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#493-502) uses timestamp for comparisons
+	Dangerous comparisons:
+	- winners.length == winnersCount (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#499-500)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+EthereumJackpot.affiliatePercent should be constant (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#143-144)
+EthereumJackpot.maxPercentPerPlayer should be constant (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#144-146)
+EthereumJackpot.ownerComission should be constant (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#146-147)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#89-91:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+EthereumJackpot.pauseLottery (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#185-189) should be declared external
+EthereumJackpot.setOwner (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#189-191) should be declared external
+EthereumJackpot.getTickets (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#191-200) should be declared external
+EthereumJackpot.setLotteryOptions (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#200-221) should be declared external
+EthereumJackpot.buyTicket (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#420-472) should be declared external
+EthereumJackpot.getWinners (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#515-543) should be declared external
+EthereumJackpot.getRomms (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#543-573) should be declared external
+EthereumJackpot.destroy (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#580-587) should be declared external
+EthereumJackpot.needsFinalization (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol) should be declared external
+EthereumJackpot.finalize (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'EthereumJackpot.EthereumJackpot' (/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol#484-492) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/35/0xc0e6c996f3642c3ff3287ef01375fa7b72702797.sol analyzed (3 contracts), 22 result(s) found

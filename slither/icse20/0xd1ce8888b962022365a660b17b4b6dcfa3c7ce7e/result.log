@@ -1,0 +1,81 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol:
+/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol:410:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            owner().send(adminFee);                                 // solium-disable-line security/no-send
+            ^--------------------^
+/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol:411:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            address(nextJackpot).send(jackpotFee);                  // solium-disable-line security/no-send
+            ^-----------------------------------^
+/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol:412:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            game.player.send(reward.sub(adminFee).sub(jackpotFee)); // solium-disable-line security/no-send
+            ^----------------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in SX.play (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#344-395):
+	External calls:
+	- updateState() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#363-364)
+	- games.push(Game(msg.sender,blockNumber,msg.value,combinations,answer,nextJackpot.totalLength())) (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#372-380)
+	External calls sending eth:
+	- updateState() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#363-364)
+	State variables written after the call(s):
+	- games (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#372-380)
+Reentrancy in SX.play (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#344-395):
+	External calls:
+	- updateState() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#363-364)
+	- games.push(Game(msg.sender,blockNumber,msg.value,combinations,answer,nextJackpot.totalLength())) (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#372-380)
+	- (begin,end) = nextJackpot.addRange(msg.sender,msg.value) (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#382-383)
+	External calls sending eth:
+	- updateState() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#363-364)
+	State variables written after the call(s):
+	- totalWeisInGame (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#389-393)
+Reentrancy in SX.updateState (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#323-340):
+	External calls:
+	- nextJackpot.shouldSelectWinner() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#328-340)
+	- nextJackpot.selectWinner() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#330-331)
+	- JackpotWinnerSelected(prevJackpots.length,nextJackpot.winnerOffset()) (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#331-336)
+	External calls sending eth:
+	- finishAllGames() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#327)
+	State variables written after the call(s):
+	- nextJackpot (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#340)
+	- prevJackpots (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#337)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+SX.finishJackpot (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#441-467) uses a dangerous strict equality:
+	- address(jackpot).balance == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in SX.finishJackpot (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#441-467):
+	External calls:
+	- (end,player) = jackpot.ranges(begin) (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#456)
+	- winnerOffset = jackpot.winnerOffset() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#456-457)
+	- jackpot.payJackpot(begin) (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#461)
+	State variables written after the call(s):
+	- prevJackpots (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#461)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+SX.updateState (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#323-340) does not use the value returned by external calls:
+	-nextJackpot.selectWinner() (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#330-331)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#143-144) should be declared external
+Ownable.transferOwnership (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#151-154) should be declared external
+Jackpot.fallback (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#184-187) should be declared external
+Jackpot.addRange (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#187-200) should be declared external
+Jackpot.selectWinner (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#218-225) should be declared external
+Jackpot.payJackpot (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#225-240) should be declared external
+SX.fallback (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#311-318) should be declared external
+SX.gamesLength (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#318-320) should be declared external
+SX.prevJackpotsLength (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#320-323) should be declared external
+SX.playAndFinishJackpot (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#340-344) should be declared external
+SX.setAdminFeePercent (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#467-475) should be declared external
+SX.setJackpotFeePercent (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#475-482) should be declared external
+SX.setMaxRewardPercent (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#482-487) should be declared external
+SX.setMinReward (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#487-490) should be declared external
+SX.setMaxReward (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#490-492) should be declared external
+SX.putToBank (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#493-494) should be declared external
+SX.getFromBank (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Ownable._transferOwnership' (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol#157-168) is not in mixedCase
+Function 'SX._countBits' (/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/5/0xd1ce8888b962022365a660b17b4b6dcfa3c7ce7e.sol analyzed (4 contracts), 25 result(s) found

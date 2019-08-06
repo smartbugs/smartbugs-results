@@ -1,0 +1,158 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol:
+/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol:991:20: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes32 hash = sha256(receiver);
+                   ^--------------^
+/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol:991:20: Warning: The provided argument of type address is not implicitly convertible to expected type bytes memory.
+    bytes32 hash = sha256(receiver);
+                   ^--------------^
+/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol:624:3: Warning: Function state mutability can be restricted to pure
+  function canUpgrade() public view returns(bool) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in UpgradeableToken.upgrade (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#574-589):
+	External calls:
+	- upgradeAgent.upgradeFrom(msg.sender,value) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#582-584)
+	State variables written after the call(s):
+	- totalUpgraded (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#587-588)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+LostAndFoundToken.enableLostAndFound (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#675-687) does not use the value returned by external calls:
+	-token_contract.approve(agent,tokens) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#687)
+Crowdsale.assignTokens (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1363-1366) does not use the value returned by external calls:
+	-token.transfer(receiver,tokenAmount) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1365-1366)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+StandardToken.transferFrom.allowance (local variable @ /unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#279-281) shadows:
+	- StandardToken.allowance (function @ /unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#322-324)
+	- EIP20Token.allowance (function @ /unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#187-190)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1327-1363):
+	External calls:
+	- token.setMintAgent(address(this),true) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1338-1339)
+	- token.setReleaseAgent(address(this)) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1340)
+	- token.setTransferAgent(address(this),true) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1345)
+	- token.setTransferAgent(team_multisig,true) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1345-1347)
+	- token.mint(address(this),crowdsale_supply) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1350-1351)
+	- token.setMintAgent(address(this),false) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1351-1354)
+	State variables written after the call(s):
+	- configured (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1356-1360)
+	- endsAt (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1356-1360)
+	- multisigWallet (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1356-1360)
+	- sellable_tokens (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1354-1355)
+	- startsAt (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1356-1360)
+	- tranches (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1362-1363)
+Reentrancy in Crowdsale.finalize (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1398-1418):
+	External calls:
+	- token.setMintAgent(address(this),true) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1408-1409)
+	- token.mint(multisigWallet,toShare) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1410-1413)
+	- token.setMintAgent(address(this),false) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1413)
+	- token.releaseTokenTransfer() (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1415)
+	- token.burn(token.balanceOf(address(this))) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1416-1418)
+	State variables written after the call(s):
+	- finalized (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol)
+Reentrancy in GenericCrowdsale.preallocate (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#981-990):
+	External calls:
+	- tokenAmount = fullTokens.mul(10 ** uint256(token.decimals())) (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#986-988)
+	State variables written after the call(s):
+	- investedAmountOf (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#990)
+	- tokenAmountOf (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#990)
+	- tokensSold (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#990)
+	- weiRaised (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#990)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CrowdsaleToken.name should be constant (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#763-764)
+CrowdsaleToken.symbol should be constant (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#764)
+UpgradeAgent.originalSupply should be constant (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#496)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#60-68) should be declared external
+EIP20Token.balanceOf (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#183-184) should be declared external
+StandardToken.balanceOf (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#271-274) should be declared external
+StandardToken.approve (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#298-310) should be declared external
+EIP20Token.approve (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#186-187) should be declared external
+StandardToken.allowance (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#322-324) should be declared external
+EIP20Token.allowance (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#187-190) should be declared external
+StandardToken.addApproval (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#330-338) should be declared external
+StandardToken.subApproval (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#343-358) should be declared external
+ReleasableToken.setReleaseAgent (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#401-408) should be declared external
+ReleasableToken.setTransferAgent (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#409-416) should be declared external
+UpgradeAgent.isUpgradeAgent (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#499-503) should be declared external
+UpgradeAgent.upgradeFrom (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#519-521) should be declared external
+UpgradeableToken.upgrade (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#574-589) should be declared external
+UpgradeableToken.changeUpgradeMaster (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#638-642) should be declared external
+LostAndFoundToken.enableLostAndFound (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#675-687) should be declared external
+MintableToken.mint (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#734-737) should be declared external
+MintableToken.setMintAgent (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#738-739) should be declared external
+CrowdsaleToken.burn (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#817-820) should be declared external
+GenericCrowdsale.fallback (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#931-932) should be declared external
+GenericCrowdsale.preallocate (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#981-990) should be declared external
+GenericCrowdsale.buyWithSignedAddress (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1055-1060) should be declared external
+GenericCrowdsale.buyWithCustomerId (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1064-1069) should be declared external
+GenericCrowdsale.setRequireCustomerId (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1094-1098) should be declared external
+GenericCrowdsale.setRequireSignedAddress (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1101-1107) should be declared external
+GenericCrowdsale.setEarlyParticipantWhitelist (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1108-1116) should be declared external
+DeploymentInfo.getDeploymentBlock (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1213-1214) should be declared external
+TokenTranchePricing.getTranchesLength (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1245-1247) should be declared external
+Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1327-1363) should be declared external
+Crowdsale.setStartingTime (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) should be declared external
+Crowdsale.setEndingTime (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) should be declared external
+Crowdsale.updateEursPerEth (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) should be declared external
+Crowdsale.updatePriceAgent (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) should be declared external
+Crowdsale.setMinimumBuyValue (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#7-10): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#14-17): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#22-25): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#102-103): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#158-161): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#165-168): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#172-175): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#178-180): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#205-206): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#223): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#468-470): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#473): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#652): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#687-690): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1207-1208): it allows old versions
+	- pragma solidity^0.4.23 (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1226): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Variable 'StandardToken.total_supply' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#248) is not in mixedCase
+Parameter 'new_master' of UpgradeableToken.changeUpgradeMaster (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#642) is not in mixedCase
+Parameter 'new_master' of UpgradeableToken.setUpgradeMaster (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#643) is not in mixedCase
+Parameter 'token_contract' of LostAndFoundToken.enableLostAndFound (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#675-678) is not in mixedCase
+Parameter 'initial_supply' of CrowdsaleToken. (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#786) is not in mixedCase
+Parameter 'token_decimals' of CrowdsaleToken. (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#786-789) is not in mixedCase
+Parameter 'team_multisig' of CrowdsaleToken. (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#789) is not in mixedCase
+Parameter 'token_retriever' of CrowdsaleToken. (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#789) is not in mixedCase
+Variable 'CrowdsaleToken.lost_and_found_master' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#765-766) is not in mixedCase
+Parameter 'team_multisig' of GenericCrowdsale.configurationGenericCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#918) is not in mixedCase
+Variable 'DeploymentInfo.deployed_on' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1210) is not in mixedCase
+Parameter 'init_tranches' of TokenTranchePricing.configurationTokenTranchePricing (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1253) is not in mixedCase
+Constant 'TokenTranchePricing.amount_offset' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1241-1242) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'TokenTranchePricing.start_offset' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1242-1243) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'TokenTranchePricing.end_offset' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1243) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'TokenTranchePricing.price_offset' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1243-1244) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'TokenTranchePricing.tranche_size' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1244) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter 'team_multisig' of Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1327-1330) is not in mixedCase
+Parameter 'token_retriever' of Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1331) is not in mixedCase
+Parameter 'init_tranches' of Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1331) is not in mixedCase
+Parameter 'multisig_supply' of Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1331-1332) is not in mixedCase
+Parameter 'crowdsale_supply' of Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1332) is not in mixedCase
+Parameter 'token_decimals' of Crowdsale.configurationCrowdsale (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1332-1335) is not in mixedCase
+Parameter 'milieurs_amount' of Crowdsale.updateEursPerEth (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) is not in mixedCase
+Parameter 'new_price_agent' of Crowdsale.updatePriceAgent (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) is not in mixedCase
+Parameter 'new_minimum' of Crowdsale.setMinimumBuyValue (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol) is not in mixedCase
+Variable 'Crowdsale.sellable_tokens' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1302) is not in mixedCase
+Variable 'Crowdsale.initial_tokens' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1302-1303) is not in mixedCase
+Variable 'Crowdsale.milieurs_per_eth' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1303) is not in mixedCase
+Variable 'Crowdsale.minimum_buy_value' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1306) is not in mixedCase
+Variable 'Crowdsale.price_agent' (/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol#1306-1307) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/11/0x42b924565ab132c7dc7a048470e4029d1e44222d.sol analyzed (17 contracts), 74 result(s) found

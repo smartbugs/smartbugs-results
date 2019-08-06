@@ -1,0 +1,56 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol:
+/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol:35:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol:74:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Distributor(address _targetToken, uint256 _eligibleTokens) public payable {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol:40:24: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        owner.transfer(this.balance);
+                       ^----------^
+/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol:96:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Dividend(holder, amountDistributed);
+        ^---------------------------------^
+
+INFO:Detectors:[93m
+Distributor.distribute (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#88-101) uses a dangerous strict equality:
+	- require(bool)(distributed[holder] == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Distributor.distribute (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#88-101):
+	External calls:
+	- holderBalance = token.balanceOf(holder) (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#92-93)
+	State variables written after the call(s):
+	- distributed (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#97-98)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in Distributor.Distributor (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#74-83):
+	External calls:
+	- assert(bool)(_eligibleTokens <= token.totalSupply()) (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#79-80)
+	State variables written after the call(s):
+	- eligibleTokens (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#80-83)
+	- totalDistributionAmountInWei (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#83)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#51)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Owned.withdraw (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#39-44) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#51-52) should be declared external
+ERC20Basic.transfer (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#52-53) should be declared external
+ERC20.allowance (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#57-58) should be declared external
+ERC20.transferFrom (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#58-59) should be declared external
+ERC20.approve (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#59-60) should be declared external
+Distributor.distribute (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#88-101) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Owned.Owned' (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#36-39) is not in mixedCase
+Function 'Distributor.Distributor' (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#74-83) is not in mixedCase
+Parameter '_targetToken' of Distributor.Distributor (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#75) is not in mixedCase
+Parameter '_eligibleTokens' of Distributor.Distributor (/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol#75-77) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/7/0xc9f797dde181539d58fee31826a0508a1fa2a889.sol analyzed (5 contracts), 16 result(s) found

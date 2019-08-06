@@ -1,0 +1,121 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:56:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:203:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Distribution(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:76:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:119:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:156:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Burn(burner, _value);
+        ^------------------^
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:234:5: Warning: Invoking events without "emit" prefix is deprecated.
+    NewPurchase(msg.sender, tokens, usd, msg.value);
+    ^---------------------------------------------^
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:271:5: Warning: Invoking events without "emit" prefix is deprecated.
+    NewBonusClaim(msg.sender, tokens);
+    ^-------------------------------^
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:337:22: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      owner.transfer(this.balance);
+                     ^----------^
+/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:344:5: Warning: Invoking events without "emit" prefix is deprecated.
+    ClaimedTokens(_token, owner, balance);
+    ^-----------------------------------^
+
+INFO:Detectors:[93m
+Distribution.init (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#249-262) uses a dangerous strict equality:
+	- require(bool)(token.balanceOf(this) == _cap)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Distribution.claimBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#263-285):
+	External calls:
+	- token.burn(stageCap.sub(sold[_stage]).sub(sold[_stage].mul(computeBonus(_stage)).div(1000000000000000000))) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#268-271)
+	State variables written after the call(s):
+	- burned (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#274-275)
+Reentrancy in Distribution.claimBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#263-285):
+	External calls:
+	- token.burn(stageCap.sub(sold[_stage]).sub(sold[_stage].mul(computeBonus(_stage)).div(1000000000000000000))) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#268-271)
+	- token.transfer(msg.sender,tokens) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#276-278)
+	State variables written after the call(s):
+	- claimed (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#280-284)
+Reentrancy in Distribution.init (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#249-262):
+	External calls:
+	- require(bool)(token.balanceOf(this) == _cap) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#255-257)
+	State variables written after the call(s):
+	- isActive (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#261)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Distribution.fallback (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#224-244) does not use the value returned by external calls:
+	-token.transfer(msg.sender,tokens) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#243-244)
+Distribution.claimBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#263-285) does not use the value returned by external calls:
+	-token.transfer(msg.sender,tokens) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#276-278)
+Distribution.claimTokens (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#343-352) does not use the value returned by external calls:
+	-erc20token.transfer(owner,balance) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Distribution.claimBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#263-285):
+	External calls:
+	- token.burn(stageCap.sub(sold[_stage]).sub(sold[_stage].mul(computeBonus(_stage)).div(1000000000000000000))) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#268-271)
+	- token.transfer(msg.sender,tokens) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#276-278)
+	State variables written after the call(s):
+	- bonusClaimedTokens (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#278-279)
+Reentrancy in Distribution.init (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#249-262):
+	External calls:
+	- require(bool)(token.balanceOf(this) == _cap) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#255-257)
+	State variables written after the call(s):
+	- cap (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#258-259)
+	- stageCap (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#259-261)
+	- startTime (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#258)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Distribution.init (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#249-262) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_startTime > block.timestamp) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#257-258)
+Distribution.getStage (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#314-319) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp >= startTime) (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#315)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#75-85) should be declared external
+BasicToken.balanceOf (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#134-138) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#92-93) should be declared external
+ERC20Basic.transfer (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#93-96) should be declared external
+BasicToken.transfer (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#114-126) should be declared external
+BurnableToken.burn (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#150-166) should be declared external
+Distribution.init (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#249-262) should be declared external
+Distribution.claimBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#263-285) should be declared external
+Distribution.setWeiUsdRate (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#288-293) should be declared external
+Distribution.forwardFunds (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#297-298) should be declared external
+Distribution.claimTokens (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#343-352) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#58-62) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#134) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#114) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#114-116) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#150-151) is not in mixedCase
+Function 'Distribution.Distribution' (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#211-223) is not in mixedCase
+Parameter '_stages' of Distribution.Distribution (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#214-215) is not in mixedCase
+Parameter '_stageDuration' of Distribution.Distribution (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#215-217) is not in mixedCase
+Parameter '_token' of Distribution.Distribution (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#217) is not in mixedCase
+Parameter '_cap' of Distribution.init (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#250) is not in mixedCase
+Parameter '_startTime' of Distribution.init (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#250-254) is not in mixedCase
+Parameter '_stage' of Distribution.claimBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#263-266) is not in mixedCase
+Parameter '_rate' of Distribution.setWeiUsdRate (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#288) is not in mixedCase
+Parameter '_amount' of Distribution.forwardFunds (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#297) is not in mixedCase
+Parameter '_address' of Distribution.forwardFunds (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#297-298) is not in mixedCase
+Parameter '_usd' of Distribution.computeTokens (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#306) is not in mixedCase
+Parameter '_stage' of Distribution.computeBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#323) is not in mixedCase
+Parameter '_stage' of Distribution.computeAddressBonus (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#331) is not in mixedCase
+Parameter '_token' of Distribution.claimTokens (/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol#343-344) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/26/0xf843b16b42ddf11301d60d89908322bc81622bda.sol analyzed (6 contracts), 42 result(s) found

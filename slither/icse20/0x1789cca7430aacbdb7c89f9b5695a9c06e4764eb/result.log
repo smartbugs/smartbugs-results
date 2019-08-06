@@ -1,0 +1,59 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol:
+/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol:114:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Custodian(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol:185:33: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        uint256 nonce = uint256(keccak256(block.blockhash(block.number - 1), address(this), requestIdx));
+                                ^---------------------------------------------------------------------^
+/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol:187:26: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        requestMsgHash = keccak256(nonce, _whitelistedAddress, uint256(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF));
+                         ^----------------------------------------------------------------------------------------------------------------^
+/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol:185:43: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+        uint256 nonce = uint256(keccak256(block.blockhash(block.number - 1), address(this), requestIdx));
+                                          ^-------------^
+
+INFO:Detectors:[92m
+Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#234-289) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (block.timestamp - request.timestamp) < defaultTimeLock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#264-289)
+	- request.extended && ((block.timestamp - request.timestamp) < extendedTimeLock) (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#259-289)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#187-189:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Custodian.requestUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#171-215) should be declared external
+Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#234-289) should be declared external
+Custodian.deleteUncompletableRequest (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#301-310) should be declared external
+Custodian.extendRequestTimeLock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#317-327) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#234-289):
+	-success = callbackAddress.call(callbackSelector,lockId) /unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#282-285
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Function 'Custodian.Custodian' (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#117-149) is not in mixedCase
+Parameter '_signers' of Custodian.Custodian (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#119-120) is not in mixedCase
+Parameter '_defaultTimeLock' of Custodian.Custodian (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#122) is not in mixedCase
+Parameter '_extendedTimeLock' of Custodian.Custodian (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#122-123) is not in mixedCase
+Parameter '_primary' of Custodian.Custodian (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#123-125) is not in mixedCase
+Parameter '_lockId' of Custodian.requestUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#173) is not in mixedCase
+Parameter '_callbackAddress' of Custodian.requestUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#173-175) is not in mixedCase
+Parameter '_callbackSelector' of Custodian.requestUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#175) is not in mixedCase
+Parameter '_whitelistedAddress' of Custodian.requestUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#175-177) is not in mixedCase
+Parameter '_requestMsgHash' of Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#236) is not in mixedCase
+Parameter '_recoveryByte1' of Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#236-238) is not in mixedCase
+Parameter '_ecdsaR1' of Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#238) is not in mixedCase
+Parameter '_ecdsaS1' of Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#238) is not in mixedCase
+Parameter '_recoveryByte2' of Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#239) is not in mixedCase
+Parameter '_ecdsaR2' of Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#239) is not in mixedCase
+Parameter '_ecdsaS2' of Custodian.completeUnlock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#240) is not in mixedCase
+Parameter '_requestMsgHash' of Custodian.deleteUncompletableRequest (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#304) is not in mixedCase
+Parameter '_requestMsgHash' of Custodian.extendRequestTimeLock (/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol#319) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/26/0x1789cca7430aacbdb7c89f9b5695a9c06e4764eb.sol analyzed (1 contracts), 26 result(s) found

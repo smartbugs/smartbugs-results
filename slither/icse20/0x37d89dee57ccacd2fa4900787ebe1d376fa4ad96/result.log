@@ -1,0 +1,62 @@
+INFO:Detectors:[93m
+Trustee.canRelease (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#199-207) uses a dangerous strict equality:
+	- holding.releaseDate == 0 || holding.quantity == 0
+	- holding.releaseDate == 0 || holding.quantity == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Trustee.partialRelease (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#238-261):
+	External calls:
+	- res = ERC20Interface(tokenContract).transfer(tradingWallet,amount) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#249-254)
+	State variables written after the call(s):
+	- heldTokens (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#258-260)
+Reentrancy in Trustee.release (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#214-234):
+	External calls:
+	- res = ERC20Interface(tokenContract).transfer(who,holding.quantity) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#221-226)
+	State variables written after the call(s):
+	- heldTokens (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#230)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Trustee.canRelease (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#199-207) uses timestamp for comparisons
+	Dangerous comparisons:
+	- holding.releaseDate == 0 || holding.quantity == 0 (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#205)
+	- block.timestamp > holding.releaseDate (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#207)
+Trustee.release (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#214-234) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(! holding.isAffiliate,To release tokens for an affiliate use partialRelease().) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#218-220)
+	- block.timestamp > holding.releaseDate (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#220-233)
+Trustee.partialRelease (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#238-261) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > holding.releaseDate (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#247-261)
+	- require(bool,string)(holding.isAffiliate,Only affiliates can use this function; use release() for non-affiliates.) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#243-245)
+	- require(bool,string)(amount <= holding.quantity,The holding has less than the specified amount of tokens.) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#245-246)
+Trustee.transfer (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#270-287) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(fromHolding.quantity >= amount,Not enough tokens to perform the transfer.) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#274-275)
+Trustee.setAffiliate (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#312-328) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(holding.isAffiliate != isAffiliate,Attempt to set the same affiliate status that is already set.) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#322-324)
+Trustee.isExistingHolding (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (h.quantity != 0 || h.releaseDate != 0) (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Trustee.oneYear should be constant (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#124-125)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Interface.totalSupply (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#11-12) should be declared external
+ERC20Interface.balanceOf (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#12-13) should be declared external
+ERC20Interface.allowance (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#13-14) should be declared external
+ERC20Interface.transfer (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#14-15) should be declared external
+ERC20Interface.approve (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#15-16) should be declared external
+ERC20Interface.transferFrom (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#16-18) should be declared external
+Trustee.setTransferAgent (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#158-161) should be declared external
+Trustee.hold (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#165-177) should be declared external
+Trustee.postIcoHold (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#182-194) should be declared external
+Trustee.canRelease (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#199-207) should be declared external
+Trustee.release (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#214-234) should be declared external
+Trustee.partialRelease (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#238-261) should be declared external
+Trustee.transfer (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#270-287) should be declared external
+Trustee.addTime (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#294-308) should be declared external
+Trustee.setAffiliate (/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol#312-328) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Slither:/unique_chucks/46/0x37d89dee57ccacd2fa4900787ebe1d376fa4ad96.sol analyzed (3 contracts), 25 result(s) found

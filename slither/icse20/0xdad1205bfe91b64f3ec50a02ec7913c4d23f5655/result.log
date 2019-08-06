@@ -1,0 +1,181 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol:
+/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol:66:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol:531:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function ERC721Token(string _name, string _symbol) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol:746:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function HasNoEther() public payable {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol:853:3: Warning: Function state mutability can be restricted to pure
+  function tokenFallback(address from_, uint256 value_, bytes data_) external {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+AddressUtils.isContract (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#199-216) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ERC721Basic (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#96-124) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#105-107)
+	-transferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#111-112)
+ERC721BasicToken (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#220-514) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#298-309)
+	-transferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#354-358)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[92m
+NFTMinter.setTokenPrices has external calls inside a loop:
+	- require(bool)(nftContract.tokenTypeQuantity(_tokenTypes[i]) > 0) (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1037-1041)
+NFTMinter.getEnabledTokensInformation has external calls inside a loop:
+	- tokenTypesQuantities[i] = (nftContract.tokenTypeQuantity(enabledTokens[i])) (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol)
+NFTMinter.getEnabledTokensInformation has external calls inside a loop:
+	- tokenTypesAvailableQuantities[i] = (nftContract.tokenTypeAvailableQuantity(enabledTokens[i])) (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in NFTMinter.buyTokens (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1066-1072):
+	External calls:
+	- require(bool)(validPurchase(_tokenType)) (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1070)
+	State variables written after the call(s):
+	- weiRaised (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1071)
+Reentrancy in NFTMinter.constructor (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1025-1028):
+	External calls:
+	- require(bool)(_nftContract.isMintableNFT()) (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1027)
+	State variables written after the call(s):
+	- nftContract (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1028)
+	- wallet (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1027-1028)
+Reentrancy in NFTMinter.setTokenPrices (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1029-1054):
+	External calls:
+	- require(bool)(nftContract.tokenTypeQuantity(_tokenTypes[i]) > 0) (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1037-1041)
+	State variables written after the call(s):
+	- enabledTokenIndex (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1050-1054)
+	- enabledTokens (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1050-1054)
+	- tokenTypePrices (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1041-1043)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+AddressUtils.isContract uses assembly (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#199-216)
+	- /unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#213-215
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol:
+	- Version used: ['^0.4.21', '^0.4.23']
+	- /unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1 declares pragma solidity^0.4.23
+	- /unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#157 declares pragma solidity^0.4.21
+	- /unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#191 declares pragma solidity^0.4.21
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#83-93) should be declared external
+ERC721BasicToken.approve (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#298-309) should be declared external
+ERC721Basic.approve (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#105-107) should be declared external
+ERC721Basic.setApprovalForAll (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#108-110) should be declared external
+ERC721BasicToken.setApprovalForAll (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#326-330) should be declared external
+ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#378-382) should be declared external
+ERC721Basic.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#113-118) should be declared external
+ERC721Enumerable.tokenByIndex (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#134-135) should be declared external
+ERC721Token.tokenByIndex (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#605-606) should be declared external
+ERC721Metadata.name (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#140-145) should be declared external
+ERC721Token.name (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#559-563) should be declared external
+ERC721Metadata.symbol (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#145) should be declared external
+ERC721Token.symbol (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#564-565) should be declared external
+ERC721Metadata.tokenURI (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#145-146) should be declared external
+ERC721Token.tokenURI (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#568-574) should be declared external
+ERC721Receiver.onERC721Received (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#185-191) should be declared external
+Pausable.pause (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#737-741) should be declared external
+Pausable.unpause (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#742-743) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#791-792) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#792) should be declared external
+ERC20Basic.transfer (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#792-793) should be declared external
+ERC20.allowance (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#801-808) should be declared external
+ERC20.transferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#808-811) should be declared external
+ERC20.approve (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#811-812) should be declared external
+MintableNFT.mint (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#955-963) should be declared external
+MintableNFT.setTokensQuantity (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#964-1007) should be declared external
+NFTMinter.setTokenPrices (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1029-1054) should be declared external
+NFTMinter.disableTokens (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1054-1066) should be declared external
+NFTMinter.buyTokens (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1066-1072) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1): it allows old versions
+	- pragma solidity^0.4.21 (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#157): it allows old versions
+	- pragma solidity^0.4.21 (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#191): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#71) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.balanceOf (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#266) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.ownerOf (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#276-277) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.exists (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#287) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.approve (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#299) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.approve (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#299) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.getApproved (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#316) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.setApprovalForAll (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#326-327) is not in mixedCase
+Parameter '_approved' of ERC721BasicToken.setApprovalForAll (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#327) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.isApprovedForAll (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#337) is not in mixedCase
+Parameter '_operator' of ERC721BasicToken.isApprovedForAll (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#337-338) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.transferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#354) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.transferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#354) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.transferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#354-355) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#378-379) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#379) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#379) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#404) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#405) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#405) is not in mixedCase
+Parameter '_data' of ERC721BasicToken.safeTransferFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#405) is not in mixedCase
+Parameter '_spender' of ERC721BasicToken.isApprovedOrOwner (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#418) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.isApprovedOrOwner (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#418) is not in mixedCase
+Function 'ERC721BasicToken._mint' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#431-438) is not in mixedCase
+Parameter '_to' of ERC721BasicToken._mint (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#432) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken._mint (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#432-433) is not in mixedCase
+Function 'ERC721BasicToken._burn' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#441-446) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken._burn (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#441-443) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken._burn (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#443) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.clearApproval (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#454) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.clearApproval (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#454) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.addTokenTo (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#466-467) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.addTokenTo (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#467) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.removeTokenFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#477) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.removeTokenFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#477-478) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#503) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#503-504) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#504) is not in mixedCase
+Parameter '_data' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#504) is not in mixedCase
+Parameter '_owner' of ERC721Token.tokenOfOwnerByIndex (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#584) is not in mixedCase
+Parameter '_index' of ERC721Token.tokenOfOwnerByIndex (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#584) is not in mixedCase
+Parameter '_index' of ERC721Token.tokenByIndex (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#605) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.tokenURI (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#568-569) is not in mixedCase
+Function 'ERC721Token._mint' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#665-670) is not in mixedCase
+Parameter '_to' of ERC721Token._mint (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#666) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._mint (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#666) is not in mixedCase
+Function 'ERC721Token._burn' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#684-713) is not in mixedCase
+Parameter '_owner' of ERC721Token._burn (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#684) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._burn (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#684-685) is not in mixedCase
+Parameter '_to' of ERC721Token.addTokenTo (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#623) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.addTokenTo (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#623) is not in mixedCase
+Parameter '_from' of ERC721Token.removeTokenFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#631) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.removeTokenFrom (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#631) is not in mixedCase
+Function 'ERC721Token.ERC721Token' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#554-557) is not in mixedCase
+Parameter '_name' of ERC721Token.ERC721Token (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#554) is not in mixedCase
+Parameter '_symbol' of ERC721Token.ERC721Token (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#554-555) is not in mixedCase
+Function 'ERC721Token._setTokenURI' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#612-617) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._setTokenURI (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#613-616) is not in mixedCase
+Parameter '_uri' of ERC721Token._setTokenURI (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#616) is not in mixedCase
+Function 'HasNoEther.HasNoEther' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#773-774) is not in mixedCase
+Parameter '_minter' of MintingUtility.setAuthorizedMinter (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#918-919) is not in mixedCase
+Parameter '_isAuthorized' of MintingUtility.setAuthorizedMinter (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#919) is not in mixedCase
+Variable 'MintingUtility._authorizedMinters' (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#916-917) is not in mixedCase
+Parameter '_bytesMask' of MintableNFT. (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#935) is not in mixedCase
+Parameter '_beneficiary' of MintableNFT.mint (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#955) is not in mixedCase
+Parameter '_tokenType' of MintableNFT.mint (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#955) is not in mixedCase
+Parameter '_tokenTypes' of MintableNFT.setTokensQuantity (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#967) is not in mixedCase
+Parameter '_quantities' of MintableNFT.setTokensQuantity (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#967) is not in mixedCase
+Parameter '_owner' of MintableNFT.getOwnedTokensIds (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1008) is not in mixedCase
+Parameter '_wallet' of NFTMinter. (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1025) is not in mixedCase
+Parameter '_nftContract' of NFTMinter. (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1026) is not in mixedCase
+Parameter '_tokenTypes' of NFTMinter.setTokenPrices (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1030) is not in mixedCase
+Parameter '_prices' of NFTMinter.setTokenPrices (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1030-1034) is not in mixedCase
+Parameter '_tokenTypes' of NFTMinter.disableTokens (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1054-1055) is not in mixedCase
+Parameter '_tokenType' of NFTMinter.buyTokens (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1066-1069) is not in mixedCase
+Parameter '_tokenType' of NFTMinter.validPurchase (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1074) is not in mixedCase
+Parameter '_tokenType' of NFTMinter.tokenEnabled (/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol#1079) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/6/0xdad1205bfe91b64f3ec50a02ec7913c4d23f5655.sol analyzed (22 contracts), 118 result(s) found

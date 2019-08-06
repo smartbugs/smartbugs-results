@@ -1,0 +1,214 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol:
+/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol:929:5: Warning: Function state mutability can be restricted to pure
+    function onRemove() public {}
+    ^---------------------------^
+
+INFO:Detectors:[93m
+CutieCoreInterface (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#26-140) has incorrect ERC20 function interface(s):
+	-transferFrom (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#32-33)
+	-transfer (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#33-35)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Market._addAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#413-440) uses a dangerous strict equality:
+	- _auction.seller == address(coreContract)
+	- _auction.duration == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Market._bidWithToken (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#760-823):
+	External calls:
+	- allowTokens = tokenRegistry.isTokenInList(auction.allowedTokens,_tokenContract) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#768-772)
+	- allowConvertToEth = tokenRegistry.canConvertToEth(tokenContract) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#773-775)
+	- priceInTokens = tokenRegistry.getPriceInToken(tokenContract,priceWei) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#777-780)
+	State variables written after the call(s):
+	- cutieIdToAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#782)
+Reentrancy in Market.tokenFallback (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#710-747):
+	External calls:
+	- require(bool)(tokenRegistry.isTokenInList(auction.allowedTokens,tokenContractAddress)) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#721-722)
+	- priceInTokens = tokenRegistry.getPriceInToken(tokenContract,priceWei) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#727-729)
+	State variables written after the call(s):
+	- cutieIdToAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#733)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Market.tokenFallback (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#710-747) does not use the value returned by external calls:
+	-tokenContract.transfer(seller,sellerValue) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#742)
+Market.withdrawTokenFromBalance (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#951-971) does not use the value returned by external calls:
+	-_tokenContract.transfer(_withdrawToAddress,balance) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#969-971)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Market._addAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#413-440):
+	External calls:
+	- gen0Callback.onGen0Created(_cutieId) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#419-421)
+	State variables written after the call(s):
+	- cutieIdToAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#432-433)
+Reentrancy in Market.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#600-621):
+	External calls:
+	- require(bool)(_isOwner(_seller,_cutieId)) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#603-604)
+	- _escrow(_seller,_cutieId) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#604-606)
+	- _addAuction(_cutieId,auction) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#619-620)
+	- auction = Auction(_startPrice,_endPrice,_seller,_duration,uint40(now),uint128(msg.value),(tokenRegistry.getDefaultCreatorTokens())) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#611-619)
+	- auction = Auction(_startPrice,_endPrice,_seller,_duration,uint40(now),uint128(msg.value),(tokenRegistry.getDefaultTokens())) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#611-619)
+	State variables written after the call(s):
+	- cutieIdToAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#619-620)
+Reentrancy in Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#637-656):
+	External calls:
+	- require(bool)(tokenRegistry.areAllTokensAllowed(_allowedTokens)) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#642-644)
+	- require(bool)(_isOwner(_seller,_cutieId)) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#644-646)
+	- _escrow(_seller,_cutieId) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#648)
+	- _addAuction(_cutieId,auction) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#654-655)
+	State variables written after the call(s):
+	- cutieIdToAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#654-655)
+Reentrancy in Market.setup (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#661-673):
+	External calls:
+	- require(bool)(candidateContract.isCutieCore()) (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#669-671)
+	State variables written after the call(s):
+	- coreContract (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#671-672)
+	- tokenRegistry (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#672-673)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20.decimals should be constant (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#301)
+ERC20.name should be constant (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#300-301)
+ERC20.symbol should be constant (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#298-300)
+SaleMarket.isSaleMarket should be constant (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+CutieCoreInterface.isCutieCore (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#28-30) should be declared external
+CutieCoreInterface.getGenes (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#55-62) should be declared external
+CutieCoreInterface.getCooldownEndTime (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#63-70) should be declared external
+CutieCoreInterface.getCooldownIndex (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#71-79) should be declared external
+CutieCoreInterface.getGeneration (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#79-86) should be declared external
+CutieCoreInterface.getOptional (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#87-94) should be declared external
+CutieCoreInterface.changeGenes (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#96-98) should be declared external
+CutieCoreInterface.changeCooldownEndTime (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#99-104) should be declared external
+CutieCoreInterface.changeCooldownIndex (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#104-111) should be declared external
+CutieCoreInterface.changeOptional (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#111-116) should be declared external
+CutieCoreInterface.changeGeneration (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#116-119) should be declared external
+CutieCoreInterface.createSaleAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#120-125) should be declared external
+CutieCoreInterface.breedWith (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#129-135) should be declared external
+CutieCoreInterface.getBreedingFee (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#135-140) should be declared external
+Ownable.transferOwnership (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#173-186) should be declared external
+Pausable.pause (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#218-226) should be declared external
+Pausable.unpause (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#228-232) should be declared external
+Market.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#600-621) should be declared external
+MarketInterface.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#233-237) should be declared external
+Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#637-656) should be declared external
+MarketInterface.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#237-244) should be declared external
+SaleMarket.bid (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol) should be declared external
+MarketInterface.bid (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#245-246) should be declared external
+Market.bid (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#688-695) should be declared external
+Market.cancelActiveAuctionWhenPaused (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#911-920) should be declared external
+MarketInterface.cancelActiveAuctionWhenPaused (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#247-249) should be declared external
+MarketInterface.getAuctionInfo (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#249-264) should be declared external
+Market.getAuctionInfo (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#826-847) should be declared external
+ERC20.totalSupply (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#307-308) should be declared external
+ERC20.balanceOf (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#308-309) should be declared external
+ERC20.allowance (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#309-310) should be declared external
+ERC20.transfer (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#310-311) should be declared external
+ERC20.approve (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#311-314) should be declared external
+ERC20.transferFrom (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#314-315) should be declared external
+ERC20.transferBulk (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#322-323) should be declared external
+ERC20.approveBulk (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#323) should be declared external
+Market.setOperator (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#396-399) should be declared external
+Market.setup (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#661-673) should be declared external
+Market.setGen0Callback (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#673-678) should be declared external
+Market.setFee (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#682-685) should be declared external
+Market.isOnAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#851-854) should be declared external
+Market.getCurrentPrice (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#891-898) should be declared external
+Market.cancelActiveAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#900-909) should be declared external
+Market.cancelCreatorAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#924-944) should be declared external
+Market.isPluginInterface (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#972-973) should be declared external
+Market.onRemove (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#975) should be declared external
+Market.run (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#975-980) should be declared external
+Market.withdraw (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol:
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#1): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#140): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#140-141): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#232): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#264): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#270): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#285): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#292-293): it allows old versions
+	- pragma solidity^0.4.23 (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#293-295): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_cutieId' of Market.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#601-602) is not in mixedCase
+Parameter '_startPrice' of Market.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#602) is not in mixedCase
+Parameter '_endPrice' of Market.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#602-603) is not in mixedCase
+Parameter '_duration' of Market.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#603) is not in mixedCase
+Parameter '_seller' of Market.createAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#603) is not in mixedCase
+Parameter '_cutieId' of Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#640) is not in mixedCase
+Parameter '_startPrice' of Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#640) is not in mixedCase
+Parameter '_endPrice' of Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#640-641) is not in mixedCase
+Parameter '_duration' of Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#641) is not in mixedCase
+Parameter '_seller' of Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#641-642) is not in mixedCase
+Parameter '_allowedTokens' of Market.createAuctionWithTokens (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#642) is not in mixedCase
+Parameter '_cutieId' of Market.bid (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#688) is not in mixedCase
+Parameter '_cutieId' of Market.cancelActiveAuctionWhenPaused (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#913) is not in mixedCase
+Parameter '_cutieId' of Market.getAuctionInfo (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#827-828) is not in mixedCase
+Parameter '_sender' of Market.receiveApproval (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#750-752) is not in mixedCase
+Parameter '_tokenContract' of Market.receiveApproval (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#752) is not in mixedCase
+Parameter '_extraData' of Market.receiveApproval (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#752-754) is not in mixedCase
+Parameter '_sender' of Market.tokenFallback (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#710) is not in mixedCase
+Parameter '_value' of Market.tokenFallback (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#710) is not in mixedCase
+Parameter '_extraData' of Market.tokenFallback (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#710) is not in mixedCase
+Parameter '_newOperator' of Market.setOperator (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#396) is not in mixedCase
+Function 'Market._addAuction' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#413-440) is not in mixedCase
+Parameter '_cutieId' of Market._addAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#415) is not in mixedCase
+Parameter '_auction' of Market._addAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#415) is not in mixedCase
+Function 'Market._isOwner' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#442-448) is not in mixedCase
+Parameter '_claimant' of Market._isOwner (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#442-444) is not in mixedCase
+Parameter '_cutieId' of Market._isOwner (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#444) is not in mixedCase
+Function 'Market._transfer' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#452-458) is not in mixedCase
+Parameter '_receiver' of Market._transfer (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#452) is not in mixedCase
+Parameter '_cutieId' of Market._transfer (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#452-454) is not in mixedCase
+Function 'Market._escrow' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#466-472) is not in mixedCase
+Parameter '_owner' of Market._escrow (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#467) is not in mixedCase
+Parameter '_cutieId' of Market._escrow (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#467) is not in mixedCase
+Function 'Market._cancelActiveAuction' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#473-479) is not in mixedCase
+Parameter '_cutieId' of Market._cancelActiveAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#473) is not in mixedCase
+Parameter '_seller' of Market._cancelActiveAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#473-475) is not in mixedCase
+Function 'Market._bid' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#482-514) is not in mixedCase
+Parameter '_cutieId' of Market._bid (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#482) is not in mixedCase
+Parameter '_bidAmount' of Market._bid (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#482-484) is not in mixedCase
+Function 'Market._removeAuction' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#516-519) is not in mixedCase
+Parameter '_cutieId' of Market._removeAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#516-517) is not in mixedCase
+Function 'Market._isOnAuction' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#526-529) is not in mixedCase
+Parameter '_auction' of Market._isOnAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#526-527) is not in mixedCase
+Function 'Market._computeCurrentPrice' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#531-557) is not in mixedCase
+Parameter '_startPrice' of Market._computeCurrentPrice (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#531-533) is not in mixedCase
+Parameter '_endPrice' of Market._computeCurrentPrice (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#533) is not in mixedCase
+Parameter '_duration' of Market._computeCurrentPrice (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#534-536) is not in mixedCase
+Parameter '_secondsPassed' of Market._computeCurrentPrice (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#536) is not in mixedCase
+Function 'Market._currentPrice' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#558-569) is not in mixedCase
+Parameter '_auction' of Market._currentPrice (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#558-559) is not in mixedCase
+Function 'Market._computeFee' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#574-580) is not in mixedCase
+Parameter '_price' of Market._computeFee (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#576) is not in mixedCase
+Parameter '_coreContractAddress' of Market.setup (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#661-663) is not in mixedCase
+Parameter '_tokenRegistry' of Market.setup (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#663-665) is not in mixedCase
+Parameter '_fee' of Market.setup (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#665-666) is not in mixedCase
+Parameter '_gen0Callback' of Market.setGen0Callback (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#676) is not in mixedCase
+Parameter '_fee' of Market.setFee (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#682-683) is not in mixedCase
+Parameter '_extraData' of Market.getCutieId (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#696) is not in mixedCase
+Parameter '_tokenContract' of Market.bidWithToken (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#706) is not in mixedCase
+Parameter '_cutieId' of Market.bidWithToken (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#706-708) is not in mixedCase
+Function 'Market._bidWithToken' (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#760-823) is not in mixedCase
+Parameter '_tokenContract' of Market._bidWithToken (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#760-761) is not in mixedCase
+Parameter '_cutieId' of Market._bidWithToken (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#761) is not in mixedCase
+Parameter '_sender' of Market._bidWithToken (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#761) is not in mixedCase
+Parameter '_cutieId' of Market.isOnAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#851-852) is not in mixedCase
+Parameter '_cutieId' of Market.getCurrentPrice (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#891) is not in mixedCase
+Parameter '_cutieId' of Market.cancelActiveAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#900-902) is not in mixedCase
+Parameter '_cutieId' of Market.cancelCreatorAuction (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#925-926) is not in mixedCase
+Parameter '_tokenContract' of Market.withdrawTokenFromBalance (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#954-955) is not in mixedCase
+Parameter '_withdrawToAddress' of Market.withdrawTokenFromBalance (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#955-956) is not in mixedCase
+Parameter '' of Market.run (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#975-976) is not in mixedCase
+Parameter '_scope_0' of Market.run (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#976) is not in mixedCase
+Parameter '_scope_1' of Market.run (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#977) is not in mixedCase
+Parameter '' of Market.runSigned (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#982) is not in mixedCase
+Parameter '_scope_0' of Market.runSigned (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#983) is not in mixedCase
+Parameter '_scope_1' of Market.runSigned (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol#984) is not in mixedCase
+Parameter '_cutieId' of SaleMarket.bid (/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x338ffc2cafc121bc83bf7a610ccc136ba7247b64.sol analyzed (12 contracts), 137 result(s) found

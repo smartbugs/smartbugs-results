@@ -1,0 +1,225 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:96:34: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _postValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+                                 ^------------------^
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:96:56: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _postValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+                                                       ^----------------^
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:123:35: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _updatePurchasingState(address _beneficiary, uint256 _weiAmount) internal {
+                                  ^------------------^
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:123:57: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _updatePurchasingState(address _beneficiary, uint256 _weiAmount) internal {
+                                                        ^----------------^
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:534:17: Warning: "msg.value" used in non-payable function. Do you want to add the "payable" modifier to this function?
+        require(msg.value == 0);
+                ^-------^
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:86:3: Warning: Function state mutability can be restricted to pure
+  function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:96:3: Warning: Function state mutability can be restricted to pure
+  function _postValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:123:3: Warning: Function state mutability can be restricted to pure
+  function _updatePurchasingState(address _beneficiary, uint256 _weiAmount) internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:739:3: Warning: Function state mutability can be restricted to pure
+  function finalization() internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+TimeLockPool.withdraw (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#578-612) sends eth to arbitrary user
+	Dangerous calls:
+	- ! account.send(release_amount) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#601-603)
+TokenSale.finalization (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1199-1201) sends eth to arbitrary user
+	Dangerous calls:
+	- poolAddr.transfer(address(this).balance) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1200-1201)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol:
+	Contract TokenSaleManager has payable functions:
+	 - fallback (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#899-901)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in TokenSale._deliverTokens (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1205-1218):
+	External calls:
+	- require(bool)(TokenSaleManager(managerAddr).mint(_beneficiary,instant)) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1214)
+	- require(bool)(TokenSaleManager(managerAddr).mintTimeLocked(_beneficiary,time_locked,timeLockEnd)) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1215-1218)
+	State variables written after the call(s):
+	- tokensMinted (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol)
+Reentrancy in TokenSaleManager.addTokenSale (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#927-953):
+	External calls:
+	- require(bool)(tokenSales.length == 0 || TimedCrowdsale(tokenSales[tokenSales.length - 1]).closingTime() < openingTime) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#936-941)
+	- require(bool)(TokenController(tokenControllerAddr).state() == TokenController.State.Init) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#941-942)
+	State variables written after the call(s):
+	- tokenSales (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#943-949)
+Reentrancy in TokenSaleManager.finalizeTokenSaleManager (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1050-1061):
+	External calls:
+	- require(bool)(TokenController(tokenControllerAddr).closeTokensale()) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1055-1060)
+	State variables written after the call(s):
+	- isFinalized (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1060)
+Reentrancy in TokenSaleManager.initialize (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#955-958):
+	External calls:
+	- TokenSale(tokenSales[0]).initialize(0) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#956-957)
+	State variables written after the call(s):
+	- isStarted (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#957-958)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Crowdsale._deliverTokens (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#106-110) does not use the value returned by external calls:
+	-token.transfer(_beneficiary,_tokenAmount) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#110)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+TokenSaleManager.addToWhitelist has external calls inside a loop:
+	- WhitelistedCrowdsale(tokenSales[i]).addToWhitelist(_beneficiary) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1003-1005)
+TokenSaleManager.addManyToWhitelist has external calls inside a loop:
+	- WhitelistedCrowdsale(tokenSales[i]).addManyToWhitelist(_beneficiaries) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1012-1016)
+TokenSaleManager.finalizeTokenSaleManager has external calls inside a loop:
+	- require(bool)(FinalizableCrowdsale(tokenSales[i]).isFinalized()) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1053-1054)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in TokenSaleManager.addTokenSale (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#927-953):
+	External calls:
+	- require(bool)(tokenSales.length == 0 || TimedCrowdsale(tokenSales[tokenSales.length - 1]).closingTime() < openingTime) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#936-941)
+	- require(bool)(TokenController(tokenControllerAddr).state() == TokenController.State.Init) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#941-942)
+	State variables written after the call(s):
+	- tokenSaleIndex (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#949-953)
+Reentrancy in TimeLockPool.depositERC20 (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#539-557):
+	External calls:
+	- require(bool)(ERC20Interface(tokenAddr).transferFrom(msg.sender,this,amount)) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#549-552)
+	State variables written after the call(s):
+	- lockedBalances (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#552-554)
+Reentrancy in TokenController.openTokensale (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#808-823):
+	External calls:
+	- require(bool)(MintableToken(targetToken).owner() == address(this)) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#816-817)
+	State variables written after the call(s):
+	- state (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#822)
+	- tokensaleManagerAddr (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#819-822)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TimeLockPool.withdraw (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#578-612) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lockedBalances[account][tokenAddr][i].balance > 0 && lockedBalances[account][tokenAddr][i].releaseTime <= block.timestamp (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#589-599)
+TimeLockPool.getAvailableBalanceOf (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#620-633) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lockedBalances[account][tokenAddr][i].releaseTime <= block.timestamp (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#628-632)
+TimeLockPool.getLockedBalanceOf (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#641-653) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lockedBalances[account][tokenAddr][i].releaseTime > block.timestamp (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#650-652)
+TimeLockPool.getNextReleaseTimeOf (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#660-690) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lockedBalances[account][tokenAddr][i].releaseTime > block.timestamp && lockedBalances[account][tokenAddr][i].releaseTime < nextRelease (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#676-684)
+TimedCrowdsale.constructor (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#707-716) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_openingTime >= block.timestamp) (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#708)
+TimedCrowdsale.hasClosed (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#722-725) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > closingTime (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#724-725)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+ERC223Standard.transfer uses assembly (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#352-380)
+	- /unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#355-360
+ERC223Standard.transfer uses assembly (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#321-341)
+	- /unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#328-331
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+PoolAndSaleInterface.initialRelease should be constant (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#462)
+PoolAndSaleInterface.initialTap should be constant (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#462)
+PoolAndSaleInterface.tap should be constant (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#458-460)
+PoolAndSaleInterface.tokenSaleAddr should be constant (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#452-453)
+PoolAndSaleInterface.votingAddr should be constant (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#454-456)
+PoolAndSaleInterface.votingTokenAddr should be constant (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#456-457)
+TokenController.votingAddr should be constant (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#772-773)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC223ReceivingContract.tokenFallback (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#306-307) should be declared external
+Ownable.transferOwnership (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#406-414) should be declared external
+MintableToken.mint (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#428-440) should be declared external
+MintableToken.finishMinting (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#443-452) should be declared external
+TokenSale.finalize (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1180-1186) should be declared external
+FinalizableCrowdsale.finalize (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#759-763) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_rate' of Crowdsale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#32) is not in mixedCase
+Parameter '_wallet' of Crowdsale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#32) is not in mixedCase
+Parameter '_token' of Crowdsale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#32-33) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.buyTokens (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#59-60) is not in mixedCase
+Function 'Crowdsale._preValidatePurchase' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#87-92) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#87-88) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#88-89) is not in mixedCase
+Function 'Crowdsale._postValidatePurchase' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#97-101) is not in mixedCase
+Function 'Crowdsale._deliverTokens' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#106-110) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._deliverTokens (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#107-110) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._deliverTokens (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#110) is not in mixedCase
+Function 'Crowdsale._processPurchase' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#115-119) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._processPurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#118-119) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._processPurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#119) is not in mixedCase
+Function 'Crowdsale._updatePurchasingState' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#128-129) is not in mixedCase
+Function 'Crowdsale._getTokenAmount' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#137-140) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._getTokenAmount (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#137) is not in mixedCase
+Function 'Crowdsale._forwardFunds' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#145-146) is not in mixedCase
+Parameter '_owner' of ERC20Standard.balanceOf (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#235) is not in mixedCase
+Parameter '_to' of ERC20Standard.transfer (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#172) is not in mixedCase
+Parameter '_value' of ERC20Standard.transfer (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#172) is not in mixedCase
+Parameter '_owner' of ERC20Standard.allowance (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#246) is not in mixedCase
+Parameter '_spender' of ERC20Standard.allowance (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#246-247) is not in mixedCase
+Parameter '_from' of ERC20Standard.transferFrom (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#188-190) is not in mixedCase
+Parameter '_to' of ERC20Standard.transferFrom (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#190) is not in mixedCase
+Parameter '_value' of ERC20Standard.transferFrom (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#190) is not in mixedCase
+Parameter '_spender' of ERC20Standard.approve (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#213-214) is not in mixedCase
+Parameter '_value' of ERC20Standard.approve (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#214-217) is not in mixedCase
+Parameter '_spender' of ERC20Standard.increaseApproval (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#260) is not in mixedCase
+Parameter '_addedValue' of ERC20Standard.increaseApproval (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#260) is not in mixedCase
+Parameter '_spender' of ERC20Standard.decreaseApproval (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#274-275) is not in mixedCase
+Parameter '_subtractedValue' of ERC20Standard.decreaseApproval (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#275-276) is not in mixedCase
+Parameter '_to' of ERC223Standard.transfer (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#353) is not in mixedCase
+Parameter '_value' of ERC223Standard.transfer (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#353) is not in mixedCase
+Parameter '_to' of ERC223Standard.transfer (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#321) is not in mixedCase
+Parameter '_value' of ERC223Standard.transfer (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#321-322) is not in mixedCase
+Parameter '_data' of ERC223Standard.transfer (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#322) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#428) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#428-429) is not in mixedCase
+Parameter 'index_from' of TimeLockPool.withdraw (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#578-579) is not in mixedCase
+Parameter 'index_to' of TimeLockPool.withdraw (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#579-582) is not in mixedCase
+Function 'TimedCrowdsale._preValidatePurchase' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#735-744) is not in mixedCase
+Parameter '_beneficiary' of TimedCrowdsale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#736) is not in mixedCase
+Parameter '_weiAmount' of TimedCrowdsale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#736) is not in mixedCase
+Parameter '_openingTime' of TimedCrowdsale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#707) is not in mixedCase
+Parameter '_closingTime' of TimedCrowdsale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#707) is not in mixedCase
+Parameter '_targetToken' of TokenController. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#781) is not in mixedCase
+Parameter '_tokensaleManagerAddr' of TokenController.openTokensale (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#809) is not in mixedCase
+Parameter '_tokenControllerAddr' of TokenSaleManager. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#889-890) is not in mixedCase
+Parameter '_timeLockPoolAddr' of TokenSaleManager. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#890) is not in mixedCase
+Parameter '_daicoPoolAddr' of TokenSaleManager. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#890-891) is not in mixedCase
+Parameter '_token' of TokenSaleManager. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#891) is not in mixedCase
+Parameter '_beneficiary' of TokenSaleManager.mint (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#965) is not in mixedCase
+Parameter '_tokenAmount' of TokenSaleManager.mint (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#966) is not in mixedCase
+Parameter '_beneficiary' of TokenSaleManager.mintTimeLocked (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#984) is not in mixedCase
+Parameter '_tokenAmount' of TokenSaleManager.mintTimeLocked (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#985) is not in mixedCase
+Parameter '_releaseTime' of TokenSaleManager.mintTimeLocked (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#985) is not in mixedCase
+Parameter '_beneficiary' of TokenSaleManager.addToWhitelist (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#999) is not in mixedCase
+Parameter '_beneficiaries' of TokenSaleManager.addManyToWhitelist (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1009) is not in mixedCase
+Parameter '_indexTokenSale' of TokenSaleManager.finalize (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1021) is not in mixedCase
+Function 'WhitelistedCrowdsale._preValidatePurchase' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1103-1104) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1103) is not in mixedCase
+Parameter '_weiAmount' of WhitelistedCrowdsale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1103) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale.addToWhitelist (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1073-1078) is not in mixedCase
+Parameter '_beneficiaries' of WhitelistedCrowdsale.addManyToWhitelist (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1087) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale.removeFromWhitelist (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1098-1099) is not in mixedCase
+Function 'TokenSale._preValidatePurchase' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol) is not in mixedCase
+Parameter '_beneficiary' of TokenSale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol) is not in mixedCase
+Parameter '_weiAmount' of TokenSale._preValidatePurchase (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol) is not in mixedCase
+Function 'TokenSale._deliverTokens' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1205-1218) is not in mixedCase
+Parameter '_beneficiary' of TokenSale._deliverTokens (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1205-1206) is not in mixedCase
+Parameter '_tokenAmount' of TokenSale._deliverTokens (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1206-1209) is not in mixedCase
+Function 'TokenSale._getTokenAmount' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol) is not in mixedCase
+Parameter '_weiAmount' of TokenSale._getTokenAmount (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol) is not in mixedCase
+Function 'TokenSale._forwardFunds' (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol) is not in mixedCase
+Parameter '_poolAddr' of TokenSale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1142) is not in mixedCase
+Parameter '_tokensCap' of TokenSale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1144-1145) is not in mixedCase
+Parameter '_timeLockRate' of TokenSale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1145-1146) is not in mixedCase
+Parameter '_timeLockEnd' of TokenSale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1146-1147) is not in mixedCase
+Parameter '_carryover' of TokenSale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1147-1149) is not in mixedCase
+Parameter '_minAcceptableWei' of TokenSale. (/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol#1149-1150) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/9/0x87cf2332f4e4cd44cbf33be0979c0cb1be2e592f.sol analyzed (17 contracts), 110 result(s) found

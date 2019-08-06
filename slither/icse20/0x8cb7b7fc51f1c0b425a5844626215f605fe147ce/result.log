@@ -1,0 +1,84 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol:
+/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol:70:5: Warning: No visibility specified. Defaulting to "public". 
+    constructor(address _token,
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol:209:61: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData) external {
+                                                            ^------------^
+/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol:209:77: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData) external {
+                                                                            ^--------------^
+
+INFO:Detectors:[91m
+Reentrancy in ExchangerV4.buy (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#167-191):
+	External calls:
+	- amount = formulaContract.calculatePurchaseReturn((tokenContract.totalSupply() - uncirculatedSupplyCount) - tokenContract.balanceOf(this),(address(this).balance + virtualReserveBalance) - msg.value,weight,msg.value) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#168-175)
+	- require(bool)(tokenContract.balanceOf(this) >= amount) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#178-179)
+	External calls sending eth:
+	- creator.transfer(transferToSafeWallet) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#185-186)
+	State variables written after the call(s):
+	- virtualReserveBalance (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#186-189)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+ITradeableAsset (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#7-16) has incorrect ERC20 function interface(s):
+	-transfer (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#12-13)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+ExchangerV4.depositTokens (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#84-88) does not use the value returned by external calls:
+	-tokenContract.transferFrom(msg.sender,this,amount) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#87-88)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in ExchangerV4.buy (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#167-191):
+	External calls:
+	- amount = formulaContract.calculatePurchaseReturn((tokenContract.totalSupply() - uncirculatedSupplyCount) - tokenContract.balanceOf(this),(address(this).balance + virtualReserveBalance) - msg.value,weight,msg.value) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#168-175)
+	- require(bool)(tokenContract.balanceOf(this) >= amount) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#178-179)
+	External calls sending eth:
+	- creator.transfer(transferToSafeWallet) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#185-186)
+	State variables written after the call(s):
+	- collectedFees (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#189-190)
+Reentrancy in ExchangerV4.sell (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#191-213):
+	External calls:
+	- amountInWei = formulaContract.calculateSaleReturn((tokenContract.totalSupply() - uncirculatedSupplyCount) - tokenContract.balanceOf(this),address(this).balance + virtualReserveBalance,weight,quantity) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#192-200)
+	- require(bool)(tokenContract.transferFrom(msg.sender,this,quantity)) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#206-209)
+	State variables written after the call(s):
+	- collectedFees (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#209)
+Reentrancy in ExchangerV4.sellOneStep (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#215-238):
+	External calls:
+	- amountInWei = formulaContract.calculateSaleReturn((tokenContract.totalSupply() - uncirculatedSupplyCount) - tokenContract.balanceOf(this),address(this).balance + virtualReserveBalance,weight,quantity) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#216-225)
+	- require(bool)(tokenContract.transferFrom(seller,this,quantity)) (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#233)
+	State variables written after the call(s):
+	- collectedFees (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#234-235)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Administered.grantAdmin (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#38-42) should be declared external
+Administered.changeOwner (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#47-51) should be declared external
+Administered.revokeAdminStatus (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#51-56) should be declared external
+ExchangerV4.depositTokens (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#84-88) should be declared external
+ExchangerV4.depositEther (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#89-92) should be declared external
+ExchangerV4.withdrawTokens (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#92-96) should be declared external
+ExchangerV4.withdrawEther (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#96-100) should be declared external
+ExchangerV4.extractFees (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#100-108) should be declared external
+ExchangerV4.enable (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#108-112) should be declared external
+ExchangerV4.disable (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#112-114) should be declared external
+ExchangerV4.setReserveWeight (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#114-119) should be declared external
+ExchangerV4.setFee (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#119-124) should be declared external
+ExchangerV4.setUncirculatedSupplyCount (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#124-128) should be declared external
+ExchangerV4.setVirtualReserveBalance (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#131-132) should be declared external
+ExchangerV4.getReserveBalances (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#132-136) should be declared external
+ExchangerV4.getPurchasePrice (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#136-153) should be declared external
+ExchangerV4.getSalePrice (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#153-167) should be declared external
+ExchangerV4.buy (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#167-191) should be declared external
+ExchangerV4.sell (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#191-213) should be declared external
+ExchangerV4.setSendToSafeWalletPercentage (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#238-242) should be declared external
+ExchangerV4.setThresholdSendToSafeWallet (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Contract 'tokenRecipient' (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#16-18) is not in CapWords
+Function 'Administered._grantAdmin' (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#42-47) is not in mixedCase
+Parameter '_from' of ExchangerV4.receiveApproval (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#214) is not in mixedCase
+Parameter '_value' of ExchangerV4.receiveApproval (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#214) is not in mixedCase
+Parameter '_token' of ExchangerV4. (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#72) is not in mixedCase
+Parameter '_weight' of ExchangerV4. (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#73) is not in mixedCase
+Parameter '_formulaContract' of ExchangerV4. (/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol#73-75) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x8cb7b7fc51f1c0b425a5844626215f605fe147ce.sol analyzed (5 contracts), 34 result(s) found

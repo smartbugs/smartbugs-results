@@ -1,0 +1,93 @@
+INFO:Detectors:[91m
+MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#247-302) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool,string)(_exchanges[i].call.value(_values[i])(data),buy: exchange arbitrary call failed) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#271-273)
+	- msg.sender.transfer(address(this).balance) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#297-301)
+MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#302-335) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool,string)(_exchanges[i].call.value(_values[i])(data),buy: exchange arbitrary call failed) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#322-324)
+	- msg.sender.transfer(address(this).balance) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#247-302) does not use the value returned by external calls:
+	-_throughToken.approve(_exchanges[i],0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#266-267)
+	-_throughToken.approve(_exchanges[i],_throughToken.balanceOf(this)) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#267-271)
+	-_throughToken.approve(_exchanges[i],0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#274-276)
+	-token.approve(_mtkn,0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#284)
+	-token.approve(_mtkn,token.balanceOf(this)) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#284-285)
+MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#302-335) does not use the value returned by external calls:
+	-_throughToken.approve(_exchanges[i],0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#317-318)
+	-_throughToken.approve(_exchanges[i],_throughToken.balanceOf(this)) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#319-322)
+	-_throughToken.approve(_exchanges[i],0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#326-327)
+	-token.approve(_mtkn,0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol)
+	-token.approve(_mtkn,amounts[i]) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MultiBuyer.buy has external calls inside a loop:
+	- token = _mtkn.tokens(i - 1) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#280-281)
+MultiBuyer.buy has external calls inside a loop:
+	- token.approve(_mtkn,0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#284)
+MultiBuyer.buy has external calls inside a loop:
+	- token.approve(_mtkn,token.balanceOf(this)) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#284-285)
+MultiBuyer.buy has external calls inside a loop:
+	- amount = j.mul(token.balanceOf(this)).div(token.balanceOf(_mtkn)) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#285-287)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token = _mtkn.tokens(i) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#332-333)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- amounts[i] = token.balanceOf(this) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token.approve(_mtkn,0) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token.approve(_mtkn,amounts[i]) (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#11-12) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#12-13) should be declared external
+ERC20Basic.transfer (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#13-14) should be declared external
+ERC20.allowance (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#24-27) should be declared external
+ERC20.transferFrom (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#27-30) should be declared external
+ERC20.approve (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#30-32) should be declared external
+IBasicMultiToken.tokensCount (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#44-45) should be declared external
+IBasicMultiToken.tokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#45-46) should be declared external
+IBasicMultiToken.allTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#46-47) should be declared external
+IBasicMultiToken.allDecimals (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#47-48) should be declared external
+IBasicMultiToken.allBalances (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#48-49) should be declared external
+IBasicMultiToken.allTokensDecimalsBalances (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#49-51) should be declared external
+IBasicMultiToken.bundleFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#51-52) should be declared external
+IBasicMultiToken.bundle (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#52-54) should be declared external
+IBasicMultiToken.unbundle (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#54-55) should be declared external
+IBasicMultiToken.unbundleSome (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#55-60) should be declared external
+IMultiToken.getReturn (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#64-65) should be declared external
+IMultiToken.change (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#65-67) should be declared external
+IMultiToken.allWeights (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#68) should be declared external
+IMultiToken.allTokensDecimalsBalancesWeights (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#68-73) should be declared external
+Ownable.renounceOwnership (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#195-198) should be declared external
+Ownable.transferOwnership (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#204-207) should be declared external
+MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#247-302) should be declared external
+MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#302-335) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#247-302):
+	-require(bool,string)(_exchanges[i].call.value(_values[i])(data),buy: exchange arbitrary call failed) /unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#271-273
+Low level call in MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#302-335):
+	-require(bool,string)(_exchanges[i].call.value(_values[i])(data),buy: exchange arbitrary call failed) /unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#322-324
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#204-206) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#213-218) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#213-215) is not in mixedCase
+Parameter '_mtkn' of MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#249-250) is not in mixedCase
+Parameter '_minimumReturn' of MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#252) is not in mixedCase
+Parameter '_throughToken' of MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#252) is not in mixedCase
+Parameter '_exchanges' of MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#252) is not in mixedCase
+Parameter '_datas' of MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#252) is not in mixedCase
+Parameter '_datasIndexes' of MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#252-253) is not in mixedCase
+Parameter '_values' of MultiBuyer.buy (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#253) is not in mixedCase
+Parameter '_mtkn' of MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#302) is not in mixedCase
+Parameter '_throughToken' of MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#302) is not in mixedCase
+Parameter '_exchanges' of MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#302-303) is not in mixedCase
+Parameter '_datas' of MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#303) is not in mixedCase
+Parameter '_datasIndexes' of MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#303) is not in mixedCase
+Parameter '_values' of MultiBuyer.buyFirstTokens (/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol#303-305) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/33/0x5e3e69e6ef89e9391b75715c96ff0688b557ad57.sol analyzed (9 contracts), 54 result(s) found

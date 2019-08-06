@@ -1,0 +1,139 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:120:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function PoliticianToken() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:140:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _to, _tokenId);
+    ^---------------------------------^
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:267:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenSold(_tokenId, sellingPrice, politicianIndexToPrice[_tokenId], oldOwner, newOwner,
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:399:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Birth(newPoliticianId, _name, _owner);
+    ^-----------------------------------^
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:416:27: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      ceoAddress.transfer(this.balance);
+                          ^----------^
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:418:20: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      _to.transfer(this.balance);
+                   ^----------^
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:423:13: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    require(this.balance >= amount);
+            ^----------^
+/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:446:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _tokenId);
+    ^----------------------------^
+
+INFO:Detectors:[91m
+PoliticianToken.purchase (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#233-279) sends eth to arbitrary user
+	Dangerous calls:
+	- oldOwner.transfer(payment) (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#273)
+PoliticianToken._payout (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#431-433) sends eth to arbitrary user
+	Dangerous calls:
+	- ceoAddress.transfer(this.balance) (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#432)
+	- _to.transfer(this.balance) (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#433)
+PoliticianToken._withdrawFunds (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#433-439) sends eth to arbitrary user
+	Dangerous calls:
+	- ceoAddress.transfer(amount) (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#438)
+	- _to.transfer(amount) (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#438-439)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#5-27) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#7-8)
+	-transferFrom (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#13-14)
+	-transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#14-16)
+PoliticianToken (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#27-469) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#136-145)
+	-transferFrom (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#378-385)
+	-transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#361-365)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[92m
+PoliticianToken.firstStepLimit should be constant (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#54-55)
+PoliticianToken.secondStepLimit should be constant (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#55-57)
+PoliticianToken.startingPrice should be constant (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#52)
+PoliticianToken.thirdStepLimit should be constant (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#57-59)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC721.approve (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#7-8) should be declared external
+PoliticianToken.approve (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#136-145) should be declared external
+PoliticianToken.implementsERC721 (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#197-202) should be declared external
+ERC721.implementsERC721 (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#9-10) should be declared external
+PoliticianToken.ownerOf (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#218-226) should be declared external
+ERC721.ownerOf (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#10-11) should be declared external
+ERC721.takeOwnership (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#11-12) should be declared external
+PoliticianToken.takeOwnership (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#309-317) should be declared external
+ERC721.transferFrom (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#13-14) should be declared external
+PoliticianToken.transferFrom (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#378-385) should be declared external
+ERC721.transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#14-16) should be declared external
+PoliticianToken.transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#361-365) should be declared external
+PoliticianToken.createPromoPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#154-170) should be declared external
+PoliticianToken.createContractPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#173-175) should be declared external
+PoliticianToken.getPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#180-191) should be declared external
+PoliticianToken.changePoliticianName (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#192-197) should be declared external
+PoliticianToken.name (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#206-207) should be declared external
+PoliticianToken.symbol (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#208-212) should be declared external
+PoliticianToken.payout (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#226-227) should be declared external
+PoliticianToken.withdrawFunds (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#228-231) should be declared external
+PoliticianToken.purchase (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#233-279) should be declared external
+PoliticianToken.priceOf (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#280-283) should be declared external
+PoliticianToken.enableERC721 (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#285-290) should be declared external
+PoliticianToken.setCEO (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#292-298) should be declared external
+PoliticianToken.setCOO (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#300-303) should be declared external
+PoliticianToken.tokensOfOwner (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#326-348) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_to' of PoliticianToken.approve (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#138) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.approve (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#138) is not in mixedCase
+Parameter '_owner' of PoliticianToken.balanceOf (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#150) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.ownerOf (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#219-220) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.takeOwnership (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#309-311) is not in mixedCase
+Parameter '_from' of PoliticianToken.transferFrom (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#379) is not in mixedCase
+Parameter '_to' of PoliticianToken.transferFrom (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#379) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.transferFrom (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#379-380) is not in mixedCase
+Parameter '_to' of PoliticianToken.transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#362) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#362) is not in mixedCase
+Function 'PoliticianToken.PoliticianToken' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#125-126) is not in mixedCase
+Parameter '_owner' of PoliticianToken.createPromoPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#154-156) is not in mixedCase
+Parameter '_name' of PoliticianToken.createPromoPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#156) is not in mixedCase
+Parameter '_price' of PoliticianToken.createPromoPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#156) is not in mixedCase
+Parameter '_name' of PoliticianToken.createContractPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#173-174) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.getPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#180-181) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.changePoliticianName (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#192) is not in mixedCase
+Parameter '_name' of PoliticianToken.changePoliticianName (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#192) is not in mixedCase
+Parameter '_to' of PoliticianToken.payout (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#226-227) is not in mixedCase
+Parameter '_to' of PoliticianToken.withdrawFunds (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#228) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.purchase (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#233) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken.priceOf (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#282) is not in mixedCase
+Parameter '_newCEO' of PoliticianToken.setCEO (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#292-293) is not in mixedCase
+Parameter '_newCOO' of PoliticianToken.setCOO (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#300-301) is not in mixedCase
+Parameter '_owner' of PoliticianToken.tokensOfOwner (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#327) is not in mixedCase
+Function 'PoliticianToken._addressNotNull' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#389-391) is not in mixedCase
+Parameter '_to' of PoliticianToken._addressNotNull (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#389) is not in mixedCase
+Function 'PoliticianToken._approved' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#393-396) is not in mixedCase
+Parameter '_to' of PoliticianToken._approved (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#395) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken._approved (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#395) is not in mixedCase
+Function 'PoliticianToken._createPolitician' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#397-422) is not in mixedCase
+Parameter '_name' of PoliticianToken._createPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#397-399) is not in mixedCase
+Parameter '_owner' of PoliticianToken._createPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#399) is not in mixedCase
+Parameter '_price' of PoliticianToken._createPolitician (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#399) is not in mixedCase
+Function 'PoliticianToken._owns' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#422-427) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken._owns (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#423-424) is not in mixedCase
+Function 'PoliticianToken._payout' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#431-433) is not in mixedCase
+Parameter '_to' of PoliticianToken._payout (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#431) is not in mixedCase
+Function 'PoliticianToken._withdrawFunds' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#433-439) is not in mixedCase
+Parameter '_to' of PoliticianToken._withdrawFunds (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#434) is not in mixedCase
+Function 'PoliticianToken._transfer' (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#441-469) is not in mixedCase
+Parameter '_from' of PoliticianToken._transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#441) is not in mixedCase
+Parameter '_to' of PoliticianToken._transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#441-442) is not in mixedCase
+Parameter '_tokenId' of PoliticianToken._transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#442) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+PoliticianToken (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#27-469) does not mark important ERC20 parameters as 'indexed':
+	-Transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#39-41) does not index parameter 'from'
+	-Transfer (/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol#39-41) does not index parameter 'to'
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unindexed-erc20-event-parameters[0m
+INFO:Slither:/unique_chucks/6/0x476c331d7f6569dc4bd16ef6673f7a89cd6f37c3.sol analyzed (3 contracts), 78 result(s) found

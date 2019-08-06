@@ -1,0 +1,140 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol:
+/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol:1075:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    proposal.digest = keccak256(proposer, amount, transationBytecode);
+                      ^---------------------------------------------^
+/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol:1195:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    return  proposal.digest == keccak256(proposer, proposal.amount, transactionBytecode) &&
+                               ^-------------------------------------------------------^
+
+INFO:Detectors:[91m
+IkuraAssociation.mintProposals (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1262-1263) is never initialized. It is used in:
+	- constructor (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1296-1306)
+IkuraAssociation.burnProposals (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1263) is never initialized. It is used in:
+	- constructor (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1296-1306)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+Reentrancy in IkuraStorage.addTokenBalance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#523-536):
+	External calls:
+	- tokenBalances[addr] > 0 && ! isOwnerAddress(addr) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#531-536)
+	State variables written after the call(s):
+	- ownerAddresses (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#535)
+Reentrancy in IkuraAssociation.confirmProposal (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol):
+	External calls:
+	- isProposalExecutable(type_,proposalId,proposal.proposer,) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol)
+	State variables written after the call(s):
+	- proposals (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+IkuraToken.transfer (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#818-848) does not use the value returned by external calls:
+	-_storage.subCoinBalance(sender,totalAmount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#830-831)
+	-_storage.addCoinBalance(to,amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#832-834)
+	-_storage.addCoinBalance(owner,fee) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#843-846)
+IkuraToken.transferFrom (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#917-957) does not use the value returned by external calls:
+	-_storage.subCoinBalance(sender,fee) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#941-945)
+	-_storage.addCoinBalance(owner,fee) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#945-947)
+	-_storage.subCoinBalance(from,amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#947-949)
+	-_storage.subCoinAllowance(from,sender,amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#951-952)
+	-_storage.addCoinBalance(to,amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#953-955)
+IkuraToken.approve (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#977-986) does not use the value returned by external calls:
+	-_storage.setCoinAllowance(sender,spender,amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#983-984)
+IkuraToken.transferToken (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1046-1070) does not use the value returned by external calls:
+	-_storage.subTokenBalance(sender,amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1059-1060)
+	-_storage.addTokenBalance(to,amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1061-1066)
+IkuraToken.mint (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1136-1150) does not use the value returned by external calls:
+	-_association.newProposal(keccak256()(mint),sender,amount,) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1145-1148)
+IkuraToken.burn (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1166-1182) does not use the value returned by external calls:
+	-_association.newProposal(keccak256()(burn),sender,amount,) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1172-1178)
+IkuraAssociation.executeMintProposal (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) does not use the value returned by external calls:
+	-_storage.addCoinBalance(proposal.proposer,proposal.amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol)
+	-_storage.addTokenBalance(proposal.proposer,proposal.amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol)
+IkuraAssociation.executeBurnProposal (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) does not use the value returned by external calls:
+	-_storage.subCoinBalance(proposal.proposer,proposal.amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol)
+	-_storage.subTokenBalance(proposal.proposer,proposal.amount) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+IkuraToken.transfer.owner (local variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#837-839) shadows:
+	- DSAuth.owner (state variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#32)
+IkuraToken.transferFrom.owner (local variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#939) shadows:
+	- DSAuth.owner (state variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#32)
+IkuraToken.allowance.owner (local variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1013) shadows:
+	- DSAuth.owner (state variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#32)
+IkuraToken.tokenBalanceOf.owner (local variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1033) shadows:
+	- DSAuth.owner (state variable @ /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#32)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+IkuraAssociation.confirmedTotalToken has external calls inside a loop:
+	- total = add(total,_storage.tokenBalance(proposal.confirmers[i])) (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+IkuraAssociation.confirmTotalTokenThreshold should be constant (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1255-1257)
+IkuraToken._logicVersion should be constant (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#723)
+IkuraToken._transferFeeRate should be constant (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#712)
+IkuraToken._transferMinimumFee should be constant (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#720-721)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+DSAuthority.canCall (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#18-23) should be declared external
+DSAuth.setOwner (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#38-45) should be declared external
+DSAuth.setAuthority (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#45-54) should be declared external
+IkuraStorage.changeToken (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#213-216) should be declared external
+IkuraStorage.changeAssociation (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#216-224) should be declared external
+IkuraStorage.changeAuthority (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#224-228) should be declared external
+IkuraStorage.totalSupply (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#237-244) should be declared external
+IkuraStorage.addTotalSupply (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#248-254) should be declared external
+IkuraStorage.subTotalSupply (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#256-263) should be declared external
+IkuraStorage.transferFeeRate (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#274-278) should be declared external
+IkuraStorage.setTransferFeeRate (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#286-292) should be declared external
+IkuraStorage.transferMinimumFee (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#305-308) should be declared external
+IkuraStorage.setTransferMinimumFee (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#323-328) should be declared external
+IkuraStorage.primaryOwner (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#408-411) should be declared external
+IkuraStorage.numOwnerAddress (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#438-441) should be declared external
+IkuraStorage.coinBalance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#455-462) should be declared external
+IkuraStorage.addCoinBalance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#471-476) should be declared external
+IkuraStorage.subCoinBalance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#488-491) should be declared external
+IkuraStorage.tokenBalance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#506-514) should be declared external
+IkuraStorage.addTokenBalance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#523-536) should be declared external
+IkuraStorage.subTokenBalance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#545-552) should be declared external
+IkuraStorage.coinAllowance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#563-575) should be declared external
+IkuraStorage.addCoinAllowance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#590-601) should be declared external
+IkuraStorage.subCoinAllowance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#606-612) should be declared external
+IkuraStorage.setCoinAllowance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#622-634) should be declared external
+IkuraToken.totalSupply (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#773-775) should be declared external
+IkuraToken.balanceOf (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#788-796) should be declared external
+IkuraToken.transfer (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#818-848) should be declared external
+IkuraToken.transferFrom (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#917-957) should be declared external
+IkuraToken.approve (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#977-986) should be declared external
+IkuraToken.allowance (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1011-1017) should be declared external
+IkuraToken.tokenBalanceOf (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1031-1034) should be declared external
+IkuraToken.transferToken (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1046-1070) should be declared external
+IkuraToken.transferFeeRate (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1105-1109) should be declared external
+IkuraToken.transferMinimumFee (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1110-1113) should be declared external
+IkuraToken.mint (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1136-1150) should be declared external
+IkuraToken.burn (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1166-1182) should be declared external
+IkuraToken.confirmProposal (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1187-1192) should be declared external
+IkuraToken.numberOfProposals (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1197-1205) should be declared external
+IkuraToken.changeAssociation (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1212-1218) should be declared external
+IkuraToken.changeStorage (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1221-1231) should be declared external
+IkuraToken.logicVersion (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1238-1242) should be declared external
+IkuraAssociation.changeStorage (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) should be declared external
+IkuraAssociation.changeToken (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) should be declared external
+IkuraAssociation.newProposal (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) should be declared external
+IkuraAssociation.proposalExpireAt (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) should be declared external
+IkuraAssociation.numberOfProposals (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) should be declared external
+IkuraAssociation.numberOfActiveProposals (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol:
+	- pragma solidity^0.4.23 (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#14-16): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Variable 'IkuraStorage._totalSupply' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#176) is not in mixedCase
+Variable 'IkuraStorage._transferFeeRate' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#179) is not in mixedCase
+Variable 'IkuraStorage._transferMinimumFee' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#185-186) is not in mixedCase
+Variable 'IkuraToken._transferFeeRate' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#712) is not in mixedCase
+Variable 'IkuraToken._transferMinimumFee' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#720-721) is not in mixedCase
+Variable 'IkuraToken._logicVersion' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#723) is not in mixedCase
+Variable 'IkuraToken._storage' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#733-735) is not in mixedCase
+Variable 'IkuraToken._association' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#735-739) is not in mixedCase
+Variable 'IkuraAssociation._storage' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1260) is not in mixedCase
+Variable 'IkuraAssociation._token' (/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol#1260-1262) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x11c46022541b64052c766c37c9a877e8ddcc6c76.sol analyzed (8 contracts), 77 result(s) found

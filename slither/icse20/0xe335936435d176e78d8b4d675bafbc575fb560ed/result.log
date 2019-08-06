@@ -1,0 +1,108 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:68:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function PresalerVoting () {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:79:65: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+        if (msg.value > 1 ether || !msg.sender.send(msg.value)) throw;
+                                                                ^---^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:116:9: Warning: Use of the "var" keyword is deprecated.
+        var rawVote = rawVotes[voter];
+        ^---------^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:124:9: Warning: Use of the "var" keyword is deprecated.
+        var tsec = VOTING_END_TIME - now;
+        ^------^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:146:36: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+        if (currentState()!=state) throw;
+                                   ^---^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:151:32: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+        if (msg.sender!=owner) throw;
+                               ^---^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:145:24: Warning: This declaration shadows an existing declaration.
+    modifier onlyState(State state) {
+                       ^---------^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:139:5: The shadowed declaration is here:
+    function state() public constant returns(string) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:68:5: Warning: No visibility specified. Defaulting to "public". 
+    function PresalerVoting () {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:73:5: Warning: No visibility specified. Defaulting to "public". 
+    function ()
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:106:5: Warning: No visibility specified. Defaulting to "public". 
+    function startVoting(uint startBlockNr, uint durationHrs) onlyOwner {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:111:5: Warning: No visibility specified. Defaulting to "public". 
+    function setOwner(address newOwner) onlyOwner { owner = newOwner; }
+    ^-----------------------------------------------------------------^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:123:5: Warning: No visibility specified. Defaulting to "public". 
+    function votingEndsInHHMM() constant returns (uint8, uint8) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:100:5: Warning: Function state mutability can be restricted to view
+    function votersLen() external returns (uint) { return voters.length; }
+    ^--------------------------------------------------------------------^
+/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:143:5: Warning: Function state mutability can be restricted to pure
+    function max(uint a, uint b) internal constant returns (uint maxValue) { return a>b ? a : b; }
+    ^--------------------------------------------------------------------------------------------^
+
+INFO:Detectors:[93m
+PresalerVoting.currentState (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#129-140) uses a dangerous strict equality:
+	- VOTING_START_BLOCKNR == 0 || block.number < VOTING_START_BLOCKNR
+PresalerVoting.currentState (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#129-140) uses a dangerous strict equality:
+	- VOTING_START_BLOCKNR == 0 || block.number < VOTING_START_BLOCKNR
+PresalerVoting.votingEndsInHHMM (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#125-129) uses a dangerous strict equality:
+	- VOTING_END_TIME == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+PresalerVoting.onlyState.state (local variable @ /unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#152-153) shadows:
+	- PresalerVoting.state (function @ /unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#143-146)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in PresalerVoting.fallback (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#76-102):
+	External calls:
+	- bonus = PRESALE_CONTRACT.balances(msg.sender) (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#78-79)
+	External calls sending eth:
+	- msg.value > 1000000000000000000 || ! msg.sender.send(msg.value) (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#80-81)
+	State variables written after the call(s):
+	- rawVotes (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#92-93)
+	- rawVotes (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#92-93)
+	- stakeConfirmed_Eth (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#89-90)
+	- stakeConfirmed_Eth (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#96-98)
+	- stakeRemainingToVote_Eth (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#100-102)
+	- stakeVoted_Eth (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#84)
+	- stakeWaived_Eth (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#87-89)
+	- stakeWaived_Eth (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#94-96)
+	- voters (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#83-84)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#81:
+	- Usage of "throw" should be replaced with "revert()"
+Deprecated standard detected @ /unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:
+	- Usage of "throw" should be replaced with "revert()"
+Deprecated standard detected @ /unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:
+	- Usage of "throw" should be replaced with "revert()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+TokenStorage.balances (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#33-38) should be declared external
+PresalerVoting.fallback (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#76-102) should be declared external
+PresalerVoting.startVoting (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#107-113) should be declared external
+PresalerVoting.setOwner (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#113-114) should be declared external
+PresalerVoting.votingEndsInHHMM (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#125-129) should be declared external
+PresalerVoting.state (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#143-146) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol:
+	- pragma solidity^0.4.11 (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'PresalerVoting.PresalerVoting' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#72-74) is not in mixedCase
+Variable 'PresalerVoting.VOTING_START_BLOCKNR' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#43) is not in mixedCase
+Variable 'PresalerVoting.VOTING_END_TIME' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#45) is not in mixedCase
+Variable 'PresalerVoting.PRESALE_CONTRACT' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#47-49) is not in mixedCase
+Variable 'PresalerVoting.stakeVoted_Eth' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#63-64) is not in mixedCase
+Variable 'PresalerVoting.stakeRemainingToVote_Eth' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#64-65) is not in mixedCase
+Variable 'PresalerVoting.stakeWaived_Eth' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#65-68) is not in mixedCase
+Variable 'PresalerVoting.stakeConfirmed_Eth' (/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol#68-69) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/29/0xe335936435d176e78d8b4d675bafbc575fb560ed.sol analyzed (2 contracts), 22 result(s) found

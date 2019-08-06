@@ -1,0 +1,62 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol:
+/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol:481:3: Warning: This declaration shadows an existing declaration.
+  struct Bounty {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol:474:1: The shadowed declaration is here:
+contract Bounty is WhitelistedRole, IBounty, Pausable {
+^ (Relevant source part starts here and spans across multiple lines).
+
+/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol:491:3: Warning: No visibility specified. Defaulting to "public". 
+  constructor (address _erc20Address, address _bountyNFTAddress) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in Bounty.openBounty (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#518-539):
+	External calls:
+	- require(bool)(IERC721(bountyNFTAddress).ownerOf(bountyId) == msg.sender) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#521-524)
+	- require(bool)(IERC721(bountyNFTAddress).isApprovedForAll(msg.sender,address(this))) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#524-527)
+	- require(bool)(IERC20(erc20Address).balanceOf(msg.sender) >= bounty.needHopsAmount) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#527)
+	- require(bool)(IERC20(erc20Address).allowance(msg.sender,address(this)) >= bounty.needHopsAmount) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#527-532)
+	- IERC20(erc20Address).burnFrom(msg.sender,bounty.needHopsAmount) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#532-535)
+	- IERC721(bountyNFTAddress).burn(bountyId) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#537-539)
+	State variables written after the call(s):
+	- bountyIdToBounty (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Bounty.openBounty has external calls inside a loop:
+	- require(bool)(IERC20(bounty.tokenAddress[i]).transfer(msg.sender,bounty.tokenAmount[i])) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#536-537)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Bounty.packageBounty (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#507-518):
+	External calls:
+	- (success,bountyId) = IERC721(bountyNFTAddress).mintTo(owner) (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#515-516)
+	State variables written after the call(s):
+	- bountyIdToBounty (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#517)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+PauserRole.addPauser (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#72-77) should be declared external
+PauserRole.renouncePauser (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#79-80) should be declared external
+Pausable.paused (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#114-116) should be declared external
+Pausable.pause (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#138-141) should be declared external
+Pausable.unpause (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#146-150) should be declared external
+Ownable.owner (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#180-186) should be declared external
+Ownable.renounceOwnership (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#204-207) should be declared external
+Ownable.transferOwnership (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#213-216) should be declared external
+WhitelistAdminRole.addWhitelistAdmin (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#293-297) should be declared external
+WhitelistAdminRole.renounceWhitelistAdmin (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#298-303) should be declared external
+WhitelistedRole.addWhitelisted (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#340-345) should be declared external
+WhitelistedRole.removeWhitelisted (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#345-347) should be declared external
+WhitelistedRole.renounceWhitelisted (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#347-356) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'PauserRole._addPauser' (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#81-85) is not in mixedCase
+Function 'PauserRole._removePauser' (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#86-93) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#224-233) is not in mixedCase
+Function 'WhitelistAdminRole._addWhitelistAdmin' (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#303-307) is not in mixedCase
+Function 'WhitelistAdminRole._removeWhitelistAdmin' (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#307-308) is not in mixedCase
+Function 'WhitelistedRole._addWhitelisted' (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#356-360) is not in mixedCase
+Function 'WhitelistedRole._removeWhitelisted' (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#360-363) is not in mixedCase
+Parameter '_erc20Address' of Bounty. (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#504) is not in mixedCase
+Parameter '_bountyNFTAddress' of Bounty. (/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol#504-505) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/26/0x159903d22cd86e2e04747b52c8eab795e5ce92ce.sol analyzed (11 contracts), 25 result(s) found

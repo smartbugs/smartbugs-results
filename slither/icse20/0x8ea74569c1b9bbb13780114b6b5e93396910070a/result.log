@@ -1,0 +1,146 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol:
+/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol:69:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Authorization()
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol:205:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Baliv() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol:57:22: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+      bytes32 hash = keccak256(block.number, msg.sender, salt);
+                     ^---------------------------------------^
+
+INFO:Detectors:[91m
+Baliv.transferToken (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#870-895) sends eth to arbitrary user
+	Dangerous calls:
+	- user_.transfer(amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#888)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Baliv.trade (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#514-558):
+	External calls:
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,takerPrice,takerAmount) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#543-548)
+	- profit[1] = profit[1] + fillOrder(fromToken_,toToken_,takerPrice,taker,fillAmount[0]) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#549-551)
+	State variables written after the call(s):
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#549-551)
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#554-556)
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#557-558)
+	- nextOrderPrice (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#549-551)
+	- orderBooks (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#549-551)
+Reentrancy in Baliv.userTakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#394-468):
+	External calls:
+	- depositAmount = depositAndFreeze(fromToken_,user) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#403-404)
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	External calls sending eth:
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	State variables written after the call(s):
+	- nextOrderPrice (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#427-428)
+	- nextOrderPrice (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#451-453)
+	- orderBooks (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#427-428)
+	- orderBooks (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#451-453)
+Reentrancy in Baliv.userTakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#394-468):
+	External calls:
+	- depositAmount = depositAndFreeze(fromToken_,user) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#403-404)
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	- (toAmount,fee) = caculateFee(user,toAmount,1) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#429-430)
+	External calls sending eth:
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	State variables written after the call(s):
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#434-435)
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#435-439)
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#444-447)
+Reentrancy in Baliv.userTakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#394-468):
+	External calls:
+	- depositAmount = depositAndFreeze(fromToken_,user) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#403-404)
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	- (toAmount,fee) = caculateFee(user,toAmount,1) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#429-430)
+	- transferToken(user,toToken_,toAmount) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#448-449)
+	External calls sending eth:
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	- transferToken(user,toToken_,toAmount) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#448-449)
+	State variables written after the call(s):
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#456)
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#458-460)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in Baliv.agentMakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#363-393):
+	External calls:
+	- depositAmount = depositAndFreeze(fromToken_,representor_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#378-379)
+	State variables written after the call(s):
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#391-392)
+Reentrancy in Baliv.deposit (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#344-356):
+	External calls:
+	- amount = depositAndFreeze(token_,user) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#351-352)
+	State variables written after the call(s):
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#353-355)
+Reentrancy in Baliv.userTakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#394-468):
+	External calls:
+	- depositAmount = depositAndFreeze(fromToken_,user) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#403-404)
+	State variables written after the call(s):
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#464-467)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+totalFill in Baliv.makeTrade (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#758) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Reentrancy in Baliv.agentMakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#363-393):
+	External calls:
+	- depositAmount = depositAndFreeze(fromToken_,representor_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#378-379)
+	State variables written after the call(s):
+	- nextOrderPrice (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#384-386)
+	- orderBooks (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#384-386)
+Reentrancy in Baliv.fillOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#843-870):
+	External calls:
+	- (toAmount,fee) = caculateFee(user_,toAmount,0) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#865-866)
+	State variables written after the call(s):
+	- balances (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#868)
+Reentrancy in Baliv.findAndTrade (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#668-733):
+	External calls:
+	- matchAmount = makeTrade(fromToken_,toToken_,price_,bestPrice,remaining) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#690-691)
+	State variables written after the call(s):
+	- priceBooks (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#713-714)
+Reentrancy in Baliv.userTakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#394-468):
+	External calls:
+	- depositAmount = depositAndFreeze(fromToken_,user) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#403-404)
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	External calls sending eth:
+	- (fillAmount,profit) = findAndTrade(fromToken_,toToken_,price_,amount_) (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+	State variables written after the call(s):
+	- priceBooks (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#412-415)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Baliv.XPAToken should be constant (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#198-199)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Authorization.powerSwitch (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#99-106) should be declared external
+Authorization.transferOwnership (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#106-113) should be declared external
+Authorization.assignOperator (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#114-124) should be declared external
+Authorization.assignBank (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#124-130) should be declared external
+Authorization.assignAgent (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#132-138) should be declared external
+Baliv.setup (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#296-310) should be declared external
+Baliv.setMinAmount (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#311-319) should be declared external
+Baliv.setFeerate (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#328-336) should be declared external
+Baliv.fallback (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#340-343) should be declared external
+Baliv.withdraw (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#356-363) should be declared external
+Baliv.agentMakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#363-393) should be declared external
+Baliv.userTakeOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#394-468) should be declared external
+Baliv.userCancelOrder (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#468-497) should be declared external
+Baliv.trade (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#514-558) should be declared external
+Baliv.setManualWithdraw (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#558-562) should be declared external
+Baliv.getPrice (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#562-579) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter 'N' of SafeMath.random (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#56) is not in mixedCase
+Function 'Authorization.Authorization' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#72-80) is not in mixedCase
+Struct 'Baliv.linkedBook' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#189-192) is not in CapWords
+Event 'Baliv.eDeposit' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#211-212) is not in CapWords
+Event 'Baliv.eWithdraw' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#212-215) is not in CapWords
+Event 'Baliv.eMakeOrder' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#216-217) is not in CapWords
+Event 'Baliv.eFillOrder' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#217-218) is not in CapWords
+Event 'Baliv.eCancelOrder' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#218-219) is not in CapWords
+Function 'Baliv.Baliv' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#220) is not in mixedCase
+Variable 'Baliv.XPAToken' (/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol#198-199) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/7/0x8ea74569c1b9bbb13780114b6b5e93396910070a.sol analyzed (4 contracts), 41 result(s) found

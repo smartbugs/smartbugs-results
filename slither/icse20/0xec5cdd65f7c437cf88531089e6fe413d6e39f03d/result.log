@@ -1,0 +1,202 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:760:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:761:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:802:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:803:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:744:3: Warning: Function state mutability can be restricted to pure
+  function _preValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:759:3: Warning: Function state mutability can be restricted to pure
+  function _postValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:801:3: Warning: Function state mutability can be restricted to pure
+  function _updatePurchasingState(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol:923:3: Warning: Function state mutability can be restricted to pure
+  function finalization() internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+TokenPool.allocate (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#622-629) does not use the value returned by external calls:
+	-totalAllocated.add(_amounts[i]) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#628)
+TokenPool.allocateEqual (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#639-644) does not use the value returned by external calls:
+	-totalAllocated.add(_amounts) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#644)
+Crowdsale._deliverTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#799-808) does not use the value returned by external calls:
+	-token.transfer(_beneficiary,_tokenAmount) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#803-807)
+DroneMadnessCrowdsale.finalization (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1488-1498) does not use the value returned by external calls:
+	-dmToken.finishMinting() (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1492-1493)
+DroneMadnessCrowdsale.doInitialDistribution (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1365-1403) does not use the value returned by external calls:
+	-MintableToken(token).mint(teamWallet,tokenCap.mul(TEAM_TOKENS).div(100)) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1390)
+	-MintableToken(token).mint(_prizePoolAddress,tokenCap.mul(PRIZE_TOKENS).div(100)) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1391-1392)
+	-MintableToken(token).mint(advisorPool,tokenCap.mul(ADVISOR_TOKENS).div(100)) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1392-1397)
+	-MintableToken(token).mint(airdropPool,tokenCap.mul(AIRDROP_TOKENS).div(100)) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1397-1398)
+	-MintableToken(token).mint(reservePool,tokenCap.mul(RESERVE_TOKENS).div(100)) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1398-1401)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in DroneMadnessCrowdsale.doInitialDistribution (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1365-1403):
+	External calls:
+	- tokenCap = CappedToken(token).cap() (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1378-1379)
+	State variables written after the call(s):
+	- advisorPool (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1384-1386)
+	- airdropPool (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1386-1388)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TimedCrowdsale.constructor (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#882-895) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_openingTime >= block.timestamp) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#890)
+TimedCrowdsale.hasClosed (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#903-908) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > closingTime (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#906-908)
+TokenTimelock.constructor (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1248-1261) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_releaseTime > block.timestamp) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1254-1256)
+TokenTimelock.release (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1262-1266) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp >= releaseTime) (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1264)
+DroneMadnessCrowdsale.updateRate (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1411-1420) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= stages[i] (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1416-1420)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#40-46) should be declared external
+Ownable.transferOwnership (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#49-54) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#126) should be declared external
+BasicToken.totalSupply (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#152-154) should be declared external
+BasicToken.balanceOf (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#179-182) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#126-127) should be declared external
+StandardToken.allowance (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#272-274) should be declared external
+ERC20.allowance (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#189-190) should be declared external
+MintableToken.finishMinting (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#389-396) should be declared external
+Pausable.pause (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#468-474) should be declared external
+Pausable.unpause (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#480-486) should be declared external
+TokenPool.allocate (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#622-629) should be declared external
+TokenPool.allocateEqual (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#639-644) should be declared external
+FinalizableCrowdsale.finalize (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#945-952) should be declared external
+RefundVault.deposit (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#996-999) should be declared external
+RefundVault.close (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1000-1006) should be declared external
+RefundVault.enableRefunds (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1006-1012) should be declared external
+RefundVault.refund (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1014-1029) should be declared external
+RefundableCrowdsale.claimRefund (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1065-1069) should be declared external
+CappedCrowdsale.capReached (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1149-1150) should be declared external
+TokenTimelock.release (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1262-1266) should be declared external
+DroneMadnessPresale.transferTokenOwnership (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#50) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#57-67) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#58-59) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#180) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#159) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#159) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#272) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#272-273) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#229) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#229) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#229-230) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#253) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#253-254) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#293) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#293) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#315) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#315) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#370) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#370) is not in mixedCase
+Parameter '_to' of CappedToken.mint (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#423-424) is not in mixedCase
+Parameter '_amount' of CappedToken.mint (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#424-426) is not in mixedCase
+Parameter '_cap' of CappedToken. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#406-407) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#501) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#502-504) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#512) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#512) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#512-515) is not in mixedCase
+Parameter '_spender' of PausableToken.approve (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#523) is not in mixedCase
+Parameter '_value' of PausableToken.approve (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#523) is not in mixedCase
+Parameter '_spender' of PausableToken.increaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#531) is not in mixedCase
+Parameter '_addedValue' of PausableToken.increaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#532) is not in mixedCase
+Parameter '_spender' of PausableToken.decreaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#538) is not in mixedCase
+Parameter '_subtractedValue' of PausableToken.decreaseApproval (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#538-539) is not in mixedCase
+Parameter '_token' of TokenPool. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#612) is not in mixedCase
+Parameter '_cap' of TokenPool. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#612-613) is not in mixedCase
+Parameter '_beneficiaries' of TokenPool.allocate (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#622-623) is not in mixedCase
+Parameter '_amounts' of TokenPool.allocate (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#623) is not in mixedCase
+Parameter '_beneficiaries' of TokenPool.allocateEqual (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#639) is not in mixedCase
+Parameter '_amounts' of TokenPool.allocateEqual (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#639-640) is not in mixedCase
+Parameter '_rate' of Crowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#712) is not in mixedCase
+Parameter '_wallet' of Crowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#712-713) is not in mixedCase
+Parameter '_token' of Crowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#713) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.buyTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#740) is not in mixedCase
+Function 'Crowdsale._preValidatePurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#770-777) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#770-771) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#771) is not in mixedCase
+Function 'Crowdsale._postValidatePurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#785-793) is not in mixedCase
+Function 'Crowdsale._deliverTokens' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#799-808) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._deliverTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#801) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._deliverTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#801-802) is not in mixedCase
+Function 'Crowdsale._processPurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#815-822) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._processPurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#816) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._processPurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#816-818) is not in mixedCase
+Function 'Crowdsale._updatePurchasingState' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#833-839) is not in mixedCase
+Function 'Crowdsale._getTokenAmount' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#850-853) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._getTokenAmount (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#851) is not in mixedCase
+Function 'Crowdsale._forwardFunds' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#855-856) is not in mixedCase
+Function 'TimedCrowdsale._preValidatePurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#919-923) is not in mixedCase
+Parameter '_beneficiary' of TimedCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#919-920) is not in mixedCase
+Parameter '_weiAmount' of TimedCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#920) is not in mixedCase
+Parameter '_openingTime' of TimedCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#883-884) is not in mixedCase
+Parameter '_closingTime' of TimedCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#885) is not in mixedCase
+Parameter '_wallet' of RefundVault. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#991) is not in mixedCase
+Function 'RefundableCrowdsale._forwardFunds' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1094-1097) is not in mixedCase
+Parameter '_goal' of RefundableCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1061) is not in mixedCase
+Function 'MintedCrowdsale._deliverTokens' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1116-1127) is not in mixedCase
+Parameter '_beneficiary' of MintedCrowdsale._deliverTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1117-1119) is not in mixedCase
+Parameter '_tokenAmount' of MintedCrowdsale._deliverTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1121) is not in mixedCase
+Function 'CappedCrowdsale._preValidatePurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1157-1164) is not in mixedCase
+Parameter '_beneficiary' of CappedCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1157) is not in mixedCase
+Parameter '_weiAmount' of CappedCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1157-1158) is not in mixedCase
+Parameter '_cap' of CappedCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1141) is not in mixedCase
+Function 'WhitelistedCrowdsale._preValidatePurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1226-1235) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1226-1228) is not in mixedCase
+Parameter '_weiAmount' of WhitelistedCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1228) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale.addToWhitelist (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1191-1192) is not in mixedCase
+Parameter '_beneficiaries' of WhitelistedCrowdsale.addManyToWhitelist (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1201) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale.removeFromWhitelist (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1215) is not in mixedCase
+Parameter '_token' of TokenTimelock. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1248-1249) is not in mixedCase
+Parameter '_beneficiary' of TokenTimelock. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1249) is not in mixedCase
+Parameter '_releaseTime' of TokenTimelock. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1249-1251) is not in mixedCase
+Function 'DroneMadnessCrowdsale._preValidatePurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1460-1470) is not in mixedCase
+Parameter '_beneficiary' of DroneMadnessCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1461) is not in mixedCase
+Parameter '_weiAmount' of DroneMadnessCrowdsale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1461-1462) is not in mixedCase
+Function 'DroneMadnessCrowdsale._updatePurchasingState' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1480-1484) is not in mixedCase
+Parameter '_beneficiary' of DroneMadnessCrowdsale._updatePurchasingState (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1480-1481) is not in mixedCase
+Parameter '_weiAmount' of DroneMadnessCrowdsale._updatePurchasingState (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1481) is not in mixedCase
+Parameter '_cap' of DroneMadnessCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1347) is not in mixedCase
+Parameter '_goal' of DroneMadnessCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1348-1349) is not in mixedCase
+Parameter '_rate' of DroneMadnessCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1350-1352) is not in mixedCase
+Parameter '_minInvestmentInWei' of DroneMadnessCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1352-1353) is not in mixedCase
+Parameter '_maxInvestmentInWei' of DroneMadnessCrowdsale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1353) is not in mixedCase
+Parameter '_teamAddress' of DroneMadnessCrowdsale.doInitialDistribution (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1368) is not in mixedCase
+Parameter '_prizePoolAddress' of DroneMadnessCrowdsale.doInitialDistribution (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1369) is not in mixedCase
+Parameter '_reservePoolAdddress' of DroneMadnessCrowdsale.doInitialDistribution (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1369-1370) is not in mixedCase
+Parameter '_beneficiaries' of DroneMadnessCrowdsale.airdropTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1424-1427) is not in mixedCase
+Parameter '_amount' of DroneMadnessCrowdsale.airdropTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1427-1428) is not in mixedCase
+Parameter '_beneficiaries' of DroneMadnessCrowdsale.allocateAdvisorTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1438) is not in mixedCase
+Parameter '_amounts' of DroneMadnessCrowdsale.allocateAdvisorTokens (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1438-1439) is not in mixedCase
+Parameter '_newOwner' of DroneMadnessCrowdsale.transferTokenOwnership (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1449) is not in mixedCase
+Function 'DroneMadnessPresale._preValidatePurchase' (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol) is not in mixedCase
+Parameter '_beneficiary' of DroneMadnessPresale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol) is not in mixedCase
+Parameter '_weiAmount' of DroneMadnessPresale._preValidatePurchase (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol) is not in mixedCase
+Parameter '_minInvestmentInWei' of DroneMadnessPresale. (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol) is not in mixedCase
+Parameter '_newOwner' of DroneMadnessPresale.transferTokenOwnership (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+DroneMadnessPresale.invested (/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol#1516-1518) is never used in DroneMadnessPresale
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/35/0xec5cdd65f7c437cf88531089e6fe413d6e39f03d.sol analyzed (24 contracts), 139 result(s) found

@@ -1,0 +1,112 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:18:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:126:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Destructible() public payable { }
+  ^----------------------------------------^
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:36:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:75:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Pause();
+    ^-----^
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:83:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Unpause();
+    ^-------^
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:381:9: Warning: Different number of components on the left hand side (5) than on the right hand side (6).
+        (heroPower,,,,) = edCoreContract.getHeroPower(genes, dungeonDifficulty);
+        ^---------------------------------------------------------------------^
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:445:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TournamentFinished(now, nextTournamentRound - 1, winner, loser, winnerRewards, loserRewards, winCount, jackpotRewards);
+        ^--------------------------------------------------------------------------------------------------------------------^
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:469:29: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        msg.sender.transfer(this.balance);
+                            ^----------^
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:706:22: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        _seed = uint(keccak256(
+                     ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:708:13: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+            block.blockhash(block.number - 1),
+            ^-------------^
+
+INFO:Detectors:[91m
+Reentrancy in EDColiseumAlpha.joinTournament (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#362-398):
+	External calls:
+	- (None,None,None,genes,owner,None,None) = edCoreContract.getHeroDetails(_heroId) (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#365-366)
+	- (heroPower,None,None,None,None) = edCoreContract.getHeroPower(genes,dungeonDifficulty) (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#390-391)
+	External calls sending eth:
+	- msg.sender.transfer(msg.value - participationFee) (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#383-384)
+	State variables written after the call(s):
+	- participants (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#396-398)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+jackpotRewards in EDColiseumAlpha.startTournament (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#438) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+EDColiseumAlpha.joinTournament.owner (local variable @ /unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#365) shadows:
+	- Ownable.owner (state variable @ /unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#10-12)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+EDColiseumAlpha.cancelTournament has external calls inside a loop:
+	- participant.transfer(participationFee) (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#467-469)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in EDColiseumAlpha.joinTournament (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#362-398):
+	External calls:
+	- (None,None,None,genes,owner,None,None) = edCoreContract.getHeroDetails(_heroId) (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#365-366)
+	State variables written after the call(s):
+	- tournamentRewards (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#381)
+Reentrancy in EDColiseumAlpha.joinTournament (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#362-398):
+	External calls:
+	- (None,None,None,genes,owner,None,None) = edCoreContract.getHeroDetails(_heroId) (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#365-366)
+	External calls sending eth:
+	- msg.sender.transfer(msg.value - participationFee) (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#383-384)
+	State variables written after the call(s):
+	- heroIdToLastRound (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#387)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#34-45) should be declared external
+Pausable.pause (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#75-80) should be declared external
+Pausable.unpause (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#83-91) should be declared external
+Destructible.destroy (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#135-142) should be declared external
+Destructible.destroyAndSend (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#142-145) should be declared external
+EDCoreInterface.getHeroAttributes (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#216) should be declared external
+EDCoreInterface.getHeroPower (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#222-230) should be declared external
+EDCoreInterface.getDungeonPower (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#230-231) should be declared external
+EDCoreInterface.calculateTop5HeroesPower (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#239-243) should be declared external
+EDColiseumAlpha.EDColiseum (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#325-327) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol:
+	- pragma solidity^0.4.19 (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#18-23) is not in mixedCase
+Variable 'ReentrancyGuard.reentrancy_lock' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#103-104) is not in mixedCase
+Function 'Destructible.Destructible' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#129-131) is not in mixedCase
+Parameter '_recipient' of Destructible.destroyAndSend (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#142-143) is not in mixedCase
+Function 'EDColiseumAlpha.EDColiseum' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#325-327) is not in mixedCase
+Parameter '_heroId' of EDColiseumAlpha.joinTournament (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#362-363) is not in mixedCase
+Parameter '_newEdCoreContract' of EDColiseumAlpha.setEdCoreContract (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#487) is not in mixedCase
+Parameter '_newJackpotWinCount' of EDColiseumAlpha.setJackpotWinCount (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#492-494) is not in mixedCase
+Parameter '_newJackpotWinPercent' of EDColiseumAlpha.setJackpotWinPercent (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#495-498) is not in mixedCase
+Parameter '_newWinPercent' of EDColiseumAlpha.setWinPercent (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#500-502) is not in mixedCase
+Parameter '_newLosePercent' of EDColiseumAlpha.setLosePercent (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#504-505) is not in mixedCase
+Parameter '_newDungeonDifficulty' of EDColiseumAlpha.setDungeonDifficulty (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#507-508) is not in mixedCase
+Parameter '_newParticipationFee' of EDColiseumAlpha.setParticipationFee (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#510-511) is not in mixedCase
+Function 'EDColiseumAlpha._firstRoundFight' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#516-586) is not in mixedCase
+Function 'EDColiseumAlpha._secondRoundWinnersFight' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#590-628) is not in mixedCase
+Function 'EDColiseumAlpha._secondRoundLosersFight' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#632-672) is not in mixedCase
+Function 'EDColiseumAlpha._finalRoundWinnersFight' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#675-698) is not in mixedCase
+Function 'EDColiseumAlpha._finalRoundLosersFight' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#700-716) is not in mixedCase
+Function 'EDColiseumAlpha._getRandomNumber' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol) is not in mixedCase
+Parameter '_upper' of EDColiseumAlpha._getRandomNumber (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol) is not in mixedCase
+Variable 'EDColiseumAlpha._seed' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#260) is not in mixedCase
+Constant 'EDColiseumAlpha.maxParticipantCount' (/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol#284-286) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x95be22039da3114d17a38b9e7cd9b3576de83924.sol analyzed (6 contracts), 40 result(s) found

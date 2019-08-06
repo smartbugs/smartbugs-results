@@ -1,0 +1,109 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:116:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function BurnableOpenPayment(address _payer, uint _serviceDeposit, uint _autoreleaseInterval, string _title, string initialStatement)
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:39:3: Warning: Invoking events without "emit" prefix is deprecated.
+		NewBOP(newBOPAddr, payer, serviceDeposit, autoreleaseInterval, title, initialStatement);
+		^-------------------------------------------------------------------------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:119:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Created(this, _payer, _serviceDeposit, _autoreleaseInterval, _title);
+		^------------------------------------------------------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:123:4: Warning: Invoking events without "emit" prefix is deprecated.
+			FundsAdded(tx.origin, msg.value);
+			^------------------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:137:7: Warning: Invoking events without "emit" prefix is deprecated.
+		    PayerStatement(initialStatement);
+		    ^------------------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:144:40: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+ ... this.balance ... 
+     ^----------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:152:3: Warning: Invoking events without "emit" prefix is deprecated.
+		FundsAdded(msg.sender, msg.value);
+		^-------------------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:156:4: Warning: Invoking events without "emit" prefix is deprecated.
+			Unclosed();
+			^--------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:165:3: Warning: Invoking events without "emit" prefix is deprecated.
+		FundsRecovered();
+		^--------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:176:4: Warning: Invoking events without "emit" prefix is deprecated.
+			FundsAdded(msg.sender, msg.value);
+			^-------------------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:182:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Committed(worker);
+		^---------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:193:3: Warning: Invoking events without "emit" prefix is deprecated.
+		FundsBurned(amount);
+		^-----------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:195:7: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+		if (this.balance == 0) {
+		    ^----------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:197:4: Warning: Invoking events without "emit" prefix is deprecated.
+			Closed();
+			^------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:214:3: Warning: Invoking events without "emit" prefix is deprecated.
+		FundsReleased(amount);
+		^-------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:216:7: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+		if (this.balance == 0) {
+		    ^----------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:218:4: Warning: Invoking events without "emit" prefix is deprecated.
+			Closed();
+			^------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:232:6: Warning: Invoking events without "emit" prefix is deprecated.
+	    PayerStatement(statement);
+	    ^-----------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:238:3: Warning: Invoking events without "emit" prefix is deprecated.
+		WorkerStatement(statement);
+		^------------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:246:3: Warning: Invoking events without "emit" prefix is deprecated.
+		AutoreleaseDelayed();
+		^------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:255:9: Warning: Invoking events without "emit" prefix is deprecated.
+        AutoreleaseTriggered();
+        ^--------------------^
+/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:256:19: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+		internalRelease(this.balance);
+		                ^----------^
+
+INFO:Detectors:[91m
+BurnableOpenPayment.internalRelease (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#217-235) sends eth to arbitrary user
+	Dangerous calls:
+	- worker.transfer(amount) (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#224-226)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+BurnableOpenPayment.internalBurn (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#196-211) uses a dangerous strict equality:
+	- this.balance == 0
+BurnableOpenPayment.internalBurn (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#196-211) uses a dangerous strict equality:
+	- this.balance == 0
+BurnableOpenPayment.internalRelease (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#217-235) uses a dangerous strict equality:
+	- this.balance == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+BurnableOpenPaymentFactory.getBOPCount (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#27-33) should be declared external
+BurnableOpenPaymentFactory.newBurnableOpenPayment (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#33-49) should be declared external
+BurnableOpenPayment.getFullState (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#144-154) should be declared external
+BurnableOpenPayment.addFunds (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#154-169) should be declared external
+BurnableOpenPayment.recoverFunds (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#170-177) should be declared external
+BurnableOpenPayment.commit (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#177-195) should be declared external
+BurnableOpenPayment.burn (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#211-217) should be declared external
+BurnableOpenPayment.release (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#235-241) should be declared external
+BurnableOpenPayment.logPayerStatement (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#241-246) should be declared external
+BurnableOpenPayment.logWorkerStatement (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#246-253) should be declared external
+BurnableOpenPayment.delayAutorelease (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#253-258) should be declared external
+BurnableOpenPayment.triggerAutorelease (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol:
+	- pragma solidity^0.4.10 (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#19-20): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Variable 'BurnableOpenPaymentFactory.BOPs' (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#26) is not in mixedCase
+Function 'BurnableOpenPayment.BurnableOpenPayment' (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#116-144) is not in mixedCase
+Parameter '_payer' of BurnableOpenPayment.BurnableOpenPayment (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#118-119) is not in mixedCase
+Parameter '_serviceDeposit' of BurnableOpenPayment.BurnableOpenPayment (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#119) is not in mixedCase
+Parameter '_autoreleaseInterval' of BurnableOpenPayment.BurnableOpenPayment (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#119) is not in mixedCase
+Parameter '_title' of BurnableOpenPayment.BurnableOpenPayment (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#119) is not in mixedCase
+Constant 'BurnableOpenPayment.burnAddress' (/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol#57-58) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x38b394cd27c3b0d865f58a4512b65c7b0ab6db66.sol analyzed (2 contracts), 23 result(s) found

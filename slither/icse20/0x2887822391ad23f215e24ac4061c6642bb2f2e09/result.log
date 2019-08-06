@@ -1,0 +1,49 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol:
+/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol:130:31: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x17b38d3779dEBcF1079506522E10284D3c6b0FEf'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+        mp = MarketplaceProxy(0x17b38d3779debcf1079506522e10284d3c6b0fef);
+                              ^----------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in Deposit.claim (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#216-240):
+	External calls:
+	- commission = mp.calculatePlatformCommission(amount) (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#221-222)
+	- mp.payPlatformOutgoingTransactionCommission.value(commission)() (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#227-229)
+	External calls sending eth:
+	- mp.payPlatformOutgoingTransactionCommission.value(commission)() (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#227-229)
+	State variables written after the call(s):
+	- depositsMap (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#236)
+Reentrancy in Deposit.handleIncomingPayment (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#155-184):
+	External calls:
+	- mp.isUserBlockedByContract(address(this)) (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#164-172)
+	- mp.payPlatformIncomingTransactionCommission.value(amount)(clientAddress) (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#166)
+	- mp.payPlatformIncomingTransactionCommission.value(clientDeposit.nextPaymentPlatformCommission)(clientAddress) (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#167-171)
+	External calls sending eth:
+	- mp.payPlatformIncomingTransactionCommission.value(amount)(clientAddress) (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#166)
+	- mp.payPlatformIncomingTransactionCommission.value(clientDeposit.nextPaymentPlatformCommission)(clientAddress) (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#167-171)
+	State variables written after the call(s):
+	- depositsMap (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#173-178)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[92m
+MarketplaceProxy.calculatePlatformCommission (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#97-98) should be declared external
+MarketplaceProxy.payPlatformIncomingTransactionCommission (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#98-99) should be declared external
+MarketplaceProxy.payPlatformOutgoingTransactionCommission (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#99-101) should be declared external
+MarketplaceProxy.isUserBlockedByContract (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#101-107) should be declared external
+Deposit.fallback (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#142-145) should be declared external
+Deposit.fromPaymentGateway (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#150-152) should be declared external
+Deposit.addEth (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#186-188) should be declared external
+Deposit.transferEthTo (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#192-211) should be declared external
+Deposit.claim (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#216-240) should be declared external
+Deposit.isClient (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#242-243) should be declared external
+Deposit.addClient (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#249-272) should be declared external
+Deposit.getClientBalance (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#273-274) should be declared external
+Deposit.repeatedPayment (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#280-287) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_nextPaymentTotalAmount' of Deposit.addClient (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#250) is not in mixedCase
+Parameter '_nextPaymentDepositCommission' of Deposit.addClient (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#250-252) is not in mixedCase
+Parameter '_nextPaymentPlatformCommission' of Deposit.addClient (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#252-253) is not in mixedCase
+Parameter '_nextPaymentTotalAmount' of Deposit.repeatedPayment (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#281-283) is not in mixedCase
+Parameter '_nextPaymentDepositCommission' of Deposit.repeatedPayment (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#283) is not in mixedCase
+Parameter '_nextPaymentPlatformCommission' of Deposit.repeatedPayment (/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol#283-284) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/21/0x2887822391ad23f215e24ac4061c6642bb2f2e09.sol analyzed (4 contracts), 21 result(s) found

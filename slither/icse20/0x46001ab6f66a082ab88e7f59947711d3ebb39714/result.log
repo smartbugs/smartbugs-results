@@ -1,0 +1,202 @@
+INFO:Detectors:[91m
+Magic.sendDividends (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol) sends eth to arbitrary user
+	Dangerous calls:
+	- addr.send(value) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol)
+Magic.sendDividendsWithRefBonus (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol) sends eth to arbitrary user
+	Dangerous calls:
+	- addr.send(value + refBonus) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Magic.payout (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#579-629):
+	External calls:
+	- m_paysys.latestKeyIndex == m_investors.iterStart() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#587-595)
+	- size = m_investors.size() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#596)
+	- investorAddr = m_investors.keyFromIndex(i) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#604-606)
+	- (value,refBonus) = m_investors.investorShortInfo(investorAddr) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#607-609)
+	- require(bool,string)(m_investors.setRefBonus(investorAddr,0),internal error) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#617-619)
+	External calls sending eth:
+	- sendDividendsWithRefBonus(investorAddr,value,refBonus) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#619-621)
+	- sendDividends(investorAddr,value) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#625)
+	State variables written after the call(s):
+	- m_nextWave (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#613)
+	- m_paysys (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#629)
+Reentrancy in Magic.payout (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#579-629):
+	External calls:
+	- m_paysys.latestKeyIndex == m_investors.iterStart() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#587-595)
+	- size = m_investors.size() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#596)
+	- investorAddr = m_investors.keyFromIndex(i) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#604-606)
+	- (value,refBonus) = m_investors.investorShortInfo(investorAddr) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#607-609)
+	- require(bool,string)(m_investors.setRefBonus(investorAddr,0),internal error) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#617-619)
+	- m_paysys.latestKeyIndex = m_investors.iterStart() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#625-629)
+	External calls sending eth:
+	- sendDividendsWithRefBonus(investorAddr,value,refBonus) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#619-621)
+	- sendDividends(investorAddr,value) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#625)
+	State variables written after the call(s):
+	- m_paysys (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#625-629)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+ToAddress.toAddr (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#328-331) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Magic.doInvest (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#529-579) uses a dangerous strict equality:
+	- m_paysys.mode == Paymode.Pull
+Magic.doInvest (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#529-579) uses a dangerous strict equality:
+	- m_paysys.mode == Paymode.Pull
+Magic.payout (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#579-629) uses a dangerous strict equality:
+	- m_paysys.latestKeyIndex == m_investors.iterStart()
+	- i == size
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Magic.doInvest (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#529-579):
+	External calls:
+	- notZeroNotSender(refs[0]) && m_investors.contains(refs[0]) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#535-561)
+	- assert(bool)(m_investors.addRefBonus(refs[0],rewardL1)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#538)
+	State variables written after the call(s):
+	- m_referrals (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#538-539)
+Reentrancy in Magic.getMyDividends (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#475-529):
+	External calls:
+	- investor = getMemInvestor(msg.sender) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#477-478)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,m_paysys.latestTime)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#483-485)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#489-491)
+	- nextWave() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#521)
+	State variables written after the call(s):
+	- m_investors (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#521)
+	- m_paysys (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#521)
+Reentrancy in Magic.payout (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#579-629):
+	External calls:
+	- m_paysys.latestKeyIndex == m_investors.iterStart() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#587-595)
+	State variables written after the call(s):
+	- m_paysys (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#594-595)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+refs in Magic.fallback (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#420) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Magic.payout has external calls inside a loop:
+	- investorAddr = m_investors.keyFromIndex(i) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#604-606)
+Magic.payout has external calls inside a loop:
+	- (value,refBonus) = m_investors.investorShortInfo(investorAddr) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#607-609)
+Magic.payout has external calls inside a loop:
+	- require(bool,string)(m_investors.setRefBonus(investorAddr,0),internal error) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#617-619)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Magic.constructor (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#397-410):
+	External calls:
+	- nextWave() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#406-408)
+	State variables written after the call(s):
+	- waveStartup (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#410)
+Reentrancy in Magic.doInvest (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#529-579):
+	External calls:
+	- notZeroNotSender(refs[0]) && m_investors.contains(refs[0]) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#535-561)
+	- assert(bool)(m_investors.addRefBonus(refs[0],rewardL1)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#538)
+	- notZeroNotSender(refs[1]) && m_investors.contains(refs[1]) && refs[0] != refs[1] (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#542-561)
+	- assert(bool)(m_investors.addRefBonus(refs[1],rewardL2)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#550-551)
+	- notZeroNotSender(refs[2]) && m_investors.contains(refs[2]) && refs[0] != refs[2] && refs[1] != refs[2] (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#552-561)
+	- assert(bool)(m_investors.addRefBonus(refs[2],rewardL3)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#559)
+	- m_investors.contains(msg.sender) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#568-573)
+	- assert(bool)(m_investors.addValue(msg.sender,value)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#571)
+	- assert(bool)(m_investors.insert(msg.sender,value)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#571-572)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#573-574)
+	External calls sending eth:
+	- adminAddr.transfer(m_adminPercent.mul(msg.value)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#565)
+	- payerAddr.transfer(m_payerPercent.mul(msg.value)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#565-566)
+	State variables written after the call(s):
+	- investmentsNum (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#578-579)
+Reentrancy in Magic.getMyDividends (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#475-529):
+	External calls:
+	- investor = getMemInvestor(msg.sender) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#477-478)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,m_paysys.latestTime)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#483-485)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#489-491)
+	- nextWave() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#521)
+	State variables written after the call(s):
+	- investmentsNum (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#521)
+	- m_nextWave (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#521)
+	- waveStartup (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#521)
+Reentrancy in Magic.nextWave (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol):
+	External calls:
+	- m_paysys.latestKeyIndex = m_investors.iterStart() (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol)
+	State variables written after the call(s):
+	- investmentsNum (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol)
+	- m_nextWave (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol)
+	- waveStartup (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ToAddress.toAddr uses assembly (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#328-331)
+	- /unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#330-331
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+InvestorsStorage.insert (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#79-88) should be declared external
+InvestorsStorage.investorFullInfo (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#89-98) should be declared external
+InvestorsStorage.investorBaseInfo (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#99-107) should be declared external
+InvestorsStorage.investorShortInfo (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#107-113) should be declared external
+InvestorsStorage.addRefBonus (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#113-119) should be declared external
+InvestorsStorage.addValue (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#119-125) should be declared external
+InvestorsStorage.setPaymentTime (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#125-131) should be declared external
+InvestorsStorage.setRefBonus (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#131-140) should be declared external
+InvestorsStorage.keyFromIndex (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#140-144) should be declared external
+InvestorsStorage.contains (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#144-149) should be declared external
+InvestorsStorage.size (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#150-155) should be declared external
+InvestorsStorage.iterStart (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#155-156) should be declared external
+Accessibility.provideAccess (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#248-261) should be declared external
+Accessibility.access (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#262-266) should be declared external
+PaymentSystem.paymode (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#283-284) should be declared external
+Magic.fallback (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#411-421) should be declared external
+Magic.investorsNumber (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#421-424) should be declared external
+Magic.balanceETH (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#424-426) should be declared external
+Magic.payerPercent (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#426-429) should be declared external
+Magic.dividendsPercent30 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#429-432) should be declared external
+Magic.dividendsPercent35 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#432-435) should be declared external
+Magic.dividendsPercent40 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#435-438) should be declared external
+Magic.dividendsPercent45 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#438-441) should be declared external
+Magic.dividendsPercent50 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#441-444) should be declared external
+Magic.dividendsPercent55 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#445-448) should be declared external
+Magic.dividendsPercent60 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#448-451) should be declared external
+Magic.adminPercent (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#451-453) should be declared external
+Magic.referrerLvlOnePercent (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#454-457) should be declared external
+Magic.referrerLvlTwoPercent (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#457-462) should be declared external
+Magic.referrerLvlThreePercent (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#462-468) should be declared external
+Magic.investorInfo (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#468-471) should be declared external
+Magic.latestPayout (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#471-475) should be declared external
+Magic.payout (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#579-629) should be declared external
+Magic.setAdminAddr (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#629-634) should be declared external
+Magic.setPayerAddr (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#634-642) should be declared external
+Magic.setPullPaymode (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#642-644) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Struct 'InvestorsStorage.investor' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#58-63) is not in CapWords
+Struct 'InvestorsStorage.itmap' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#63-68) is not in CapWords
+Parameter '_a' of SafeMath.mul (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#157) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#157) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#172) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#172) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#184) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#184) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#191) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#191-192) is not in mixedCase
+Struct 'Percent.percent' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#212) is not in CapWords
+Variable 'Accessibility.m_admins' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#238) is not in mixedCase
+Variable 'PaymentSystem.m_paysys' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#277-280) is not in mixedCase
+Variable 'Magic.m_investors' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#339) is not in mixedCase
+Variable 'Magic.m_referrals' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#339-340) is not in mixedCase
+Variable 'Magic.m_nextWave' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#340) is not in mixedCase
+Constant 'Magic.minInvesment' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#344) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Magic.maxBalance' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#344-345) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Magic.pauseOnNextWave' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#345-346) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'Magic.m_dividendsPercent30' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#346-347) is not in mixedCase
+Variable 'Magic.m_dividendsPercent35' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#347-348) is not in mixedCase
+Variable 'Magic.m_dividendsPercent40' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#348-349) is not in mixedCase
+Variable 'Magic.m_dividendsPercent45' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#349-352) is not in mixedCase
+Variable 'Magic.m_dividendsPercent50' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#352-353) is not in mixedCase
+Variable 'Magic.m_dividendsPercent55' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#353-355) is not in mixedCase
+Variable 'Magic.m_dividendsPercent60' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#355-356) is not in mixedCase
+Variable 'Magic.m_adminPercent' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#356-357) is not in mixedCase
+Variable 'Magic.m_payerPercent' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#357-361) is not in mixedCase
+Variable 'Magic.m_refLvlOnePercent' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#361-362) is not in mixedCase
+Variable 'Magic.m_refLvlTwoPercent' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#362-363) is not in mixedCase
+Variable 'Magic.m_refLvlThreePercent' (/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol#364-365) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/16/0x46001ab6f66a082ab88e7f59947711d3ebb39714.sol analyzed (8 contracts), 87 result(s) found

@@ -1,0 +1,118 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol:
+/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol:647:5: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+    advertisingAddress.send(m_advertisingPercent.mul(receivedEther));
+    ^--------------------------------------------------------------^
+/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol:648:5: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+    adminsAddress.send(m_adminsPercent.mul(receivedEther));
+    ^----------------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in Revolution2.doInvest (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#629-699):
+	External calls:
+	- senderIsInvestor = m_investors.isInvestor(msg.sender) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#661-664)
+	- referrerAddr.notZero() && ! senderIsInvestor && ! m_referrals[msg.sender] && referrerAddr != msg.sender && m_investors.isInvestor(referrerAddr) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#665-682)
+	External calls sending eth:
+	- msg.sender.transfer(excess) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#657)
+	- advertisingAddress.send(m_advertisingPercent.mul(receivedEther)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#659-660)
+	- adminsAddress.send(m_adminsPercent.mul(receivedEther)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#660-661)
+	State variables written after the call(s):
+	- m_referrals (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#669-671)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Address.toAddress (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#171-179) is declared view but contains assembly code
+Address.isNotContract (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#180-186) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in Revolution2.getMyDividends (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#614-629):
+	External calls:
+	- dividends = calcDividends(msg.sender) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#618-619)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#621)
+	State variables written after the call(s):
+	- m_investors (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#625)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+i in PrivateEntrance.provideAccessFor (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#326) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Reentrancy in Revolution2.doInvest (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#629-699):
+	External calls:
+	- senderIsInvestor = m_investors.isInvestor(msg.sender) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#661-664)
+	- referrerAddr.notZero() && ! senderIsInvestor && ! m_referrals[msg.sender] && referrerAddr != msg.sender && m_investors.isInvestor(referrerAddr) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#665-682)
+	- assert(bool)(m_investors.addInvestment(referrerAddr,refBonus)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#674-676)
+	- dividends = calcDividends(msg.sender) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#685)
+	- assert(bool)(m_investors.addInvestment(msg.sender,investment)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#690-691)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#691)
+	- assert(bool)(m_investors.newInvestor(msg.sender,investment,now)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#694)
+	External calls sending eth:
+	- msg.sender.transfer(excess) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#657)
+	- advertisingAddress.send(m_advertisingPercent.mul(receivedEther)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#659-660)
+	- adminsAddress.send(m_adminsPercent.mul(receivedEther)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#660-661)
+	State variables written after the call(s):
+	- investmentsNumber (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#698)
+Reentrancy in Revolution2.getMyDividends (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#614-629):
+	External calls:
+	- dividends = calcDividends(msg.sender) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#618-619)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#621)
+	State variables written after the call(s):
+	- investmentsNumber (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#625)
+	- waveStartup (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#625)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Address.toAddress uses assembly (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#171-179)
+	- /unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#173-175
+Address.isNotContract uses assembly (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#180-186)
+	- /unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#183-186
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Rev1Storage.investorShortInfo (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#272-275) should be declared external
+Rev2Storage.investorInfo (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#276-279) should be declared external
+InvestorsStorage.isInvestor (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#335-336) should be declared external
+InvestorsStorage.investorInfo (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#336-346) should be declared external
+InvestorsStorage.newInvestor (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#346-355) should be declared external
+InvestorsStorage.addInvestment (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#355-367) should be declared external
+InvestorsStorage.setPaymentTime (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#367-374) should be declared external
+Revolution2.fallback (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#510-520) should be declared external
+Revolution2.doDisown (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#520-521) should be declared external
+Revolution2.init (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#521-551) should be declared external
+Revolution2.setAdvertisingAddress (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#551-556) should be declared external
+Revolution2.setAdminsAddress (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#556-560) should be declared external
+Revolution2.privateEntranceProvideAccessFor (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#560-563) should be declared external
+Revolution2.rapidGrowthProtectionmMaxInvestmentAtNow (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#563-567) should be declared external
+Revolution2.investorsNumber (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#567-571) should be declared external
+Revolution2.balanceETH (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#571-572) should be declared external
+Revolution2.percent1 (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#572-575) should be declared external
+Revolution2.percent2 (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#575-579) should be declared external
+Revolution2.percent3_33 (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#579-581) should be declared external
+Revolution2.advertisingPercent (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#581-588) should be declared external
+Revolution2.adminsPercent (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#588-593) should be declared external
+Revolution2.investorInfo (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#593-598) should be declared external
+Revolution2.investorDividendsAtNow (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#598-601) should be declared external
+Revolution2.dailyPercentAtNow (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#603-607) should be declared external
+Revolution2.refBonusPercentAtNow (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#607-614) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Struct 'Percent.percent' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#112-114) is not in CapWords
+Parameter '_a' of SafeMath.mul (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#190-191) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#191) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#208) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#208) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#226) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#226) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#235) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#235) is not in mixedCase
+Struct 'PrivateEntrance.privateEntrance' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#283-288) is not in CapWords
+Struct 'RapidGrowthProtection.rapidGrowthProtection' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#379-382) is not in CapWords
+Function 'Revolution2.percent3_33' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#579-581) is not in mixedCase
+Variable 'Revolution2.m_rgp' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#448-450) is not in mixedCase
+Variable 'Revolution2.m_privEnter' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#450-453) is not in mixedCase
+Variable 'Revolution2.m_referrals' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#453) is not in mixedCase
+Variable 'Revolution2.m_investors' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#453-454) is not in mixedCase
+Constant 'Revolution2.minInvesment' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#454-455) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Revolution2.maxBalance' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#455) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'Revolution2.m_1_percent' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#457-459) is not in mixedCase
+Variable 'Revolution2.m_2_percent' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#460) is not in mixedCase
+Variable 'Revolution2.m_3_33_percent' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#460-461) is not in mixedCase
+Variable 'Revolution2.m_adminsPercent' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#461-462) is not in mixedCase
+Variable 'Revolution2.m_advertisingPercent' (/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol#462-463) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/1/0x215ce36e90b1b64e6fa2e358305177f8fe5daf25.sol analyzed (12 contracts), 57 result(s) found

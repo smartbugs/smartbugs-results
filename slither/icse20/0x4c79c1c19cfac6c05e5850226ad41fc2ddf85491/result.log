@@ -1,0 +1,106 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:57:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function CslTokenDistribution(address _tokenAddress, address _owner) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:33:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address _to, uint256 _value) public returns (bool);
+    ^-------------------------------------------------------------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:34:5: Warning: Functions in interfaces should be declared external.
+    function totalSupply() constant public returns (uint256 supply);
+    ^--------------------------------------------------------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:35:5: Warning: Functions in interfaces should be declared external.
+    function balanceOf(address _owner) constant public returns (uint256 balance);
+    ^---------------------------------------------------------------------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:89:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Locked();
+        ^------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:95:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Unlocked();
+        ^--------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:101:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Bonustimer();
+        ^----------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:107:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NoBonustimer();
+        ^------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:129:13: Warning: Invoking events without "emit" prefix is deprecated.
+            sendTokens(addresses[i], drop);
+            ^----------------------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:140:13: Warning: Invoking events without "emit" prefix is deprecated.
+            sendTokens(addresses[i], amount);
+            ^------------------------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:152:13: Warning: Invoking events without "emit" prefix is deprecated.
+            sendTokens(addresses[i], amounts[i]);
+            ^----------------------------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:173:9: Warning: Invoking events without "emit" prefix is deprecated.
+        sendTokens(investor, tokens);
+        ^--------------------------^
+/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:183:32: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        uint256 etherBalance = this.balance;
+                               ^----------^
+
+INFO:Detectors:[91m
+CslTokenDistribution.balances (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#42-43) is never initialized. It is used in:
+	- balanceOf (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#112-116)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+CslTokenDistribution.airdrop (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#128-137) does not use the value returned by external calls:
+	-cslToken.transfer(addresses[i],drop) (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#135-137)
+CslTokenDistribution.distribution (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#139-149) does not use the value returned by external calls:
+	-cslToken.transfer(addresses[i],amount) (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#146-148)
+CslTokenDistribution.distributeAmounts (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#149-163) does not use the value returned by external calls:
+	-cslToken.transfer(addresses[i],amounts[i]) (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#162)
+CslTokenDistribution.getTokens (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#165-183) does not use the value returned by external calls:
+	-cslToken.transfer(investor,tokens) (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#182)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+CslTokenDistribution.airdrop has external calls inside a loop:
+	- cslToken.transfer(addresses[i],drop) (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#135-137)
+CslTokenDistribution.distribution has external calls inside a loop:
+	- cslToken.transfer(addresses[i],amount) (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#146-148)
+CslTokenDistribution.distributeAmounts has external calls inside a loop:
+	- cslToken.transfer(addresses[i],amounts[i]) (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#162)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+CslTokenDistribution.decimals should be constant (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#44-45)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+StandardToken.balanceOf (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#4-5) should be declared external
+StandardToken.transfer (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#5-8) should be declared external
+Token.transfer (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#33-34) should be declared external
+Token.totalSupply (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#34-35) should be declared external
+Token.balanceOf (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#35-38) should be declared external
+CslTokenDistribution.transferOwnership (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#62-69) should be declared external
+CslTokenDistribution.setAirdrop (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#69-72) should be declared external
+CslTokenDistribution.setCrowdsale (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#72-79) should be declared external
+CslTokenDistribution.lockContract (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#88-94) should be declared external
+CslTokenDistribution.unlockContract (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#95-101) should be declared external
+CslTokenDistribution.bonusOn (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#101-107) should be declared external
+CslTokenDistribution.bonusOff (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#107-112) should be declared external
+CslTokenDistribution.balanceOf (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#112-116) should be declared external
+CslTokenDistribution.getTokenBalance (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#117-123) should be declared external
+CslTokenDistribution.getEthBalance (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#124-127) should be declared external
+CslTokenDistribution.airdrop (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#128-137) should be declared external
+CslTokenDistribution.distribution (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#139-149) should be declared external
+CslTokenDistribution.distributeAmounts (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#149-163) should be declared external
+CslTokenDistribution.tokensAvailable (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#183-187) should be declared external
+CslTokenDistribution.withdraw (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#187-189) should be declared external
+CslTokenDistribution.withdrawStandardTokens (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#189-193) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Event 'CslTokenDistribution.sendTokens' (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#51-54) is not in CapWords
+Function 'CslTokenDistribution.CslTokenDistribution' (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#57-62) is not in mixedCase
+Parameter '_tokenAddress' of CslTokenDistribution.CslTokenDistribution (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#58) is not in mixedCase
+Parameter '_owner' of CslTokenDistribution.CslTokenDistribution (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#58-59) is not in mixedCase
+Parameter '_Drop' of CslTokenDistribution.setAirdrop (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#72) is not in mixedCase
+Parameter '_value' of CslTokenDistribution.setCrowdsale (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#73-74) is not in mixedCase
+Parameter '_bonus' of CslTokenDistribution.setCrowdsale (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#74-75) is not in mixedCase
+Parameter '_holder' of CslTokenDistribution.balanceOf (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#115) is not in mixedCase
+Parameter '_addr' of CslTokenDistribution.getEthBalance (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#124) is not in mixedCase
+Parameter '_tokenContract' of CslTokenDistribution.withdrawStandardTokens (/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol#190) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/16/0x4c79c1c19cfac6c05e5850226ad41fc2ddf85491.sol analyzed (4 contracts), 41 result(s) found

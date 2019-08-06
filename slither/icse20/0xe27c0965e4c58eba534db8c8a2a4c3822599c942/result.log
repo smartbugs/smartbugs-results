@@ -1,0 +1,100 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol:
+/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol:435:3: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+		admin.send(msg.value / 20); //5%
+		^------------------------^
+/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol:475:26: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x76d7aeD5ab1c4A5e210D0CCaC747d097f9D58966'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+		require (msg.sender == 0x76d7aed5ab1c4a5e210d0ccac747d097f9d58966); 
+		                       ^----------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in GreenRabbitKingdom.sellTokens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#454-472):
+	External calls:
+	- kingdom.getTribute(msg.sender) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#457)
+	- tokensValue = balanceOf(msg.sender) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#458-461)
+	External calls sending eth:
+	- msg.sender.transfer(address(this).balance) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#465)
+	State variables written after the call(s):
+	- kingdom (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#466-467)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+slayedWarriors in KingdomStorage.startWar (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#277) is a local variable never initialiazed
+lostCoins in KingdomStorage.startWar (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#286) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+GreenRabbitKingdom.buyTokens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#443-454) does not use the value returned by external calls:
+	-kingdom.mint(msg.sender,tokensValue) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#448-449)
+GreenRabbitKingdom.sellTokens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#454-472) does not use the value returned by external calls:
+	-kingdom.burn(msg.sender,tokensValue) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#468-472)
+GreenRabbitKingdom.addCitizens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#472-480) does not use the value returned by external calls:
+	-kingdom.burn(msg.sender,CitizensNumber * 100) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#478-480)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ERC20.balanceOf.owner (local variable @ /unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#135) shadows:
+	- Ownable.owner (state variable @ /unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#104-105)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in GreenRabbitKingdom.sellTokens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#454-472):
+	External calls:
+	- kingdom.getTribute(msg.sender) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#457)
+	- tokensValue = balanceOf(msg.sender) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#458-461)
+	External calls sending eth:
+	- msg.sender.transfer(address(this).balance) (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#465)
+	State variables written after the call(s):
+	- startTime (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#466-467)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+GreenRabbitKingdom.getGameAge (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#526-529) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > startTime (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#527-529)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+GreenRabbitKingdom.decimals should be constant (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#387-390)
+GreenRabbitKingdom.invested should be constant (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#383)
+GreenRabbitKingdom.name should be constant (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#385-387)
+GreenRabbitKingdom.payed should be constant (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#383-384)
+GreenRabbitKingdom.symbol should be constant (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#387)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20.burn (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#166-169) should be declared external
+GreenRabbitKingdom.attackKingdom (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#480-504) should be declared external
+GreenRabbitKingdom.synchronizeTokensBalance (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#515-524) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_a' of SafeMath.mul (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#52-53) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#53) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#64) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#64-65) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#71) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#71-72) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#78) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#79) is not in mixedCase
+Function 'ERC20._transfer' (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#175-181) is not in mixedCase
+Function 'ERC20._mint' (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#189-196) is not in mixedCase
+Function 'ERC20._burn' (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#202-216) is not in mixedCase
+Parameter '_address' of KingdomStorage.addCitizens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#231-232) is not in mixedCase
+Parameter '_number' of KingdomStorage.addCitizens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#232) is not in mixedCase
+Parameter '_are_warriors' of KingdomStorage.addCitizens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#232-233) is not in mixedCase
+Parameter '_address' of KingdomStorage.getTribute (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#253-256) is not in mixedCase
+Parameter '_invader' of KingdomStorage.startWar (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#261) is not in mixedCase
+Parameter '_attacked' of KingdomStorage.startWar (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#261) is not in mixedCase
+Parameter '_invader' of KingdomStorage.warFailed (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#307) is not in mixedCase
+Parameter '_address' of KingdomStorage.increaseProsperity (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#312) is not in mixedCase
+Parameter '_address' of KingdomStorage.increaseDefence (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#320) is not in mixedCase
+Parameter '_address' of KingdomStorage.getTributeValue (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#323) is not in mixedCase
+Parameter '_address' of KingdomStorage.getProsperity (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#339) is not in mixedCase
+Parameter '_address' of KingdomStorage.getDefence (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#340-343) is not in mixedCase
+Parameter '_address' of KingdomStorage.getLostCoins (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#344) is not in mixedCase
+Parameter '_address' of KingdomStorage.getCitizensNumber (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#348) is not in mixedCase
+Parameter '_address' of KingdomStorage.getWarriorsNumber (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#352) is not in mixedCase
+Parameter '_address' of KingdomStorage.getTributeCheckpoint (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#360) is not in mixedCase
+Parameter '_kingdomId' of KingdomStorage.getKingdomAddress (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#368-369) is not in mixedCase
+Parameter '_are_warriors' of GreenRabbitKingdom.addCitizens (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#473) is not in mixedCase
+Parameter '_invader' of GreenRabbitKingdom.attackKingdom (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#481) is not in mixedCase
+Parameter '_random' of GreenRabbitKingdom.attackKingdom (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#481) is not in mixedCase
+Parameter '_address' of GreenRabbitKingdom.getKingdomData (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#536) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+GreenRabbitKingdom.invested (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#383) is never used in GreenRabbitKingdom
+GreenRabbitKingdom.payed (/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol#383-384) is never used in GreenRabbitKingdom
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/12/0xe27c0965e4c58eba534db8c8a2a4c3822599c942.sol analyzed (6 contracts), 46 result(s) found

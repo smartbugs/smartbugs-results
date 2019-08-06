@@ -1,0 +1,207 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:163:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        msg.sender.send(dispute.fee); // Avoid blocking.
+        ^--------------------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:598:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            transaction.sender.send(extraFeeSender);
+            ^-------------------------------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:605:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            transaction.receiver.send(extraFeeReceiver);
+            ^-----------------------------------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:665:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            transaction.sender.send(transaction.senderFee + transaction.amount);
+            ^-----------------------------------------------------------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:667:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            transaction.receiver.send(transaction.receiverFee + transaction.amount);
+            ^---------------------------------------------------------------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:670:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            transaction.sender.send(split_amount);
+            ^-----------------------------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:671:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            transaction.receiver.send(split_amount);
+            ^-------------------------------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:55:28: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function createDispute(uint _choices, bytes memory _extraData) public requireArbitrationFee(_extraData) payable returns(uint disputeID) {}
+                           ^-----------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:55:125: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function createDispute(uint _choices, bytes memory _extraData) public requireArbitrationFee(_extraData) payable returns(uint disputeID) {}
+                                                                                                                            ^------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:65:27: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function appealPeriod(uint _disputeID) public view returns(uint start, uint end) {}
+                          ^-------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:65:64: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function appealPeriod(uint _disputeID) public view returns(uint start, uint end) {}
+                                                               ^--------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:65:76: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function appealPeriod(uint _disputeID) public view returns(uint start, uint end) {}
+                                                                           ^------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:120:30: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function arbitrationCost(bytes _extraData) public view returns(uint fee) {
+                             ^--------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:129:25: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function appealCost(uint _disputeID, bytes _extraData) public view returns(uint fee) {
+                        ^-------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:129:42: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function appealCost(uint _disputeID, bytes _extraData) public view returns(uint fee) {
+                                         ^--------------^
+/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol:65:5: Warning: Function state mutability can be restricted to pure
+    function appealPeriod(uint _disputeID) public view returns(uint start, uint end) {}
+    ^---------------------------------------------------------------------------------^
+
+INFO:Detectors:[91m
+CentralizedArbitrator._giveRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#157-169) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.send(dispute.fee) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#168)
+MultipleArbitrableTransaction.raiseDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#596-621) sends eth to arbitrary user
+	Dangerous calls:
+	- transaction.disputeId = arbitrator.createDispute.value(_arbitrationCost)(AMOUNT_OF_CHOICES,arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#601-603)
+	- transaction.sender.send(extraFeeSender) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#613-614)
+	- transaction.receiver.send(extraFeeReceiver) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#620-621)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in MultipleArbitrableTransaction.raiseDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#596-621):
+	External calls:
+	- transaction.disputeId = arbitrator.createDispute.value(_arbitrationCost)(AMOUNT_OF_CHOICES,arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#601-603)
+	State variables written after the call(s):
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#612-613)
+Reentrancy in MultipleArbitrableTransaction.raiseDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#596-621):
+	External calls:
+	- transaction.disputeId = arbitrator.createDispute.value(_arbitrationCost)(AMOUNT_OF_CHOICES,arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#601-603)
+	External calls sending eth:
+	- transaction.disputeId = arbitrator.createDispute.value(_arbitrationCost)(AMOUNT_OF_CHOICES,arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#601-603)
+	- transaction.sender.send(extraFeeSender) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#613-614)
+	State variables written after the call(s):
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#617-620)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+MultipleArbitrableTransaction.getTransactionIDsByAddress (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol) uses a dangerous strict equality:
+	- transactions[i].sender == _address || transactions[i].receiver == _address
+	- transactions[i].sender == _address || transactions[i].receiver == _address
+	- transactions[j].sender == _address || transactions[j].receiver == _address
+	- transactions[j].sender == _address || transactions[j].receiver == _address
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in MultipleArbitrableTransaction.payArbitrationFeeByReceiver (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#570-592):
+	External calls:
+	- arbitrationCost = arbitrator.arbitrationCost(arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#573-574)
+	State variables written after the call(s):
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#578)
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#585)
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#588-589)
+Reentrancy in MultipleArbitrableTransaction.payArbitrationFeeBySender (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#544-566):
+	External calls:
+	- arbitrationCost = arbitrator.arbitrationCost(arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#547-549)
+	State variables written after the call(s):
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#552-553)
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#558-559)
+	- transactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#562-563)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in AppealableArbitrator.appeal (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#266-279):
+	External calls:
+	- appealDisputes[_disputeID].appealDisputeID = arbitrator.createDispute.value(msg.value)(disputes[_disputeID].choices,_extraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#274-278)
+	State variables written after the call(s):
+	- appealDisputeIDsToDisputeIDs (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#278-279)
+Reentrancy in MultipleArbitrableTransaction.payArbitrationFeeByReceiver (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#570-592):
+	External calls:
+	- arbitrationCost = arbitrator.arbitrationCost(arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#573-574)
+	- raiseDispute(_transactionID,arbitrationCost) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#591)
+	External calls sending eth:
+	- raiseDispute(_transactionID,arbitrationCost) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#591)
+	State variables written after the call(s):
+	- disputeIDtoTransactionID (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#591)
+Reentrancy in MultipleArbitrableTransaction.payArbitrationFeeBySender (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#544-566):
+	External calls:
+	- arbitrationCost = arbitrator.arbitrationCost(arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#547-549)
+	- raiseDispute(_transactionID,arbitrationCost) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#566)
+	External calls sending eth:
+	- raiseDispute(_transactionID,arbitrationCost) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#566)
+	State variables written after the call(s):
+	- disputeIDtoTransactionID (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#566)
+Reentrancy in MultipleArbitrableTransaction.raiseDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#596-621):
+	External calls:
+	- transaction.disputeId = arbitrator.createDispute.value(_arbitrationCost)(AMOUNT_OF_CHOICES,arbitratorExtraData) (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#601-603)
+	State variables written after the call(s):
+	- disputeIDtoTransactionID (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#603-604)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+IArbitrable.rule (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#13-16) should be declared external
+MultipleArbitrableTransaction.rule (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#655-665) should be declared external
+Arbitrable.rule (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#27-33) should be declared external
+Arbitrator.appealPeriod (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#65-67) should be declared external
+AppealableArbitrator.disputeStatus (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#319-330) should be declared external
+CentralizedArbitrator.disputeStatus (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#183-187) should be declared external
+Arbitrator.disputeStatus (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#67-69) should be declared external
+Arbitrator.currentRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#69-73) should be declared external
+CentralizedArbitrator.currentRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#195-198) should be declared external
+CentralizedArbitrator.setArbitrationPrice (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#113-117) should be declared external
+MultipleArbitrableTransaction.createTransaction (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#455-470) should be declared external
+MultipleArbitrableTransaction.pay (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#473-485) should be declared external
+MultipleArbitrableTransaction.reimburse (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#488-499) should be declared external
+MultipleArbitrableTransaction.executeTransaction (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#507-516) should be declared external
+MultipleArbitrableTransaction.timeOutBySender (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#520-528) should be declared external
+MultipleArbitrableTransaction.timeOutByReceiver (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#532-537) should be declared external
+MultipleArbitrableTransaction.payArbitrationFeeBySender (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#544-566) should be declared external
+MultipleArbitrableTransaction.payArbitrationFeeByReceiver (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#570-592) should be declared external
+MultipleArbitrableTransaction.submitEvidence (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#628-639) should be declared external
+MultipleArbitrableTransaction.appeal (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#643-646) should be declared external
+MultipleArbitrableTransaction.getCountTransactions (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#700-702) should be declared external
+MultipleArbitrableTransaction.getTransactionIDsByAddress (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_disputeID' of Arbitrable.rule (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#27) is not in mixedCase
+Parameter '_ruling' of Arbitrable.rule (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#27-28) is not in mixedCase
+Parameter '_arbitrator' of Arbitrable. (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#22) is not in mixedCase
+Parameter '_arbitratorExtraData' of Arbitrable. (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#22-23) is not in mixedCase
+Parameter '_disputeID' of Arbitrator.appeal (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#59) is not in mixedCase
+Parameter '_choices' of CentralizedArbitrator.createDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#141) is not in mixedCase
+Parameter '_extraData' of CentralizedArbitrator.createDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#141) is not in mixedCase
+Parameter '_disputeID' of CentralizedArbitrator.disputeStatus (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#184) is not in mixedCase
+Parameter '_disputeID' of CentralizedArbitrator.currentRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#195-196) is not in mixedCase
+Parameter '_arbitrationPrice' of CentralizedArbitrator. (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#109) is not in mixedCase
+Parameter '_arbitrationPrice' of CentralizedArbitrator.setArbitrationPrice (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#116) is not in mixedCase
+Function 'CentralizedArbitrator._giveRuling' (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#157-169) is not in mixedCase
+Parameter '_disputeID' of CentralizedArbitrator._giveRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#157-158) is not in mixedCase
+Parameter '_ruling' of CentralizedArbitrator._giveRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#158) is not in mixedCase
+Parameter '_disputeID' of CentralizedArbitrator.giveRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#176) is not in mixedCase
+Parameter '_ruling' of CentralizedArbitrator.giveRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#176) is not in mixedCase
+Parameter '_disputeID' of AppealableArbitrator.appeal (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#266) is not in mixedCase
+Parameter '_extraData' of AppealableArbitrator.appeal (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#266) is not in mixedCase
+Parameter '_disputeID' of AppealableArbitrator.appealCost (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#308) is not in mixedCase
+Parameter '_extraData' of AppealableArbitrator.appealCost (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#308) is not in mixedCase
+Parameter '_disputeID' of AppealableArbitrator.disputeStatus (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#322) is not in mixedCase
+Parameter '_disputeID' of AppealableArbitrator.giveRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#281) is not in mixedCase
+Parameter '_ruling' of AppealableArbitrator.giveRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#281) is not in mixedCase
+Parameter '_disputeID' of AppealableArbitrator.executeRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#337) is not in mixedCase
+Parameter '_ruling' of AppealableArbitrator.executeRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#337) is not in mixedCase
+Parameter '_timeOut' of AppealableArbitrator. (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#233) is not in mixedCase
+Parameter '_arbitrator' of AppealableArbitrator.changeArbitrator (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#243) is not in mixedCase
+Parameter '_timeOut' of AppealableArbitrator.changeTimeOut (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#251) is not in mixedCase
+Parameter '_disputeID' of AppealableArbitrator.getAppealDisputeID (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#253) is not in mixedCase
+Parameter '_disputeID' of MultipleArbitrableTransaction.rule (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#656) is not in mixedCase
+Parameter '_ruling' of MultipleArbitrableTransaction.rule (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#656) is not in mixedCase
+Parameter '_arbitrator' of MultipleArbitrableTransaction. (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#438-439) is not in mixedCase
+Parameter '_arbitratorExtraData' of MultipleArbitrableTransaction. (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#439) is not in mixedCase
+Parameter '_feeTimeout' of MultipleArbitrableTransaction. (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#440) is not in mixedCase
+Parameter '_timeoutPayment' of MultipleArbitrableTransaction.createTransaction (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#456-457) is not in mixedCase
+Parameter '_receiver' of MultipleArbitrableTransaction.createTransaction (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#457-458) is not in mixedCase
+Parameter '_metaEvidence' of MultipleArbitrableTransaction.createTransaction (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#458) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.pay (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#474) is not in mixedCase
+Parameter '_amount' of MultipleArbitrableTransaction.pay (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#474) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.reimburse (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#488-489) is not in mixedCase
+Parameter '_amountReimbursed' of MultipleArbitrableTransaction.reimburse (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#489) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.executeTransaction (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#507) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.timeOutBySender (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#522) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.timeOutByReceiver (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#532) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.payArbitrationFeeBySender (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#545) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.payArbitrationFeeByReceiver (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#571) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.raiseDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#596) is not in mixedCase
+Parameter '_arbitrationCost' of MultipleArbitrableTransaction.raiseDispute (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#596) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.submitEvidence (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#629) is not in mixedCase
+Parameter '_evidence' of MultipleArbitrableTransaction.submitEvidence (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#629) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.appeal (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#643) is not in mixedCase
+Parameter '_transactionID' of MultipleArbitrableTransaction.executeRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#669-670) is not in mixedCase
+Parameter '_ruling' of MultipleArbitrableTransaction.executeRuling (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol#670) is not in mixedCase
+Parameter '_address' of MultipleArbitrableTransaction.getTransactionIDsByAddress (/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/33/0x5906db495c9f27f73a9c46790cc79d860a6e9b5d.sol analyzed (6 contracts), 87 result(s) found

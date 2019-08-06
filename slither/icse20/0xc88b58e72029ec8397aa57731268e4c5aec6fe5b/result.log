@@ -1,0 +1,166 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:242:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function InbestToken() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:268:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:366:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function InbestDistribution(uint256 _startTime, address _companyWallet) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:499:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function InbestTokenDistributor (InbestDistribution _inbestDistribution) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:97:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:153:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:169:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:195:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:216:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:245:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(0x0, msg.sender, INITIAL_SUPPLY);
+    ^---------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:286:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:380:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogNewAllocation(companyWallet, AllocationType.COMPANY, tokensToAllocate, grandTotalAllocated());
+    ^----------------------------------------------------------------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:399:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogNewAllocation(_recipient, AllocationType.PRESALE, _totalAllocated, grandTotalAllocated());
+    ^------------------------------------------------------------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:428:4: Warning: Invoking events without "emit" prefix is deprecated.
+   LogIBSTClaimed(_recipient, allocations[_recipient].allocationType, tokensToTransfer, newAmountClaimed, grandTotalClaimed);
+   ^-----------------------------------------------------------------------------------------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:448:4: Warning: Invoking events without "emit" prefix is deprecated.
+   LogIBSTClaimed(_recipient, uint8(AllocationType.COMPANY), _tokensToTransfer, allocations[companyWallet].amountClaimed, grandTotalClaimed);
+   ^---------------------------------------------------------------------------------------------------------------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:475:6: Warning: Invoking events without "emit" prefix is deprecated.
+     SetAdmin(msg.sender,_admin,_allowed);
+     ^----------------------------------^
+/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:484:5: Warning: Invoking events without "emit" prefix is deprecated.
+    RefundTokens(_token, _refund, _value);
+    ^-----------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in InbestDistribution.InbestDistribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#373-389):
+	External calls:
+	- require(bool)(AVAILABLE_TOTAL_SUPPLY == IBST.totalSupply()) (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#379-380)
+	State variables written after the call(s):
+	- AVAILABLE_COMPANY_SUPPLY (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#384-385)
+	- AVAILABLE_TOTAL_SUPPLY (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#386-388)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+InbestTokenDistributor.distributeTokens has external calls inside a loop:
+	- inbestDistribution.transferTokens(walletsToDistribute[i]) (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#527-529)
+InbestTokenDistributor.distributeTokensToWallets has external calls inside a loop:
+	- inbestDistribution.transferTokens(_addresses[i]) (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#538-539)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in InbestDistribution.InbestDistribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#373-389):
+	External calls:
+	- require(bool)(AVAILABLE_TOTAL_SUPPLY == IBST.totalSupply()) (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#379-380)
+	State variables written after the call(s):
+	- allocations (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#385-386)
+Reentrancy in InbestDistribution.manualContribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#442-463):
+	External calls:
+	- require(bool)(IBST.transfer(_recipient,_tokensToTransfer)) (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#456)
+	State variables written after the call(s):
+	- grandTotalClaimed (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#456-460)
+Reentrancy in InbestDistribution.transferTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#412-438):
+	External calls:
+	- require(bool)(IBST.transfer(_recipient,tokensToTransfer)) (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#434)
+	State variables written after the call(s):
+	- grandTotalClaimed (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#434-436)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+InbestDistribution.CLIFF should be constant (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#319)
+InbestDistribution.VESTING should be constant (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#320-321)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#83-87) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#60) should be declared external
+BasicToken.balanceOf (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#108-116) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#60-61) should be declared external
+BasicToken.transfer (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#91-103) should be declared external
+ERC20Basic.transfer (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#61-62) should be declared external
+ERC20.allowance (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#120-121) should be declared external
+StandardToken.allowance (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#184-187) should be declared external
+StandardToken.transferFrom (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#147-160) should be declared external
+ERC20.transferFrom (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#121-122) should be declared external
+StandardToken.approve (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#170-176) should be declared external
+ERC20.approve (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#122-125) should be declared external
+StandardToken.increaseApproval (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#195-203) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#212-227) should be declared external
+Ownable.transferOwnership (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#297-306) should be declared external
+InbestDistribution.setAllocation (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#392-409) should be declared external
+InbestDistribution.transferTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#412-438) should be declared external
+InbestDistribution.manualContribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#442-463) should be declared external
+InbestDistribution.companyRemainingAllocation (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#469-473) should be declared external
+InbestDistribution.setAdmin (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#484-492) should be declared external
+InbestDistribution.refundTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#492-500) should be declared external
+InbestTokenDistributor.distributeTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#519-529) should be declared external
+InbestTokenDistributor.distributeTokensToWallets (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#532-539) should be declared external
+InbestTokenDistributor.addWallets (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#550-555) should be declared external
+InbestTokenDistributor.removeWallet (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#112) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#92) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#92) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#184-185) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#185-186) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#148) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#148) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#148) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#171-174) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#174) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#195) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#195-196) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#213-214) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#214) is not in mixedCase
+Function 'InbestToken.InbestToken' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#253-255) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#281-282) is not in mixedCase
+Function 'InbestDistribution.InbestDistribution' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#373-389) is not in mixedCase
+Parameter '_startTime' of InbestDistribution.InbestDistribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#373) is not in mixedCase
+Parameter '_companyWallet' of InbestDistribution.InbestDistribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#373) is not in mixedCase
+Parameter '_recipient' of InbestDistribution.setAllocation (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#392) is not in mixedCase
+Parameter '_totalAllocated' of InbestDistribution.setAllocation (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#392) is not in mixedCase
+Parameter '_recipient' of InbestDistribution.transferTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#412) is not in mixedCase
+Parameter '_recipient' of InbestDistribution.manualContribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#442) is not in mixedCase
+Parameter '_tokensToTransfer' of InbestDistribution.manualContribution (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#442) is not in mixedCase
+Parameter '_admin' of InbestDistribution.setAdmin (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#484) is not in mixedCase
+Parameter '_allowed' of InbestDistribution.setAdmin (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#485-488) is not in mixedCase
+Parameter '_token' of InbestDistribution.refundTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#492-493) is not in mixedCase
+Parameter '_refund' of InbestDistribution.refundTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#493) is not in mixedCase
+Parameter '_value' of InbestDistribution.refundTokens (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#493) is not in mixedCase
+Variable 'InbestDistribution.IBST' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#314) is not in mixedCase
+Variable 'InbestDistribution.CLIFF' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#319) is not in mixedCase
+Variable 'InbestDistribution.VESTING' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#320-321) is not in mixedCase
+Variable 'InbestDistribution.AVAILABLE_TOTAL_SUPPLY' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#322-323) is not in mixedCase
+Variable 'InbestDistribution.AVAILABLE_PRESALE_SUPPLY' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#325-328) is not in mixedCase
+Variable 'InbestDistribution.AVAILABLE_COMPANY_SUPPLY' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#331-334) is not in mixedCase
+Function 'InbestTokenDistributor.InbestTokenDistributor' (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#510-517) is not in mixedCase
+Parameter '_inbestDistribution' of InbestTokenDistributor.InbestTokenDistributor (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#510-515) is not in mixedCase
+Parameter '_addresses' of InbestTokenDistributor.distributeTokensToWallets (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#532-533) is not in mixedCase
+Parameter '_newAddress' of InbestTokenDistributor.addWallet (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#544-546) is not in mixedCase
+Parameter '_addresses' of InbestTokenDistributor.addWallets (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#551) is not in mixedCase
+Parameter '_removeAddress' of InbestTokenDistributor.removeWallet (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+InbestDistribution.DECIMALFACTOR (/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol#317-319) is never used in InbestDistribution
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/18/0xc88b58e72029ec8397aa57731268e4c5aec6fe5b.sol analyzed (9 contracts), 75 result(s) found

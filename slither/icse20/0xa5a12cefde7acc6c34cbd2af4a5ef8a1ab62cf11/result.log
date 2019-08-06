@@ -1,0 +1,130 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol:
+/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol:36:39: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x340e85491c5F581360811d0cE5CC7476c72900Ba'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    address public tokenAddress_GIC = 0x340e85491c5f581360811d0ce5cc7476c72900ba;
+                                      ^----------------------------------------^
+/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol:55:31: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    uint random_source = uint(keccak256(msg.sender, block.difficulty, now));
+                              ^------------------------------------------^
+/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol:136:31: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        uint8 comp=uint8(uint(keccak256(random_source, block.difficulty, block.timestamp))%3);
+                              ^---------------------------------------------------------^
+/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol:163:39: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        uint24 random_player = uint24(keccak256(msg.sender, now, random_source))%Probability;
+                                      ^---------------------------------------^
+/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol:164:40: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        uint24 random_lottery = uint24(keccak256(random_source, block.difficulty, bal))%Probability;
+                                       ^---------------------------------------------^
+
+INFO:Detectors:[93m
+game.compare (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#202-228) uses a dangerous strict equality:
+	- _player == 0 && _comp == 2
+	- _player == 2 && _comp == 0
+	- _player == _comp
+game.compare (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#202-228) uses a dangerous strict equality:
+	- _player == 0 && _comp == 2
+	- _player == 2 && _comp == 0
+	- _player == _comp
+game.play_game (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#136-201) uses a dangerous strict equality:
+	- result == 2
+	- result == 1
+	- result == 0
+	- random_player == random_lottery
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+game.play_game (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#136-201) uses timestamp for comparisons
+	Dangerous comparisons:
+	- result == 1 (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#163-166)
+	- result == 0 (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#164-166)
+	- require(bool)(readyTime[msg.sender] < block.timestamp) (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#137-140)
+	- result == 2 (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#147-166)
+game.compare (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#202-228) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _player > _comp (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#223-227)
+	- _player == _comp (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#220-227)
+	- _player == 2 && _comp == 0 (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#218-227)
+	- _player == 0 && _comp == 2 (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#214-227)
+game.view_readyTime (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= readyTime[_address] (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#24)
+game.Probability should be constant (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#57)
+game.airdrop_Arina should be constant (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#46)
+game.airdrop_GIC should be constant (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#44)
+game.total_airdrop_Arina should be constant (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#49-50)
+game.total_airdrop_GIC should be constant (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#47-48)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+owned.transferOwnership (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#17-23) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#24-25) should be declared external
+ERC20Basic.transfer (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#25-30) should be declared external
+game.stop_game (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#75-78) should be declared external
+game.start_game (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#78-81) should be declared external
+game.set_address_GIC (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#82-86) should be declared external
+game.set_address_Arina (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#86-90) should be declared external
+game.set_address_A (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#90-94) should be declared external
+game.set_address_B (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#94-98) should be declared external
+game.set_cooldown (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#98-99) should be declared external
+game.withdraw_GIC (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#99-106) should be declared external
+game.withdraw_Arina (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#107-114) should be declared external
+game.withdraw_eth (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#117-121) should be declared external
+game.fallback (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#123-128) should be declared external
+game.play_paper (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#128-129) should be declared external
+game.play_scissors (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#129-131) should be declared external
+game.play_stone (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#132-136) should be declared external
+game.self_readyTime (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Contract 'owned' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#7-23) is not in CapWords
+Contract 'game' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#34-342) is not in CapWords
+Event 'game.Play_game' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#61-67) is not in CapWords
+Function 'game.stop_game' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#75-78) is not in mixedCase
+Function 'game.start_game' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#78-81) is not in mixedCase
+Function 'game.set_address_GIC' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#82-86) is not in mixedCase
+Parameter 'new_address' of game.set_address_GIC (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#82) is not in mixedCase
+Function 'game.set_address_Arina' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#86-90) is not in mixedCase
+Parameter 'new_address' of game.set_address_Arina (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#86) is not in mixedCase
+Function 'game.set_address_A' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#90-94) is not in mixedCase
+Parameter 'new_address' of game.set_address_A (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#90-91) is not in mixedCase
+Function 'game.set_address_B' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#94-98) is not in mixedCase
+Parameter 'new_address' of game.set_address_B (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#95) is not in mixedCase
+Function 'game.set_cooldown' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#98-99) is not in mixedCase
+Parameter 'new_cooldown' of game.set_cooldown (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#98) is not in mixedCase
+Function 'game.withdraw_GIC' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#99-106) is not in mixedCase
+Parameter '_amount' of game.withdraw_GIC (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#99-101) is not in mixedCase
+Function 'game.withdraw_Arina' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#107-114) is not in mixedCase
+Parameter '_amount' of game.withdraw_Arina (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#108) is not in mixedCase
+Function 'game.withdraw_eth' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#117-121) is not in mixedCase
+Function 'game.play_paper' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#128-129) is not in mixedCase
+Function 'game.play_scissors' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#129-131) is not in mixedCase
+Function 'game.play_stone' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#132-136) is not in mixedCase
+Function 'game.play_game' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#136-201) is not in mixedCase
+Parameter '_player' of game.compare (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#203-205) is not in mixedCase
+Parameter '_comp' of game.compare (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#205-206) is not in mixedCase
+Function 'game.Arina_judgment' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#228-275) is not in mixedCase
+Function 'game.level_judgment' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#275-301) is not in mixedCase
+Parameter '_address' of game.level_judgment (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#275-276) is not in mixedCase
+Function 'game.eth_amount_judgment' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#302-315) is not in mixedCase
+Parameter '_level' of game.eth_amount_judgment (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#303) is not in mixedCase
+Function 'game.Arina_amount_judgment' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#315-339) is not in mixedCase
+Parameter '_level' of game.Arina_amount_judgment (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#317-318) is not in mixedCase
+Parameter '_Arina' of game.Arina_amount_judgment (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#319-320) is not in mixedCase
+Function 'game.Arina_amount' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#339-342) is not in mixedCase
+Function 'game.view_readyTime' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol) is not in mixedCase
+Parameter '_address' of game.view_readyTime (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol) is not in mixedCase
+Function 'game.self_readyTime' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol) is not in mixedCase
+Variable 'game.tokenAddress_GIC' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#36-37) is not in mixedCase
+Variable 'game.tokenAddress_Arina' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#37-39) is not in mixedCase
+Variable 'game.address_A' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#39-40) is not in mixedCase
+Variable 'game.address_B' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#40-43) is not in mixedCase
+Variable 'game.airdrop_GIC' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#44) is not in mixedCase
+Variable 'game.airdrop_Arina' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#46) is not in mixedCase
+Variable 'game.total_airdrop_GIC' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#47-48) is not in mixedCase
+Variable 'game.total_airdrop_Arina' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#49-50) is not in mixedCase
+Variable 'game.sent_times' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#52) is not in mixedCase
+Variable 'game.sent_limit' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#53-55) is not in mixedCase
+Variable 'game.Probability' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#57) is not in mixedCase
+Variable 'game.random_source' (/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol#59-60) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/27/0xa5a12cefde7acc6c34cbd2af4a5ef8a1ab62cf11.sol analyzed (3 contracts), 74 result(s) found

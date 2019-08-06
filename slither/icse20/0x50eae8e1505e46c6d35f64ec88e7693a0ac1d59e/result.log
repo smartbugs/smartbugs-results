@@ -1,0 +1,75 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol:
+/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol:26:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function task() public
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol:36:5: Warning: Function state mutability can be restricted to pure
+    function safeAdd(uint crtbal, uint depbal) public  returns (uint) 
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol:42:5: Warning: Function state mutability can be restricted to pure
+    function safeSub(uint crtbal, uint depbal) public  returns (uint) 
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol:48:5: Warning: Function state mutability can be restricted to view
+    function balanceOf(address token,address user) public  returns(uint256)            // show bal of perticular token in user add
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+task.withdrawETH (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#97-103) sends eth to arbitrary user
+	Dangerous calls:
+	- to.transfer(value) (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#103)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+task (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#18-113) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#55-65)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+task.transfer (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#55-65) does not use the value returned by external calls:
+	-Token(token).transferFrom(msg.sender,address(this),tokens) (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#61-65)
+task.token_withdraw (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#65-74) does not use the value returned by external calls:
+	-Token(token).transfer(to,tokens) (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#74)
+task.admin_token_withdraw (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#74-86) does not use the value returned by external calls:
+	-Token(token).transfer(to,tokens) (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#86)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in task.transfer (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#55-65):
+	External calls:
+	- Token(token).approve(address(this),tokens) (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#60-65)
+	State variables written after the call(s):
+	- dep_token (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#60-61)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Token.allowTransactions should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#8-9)
+Token.decimals should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#7-8)
+Token.name should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#4-5)
+Token.standard should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#3-4)
+Token.symbol should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#5-6)
+Token.totalSupply should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#6-7)
+task.owner should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#21-22)
+task.useraddr should be constant (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#20-21)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Token.transfer (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#11-12) should be declared external
+Token.approveAndCall (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#12-13) should be declared external
+Token.approve (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#13-14) should be declared external
+Token.transferFrom (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#14-17) should be declared external
+task.balanceOf (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#48-55) should be declared external
+task.transfer (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#55-65) should be declared external
+task.token_withdraw (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#65-74) should be declared external
+task.admin_token_withdraw (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#74-86) should be declared external
+task.tok_bal_contract (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#86-92) should be declared external
+task.withdrawETH (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#97-103) should be declared external
+task.admin_withdrawETH (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#103-113) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol:
+	- pragma solidity^0.4.0 (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'task' (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#18-113) is not in CapWords
+Function 'task.token_withdraw' (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#65-74) is not in mixedCase
+Function 'task.admin_token_withdraw' (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#74-86) is not in mixedCase
+Function 'task.tok_bal_contract' (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#86-92) is not in mixedCase
+Function 'task.admin_withdrawETH' (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#103-113) is not in mixedCase
+Variable 'task.dep_token' (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#22-23) is not in mixedCase
+Variable 'task.dep_ETH' (/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol#23-26) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/25/0x50eae8e1505e46c6d35f64ec88e7693a0ac1d59e.sol analyzed (2 contracts), 26 result(s) found

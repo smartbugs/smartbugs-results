@@ -1,0 +1,80 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:21:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Matthew(){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:38:13: Warning: Use of the "var" keyword is deprecated.
+            var nextStake = stake * WINNERTAX_PRECENT/100;  // leave some money for the next round
+            ^-----------^
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:47:44: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+            if (msg.value < stake + DELTA) throw; // you must rise the stake by Delta
+                                           ^---^
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:85:34: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+        if (msg.sender != owner) throw;
+                                 ^---^
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:27:17: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        stake = this.balance;
+                ^----------^
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:41:13: Warning: Invoking events without "emit" prefix is deprecated.
+            MatthewWon("Matthew won", whale, stake - nextStake, block.number);
+            ^---------------------------------------------------------------^
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:50:13: Warning: Invoking events without "emit" prefix is deprecated.
+            StakeIncreased("stake increased", whale, stake, blockheight);
+            ^----------------------------------------------------------^
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:21:5: Warning: No visibility specified. Defaulting to "public". 
+    function Matthew(){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:34:5: Warning: No visibility specified. Defaulting to "public". 
+    function () payable{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:48:13: Warning: Unused local variable.
+            bool isOtherSuccess = msg.sender.send(stake); // give back the old stake
+            ^-----------------^
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:55:5: Warning: No visibility specified. Defaulting to "public". 
+    function destroyWhenRoundOver() onlyOwner{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:60:5: Warning: No visibility specified. Defaulting to "public". 
+    function setNewPeriod(uint _newPeriod) onlyOwner{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:64:5: Warning: No visibility specified. Defaulting to "public". 
+    function getPeriod() constant returns (uint){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:68:5: Warning: No visibility specified. Defaulting to "public". 
+    function getNewPeriod() constant returns (uint){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:72:5: Warning: No visibility specified. Defaulting to "public". 
+    function getDestroyedWhenRoundOver() constant returns (bool){
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Matthew.fallback (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#36-55) sends eth to arbitrary user
+	Dangerous calls:
+	- isSuccess = whale.send(stake - nextStake) (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#40-41)
+	- isOtherSuccess = msg.sender.send(stake) (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#48-49)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Matthew.fallback (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#36-55) allows anyone to destruct the contract
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#suicidal[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#48:
+	- Usage of "throw" should be replaced with "revert()"
+Deprecated standard detected @ /unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:
+	- Usage of "throw" should be replaced with "revert()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Matthew.fallback (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#36-55) should be declared external
+Matthew.destroyWhenRoundOver (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#56-60) should be declared external
+Matthew.setNewPeriod (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#61-65) should be declared external
+Matthew.getPeriod (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#65-69) should be declared external
+Matthew.getNewPeriod (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#69-72) should be declared external
+Matthew.getDestroyedWhenRoundOver (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#73-77) should be declared external
+Matthew.getBlocksTillMatthew (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#78-86) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol:
+	- pragma solidity^0.4.6 (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Matthew.Matthew' (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#22-26) is not in mixedCase
+Parameter '_newPeriod' of Matthew.setNewPeriod (/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol#61-64) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/14/0x75aa81161e07483f6ca199fef46c13eb13d190be.sol analyzed (1 contracts), 14 result(s) found

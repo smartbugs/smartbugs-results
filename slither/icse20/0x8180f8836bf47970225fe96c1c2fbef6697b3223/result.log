@@ -1,0 +1,129 @@
+INFO:Detectors:[91m
+DCLEscrow.ownerEscrowsCounter (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#218-220) is never initialized. It is used in:
+	- getEscrowCountByAssetIdArray (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#337-339)
+DCLEscrow.publicationFeeTotal (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#232-233) is never initialized. It is used in:
+	- getPublicationFeeTotal (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#304-305)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636) uses a dangerous strict equality:
+	- require(bool,string)(msg.sender == escrowByEscrowId[escrowId].buyer,You are not authorized for this escrow.)
+	- require(bool)(seller == nonFungibleRegistry.ownerOf(assetIds[a]))
+DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636) uses a dangerous strict equality:
+	- require(bool,string)(msg.sender == escrowByEscrowId[escrowId].buyer,You are not authorized for this escrow.)
+	- require(bool)(seller == nonFungibleRegistry.ownerOf(assetIds[a]))
+DCLEscrow.placeOffer (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#369-397) uses a dangerous strict equality:
+	- require(bool,string)(msg.sender == escrowByEscrowId[escrowId].buyer,You are not authorized for this escrow.)
+DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636) uses a dangerous strict equality:
+	- require(bool,string)(msg.sender == escrowByEscrowId[escrowId].buyer,You are not authorized for this escrow.)
+	- require(bool)(seller == nonFungibleRegistry.ownerOf(assetIds[a]))
+DCLEscrow.placeOffer (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#369-397) uses a dangerous strict equality:
+	- require(bool,string)(msg.sender == escrowByEscrowId[escrowId].buyer,You are not authorized for this escrow.)
+DCLEscrow.removeEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#513-552) uses a dangerous strict equality:
+	- require(bool)(seller == msg.sender || msg.sender == owner)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636):
+	External calls:
+	- acceptedToken.transferFrom(msg.sender,owner,publicationFeeInWei) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#591-595)
+	- acceptedToken.transferFrom(seller,owner,publicationFeeInWei) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#598-606)
+	- acceptedToken.transferFrom(msg.sender,seller,escrowPrice) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#608-614)
+	State variables written after the call(s):
+	- assetIdByEscrowId (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol)
+	- escrowByEscrowId (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636) does not use the value returned by external calls:
+	-acceptedToken.transferFrom(msg.sender,owner,publicationFeeInWei) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#591-595)
+	-acceptedToken.transferFrom(seller,owner,publicationFeeInWei) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#598-606)
+	-acceptedToken.transferFrom(msg.sender,seller,escrowPrice) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#608-614)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+DCLEscrow.createNewEscrow has external calls inside a loop:
+	- assetOwner = nonFungibleRegistry.ownerOf(assedIds[i]) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#401)
+DCLEscrow.createNewEscrow has external calls inside a loop:
+	- require(bool,string)(nonFungibleRegistry.exists(assedIds[i]),This parcel does not exist.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#405-407)
+DCLEscrow.createNewEscrow has external calls inside a loop:
+	- require(bool,string)(nonFungibleRegistry.isAuthorized(address(this),assedIds[i]),You have not authorized DCL Escrow to manage your LAND tokens.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#408-413)
+DCLEscrow.acceptEscrow has external calls inside a loop:
+	- nonFungibleRegistry.safeTransferFrom(seller,msg.sender,tempId) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#617-621)
+DCLEscrow.acceptEscrow has external calls inside a loop:
+	- require(bool)(seller == nonFungibleRegistry.ownerOf(assetIds[a])) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#578-580)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636):
+	External calls:
+	- acceptedToken.transferFrom(msg.sender,owner,publicationFeeInWei) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#591-595)
+	- acceptedToken.transferFrom(seller,owner,publicationFeeInWei) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#598-606)
+	- acceptedToken.transferFrom(msg.sender,seller,escrowPrice) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#608-614)
+	State variables written after the call(s):
+	- allOwnerParcelsOnEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol)
+	- escrowByOwnerId (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#631-633)
+Reentrancy in DCLEscrow.createNewEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#398-466):
+	External calls:
+	- assetOwner = nonFungibleRegistry.ownerOf(assedIds[i]) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#401)
+	- require(bool,string)(nonFungibleRegistry.exists(assedIds[i]),This parcel does not exist.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#405-407)
+	- require(bool,string)(nonFungibleRegistry.isAuthorized(address(this),assedIds[i]),You have not authorized DCL Escrow to manage your LAND tokens.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#408-413)
+	State variables written after the call(s):
+	- allOwnerParcelsOnEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#415)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+DCLEscrow.placeOffer (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#369-397) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(escrowByEscrowId[escrowId].id != 0x0,That escrow ID is no longer valid.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#377-379)
+	- require(bool,string)(msg.sender == escrowByEscrowId[escrowId].buyer,You are not authorized for this escrow.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#387-391)
+	- require(bool,string)(acceptsOffers,This escrow does not accept offers.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#382-383)
+	- require(bool,string)(seller != msg.sender,You are the owner of this escrow.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#373)
+	- require(bool)(seller != address(0)) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#375)
+DCLEscrow.removeEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#513-552) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(seller == msg.sender || msg.sender == owner) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#518-519)
+DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(seller != msg.sender) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#559)
+	- require(bool,string)(msg.sender == escrowByEscrowId[escrowId].buyer,You are not authorized for this escrow.) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#565-569)
+	- require(bool)(seller != address(0)) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#559-560)
+	- require(bool)(seller == nonFungibleRegistry.ownerOf(assetIds[a])) (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#578-580)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+DCLEscrow.publicationFeeTotal should be constant (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#232-233)
+DCLEscrow.whitelistCounter should be constant (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#226-229)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#37-45) should be declared external
+Destructible.destroy (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#59-62) should be declared external
+Destructible.destroyAndSend (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#62-67) should be declared external
+ERC20Interface.transferFrom (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#173-175) should be declared external
+ERC721Interface.ownerOf (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#176-177) should be declared external
+ERC721Interface.safeTransferFrom (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#177-180) should be declared external
+ERC721Interface.isAuthorized (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#180-183) should be declared external
+ERC721Interface.exists (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#183-184) should be declared external
+DCLEscrow.addAddressWhitelist (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#259-266) should be declared external
+DCLEscrow.updateEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#284-290) should be declared external
+DCLEscrow.setPublicationFee (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#299-304) should be declared external
+DCLEscrow.getPublicationFeeTotal (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#304-305) should be declared external
+DCLEscrow.getSingleEscrowAdmin (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#311-329) should be declared external
+DCLEscrow.getAssetByEscrowIdLength (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#329-332) should be declared external
+DCLEscrow.getSingleAssetByEscrowIdLength (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#333-337) should be declared external
+DCLEscrow.getEscrowCountByAssetIdArray (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#337-339) should be declared external
+DCLEscrow.getAllOwnedParcelsOnEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#341-345) should be declared external
+DCLEscrow.getParcelAssetIdOnEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#345-346) should be declared external
+DCLEscrow.getEscrowCountById (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#346-352) should be declared external
+DCLEscrow.getEscrowInfo (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#352-369) should be declared external
+DCLEscrow.placeOffer (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#369-397) should be declared external
+DCLEscrow.createNewEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#398-466) should be declared external
+DCLEscrow.cancelAllEscrows (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#466-475) should be declared external
+DCLEscrow.removeEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#513-552) should be declared external
+DCLEscrow.acceptEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#555-636) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_recipient' of Destructible.destroyAndSend (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#63-67) is not in mixedCase
+Parameter '_acceptedToken' of DCLEscrow.updateEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#284-286) is not in mixedCase
+Parameter '_nonFungibleRegistry' of DCLEscrow.updateEscrow (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#286) is not in mixedCase
+Parameter '_acceptedToken' of DCLEscrow. (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#291) is not in mixedCase
+Parameter '_nonFungibleRegistry' of DCLEscrow. (/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol#291-294) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/44/0x8180f8836bf47970225fe96c1c2fbef6697b3223.sol analyzed (7 contracts), 49 result(s) found

@@ -1,0 +1,160 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:18:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Controlled() public { controller = msg.sender;}
+    ^------------------------------------------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:164:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MiniMeToken(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:240:12: Warning: Use of the "var" keyword is deprecated.
+           var previousBalanceFrom = balanceOfAt(_from, block.number);
+           ^---------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:256:12: Warning: Use of the "var" keyword is deprecated.
+           var previousBalanceTo = balanceOfAt(_to, block.number);
+           ^-------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:261:12: Warning: Invoking events without "emit" prefix is deprecated.
+           Transfer(_from, _to, _amount);
+           ^---------------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:293:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _amount);
+        ^-------------------------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:424:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewCloneToken(address(cloneToken), _snapshotBlock);
+        ^------------------------------------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:444:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(0, _owner, _amount);
+        ^--------------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:461:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_owner, 0, _amount);
+        ^--------------------------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:559:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            controller.transfer(this.balance);
+                                ^----------^
+/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:566:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ClaimedTokens(_token, controller, balance);
+        ^----------------------------------------^
+
+INFO:Detectors:[91m
+MiniMeToken.balances (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#136) is never initialized. It is used in:
+	- doTransfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#235-270)
+	- balanceOfAt (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#349-372)
+	- generateTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#442-457)
+	- destroyTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#461-480)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+MiniMeToken.isContract (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#542-546) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in MiniMeToken.approve (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#283-300):
+	External calls:
+	- require(bool)(TokenController(controller).onApprove(msg.sender,_spender,_amount)) (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#298-299)
+	State variables written after the call(s):
+	- allowed (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#299)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+MiniMeToken.claimTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#573-585) does not use the value returned by external calls:
+	-token.transfer(controller,balance) (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#584)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MiniMeToken.getValueAt.min (local variable @ /unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#510) shadows:
+	- MiniMeToken.min (function @ /unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#551-554)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+MiniMeToken.isContract uses assembly (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#542-546)
+	- /unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#545-546
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+MiniMeToken.version should be constant (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#107)
+TokenController.SALE should be constant (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#62-64)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Controlled.changeController (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#22-28) should be declared external
+ERC20.balanceOf (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#31-32) should be declared external
+ERC20.transfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#32-33) should be declared external
+ERC20.allowance (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#33-34) should be declared external
+ERC20.transferFrom (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#34-35) should be declared external
+ERC20.approve (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#35-36) should be declared external
+ERC20MiniMe.approveAndCall (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#45-46) should be declared external
+ERC20MiniMe.totalSupply (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#46-47) should be declared external
+ERC20MiniMe.balanceOfAt (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#47-48) should be declared external
+ERC20MiniMe.totalSupplyAt (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#48-49) should be declared external
+ERC20MiniMe.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#49-50) should be declared external
+ERC20MiniMe.generateTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#50-51) should be declared external
+ERC20MiniMe.destroyTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#51-52) should be declared external
+ERC20MiniMe.enableTransfers (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#52-53) should be declared external
+ERC20MiniMe.claimTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#55) should be declared external
+TokenController.addHodlerStake (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#65-66) should be declared external
+TokenController.setHodlerStake (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#66-70) should be declared external
+TokenController.setHodlerTime (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#70) should be declared external
+TokenController.proxyPayment (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#75) should be declared external
+TokenController.onTransfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#81-84) should be declared external
+TokenController.onApprove (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#89-93) should be declared external
+ApproveAndCallFallBack.receiveApproval (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#93-97) should be declared external
+MiniMeToken.transfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#197-200) should be declared external
+MiniMeToken.transferFrom (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#207-223) should be declared external
+MiniMeToken.allowance (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#308-311) should be declared external
+MiniMeToken.approveAndCall (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#323-339) should be declared external
+MiniMeToken.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#415-437) should be declared external
+MiniMeToken.generateTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#442-457) should be declared external
+MiniMeToken.destroyTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#461-480) should be declared external
+MiniMeToken.enableTransfers (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#483-485) should be declared external
+MiniMeToken.fallback (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#558-564) should be declared external
+MiniMeToken.claimTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#573-585) should be declared external
+MiniMeTokenFactory.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol:
+	- pragma solidity^0.4.17 (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Controlled.Controlled' (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#18-20) is not in mixedCase
+Parameter '_newController' of Controlled.changeController (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#22) is not in mixedCase
+Variable 'TokenController.SALE' (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#62-64) is not in mixedCase
+Function 'MiniMeToken.MiniMeToken' (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#169-190) is not in mixedCase
+Parameter '_tokenFactory' of MiniMeToken.MiniMeToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#170-171) is not in mixedCase
+Parameter '_parentToken' of MiniMeToken.MiniMeToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#171-172) is not in mixedCase
+Parameter '_parentSnapShotBlock' of MiniMeToken.MiniMeToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#173) is not in mixedCase
+Parameter '_tokenName' of MiniMeToken.MiniMeToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#173-174) is not in mixedCase
+Parameter '_decimalUnits' of MiniMeToken.MiniMeToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#174) is not in mixedCase
+Parameter '_tokenSymbol' of MiniMeToken.MiniMeToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#174) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.MiniMeToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#174-175) is not in mixedCase
+Parameter '_to' of MiniMeToken.transfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#197) is not in mixedCase
+Parameter '_amount' of MiniMeToken.transfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#197) is not in mixedCase
+Parameter '_from' of MiniMeToken.transferFrom (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#207) is not in mixedCase
+Parameter '_to' of MiniMeToken.transferFrom (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#207) is not in mixedCase
+Parameter '_amount' of MiniMeToken.transferFrom (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#208) is not in mixedCase
+Parameter '_from' of MiniMeToken.doTransfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#235) is not in mixedCase
+Parameter '_to' of MiniMeToken.doTransfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#235) is not in mixedCase
+Parameter '_amount' of MiniMeToken.doTransfer (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#235) is not in mixedCase
+Parameter '_owner' of MiniMeToken.balanceOf (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#273-274) is not in mixedCase
+Parameter '_spender' of MiniMeToken.approve (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#283) is not in mixedCase
+Parameter '_amount' of MiniMeToken.approve (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#283) is not in mixedCase
+Parameter '_owner' of MiniMeToken.allowance (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#309) is not in mixedCase
+Parameter '_spender' of MiniMeToken.allowance (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#309) is not in mixedCase
+Parameter '_spender' of MiniMeToken.approveAndCall (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#326-328) is not in mixedCase
+Parameter '_amount' of MiniMeToken.approveAndCall (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#328) is not in mixedCase
+Parameter '_extraData' of MiniMeToken.approveAndCall (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#328) is not in mixedCase
+Parameter '_owner' of MiniMeToken.balanceOfAt (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#349) is not in mixedCase
+Parameter '_blockNumber' of MiniMeToken.balanceOfAt (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#349) is not in mixedCase
+Parameter '_blockNumber' of MiniMeToken.totalSupplyAt (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#375) is not in mixedCase
+Parameter '_cloneTokenName' of MiniMeToken.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#416-417) is not in mixedCase
+Parameter '_cloneDecimalUnits' of MiniMeToken.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#417-418) is not in mixedCase
+Parameter '_cloneTokenSymbol' of MiniMeToken.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#418-421) is not in mixedCase
+Parameter '_snapshotBlock' of MiniMeToken.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#421) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#421-423) is not in mixedCase
+Parameter '_owner' of MiniMeToken.generateTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#443) is not in mixedCase
+Parameter '_amount' of MiniMeToken.generateTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#443) is not in mixedCase
+Parameter '_owner' of MiniMeToken.destroyTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#462) is not in mixedCase
+Parameter '_amount' of MiniMeToken.destroyTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#462-465) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.enableTransfers (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#484) is not in mixedCase
+Parameter '_block' of MiniMeToken.getValueAt (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#497) is not in mixedCase
+Parameter '_value' of MiniMeToken.updateValueAtNow (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#521) is not in mixedCase
+Parameter '_addr' of MiniMeToken.isContract (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#543) is not in mixedCase
+Parameter '_token' of MiniMeToken.claimTokens (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol#573-574) is not in mixedCase
+Parameter '_parentToken' of MiniMeTokenFactory.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol) is not in mixedCase
+Parameter '_snapshotBlock' of MiniMeTokenFactory.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol) is not in mixedCase
+Parameter '_tokenName' of MiniMeTokenFactory.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol) is not in mixedCase
+Parameter '_decimalUnits' of MiniMeTokenFactory.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol) is not in mixedCase
+Parameter '_tokenSymbol' of MiniMeTokenFactory.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeTokenFactory.createCloneToken (/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/41/0xd6a5839f4b10296a0ec801b7826b7d28e781472a.sol analyzed (7 contracts), 91 result(s) found

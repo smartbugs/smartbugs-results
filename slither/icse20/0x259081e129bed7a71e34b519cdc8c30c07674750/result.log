@@ -1,0 +1,62 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol:
+/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol:19:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol:47:9: Warning: Invoking events without "emit" prefix is deprecated.
+        OwnershipTransferred(owner, newOwner);
+        ^-----------------------------------^
+/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol:54:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address receiver, uint amount) public returns (bool);
+    ^---------------------------------------------------------------------^
+/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol:55:5: Warning: Functions in interfaces should be declared external.
+    function redeemToken(uint256 _mtcTokens, address _from) public;
+    ^-------------------------------------------------------------^
+
+INFO:Detectors:[93m
+MoatFund.transferToken (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#108-126) does not use the value returned by external calls:
+	-tokenTransfer.transfer(msg.sender,MTCToken) (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#121-124)
+	-tokenTransfer.transfer(teamAddress,teamToken) (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#124-125)
+MoatFund.collectERC20 (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#145-148) does not use the value returned by external calls:
+	-tokenTransfer.transfer(owner,amount) (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MoatFund.collectERC20.tokenAddress (local variable @ /unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#145-148) shadows:
+	- addressKeeper.tokenAddress (state variable @ /unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#60-61)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in MoatFund.redeem (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#129-143):
+	External calls:
+	- tokenBalance.redeemToken(_mtcTokens,msg.sender) (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#133)
+	State variables written after the call(s):
+	- ethRedeemed (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#134)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.changeSecOwner (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#36-42) should be declared external
+Ownable.transferOwnership (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#45-54) should be declared external
+token.transfer (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#54-55) should be declared external
+token.redeemToken (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#55-59) should be declared external
+addressKeeper.setTokenAdd (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#63-66) should be declared external
+addressKeeper.setBoardAdd (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#66-69) should be declared external
+addressKeeper.setTeamAdd (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#69-76) should be declared external
+MoatFund.startMint (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#89-96) should be declared external
+MoatFund.startRedeem (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#97-105) should be declared external
+MoatFund.fallback (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#105-107) should be declared external
+MoatFund.redeem (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#129-143) should be declared external
+MoatFund.sendETHtoBoard (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#143-145) should be declared external
+MoatFund.collectERC20 (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#145-148) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#19-24) is not in mixedCase
+Contract 'token' (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#54-59) is not in CapWords
+Contract 'addressKeeper' (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#59-76) is not in CapWords
+Parameter '_rate' of MoatFund.startMint (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#90) is not in mixedCase
+Parameter '_minWeiInvest' of MoatFund.startMint (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#91-92) is not in mixedCase
+Parameter '_rate' of MoatFund.startRedeem (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#98) is not in mixedCase
+Parameter '_mtcTokens' of MoatFund.redeem (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#129) is not in mixedCase
+Parameter '_wei' of MoatFund.sendETHtoBoard (/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol#143) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/12/0x259081e129bed7a71e34b519cdc8c30c07674750.sol analyzed (4 contracts), 26 result(s) found

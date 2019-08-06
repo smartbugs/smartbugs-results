@@ -1,0 +1,211 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:589:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function LendContract
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:971:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function LendToken() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:963:46: Warning: Initial value for constant variable has to be compile-time constant. This will fail to compile with the next breaking version change.
+    uint256 public constant INITIAL_SUPPLY = 51 * 1e6 * (10 ** uint256(decimals)); // 50M + 1M bounty
+                                             ^----------------------------------^
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:132:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:133:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:174:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:175:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:116:3: Warning: Function state mutability can be restricted to pure
+  function _preValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:131:3: Warning: Function state mutability can be restricted to pure
+  function _postValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:173:3: Warning: Function state mutability can be restricted to pure
+  function _updatePurchasingState(
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in LendContract.finish (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#700-721):
+	External calls:
+	- alreadyMinted = token.totalSupply() (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#701-704)
+	- MintableToken(token).mint(_reserveFund,tokensForReserve) (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#715-719)
+	State variables written after the call(s):
+	- crowdsaleStarted (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#720)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+_stage in LendContract.setCrowdsaleStage (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#621) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+LendContract.finish (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#700-721) does not use the value returned by external calls:
+	-MintableToken(token).mint(_reserveFund,tokensForReserve) (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#715-719)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in LendContract.finish (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#700-721):
+	External calls:
+	- alreadyMinted = token.totalSupply() (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#701-704)
+	State variables written after the call(s):
+	- tokensForReserve (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#712-714)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TimedCrowdsale.constructor (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#285-293) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_openingTime >= block.timestamp) (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#289-291)
+TimedCrowdsale.hasClosed (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#299-306) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > closingTime (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#303-306)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+LendContract.maxTokens should be constant (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#553-554)
+LendContract.tokensForBounty should be constant (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#558)
+LendContract.totalTokensForSaleDuringPreSale should be constant (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#562-564)
+LendContract.totalTokensForTokenSale should be constant (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#559-560)
+LendToken.decimals should be constant (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#991-992)
+LendToken.name should be constant (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#988-990)
+LendToken.symbol should be constant (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#990-991)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+CappedCrowdsale.capReached (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#244-247) should be declared external
+TimedCrowdsale.hasClosed (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#299-306) should be declared external
+Ownable.renounceOwnership (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#406-408) should be declared external
+Ownable.transferOwnership (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#412-418) should be declared external
+DailyLimitCrowdsale.setTime (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#458-469) should be declared external
+LendContract.setCrowdsaleStage (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#618-665) should be declared external
+LendContract.setRate (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#670-674) should be declared external
+LendContract.setCrowdSale (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#674-677) should be declared external
+LendContract.pauseCrowdsale (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#687-689) should be declared external
+LendContract.unPauseCrowdsale (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#690-691) should be declared external
+LendContract.finish (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#700-721) should be declared external
+ERC20Basic.totalSupply (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#721-723) should be declared external
+BasicToken.totalSupply (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#736-738) should be declared external
+BasicToken.balanceOf (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#773-778) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#723-724) should be declared external
+StandardToken.allowance (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#872-878) should be declared external
+ERC20.allowance (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#782-788) should be declared external
+ERC20.transferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#788-794) should be declared external
+StandardToken.transferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#826-838) should be declared external
+ERC20.approve (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#794-798) should be declared external
+StandardToken.approve (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#857-860) should be declared external
+StandardToken.increaseApproval (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#890-899) should be declared external
+StandardToken.decreaseApproval (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#924-944) should be declared external
+MintableToken.mint (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#963-975) should be declared external
+MintableToken.finishMinting (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#978-985) should be declared external
+LendToken.deliver (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol) should be declared external
+LendToken.setFee (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol:
+	- pragma solidity^0.4.13 (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_rate' of Crowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#54-55) is not in mixedCase
+Parameter '_wallet' of Crowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#55-56) is not in mixedCase
+Parameter '_token' of Crowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#56) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.buyTokens (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#82) is not in mixedCase
+Function 'Crowdsale._preValidatePurchase' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#122-127) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#123) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#126-127) is not in mixedCase
+Function 'Crowdsale._postValidatePurchase' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#138-142) is not in mixedCase
+Function 'Crowdsale._deliverTokens' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#151-156) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._deliverTokens (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#155) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._deliverTokens (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#155) is not in mixedCase
+Function 'Crowdsale._processPurchase' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#169-170) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._processPurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#169) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._processPurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#169) is not in mixedCase
+Function 'Crowdsale._updatePurchasingState' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#183-185) is not in mixedCase
+Function 'Crowdsale._getTokenAmount' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#194-201) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._getTokenAmount (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#196) is not in mixedCase
+Function 'Crowdsale._forwardFunds' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#205-206) is not in mixedCase
+Function 'MintedCrowdsale._deliverTokens' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#215-226) is not in mixedCase
+Parameter '_beneficiary' of MintedCrowdsale._deliverTokens (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#215-219) is not in mixedCase
+Parameter '_tokenAmount' of MintedCrowdsale._deliverTokens (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#219) is not in mixedCase
+Function 'CappedCrowdsale._preValidatePurchase' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#258-268) is not in mixedCase
+Parameter '_beneficiary' of CappedCrowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#259-261) is not in mixedCase
+Parameter '_weiAmount' of CappedCrowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#261-262) is not in mixedCase
+Parameter '_cap' of CappedCrowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#238) is not in mixedCase
+Function 'TimedCrowdsale._preValidatePurchase' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#318-321) is not in mixedCase
+Parameter '_beneficiary' of TimedCrowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#318-319) is not in mixedCase
+Parameter '_weiAmount' of TimedCrowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#319) is not in mixedCase
+Parameter '_openingTime' of TimedCrowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#288) is not in mixedCase
+Parameter '_closingTime' of TimedCrowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#288) is not in mixedCase
+Parameter '_a' of SafeMath.mul (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#326-327) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#327) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#342) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#342) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#363) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#363) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#371) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#371) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#416) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#423-428) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#424) is not in mixedCase
+Function 'DailyLimitCrowdsale._preValidatePurchase' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#534-540) is not in mixedCase
+Parameter '_beneficiary' of DailyLimitCrowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#535-536) is not in mixedCase
+Parameter '_weiAmount' of DailyLimitCrowdsale._preValidatePurchase (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#536-537) is not in mixedCase
+Function 'DailyLimitCrowdsale._deliverTokens' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#541-548) is not in mixedCase
+Parameter '_beneficiary' of DailyLimitCrowdsale._deliverTokens (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#542-544) is not in mixedCase
+Parameter '_tokenAmount' of DailyLimitCrowdsale._deliverTokens (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#544) is not in mixedCase
+Parameter '_minDailyPerUser' of DailyLimitCrowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#448-449) is not in mixedCase
+Parameter '_maxDailyPerUser' of DailyLimitCrowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#449-450) is not in mixedCase
+Parameter '_dailyLimit' of DailyLimitCrowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#450) is not in mixedCase
+Parameter '_stageLimit' of DailyLimitCrowdsale. (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#451-454) is not in mixedCase
+Parameter '_openingTime' of DailyLimitCrowdsale.setTime (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#461) is not in mixedCase
+Parameter '_closingTime' of DailyLimitCrowdsale.setTime (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#461) is not in mixedCase
+Function 'DailyLimitCrowdsale._setDailyLimit' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#475-476) is not in mixedCase
+Parameter '_value' of DailyLimitCrowdsale._setDailyLimit (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#475) is not in mixedCase
+Function 'DailyLimitCrowdsale._setMinDailyPerUser' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#476-477) is not in mixedCase
+Parameter '_value' of DailyLimitCrowdsale._setMinDailyPerUser (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#477) is not in mixedCase
+Function 'DailyLimitCrowdsale._setMaxDailyPerUser' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#477-481) is not in mixedCase
+Parameter '_value' of DailyLimitCrowdsale._setMaxDailyPerUser (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#480) is not in mixedCase
+Function 'DailyLimitCrowdsale._setStageLimit' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#481-483) is not in mixedCase
+Parameter '_value' of DailyLimitCrowdsale._setStageLimit (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#482) is not in mixedCase
+Parameter '_value' of DailyLimitCrowdsale.underLimit (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#489) is not in mixedCase
+Function 'LendContract.LendContract' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#608-618) is not in mixedCase
+Parameter '_rate' of LendContract.setCurrentRate (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#667-668) is not in mixedCase
+Parameter '_rate' of LendContract.setRate (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#670) is not in mixedCase
+Parameter '_started' of LendContract.setCrowdSale (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#674-675) is not in mixedCase
+Parameter '_value' of LendContract.setDailyLimit (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#678) is not in mixedCase
+Parameter '_value' of LendContract.setMinDailyPerUser (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#681) is not in mixedCase
+Parameter '_value' of LendContract.setMaxDailyPerUser (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#683) is not in mixedCase
+Parameter '_value' of LendContract.setStageLimit (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#686) is not in mixedCase
+Parameter '_reserveFund' of LendContract.finish (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#700) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#774) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#746-748) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#748) is not in mixedCase
+Parameter '_token' of SafeERC20.safeTransfer (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#800) is not in mixedCase
+Parameter '_to' of SafeERC20.safeTransfer (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#801) is not in mixedCase
+Parameter '_value' of SafeERC20.safeTransfer (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#801) is not in mixedCase
+Parameter '_token' of SafeERC20.safeTransferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#806-808) is not in mixedCase
+Parameter '_from' of SafeERC20.safeTransferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#808-809) is not in mixedCase
+Parameter '_to' of SafeERC20.safeTransferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#809-811) is not in mixedCase
+Parameter '_value' of SafeERC20.safeTransferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#811) is not in mixedCase
+Parameter '_token' of SafeERC20.safeApprove (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#815) is not in mixedCase
+Parameter '_spender' of SafeERC20.safeApprove (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#815-816) is not in mixedCase
+Parameter '_value' of SafeERC20.safeApprove (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#816) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#872-873) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#873-876) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#826) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#826) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#826) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#857) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#857) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#892) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#892-893) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#925) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#925) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#964-965) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#966) is not in mixedCase
+Parameter '_to' of LendToken.transfer (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol) is not in mixedCase
+Parameter '_value' of LendToken.transfer (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol) is not in mixedCase
+Function 'LendToken.LendToken' (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#1003-1009) is not in mixedCase
+Parameter '_contractAddress' of LendToken.setContractAddress (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol#1012-1013) is not in mixedCase
+Parameter '_beneficiary' of LendToken.deliver (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol) is not in mixedCase
+Parameter '_tokenAmount' of LendToken.deliver (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol) is not in mixedCase
+Parameter '_fee' of LendToken.setFee (/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x294adfa61038c0e1e968507d7ada6be5e6562629.sol analyzed (15 contracts), 139 result(s) found

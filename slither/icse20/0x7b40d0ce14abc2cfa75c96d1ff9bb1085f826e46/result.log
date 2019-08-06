@@ -1,0 +1,392 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol:
+/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol:3197:16: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        return accessPolicy().allowed(sender, ROLE_EURT_LEGAL_MANAGER, msg.sender, msg.sig) && newController != address(0x0);
+               ^--------------------------------------------------------------------------^
+
+INFO:Detectors:[91m
+Reclaimable.reclaim (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1008-1021) sends eth to arbitrary user
+	Dangerous calls:
+	- reclaimer.transfer(address(this).balance) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1013-1014)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Neumark.VERSION (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2463-2464) shadows:
+	- TokenMetadata.VERSION (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1307-1309)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variable-shadowing[0m
+INFO:Detectors:[91m
+BasicSnapshotToken._balances (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1971-1972) is never initialized. It is used in:
+	- mTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2182-2221)
+	- allBalancesOf (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2111-2130)
+	- balanceOfAtInternal (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2153-2173)
+	- mGenerateTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2269-2284)
+	- mDestroyTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2286-2304)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+IdentityRecord.deserializeClaims (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#216-230) is declared view but contains assembly code
+IsContract.isContract (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#742-746) is declared view but contains assembly code
+NeumarkIssuanceCurve.cumulative (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#828-864) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Agreement.acceptAgreementInternal (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#713-725) uses a dangerous strict equality:
+	- _signatories[accepter] == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Neumark.burnPrivate (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2649-2671):
+	External calls:
+	- mDestroyTokens(msg.sender,burnNeumarkUlps) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2657-2658)
+	- _totalEurUlps = cumulativeInverse(totalSupply(),minEurUlps,maxEurUlps) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2659-2663)
+	State variables written after the call(s):
+	- _totalEurUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2659-2663)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+idx in Universe.dropInstance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3060) is a local variable never initialiazed
+idx in Universe.isAnyOfInterfaceCollectionInstance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2833) is a local variable never initialiazed
+idx in Universe.getManySingletons (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2804) is a local variable never initialiazed
+idx in Universe.setManySingletons (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2861) is a local variable never initialiazed
+idx in Universe.setInterfaceInManyCollections (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2878) is a local variable never initialiazed
+idx in Universe.setCollectionsInterfaces (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2895) is a local variable never initialiazed
+idx in Universe.addInstance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3036) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+TokenAllowance.allowance.override (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1581-1582) shadows built-in symbol "override"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#builtin-symbol-shadowing[0m
+INFO:Detectors:[92m
+Agreement.constructor.accessPolicy (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#610-611) shadows:
+	- AccessControlled.accessPolicy (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#138-142)
+	- IAccessControlled.accessPolicy (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#57-64)
+TokenMetadata.constructor.version (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1332) shadows:
+	- TokenMetadata.version (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1349-1352)
+BasicSnapshotToken.constructor.parentToken (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2005-2007) shadows:
+	- BasicSnapshotToken.parentToken (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2094-2098)
+	- IClonedTokenParent.parentToken (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1929-1930)
+BasicSnapshotToken.constructor.parentSnapshotId (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2007-2008) shadows:
+	- BasicSnapshotToken.parentSnapshotId (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2102-2105)
+	- IClonedTokenParent.parentSnapshotId (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1930-1931)
+MintableSnapshotToken.constructor.parentToken (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2261-2263) shadows:
+	- BasicSnapshotToken.parentToken (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2094-2098)
+	- IClonedTokenParent.parentToken (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1929-1930)
+MintableSnapshotToken.constructor.parentSnapshotId (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2263) shadows:
+	- BasicSnapshotToken.parentSnapshotId (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2102-2105)
+	- IClonedTokenParent.parentSnapshotId (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1930-1931)
+StandardSnapshotToken.constructor.parentToken (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2395-2397) shadows:
+	- BasicSnapshotToken.parentToken (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2094-2098)
+	- IClonedTokenParent.parentToken (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1929-1930)
+StandardSnapshotToken.constructor.parentSnapshotId (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2397-2398) shadows:
+	- BasicSnapshotToken.parentSnapshotId (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2102-2105)
+	- IClonedTokenParent.parentSnapshotId (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1930-1931)
+Neumark.constructor.accessPolicy (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2495) shadows:
+	- AccessControlled.accessPolicy (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#138-142)
+	- IAccessControlled.accessPolicy (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#57-64)
+Universe.constructor.accessPolicy (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2778) shadows:
+	- Universe.accessPolicy (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2906-2912)
+	- AccessControlled.accessPolicy (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#138-142)
+	- IAccessControlled.accessPolicy (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#57-64)
+Universe.constructor.forkArbiter (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2779-2781) shadows:
+	- Universe.forkArbiter (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2912-2918)
+EuroTokenController.applySettings.minDepositAmountEurUlps (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3186-3187) shadows:
+	- EuroTokenController.minDepositAmountEurUlps (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3203-3208)
+EuroTokenController.applySettings.minWithdrawAmountEurUlps (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3187) shadows:
+	- EuroTokenController.minWithdrawAmountEurUlps (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3208-3213)
+EuroTokenController.applySettings.maxSimpleExchangeAllowanceEurUlps (local variable @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3187-3190) shadows:
+	- EuroTokenController.maxSimpleExchangeAllowanceEurUlps (function @ /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3215-3220)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in EuroTokenController.allowFromUniverse (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3320-3322):
+	External calls:
+	- setAllowedTransferFromPrivate(UNIVERSE.euroLock(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	State variables written after the call(s):
+	- _allowedTransferFrom (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+Reentrancy in EuroTokenController.allowFromUniverse (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3320-3322):
+	External calls:
+	- setAllowedTransferFromPrivate(UNIVERSE.euroLock(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.gasExchange(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	State variables written after the call(s):
+	- _allowedTransferFrom (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+Reentrancy in EuroTokenController.allowFromUniverse (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3320-3322):
+	External calls:
+	- setAllowedTransferFromPrivate(UNIVERSE.euroLock(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.gasExchange(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferToPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	State variables written after the call(s):
+	- _allowedTransferTo (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+Reentrancy in EuroTokenController.allowFromUniverse (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3320-3322):
+	External calls:
+	- setAllowedTransferFromPrivate(UNIVERSE.euroLock(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.gasExchange(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferToPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferToPrivate(UNIVERSE.euroLock(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	State variables written after the call(s):
+	- _allowedTransferTo (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+Reentrancy in EuroTokenController.allowFromUniverse (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3320-3322):
+	External calls:
+	- setAllowedTransferFromPrivate(UNIVERSE.euroLock(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferFromPrivate(UNIVERSE.gasExchange(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferToPrivate(UNIVERSE.feeDisbursal(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferToPrivate(UNIVERSE.euroLock(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	- setAllowedTransferToPrivate(UNIVERSE.gasExchange(),true) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+	State variables written after the call(s):
+	- _allowedTransferTo (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol)
+Reentrancy in EuroTokenController.applySettingsPrivate (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3308-3318):
+	External calls:
+	- _identityRegistry = IIdentityRegistry(UNIVERSE.identityRegistry()) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3310-3312)
+	- allowFromUniverse() (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3312-3313)
+	State variables written after the call(s):
+	- _allowedTransferFrom (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3312-3313)
+	- _allowedTransferTo (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3312-3313)
+	- _maxSimpleExchangeAllowanceEurUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3316-3317)
+	- _minDepositAmountEurUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3313-3315)
+	- _minWithdrawAmountEurUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3315)
+Reentrancy in BasicSnapshotToken.constructor (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2005-2034):
+	External calls:
+	- require(bool)(parentToken.currentSnapshotId() > 0) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2022-2026)
+	- PARENT_SNAPSHOT_ID = parentToken.currentSnapshotId() - 1 (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2027-2029)
+	State variables written after the call(s):
+	- PARENT_SNAPSHOT_ID (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2027-2029)
+Reentrancy in AccessControlled.setAccessPolicy (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#116-136):
+	External calls:
+	- require(bool)(newPolicy.allowed(newAccessController,ROLE_ACCESS_CONTROLLER,this,msg.sig)) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#123-124)
+	State variables written after the call(s):
+	- _accessPolicy (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#129-131)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Daily.constructor (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1110-1124) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(start >= base) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1119)
+	- require(bool)(start < base + 2 ** 128) (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1122-1124)
+DailyAndSnapshotable.mAdvanceSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1243-1259) uses timestamp for comparisons
+	Dangerous comparisons:
+	- base > _currentSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1252-1257)
+DailyAndSnapshotable.mCurrentSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1259-1264) uses timestamp for comparisons
+	Dangerous comparisons:
+	- base > _currentSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1262-1263)
+DailyAndSnapshotable.createSnapshot (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1207-1237) uses timestamp for comparisons
+	Dangerous comparisons:
+	- base > _currentSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1215-1232)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+IdentityRecord.deserializeClaims uses assembly (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#216-230)
+	- /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#219-230
+IsContract.isContract uses assembly (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#742-746)
+	- /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#745-746
+NeumarkIssuanceCurve.cumulative uses assembly (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#828-864)
+	- /unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#855-863
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Daily.MAX_TIMESTAMP should be constant (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1090-1092)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+IAccessPolicy.allowed (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#17-27) should be declared external
+IAccessControlled.setAccessPolicy (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#52-57) should be declared external
+AccessControlled.setAccessPolicy (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#116-136) should be declared external
+IIdentityRegistry.getClaims (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#250) should be declared external
+IIdentityRegistry.setClaims (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#254-255) should be declared external
+EuroTokenController.contractId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3301-3305) should be declared external
+Universe.contractId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2901-2905) should be declared external
+IContractId.contractId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#361-362) should be declared external
+ITokenController.onTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#375-380) should be declared external
+EuroTokenController.onTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3223-3242) should be declared external
+EuroTokenController.onApprove (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3243-3247) should be declared external
+ITokenController.onApprove (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#381-386) should be declared external
+ITokenController.onGenerateTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#386-388) should be declared external
+EuroTokenController.onGenerateTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3249-3258) should be declared external
+EuroTokenController.onDestroyTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3259-3278) should be declared external
+ITokenController.onDestroyTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#388-394) should be declared external
+ITokenController.onChangeTokenController (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#396-397) should be declared external
+EuroTokenController.onChangeTokenController (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3278-3290) should be declared external
+ITokenController.onAllowance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#419-426) should be declared external
+EuroTokenController.onAllowance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3292-3300) should be declared external
+IEthereumForkArbiter.nextForkName (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#448-453) should be declared external
+IEthereumForkArbiter.nextForkUrl (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#453-460) should be declared external
+IEthereumForkArbiter.nextForkBlockNumber (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#460-461) should be declared external
+IEthereumForkArbiter.lastSignedBlockNumber (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#461-462) should be declared external
+IEthereumForkArbiter.lastSignedBlockHash (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#462) should be declared external
+IEthereumForkArbiter.lastSignedTimestamp (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#462-463) should be declared external
+IAgreement.amendAgreement (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#509) should be declared external
+Agreement.amendAgreement (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#625-640) should be declared external
+IAgreement.currentAgreement (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#515-522) should be declared external
+Agreement.currentAgreement (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#647-670) should be declared external
+Agreement.pastAgreement (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#670-693) should be declared external
+IAgreement.pastAgreement (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#528-540) should be declared external
+Agreement.agreementSignedAtBlock (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#694-702) should be declared external
+IAgreement.agreementSignedAtBlock (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#547-550) should be declared external
+Agreement.amendmentsCount (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#702-707) should be declared external
+IAgreement.amendmentsCount (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#552-557) should be declared external
+Agreement.ethereumForkArbiter (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#640-647) should be declared external
+NeumarkIssuanceCurve.incrementalInverse (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#791-802) should be declared external
+NeumarkIssuanceCurve.incrementalInverse (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#809-824) should be declared external
+NeumarkIssuanceCurve.neumarkCap (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#944-949) should be declared external
+NeumarkIssuanceCurve.initialRewardFraction (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#949-952) should be declared external
+BasicSnapshotToken.transfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2067-2075) should be declared external
+IBasicToken.transfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#978-982) should be declared external
+Reclaimable.reclaim (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1008-1021) should be declared external
+ISnapshotable.currentSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1037-1039) should be declared external
+BasicSnapshotToken.currentSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2088-2090) should be declared external
+Daily.snapshotAt (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1125-1126) should be declared external
+TokenMetadata.symbol (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1344-1345) should be declared external
+ITokenMetadata.symbol (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1270-1272) should be declared external
+ITokenMetadata.name (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1272-1273) should be declared external
+TokenMetadata.name (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1342-1344) should be declared external
+ITokenMetadata.decimals (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1274-1275) should be declared external
+TokenMetadata.decimals (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1345-1348) should be declared external
+TokenMetadata.version (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1349-1352) should be declared external
+TokenAllowance.allowance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1579-1584) should be declared external
+IERC20Allowance.allowance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1372-1376) should be declared external
+TokenAllowance.transferFrom (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1634-1656) should be declared external
+IERC20Allowance.transferFrom (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1394-1396) should be declared external
+IERC677Callback.receiveApproval (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1508-1517) should be declared external
+TokenAllowance.approveAndCall (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1673-1691) should be declared external
+IERC677Allowance.approveAndCall (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1541-1546) should be declared external
+ITokenSnapshots.totalSupplyAt (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1892-1898) should be declared external
+BasicSnapshotToken.totalSupplyAt (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2079-2082) should be declared external
+BasicSnapshotToken.balanceOfAt (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2083-2088) should be declared external
+ITokenSnapshots.balanceOfAt (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1905-1907) should be declared external
+ITokenSnapshots.currentSnapshotId (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1913-1914) should be declared external
+IERC223LegacyCallback.onTokenTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2415-2418) should be declared external
+IERC223Token.transfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2448-2449) should be declared external
+Neumark.transfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2614-2625) should be declared external
+Neumark.issueForEuro (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2528-2544) should be declared external
+Neumark.distribute (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2553-2560) should be declared external
+Neumark.burn (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2566-2575) should be declared external
+Neumark.burn (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2579-2583) should be declared external
+Neumark.enableTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2584-2586) should be declared external
+Neumark.transferEnabled (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2589-2594) should be declared external
+Neumark.totalEuroUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2595-2598) should be declared external
+Neumark.incremental (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2598-2607) should be declared external
+IERC223Callback.tokenFallback (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2684-2687) should be declared external
+ITokenExchangeRateOracle.getExchangeRate (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2711-2715) should be declared external
+ITokenExchangeRateOracle.getExchangeRates (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2720-2726) should be declared external
+Universe.getSingleton (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2792-2797) should be declared external
+Universe.getManySingletons (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2797-2808) should be declared external
+Universe.isSingleton (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2810-2818) should be declared external
+Universe.isInterfaceCollectionInstance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2821-2827) should be declared external
+Universe.isAnyOfInterfaceCollectionInstance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2829-2838) should be declared external
+Universe.getInterfacesOfInstance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2841-2845) should be declared external
+Universe.setSingleton (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2846-2853) should be declared external
+Universe.setManySingletons (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2854-2866) should be declared external
+Universe.setCollectionInterface (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2869-2873) should be declared external
+Universe.setInterfaceInManyCollections (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2874-2882) should be declared external
+Universe.setCollectionsInterfaces (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2885-2900) should be declared external
+Universe.forkArbiter (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2912-2918) should be declared external
+Universe.neumark (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2919-2922) should be declared external
+Universe.etherToken (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2922-2928) should be declared external
+Universe.euroToken (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2928-2932) should be declared external
+Universe.etherLock (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2932-2937) should be declared external
+Universe.euroLock (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2937-2939) should be declared external
+Universe.icbmEtherLock (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2939-2947) should be declared external
+Universe.icbmEuroLock (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2947-2951) should be declared external
+Universe.identityRegistry (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2951-2956) should be declared external
+Universe.tokenExchangeRateOracle (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2956-2961) should be declared external
+Universe.feeDisbursal (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2961-2964) should be declared external
+Universe.platformPortfolio (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2964-2973) should be declared external
+Universe.tokenExchange (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2973-2975) should be declared external
+Universe.gasExchange (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2975-2976) should be declared external
+Universe.platformTerms (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2976-2977) should be declared external
+EuroTokenController.setAllowedTransferTo (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3171-3175) should be declared external
+EuroTokenController.setAllowedTransferFrom (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3177-3184) should be declared external
+EuroTokenController.applySettings (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3186-3196) should be declared external
+EuroTokenController.allowedTransferTo (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3196-3200) should be declared external
+EuroTokenController.allowedTransferFrom (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3200-3203) should be declared external
+EuroTokenController.minDepositAmountEurUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3203-3208) should be declared external
+EuroTokenController.minWithdrawAmountEurUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3208-3213) should be declared external
+EuroTokenController.maxSimpleExchangeAllowanceEurUlps (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3215-3220) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Variable 'Agreement.ETHEREUM_FORK_ARBITER' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#577) is not in mixedCase
+Variable 'Daily.MAX_TIMESTAMP' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1090-1092) is not in mixedCase
+Variable 'TokenMetadata.NAME' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1293-1294) is not in mixedCase
+Variable 'TokenMetadata.SYMBOL' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1298-1299) is not in mixedCase
+Variable 'TokenMetadata.DECIMALS' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1302-1303) is not in mixedCase
+Variable 'TokenMetadata.VERSION' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1307-1309) is not in mixedCase
+Parameter '' of TokenAllowance.mAllowanceOverride (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1700) is not in mixedCase
+Parameter '_scope_0' of TokenAllowance.mAllowanceOverride (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1700-1701) is not in mixedCase
+Variable 'BasicSnapshotToken.PARENT_TOKEN' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1947-1948) is not in mixedCase
+Variable 'BasicSnapshotToken.PARENT_SNAPSHOT_ID' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1958-1961) is not in mixedCase
+Variable 'BasicSnapshotToken._balances' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1971-1972) is not in mixedCase
+Variable 'BasicSnapshotToken._totalSupplyValues' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#1973-1975) is not in mixedCase
+Parameter '' of Neumark.mOnTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2629-2630) is not in mixedCase
+Parameter '_scope_0' of Neumark.mOnTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2631) is not in mixedCase
+Parameter '' of Neumark.mOnApprove (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2638) is not in mixedCase
+Parameter '_scope_0' of Neumark.mOnApprove (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2639) is not in mixedCase
+Parameter 'set_flags' of Universe.setCollectionsInterfaces (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2886-2889) is not in mixedCase
+Parameter '' of EuroTokenController.onTransfer (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3225-3227) is not in mixedCase
+Parameter '' of EuroTokenController.onApprove (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3245) is not in mixedCase
+Parameter '_scope_0' of EuroTokenController.onApprove (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3245) is not in mixedCase
+Parameter '_scope_1' of EuroTokenController.onApprove (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3245) is not in mixedCase
+Parameter '' of EuroTokenController.onGenerateTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3249) is not in mixedCase
+Parameter '' of EuroTokenController.onDestroyTokens (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3259) is not in mixedCase
+Parameter '' of EuroTokenController.onAllowance (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3292) is not in mixedCase
+Variable 'EuroTokenController.TRANSFER_ALLOWED_INTERFACES' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3132-3136) is not in mixedCase
+Variable 'EuroTokenController.UNIVERSE' (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#3140) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+AccessRoles.ROLE_NEUMARK_BURNER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#158-159) is never used in Neumark
+AccessRoles.ROLE_SNAPSHOT_CREATOR (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#161-162) is never used in Neumark
+AccessRoles.ROLE_TRANSFER_ADMIN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#164-165) is never used in Neumark
+AccessRoles.ROLE_RECLAIMER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#167-168) is never used in Neumark
+AccessRoles.ROLE_EURT_DEPOSIT_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#173-174) is never used in Neumark
+AccessRoles.ROLE_IDENTITY_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#176-177) is never used in Neumark
+AccessRoles.ROLE_EURT_LEGAL_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#179-180) is never used in Neumark
+AccessRoles.ROLE_UNIVERSE_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#182-183) is never used in Neumark
+AccessRoles.ROLE_GAS_EXCHANGE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#185-186) is never used in Neumark
+AccessRoles.ROLE_TOKEN_RATE_ORACLE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#189-191) is never used in Neumark
+Neumark.VERSION (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2463-2464) is never used in Neumark
+Neumark.TOKEN_NAME (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2457-2458) is never used in Neumark
+Neumark.TOKEN_DECIMALS (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2458-2460) is never used in Neumark
+Neumark.TOKEN_SYMBOL (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#2460-2462) is never used in Neumark
+AccessRoles.ROLE_NEUMARK_ISSUER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#156) is never used in Universe
+AccessRoles.ROLE_NEUMARK_BURNER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#158-159) is never used in Universe
+AccessRoles.ROLE_SNAPSHOT_CREATOR (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#161-162) is never used in Universe
+AccessRoles.ROLE_TRANSFER_ADMIN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#164-165) is never used in Universe
+AccessRoles.ROLE_RECLAIMER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#167-168) is never used in Universe
+AccessRoles.ROLE_EURT_DEPOSIT_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#173-174) is never used in Universe
+AccessRoles.ROLE_IDENTITY_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#176-177) is never used in Universe
+AccessRoles.ROLE_EURT_LEGAL_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#179-180) is never used in Universe
+AccessRoles.ROLE_UNIVERSE_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#182-183) is never used in Universe
+AccessRoles.ROLE_GAS_EXCHANGE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#185-186) is never used in Universe
+AccessRoles.ROLE_TOKEN_RATE_ORACLE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#189-191) is never used in Universe
+KnownInterfaces.KNOWN_INTERFACE_ICBM_ETHER_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#320-322) is never used in Universe
+KnownInterfaces.KNOWN_INTERFACE_ICBM_EURO_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#322-323) is never used in Universe
+KnownInterfaces.KNOWN_INTERFACE_ICBM_COMMITMENT (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#326-328) is never used in Universe
+KnownInterfaces.KNOWN_INTERFACE_COMMITMENT (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#338-341) is never used in Universe
+KnownInterfaces.KNOWN_INTERFACE_EQUITY_TOKEN_CONTROLLER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#342-343) is never used in Universe
+KnownInterfaces.KNOWN_INTERFACE_EQUITY_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#343-344) is never used in Universe
+AccessRoles.ROLE_NEUMARK_ISSUER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#156) is never used in EuroTokenController
+AccessRoles.ROLE_NEUMARK_BURNER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#158-159) is never used in EuroTokenController
+AccessRoles.ROLE_SNAPSHOT_CREATOR (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#161-162) is never used in EuroTokenController
+AccessRoles.ROLE_TRANSFER_ADMIN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#164-165) is never used in EuroTokenController
+AccessRoles.ROLE_RECLAIMER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#167-168) is never used in EuroTokenController
+AccessRoles.ROLE_PLATFORM_OPERATOR_REPRESENTATIVE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#170-171) is never used in EuroTokenController
+AccessRoles.ROLE_EURT_DEPOSIT_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#173-174) is never used in EuroTokenController
+AccessRoles.ROLE_IDENTITY_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#176-177) is never used in EuroTokenController
+AccessRoles.ROLE_UNIVERSE_MANAGER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#182-183) is never used in EuroTokenController
+AccessRoles.ROLE_GAS_EXCHANGE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#185-186) is never used in EuroTokenController
+AccessRoles.ROLE_TOKEN_RATE_ORACLE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#189-191) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_NEUMARK (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#278) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ETHER_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#280-281) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_EURO_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#283-284) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_IDENTITY_REGISTRY (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#286-287) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_TOKEN_EXCHANGE_RATE_ORACLE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#289-290) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_FEE_DISBURSAL (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#292-293) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_PLATFORM_PORTFOLIO (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#295-296) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_TOKEN_EXCHANGE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#299-301) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_GAS_EXCHANGE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#302-304) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ACCESS_POLICY (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#305-307) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_EURO_LOCK (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#308-310) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ETHER_LOCK (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#311-313) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ICBM_EURO_LOCK (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#314-316) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ICBM_ETHER_LOCK (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#317-319) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ICBM_ETHER_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#320-322) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ICBM_EURO_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#322-323) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_ICBM_COMMITMENT (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#326-328) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_FORK_ARBITER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#329-331) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_PLATFORM_TERMS (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#332-334) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_UNIVERSE (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#335-337) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_COMMITMENT (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#338-341) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_EQUITY_TOKEN_CONTROLLER (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#342-343) is never used in EuroTokenController
+KnownInterfaces.KNOWN_INTERFACE_EQUITY_TOKEN (/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol#343-344) is never used in EuroTokenController
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0x7b40d0ce14abc2cfa75c96d1ff9bb1085f826e46.sol analyzed (49 contracts), 189 result(s) found

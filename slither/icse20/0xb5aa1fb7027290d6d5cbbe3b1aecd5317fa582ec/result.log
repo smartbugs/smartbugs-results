@@ -1,0 +1,133 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:43:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:1126:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function WyvernExchange (ProxyRegistry registryAddress, TokenTransferProxy tokenTransferProxyAddress, ERC20 tokenAddress, address protocolFeeAddress) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:1233:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function AuthenticatedProxy(address addrUser, ProxyRegistry addrRegistry) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:63:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:167:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ReceivedTokens(from, value, token, extraData);
+        ^-------------------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:174:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ReceivedEther(msg.sender, msg.value);
+        ^----------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:370:16: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return keccak256(order.exchange, order.mak ... ind, order.target, order.howToCall);
+               ^-------------------------------------------------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:383:16: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return keccak256(order.calldata, order.rep ... , order.expirationTime, order.salt);
+               ^-------------------------------------------------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:397:24: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 hash = keccak256(prefix, hashOrderPartOne(order), hashOrderPartTwo(order));
+                       ^-----------------------------------------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:506:13: Warning: Invoking events without "emit" prefix is deprecated.
+            OrderApprovedPartOne(hash, order.ex ... side, order.saleKind, order.target);
+            ^-------------------------------------------------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:509:13: Warning: Invoking events without "emit" prefix is deprecated.
+            OrderApprovedPartTwo(hash, order.ho ... er.salt, orderbookInclusionDesired);
+            ^-------------------------------------------------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:535:9: Warning: Invoking events without "emit" prefix is deprecated.
+        OrderCancelled(hash);
+        ^------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:841:9: Warning: Invoking events without "emit" prefix is deprecated.
+        OrdersMatched(buyHash, sellHash, se ... aker : sell.maker, price, metadata);
+        ^-------------------------------------------------------------------------^
+/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:1249:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Revoked(revoke);
+        ^-------------^
+
+INFO:Detectors:[91m
+ExchangeCore.executeFundsTransfer (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#593-737) sends eth to arbitrary user
+	Dangerous calls:
+	- protocolFeeRecipient.transfer(makerProtocolFee) (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#651-652)
+	- protocolFeeRecipient.transfer(takerProtocolFee) (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#666-667)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+AuthenticatedProxy.proxy (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1301-1303) uses delegatecall to a input-controlled function id
+	result = dest.delegatecall(calldata) (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1303)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#controlled-delegatecall[0m
+INFO:Detectors:[91m
+TokenTransferProxy.registry (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol) is never initialized. It is used in:
+	- transferFrom (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+ExchangeCore.staticCall (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#350-370) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ProxyRegistry.startGrantAuthentication (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1360-1370) uses a dangerous strict equality:
+	- require(bool)(! contracts[addr] && pending[addr] == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in ExchangeCore.atomicMatch (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#784-872):
+	External calls:
+	- proxy = registry.proxies(sell.maker) (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#830-831)
+	State variables written after the call(s):
+	- cancelledOrFinalized (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#836-837)
+	- cancelledOrFinalized (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#838-840)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+ExchangeCore.staticCall uses assembly (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#350-370)
+	- /unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#366-370
+ExchangeCore.atomicMatch uses assembly (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#784-872)
+	- /unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#812-813
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#71-72)
+ProxyRegistry.DELAY_PERIOD should be constant (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1353)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#61-71) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#72) should be declared external
+ERC20Basic.transfer (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#73) should be declared external
+ERC20.allowance (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#77-78) should be declared external
+ERC20.transferFrom (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#78-80) should be declared external
+ERC20.approve (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#80) should be declared external
+TokenRecipient.receiveApproval (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#166-178) should be declared external
+TokenRecipient.fallback (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#180-184) should be declared external
+ExchangeCore.changeMinimumMakerProtocolFee (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#288-294) should be declared external
+ExchangeCore.changeMinimumTakerProtocolFee (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#299-305) should be declared external
+ExchangeCore.changeProtocolFeeRecipient (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#312-315) should be declared external
+Exchange.guardedArrayReplace (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#877-883) should be declared external
+Exchange.calculateFinalPrice (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#888-894) should be declared external
+Exchange.hashOrder_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#897-916) should be declared external
+Exchange.validateOrderParameters_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#919-939) should be declared external
+Exchange.validateOrder_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#945-965) should be declared external
+Exchange.approveOrder_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#970-990) should be declared external
+Exchange.cancelOrder_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#995-1015) should be declared external
+Exchange.calculateCurrentPrice_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1019-1029) should be declared external
+Exchange.ordersCanMatch_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1029-1059) should be declared external
+Exchange.orderCalldataCanMatch (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1073-1076) should be declared external
+Exchange.calculateMatchPrice_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1076-1104) should be declared external
+Exchange.atomicMatch_ (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1105-1146) should be declared external
+AuthenticatedProxy.setRevoke (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1280-1285) should be declared external
+AuthenticatedProxy.proxyAssert (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1312-1318) should be declared external
+ProxyRegistry.startGrantAuthentication (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1360-1370) should be declared external
+ProxyRegistry.endGrantAuthentication (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1379-1387) should be declared external
+ProxyRegistry.revokeAuthentication (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol) should be declared external
+ProxyRegistry.registerProxy (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol) should be declared external
+TokenTransferProxy.transferFrom (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol:
+	- pragma solidity^0.4.13 (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in AuthenticatedProxy.proxy (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1301-1303):
+	-result = dest.call(calldata) /unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1303
+	-result = dest.delegatecall(calldata) /unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1303
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#44-49) is not in mixedCase
+Function 'WyvernExchange.WyvernExchange' (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1161-1171) is not in mixedCase
+Constant 'WyvernExchange.version' (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1151) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'WyvernExchange.codename' (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1151-1152) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'AuthenticatedProxy.AuthenticatedProxy' (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1268-1275) is not in mixedCase
+Variable 'ProxyRegistry.DELAY_PERIOD' (/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol#1353) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/16/0xb5aa1fb7027290d6d5cbbe3b1aecd5317fa582ec.sol analyzed (14 contracts), 47 result(s) found

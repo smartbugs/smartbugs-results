@@ -1,0 +1,91 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:33:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function CEO_Trader() public{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:72:16: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        return this.balance;
+               ^----------^
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:93:25: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    ceoAddress.transfer(this.balance);
+                        ^----------^
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:100:64: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            uint256 devFee = uint256(SafeMath.div(SafeMath.mul(this.balance, 10), 100));
+                                                               ^----------^
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:103:67: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            uint256 faucetFee = uint256(SafeMath.div(SafeMath.mul(this.balance, 1), 100));
+                                                                  ^----------^
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:106:21: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            lastPot=this.balance;
+                    ^----------^
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:108:67: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            uint256 potRevard = uint256(SafeMath.div(SafeMath.mul(this.balance, 90), 100));
+                                                                  ^----------^
+/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:90:16: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        return _endContestIfNeeded();
+               ^-------------------^
+
+INFO:Detectors:[91m
+CEO_Trader._endContestIfNeeded (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#99-120) sends eth to arbitrary user
+	Dangerous calls:
+	- ceoAddress.transfer(devFee) (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#102-103)
+	- msg.sender.transfer(faucetFee) (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#106-107)
+	- hotPotatoHolder.transfer(potRevard) (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#112-113)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+CEO_Trader.contestOver (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#91-94) is declared view but changes state variables:
+	- CEO_Trader.lastHotPotatoHolder
+	- CEO_Trader.lastBidTime
+	- CEO_Trader.contestStartTime
+	- CEO_Trader.lastPot
+	- CEO_Trader.potatoes
+	- CEO_Trader.hotPotatoHolder
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+CEO_Trader.timePassed (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#75-81) uses a dangerous strict equality:
+	- lastBidTime == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+CEO_Trader.buyPotato (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#44-72) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp > contestStartTime) (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#46-48)
+CEO_Trader.timePassed (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#75-81) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastBidTime == 0 (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#78-80)
+CEO_Trader.timeLeftToContestStart (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#81-87) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > contestStartTime (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#84-86)
+CEO_Trader._setNewStartTime (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#127-138) uses timestamp for comparisons
+	Dangerous comparisons:
+	- start < block.timestamp (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#129-138)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+CEO_Trader.CONTEST_INTERVAL should be constant (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#18-20)
+CEO_Trader.NUM_POTATOES should be constant (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#16-17)
+CEO_Trader.START_PRICE should be constant (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#17-18)
+CEO_Trader.TIME_TO_COOK should be constant (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#15-16)
+CEO_Trader.dev1 should be constant (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#6-7)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+CEO_Trader.buyPotato (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#44-72) should be declared external
+CEO_Trader.getBalance (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#72-75) should be declared external
+CEO_Trader.timeLeftToContestStart (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#81-87) should be declared external
+CEO_Trader.timeLeftToCook (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#87-90) should be declared external
+CEO_Trader.contestOver (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#91-94) should be declared external
+CEO_Trader.payout (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#95-97) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'CEO_Trader' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#4-138) is not in CapWords
+Function 'CEO_Trader.CEO_Trader' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#34-44) is not in mixedCase
+Function 'CEO_Trader._endContestIfNeeded' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#99-120) is not in mixedCase
+Function 'CEO_Trader._resetPotatoes' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#120-127) is not in mixedCase
+Function 'CEO_Trader._setNewStartTime' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#127-138) is not in mixedCase
+Variable 'CEO_Trader.TIME_TO_COOK' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#15-16) is not in mixedCase
+Variable 'CEO_Trader.NUM_POTATOES' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#16-17) is not in mixedCase
+Variable 'CEO_Trader.START_PRICE' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#17-18) is not in mixedCase
+Variable 'CEO_Trader.CONTEST_INTERVAL' (/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol#18-20) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/7/0x6d7de51bcfa5b4f3d470de3aca3041e0908060e5.sol analyzed (2 contracts), 24 result(s) found

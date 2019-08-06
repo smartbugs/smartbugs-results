@@ -1,0 +1,130 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:8:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:113:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Token(string _name, string _symbol)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:261:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function GameOne(address _tokenContract) public validAddress(_tokenContract) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:37:34: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        _seed = uint64(keccak256(keccak256(block.blockhash(block.number), _seed), now));
+                                 ^---------------------------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:37:24: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        _seed = uint64(keccak256(keccak256(block.blockhash(block.number), _seed), now));
+                       ^-------------------------------------------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:120:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(0x0, this, totalSupply);
+        ^------------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:132:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(msg.sender, _to, _value);
+        ^-------------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:149:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(this, _to, _value);
+        ^-------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:165:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_from, _to, _value);
+        ^--------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:176:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _value);
+        ^------------------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:199:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Mint(_to, supply);
+        ^---------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:206:17: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        require(this.balance >= amount);
+                ^----------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:349:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Bet(a, av, b, bv, apercent, rand, win, now);
+        ^-----------------------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:356:19: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            lef = this.balance - opponentAmount;
+                  ^----------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:358:19: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            lef = this.balance;
+                  ^----------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:378:17: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        require(this.balance >= _value);
+                ^----------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:380:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(this, _to, _value);
+        ^-------------------------^
+/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:37:44: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+        _seed = uint64(keccak256(keccak256(block.blockhash(block.number), _seed), now));
+                                           ^-------------^
+
+INFO:Detectors:[91m
+Reentrancy in GameOne.bet (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#305-344):
+	External calls:
+	- tokenContract.mint(loser,token) (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#336-337)
+	External calls sending eth:
+	- require(bool)(transferInner(winner,amount)) (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#342-343)
+	State variables written after the call(s):
+	- opponent (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#343-344)
+	- opponentAmount (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#343-344)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[92m
+Reentrancy in GameOne.bet (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#305-344):
+	External calls:
+	- tokenContract.mint(loser,token) (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#336-337)
+	State variables written after the call(s):
+	- gameCount (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#339)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Token.decimals should be constant (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#87)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#37-39:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Token.addLimitAddress (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#101-109) should be declared external
+Token.delLitAddress (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#110-117) should be declared external
+Token.batchtransfer (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#138-147) should be declared external
+Token.transferFrom (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#157-174) should be declared external
+Token.approve (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#174-189) should be declared external
+Token.fallback (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#189-192) should be declared external
+Token.mint (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#192-210) should be declared external
+Token.withdraw (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#211-214) should be declared external
+GameOne.fallback (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#277-281) should be declared external
+GameOne.setCut (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#281-286) should be declared external
+GameOne.setMinEth (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#286-292) should be declared external
+GameOne.setMaxEth (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#292-298) should be declared external
+GameOne.setTokenAddress (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#299-305) should be declared external
+GameOne.withdraw (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#367-380) should be declared external
+GameOne.setFinished (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#380-384) should be declared external
+GameOne.setRunning (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#384-385) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'owned' (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#4-33) is not in CapWords
+Variable 'Random._seed' (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#36) is not in mixedCase
+Parameter '_a' of Token.addLimitAddress (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#102-103) is not in mixedCase
+Parameter '_a' of Token.delLitAddress (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#110-113) is not in mixedCase
+Function 'Token.Token' (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#117-126) is not in mixedCase
+Parameter '_name' of Token.Token (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#118) is not in mixedCase
+Parameter '_symbol' of Token.Token (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#118-119) is not in mixedCase
+Parameter '_to' of Token.transfer (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#128) is not in mixedCase
+Parameter '_value' of Token.transfer (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#128) is not in mixedCase
+Parameter '_to' of Token.batchtransfer (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#138) is not in mixedCase
+Parameter '_amount' of Token.batchtransfer (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#138-139) is not in mixedCase
+Parameter '_to' of Token.transferInner (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#148-149) is not in mixedCase
+Parameter '_value' of Token.transferInner (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#149) is not in mixedCase
+Parameter '_from' of Token.transferFrom (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#159) is not in mixedCase
+Parameter '_to' of Token.transferFrom (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#159) is not in mixedCase
+Parameter '_value' of Token.transferFrom (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#159) is not in mixedCase
+Parameter '_spender' of Token.approve (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#174-175) is not in mixedCase
+Parameter '_value' of Token.approve (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#175) is not in mixedCase
+Parameter '_to' of Token.mint (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#194) is not in mixedCase
+Parameter '_amount' of Token.mint (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#194) is not in mixedCase
+Function 'GameOne.GameOne' (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#271-277) is not in mixedCase
+Parameter '_tokenContract' of GameOne.GameOne (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#272) is not in mixedCase
+Parameter '_addr' of GameOne.setTokenAddress (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol#300) is not in mixedCase
+Parameter '_to' of GameOne.transferInner (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol) is not in mixedCase
+Parameter '_value' of GameOne.transferInner (/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/38/0x3238db085a2853442e3d74ad47e73ef63bfbc507.sol analyzed (5 contracts), 46 result(s) found

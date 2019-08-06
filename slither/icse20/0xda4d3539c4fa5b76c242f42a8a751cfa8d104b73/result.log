@@ -1,0 +1,313 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol:
+/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol:1407:47: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _processRefund(uint256 _returnSum, address _targetAddress, uint256 _pledgeId) internal {
+                                              ^--------------------^
+/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol:1435:29: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _processWithdraw(address _maker, uint256 _num, uint256 _pledgeId) internal {
+                            ^------------^
+
+INFO:Detectors:[91m
+Reentrancy in OrderManageContract.executeOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#622-652):
+	External calls:
+	- require(bool)(ERC20(token20).balanceOf(address(this)) >= repaymentSum) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#642-645)
+	- lastRepaymentSum = ERC20(token20).balanceOf(address(this)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#645-646)
+	- require(bool)(safeErc20Transfer(taker,repaymentSum)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#646-647)
+	- PledgeContract(owner)._conclude() (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#647-648)
+	External calls sending eth:
+	- taker.transfer(repaymentSum) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#640)
+	State variables written after the call(s):
+	- status (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#648-651)
+Reentrancy in OrderManageContract.takerOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#592-621):
+	External calls:
+	- require(bool)(token20 != address(0) && ERC20(token20).balanceOf(address(this)) > 0) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#614-615)
+	- outLoanSum = ERC20(token20).balanceOf(address(this)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#616)
+	- require(bool)(safeErc20Transfer(maker,outLoanSum)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#616-617)
+	External calls sending eth:
+	- maker.transfer(outLoanSum) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#613-614)
+	State variables written after the call(s):
+	- status (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#619-620)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[91m
+RBAC.roles (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#249-250) is never initialized. It is used in:
+	- checkRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#265-269)
+	- hasRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#277-284)
+	- addRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#288-295)
+	- removeRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#298-316)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+AddressUtils.isContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#15-28) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+UsdtERC20Basic (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#153-166) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#161-163)
+UsdtERC20 (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#433-443) has incorrect ERC20 function interface(s):
+	-transferFrom (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#437-440)
+	-approve (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#440)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1051-1094):
+	External calls:
+	- tokenPoolAddress = checkedTokenPool(pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1064-1066)
+	- PledgeFactory(factory).updatePledgeType(pledgeId,pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1066-1067)
+	- PledgeFactory(factory).tokenPoolOperater(tokenPoolAddress,address(this)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1068-1069)
+	- createOrderContract(_loanTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1075-1076)
+	State variables written after the call(s):
+	- status (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1075-1076)
+Reentrancy in PledgeFactory.createPledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#782-798):
+	External calls:
+	- pledgeAddress.transferOwnership(_escrowPartner) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#792)
+	State variables written after the call(s):
+	- isPledgeId (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#794-795)
+Reentrancy in PledgePoolBase.refundTokens (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1363-1372):
+	External calls:
+	- _preValidateRefund(_returnSum,_targetAddress,_pledgeId) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1366-1367)
+	State variables written after the call(s):
+	- escrows (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1367-1372)
+Reentrancy in PledgePoolBase.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1356-1359):
+	External calls:
+	- _preValidateWithdraw(_maker,_num,_pledgeId) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1357-1358)
+	State variables written after the call(s):
+	- escrows (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1358-1359)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1051-1094) does not use the value returned by external calls:
+	-PledgePoolBase(tokenPoolAddress).addRecord(maker,pledgeAccountSum,pledgeId,pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1078-1081)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1051-1094):
+	External calls:
+	- tokenPoolAddress = checkedTokenPool(pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1064-1066)
+	- PledgeFactory(factory).updatePledgeType(pledgeId,pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1066-1067)
+	- PledgeFactory(factory).tokenPoolOperater(tokenPoolAddress,address(this)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1068-1069)
+	- createOrderContract(_loanTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1075-1076)
+	State variables written after the call(s):
+	- loanTokenName (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1075-1076)
+	- orderContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1075-1076)
+	- pledgeAccountSum (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1077-1078)
+Reentrancy in PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1051-1094):
+	External calls:
+	- tokenPoolAddress = checkedTokenPool(pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1064-1066)
+	- PledgeFactory(factory).updatePledgeType(pledgeId,pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1066-1067)
+	- PledgeFactory(factory).tokenPoolOperater(tokenPoolAddress,address(this)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1068-1069)
+	- createOrderContract(_loanTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1075-1076)
+	- PledgePoolBase(tokenPoolAddress).addRecord(maker,pledgeAccountSum,pledgeId,pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1078-1081)
+	- token20 = checkedToken(pledgeTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1086-1088)
+	State variables written after the call(s):
+	- token20 (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1086-1088)
+Reentrancy in PledgePoolBase.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1337-1344):
+	External calls:
+	- _preValidateAddRecord(_payerAddress,_pledgeSum,_pledgeId,_tokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1340-1342)
+	State variables written after the call(s):
+	- escrows (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1342-1344)
+Reentrancy in PledgeContract.createOrderContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1166-1183):
+	External calls:
+	- loanToken20 = checkedToken(_loanTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1173-1175)
+	State variables written after the call(s):
+	- partner (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1176)
+Reentrancy in PledgeContract.createOrderContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1166-1183):
+	External calls:
+	- loanToken20 = checkedToken(_loanTokenName) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1173-1175)
+	- newOrder.setPartner(owner) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1176-1177)
+	State variables written after the call(s):
+	- loanTokenName (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1182)
+	- orderContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1179-1182)
+Reentrancy in PledgeFactory.createPledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#782-798):
+	External calls:
+	- pledgeAddress.transferOwnership(_escrowPartner) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#792)
+	State variables written after the call(s):
+	- pledgeEscrowById (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#795)
+Reentrancy in OrderManageContract.executeOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#622-652):
+	External calls:
+	- require(bool)(ERC20(token20).balanceOf(address(this)) >= repaymentSum) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#642-645)
+	- lastRepaymentSum = ERC20(token20).balanceOf(address(this)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#645-646)
+	State variables written after the call(s):
+	- lastRepaymentSum (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#645-646)
+Reentrancy in OrderManageContract.takerOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#592-621):
+	External calls:
+	- require(bool)(token20 != address(0) && ERC20(token20).balanceOf(address(this)) > 0) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#614-615)
+	- outLoanSum = ERC20(token20).balanceOf(address(this)) (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#616)
+	State variables written after the call(s):
+	- outLoanSum (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#616)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+AddressUtils.isContract uses assembly (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#15-28)
+	- /unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#18-25
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+UsdtERC20Basic._totalSupply should be constant (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#153-154)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#127-128) should be declared external
+Ownable.transferOwnership (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#135-137) should be declared external
+UsdtERC20Basic.totalSupply (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#154-155) should be declared external
+UsdtERC20Basic.balanceOf (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#155-161) should be declared external
+UsdtERC20Basic.transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#161-163) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#170-171) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#171-177) should be declared external
+ERC20Basic.transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#178-179) should be declared external
+RBAC.hasRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#277-284) should be declared external
+RBACOperator.setPartner (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#366-375) should be declared external
+RBACOperator.removePartner (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#377-382) should be declared external
+RBACOperator.removeOperater (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#405-408) should be declared external
+ERC20.allowance (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#415-418) should be declared external
+ERC20.transferFrom (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#418-419) should be declared external
+ERC20.approve (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#419-420) should be declared external
+UsdtERC20.allowance (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#434-437) should be declared external
+UsdtERC20.transferFrom (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#437-440) should be declared external
+UsdtERC20.approve (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#440) should be declared external
+PartnerAuthority.removePartner (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#504-505) should be declared external
+OrderManageContract.takerOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#592-621) should be declared external
+OrderManageContract.executeOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#622-652) should be declared external
+OrderManageContract.forceCloseOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#653-677) should be declared external
+OrderManageContract.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#685-696) should be declared external
+OrderManageContract.getPledgeStatus (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#733-753) should be declared external
+PledgeFactory.batchCreatePledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#805-814) should be declared external
+PledgeFactory.getEscrowPledge (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#815-825) should be declared external
+PledgeFactory.tokenPoolOperater (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#840-846) should be declared external
+PledgeFactory.updatePledgeType (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#856-860) should be declared external
+EscrowMaintainContract.createPledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#880-888) should be declared external
+EscrowMaintainContract.batchCreatePledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#891-897) should be declared external
+EscrowMaintainContract.getEscrowPledge (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#901-909) should be declared external
+EscrowMaintainContract.setTokenPool (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#916-921) should be declared external
+EscrowMaintainContract.setToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#929-941) should be declared external
+EscrowMaintainContract.setPledgeFactory (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#947-955) should be declared external
+EscrowMaintainContract.includeTokenPool (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#959-964) should be declared external
+EscrowMaintainContract.includeToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#967-974) should be declared external
+PledgeContract.appendEscrow (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1097-1102) should be declared external
+PledgeContract.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1104-1117) should be declared external
+PledgeContract.recycle (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1121-1140) should be declared external
+PledgeContract._conclude (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1242-1251) should be declared external
+PledgeContract._forceConclude (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1256-1274) should be declared external
+PledgeContract.getPledgeStatus (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1282-1298) should be declared external
+PledgeContract.getOrderContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1299-1301) should be declared external
+PledgeContract.getPledgeAccountSum (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1304) should be declared external
+PledgeContract.getMakerAddress (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1305-1306) should be declared external
+PledgePoolBase.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1337-1344) should be declared external
+PledgePoolBase.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1356-1359) should be declared external
+PledgePoolBase.refundTokens (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1363-1372) should be declared external
+PledgePoolBase.getLedger (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1374-1379) should be declared external
+EthPledgePool.recycle (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) should be declared external
+EthPledgePool.kills (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#135-136) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#140-150) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#141-146) is not in mixedCase
+Variable 'UsdtERC20Basic._totalSupply' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#153-154) is not in mixedCase
+Parameter '_role' of Roles.add (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#198-199) is not in mixedCase
+Parameter '_addr' of Roles.add (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#199-200) is not in mixedCase
+Parameter '_role' of Roles.remove (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#207-208) is not in mixedCase
+Parameter '_addr' of Roles.remove (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#208-210) is not in mixedCase
+Parameter '_role' of Roles.check (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#217-218) is not in mixedCase
+Parameter '_addr' of Roles.check (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#218-220) is not in mixedCase
+Parameter '_role' of Roles.has (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#232) is not in mixedCase
+Parameter '_addr' of Roles.has (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#232) is not in mixedCase
+Parameter '_operator' of RBAC.checkRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#265) is not in mixedCase
+Parameter '_role' of RBAC.checkRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#265-266) is not in mixedCase
+Parameter '_operator' of RBAC.hasRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#277-278) is not in mixedCase
+Parameter '_role' of RBAC.hasRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#278-279) is not in mixedCase
+Parameter '_operator' of RBAC.addRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#288) is not in mixedCase
+Parameter '_role' of RBAC.addRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#288-289) is not in mixedCase
+Parameter '_operator' of RBAC.removeRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#299) is not in mixedCase
+Parameter '_role' of RBAC.removeRole (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#299-300) is not in mixedCase
+Parameter '_partner' of RBACOperator.setPartner (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#366-367) is not in mixedCase
+Parameter '_operator' of RBACOperator.addOperater (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#400) is not in mixedCase
+Parameter '_operator' of RBACOperator.removeOperater (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#405-407) is not in mixedCase
+Parameter '_partner' of PartnerAuthority.setPartner (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#491) is not in mixedCase
+Parameter '_loanTokenName' of OrderManageContract. (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#578-579) is not in mixedCase
+Parameter '_loanTokenAddress' of OrderManageContract. (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#579) is not in mixedCase
+Parameter '_maker' of OrderManageContract. (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#579) is not in mixedCase
+Parameter '_taker' of OrderManageContract.takerOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#593) is not in mixedCase
+Parameter '_toTime' of OrderManageContract.takerOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#593) is not in mixedCase
+Parameter '_repaymentSum' of OrderManageContract.takerOrder (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#593) is not in mixedCase
+Parameter '_taker' of OrderManageContract.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#685) is not in mixedCase
+Parameter '_refundSum' of OrderManageContract.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#685-686) is not in mixedCase
+Parameter '_toAddress' of OrderManageContract.safeErc20Transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#711) is not in mixedCase
+Parameter '_transferSum' of OrderManageContract.safeErc20Transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#711) is not in mixedCase
+Parameter '_pledgeId' of PledgeFactory.createPledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#783-784) is not in mixedCase
+Parameter '_escrowPartner' of PledgeFactory.createPledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#784) is not in mixedCase
+Parameter '_pledgeIds' of PledgeFactory.batchCreatePledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#805) is not in mixedCase
+Parameter '_escrowPartner' of PledgeFactory.batchCreatePledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#805-806) is not in mixedCase
+Parameter '_pledgeId' of PledgeFactory.getEscrowPledge (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#816) is not in mixedCase
+Parameter '_tokenPool' of PledgeFactory.tokenPoolOperater (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#840-841) is not in mixedCase
+Parameter '_pledge' of PledgeFactory.tokenPoolOperater (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#841) is not in mixedCase
+Parameter '_pledgeId' of PledgeFactory.updatePledgeType (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#856-858) is not in mixedCase
+Parameter '_tokenName' of PledgeFactory.updatePledgeType (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#858) is not in mixedCase
+Parameter '_pledgeId' of EscrowMaintainContract.createPledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#881) is not in mixedCase
+Parameter '_pledgeIds' of EscrowMaintainContract.batchCreatePledgeContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#891) is not in mixedCase
+Parameter '_pledgeId' of EscrowMaintainContract.getEscrowPledge (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#901) is not in mixedCase
+Parameter '_tokenName' of EscrowMaintainContract.setTokenPool (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#917) is not in mixedCase
+Parameter '_address' of EscrowMaintainContract.setTokenPool (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#917-919) is not in mixedCase
+Parameter '_tokenName' of EscrowMaintainContract.setToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#929-930) is not in mixedCase
+Parameter '_address' of EscrowMaintainContract.setToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#930) is not in mixedCase
+Parameter '_factory' of EscrowMaintainContract.setPledgeFactory (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#948-949) is not in mixedCase
+Parameter '_tokenName' of EscrowMaintainContract.includeTokenPool (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#960) is not in mixedCase
+Parameter '_tokenName' of EscrowMaintainContract.includeToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#968) is not in mixedCase
+Parameter '_pledgeId' of PledgeContract. (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1032) is not in mixedCase
+Parameter '_factory' of PledgeContract. (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1032) is not in mixedCase
+Parameter '_escrowContract' of PledgeContract. (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1032-1034) is not in mixedCase
+Parameter '_pledgeTokenName' of PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1052) is not in mixedCase
+Parameter '_maker' of PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1052-1053) is not in mixedCase
+Parameter '_pledgeSum' of PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1053) is not in mixedCase
+Parameter '_loanTokenName' of PledgeContract.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1053) is not in mixedCase
+Parameter '_appendSum' of PledgeContract.appendEscrow (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1097-1098) is not in mixedCase
+Parameter '_maker' of PledgeContract.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1105) is not in mixedCase
+Parameter '_tokenName' of PledgeContract.recycle (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1121) is not in mixedCase
+Parameter '_amount' of PledgeContract.recycle (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1122-1123) is not in mixedCase
+Parameter '_token20' of PledgeContract.safeErc20Transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1152) is not in mixedCase
+Parameter '_toAddress' of PledgeContract.safeErc20Transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1152-1153) is not in mixedCase
+Parameter '_transferSum' of PledgeContract.safeErc20Transfer (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1153) is not in mixedCase
+Parameter '_loanTokenName' of PledgeContract.createOrderContract (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1166-1167) is not in mixedCase
+Parameter '_maker' of PledgeContract.classifySquareUp (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1187) is not in mixedCase
+Parameter '_tokenName' of PledgeContract.checkedToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1213) is not in mixedCase
+Parameter '_tokenName' of PledgeContract.checkedTokenPool (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1223) is not in mixedCase
+Function 'PledgeContract._conclude' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1242-1251) is not in mixedCase
+Function 'PledgeContract._forceConclude' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1256-1274) is not in mixedCase
+Parameter '_taker' of PledgeContract._forceConclude (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1256-1258) is not in mixedCase
+Parameter '_payerAddress' of PledgePoolBase.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1338) is not in mixedCase
+Parameter '_pledgeSum' of PledgePoolBase.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1338-1339) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1340) is not in mixedCase
+Parameter '_tokenName' of PledgePoolBase.addRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1340) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1356) is not in mixedCase
+Parameter '_maker' of PledgePoolBase.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1356) is not in mixedCase
+Parameter '_num' of PledgePoolBase.withdrawToken (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1356) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase.refundTokens (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1363-1364) is not in mixedCase
+Parameter '_returnSum' of PledgePoolBase.refundTokens (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1364) is not in mixedCase
+Parameter '_targetAddress' of PledgePoolBase.refundTokens (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1364-1365) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase.getLedger (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1374) is not in mixedCase
+Function 'PledgePoolBase._preValidateAddRecord' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1392-1403) is not in mixedCase
+Parameter '_payerAddress' of PledgePoolBase._preValidateAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1393) is not in mixedCase
+Parameter '_pledgeSum' of PledgePoolBase._preValidateAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1394) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase._preValidateAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1394) is not in mixedCase
+Parameter '_tokenName' of PledgePoolBase._preValidateAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1394-1395) is not in mixedCase
+Function 'PledgePoolBase._processAddRecord' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1414-1419) is not in mixedCase
+Parameter '_payerAddress' of PledgePoolBase._processAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1414) is not in mixedCase
+Parameter '_pledgeSum' of PledgePoolBase._processAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1415) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase._processAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1415) is not in mixedCase
+Parameter '_tokenName' of PledgePoolBase._processAddRecord (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1415-1416) is not in mixedCase
+Function 'PledgePoolBase._preValidateRefund' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1430-1444) is not in mixedCase
+Parameter '_returnSum' of PledgePoolBase._preValidateRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1430-1431) is not in mixedCase
+Parameter '_targetAddress' of PledgePoolBase._preValidateRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1431) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase._preValidateRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1431-1432) is not in mixedCase
+Function 'PledgePoolBase._processRefund' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1455-1463) is not in mixedCase
+Parameter '_returnSum' of PledgePoolBase._processRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1457) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase._processRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1461) is not in mixedCase
+Function 'PledgePoolBase._preValidateWithdraw' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1466-1482) is not in mixedCase
+Parameter '_maker' of PledgePoolBase._preValidateWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1467) is not in mixedCase
+Parameter '_num' of PledgePoolBase._preValidateWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1467) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase._preValidateWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1467-1468) is not in mixedCase
+Function 'PledgePoolBase._processWithdraw' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1489-1491) is not in mixedCase
+Parameter '_num' of PledgePoolBase._processWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1489) is not in mixedCase
+Parameter '_pledgeId' of PledgePoolBase._processWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol#1489) is not in mixedCase
+Function 'EthPledgePool._processRefund' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_returnSum' of EthPledgePool._processRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_targetAddress' of EthPledgePool._processRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_pledgeId' of EthPledgePool._processRefund (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Function 'EthPledgePool._processWithdraw' (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_maker' of EthPledgePool._processWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_num' of EthPledgePool._processWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_pledgeId' of EthPledgePool._processWithdraw (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_amount' of EthPledgePool.recycle (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Parameter '_contract' of EthPledgePool.recycle (/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/29/0xda4d3539c4fa5b76c242f42a8a751cfa8d104b73.sol analyzed (18 contracts), 191 result(s) found

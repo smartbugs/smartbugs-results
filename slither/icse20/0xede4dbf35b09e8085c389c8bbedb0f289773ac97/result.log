@@ -1,0 +1,130 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:
+/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:2:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:477:9: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+        bytes genericPayload,
+        ^------------------^
+/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:529:9: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+        bytes genericPayload,
+        ^------------------^
+/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:61:5: Warning: Function state mutability can be restricted to pure
+    function fetchReturnData() internal returns (bool success){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:419:24: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+            success := delegatecall(
+                       ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:458:24: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+            success := delegatecall(
+                       ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+OasisHandler.performBuyOrder (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#722-785) sends eth to arbitrary user
+	Dangerous calls:
+	- weth.deposit.value(amountToSpend)() (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#745)
+	- msg.sender.transfer(amountToSpend - amountSpentOnOrder) (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#776-777)
+OasisHandler.performSellOrder (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#804-854) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(amountReceivedFromOrder) (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#854)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+ExchangeHandler.getAmountToGive (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#410-443) is declared view but contains assembly code
+ExchangeHandler.staticExchangeChecks (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#450-479) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+OasisHandler.performSellOrder (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#804-854) does not use the value returned by external calls:
+	-ERC20(buyGem).transfer(msg.sender,amountToSpend) (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#828-831)
+	-ERC20(buyGem).transfer(msg.sender,amountToSpend - amountSpentOnOrder) (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#851-852)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+OasisHandler.constructor.errorReporter (local variable @ /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#635-636) shadows:
+	- ExchangeHandler.errorReporter (state variable @ /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#382-384)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+ERC20SafeTransfer.fetchReturnData uses assembly (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#62-79)
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#64-79
+ExchangeHandler.getAmountToGive uses assembly (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#410-443)
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#415-443
+ExchangeHandler.staticExchangeChecks uses assembly (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#450-479)
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#454-479
+ExchangeHandler.performBuyOrder uses assembly (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#490-533)
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#498-533
+ExchangeHandler.performSellOrder uses assembly (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#543-590)
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#550-590
+OasisHandler.fallback uses assembly (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol)
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol:
+	- Version used: ['0.4.25', 'ABIEncoderV2']
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#1 declares pragma solidity0.4.25
+	- /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#2-3 declares pragma experimentalABIEncoderV2
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+ERC20.totalSupply (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#9-11) should be declared external
+ERC20.balanceOf (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#11-13) should be declared external
+ERC20.allowance (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#13-16) should be declared external
+ERC20.transfer (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#16-18) should be declared external
+ERC20.approve (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#18-21) should be declared external
+ERC20.transferFrom (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#21-24) should be declared external
+ERC20.decimals (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#24-27) should be declared external
+ErrorReporter.revertTx (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#105-110) should be declared external
+Ownable.renounceOwnership (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#231-233) should be declared external
+Ownable.transferOwnership (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#240-243) should be declared external
+Pausable.paused (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#330-333) should be declared external
+Pausable.pause (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#355-356) should be declared external
+Pausable.unpause (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#357-358) should be declared external
+ExchangeHandler.getAmountToGive (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#410-443) should be declared external
+ExchangeHandler.staticExchangeChecks (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#450-479) should be declared external
+ExchangeHandler.performBuyOrder (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#490-533) should be declared external
+ExchangeHandler.performSellOrder (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#543-590) should be declared external
+OasisHandler.getAmountToGive (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#657-668) should be declared external
+OasisHandler.staticExchangeChecks (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#685-705) should be declared external
+OasisHandler.performBuyOrder (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#722-785) should be declared external
+OasisHandler.performSellOrder (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#804-854) should be declared external
+OasisHandler.setWeth (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#856-866) should be declared external
+OasisHandler.fallback (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in ERC20SafeTransfer.safeTransfer (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#40-47):
+	-require(bool)(_tokenAddress.call(bytes4(keccak256()(transfer(address,uint256))),_to,_value)) /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#42-45
+Low level call in ERC20SafeTransfer.safeTransferFrom (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#47-54):
+	-require(bool)(_tokenAddress.call(bytes4(keccak256()(transferFrom(address,address,uint256))),_from,_to,_value)) /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#49-54
+Low level call in ERC20SafeTransfer.safeApprove (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#54-61):
+	-require(bool)(_tokenAddress.call(bytes4(keccak256()(approve(address,uint256))),_spender,_value)) /unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#56-61
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_tokenAddress' of ERC20SafeTransfer.safeTransfer (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#40) is not in mixedCase
+Parameter '_to' of ERC20SafeTransfer.safeTransfer (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#40) is not in mixedCase
+Parameter '_value' of ERC20SafeTransfer.safeTransfer (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#40-42) is not in mixedCase
+Parameter '_tokenAddress' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#47) is not in mixedCase
+Parameter '_from' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#47) is not in mixedCase
+Parameter '_to' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#47) is not in mixedCase
+Parameter '_value' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#47-49) is not in mixedCase
+Parameter '_tokenAddress' of ERC20SafeTransfer.safeApprove (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#54) is not in mixedCase
+Parameter '_spender' of ERC20SafeTransfer.safeApprove (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#54-56) is not in mixedCase
+Parameter '_value' of ERC20SafeTransfer.safeApprove (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#56) is not in mixedCase
+Parameter '_a' of SafeMath.mul (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#134-135) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#135) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#152) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#152-153) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#169) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#169-170) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#179) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#179) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#241) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#248-252) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#249-250) is not in mixedCase
+Parameter '_totlePrimary' of TotleControl. (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#270) is not in mixedCase
+Parameter '_totlePrimary' of TotleControl.addTotle (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#284) is not in mixedCase
+Parameter '_totlePrimary' of TotleControl.removeTotle (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#287) is not in mixedCase
+Parameter '_token' of Withdrawable.withdrawToken (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#297) is not in mixedCase
+Parameter '_amount' of Withdrawable.withdrawToken (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#297-298) is not in mixedCase
+Parameter '_amount' of Withdrawable.withdrawETH (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#314-315) is not in mixedCase
+Constant 'SelectorProvider.getAmountToGiveSelector' (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#358-360) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SelectorProvider.staticExchangeChecksSelector' (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#360-364) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SelectorProvider.performBuyOrderSelector' (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#364-367) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SelectorProvider.performSellOrderSelector' (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#368-373) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_errorReporter' of ExchangeHandler. (/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol#393-394) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/28/0xede4dbf35b09e8085c389c8bbedb0f289773ac97.sol analyzed (15 contracts), 71 result(s) found

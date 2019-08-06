@@ -1,0 +1,204 @@
+INFO:Detectors:[93m
+DepositWithdraw.bytesToBytes32 (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#358-362) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in OwnerContract.changeOwnershipto (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#599-615):
+	External calls:
+	- ownedContract.owner() != pendingOwnedOwner (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#602-615)
+	- ownedContract.transferOwnership(_nextOwner) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#603-604)
+	State variables written after the call(s):
+	- pendingOwnedOwner (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#604-605)
+Reentrancy in OwnerContract.ownedOwnershipTransferred (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#621-637):
+	External calls:
+	- ownedContract.owner() == pendingOwnedOwner (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#629-637)
+	State variables written after the call(s):
+	- ownedContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#632-633)
+	- pendingOwnedOwner (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#633-636)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Withdrawable.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#212-224) does not use the value returned by external calls:
+	-tk.transfer(_to,_value) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#221-223)
+TokenDestructible.destroy (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#256-276) does not use the value returned by external calls:
+	-token.transfer(owner,balance) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#268-270)
+DRCWalletManager.createDepositContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#683-707) does not use the value returned by external calls:
+	-walletStorage.addDeposit(_wallet,_deposit) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#699)
+DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#917-978) does not use the value returned by external calls:
+	-walletStorage.addWithdraw(_deposit,_name,_to) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#943)
+	-walletStorage.changeWalletName(_deposit,_name,_to) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#943-946)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+DRCWalletManager.getDepositWithdrawList has external calls inside a loop:
+	- names[i] = walletStorage.walletName(_deposit,i) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#780-782)
+DRCWalletManager.getDepositWithdrawList has external calls inside a loop:
+	- wallets[i] = walletStorage.wallet(_deposit,i) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#782)
+DRCWalletManager.checkWithdrawAddress has external calls inside a loop:
+	- walletName = walletStorage.walletName(_deposit,i) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#869-871)
+DRCWalletManager.checkWithdrawAddress has external calls inside a loop:
+	- walletAddr = walletStorage.wallet(_deposit,i) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#871-872)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in DepositWithdraw.checkWithdrawAmount (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#405-438):
+	External calls:
+	- require(bool)(_value <= params.singleWithdrawMax()) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#407-408)
+	- require(bool)(_value >= params.singleWithdrawMin()) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#408-409)
+	State variables written after the call(s):
+	- dayWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#413-415)
+	- dayWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#416-417)
+	- dayWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#419)
+	- dayWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#420-421)
+	- dayWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#421-422)
+Reentrancy in DepositWithdraw.checkWithdrawAmount (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#405-438):
+	External calls:
+	- require(bool)(_value <= params.singleWithdrawMax()) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#407-408)
+	- require(bool)(_value >= params.singleWithdrawMin()) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#408-409)
+	- require(bool)(dayWithdrawRec.count <= params.dayWithdrawCount()) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#417-418)
+	- require(bool)(dayWithdrawRec.value <= params.dayWithdraw()) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#418-419)
+	State variables written after the call(s):
+	- monthWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#430-432)
+	- monthWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#432-433)
+	- monthWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#435)
+	- monthWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#436)
+	- monthWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#436-437)
+Reentrancy in DepositWithdraw.receiveApproval (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#369-384):
+	External calls:
+	- require(bool)(tk.transferFrom(_from,this,_value)) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#374-375)
+	State variables written after the call(s):
+	- deposRecs (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#378-383)
+Reentrancy in DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#449-469):
+	External calls:
+	- require(bool)(checkWithdrawAmount(_params,_value,_time)) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#462)
+	- require(bool)(tk.transfer(_to,realAmount)) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#465)
+	- require(bool)(tk.transfer(_tokenReturn,_fee)) (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#467)
+	State variables written after the call(s):
+	- withdrRecs (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#468)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+DepositWithdraw.bytesToBytes32 uses assembly (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#358-362)
+	- /unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#359-362
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#158-160) should be declared external
+Ownable.transferOwnership (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#166-169) should be declared external
+Claimable.transferOwnership (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#287-293) should be declared external
+Withdrawable.fallback (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#190-193) should be declared external
+Withdrawable.withdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#198-206) should be declared external
+Withdrawable.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#212-224) should be declared external
+TokenDestructible.destroy (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#256-276) should be declared external
+Claimable.claimOwnership (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#297-306) should be declared external
+DelayedClaimable.claimOwnership (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#553-560) should be declared external
+DepositWithdraw.setWithdrawWallet (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#348-355) should be declared external
+DepositWithdraw.receiveApproval (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#369-384) should be declared external
+DepositWithdraw.withdrawTokenToDefault (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#484-491) should be declared external
+DepositWithdraw.getDepositNum (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#495-498) should be declared external
+DepositWithdraw.getOneDepositRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#505-510) should be declared external
+DepositWithdraw.getWithdrawNum (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#514-520) should be declared external
+DepositWithdraw.getOneWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#523-532) should be declared external
+DelayedClaimable.setLimits (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#540-548) should be declared external
+OwnerContract.bindContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#572-583) should be declared external
+OwnerContract.changeOwnershipto (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#599-615) should be declared external
+OwnerContract.ownedOwnershipTransferred (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#621-637) should be declared external
+DRCWalletManager.initialize (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#671-677) should be declared external
+DRCWalletManager.createDepositContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#683-707) should be declared external
+DRCWalletManager.doDeposit (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#712-720) should be declared external
+DRCWalletManager.getDepositAddress (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#724-732) should be declared external
+DRCWalletManager.getDepositInfo (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#736-749) should be declared external
+DRCWalletManager.getDepositWithdrawCount (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#752-760) should be declared external
+DRCWalletManager.getDepositWithdrawList (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#769-783) should be declared external
+DRCWalletManager.changeDefaultWithdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#793-808) should be declared external
+DRCWalletManager.freezeTokens (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#817-826) should be declared external
+DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#835-846) should be declared external
+DRCWalletManager.destroyDepositContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#981-987) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol) should be declared external
+ERC20Basic.transfer (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol) should be declared external
+ERC20.allowance (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol) should be declared external
+ERC20.transferFrom (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol) should be declared external
+ERC20.approve (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_a' of SafeMath.mul (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#79) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#79) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#95) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#95) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#107-110) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#110) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#115-119) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#119) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#167) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#173-179) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#176-177) is not in mixedCase
+Parameter '_to' of Withdrawable.withdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#199-201) is not in mixedCase
+Parameter '_amount' of Withdrawable.withdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#201-202) is not in mixedCase
+Parameter '_token' of Withdrawable.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#213) is not in mixedCase
+Parameter '_to' of Withdrawable.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#214) is not in mixedCase
+Parameter '_value' of Withdrawable.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#214) is not in mixedCase
+Parameter '_tokens' of TokenDestructible.destroy (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#256-259) is not in mixedCase
+Struct 'DepositWithdraw.accumulatedRecord' (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#317-320) is not in CapWords
+Parameter '_wallet' of DepositWithdraw. (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#337-338) is not in mixedCase
+Parameter '_wallet' of DepositWithdraw.setWithdrawWallet (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#348) is not in mixedCase
+Parameter '_from' of DepositWithdraw.receiveApproval (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#369) is not in mixedCase
+Parameter '_value' of DepositWithdraw.receiveApproval (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#369-370) is not in mixedCase
+Parameter '_token' of DepositWithdraw.receiveApproval (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#370) is not in mixedCase
+Parameter '_extraData' of DepositWithdraw.receiveApproval (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#370) is not in mixedCase
+Parameter '_time' of DepositWithdraw.recordWithdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#398) is not in mixedCase
+Parameter '_to' of DepositWithdraw.recordWithdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#398) is not in mixedCase
+Parameter '_value' of DepositWithdraw.recordWithdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#398) is not in mixedCase
+Parameter '_params' of DepositWithdraw.checkWithdrawAmount (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#405) is not in mixedCase
+Parameter '_value' of DepositWithdraw.checkWithdrawAmount (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#405) is not in mixedCase
+Parameter '_time' of DepositWithdraw.checkWithdrawAmount (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#406) is not in mixedCase
+Parameter '_token' of DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#449-450) is not in mixedCase
+Parameter '_params' of DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#450) is not in mixedCase
+Parameter '_time' of DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#450) is not in mixedCase
+Parameter '_to' of DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#450-451) is not in mixedCase
+Parameter '_value' of DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#451) is not in mixedCase
+Parameter '_fee' of DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#451) is not in mixedCase
+Parameter '_tokenReturn' of DepositWithdraw.withdrawToken (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#451-452) is not in mixedCase
+Parameter '_token' of DepositWithdraw.withdrawTokenToDefault (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#486) is not in mixedCase
+Parameter '_params' of DepositWithdraw.withdrawTokenToDefault (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#486) is not in mixedCase
+Parameter '_time' of DepositWithdraw.withdrawTokenToDefault (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#486-487) is not in mixedCase
+Parameter '_value' of DepositWithdraw.withdrawTokenToDefault (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#488) is not in mixedCase
+Parameter '_fee' of DepositWithdraw.withdrawTokenToDefault (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#488) is not in mixedCase
+Parameter '_tokenReturn' of DepositWithdraw.withdrawTokenToDefault (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#488) is not in mixedCase
+Parameter '_ind' of DepositWithdraw.getOneDepositRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#505-507) is not in mixedCase
+Parameter '_ind' of DepositWithdraw.getOneWithdrawRec (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#523) is not in mixedCase
+Parameter '_start' of DelayedClaimable.setLimits (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#545) is not in mixedCase
+Parameter '_end' of DelayedClaimable.setLimits (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#545) is not in mixedCase
+Parameter '_contract' of OwnerContract.bindContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#573) is not in mixedCase
+Parameter '_nextOwner' of OwnerContract.changeOwnershipto (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#599) is not in mixedCase
+Parameter '_token' of DRCWalletManager.initialize (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#673) is not in mixedCase
+Parameter '_walletParams' of DRCWalletManager.initialize (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#673) is not in mixedCase
+Parameter '_walletStorage' of DRCWalletManager.initialize (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#673) is not in mixedCase
+Parameter '_wallet' of DRCWalletManager.createDepositContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#683) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.doDeposit (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#714-716) is not in mixedCase
+Parameter '_increase' of DRCWalletManager.doDeposit (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#716) is not in mixedCase
+Parameter '_value' of DRCWalletManager.doDeposit (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#716) is not in mixedCase
+Parameter '_wallet' of DRCWalletManager.getDepositAddress (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#724) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.getDepositInfo (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#736-738) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.getDepositWithdrawCount (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#752-754) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.getDepositWithdrawList (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#769) is not in mixedCase
+Parameter '_indices' of DRCWalletManager.getDepositWithdrawList (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#769) is not in mixedCase
+Parameter '_oldWallet' of DRCWalletManager.changeDefaultWithdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#793-794) is not in mixedCase
+Parameter '_newWallet' of DRCWalletManager.changeDefaultWithdraw (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#794) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.freezeTokens (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#818) is not in mixedCase
+Parameter '_freeze' of DRCWalletManager.freezeTokens (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#818) is not in mixedCase
+Parameter '_value' of DRCWalletManager.freezeTokens (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#818-819) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#837) is not in mixedCase
+Parameter '_time' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#837) is not in mixedCase
+Parameter '_value' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#837) is not in mixedCase
+Parameter '_check' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#837) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.checkWithdrawAddress (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#853-854) is not in mixedCase
+Parameter '_name' of DRCWalletManager.checkWithdrawAddress (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#854) is not in mixedCase
+Parameter '_to' of DRCWalletManager.checkWithdrawAddress (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#854) is not in mixedCase
+Parameter '_deposWithdr' of DRCWalletManager.withdrawFromThis (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#890) is not in mixedCase
+Parameter '_time' of DRCWalletManager.withdrawFromThis (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#890) is not in mixedCase
+Parameter '_to' of DRCWalletManager.withdrawFromThis (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#890-891) is not in mixedCase
+Parameter '_value' of DRCWalletManager.withdrawFromThis (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#891) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#917) is not in mixedCase
+Parameter '_time' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#918-919) is not in mixedCase
+Parameter '_name' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#919) is not in mixedCase
+Parameter '_to' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#920-921) is not in mixedCase
+Parameter '_value' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#921) is not in mixedCase
+Parameter '_check' of DRCWalletManager.withdrawWithFee (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#922-923) is not in mixedCase
+Parameter '_deposit' of DRCWalletManager.destroyDepositContract (/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol#983) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/18/0x21464bb95b81ab9fdf003f08ac65244b0e07ed0a.sol analyzed (13 contracts), 137 result(s) found

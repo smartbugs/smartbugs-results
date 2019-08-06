@@ -1,0 +1,33 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol:
+/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol:13:38: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xDF0960778C6E6597f197Ed9a25F12F5d971da86c'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    GooToken constant goo = GooToken(0xdf0960778c6e6597f197ed9a25f12f5d971da86c);
+                                     ^----------------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in Army.changeTotalArmyPower (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#151-164):
+	External calls:
+	- clans.increaseClanPower(player,newTotal - totalArmyPower) (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#156-158)
+	- clans.decreaseClanPower(player,totalArmyPower - newTotal) (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#161-162)
+	State variables written after the call(s):
+	- totalArmyPower (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#163)
+Reentrancy in Army.snapshotDailyWarFunding (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#166-191):
+	External calls:
+	- numClans = clans.totalSupply() (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#175-176)
+	State variables written after the call(s):
+	- nextSnapshotTime (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#191)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Army.snapshotDailyWarFunding has external calls inside a loop:
+	- clans.depositGoo((allocatedClanWarFund * clanArmyPower[i - 1]) / todaysTotalClanPower,i) (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#189-190)
+Army.snapshotDailyWarFunding has external calls inside a loop:
+	- clanArmyPower[i - 1] = clans.clanTotalArmyPower(i) (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#181-182)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Army.increasePlayersArmyPowerTrio (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#80-100) should be declared external
+Army.decreasePlayersArmyPowerTrio (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#100-127) should be declared external
+Army.changePlayersArmyPowerTrio (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#127-151) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Constant 'Army.goo' (/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol#13-14) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/6/0x98278eb74b388efd4d6fc81dd3f95b642ce53f2b.sol analyzed (6 contracts), 8 result(s) found

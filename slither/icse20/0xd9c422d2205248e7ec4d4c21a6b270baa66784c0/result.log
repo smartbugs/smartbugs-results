@@ -1,0 +1,71 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:182:19: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function stop(string proposal) external 
+                  ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:198:20: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function start(string proposal) external 
+                   ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:229:56: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function changeVoter(address older, address newer, string proposal) external 
+                                                       ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:242:38: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function addVoter(address newer, string proposal) external 
+                                     ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:255:41: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function removeVoter(address older, string proposal) external 
+                                        ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:268:37: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function addChain(string chain, string proposal) external 
+                                    ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:281:62: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function addApp(address app, uint32 chain, uint32 token, string proposal) external 
+                                                             ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:294:37: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function removeApp(uint32 code, string proposal) external 
+                                    ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:305:74: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function mintByGateway(uint32 appCode, uint64 wad, address receiver, string proposal) external 
+                                                                         ^-------------^
+/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol:317:63: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function changeGatewayAddr(uint32 appCode, address newer, string proposal) external 
+                                                              ^-------------^
+
+INFO:Detectors:[93m
+GatewayVote.confirmation uses tx.origin for authorization:
+	- vote.voters[uint256(tx.origin)] == 0 (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#170-177)
+GatewayVote.stop uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#191-193)
+GatewayVote.start uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && mStopped) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#209-212)
+GatewayVote.revoke uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#220-221)
+	- require(bool)(! vote.done && (vote.voters[uint256(tx.origin)] == 1)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#229)
+GatewayVote.changeVoter uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && isVoter(older) && ! isVoter(newer)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#237-239)
+GatewayVote.addVoter uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && ! isVoter(newer)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#252-255)
+GatewayVote.removeVoter uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && isVoter(older)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#265-268)
+GatewayVote.addChain uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && ! isChain(chain)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#278)
+GatewayVote.addApp uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && ! isApper(app) && isChainCode(chain)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#289-291)
+GatewayVote.removeApp uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && isAppCode(code)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#305)
+GatewayVote.mintByGateway uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && isAppCode(appCode)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#313-317)
+GatewayVote.changeGatewayAddr uses tx.origin for authorization:
+	- require(bool)(isVoter(tx.origin) && ! mStopped && isAppCode(appCode)) (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#325-329)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-usage-of-txorigin[0m
+INFO:Detectors:[92m
+GatewayVote.getAppAddress (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#94-99) should be declared external
+GatewayVote.getAppChainCode (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#99-104) should be declared external
+GatewayVote.getAppTokenCode (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#104-109) should be declared external
+GatewayVote.getAppInfo (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#109-114) should be declared external
+GatewayVote.getAppCode (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#115-119) should be declared external
+GatewayVote.isCaller (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#120-125) should be declared external
+GatewayVote.getChainName (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#137-142) should be declared external
+GatewayVote.getChainCode (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#142-144) should be declared external
+GatewayVote.hasConfirmed (/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol#144-160) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Slither:/unique_contracts/0xd9c422d2205248e7ec4d4c21a6b270baa66784c0.sol analyzed (2 contracts), 21 result(s) found

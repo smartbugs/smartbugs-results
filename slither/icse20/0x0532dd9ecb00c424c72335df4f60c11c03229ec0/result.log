@@ -1,0 +1,65 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol:
+/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol:134:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ObirumCrowdsale(uint256 _startTime, uint256 _endTime, address _wallet, address _token, address _owner)  public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol:221:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TokenPurchase(msg.sender, sender, value, tokens);
+        ^----------------------------------------------^
+/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol:258:17: Warning: Invoking events without "emit" prefix is deprecated.
+                Refund(msg.sender, amount);
+                ^------------------------^
+
+INFO:Detectors:[91m
+ObirumCrowdsale.buyTokens (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#174-215) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(returnToSender) (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#212-214)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in ObirumCrowdsale.buyTokens (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#174-215):
+	External calls:
+	- mintTokens(value,beneficiary) (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#200-201)
+	State variables written after the call(s):
+	- currentStage (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#202)
+Reentrancy in ObirumCrowdsale.buyTokens (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#174-215):
+	External calls:
+	- mintTokens(value,beneficiary) (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#200-201)
+	- mintTokens(dif,beneficiary) (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#204-205)
+	State variables written after the call(s):
+	- balances (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#204-205)
+	- tokensSold (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#204-205)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+ObirumCrowdsale.mintTokens (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#215-231) does not use the value returned by external calls:
+	-reward.transferFrom(owner,sender,tokens) (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#228)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ObirumCrowdsale.isStartTimeSet should be constant (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#113)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+token.transferFrom (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#37-38) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'token' (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#37-44) is not in CapWords
+Function 'ObirumCrowdsale.ObirumCrowdsale' (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#135-152) is not in mixedCase
+Parameter '_startTime' of ObirumCrowdsale.ObirumCrowdsale (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#136) is not in mixedCase
+Parameter '_endTime' of ObirumCrowdsale.ObirumCrowdsale (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#136) is not in mixedCase
+Parameter '_wallet' of ObirumCrowdsale.ObirumCrowdsale (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#136-137) is not in mixedCase
+Parameter '_token' of ObirumCrowdsale.ObirumCrowdsale (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#137) is not in mixedCase
+Parameter '_owner' of ObirumCrowdsale.ObirumCrowdsale (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#137-138) is not in mixedCase
+Parameter '_owner' of ObirumCrowdsale.balanceOf (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#276) is not in mixedCase
+Parameter '_stage' of ObirumCrowdsale.getStageLimit (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#281) is not in mixedCase
+Parameter '_stage' of ObirumCrowdsale.getStageDiscount (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol) is not in mixedCase
+Constant 'ObirumCrowdsale.kRate' (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#54) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ObirumCrowdsale.kMinStake' (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#55-56) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ObirumCrowdsale.kMaxStake' (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#57-58) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ObirumCrowdsale.softCap' (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#106-108) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ObirumCrowdsale.hardCap' (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#108-109) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+ObirumCrowdsale.isStartTimeSet (/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol#113) is never used in ObirumCrowdsale
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/8/0x0532dd9ecb00c424c72335df4f60c11c03229ec0.sol analyzed (3 contracts), 23 result(s) found

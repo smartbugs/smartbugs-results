@@ -1,0 +1,71 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:35:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function LockYourLove () { // Constructor
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:67:3: Warning: Invoking events without "emit" prefix is deprecated.
+		EvNewPrice(block.number, price);
+		^-----------------------------^
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:90:9: Warning: Invoking events without "emit" prefix is deprecated.
+        EvLoveItemAdded(love_hash, msg.sender, block.number, block.timestamp, lovemsg, loveurl);
+        ^-------------------------------------------------------------------------------------^
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:35:5: Warning: No visibility specified. Defaulting to "public". 
+    function LockYourLove () { // Constructor
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:55:5: Warning: No visibility specified. Defaulting to "public". 
+    function() payable { 
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:59:5: Warning: No visibility specified. Defaulting to "public". 
+    function donateToLovers(bytes32 loveHash) payable returns (bool) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:65:5: Warning: No visibility specified. Defaulting to "public". 
+    function setPrice (uint newprice) onlyOwner { 
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:70:2: Warning: No visibility specified. Defaulting to "public". 
+	function getPrice() constant returns  (uint){
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:74:2: Warning: No visibility specified. Defaulting to "public". 
+	function getNumLoveItems() constant returns  (uint){
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:79:5: Warning: No visibility specified. Defaulting to "public". 
+    function addLovers(bytes32 love_hash, string lovemsg, string loveurl) payable {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:94:5: Warning: No visibility specified. Defaulting to "public". 
+    function getLovers(bytes32 love_hash) constant returns  (address, uint, uint, string, string){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:102:5: Warning: No visibility specified. Defaulting to "public". 
+    function destroy() onlyOwner { // so funds not locked in contract forever
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+LockYourLove.addLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#79-94) sends eth to arbitrary user
+	Dangerous calls:
+	- owner.transfer(price) (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#90)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[92m
+LockYourLove.donateToLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#59-66) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(mapLoveItems[loveHash].lovers_address > 0) (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#62)
+LockYourLove.getLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#94-103) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(mapLoveItems[love_hash].block_number > 0) (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#97)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+LockYourLove.fallback (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#56-59) should be declared external
+LockYourLove.donateToLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#59-66) should be declared external
+LockYourLove.setPrice (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#66-71) should be declared external
+LockYourLove.getPrice (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#74-75) should be declared external
+LockYourLove.getNumLoveItems (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#75-79) should be declared external
+LockYourLove.addLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#79-94) should be declared external
+LockYourLove.getLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#94-103) should be declared external
+LockYourLove.destroy (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#103-105) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol:
+	- pragma solidity^0.4.11 (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'LockYourLove.LockYourLove' (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#35-41) is not in mixedCase
+Parameter 'love_hash' of LockYourLove.addLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#81) is not in mixedCase
+Parameter 'love_hash' of LockYourLove.getLovers (/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol#95) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/30/0x61cca6c941c6629df67439694889c2d1877a17eb.sol analyzed (1 contracts), 15 result(s) found

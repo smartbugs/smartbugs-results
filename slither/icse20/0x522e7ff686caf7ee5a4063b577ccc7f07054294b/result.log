@@ -1,0 +1,55 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:
+/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:69:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Autobid(address _admin, address _token, uint _exchangeRate, uint _expirationTime) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:92:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenClaim(token, msg.sender, msg.value, tokenQuantity);
+    ^-----------------------------------------------------^
+/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:110:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Redemption(msg.sender, amount, redemptionValue);
+    ^---------------------------------------------^
+/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:140:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Redemption(msg.sender, 0, amount);
+    ^-------------------------------^
+/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:153:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenClaim(token, msg.sender, 0, amount);
+    ^--------------------------------------^
+/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:167:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenClaim(tokenContract, msg.sender, 0, amount);
+    ^----------------------------------------------^
+
+INFO:Detectors:[92m
+Reentrancy in Autobid.expirationCheck (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#119-132):
+	External calls:
+	- remainingTokenSupply = Token(token).balanceOf(this) (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#126-130)
+	State variables written after the call(s):
+	- active (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#132)
+Reentrancy in Autobid.fallback (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#82-96):
+	External calls:
+	- require(bool)(Token(token).transfer(msg.sender,tokenQuantity)) (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#88-91)
+	- expirationCheck() (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#92)
+	State variables written after the call(s):
+	- active (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#92)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Token.transfer (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#4-5) should be declared external
+Token.transferFrom (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#5-6) should be declared external
+Token.balanceOf (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#6-9) should be declared external
+Autobid.fallback (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#82-96) should be declared external
+Autobid.redeemTokens (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#101-114) should be declared external
+Autobid.adminWithdraw (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#139-145) should be declared external
+Autobid.adminWithdrawTokens (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#150-158) should be declared external
+Autobid.adminWithdrawMiscTokens (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#164-169) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Autobid.Autobid' (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#69-78) is not in mixedCase
+Parameter '_admin' of Autobid.Autobid (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#69) is not in mixedCase
+Parameter '_token' of Autobid.Autobid (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#70) is not in mixedCase
+Parameter '_exchangeRate' of Autobid.Autobid (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#70-71) is not in mixedCase
+Parameter '_expirationTime' of Autobid.Autobid (/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol#71-72) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x522e7ff686caf7ee5a4063b577ccc7f07054294b.sol analyzed (2 contracts), 16 result(s) found

@@ -1,0 +1,35 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol:
+/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol:19:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function KingOfTheHill() public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol:36:3: Warning: Invoking events without "emit" prefix is deprecated.
+		NewKing(currentKing, lastKing);
+		^----------------------------^
+/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol:40:19: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+		uint winnings = this.balance - 0.1 ether;
+		                ^----------^
+/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol:42:3: Warning: Invoking events without "emit" prefix is deprecated.
+		Winner(currentKing, winnings);
+		^---------------------------^
+
+INFO:Detectors:[91m
+KingOfTheHill.winner (/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol#40-45) sends eth to arbitrary user
+	Dangerous calls:
+	- currentKing.transfer(winnings) (/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol#42-45)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[92m
+KingOfTheHill.fallback (/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol#28-40) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (lastKing + timeLimit) < block.timestamp (/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol#30-33)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+KingOfTheHill.timeLimit should be constant (/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol#10-11)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol#6-8): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'KingOfTheHill.KingOfTheHill' (/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol#19-23) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/16/0x14e2ac9b6ca7bade21afdfa31b63708fc0b08d8f.sol analyzed (1 contracts), 5 result(s) found

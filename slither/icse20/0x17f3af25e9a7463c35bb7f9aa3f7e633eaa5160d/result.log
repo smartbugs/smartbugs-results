@@ -1,0 +1,183 @@
+INFO:Detectors:[91m
+MintingCrowdsale.forwardFunds (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1209-1210) sends eth to arbitrary user
+	Dangerous calls:
+	- companyWallet.transfer(address(this).balance) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1209-1210)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Reentrancy in MintingCrowdsale.finalize (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1157-1171):
+	External calls:
+	- token.mint(reserveAccount,tokenSold().mul(tokenReservePerMill).div(1000)) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1163-1165)
+	- token.finishMinting() (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1165-1168)
+	State variables written after the call(s):
+	- isFinalized (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1168-1169)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+MintingCrowdsale.constructor (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#990-1051) does not use the value returned by external calls:
+	-_tokenCapOfPublicSale.add(_tokenCapOfPrivateSale).mul(_tokenReservePerMill) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1039-1040)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+StokrProjectManager.constructor.etherRate (local variable @ /unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1466) shadows:
+	- StokrProjectManager.etherRate (function @ /unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1523)
+	- RateSource.etherRate (function @ /unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#895-896)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in MintingCrowdsale.buyTokens (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1116-1143):
+	External calls:
+	- etherRate = rateSource.etherRate() (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1118)
+	State variables written after the call(s):
+	- tokenPurchased (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1133-1134)
+	- tokenRemainingForPublicSale (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1135-1136)
+Reentrancy in MintingCrowdsale.constructor (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#990-1051):
+	External calls:
+	- require(bool,string)(_token.minter() == address(0x0),Token has another minter) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1000-1002)
+	State variables written after the call(s):
+	- closingTime (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1047-1048)
+	- companyWallet (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1048-1049)
+	- limitEndTime (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1048)
+	- openingTime (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1047)
+	- rateSource (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1040)
+	- reserveAccount (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1049)
+	- token (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1040)
+	- tokenCapOfPrivateSale (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1041-1042)
+	- tokenCapOfPublicSale (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1041)
+	- tokenPrice (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1044-1047)
+	- tokenPurchaseLimit (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1043-1044)
+	- tokenPurchaseMinimum (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1042-1043)
+	- tokenRemainingForPrivateSale (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1050-1051)
+	- tokenRemainingForPublicSale (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1050)
+	- tokenReservePerMill (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1044)
+Reentrancy in StokrProjectManager.createNewProject (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1531-1554):
+	External calls:
+	- token = tokenFactory.createNewToken(name,symbol,currentWhitelist,roles[0],roles[1],roles[2]) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol)
+	- crowdsale = crowdsaleFactory.createNewCrowdsale(token,tokenPrice,amounts,period,wallets) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol)
+	- token.setMinter(crowdsale) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol)
+	- token.transferOwnershipUnsafe(msg.sender) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol)
+	- crowdsale.transferOwnershipUnsafe(msg.sender) (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol)
+	State variables written after the call(s):
+	- projects (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#38-44) should be declared external
+Ownable.transferOwnershipUnsafe (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#48-54) should be declared external
+Ownable.claimOwnership (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#56-62) should be declared external
+Whitelist.addAdmin (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#116-127) should be declared external
+Whitelist.removeAdmin (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#128-139) should be declared external
+StokrToken.recoverToken (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#663-686) should be declared external
+TokenRecoverable.recoverToken (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#270-271) should be declared external
+ProfitSharing.fallback (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#443-446) should be declared external
+ProfitSharing.withdrawProfitShare (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#514-515) should be declared external
+ProfitSharing.withdrawProfitShareTo (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#515-520) should be declared external
+MintableToken.setMinter (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#580-587) should be declared external
+MintableToken.mint (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#597-618) should be declared external
+MintableToken.finishMinting (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#621-623) should be declared external
+ERC20.totalSupply (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#276-277) should be declared external
+StokrToken.totalSupply (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#687-690) should be declared external
+ERC20.balanceOf (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#277-278) should be declared external
+StokrToken.balanceOf (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#692-694) should be declared external
+StokrToken.allowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#700-702) should be declared external
+ERC20.allowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#278-282) should be declared external
+ERC20.approve (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#282-288) should be declared external
+StokrToken.approve (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#707-710) should be declared external
+ERC20.transfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#288-291) should be declared external
+StokrToken.transfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#768-772) should be declared external
+ERC20.transferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#291-293) should be declared external
+StokrToken.transferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#779-791) should be declared external
+StokrToken.destruct (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#657-658) should be declared external
+StokrToken.increaseAllowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#716-722) should be declared external
+StokrToken.decreaseAllowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#730-737) should be declared external
+StokrToken.canTransferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#760-764) should be declared external
+StokrTokenFactory.createNewToken (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#868-890) should be declared external
+MintingCrowdsale.fallback (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1052-1056) should be declared external
+MintingCrowdsale.timeRemaining (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1099-1103) should be declared external
+MintingCrowdsale.changeClosingTime (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1145-1156) should be declared external
+StokrCrowdsale.claimRefund (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1319-1322) should be declared external
+StokrProjectManager.etherRate (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1523) should be declared external
+RateSource.etherRate (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#895-896) should be declared external
+StokrProjectManager.setWhitelist (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1476-1479) should be declared external
+StokrProjectManager.setTokenFactory (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1483-1491) should be declared external
+StokrProjectManager.setCrowdsaleFactory (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1496-1503) should be declared external
+StokrProjectManager.setRateAdmin (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1507-1511) should be declared external
+StokrProjectManager.setRate (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1515-1521) should be declared external
+StokrProjectManager.projectsCount (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1525-1527) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#38-39) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnershipUnsafe (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#49) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#64-75) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#64-65) is not in mixedCase
+Parameter '_admin' of Whitelist.addAdmin (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#118) is not in mixedCase
+Parameter '_admin' of Whitelist.removeAdmin (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#130) is not in mixedCase
+Parameter '_investors' of Whitelist.addToWhitelist (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#141-142) is not in mixedCase
+Parameter '_investors' of Whitelist.removeFromWhitelist (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#154) is not in mixedCase
+Parameter '_whitelist' of Whitelisted. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#195) is not in mixedCase
+Parameter '_newWhitelist' of Whitelisted.setWhitelist (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#199) is not in mixedCase
+Parameter '_tokenRecoverer' of TokenRecoverable. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#244) is not in mixedCase
+Parameter '_newTokenRecoverer' of TokenRecoverable.setTokenRecoverer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#248-250) is not in mixedCase
+Parameter '_profitDepositor' of ProfitSharing. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#439) is not in mixedCase
+Parameter '_profitDistributor' of ProfitSharing. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#439-440) is not in mixedCase
+Parameter '_newProfitDepositor' of ProfitSharing.setProfitDepositor (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#452) is not in mixedCase
+Parameter '_newProfitDistributor' of ProfitSharing.setProfitDistributor (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#463-464) is not in mixedCase
+Parameter '_investor' of ProfitSharing.profitShareOwing (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#488) is not in mixedCase
+Parameter '_investor' of ProfitSharing.updateProfitShare (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#503) is not in mixedCase
+Parameter '_beneficiary' of ProfitSharing.withdrawProfitShareTo (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#516-518) is not in mixedCase
+Parameter '_investors' of ProfitSharing.withdrawProfitShares (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#521-523) is not in mixedCase
+Function 'ProfitSharing._withdrawProfitShare' (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#538-547) is not in mixedCase
+Parameter '_investor' of ProfitSharing._withdrawProfitShare (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#538-539) is not in mixedCase
+Parameter '_beneficiary' of ProfitSharing._withdrawProfitShare (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#539) is not in mixedCase
+Parameter '_minter' of MintableToken.setMinter (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#581-583) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#599) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#599) is not in mixedCase
+Parameter '_investor' of StokrToken.balanceOf (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#692-693) is not in mixedCase
+Parameter '_investor' of StokrToken.allowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#700) is not in mixedCase
+Parameter '_spender' of StokrToken.allowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#700) is not in mixedCase
+Parameter '_spender' of StokrToken.approve (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#707) is not in mixedCase
+Parameter '_value' of StokrToken.approve (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#707) is not in mixedCase
+Parameter '_to' of StokrToken.transfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#771) is not in mixedCase
+Parameter '_value' of StokrToken.transfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#771) is not in mixedCase
+Parameter '_from' of StokrToken.transferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#779-780) is not in mixedCase
+Parameter '_to' of StokrToken.transferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#780-781) is not in mixedCase
+Parameter '_value' of StokrToken.transferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#781-782) is not in mixedCase
+Parameter '_oldAddress' of StokrToken.recoverToken (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#665) is not in mixedCase
+Parameter '_newAddress' of StokrToken.recoverToken (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#665) is not in mixedCase
+Parameter '_name' of StokrToken. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#646-647) is not in mixedCase
+Parameter '_symbol' of StokrToken. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#647) is not in mixedCase
+Parameter '_spender' of StokrToken.increaseAllowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#716) is not in mixedCase
+Parameter '_amount' of StokrToken.increaseAllowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#716) is not in mixedCase
+Parameter '_spender' of StokrToken.decreaseAllowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#730-731) is not in mixedCase
+Parameter '_amount' of StokrToken.decreaseAllowance (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#731) is not in mixedCase
+Parameter '_from' of StokrToken.canTransfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#743) is not in mixedCase
+Parameter '_to' of StokrToken.canTransfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#743) is not in mixedCase
+Parameter '_value' of StokrToken.canTransfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#743) is not in mixedCase
+Parameter '_spender' of StokrToken.canTransferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#760) is not in mixedCase
+Parameter '_from' of StokrToken.canTransferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#760-761) is not in mixedCase
+Parameter '_to' of StokrToken.canTransferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#761) is not in mixedCase
+Parameter '_value' of StokrToken.canTransferFrom (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#761) is not in mixedCase
+Function 'StokrToken._approve' (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#801-808) is not in mixedCase
+Parameter '_from' of StokrToken._approve (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#801) is not in mixedCase
+Parameter '_spender' of StokrToken._approve (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#801-802) is not in mixedCase
+Parameter '_value' of StokrToken._approve (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#802) is not in mixedCase
+Function 'StokrToken._transfer' (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#827-859) is not in mixedCase
+Parameter '_from' of StokrToken._transfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#828) is not in mixedCase
+Parameter '_to' of StokrToken._transfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#828-829) is not in mixedCase
+Parameter '_value' of StokrToken._transfer (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#829) is not in mixedCase
+Parameter '_rateSource' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#990) is not in mixedCase
+Parameter '_token' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#991) is not in mixedCase
+Parameter '_tokenCapOfPublicSale' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#991-992) is not in mixedCase
+Parameter '_tokenCapOfPrivateSale' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#992) is not in mixedCase
+Parameter '_tokenPurchaseMinimum' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#992-993) is not in mixedCase
+Parameter '_tokenPurchaseLimit' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#993) is not in mixedCase
+Parameter '_tokenReservePerMill' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#993-994) is not in mixedCase
+Parameter '_tokenPrice' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#994) is not in mixedCase
+Parameter '_openingTime' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#994) is not in mixedCase
+Parameter '_closingTime' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#995) is not in mixedCase
+Parameter '_limitEndTime' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#995) is not in mixedCase
+Parameter '_companyWallet' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#995-998) is not in mixedCase
+Parameter '_reserveAccount' of MintingCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#998) is not in mixedCase
+Parameter '_newClosingTime' of MintingCrowdsale.changeClosingTime (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1145-1146) is not in mixedCase
+Parameter '_tokenCapOfPublicSale' of StokrCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1261) is not in mixedCase
+Parameter '_tokenCapOfPrivateSale' of StokrCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1261-1262) is not in mixedCase
+Parameter '_tokenGoal' of StokrCrowdsale. (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1262) is not in mixedCase
+Parameter '_investors' of StokrCrowdsale.distributeRefunds (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1302-1304) is not in mixedCase
+Parameter '_investor' of StokrCrowdsale.refundInvestor (/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol#1338) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x17f3af25e9a7463c35bb7f9aa3f7e633eaa5160d.sol analyzed (15 contracts), 127 result(s) found

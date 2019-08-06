@@ -1,0 +1,209 @@
+INFO:Detectors:[93m
+EIP20NonStandardInterface (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#246-311) has incorrect ERC20 function interface(s):
+	-transfer (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#276)
+	-transferFrom (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#285-286)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol:
+	Contract MoneyMarket has payable functions:
+	 - fallback (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#688)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in MoneyMarket.borrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2596-2670):
+	External calls:
+	- (err,localResults.accountLiquidity,localResults.accountShortfall) = calculateAccountLiquidity(msg.sender) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2634-2637)
+	- (err,localResults.ethValueOfBorrowAmountWithFee) = getPriceForAssetAmountMulCollatRatio(asset,localResults.borrowAmountWithFee) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2650-2654)
+	- localResults.currentCash = getCash(asset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2662)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- err = doTransferOut(asset,msg.sender,amount) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	State variables written after the call(s):
+	- borrowBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- borrowBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol)
+Reentrancy in MoneyMarket.liquidateBorrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2173-2424):
+	External calls:
+	- (err,localResults.collateralPrice) = fetchAssetPrice(assetCollateral) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2192-2193)
+	- (err,localResults.underwaterAssetPrice) = fetchAssetPrice(assetBorrow) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2195)
+	- (err,localResults.discountedRepayToEvenAmount) = calculateDiscountedRepayToEvenAmount(targetAccount,localResults.underwaterAssetPrice) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2269-2271)
+	- err = checkTransferIn(assetBorrow,localResults.liquidator,localResults.closeBorrowAmount_TargetUnderwaterAsset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2302-2305)
+	- localResults.currentCash_ProtocolUnderwaterAsset = getCash(assetBorrow) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2326-2327)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa_ProtocolUnderwaterAsset) = borrowMarket.interestRateModel.getSupplyRate(assetBorrow,localResults.updatedCash_ProtocolUnderwaterAsset,localResults.newTotalBorrows_ProtocolUnderwaterAsset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2337-2341)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa_ProtocolUnderwaterAsset) = borrowMarket.interestRateModel.getBorrowRate(assetBorrow,localResults.updatedCash_ProtocolUnderwaterAsset,localResults.newTotalBorrows_ProtocolUnderwaterAsset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2342-2344)
+	- err = doTransferIn(assetBorrow,localResults.liquidator,localResults.closeBorrowAmount_TargetUnderwaterAsset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2385-2386)
+	State variables written after the call(s):
+	- borrowBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2414)
+	- borrowBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2414-2415)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2394)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2394-2396)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2397)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2397-2398)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2398)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2398-2400)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2403-2404)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2404-2405)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2406-2407)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2407-2408)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2416)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2417-2418)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2421-2422)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2422-2423)
+Reentrancy in MoneyMarket.repayBorrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1981-2103):
+	External calls:
+	- localResults.repayAmount = min(getBalanceOf(asset,msg.sender),localResults.userBorrowCurrent) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2001-2004)
+	- err = checkTransferIn(asset,msg.sender,localResults.repayAmount) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2014)
+	- localResults.currentCash = getCash(asset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2033-2034)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2048-2054)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,localResults.newTotalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2062-2069)
+	- err = doTransferIn(asset,msg.sender,localResults.repayAmount) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2080-2081)
+	State variables written after the call(s):
+	- borrowBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2099)
+	- borrowBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2100)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2087)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2087-2088)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2088-2090)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2090-2092)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2092-2093)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2094)
+Reentrancy in MoneyMarket.supply (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1533-1643):
+	External calls:
+	- err = checkTransferIn(asset,msg.sender,amount) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1549-1550)
+	- localResults.currentCash = getCash(asset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1578)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1586-1588)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1598-1605)
+	- err = doTransferIn(asset,msg.sender,amount) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1620-1624)
+	State variables written after the call(s):
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1628)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1628-1630)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1630)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1631-1632)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1632-1635)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1635-1636)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1639)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1639-1640)
+Reentrancy in MoneyMarket.withdraw (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1659-1800):
+	External calls:
+	- (err,localResults.accountLiquidity,localResults.accountShortfall) = calculateAccountLiquidity(msg.sender) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1672-1674)
+	- (err,localResults.withdrawCapacity) = getAssetAmountForValue(asset,localResults.accountLiquidity) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1692-1693)
+	- localResults.currentCash = getCash(asset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1700-1701)
+	- (err,localResults.ethValueOfWithdrawal) = getPriceForAssetAmount(asset,localResults.withdrawAmount) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1718-1720)
+	- (rateCalculationResultCode,localResults.newSupplyRateMantissa) = market.interestRateModel.getSupplyRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1744-1747)
+	- (rateCalculationResultCode,localResults.newBorrowRateMantissa) = market.interestRateModel.getBorrowRate(asset,localResults.updatedCash,market.totalBorrows) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1759-1765)
+	- err = doTransferOut(asset,msg.sender,localResults.withdrawAmount) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1777-1778)
+	State variables written after the call(s):
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1783-1784)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1784)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1784-1785)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1786)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1787-1791)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1791)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1794-1795)
+	- supplyBalances (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1795-1796)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+localResults in MoneyMarket.liquidateBorrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2177) is a local variable never initialiazed
+localResults in MoneyMarket.supply (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1540) is a local variable never initialiazed
+localResults in MoneyMarket.calculateAccountValuesInternal (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1864-1866) is a local variable never initialiazed
+localResults in MoneyMarket.repayBorrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1984-1985) is a local variable never initialiazed
+localResults in MoneyMarket.borrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2601-2602) is a local variable never initialiazed
+localResults in MoneyMarket.withdraw (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1663) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+MoneyMarket._setOracle (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1180-1198) does not use the value returned by external calls:
+	-oracleInterface.assetPrices(address(0)) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1194)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in MoneyMarket._setOracle (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1180-1198):
+	External calls:
+	- oracleInterface.assetPrices(address(0)) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1194)
+	State variables written after the call(s):
+	- oracle (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1196)
+Reentrancy in MoneyMarket._supportMarket (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1304-1329):
+	External calls:
+	- (err,assetPrice) = fetchAssetPrice(asset) (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1310-1311)
+	State variables written after the call(s):
+	- collateralMarkets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1321)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1318-1321)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1322)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1324)
+	- markets (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1325-1326)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SafeToken.doTransferIn uses assembly (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#406-437)
+	- /unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#410-435
+SafeToken.doTransferOut uses assembly (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#463-493)
+	- /unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#467-486
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+EIP20Interface.totalSupply should be constant (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#210-212)
+EIP20NonStandardInterface.totalSupply should be constant (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#260)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+PriceOracleInterface.assetPrices (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#10-12) should be declared external
+InterestRateModel.getSupplyRate (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#185-186) should be declared external
+InterestRateModel.getBorrowRate (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#197-199) should be declared external
+EIP20Interface.balanceOf (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#214-215) should be declared external
+EIP20Interface.transfer (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#219-221) should be declared external
+EIP20Interface.transferFrom (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#226-227) should be declared external
+EIP20Interface.approve (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#233-234) should be declared external
+EIP20Interface.allowance (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#237-241) should be declared external
+EIP20NonStandardInterface.balanceOf (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#264-265) should be declared external
+EIP20NonStandardInterface.transfer (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#276) should be declared external
+EIP20NonStandardInterface.transferFrom (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#285-286) should be declared external
+EIP20NonStandardInterface.approve (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#292) should be declared external
+EIP20NonStandardInterface.allowance (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#296-302) should be declared external
+MoneyMarket.fallback (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#688) should be declared external
+MoneyMarket.getCollateralMarketsLength (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#931-933) should be declared external
+MoneyMarket.assetPrices (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1097-1100) should be declared external
+MoneyMarket._setPendingAdmin (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1132-1150) should be declared external
+MoneyMarket._acceptAdmin (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1157-1175) should be declared external
+MoneyMarket._setOracle (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1180-1198) should be declared external
+MoneyMarket._setPaused (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1203-1213) should be declared external
+MoneyMarket.getAccountLiquidity (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1224-1229) should be declared external
+MoneyMarket.getSupplyBalance (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1240-1256) should be declared external
+MoneyMarket.getBorrowBalance (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1269-1291) should be declared external
+MoneyMarket._supportMarket (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1304-1329) should be declared external
+MoneyMarket._suspendMarket (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1341-1358) should be declared external
+MoneyMarket._setRiskParameters (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1366-1422) should be declared external
+MoneyMarket._setOriginationFee (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1434-1442) should be declared external
+MoneyMarket._setMarketInterestRateModel (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1448-1461) should be declared external
+MoneyMarket._withdrawEquity (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1471-1510) should be declared external
+MoneyMarket.supply (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1533-1643) should be declared external
+MoneyMarket.withdraw (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1659-1800) should be declared external
+MoneyMarket.calculateAccountValues (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1961-1967) should be declared external
+MoneyMarket.repayBorrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1981-2103) should be declared external
+MoneyMarket.liquidateBorrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2173-2424) should be declared external
+MoneyMarket.borrow (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2596-2670) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Constant 'Exponential.expScale' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#501) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Exponential.halfExpScale' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#502-503) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Exponential.mantissaOne' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#504-507) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Exponential.mantissaOneTenth' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#507) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'MoneyMarket._setPendingAdmin' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1132-1150) is not in mixedCase
+Function 'MoneyMarket._acceptAdmin' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1157-1175) is not in mixedCase
+Function 'MoneyMarket._setOracle' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1180-1198) is not in mixedCase
+Function 'MoneyMarket._setPaused' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1203-1213) is not in mixedCase
+Function 'MoneyMarket._supportMarket' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1304-1329) is not in mixedCase
+Function 'MoneyMarket._suspendMarket' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1341-1358) is not in mixedCase
+Function 'MoneyMarket._setRiskParameters' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1366-1422) is not in mixedCase
+Function 'MoneyMarket._setOriginationFee' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1434-1442) is not in mixedCase
+Function 'MoneyMarket._setMarketInterestRateModel' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1448-1461) is not in mixedCase
+Function 'MoneyMarket._withdrawEquity' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#1471-1510) is not in mixedCase
+Parameter 'supplyCurrent_TargetCollateralAsset' of MoneyMarket.calculateDiscountedBorrowDenominatedCollateral (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2511-2513) is not in mixedCase
+Parameter 'closeBorrowAmount_TargetUnderwaterAsset' of MoneyMarket.calculateAmountSeize (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#2557-2559) is not in mixedCase
+Constant 'MoneyMarket.initialInterestIndex' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#658-661) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MoneyMarket.defaultOriginationFee' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#661-662) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MoneyMarket.minimumCollateralRatioMantissa' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#663-668) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'MoneyMarket.maximumLiquidationDiscountMantissa' (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#668-672) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+Exponential.mantissaOneTenth (/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol#507) is never used in MoneyMarket
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0x3fda67f7583380e67ef93072294a7fac882fd7e7.sol analyzed (9 contracts), 75 result(s) found

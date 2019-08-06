@@ -1,0 +1,323 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:74:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:273:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function DistrictsCore() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:92:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:132:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Pause();
+    ^-----^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:140:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Unpause();
+    ^-------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:174:5: Warning: Invoking events without "emit" prefix is deprecated.
+    ContractUpgrade(_v2Address);
+    ^-------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:630:6: Warning: Invoking events without "emit" prefix is deprecated.
+     NarcoArrived(targetLocation, _narcoId); // who just arrived here
+     ^------------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:631:6: Warning: Invoking events without "emit" prefix is deprecated.
+     NarcoLeft(sourceLocation, _narcoId); // who just left here
+     ^---------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:646:8: Warning: Invoking events without "emit" prefix is deprecated.
+       TravelBust(_narcoId, uint16(bustedWeed), uint16(bustedCoke));
+       ^----------------------------------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:656:9: Warning: Invoking events without "emit" prefix is deprecated.
+        EscapedHijack(_hijackerId, _victimId , getNarcoLocation(_victimId));
+        ^-----------------------------------------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:726:9: Warning: Invoking events without "emit" prefix is deprecated.
+        HijackDefended( _hijackerId,_victimId);
+        ^------------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:765:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Hijacked(_hijackerId, _victimId , stolenWeed, stolenCoke);
+        ^-------------------------------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:774:31: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+     _seed = uint64(keccak256(keccak256(block.blockhash(block.number-1), _seed), now));
+                              ^-----------------------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:774:21: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+     _seed = uint64(keccak256(keccak256(block.blockhash(block.number-1), _seed), now));
+                    ^---------------------------------------------------------------^
+/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:774:41: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+     _seed = uint64(keccak256(keccak256(block.blockhash(block.number-1), _seed), now));
+                                        ^-------------^
+
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#8-26) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#13-14)
+	-transferFrom (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#14-15)
+	-transfer (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#15-16)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#421-507):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#428-429)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,narcoLevel,None,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#432-434)
+	- require(bool)(getNarcoLocation(_narcoId) == uint8(_district)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#434-436)
+	- require(bool)(narcoCore.getRemainingCapacity(_narcoId) >= _quantity || _itemIndex >= 6) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#440-442)
+	- narcoCore.updateConsumable(_narcoId,_itemIndex - 2,uint8(narcoConsumables[_itemIndex - 2] + _quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#470-472)
+	State variables written after the call(s):
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#473-476)
+Reentrancy in DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#421-507):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#428-429)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,narcoLevel,None,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#432-434)
+	- require(bool)(getNarcoLocation(_narcoId) == uint8(_district)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#434-436)
+	- require(bool)(narcoCore.getRemainingCapacity(_narcoId) >= _quantity || _itemIndex >= 6) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#440-442)
+	- narcoCore.updateConsumable(_narcoId,_itemIndex - 2,uint8(narcoConsumables[_itemIndex - 2] + _quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#470-472)
+	- narcoCore.updateSkill(_narcoId,marketItems[_itemIndex].skillAffected,uint16(narcoSkills[marketItems[_itemIndex].skillAffected] + (marketItems[_itemIndex].upgradeAmount * _quantity))) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#477-483)
+	State variables written after the call(s):
+	- currentDevFees (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#483-484)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#483-484)
+Reentrancy in DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#421-507):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#428-429)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,narcoLevel,None,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#432-434)
+	- require(bool)(getNarcoLocation(_narcoId) == uint8(_district)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#434-436)
+	- require(bool)(narcoCore.getRemainingCapacity(_narcoId) >= _quantity || _itemIndex >= 6) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#440-442)
+	- narcoCore.updateConsumable(_narcoId,_itemIndex - 2,uint8(narcoConsumables[_itemIndex - 2] + _quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#470-472)
+	- narcoCore.updateSkill(_narcoId,marketItems[_itemIndex].skillAffected,uint16(narcoSkills[marketItems[_itemIndex].skillAffected] + (marketItems[_itemIndex].upgradeAmount * _quantity))) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#477-483)
+	- narcoCore.updateWeedTotal(_narcoId,true,uint16(_quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#488-489)
+	State variables written after the call(s):
+	- currentDevFees (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#495)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#492-495)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#495)
+Reentrancy in DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#421-507):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#428-429)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,narcoLevel,None,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#432-434)
+	- require(bool)(getNarcoLocation(_narcoId) == uint8(_district)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#434-436)
+	- require(bool)(narcoCore.getRemainingCapacity(_narcoId) >= _quantity || _itemIndex >= 6) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#440-442)
+	- narcoCore.updateConsumable(_narcoId,_itemIndex - 2,uint8(narcoConsumables[_itemIndex - 2] + _quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#470-472)
+	- narcoCore.updateSkill(_narcoId,marketItems[_itemIndex].skillAffected,uint16(narcoSkills[marketItems[_itemIndex].skillAffected] + (marketItems[_itemIndex].upgradeAmount * _quantity))) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#477-483)
+	- narcoCore.updateWeedTotal(_narcoId,true,uint16(_quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#488-489)
+	- narcoCore.updateCokeTotal(_narcoId,true,uint16(_quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#496-497)
+	State variables written after the call(s):
+	- currentDevFees (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#497-500)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#497)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#497-500)
+Reentrancy in DistrictsCore.sellItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#508-560):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#513-516)
+	- (None,narcoWeedTotal,narcoCokeTotal,None,None,None,None,None,None,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#520-526)
+	- require(bool)(getNarcoLocation(_narcoId) == _district) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#526)
+	- narcoCore.updateWeedTotal(_narcoId,false,uint16(_quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#542-549)
+	State variables written after the call(s):
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#549-550)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#550-551)
+Reentrancy in DistrictsCore.sellItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#508-560):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#513-516)
+	- (None,narcoWeedTotal,narcoCokeTotal,None,None,None,None,None,None,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#520-526)
+	- require(bool)(getNarcoLocation(_narcoId) == _district) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#526)
+	- narcoCore.updateWeedTotal(_narcoId,false,uint16(_quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#542-549)
+	- narcoCore.updateCokeTotal(_narcoId,false,uint16(_quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#551-552)
+	State variables written after the call(s):
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#552-553)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#553)
+Reentrancy in DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#566-643):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#570-573)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,None,narcoCooldowns,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#582-586)
+	- sourceLocation = getNarcoLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#591)
+	- targetLocation = getNarcoHomeLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#616-617)
+	State variables written after the call(s):
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#619-622)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#624-627)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#627)
+	- narcoIndexToLocation (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#618-619)
+Reentrancy in DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#566-643):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#570-573)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,None,narcoCooldowns,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#582-586)
+	- sourceLocation = getNarcoLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#591)
+	- targetLocation = getNarcoHomeLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#616-617)
+	- narcoCore.updateConsumable(_narcoId,0,narcoConsumables[0] - 1) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#630-631)
+	- narcoCore.setCooldown(_narcoId,0,now + (455 - (5 * narcoSkills[0]) * 1)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#636-637)
+	- narcoCore.incrementStat(_narcoId,7) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#638)
+	- busted(_narcoId,targetLocation,narcoWeedTotal,narcoCokeTotal) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#640-641)
+	State variables written after the call(s):
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#640-641)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+hijackerSkills in DistrictsCore.hijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#688-690) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+DistrictsCore.numberOfNarcosByDistrict has external calls inside a loop:
+	- narcoId <= narcoCore.totalSupply() (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in DistrictsAdmin._setNarcosCoreAddress (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#161-167):
+	External calls:
+	- require(bool)(candidateContract.implementsERC721()) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#166-167)
+	State variables written after the call(s):
+	- coreAddress (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#167)
+	- narcoCore (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#167)
+Reentrancy in DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#421-507):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#428-429)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,narcoLevel,None,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#432-434)
+	- require(bool)(getNarcoLocation(_narcoId) == uint8(_district)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#434-436)
+	- require(bool)(narcoCore.getRemainingCapacity(_narcoId) >= _quantity || _itemIndex >= 6) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#440-442)
+	- narcoCore.updateConsumable(_narcoId,_itemIndex - 2,uint8(narcoConsumables[_itemIndex - 2] + _quantity)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#470-472)
+	State variables written after the call(s):
+	- currentDevFees (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#473-476)
+Reentrancy in DistrictsCore.doHijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#753-790):
+	External calls:
+	- hijackerCapacity = narcoCore.getRemainingCapacity(_hijackerId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#756-757)
+	State variables written after the call(s):
+	- _seed (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#765-774)
+Reentrancy in DistrictsCore.hijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#665-750):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_hijackerId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#670-672)
+	- (None,hijackerWeedTotal,hijackerCokeTotal,hijackerSkills,hijackerConsumables,None,None,None,hijackerCooldowns,None,None) = narcoCore.getNarco(_hijackerId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#694-702)
+	- (None,victimWeedTotal,victimCokeTotal,victimSkills,None,None,victimHomeLocation,None,victimCooldowns,None,None) = narcoCore.getNarco(_victimId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#710-719)
+	- require(bool)(getNarcoLocation(_victimId) != victimHomeLocation || _victimId == 0) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#720-725)
+	- narcoCore.updateConsumable(_hijackerId,3,hijackerConsumables[3] - 1) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#731)
+	State variables written after the call(s):
+	- _seed (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#732-744)
+Reentrancy in DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#566-643):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#570-573)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,None,narcoCooldowns,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#582-586)
+	- sourceLocation = getNarcoLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#591)
+	State variables written after the call(s):
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#608-609)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#609-611)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#612-613)
+	- districts (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#613-615)
+Reentrancy in DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#566-643):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#570-573)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,None,narcoCooldowns,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#582-586)
+	- sourceLocation = getNarcoLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#591)
+	- targetLocation = getNarcoHomeLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#616-617)
+	State variables written after the call(s):
+	- currentDevFees (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#619-622)
+Reentrancy in DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#566-643):
+	External calls:
+	- require(bool)(narcoCore.ownerOf(_narcoId) == msg.sender) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#570-573)
+	- (None,narcoWeedTotal,narcoCokeTotal,narcoSkills,narcoConsumables,None,None,None,narcoCooldowns,None,None) = narcoCore.getNarco(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#582-586)
+	- sourceLocation = getNarcoLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#591)
+	- targetLocation = getNarcoHomeLocation(_narcoId) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#616-617)
+	- narcoCore.updateConsumable(_narcoId,0,narcoConsumables[0] - 1) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#630-631)
+	- narcoCore.setCooldown(_narcoId,0,now + (455 - (5 * narcoSkills[0]) * 1)) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#636-637)
+	- narcoCore.incrementStat(_narcoId,7) (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#638)
+	State variables written after the call(s):
+	- _seed (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#639)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#794-796:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+ERC721.implementsERC721 (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#9-10) should be declared external
+ERC721.totalSupply (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#10-11) should be declared external
+ERC721.balanceOf (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#11-12) should be declared external
+ERC721.ownerOf (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#12-13) should be declared external
+ERC721.approve (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#13-14) should be declared external
+ERC721.transferFrom (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#14-15) should be declared external
+ERC721.transfer (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#15-16) should be declared external
+NarcosCoreInterface.getNarco (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#29-46) should be declared external
+NarcosCoreInterface.updateWeedTotal (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#46-47) should be declared external
+NarcosCoreInterface.updateCokeTotal (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#47-48) should be declared external
+NarcosCoreInterface.updateConsumable (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#48-49) should be declared external
+NarcosCoreInterface.updateSkill (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#49-50) should be declared external
+NarcosCoreInterface.incrementStat (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#50-51) should be declared external
+NarcosCoreInterface.setCooldown (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#51-52) should be declared external
+NarcosCoreInterface.getRemainingCapacity (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#52-59) should be declared external
+Ownable.transferOwnership (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#91-102) should be declared external
+Pausable.pause (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#136-139) should be declared external
+Pausable.unpause (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#145-148) should be declared external
+DistrictsAdmin.setNarcosCoreAddress (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#159-161) should be declared external
+DistrictsAdmin.setNewAddress (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#177-188) should be declared external
+DistrictsCore.setAirLiftPrice (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#214-218) should be declared external
+DistrictsCore.setBustRange (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#218-222) should be declared external
+DistrictsCore.setHijackPrice (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#222-226) should be declared external
+DistrictsCore.setTravelPrice (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#226-230) should be declared external
+DistrictsCore.setSpreadPercent (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#230-236) should be declared external
+DistrictsCore.setDevFeePercent (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#236-240) should be declared external
+DistrictsCore.isDopeRaiderDistrictsCore (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#240-243) should be declared external
+DistrictsCore.configureMarketItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#249-268) should be declared external
+DistrictsCore.getDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#278-298) should be declared external
+DistrictsCore.createNamedDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#298-308) should be declared external
+DistrictsCore.configureDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#308-312) should be declared external
+DistrictsCore.increaseDistrictWeed (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#313-318) should be declared external
+DistrictsCore.increaseDistrictCoke (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#318-326) should be declared external
+DistrictsCore.floatEconony (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#365-373) should be declared external
+DistrictsCore.distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#374-380) should be declared external
+DistrictsCore.setLocalRevenuPercent (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#381-383) should be declared external
+DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#421-507) should be declared external
+DistrictsCore.sellItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#508-560) should be declared external
+DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#566-643) should be declared external
+DistrictsCore.hijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#665-750) should be declared external
+DistrictsCore.narcosByDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#810-813) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#79-80) is not in mixedCase
+Parameter '_address' of DistrictsAdmin.setNarcosCoreAddress (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#160) is not in mixedCase
+Function 'DistrictsAdmin._setNarcosCoreAddress' (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#161-167) is not in mixedCase
+Parameter '_address' of DistrictsAdmin._setNarcosCoreAddress (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#162) is not in mixedCase
+Parameter '_v2Address' of DistrictsAdmin.setNewAddress (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#178) is not in mixedCase
+Parameter '_price' of DistrictsCore.setAirLiftPrice (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#214-215) is not in mixedCase
+Parameter '_range' of DistrictsCore.setBustRange (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#218-219) is not in mixedCase
+Parameter '_price' of DistrictsCore.setHijackPrice (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#222-223) is not in mixedCase
+Parameter '_price' of DistrictsCore.setTravelPrice (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#226-227) is not in mixedCase
+Parameter '_spread' of DistrictsCore.setSpreadPercent (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#230) is not in mixedCase
+Parameter '_fee' of DistrictsCore.setDevFeePercent (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#238) is not in mixedCase
+Parameter '_id' of DistrictsCore.configureMarketItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#250) is not in mixedCase
+Parameter '_skillAffected' of DistrictsCore.configureMarketItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#250-251) is not in mixedCase
+Parameter '_upgradeAmount' of DistrictsCore.configureMarketItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#251) is not in mixedCase
+Parameter '_levelRequired' of DistrictsCore.configureMarketItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#251-252) is not in mixedCase
+Parameter '_itemName' of DistrictsCore.configureMarketItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#252) is not in mixedCase
+Function 'DistrictsCore.DistrictsCore' (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#277) is not in mixedCase
+Parameter '_id' of DistrictsCore.getDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#278-279) is not in mixedCase
+Parameter '_index' of DistrictsCore.createNamedDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#299) is not in mixedCase
+Parameter '_name' of DistrictsCore.createNamedDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#299) is not in mixedCase
+Parameter '_hasMarket' of DistrictsCore.createNamedDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#300-302) is not in mixedCase
+Parameter '_index' of DistrictsCore.configureDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#308-309) is not in mixedCase
+Parameter '_exits' of DistrictsCore.configureDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#309) is not in mixedCase
+Parameter '_prices' of DistrictsCore.configureDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#309) is not in mixedCase
+Parameter '_isStocked' of DistrictsCore.configureDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#309) is not in mixedCase
+Parameter '_district' of DistrictsCore.increaseDistrictWeed (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#316) is not in mixedCase
+Parameter '_quantity' of DistrictsCore.increaseDistrictWeed (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#316) is not in mixedCase
+Parameter '_district' of DistrictsCore.increaseDistrictCoke (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#318) is not in mixedCase
+Parameter '_quantity' of DistrictsCore.increaseDistrictCoke (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#318-319) is not in mixedCase
+Parameter '_narcoId' of DistrictsCore.getNarcoLocation (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#328-329) is not in mixedCase
+Parameter '_narcoId' of DistrictsCore.getNarcoHomeLocation (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#355) is not in mixedCase
+Parameter '_district' of DistrictsCore.distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#377) is not in mixedCase
+Parameter '_splitW' of DistrictsCore.distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#377) is not in mixedCase
+Parameter '_splitC' of DistrictsCore.distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#377) is not in mixedCase
+Parameter '_lrp' of DistrictsCore.setLocalRevenuPercent (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#383) is not in mixedCase
+Function 'DistrictsCore._distributeRevenue' (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#384-412) is not in mixedCase
+Parameter '_grossRevenue' of DistrictsCore._distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#384) is not in mixedCase
+Parameter '_district' of DistrictsCore._distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#384) is not in mixedCase
+Parameter '_splitW' of DistrictsCore._distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#384-386) is not in mixedCase
+Parameter '_splitC' of DistrictsCore._distributeRevenue (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#386) is not in mixedCase
+Parameter '_narcoId' of DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#422-423) is not in mixedCase
+Parameter '_district' of DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#423-424) is not in mixedCase
+Parameter '_itemIndex' of DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#424-425) is not in mixedCase
+Parameter '_quantity' of DistrictsCore.buyItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#425-426) is not in mixedCase
+Parameter '_narcoId' of DistrictsCore.sellItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#509-510) is not in mixedCase
+Parameter '_district' of DistrictsCore.sellItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#510-511) is not in mixedCase
+Parameter '_itemIndex' of DistrictsCore.sellItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#511-512) is not in mixedCase
+Parameter '_quantity' of DistrictsCore.sellItem (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#512-513) is not in mixedCase
+Parameter '_narcoId' of DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#567-568) is not in mixedCase
+Parameter '_exitId' of DistrictsCore.travelTo (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#568-569) is not in mixedCase
+Parameter '_narcoId' of DistrictsCore.busted (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#643-644) is not in mixedCase
+Parameter '_hijackerId' of DistrictsCore.hijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#665-667) is not in mixedCase
+Parameter '_victimId' of DistrictsCore.hijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#667-668) is not in mixedCase
+Parameter '_hijackerId' of DistrictsCore.doHijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#753-754) is not in mixedCase
+Parameter '_victimId' of DistrictsCore.doHijack (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#754) is not in mixedCase
+Parameter '_loc' of DistrictsCore.narcosByDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol) is not in mixedCase
+Parameter '_loc' of DistrictsCore.numberOfNarcosByDistrict (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol) is not in mixedCase
+Variable 'DistrictsCore._seed' (/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol#792) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/48/0x0fe67385579c144d45b9c2d309b711e988cde705.sol analyzed (6 contracts), 119 result(s) found

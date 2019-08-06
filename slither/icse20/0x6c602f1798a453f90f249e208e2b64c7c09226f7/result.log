@@ -1,0 +1,79 @@
+INFO:Detectors:[91m
+Mentoring._flushBalance (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#328-344) sends eth to arbitrary user
+	Dangerous calls:
+	- address(heroes).transfer(balance) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#336)
+Mentoring._distributePayment (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#344-352) sends eth to arbitrary user
+	Dangerous calls:
+	- _account.transfer(amount) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#352)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+CanReclaimToken.reclaimToken (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#235-245) does not use the value returned by external calls:
+	-token.transfer(owner(),balance) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#245)
+Mentoring.startLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#445-509) does not use the value returned by external calls:
+	-heroes.addWin(_studentId,0,levelUp) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#496-497)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Mentoring.becomeMentor (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#386-397):
+	External calls:
+	- require(bool)(heroes.lock(_mentorId,0,false)) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#389-393)
+	State variables written after the call(s):
+	- prices (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#393-395)
+Reentrancy in Mentoring.changeLevelPrice (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#398-406):
+	External calls:
+	- require(bool)(isMentor(_mentorId)) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#402-403)
+	State variables written after the call(s):
+	- prices (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#403)
+Reentrancy in Mentoring.startLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#445-509):
+	External calls:
+	- require(bool)(isMentor(_mentorId)) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#449-450)
+	- require(bool)(isRaceSuitable(_mentorId,_studentId)) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#451-452)
+	- mentorLevel = heroes.getLevel(_mentorId) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#453-454)
+	- studentLevel = heroes.getLevel(_studentId) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#454-456)
+	- require(bool)(heroes.lock(_mentorId,lecture.endsAt,true)) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#480-482)
+	- require(bool)(heroes.lock(_studentId,lecture.endsAt,true)) (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#485-486)
+	State variables written after the call(s):
+	- lectures (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#491)
+	- mentorToLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#493-496)
+	- studentToLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#493)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#56-61) should be declared external
+Ownable.transferOwnership (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#64-69) should be declared external
+Mentoring.inLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#379-385) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Ownable._transferOwnership' (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#73-79) is not in mixedCase
+Parameter '_heroes' of Mentoring. (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#318) is not in mixedCase
+Function 'Mentoring._flushBalance' (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#328-344) is not in mixedCase
+Function 'Mentoring._distributePayment' (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#344-352) is not in mixedCase
+Parameter '_account' of Mentoring._distributePayment (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#345-347) is not in mixedCase
+Parameter '_amount' of Mentoring._distributePayment (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#347) is not in mixedCase
+Parameter '_fee' of Mentoring.setFee (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#354) is not in mixedCase
+Parameter '_newLevelUpTime' of Mentoring.setLevelUpTime (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#358) is not in mixedCase
+Parameter '_mentorId' of Mentoring.isMentor (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#359-362) is not in mixedCase
+Parameter '_tokenId' of Mentoring.inStudying (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#372) is not in mixedCase
+Parameter '_tokenId' of Mentoring.inMentoring (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#375-376) is not in mixedCase
+Parameter '_tokenId' of Mentoring.inLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#379) is not in mixedCase
+Parameter '_mentorId' of Mentoring.becomeMentor (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#387) is not in mixedCase
+Parameter '_levelPrice' of Mentoring.becomeMentor (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#387-388) is not in mixedCase
+Parameter '_mentorId' of Mentoring.changeLevelPrice (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#401) is not in mixedCase
+Parameter '_levelPrice' of Mentoring.changeLevelPrice (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#401) is not in mixedCase
+Parameter '_mentorId' of Mentoring.breakMentoring (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#407-408) is not in mixedCase
+Parameter '_mentorId' of Mentoring.getMentor (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#415) is not in mixedCase
+Function 'Mentoring._calcLevelIncrease' (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#418-424) is not in mixedCase
+Parameter '_mentorLevel' of Mentoring._calcLevelIncrease (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#418-419) is not in mixedCase
+Parameter '_studentLevel' of Mentoring._calcLevelIncrease (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#419) is not in mixedCase
+Parameter '_mentorId' of Mentoring.calcCost (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#425-426) is not in mixedCase
+Parameter '_studentId' of Mentoring.calcCost (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#426-429) is not in mixedCase
+Parameter '_mentorId' of Mentoring.isRaceSuitable (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#435-437) is not in mixedCase
+Parameter '_studentId' of Mentoring.isRaceSuitable (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#437) is not in mixedCase
+Parameter '_mentorId' of Mentoring.startLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#445-447) is not in mixedCase
+Parameter '_studentId' of Mentoring.startLecture (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#447) is not in mixedCase
+Parameter '_lectureId' of Mentoring.lectureExists (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#509) is not in mixedCase
+Parameter '_tokenId' of Mentoring.getLastLectureIdAsMentor (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#526) is not in mixedCase
+Parameter '_tokenId' of Mentoring.getLastLectureIdAsStudent (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol#533) is not in mixedCase
+Function 'Mentoring._getPercent' (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol) is not in mixedCase
+Parameter '_v' of Mentoring._getPercent (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol) is not in mixedCase
+Parameter '_p' of Mentoring._getPercent (/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/8/0x6c602f1798a453f90f249e208e2b64c7c09226f7.sol analyzed (7 contracts), 43 result(s) found

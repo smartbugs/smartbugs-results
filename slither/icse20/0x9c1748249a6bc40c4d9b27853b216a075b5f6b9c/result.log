@@ -1,0 +1,180 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:77:39: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x6C3E879BDD20e9686cfD9BBD1bfD4B2Dd6d47079'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+  address public ceoAddress = address(0x6c3e879bdd20e9686cfd9bbd1bfd4b2dd6d47079);
+                                      ^----------------------------------------^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:78:42: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xdceaf1652a131F32a821468Dc03A92df0edd86Ea'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+  IERC721 public erc721Address = IERC721(0xdceaf1652a131f32a821468dc03a92df0edd86ea);
+                                         ^----------------------------------------^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:79:62: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x315F396592C3C8a2D96D62fb597E2BF4Fa7734Ab'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+  ERC20BasicInterface public usdtToken = ERC20BasicInterface(0x315f396592c3c8a2d96d62fb597e2bf4fa7734ab);
+                                                             ^----------------------------------------^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:134:36: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function setPriceFeeHBWALLETTest(uint256 _tokenId, uint256 _ethPrice) public view returns (uint256, uint256){
+                                   ^--------------^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:169:12: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+           resetPrice(tokenId);
+           ^-----------------^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:177:9: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        ETHFee = _ethFee;
+        ^----^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:178:9: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        HBWALLETExchange = _HBWALLETExchange;
+        ^--------------^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:183:9: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        limitETHFee = _ethlimitFee;
+        ^---------^
+/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol:184:9: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        limitHBWALLETFee = _hbWalletlimitFee;
+        ^--------------^
+
+INFO:Detectors:[91m
+Reentrancy in Bussiness.buy (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#199-205):
+	External calls:
+	- require(bool)(getApproved(tokenId) == address(this)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#199-200)
+	- erc721Address.transferFrom(prices[tokenId].tokenOwner,msg.sender,tokenId) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#203-204)
+	External calls sending eth:
+	- prices[tokenId].tokenOwner.transfer(msg.value) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#204-205)
+	State variables written after the call(s):
+	- prices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#205)
+Reentrancy in Bussiness.removePrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#160-168):
+	External calls:
+	- require(bool)(erc721Address.ownerOf(tokenId) == msg.sender) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#161)
+	- hbwalletToken.transfer(msg.sender,prices[tokenId].hbfee) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#166)
+	External calls sending eth:
+	- msg.sender.transfer(prices[tokenId].fee) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#162-163)
+	State variables written after the call(s):
+	- prices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#167)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Bussiness.getPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#168-177) is declared view but changes state variables:
+	- Bussiness.prices
+	- Bussiness.usdtPrices
+Bussiness.setFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#177-182) is declared view but changes state variables:
+	- Bussiness.HBWALLETExchange
+	- Bussiness.ETHFee
+Bussiness.setLimitFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#183-191) is declared view but changes state variables:
+	- Bussiness.limitHBWALLETFee
+	- Bussiness.limitETHFee
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+IERC721 (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#44-64) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#51-52)
+	-transferFrom (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#57-58)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in Bussiness.buyByUsdt (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#205-215):
+	External calls:
+	- require(bool)(usdtPrices[tokenId].price > 0 && erc721Address.getApproved(tokenId) == address(this)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#206-208)
+	- require(bool)(usdtToken.transferFrom(msg.sender,usdtPrices[tokenId].tokenOwner,usdtPrices[tokenId].price)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#208-212)
+	- erc721Address.transferFrom(usdtPrices[tokenId].tokenOwner,msg.sender,tokenId) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#212-215)
+	State variables written after the call(s):
+	- usdtPrices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol)
+Reentrancy in Bussiness.setPriceFeeEth (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#121-135):
+	External calls:
+	- require(bool)(erc721Address.ownerOf(_tokenId) == msg.sender && prices[_tokenId].price != _ethPrice) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#123-124)
+	State variables written after the call(s):
+	- prices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#134-135)
+Reentrancy in Bussiness.setPriceFeeHBWALLET (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#139-160):
+	External calls:
+	- require(bool)(erc721Address.ownerOf(_tokenId) == msg.sender && prices[_tokenId].price != _ethPrice) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#142-143)
+	- require(bool)(hbwalletToken.transferFrom(msg.sender,address(this),fee)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#148-150)
+	- require(bool)(hbwalletToken.transferFrom(msg.sender,address(this),limitHBWALLETFee)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#151-153)
+	State variables written after the call(s):
+	- prices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#159-160)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Bussiness.removePrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#160-168) does not use the value returned by external calls:
+	-hbwalletToken.transfer(msg.sender,prices[tokenId].hbfee) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#166)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Bussiness.buy (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#199-205):
+	External calls:
+	- require(bool)(getApproved(tokenId) == address(this)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#199-200)
+	- erc721Address.transferFrom(prices[tokenId].tokenOwner,msg.sender,tokenId) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#203-204)
+	External calls sending eth:
+	- prices[tokenId].tokenOwner.transfer(msg.value) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#204-205)
+	State variables written after the call(s):
+	- usdtPrices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#205)
+Reentrancy in Bussiness.buyByUsdt (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#205-215):
+	External calls:
+	- require(bool)(usdtPrices[tokenId].price > 0 && erc721Address.getApproved(tokenId) == address(this)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#206-208)
+	- require(bool)(usdtToken.transferFrom(msg.sender,usdtPrices[tokenId].tokenOwner,usdtPrices[tokenId].price)) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#208-212)
+	- erc721Address.transferFrom(usdtPrices[tokenId].tokenOwner,msg.sender,tokenId) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#212-215)
+	State variables written after the call(s):
+	- prices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol)
+Reentrancy in Bussiness.getPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#168-177):
+	External calls:
+	- currentOwner = erc721Address.ownerOf(tokenId) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#171)
+	State variables written after the call(s):
+	- prices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#175)
+	- usdtPrices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#175)
+Reentrancy in Bussiness.removePrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#160-168):
+	External calls:
+	- require(bool)(erc721Address.ownerOf(tokenId) == msg.sender) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#161)
+	- hbwalletToken.transfer(msg.sender,prices[tokenId].hbfee) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#166)
+	External calls sending eth:
+	- msg.sender.transfer(prices[tokenId].fee) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#162-163)
+	State variables written after the call(s):
+	- usdtPrices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#167)
+Reentrancy in Bussiness.setPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#116-121):
+	External calls:
+	- require(bool)(erc721Address.ownerOf(_tokenId) == msg.sender) (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#117-118)
+	State variables written after the call(s):
+	- prices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#118-120)
+	- usdtPrices (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#120-121)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Bussiness.Percen should be constant (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#84)
+Bussiness.ceoAddress should be constant (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#77-78)
+ERC20BasicInterface.decimals should be constant (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#77)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#35-44) should be declared external
+IERC721.balanceOf (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#48-49) should be declared external
+IERC721.ownerOf (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#49-51) should be declared external
+IERC721.approve (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#51-52) should be declared external
+IERC721.getApproved (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#52-54) should be declared external
+IERC721.setApprovalForAll (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#54-55) should be declared external
+IERC721.isApprovedForAll (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#55-57) should be declared external
+IERC721.transferFrom (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#57-58) should be declared external
+IERC721.safeTransferFrom (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#58-60) should be declared external
+IERC721.safeTransferFrom (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#60-64) should be declared external
+ERC20BasicInterface.totalSupply (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#69) should be declared external
+ERC20BasicInterface.balanceOf (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#70) should be declared external
+ERC20BasicInterface.transfer (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#71) should be declared external
+ERC20BasicInterface.transferFrom (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#71-72) should be declared external
+Bussiness.ownerOf (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#106-111) should be declared external
+Bussiness.balanceOf (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#111-112) should be declared external
+Bussiness.setPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#116-121) should be declared external
+Bussiness.setPriceFeeEth (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#121-135) should be declared external
+Bussiness.setPriceFeeHBWALLETTest (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#135-139) should be declared external
+Bussiness.setPriceFeeHBWALLET (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#139-160) should be declared external
+Bussiness.removePrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#160-168) should be declared external
+Bussiness.getPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#168-177) should be declared external
+Bussiness.setFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#177-182) should be declared external
+Bussiness.setLimitFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#183-191) should be declared external
+Bussiness.withdraw (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#193-199) should be declared external
+Bussiness.buy (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#199-205) should be declared external
+Bussiness.buyByUsdt (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#205-215) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_tokenId' of Bussiness.ownerOf (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#108) is not in mixedCase
+Parameter '_tokenId' of Bussiness.getApproved (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#115) is not in mixedCase
+Parameter '_tokenId' of Bussiness.setPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#116-117) is not in mixedCase
+Parameter '_ethPrice' of Bussiness.setPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#117) is not in mixedCase
+Parameter '_usdtPrice' of Bussiness.setPrice (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#117) is not in mixedCase
+Parameter '_tokenId' of Bussiness.setPriceFeeEth (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#121) is not in mixedCase
+Parameter '_ethPrice' of Bussiness.setPriceFeeEth (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#121) is not in mixedCase
+Parameter '_ethPrice' of Bussiness.setPriceFeeHBWALLETTest (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#136) is not in mixedCase
+Parameter '_tokenId' of Bussiness.setPriceFeeHBWALLET (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#139) is not in mixedCase
+Parameter '_ethPrice' of Bussiness.setPriceFeeHBWALLET (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#139-140) is not in mixedCase
+Parameter '_ethFee' of Bussiness.setFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#177-178) is not in mixedCase
+Parameter '_HBWALLETExchange' of Bussiness.setFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#178) is not in mixedCase
+Parameter '_ethlimitFee' of Bussiness.setLimitFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#183-184) is not in mixedCase
+Parameter '_hbWalletlimitFee' of Bussiness.setLimitFee (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#184) is not in mixedCase
+Parameter '_address' of Bussiness.withdraw (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#196) is not in mixedCase
+Variable 'Bussiness.ETHFee' (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#83) is not in mixedCase
+Variable 'Bussiness.Percen' (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#84) is not in mixedCase
+Variable 'Bussiness.HBWALLETExchange' (/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol#84-85) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/22/0x9c1748249a6bc40c4d9b27853b216a075b5f6b9c.sol analyzed (4 contracts), 61 result(s) found

@@ -1,0 +1,312 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:246:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:247:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:288:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:289:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:919:30: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function withdrawalAllowed(address _payee) public view returns (bool) {
+                             ^------------^
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:230:3: Warning: Function state mutability can be restricted to pure
+  function _preValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:245:3: Warning: Function state mutability can be restricted to pure
+  function _postValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:287:3: Warning: Function state mutability can be restricted to pure
+  function _updatePurchasingState(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol:473:3: Warning: Function state mutability can be restricted to pure
+  function finalization() internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+RefundEscrow.beneficiaryWithdraw (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#943-946) sends eth to arbitrary user
+	Dangerous calls:
+	- beneficiary.transfer(address(this).balance) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#944-946)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+ClinicAllRefundEscrow.deposits (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#980) shadows:
+	- Escrow.deposits (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#827-829)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variable-shadowing[0m
+INFO:Detectors:[91m
+RBAC.roles (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1603-1604) is never initialized. It is used in:
+	- checkRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1611-1614)
+	- hasRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1625-1629)
+	- addRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1633-1639)
+	- removeRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1646-1649)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+TokenDestructible.destroy (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1203-1215) does not use the value returned by external calls:
+	-token.transfer(owner,balance) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1213-1214)
+ClinicAllCrowdsale.finalization (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2266-2275) does not use the value returned by external calls:
+	-MintableToken(token).finishMinting() (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2273-2274)
+ClinicAllCrowdsale.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) does not use the value returned by external calls:
+	-ClinicAllToken(token).transferToPrivateInvestor(msg.sender,_beneficiary,_value) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ClinicAllRefundEscrow.withdrawChunk has external calls inside a loop:
+	- _refundee.transfer(_paymentWithoutTxFee) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1130)
+ClinicAllCrowdsale.claimRefundChunk has external calls inside a loop:
+	- ClinicAllToken(token).burnAfterRefund(_refundeesList[i]) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2076)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in ClinicAllCrowdsale.claimRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2044-2063):
+	External calls:
+	- require(bool,string)(! goalReached(),Claim refunds is only possible if the soft cap goal has not been reached.) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2053-2054)
+	- deposit = vault.depositsOf(msg.sender) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2055)
+	- vault.withdraw(msg.sender) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2056-2058)
+	State variables written after the call(s):
+	- weiRaised (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2058-2060)
+Reentrancy in ClinicAllCrowdsale.claimRefundChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2068-2076):
+	External calls:
+	- require(bool,string)(! goalReached(),Claim refunds is only possible if the soft cap goal has not been reached.) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2069-2070)
+	- (_weiRefunded,_refundeesList) = vault.withdrawChunk(_txFee,_chunkLength) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2070-2074)
+	State variables written after the call(s):
+	- weiRaised (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2074-2075)
+Reentrancy in ClinicAllCrowdsale.manualRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol):
+	External calls:
+	- deposit = vault.depositsOf(_payee) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol)
+	- vault.manualRefund(_payee) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol)
+	State variables written after the call(s):
+	- weiRaised (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol)
+Reentrancy in ClinicAllCrowdsale.redeemPrivateSaleFunds (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol):
+	External calls:
+	- _balance = ClinicAllToken(token).balanceOf(msg.sender) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol)
+	State variables written after the call(s):
+	- privateSaleSupplyLimit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TimedCrowdsale.constructor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#416-425) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_openingTime >= block.timestamp) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#419-420)
+TimedCrowdsale.hasClosed (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#431-440) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > closingTime (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#440)
+ClinicAllCrowdsale.hasClosed (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2088-2096) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ((block.timestamp > closingTime) || tokenSupplyLimit <= token.totalSupply()) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2090-2094)
+ClinicAllCrowdsale.isDiscount (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2242-2246) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (preSaleClosingTime >= block.timestamp) (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2244-2246)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#508-514) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#64) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#65) should be declared external
+BasicToken.balanceOf (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#535-539) should be declared external
+StandardToken.allowance (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#602-611) should be declared external
+ERC20.allowance (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#77-80) should be declared external
+Ownable.renounceOwnership (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#365-370) should be declared external
+Ownable.transferOwnership (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#374-379) should be declared external
+FinalizableCrowdsale.finalize (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#478-485) should be declared external
+MintableToken.finishMinting (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#718-726) should be declared external
+RefundEscrow.enableRefunds (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#933-940) should be declared external
+RefundEscrow.beneficiaryWithdraw (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#943-946) should be declared external
+ClinicAllRefundEscrow.beneficiaryDepositsOf (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#993-996) should be declared external
+ClinicAllRefundEscrow.depositFunds (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1017-1040) should be declared external
+ClinicAllRefundEscrow.manualRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1074-1081) should be declared external
+ClinicAllRefundEscrow.refundeesListLength (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1092-1094) should be declared external
+ClinicAllRefundEscrow.withdrawEverything (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1152-1161) should be declared external
+ClinicAllRefundEscrow.beneficiaryWithdrawChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1162-1170) should be declared external
+ClinicAllRefundEscrow.beneficiaryWithdrawAll (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1174-1183) should be declared external
+TokenDestructible.destroy (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1203-1215) should be declared external
+BurnableToken.burn (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1233-1234) should be declared external
+Pausable.pause (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1330-1336) should be declared external
+Pausable.unpause (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1340-1344) should be declared external
+TransferableToken.transferOn (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1437-1445) should be declared external
+TransferableToken.transferOff (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1450-1453) should be declared external
+ClinicAllToken.burnAfterRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1475-1482) should be declared external
+ClinicAllToken.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1510-1526) should be declared external
+ClinicAllToken.burnPrivateSale (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1526-1528) should be declared external
+Managed.setManager (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1704-1706) should be declared external
+Managed.removeManager (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1713-1719) should be declared external
+Limited.addAddressesLimits (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1774-1786) should be declared external
+Whitelist.whitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1838-1841) should be declared external
+ManagedWhitelist.addAddressesToWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1908-1913) should be declared external
+Whitelist.addAddressesToWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1848-1852) should be declared external
+ManagedWhitelist.removeAddressesFromWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1933-1938) should be declared external
+Whitelist.removeAddressesFromWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1872-1879) should be declared external
+ClinicAllCrowdsale.updateRate (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2005-2008) should be declared external
+ClinicAllCrowdsale.updateBuyLimitRange (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2017-2028) should be declared external
+ClinicAllCrowdsale.updateKycLimitEliminator (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2035-2042) should be declared external
+ClinicAllCrowdsale.claimRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2044-2063) should be declared external
+ClinicAllCrowdsale.claimRefundChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2068-2076) should be declared external
+ClinicAllCrowdsale.refundeesListLength (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2079-2084) should be declared external
+ClinicAllCrowdsale.supplyRest (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2104-2105) should be declared external
+ClinicAllCrowdsale.getTokenAmount (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2164-2168) should be declared external
+ClinicAllCrowdsale.getRate (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2234-2240) should be declared external
+ClinicAllCrowdsale.transferOn (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2257-2258) should be declared external
+ClinicAllCrowdsale.transferOff (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2259-2264) should be declared external
+ClinicAllCrowdsale.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) should be declared external
+ClinicAllCrowdsale.redeemPrivateSaleFunds (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) should be declared external
+ClinicAllCrowdsale.allocatePrivateSaleFunds (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) should be declared external
+ClinicAllCrowdsale.beneficiaryWithdrawChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) should be declared external
+ClinicAllCrowdsale.beneficiaryWithdrawAll (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) should be declared external
+ClinicAllCrowdsale.manualRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_rate' of Crowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#177) is not in mixedCase
+Parameter '_wallet' of Crowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#177-178) is not in mixedCase
+Parameter '_token' of Crowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#178-179) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.buyTokens (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#202) is not in mixedCase
+Function 'Crowdsale._preValidatePurchase' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#241-243) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._preValidatePurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#241) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._preValidatePurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#241) is not in mixedCase
+Function 'Crowdsale._postValidatePurchase' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#255-257) is not in mixedCase
+Function 'Crowdsale._deliverTokens' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#269-273) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._deliverTokens (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#270) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._deliverTokens (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#270-271) is not in mixedCase
+Function 'Crowdsale._processPurchase' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#283-287) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._processPurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#284) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._processPurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#284-285) is not in mixedCase
+Function 'Crowdsale._updatePurchasingState' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#299-302) is not in mixedCase
+Function 'Crowdsale._getTokenAmount' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#315-319) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._getTokenAmount (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#315) is not in mixedCase
+Function 'Crowdsale._forwardFunds' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#320-325) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#375-376) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#385-392) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#385-386) is not in mixedCase
+Function 'TimedCrowdsale._preValidatePurchase' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#447-455) is not in mixedCase
+Parameter '_beneficiary' of TimedCrowdsale._preValidatePurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#447-448) is not in mixedCase
+Parameter '_weiAmount' of TimedCrowdsale._preValidatePurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#448-450) is not in mixedCase
+Parameter '_openingTime' of TimedCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#416-418) is not in mixedCase
+Parameter '_closingTime' of TimedCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#418) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#535) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#517-518) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#518) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#604) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#604-605) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#564-565) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#565) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#565) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#589-590) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#590-592) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#623) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#623-624) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#650) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#650) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#706) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#706) is not in mixedCase
+Function 'MintedCrowdsale._deliverTokens' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#747-761) is not in mixedCase
+Parameter '_beneficiary' of MintedCrowdsale._deliverTokens (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#749-751) is not in mixedCase
+Parameter '_tokenAmount' of MintedCrowdsale._deliverTokens (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#752-754) is not in mixedCase
+Parameter '_to' of CappedToken.mint (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#785) is not in mixedCase
+Parameter '_amount' of CappedToken.mint (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#785) is not in mixedCase
+Parameter '_cap' of CappedToken. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#772) is not in mixedCase
+Parameter '_payee' of Escrow.depositsOf (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#833) is not in mixedCase
+Parameter '_payee' of Escrow.deposit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#841) is not in mixedCase
+Parameter '_payee' of Escrow.withdraw (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#849-853) is not in mixedCase
+Parameter '_payee' of ConditionalEscrow.withdraw (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#877) is not in mixedCase
+Parameter '_refundee' of RefundEscrow.deposit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#919) is not in mixedCase
+Parameter '_beneficiary' of RefundEscrow. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#909) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.depositsOf (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#990-992) is not in mixedCase
+Parameter '_refundee' of ClinicAllRefundEscrow.deposit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1002-1003) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.withdraw (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1043) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.beneficiaryDepositsOf (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#994) is not in mixedCase
+Parameter '_refundee' of ClinicAllRefundEscrow.depositFunds (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1017) is not in mixedCase
+Parameter '_value' of ClinicAllRefundEscrow.depositFunds (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1017-1019) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.manualRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1074-1075) is not in mixedCase
+Parameter '_indexToDelete' of ClinicAllRefundEscrow.removeRefundeeByIndex (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1084) is not in mixedCase
+Parameter '_txFee' of ClinicAllRefundEscrow.withdrawChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1096) is not in mixedCase
+Parameter '_chunkLength' of ClinicAllRefundEscrow.withdrawChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1096-1097) is not in mixedCase
+Parameter '_txFee' of ClinicAllRefundEscrow.withdrawEverything (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1152-1154) is not in mixedCase
+Parameter '_value' of ClinicAllRefundEscrow.beneficiaryWithdrawChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1163) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1233) is not in mixedCase
+Function 'BurnableToken._burn' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1235-1259) is not in mixedCase
+Parameter '_who' of BurnableToken._burn (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1235-1236) is not in mixedCase
+Parameter '_value' of BurnableToken._burn (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1236-1237) is not in mixedCase
+Parameter '_name' of DetailedERC20. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1279) is not in mixedCase
+Parameter '_symbol' of DetailedERC20. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1279-1281) is not in mixedCase
+Parameter '_decimals' of DetailedERC20. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1281) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1355) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1355-1356) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1363) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1363-1364) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1364-1365) is not in mixedCase
+Parameter '_spender' of PausableToken.approve (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1372-1373) is not in mixedCase
+Parameter '_value' of PausableToken.approve (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1373-1374) is not in mixedCase
+Parameter '_spender' of PausableToken.increaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1380-1381) is not in mixedCase
+Parameter '_addedValue' of PausableToken.increaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1381-1386) is not in mixedCase
+Parameter '_spender' of PausableToken.decreaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1388-1389) is not in mixedCase
+Parameter '_subtractedValue' of PausableToken.decreaseApproval (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1391-1392) is not in mixedCase
+Parameter '_to' of ClinicAllToken.transfer (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1488-1489) is not in mixedCase
+Parameter '_value' of ClinicAllToken.transfer (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1489) is not in mixedCase
+Parameter '_from' of ClinicAllToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1500-1501) is not in mixedCase
+Parameter '_to' of ClinicAllToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1503) is not in mixedCase
+Parameter '_value' of ClinicAllToken.transferFrom (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1503-1505) is not in mixedCase
+Parameter '_who' of ClinicAllToken.burnAfterRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1478) is not in mixedCase
+Parameter '_from' of ClinicAllToken.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1513-1515) is not in mixedCase
+Parameter '_to' of ClinicAllToken.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1515) is not in mixedCase
+Parameter '_value' of ClinicAllToken.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1516-1519) is not in mixedCase
+Parameter '_value' of ClinicAllToken.burnPrivateSale (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1527) is not in mixedCase
+Parameter '_operator' of RBAC.checkRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1612) is not in mixedCase
+Parameter '_role' of RBAC.checkRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1612) is not in mixedCase
+Parameter '_operator' of RBAC.hasRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1625-1628) is not in mixedCase
+Parameter '_role' of RBAC.hasRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1628-1629) is not in mixedCase
+Parameter '_operator' of RBAC.addRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1633) is not in mixedCase
+Parameter '_role' of RBAC.addRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1633-1636) is not in mixedCase
+Parameter '_operator' of RBAC.removeRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1646) is not in mixedCase
+Parameter '_role' of RBAC.removeRole (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1646) is not in mixedCase
+Parameter '_operator' of Managed.setManager (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1704-1705) is not in mixedCase
+Parameter '_operator' of Managed.removeManager (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1717) is not in mixedCase
+Parameter '_payee' of Limited.getLimit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1762-1763) is not in mixedCase
+Parameter '_payees' of Limited.addAddressesLimits (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1776-1777) is not in mixedCase
+Parameter '_limits' of Limited.addAddressesLimits (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1777-1779) is not in mixedCase
+Parameter '_payee' of Limited.addLimit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1792) is not in mixedCase
+Parameter '_limit' of Limited.addLimit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1792-1793) is not in mixedCase
+Parameter '_payee' of Limited.removeLimit (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1801) is not in mixedCase
+Parameter '_operator' of Whitelist.addAddressToWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1834) is not in mixedCase
+Parameter '_operator' of Whitelist.whitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1838) is not in mixedCase
+Parameter '_operators' of Whitelist.addAddressesToWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1850) is not in mixedCase
+Parameter '_operator' of Whitelist.removeAddressFromWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1862) is not in mixedCase
+Parameter '_operators' of Whitelist.removeAddressesFromWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1872-1873) is not in mixedCase
+Parameter '_operator' of ManagedWhitelist.addAddressToWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1897-1898) is not in mixedCase
+Parameter '_operators' of ManagedWhitelist.addAddressesToWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1909) is not in mixedCase
+Parameter '_operator' of ManagedWhitelist.removeAddressFromWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1923-1924) is not in mixedCase
+Parameter '_operators' of ManagedWhitelist.removeAddressesFromWhitelist (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1934) is not in mixedCase
+Function 'ClinicAllCrowdsale._preValidatePurchase' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2111-2136) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale._preValidatePurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2112) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._preValidatePurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2113-2114) is not in mixedCase
+Function 'ClinicAllCrowdsale._processPurchase' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2106-2111) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale._processPurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2107-2108) is not in mixedCase
+Parameter '_tokenAmount' of ClinicAllCrowdsale._processPurchase (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2108) is not in mixedCase
+Function 'ClinicAllCrowdsale._getTokenAmount' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2144-2156) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._getTokenAmount (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2145-2146) is not in mixedCase
+Function 'ClinicAllCrowdsale._forwardFunds' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2279-2281) is not in mixedCase
+Parameter '_tokenLimitSupply' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1944-1945) is not in mixedCase
+Parameter '_privateSaleWallet' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1946-1948) is not in mixedCase
+Parameter '_discountTokenAmount' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1951-1952) is not in mixedCase
+Parameter '_discountTokenPercent' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1952-1953) is not in mixedCase
+Parameter '_preSaleClosingTime' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1954) is not in mixedCase
+Parameter '_softCapLimit' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1954-1956) is not in mixedCase
+Parameter '_vault' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1957) is not in mixedCase
+Parameter '_buyLimitSupplyMin' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1957-1958) is not in mixedCase
+Parameter '_buyLimitSupplyMax' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1958-1962) is not in mixedCase
+Parameter '_kycLimitEliminator' of ClinicAllCrowdsale. (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#1962) is not in mixedCase
+Parameter '_rate' of ClinicAllCrowdsale.updateRate (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2005) is not in mixedCase
+Parameter '_min' of ClinicAllCrowdsale.updateBuyLimitRange (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2019) is not in mixedCase
+Parameter '_max' of ClinicAllCrowdsale.updateBuyLimitRange (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2019) is not in mixedCase
+Parameter '_value' of ClinicAllCrowdsale.updateKycLimitEliminator (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2035) is not in mixedCase
+Parameter '_txFee' of ClinicAllCrowdsale.claimRefundChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2068) is not in mixedCase
+Parameter '_chunkLength' of ClinicAllCrowdsale.claimRefundChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2068) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale.getTokenAmount (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2165) is not in mixedCase
+Function 'ClinicAllCrowdsale._getTokensWithDiscount' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2170-2200) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._getTokensWithDiscount (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2170) is not in mixedCase
+Function 'ClinicAllCrowdsale._getDiscountTokenAmount' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2209-2220) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._getDiscountTokenAmount (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2209-2211) is not in mixedCase
+Function 'ClinicAllCrowdsale._getDiscountRate' (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2220-2232) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale.transferTokensToReserve (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol#2248) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) is not in mixedCase
+Parameter '_value' of ClinicAllCrowdsale.transferToPrivateInvestor (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) is not in mixedCase
+Parameter '_value' of ClinicAllCrowdsale.beneficiaryWithdrawChunk (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) is not in mixedCase
+Parameter '_payee' of ClinicAllCrowdsale.manualRefund (/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/23/0x6543cde961213e82001594bf4c34706579ce34ec.sol analyzed (32 contracts), 224 result(s) found

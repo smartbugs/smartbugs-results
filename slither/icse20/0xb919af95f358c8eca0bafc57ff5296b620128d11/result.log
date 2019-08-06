@@ -1,0 +1,150 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:119:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function KpopArena() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:233:16: Warning: Use of the "var" keyword is deprecated.
+    var ( , , ,celebTraits, ) = KPOP_CELEB.getCeleb(_celebId);
+               ^---------^
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:234:16: Warning: Use of the "var" keyword is deprecated.
+    var ( , , ,itemTraits, ) = KPOP_ITEM.getItem(_itemId);
+               ^--------^
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:136:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Enroll(msg.sender, _celebId, _itemId);
+    ^-----------------------------------^
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:143:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Rescind(_user);
+    ^------------^
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:161:7: Warning: Invoking events without "emit" prefix is deprecated.
+      Expel(_host);
+      ^----------^
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:198:5: Warning: Invoking events without "emit" prefix is deprecated.
+    FightOver(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:245:24: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    require(_amount <= this.balance);
+                       ^----------^
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:254:42: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    uint halfBalance = uint(SafeMath.div(this.balance, 2));
+                                         ^----------^
+/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:240:17: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+    return uint(block.blockhash(block.number - 1)) % 6;
+                ^-------------^
+
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#53-67) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#54)
+	-transferFrom (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#59-62)
+	-transfer (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#62)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in KpopArena.challenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#149-211):
+	External calls:
+	- require(bool)(doesUserOwnCeleb(_challenger,_celebId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#155-156)
+	- require(bool)(doesUserOwnItem(_challenger,_itemId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#158)
+	State variables written after the call(s):
+	- userToIsAcceptingChallenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#167-168)
+Reentrancy in KpopArena.challenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#149-211):
+	External calls:
+	- require(bool)(doesUserOwnCeleb(_challenger,_celebId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#155-156)
+	- require(bool)(doesUserOwnItem(_challenger,_itemId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#158)
+	- ! (doesUserOwnCeleb(_host,_hostCelebId) && doesUserOwnItem(_host,_hostItemId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#162-169)
+	- winner = computeWinner(_host,_hostCelebId,_hostItemId,_challenger,_celebId,_itemId,selectedTraitIdx) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#174-178)
+	- KPOP_CELEB.updateTraits(_hostCelebId) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#186)
+	- KPOP_ITEM.transferToWinner(_host,_challenger,_itemId) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#186-189)
+	- KPOP_CELEB.updateTraits(_celebId) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#190)
+	- KPOP_ITEM.transferToWinner(_challenger,_host,_hostItemId) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#190-193)
+	State variables written after the call(s):
+	- userToActiveCelebId (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#204-208)
+	- userToActiveItemId (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#208)
+	- userToIsAcceptingChallenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#202-204)
+Reentrancy in KpopArena.enroll (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#126-142):
+	External calls:
+	- require(bool)(doesUserOwnItem(msg.sender,_itemId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#132-133)
+	- require(bool)(doesUserOwnCeleb(msg.sender,_celebId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#133-134)
+	State variables written after the call(s):
+	- userToIsAcceptingChallenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#134-136)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in KpopArena.challenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#149-211):
+	External calls:
+	- require(bool)(doesUserOwnCeleb(_challenger,_celebId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#155-156)
+	- require(bool)(doesUserOwnItem(_challenger,_itemId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#158)
+	- ! (doesUserOwnCeleb(_host,_hostCelebId) && doesUserOwnItem(_host,_hostItemId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#162-169)
+	- winner = computeWinner(_host,_hostCelebId,_hostItemId,_challenger,_celebId,_itemId,selectedTraitIdx) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#174-178)
+	State variables written after the call(s):
+	- userToScore (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#179)
+	- userToScore (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#193-194)
+	- userToScore (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#194-196)
+Reentrancy in KpopArena.enroll (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#126-142):
+	External calls:
+	- require(bool)(doesUserOwnItem(msg.sender,_itemId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#132-133)
+	- require(bool)(doesUserOwnCeleb(msg.sender,_celebId)) (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#133-134)
+	State variables written after the call(s):
+	- userToActiveCelebId (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#136-139)
+	- userToActiveItemId (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#139-140)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#250-251:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+ERC721.approve (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#54) should be declared external
+ERC721.balanceOf (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#54-55) should be declared external
+ERC721.implementsERC721 (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#55-56) should be declared external
+KpopCeleb.ownerOf (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#67-69) should be declared external
+KpopItem.ownerOf (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#80-82) should be declared external
+ERC721.ownerOf (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#56-58) should be declared external
+ERC721.takeOwnership (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#58) should be declared external
+ERC721.totalSupply (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#59) should be declared external
+ERC721.transferFrom (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#59-62) should be declared external
+ERC721.transfer (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#62) should be declared external
+KpopCeleb.getCeleb (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#69-78) should be declared external
+KpopCeleb.updateTraits (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#78-79) should be declared external
+KpopItem.getItem (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#82-88) should be declared external
+KpopItem.transferToWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#90-94) should be declared external
+KpopArena.enroll (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#126-142) should be declared external
+KpopArena.rescind (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#142-149) should be declared external
+KpopArena.challenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#149-211) should be declared external
+KpopArena.withdraw (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#251-260) should be declared external
+KpopArena.withdrawAll (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#260-266) should be declared external
+KpopArena.setCoAuthor (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#282-286) should be declared external
+KpopArena.setKpopItemContractAddress (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#286-291) should be declared external
+KpopArena.setKpopCelebContractAddress (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#291-299) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#4-6): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'KpopArena.KpopArena' (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#124-126) is not in mixedCase
+Parameter '_celebId' of KpopArena.enroll (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#126-128) is not in mixedCase
+Parameter '_itemId' of KpopArena.enroll (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#128) is not in mixedCase
+Parameter '_user' of KpopArena.rescind (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#142-143) is not in mixedCase
+Parameter '_host' of KpopArena.challenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#149) is not in mixedCase
+Parameter '_celebId' of KpopArena.challenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#150) is not in mixedCase
+Parameter '_itemId' of KpopArena.challenge (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#150) is not in mixedCase
+Parameter '_host' of KpopArena.computeWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#215) is not in mixedCase
+Parameter '_hostCelebId' of KpopArena.computeWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#215) is not in mixedCase
+Parameter '_hostItemId' of KpopArena.computeWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#215) is not in mixedCase
+Parameter '_challenger' of KpopArena.computeWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#215) is not in mixedCase
+Parameter '_challengerCelebId' of KpopArena.computeWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#215-216) is not in mixedCase
+Parameter '_challengerItemId' of KpopArena.computeWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#216) is not in mixedCase
+Parameter '_selectedTraitIdx' of KpopArena.computeWinner (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#216) is not in mixedCase
+Parameter '_celebId' of KpopArena.computeTraitScore (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#233) is not in mixedCase
+Parameter '_itemId' of KpopArena.computeTraitScore (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#233) is not in mixedCase
+Parameter '_selectedTraitIdx' of KpopArena.computeTraitScore (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#233-234) is not in mixedCase
+Parameter '_amount' of KpopArena.withdraw (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#252) is not in mixedCase
+Parameter '_to' of KpopArena.withdraw (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#252-254) is not in mixedCase
+Parameter '_user' of KpopArena.doesUserOwnCeleb (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#266-267) is not in mixedCase
+Parameter '_celebId' of KpopArena.doesUserOwnCeleb (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#267) is not in mixedCase
+Parameter '_user' of KpopArena.doesUserOwnItem (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#273-274) is not in mixedCase
+Parameter '_itemId' of KpopArena.doesUserOwnItem (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#275) is not in mixedCase
+Parameter '_coauthor' of KpopArena.setCoAuthor (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#282) is not in mixedCase
+Parameter '_address' of KpopArena.setKpopItemContractAddress (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#286-287) is not in mixedCase
+Parameter '_address' of KpopArena.setKpopCelebContractAddress (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#294-295) is not in mixedCase
+Parameter '_idx' of KpopArena.traitIdxToName (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#301-302) is not in mixedCase
+Parameter '_addr' of KpopArena.isNullAddress (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol) is not in mixedCase
+Variable 'KpopArena.KPOP_CELEB_CONTRACT_ADDRESS' (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#100-102) is not in mixedCase
+Variable 'KpopArena.KPOP_ITEM_CONTRACT_ADDRESS' (/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol#102-103) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/13/0xb919af95f358c8eca0bafc57ff5296b620128d11.sol analyzed (5 contracts), 60 result(s) found

@@ -1,0 +1,148 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:264:3: Warning: Modifiers of functions without implementation are ignored.
+  function mintETHRewards(address _contract, uint256 _amount) public onlyManager();
+  ^-------------------------------------------------------------------------------^
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:267:3: Warning: Modifiers of functions without implementation are ignored.
+  function mintTokenRewards(address _contract, uint256 _amount) public onlyManager();
+  ^---------------------------------------------------------------------------------^
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:270:3: Warning: Modifiers of functions without implementation are ignored.
+  function releaseTokens() public onlyManager() hasntStopped() whenCrowdsaleSuccessful();
+  ^-------------------------------------------------------------------------------------^
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:274:3: Warning: Modifiers of functions without implementation are ignored.
+  function stop() public onlyManager() hasntStopped();
+  ^--------------------------------------------------^
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:277:3: Warning: Modifiers of functions without implementation are ignored.
+  function start(uint256 _startTimestamp, uint256 _endTimestamp, address _fundingAddress)
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:299:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function BasicCrowdsale(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:364:5: Warning: Invoking events without "emit" prefix is deprecated.
+    CROWDSALE_START(_startTimestamp, _endTimestamp, _fundingAddress);
+    ^--------------------------------------------------------------^
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:563:7: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+      totalCollected = totalCollectedETH;
+      ^------------^
+/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:566:5: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+    totalCollected = IWingsController(manager).fitCollectedValueIntoRange(totalCollected);
+    ^------------^
+
+INFO:Detectors:[91m
+BasicToken.totalSupply_ (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#62) is never initialized. It is used in:
+	- totalSupply (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#63-66)
+ICrowdsaleProcessor.endTimestamp (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#261-263) is never initialized. It is used in:
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+Bridge.calculateRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#569-585) is declared view but changes state variables:
+	- ICrowdsaleProcessor.totalCollected
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ethReward in Bridge.calculateRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#576) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+Bridge.mintTokenRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#483-494) does not use the value returned by external calls:
+	-token.transfer(_contract,_amount) (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#491-494)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Bridge.calculateRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#569-585):
+	External calls:
+	- tokenRewardPart = IWingsController(manager).tokenRewardPart() (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#572-575)
+	- ethRewardPart = IWingsController(manager).ethRewardPart() (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#575-576)
+	State variables written after the call(s):
+	- totalCollected (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#582)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BasicCrowdsale.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#347-383) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_startTimestamp >= block.timestamp) (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#358-359)
+BasicCrowdsale.isFailed (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#385-400) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (started && block.timestamp >= endTimestamp && totalCollected < minimalGoal) (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#389-400)
+BasicCrowdsale.isActive (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#404-422) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (started && totalCollected < hardCap && block.timestamp >= startTimestamp && block.timestamp < endTimestamp) (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#408-422)
+BasicCrowdsale.isSuccessful (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#426-441) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (totalCollected >= hardCap || (block.timestamp >= endTimestamp && totalCollected >= minimalGoal)) (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#428-441)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply_ should be constant (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#62)
+IWingsController.ethRewardPart should be constant (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#104)
+IWingsController.tokenRewardPart should be constant (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#104-108)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#63-66) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#5-6) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#6-7) should be declared external
+BasicToken.balanceOf (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#77-87) should be declared external
+BasicToken.transfer (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#66-76) should be declared external
+ERC20Basic.transfer (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#7-8) should be declared external
+ERC20.allowance (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#12-15) should be declared external
+ERC20.transferFrom (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#15-18) should be declared external
+ERC20.approve (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#18-19) should be declared external
+IWingsController.fitCollectedValueIntoRange (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#108-112) should be declared external
+HasManager.transferManager (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#118-127) should be declared external
+Ownable.renounceOwnership (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#161-163) should be declared external
+Ownable.transferOwnership (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#169-172) should be declared external
+ICrowdsaleProcessor.deposit (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#264) should be declared external
+Bridge.getToken (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#472-475) should be declared external
+ICrowdsaleProcessor.getToken (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#266-267) should be declared external
+BasicCrowdsale.mintETHRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#323-333) should be declared external
+ICrowdsaleProcessor.mintETHRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#269-270) should be declared external
+ICrowdsaleProcessor.mintTokenRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#272-273) should be declared external
+Bridge.mintTokenRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#483-494) should be declared external
+Bridge.releaseTokens (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#494-496) should be declared external
+ICrowdsaleProcessor.releaseTokens (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#274-277) should be declared external
+ICrowdsaleProcessor.stop (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#280-281) should be declared external
+BasicCrowdsale.stop (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#334-341) should be declared external
+BasicCrowdsale.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#347-383) should be declared external
+ICrowdsaleProcessor.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#283-287) should be declared external
+Bridge.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#530-553) should be declared external
+Bridge.fallback (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#499-500) should be declared external
+Bridge.notifySale (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#503-523) should be declared external
+Bridge.finish (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#553-556) should be declared external
+Bridge.calculateRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#569-585) should be declared external
+Bridge.changeToken (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#591-595) should be declared external
+Bridge.withdraw (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in BasicCrowdsale.mintETHRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#323-333):
+	-require(bool)(_contract.call.value(_amount)()) /unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#333
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#77-80) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#67) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#67-68) is not in mixedCase
+Parameter '_name' of DefaultToken. (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#92-93) is not in mixedCase
+Parameter '_symbol' of DefaultToken. (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#93) is not in mixedCase
+Parameter '_decimals' of DefaultToken. (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#93-99) is not in mixedCase
+Parameter '_newManager' of HasManager.transferManager (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#120-122) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#170) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#176-187) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#180-181) is not in mixedCase
+Event 'BasicCrowdsale.CROWDSALE_START' (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#306-310) is not in CapWords
+Parameter '_contract' of BasicCrowdsale.mintETHRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#324) is not in mixedCase
+Parameter '_amount' of BasicCrowdsale.mintETHRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#325) is not in mixedCase
+Parameter '_startTimestamp' of BasicCrowdsale.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#347-348) is not in mixedCase
+Parameter '_endTimestamp' of BasicCrowdsale.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#348) is not in mixedCase
+Parameter '_fundingAddress' of BasicCrowdsale.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#348-350) is not in mixedCase
+Function 'BasicCrowdsale.BasicCrowdsale' (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#311-314) is not in mixedCase
+Parameter '_owner' of BasicCrowdsale.BasicCrowdsale (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#311-312) is not in mixedCase
+Parameter '_manager' of BasicCrowdsale.BasicCrowdsale (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#312) is not in mixedCase
+Event 'Bridge.CUSTOM_CROWDSALE_TOKEN_ADDED' (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#446-447) is not in CapWords
+Event 'Bridge.CUSTOM_CROWDSALE_FINISH' (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#447-451) is not in CapWords
+Parameter '_contract' of Bridge.mintTokenRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#484-486) is not in mixedCase
+Parameter '_amount' of Bridge.mintTokenRewards (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#486) is not in mixedCase
+Parameter '_startTimestamp' of Bridge.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#532-534) is not in mixedCase
+Parameter '_endTimestamp' of Bridge.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#534-537) is not in mixedCase
+Parameter '_fundingAddress' of Bridge.start (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#537-539) is not in mixedCase
+Parameter '_amount' of Bridge.notifySale (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#504-505) is not in mixedCase
+Parameter '_ethAmount' of Bridge.notifySale (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#505-507) is not in mixedCase
+Parameter '_tokensAmount' of Bridge.notifySale (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#507-508) is not in mixedCase
+Parameter '_newToken' of Bridge.changeToken (/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol#592) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/35/0xc7c79f7d8b02c5a573e7bfde8e392bc532eabe99.sol analyzed (11 contracts), 76 result(s) found

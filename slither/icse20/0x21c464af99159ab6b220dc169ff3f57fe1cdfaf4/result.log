@@ -1,0 +1,390 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:
+/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:263:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:119:16: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return keccak256(WRITE_PERMISSION ^ _attribute);
+               ^--------------------------------------^
+/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:119:16: Warning: The provided argument of type bytes32 is not implicitly convertible to expected type bytes memory.
+        return keccak256(WRITE_PERMISSION ^ _attribute);
+               ^--------------------------------------^
+/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:126:57: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return (_admin == owner || hasAttribute(_admin, keccak256(WRITE_PERMISSION ^ _attribute)));
+                                                        ^--------------------------------------^
+/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:126:57: Warning: The provided argument of type bytes32 is not implicitly convertible to expected type bytes memory.
+        return (_admin == owner || hasAttribute(_admin, keccak256(WRITE_PERMISSION ^ _attribute)));
+                                                        ^--------------------------------------^
+
+INFO:Detectors:[93m
+UpgradeabilityProxy.implementation (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1264-1268) is declared view but contains assembly code
+OwnedUpgradeabilityProxy.proxyOwner (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1353-1359) is declared view but contains assembly code
+OwnedUpgradeabilityProxy.pendingProxyOwner (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1362-1365) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:
+	Contract OwnedUpgradeabilityProxy has payable functions:
+	 - fallback (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1224-1240)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Registry.reclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#203-208) does not use the value returned by external calls:
+	-token.transfer(_to,balance) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#207-208)
+TrueUSD.reclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1187-1190) does not use the value returned by external calls:
+	-token.transfer(_to,balance) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1188-1190)
+TokenController.claimStorageForProxy (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1939-1947) does not use the value returned by external calls:
+	-_proxy.setBalanceSheet(_balanceSheet) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1945-1947)
+	-_proxy.setAllowanceSheet(_allowanceSheet) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1947)
+TokenController.reclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) does not use the value returned by external calls:
+	-_token.transfer(_to,balance) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+DelegateERC20.delegateAllowance.owner (local variable @ /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1102) shadows:
+	- ProxyStorage.owner (state variable @ /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#412-413)
+OwnedUpgradeabilityProxy.upgradeTo.implementation (local variable @ /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1396-1397) shadows:
+	- UpgradeabilityProxy.implementation (function @ /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1264-1268)
+	- Proxy.implementation (function @ /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1217-1219)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in ModularBurnableToken._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#689-701):
+	External calls:
+	- require(bool,string)(_value <= balances.balanceOf(_burner),not enough balance to burn) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#691-692)
+	- balances.subBalance(_burner,_value) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#698-699)
+	State variables written after the call(s):
+	- totalSupply_ (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#699-700)
+Reentrancy in CompliantToken.wipeBlacklistedAccount (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#902-912):
+	External calls:
+	- require(bool,string)(registry.hasAttribute(_account,IS_BLACKLISTED),_account is not blacklisted) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#903-904)
+	- oldValue = balanceOf(_account) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#905-906)
+	- balances.setBalance(_account,0) (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#906-907)
+	State variables written after the call(s):
+	- totalSupply_ (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#907-911)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TokenWithHook._transferAllArgs uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1065-1078)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1069-1070
+Proxy.fallback uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1224-1240)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1228-1240
+UpgradeabilityProxy.implementation uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1264-1268)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1267-1268
+UpgradeabilityProxy._setImplementation uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1273-1277)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1275-1277
+OwnedUpgradeabilityProxy.proxyOwner uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1353-1359)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1355-1359
+OwnedUpgradeabilityProxy.pendingProxyOwner uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1362-1365)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1364-1365
+OwnedUpgradeabilityProxy._setUpgradeabilityOwner uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1369-1372)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1370-1372
+OwnedUpgradeabilityProxy._setPendingUpgradeabilityOwner uses assembly (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1377-1381)
+	- /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1381
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#60) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#60-61) should be declared external
+ERC20Basic.transfer (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#61-62) should be declared external
+ERC20.allowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#72-73) should be declared external
+ERC20.transferFrom (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#73-74) should be declared external
+ERC20.approve (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#75) should be declared external
+Registry.initialize (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#114-119) should be declared external
+Registry.writeAttributeFor (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#119-123) should be declared external
+Registry.setAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#131-137) should be declared external
+Registry.setAttributeValue (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#137-143) should be declared external
+Registry.hasBothAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#148-152) should be declared external
+Registry.hasEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#152-156) should be declared external
+Registry.hasAttribute1ButNotAttribute2 (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#156-160) should be declared external
+Registry.bothHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#160-164) should be declared external
+Registry.eitherHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#164-168) should be declared external
+Registry.haveAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#168-172) should be declared external
+Registry.haveEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#172-176) should be declared external
+Registry.getAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#177-185) should be declared external
+Registry.getAttributeValue (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#185-189) should be declared external
+Registry.getAttributeAdminAddr (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#189-193) should be declared external
+Registry.getAttributeTimestamp (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#193-198) should be declared external
+Registry.transferOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#238-241) should be declared external
+Registry.claimOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#245-250) should be declared external
+Ownable.transferOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#291-295) should be declared external
+Claimable.transferOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#318-325) should be declared external
+Claimable.claimOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#327-332) should be declared external
+BalanceSheet.addBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#339-346) should be declared external
+BalanceSheet.subBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#346-350) should be declared external
+BalanceSheet.setBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#350-352) should be declared external
+AllowanceSheet.addAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#357-361) should be declared external
+AllowanceSheet.subAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#362-370) should be declared external
+AllowanceSheet.setAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#370-376) should be declared external
+GlobalPause.pauseAllTokens (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#389-394) should be declared external
+GlobalPause.requireNotPaused (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#394-399) should be declared external
+HasOwner.transferOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#479-480) should be declared external
+HasOwner.claimOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#483-489) should be declared external
+ModularBasicToken.setBalanceSheet (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#512-520) should be declared external
+ModularBasicToken.transfer (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#530-533) should be declared external
+ModularStandardToken.setAllowanceSheet (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#569-574) should be declared external
+ModularStandardToken.transferFrom (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#582-585) should be declared external
+ModularStandardToken.approve (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#604-607) should be declared external
+ModularStandardToken.increaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#634-638) should be declared external
+ModularStandardToken.decreaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#653-661) should be declared external
+ModularBurnableToken.burn (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#682-689) should be declared external
+ModularPausableToken.pause (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#768-772) should be declared external
+ModularPausableToken.unpause (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#772-776) should be declared external
+BurnableTokenWithBounds.setBurnBounds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#835-838) should be declared external
+CompliantToken.setRegistry (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#868-871) should be declared external
+CompliantToken.wipeBlacklistedAccount (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#902-912) should be declared external
+GasRefundToken.remainingGasRefundPool (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1032-1035) should be declared external
+DelegateERC20.delegateTotalSupply (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1088-1089) should be declared external
+DelegateERC20.delegateBalanceOf (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1089-1093) should be declared external
+DelegateERC20.delegateTransfer (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1093-1100) should be declared external
+DelegateERC20.delegateAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1101-1103) should be declared external
+DelegateERC20.delegateTransferFrom (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1103-1116) should be declared external
+DelegateERC20.delegateApprove (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1116-1122) should be declared external
+DelegateERC20.delegateIncreaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1122-1129) should be declared external
+DelegateERC20.delegateDecreaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1129-1136) should be declared external
+TrueUSD.initialize (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1159-1167) should be declared external
+TokenController.mintOperationCount (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1815-1818) should be declared external
+TokenController.issueClaimOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1927-1931) should be declared external
+TokenController.requestReclaimContract (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1971-1977) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_attribute' of Registry.writeAttributeFor (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#122) is not in mixedCase
+Parameter '_attribute' of Registry.confirmWrite (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#126) is not in mixedCase
+Parameter '_admin' of Registry.confirmWrite (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#126) is not in mixedCase
+Parameter '_who' of Registry.setAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#131-132) is not in mixedCase
+Parameter '_attribute' of Registry.setAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#132) is not in mixedCase
+Parameter '_value' of Registry.setAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#132) is not in mixedCase
+Parameter '_notes' of Registry.setAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#132) is not in mixedCase
+Parameter '_who' of Registry.setAttributeValue (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#138) is not in mixedCase
+Parameter '_attribute' of Registry.setAttributeValue (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#138) is not in mixedCase
+Parameter '_value' of Registry.setAttributeValue (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#138) is not in mixedCase
+Parameter '_who' of Registry.hasAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#147) is not in mixedCase
+Parameter '_attribute' of Registry.hasAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#147) is not in mixedCase
+Parameter '_who' of Registry.hasBothAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#148) is not in mixedCase
+Parameter '_attribute1' of Registry.hasBothAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#148) is not in mixedCase
+Parameter '_attribute2' of Registry.hasBothAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#148-151) is not in mixedCase
+Parameter '_who' of Registry.hasEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#152) is not in mixedCase
+Parameter '_attribute1' of Registry.hasEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#152) is not in mixedCase
+Parameter '_attribute2' of Registry.hasEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#152-155) is not in mixedCase
+Parameter '_who' of Registry.hasAttribute1ButNotAttribute2 (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#156) is not in mixedCase
+Parameter '_attribute1' of Registry.hasAttribute1ButNotAttribute2 (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#156-157) is not in mixedCase
+Parameter '_attribute2' of Registry.hasAttribute1ButNotAttribute2 (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#157-159) is not in mixedCase
+Parameter '_who1' of Registry.bothHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#160) is not in mixedCase
+Parameter '_who2' of Registry.bothHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#160-162) is not in mixedCase
+Parameter '_attribute' of Registry.bothHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#162-163) is not in mixedCase
+Parameter '_who1' of Registry.eitherHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#164) is not in mixedCase
+Parameter '_who2' of Registry.eitherHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#164-167) is not in mixedCase
+Parameter '_attribute' of Registry.eitherHaveAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#167) is not in mixedCase
+Parameter '_who1' of Registry.haveAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#168) is not in mixedCase
+Parameter '_attribute1' of Registry.haveAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#168) is not in mixedCase
+Parameter '_who2' of Registry.haveAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#168-171) is not in mixedCase
+Parameter '_attribute2' of Registry.haveAttributes (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#171) is not in mixedCase
+Parameter '_who1' of Registry.haveEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#172) is not in mixedCase
+Parameter '_attribute1' of Registry.haveEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#172-173) is not in mixedCase
+Parameter '_who2' of Registry.haveEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#173-175) is not in mixedCase
+Parameter '_attribute2' of Registry.haveEitherAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#175) is not in mixedCase
+Parameter '_who' of Registry.getAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#178) is not in mixedCase
+Parameter '_attribute' of Registry.getAttribute (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#178) is not in mixedCase
+Parameter '_who' of Registry.getAttributeValue (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#185) is not in mixedCase
+Parameter '_attribute' of Registry.getAttributeValue (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#185) is not in mixedCase
+Parameter '_who' of Registry.getAttributeAdminAddr (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#189) is not in mixedCase
+Parameter '_attribute' of Registry.getAttributeAdminAddr (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#189) is not in mixedCase
+Parameter '_who' of Registry.getAttributeTimestamp (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#194) is not in mixedCase
+Parameter '_attribute' of Registry.getAttributeTimestamp (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#194) is not in mixedCase
+Parameter '_to' of Registry.reclaimEther (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#198) is not in mixedCase
+Parameter '_to' of Registry.reclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#203-204) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#276-277) is not in mixedCase
+Parameter '_addr' of BalanceSheet.addBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#340) is not in mixedCase
+Parameter '_value' of BalanceSheet.addBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#340) is not in mixedCase
+Parameter '_addr' of BalanceSheet.subBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#347) is not in mixedCase
+Parameter '_value' of BalanceSheet.subBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#347) is not in mixedCase
+Parameter '_addr' of BalanceSheet.setBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#352) is not in mixedCase
+Parameter '_value' of BalanceSheet.setBalance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#352) is not in mixedCase
+Parameter '_tokenHolder' of AllowanceSheet.addAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#357) is not in mixedCase
+Parameter '_spender' of AllowanceSheet.addAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#358-360) is not in mixedCase
+Parameter '_value' of AllowanceSheet.addAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#360) is not in mixedCase
+Parameter '_tokenHolder' of AllowanceSheet.subAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#365) is not in mixedCase
+Parameter '_spender' of AllowanceSheet.subAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#365-368) is not in mixedCase
+Parameter '_value' of AllowanceSheet.subAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#368) is not in mixedCase
+Parameter '_tokenHolder' of AllowanceSheet.setAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#370-371) is not in mixedCase
+Parameter '_spender' of AllowanceSheet.setAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#372) is not in mixedCase
+Parameter '_value' of AllowanceSheet.setAllowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#372) is not in mixedCase
+Parameter '_status' of GlobalPause.pauseAllTokens (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#390) is not in mixedCase
+Parameter '_notice' of GlobalPause.pauseAllTokens (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#390) is not in mixedCase
+Parameter '_sheet' of ModularBasicToken.setBalanceSheet (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#512-513) is not in mixedCase
+Parameter '_to' of ModularBasicToken.transfer (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#530) is not in mixedCase
+Parameter '_value' of ModularBasicToken.transfer (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#530) is not in mixedCase
+Function 'ModularBasicToken._transferAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#533-544) is not in mixedCase
+Parameter '_from' of ModularBasicToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#533) is not in mixedCase
+Parameter '_to' of ModularBasicToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#533) is not in mixedCase
+Parameter '_value' of ModularBasicToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#533-534) is not in mixedCase
+Parameter '_owner' of ModularBasicToken.balanceOf (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#549-550) is not in mixedCase
+Parameter '_sheet' of ModularStandardToken.setAllowanceSheet (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#569) is not in mixedCase
+Parameter '_from' of ModularStandardToken.transferFrom (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#582) is not in mixedCase
+Parameter '_to' of ModularStandardToken.transferFrom (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#582-583) is not in mixedCase
+Parameter '_value' of ModularStandardToken.transferFrom (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#583-584) is not in mixedCase
+Function 'ModularStandardToken._transferFromAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#585-589) is not in mixedCase
+Parameter '_from' of ModularStandardToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#585) is not in mixedCase
+Parameter '_to' of ModularStandardToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#585) is not in mixedCase
+Parameter '_value' of ModularStandardToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#585) is not in mixedCase
+Parameter '_spender' of ModularStandardToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#585-586) is not in mixedCase
+Parameter '_spender' of ModularStandardToken.approve (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#604-605) is not in mixedCase
+Parameter '_value' of ModularStandardToken.approve (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#605) is not in mixedCase
+Function 'ModularStandardToken._approveAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#607-614) is not in mixedCase
+Parameter '_spender' of ModularStandardToken._approveAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#607-608) is not in mixedCase
+Parameter '_value' of ModularStandardToken._approveAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#608) is not in mixedCase
+Parameter '_tokenHolder' of ModularStandardToken._approveAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#608) is not in mixedCase
+Parameter '_owner' of ModularStandardToken.allowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#621) is not in mixedCase
+Parameter '_spender' of ModularStandardToken.allowance (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#621) is not in mixedCase
+Parameter '_spender' of ModularStandardToken.increaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#635) is not in mixedCase
+Parameter '_addedValue' of ModularStandardToken.increaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#635) is not in mixedCase
+Function 'ModularStandardToken._increaseApprovalAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#638-642) is not in mixedCase
+Parameter '_spender' of ModularStandardToken._increaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#638-639) is not in mixedCase
+Parameter '_addedValue' of ModularStandardToken._increaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#639) is not in mixedCase
+Parameter '_tokenHolder' of ModularStandardToken._increaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#639) is not in mixedCase
+Parameter '_spender' of ModularStandardToken.decreaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#653) is not in mixedCase
+Parameter '_subtractedValue' of ModularStandardToken.decreaseApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#653-657) is not in mixedCase
+Function 'ModularStandardToken._decreaseApprovalAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#661-676) is not in mixedCase
+Parameter '_spender' of ModularStandardToken._decreaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#663) is not in mixedCase
+Parameter '_subtractedValue' of ModularStandardToken._decreaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#663-664) is not in mixedCase
+Parameter '_tokenHolder' of ModularStandardToken._decreaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#664) is not in mixedCase
+Parameter '_value' of ModularBurnableToken.burn (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#686) is not in mixedCase
+Function 'ModularBurnableToken._burnAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#689-701) is not in mixedCase
+Parameter '_burner' of ModularBurnableToken._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#690) is not in mixedCase
+Parameter '_value' of ModularBurnableToken._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#690) is not in mixedCase
+Parameter '_to' of ModularMintableToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#727) is not in mixedCase
+Parameter '_value' of ModularMintableToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#727-728) is not in mixedCase
+Function 'ModularPausableToken._transferAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#781-784) is not in mixedCase
+Parameter '_from' of ModularPausableToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#781-784) is not in mixedCase
+Parameter '_to' of ModularPausableToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#784) is not in mixedCase
+Parameter '_value' of ModularPausableToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#784) is not in mixedCase
+Function 'ModularPausableToken._transferFromAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#784-789) is not in mixedCase
+Parameter '_from' of ModularPausableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#785) is not in mixedCase
+Parameter '_to' of ModularPausableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#785) is not in mixedCase
+Parameter '_value' of ModularPausableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#785) is not in mixedCase
+Parameter '_spender' of ModularPausableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#785-786) is not in mixedCase
+Function 'ModularPausableToken._approveAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#789-797) is not in mixedCase
+Parameter '_spender' of ModularPausableToken._approveAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#790-793) is not in mixedCase
+Parameter '_value' of ModularPausableToken._approveAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#793) is not in mixedCase
+Parameter '_tokenHolder' of ModularPausableToken._approveAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#793) is not in mixedCase
+Function 'ModularPausableToken._increaseApprovalAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#797-802) is not in mixedCase
+Parameter '_spender' of ModularPausableToken._increaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#798) is not in mixedCase
+Parameter '_addedValue' of ModularPausableToken._increaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#798) is not in mixedCase
+Parameter '_tokenHolder' of ModularPausableToken._increaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#798) is not in mixedCase
+Function 'ModularPausableToken._decreaseApprovalAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#802-807) is not in mixedCase
+Parameter '_spender' of ModularPausableToken._decreaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#804) is not in mixedCase
+Parameter '_subtractedValue' of ModularPausableToken._decreaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#804) is not in mixedCase
+Parameter '_tokenHolder' of ModularPausableToken._decreaseApprovalAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#804-805) is not in mixedCase
+Function 'ModularPausableToken._burnAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#807-811) is not in mixedCase
+Parameter '_burner' of ModularPausableToken._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#809-810) is not in mixedCase
+Parameter '_value' of ModularPausableToken._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#810) is not in mixedCase
+Parameter '_newGlobalPause' of ModularPausableToken.setGlobalPause (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#780) is not in mixedCase
+Function 'BurnableTokenWithBounds._burnAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#819-830) is not in mixedCase
+Parameter '_burner' of BurnableTokenWithBounds._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#819-820) is not in mixedCase
+Parameter '_value' of BurnableTokenWithBounds._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#820) is not in mixedCase
+Parameter '_min' of BurnableTokenWithBounds.setBurnBounds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#836) is not in mixedCase
+Parameter '_max' of BurnableTokenWithBounds.setBurnBounds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#836) is not in mixedCase
+Function 'CompliantToken._transferAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#894-900) is not in mixedCase
+Parameter '_from' of CompliantToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#894) is not in mixedCase
+Parameter '_to' of CompliantToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#896) is not in mixedCase
+Parameter '_value' of CompliantToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#896) is not in mixedCase
+Function 'CompliantToken._transferFromAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#881-890) is not in mixedCase
+Parameter '_from' of CompliantToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#881-882) is not in mixedCase
+Parameter '_to' of CompliantToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#882) is not in mixedCase
+Parameter '_value' of CompliantToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#882) is not in mixedCase
+Parameter '_spender' of CompliantToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#882) is not in mixedCase
+Function 'CompliantToken._burnAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#874-879) is not in mixedCase
+Parameter '_burner' of CompliantToken._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#877) is not in mixedCase
+Parameter '_value' of CompliantToken._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#877) is not in mixedCase
+Parameter '_to' of CompliantToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#872) is not in mixedCase
+Parameter '_value' of CompliantToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#872) is not in mixedCase
+Parameter '_registry' of CompliantToken.setRegistry (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#868) is not in mixedCase
+Parameter '_account' of CompliantToken.wipeBlacklistedAccount (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#902) is not in mixedCase
+Function 'RedeemableToken._transferAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#916-931) is not in mixedCase
+Parameter '_from' of RedeemableToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#918-919) is not in mixedCase
+Parameter '_to' of RedeemableToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#919) is not in mixedCase
+Parameter '_value' of RedeemableToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#919) is not in mixedCase
+Function 'RedeemableToken._transferFromAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#933-939) is not in mixedCase
+Parameter '_from' of RedeemableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#933-935) is not in mixedCase
+Parameter '_to' of RedeemableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#935) is not in mixedCase
+Parameter '_value' of RedeemableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#935) is not in mixedCase
+Parameter '_spender' of RedeemableToken._transferFromAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#935-937) is not in mixedCase
+Function 'DepositToken._transferAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#958-975) is not in mixedCase
+Parameter '_from' of DepositToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#962) is not in mixedCase
+Parameter '_to' of DepositToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#962) is not in mixedCase
+Parameter '_value' of DepositToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#962-965) is not in mixedCase
+Parameter '_to' of DepositToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#976) is not in mixedCase
+Parameter '_value' of DepositToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#976) is not in mixedCase
+Function 'GasRefundToken._transferAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1036-1039) is not in mixedCase
+Parameter '_from' of GasRefundToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1036) is not in mixedCase
+Parameter '_to' of GasRefundToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1036-1037) is not in mixedCase
+Parameter '_value' of GasRefundToken._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1037) is not in mixedCase
+Parameter '_to' of GasRefundToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1039) is not in mixedCase
+Parameter '_value' of GasRefundToken.mint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1039-1040) is not in mixedCase
+Function 'TokenWithHook._transferAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1065-1078) is not in mixedCase
+Parameter '_from' of TokenWithHook._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1066-1067) is not in mixedCase
+Parameter '_to' of TokenWithHook._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1067-1069) is not in mixedCase
+Parameter '_value' of TokenWithHook._transferAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1069) is not in mixedCase
+Function 'TrueUSD._burnAllArgs' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1197-1208) is not in mixedCase
+Parameter '_burner' of TrueUSD._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1197) is not in mixedCase
+Parameter '_value' of TrueUSD._burnAllArgs (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1197) is not in mixedCase
+Parameter '_totalSupply' of TrueUSD.initialize (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1160-1161) is not in mixedCase
+Parameter '_name' of TrueUSD.changeTokenName (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1167-1168) is not in mixedCase
+Parameter '_symbol' of TrueUSD.changeTokenName (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1168) is not in mixedCase
+Parameter '_to' of TrueUSD.reclaimEther (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1181) is not in mixedCase
+Parameter '_to' of TrueUSD.reclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1187) is not in mixedCase
+Parameter '_ownable' of TrueUSD.reclaimContract (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1194-1195) is not in mixedCase
+Function 'UpgradeabilityProxy._setImplementation' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1273-1277) is not in mixedCase
+Function 'UpgradeabilityProxy._upgradeTo' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1280-1287) is not in mixedCase
+Constant 'UpgradeabilityProxy.implementationPosition' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1258-1262) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'OwnedUpgradeabilityProxy._setUpgradeabilityOwner' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1369-1372) is not in mixedCase
+Function 'OwnedUpgradeabilityProxy._setPendingUpgradeabilityOwner' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1377-1381) is not in mixedCase
+Constant 'OwnedUpgradeabilityProxy.proxyOwnerPosition' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1322-1325) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'OwnedUpgradeabilityProxy.pendingProxyOwnerPosition' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1325-1331) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_newOwner' of TokenController.transferTusdProxyOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1597) is not in mixedCase
+Parameter '_implementation' of TokenController.upgradeTusdProxyImplTo (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1605) is not in mixedCase
+Parameter '_instant' of TokenController.setMintThresholds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1618) is not in mixedCase
+Parameter '_ratified' of TokenController.setMintThresholds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1618) is not in mixedCase
+Parameter '_multiSig' of TokenController.setMintThresholds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1618) is not in mixedCase
+Parameter '_instant' of TokenController.setMintLimits (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1633) is not in mixedCase
+Parameter '_ratified' of TokenController.setMintLimits (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1633-1635) is not in mixedCase
+Parameter '_multiSig' of TokenController.setMintLimits (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1635) is not in mixedCase
+Parameter '_to' of TokenController.requestMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1678) is not in mixedCase
+Parameter '_value' of TokenController.requestMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1679) is not in mixedCase
+Parameter '_to' of TokenController.instantMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1690) is not in mixedCase
+Parameter '_value' of TokenController.instantMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1690) is not in mixedCase
+Parameter '_index' of TokenController.ratifyMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1710) is not in mixedCase
+Parameter '_to' of TokenController.ratifyMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1710-1711) is not in mixedCase
+Parameter '_value' of TokenController.ratifyMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1711-1714) is not in mixedCase
+Parameter '_index' of TokenController.finalizeMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1739) is not in mixedCase
+Function 'TokenController._subtractFromMintPool' (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1750-1760) is not in mixedCase
+Parameter '_value' of TokenController._subtractFromMintPool (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1750) is not in mixedCase
+Parameter '_numberOfApproval' of TokenController.hasEnoughApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1766-1767) is not in mixedCase
+Parameter '_value' of TokenController.hasEnoughApproval (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1767) is not in mixedCase
+Parameter '_index' of TokenController.canFinalize (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1790-1791) is not in mixedCase
+Parameter '_index' of TokenController.revokeMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1810-1811) is not in mixedCase
+Parameter '_newMintKey' of TokenController.transferMintKey (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1831-1832) is not in mixedCase
+Parameter '_opIndex' of TokenController.pauseMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1869) is not in mixedCase
+Parameter '_opIndex' of TokenController.unpauseMint (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1882) is not in mixedCase
+Parameter '_newContract' of TokenController.setTrueUSD (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1899) is not in mixedCase
+Parameter '_totalSupply' of TokenController.initializeTrueUSD (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1901) is not in mixedCase
+Parameter '_registry' of TokenController.setRegistry (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1909) is not in mixedCase
+Parameter '_name' of TokenController.changeTokenName (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1912) is not in mixedCase
+Parameter '_symbol' of TokenController.changeTokenName (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1912-1913) is not in mixedCase
+Parameter '_registry' of TokenController.setTusdRegistry (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1920) is not in mixedCase
+Parameter '_other' of TokenController.issueClaimOwnership (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1927) is not in mixedCase
+Parameter '_proxy' of TokenController.claimStorageForProxy (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1940) is not in mixedCase
+Parameter '_balanceSheet' of TokenController.claimStorageForProxy (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1940-1941) is not in mixedCase
+Parameter '_allowanceSheet' of TokenController.claimStorageForProxy (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1943-1944) is not in mixedCase
+Parameter '_child' of TokenController.transferChild (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1959-1960) is not in mixedCase
+Parameter '_newOwner' of TokenController.transferChild (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1960) is not in mixedCase
+Parameter '_other' of TokenController.requestReclaimContract (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1974-1975) is not in mixedCase
+Parameter '_token' of TokenController.requestReclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1989) is not in mixedCase
+Parameter '_newGlobalPause' of TokenController.setGlobalPause (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol#1997-1998) is not in mixedCase
+Parameter '_newFastPause' of TokenController.setTrueUsdFastPause (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) is not in mixedCase
+Parameter '_blacklistedAddress' of TokenController.wipeBlackListedTrueUSD (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) is not in mixedCase
+Parameter '_min' of TokenController.setBurnBounds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) is not in mixedCase
+Parameter '_max' of TokenController.setBurnBounds (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) is not in mixedCase
+Parameter '_to' of TokenController.reclaimEther (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) is not in mixedCase
+Parameter '_token' of TokenController.reclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) is not in mixedCase
+Parameter '_to' of TokenController.reclaimToken (/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/47/0x21c464af99159ab6b220dc169ff3f57fe1cdfaf4.sol analyzed (29 contracts), 323 result(s) found

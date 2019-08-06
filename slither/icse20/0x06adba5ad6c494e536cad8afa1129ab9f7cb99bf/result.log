@@ -1,0 +1,106 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol:
+/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol:122:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function EOSBetBankroll(address dice, address slots) public payable {
+ ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+EOSBetBankroll.payEtherToWinner (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#166-186) sends eth to arbitrary user
+	Dangerous calls:
+	- ! winner.send(amtEther) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#185-186)
+	- ! OWNER.send(amtEther) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#186)
+EOSBetBankroll.payOraclize (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#191-199) sends eth to arbitrary user
+	Dangerous calls:
+	- EOSBetGameInterface(msg.sender).receivePaymentForOraclize.value(amountToPay)() (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#196-199)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+ifContributionTakesBankrollOverLimit_Refund in EOSBetBankroll.fallback (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#221-222) is a local variable never initialiazed
+contributionTakesBankrollOverLimit in EOSBetBankroll.fallback (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#221) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+EOSBetBankroll.ERC20Rescue (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#388-393) does not use the value returned by external calls:
+	-ERC20(tokenAddress).transfer(msg.sender,amtTokens) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#392-393)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in EOSBetBankroll.withdrawDevelopersFund (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#364-384):
+	External calls:
+	- EOSBetGameInterface(DICE).payDevelopersFund(receiver) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#373)
+	- EOSBetGameInterface(SLOTS).payDevelopersFund(receiver) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#374)
+	State variables written after the call(s):
+	- DEVELOPERSFUND (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#381)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+EOSBetBankroll.transfer (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#402-415) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(balances[msg.sender] >= _value && contributionTime[msg.sender] + WAITTIMEUNTILWITHDRAWORTRANSFER <= block.timestamp && _to != address(this) && _to != address(0)) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#406-411)
+EOSBetBankroll.transferFrom (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#419-440) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(allowed[_from][msg.sender] >= _value && balances[_from] >= _value && contributionTime[_from] + WAITTIMEUNTILWITHDRAWORTRANSFER <= block.timestamp && _to != address(this) && _to != address(0)) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#420-429)
+EOSBetBankroll.cashoutEOSBetStakeTokens (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#269-319) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_amountTokens <= tokenBalance && contributionTime[msg.sender] + WAITTIMEUNTILWITHDRAWORTRANSFER <= block.timestamp && _amountTokens > 0) (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#282-286)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+EOSBetGameInterface.DEVELOPERSFUND should be constant (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#51-52)
+EOSBetGameInterface.LIABILITIES should be constant (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#52)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+EOSBetGameInterface.payDevelopersFund (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#52-53) should be declared external
+EOSBetGameInterface.receivePaymentForOraclize (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#53-54) should be declared external
+EOSBetGameInterface.getMaxWin (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#56-58) should be declared external
+EOSBetBankroll.payEtherToWinner (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#166-186) should be declared external
+EOSBetBankrollInterface.payEtherToWinner (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#58-60) should be declared external
+EOSBetBankrollInterface.receiveEtherFromGameAddress (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#60-61) should be declared external
+EOSBetBankroll.receiveEtherFromGameAddress (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#189-191) should be declared external
+EOSBetBankrollInterface.payOraclize (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#61-64) should be declared external
+EOSBetBankroll.payOraclize (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#191-199) should be declared external
+ERC20.totalSupply (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#66) should be declared external
+EOSBetBankroll.totalSupply (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#394-396) should be declared external
+EOSBetBankroll.balanceOf (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#396-398) should be declared external
+ERC20.balanceOf (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#66-67) should be declared external
+ERC20.transfer (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#67-68) should be declared external
+EOSBetBankroll.transfer (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#402-415) should be declared external
+EOSBetBankroll.transferFrom (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#419-440) should be declared external
+ERC20.transferFrom (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#68-69) should be declared external
+ERC20.approve (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#69-70) should be declared external
+EOSBetBankroll.approve (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol) should be declared external
+EOSBetBankroll.allowance (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol) should be declared external
+ERC20.allowance (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#70-71) should be declared external
+EOSBetBankroll.checkWhenContributorCanTransferOrWithdraw (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#153-158) should be declared external
+EOSBetBankroll.fallback (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#207-269) should be declared external
+EOSBetBankroll.cashoutEOSBetStakeTokens_ALL (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#323-324) should be declared external
+EOSBetBankroll.transferOwnership (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#346-351) should be declared external
+EOSBetBankroll.changeWaitTimeUntilWithdrawOrTransfer (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#352-360) should be declared external
+EOSBetBankroll.changeMaximumInvestmentsAllowed (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#360-364) should be declared external
+EOSBetBankroll.withdrawDevelopersFund (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#364-384) should be declared external
+EOSBetBankroll.ERC20Rescue (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#388-393) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Variable 'EOSBetGameInterface.DEVELOPERSFUND' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#51-52) is not in mixedCase
+Variable 'EOSBetGameInterface.LIABILITIES' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#52) is not in mixedCase
+Parameter '_owner' of EOSBetBankroll.balanceOf (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#396) is not in mixedCase
+Parameter '_to' of EOSBetBankroll.transfer (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#404) is not in mixedCase
+Parameter '_value' of EOSBetBankroll.transfer (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#405) is not in mixedCase
+Parameter '_from' of EOSBetBankroll.transferFrom (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#419-420) is not in mixedCase
+Parameter '_to' of EOSBetBankroll.transferFrom (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#420) is not in mixedCase
+Parameter '_value' of EOSBetBankroll.transferFrom (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#420) is not in mixedCase
+Parameter '_spender' of EOSBetBankroll.approve (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol) is not in mixedCase
+Parameter '_value' of EOSBetBankroll.approve (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol) is not in mixedCase
+Parameter '_owner' of EOSBetBankroll.allowance (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol) is not in mixedCase
+Parameter '_spender' of EOSBetBankroll.allowance (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol) is not in mixedCase
+Function 'EOSBetBankroll.EOSBetBankroll' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#123-152) is not in mixedCase
+Parameter '_amountTokens' of EOSBetBankroll.cashoutEOSBetStakeTokens (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#269) is not in mixedCase
+Function 'EOSBetBankroll.cashoutEOSBetStakeTokens_ALL' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#323-324) is not in mixedCase
+Function 'EOSBetBankroll.ERC20Rescue' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#388-393) is not in mixedCase
+Variable 'EOSBetBankroll.OWNER' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#83) is not in mixedCase
+Variable 'EOSBetBankroll.MAXIMUMINVESTMENTSALLOWED' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#83-84) is not in mixedCase
+Variable 'EOSBetBankroll.WAITTIMEUNTILWITHDRAWORTRANSFER' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#86) is not in mixedCase
+Variable 'EOSBetBankroll.DEVELOPERSFUND' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#86) is not in mixedCase
+Variable 'EOSBetBankroll.TRUSTEDADDRESSES' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#93-95) is not in mixedCase
+Variable 'EOSBetBankroll.DICE' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#95) is not in mixedCase
+Variable 'EOSBetBankroll.SLOTS' (/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol#96) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/11/0x06adba5ad6c494e536cad8afa1129ab9f7cb99bf.sol analyzed (5 contracts), 63 result(s) found

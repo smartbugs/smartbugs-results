@@ -1,0 +1,125 @@
+INFO:Detectors:[91m
+Snip3D.vaultToWallet (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#390-398) sends eth to arbitrary user
+	Dangerous calls:
+	- toPay.transfer(value) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#397-398)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Snip3D.RefundWaitingLine (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#109-110) is never initialized. It is used in:
+	- nextonetogetpaid (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#156-164)
+Snip3D.NextInLine (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#110-111) is never initialized. It is used in:
+	- nextonetogetpaid (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#156-164)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+number in Snip3D.blocksTillSemiShoot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#171-172) is a local variable never initialiazed
+number in Snip3D.blocksTillTargetShoot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#182) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+Snip3D.sendInSoldier (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#219-251) does not use the value returned by external calls:
+	-P3Dcontract_.buy.value(buyamount)(masternode) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#242-243)
+Snip3D.sendInSoldierReferal (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#251-288) does not use the value returned by external calls:
+	-P3Dcontract_.buy.value(buyamount)(masternode) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#275-276)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Snip3D.legacyStart has external calls inside a loop:
+	- torefund = old.RefundWaitingLine(nextUp + i) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#420-421)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Snip3D.DivsToRefundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#465-473):
+	External calls:
+	- dividends = P3Dcontract_.myDividends(true) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#467-468)
+	- P3Dcontract_.withdraw() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#471-472)
+	- SPASM_.disburse.value(base.mul(5))() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#472)
+	External calls sending eth:
+	- SPASM_.disburse.value(base.mul(5))() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#472)
+	State variables written after the call(s):
+	- Refundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#473)
+Reentrancy in Snip3D.P3DDivstocontract (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#404-413):
+	External calls:
+	- divs = harvestabledivs() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#405)
+	- P3Dcontract_.withdraw() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#406)
+	- SPASM_.disburse.value(base)() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#409)
+	External calls sending eth:
+	- SPASM_.disburse.value(base)() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#409)
+	State variables written after the call(s):
+	- Refundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#411)
+Reentrancy in Snip3D.constructor (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#130-137):
+	External calls:
+	- NextInLineOld = old.NextInLine() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#133)
+	State variables written after the call(s):
+	- lastToPayOld (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#134-136)
+Reentrancy in Snip3D.legacyStart (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#414-425):
+	External calls:
+	- torefund = old.RefundWaitingLine(nextUp + i) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#420-421)
+	State variables written after the call(s):
+	- balancesRefund (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#422-424)
+Reentrancy in Snip3D.sendInSoldier (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#219-251):
+	External calls:
+	- P3Dcontract_.buy.value(buyamount)(masternode) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#242-243)
+	State variables written after the call(s):
+	- Refundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#245-248)
+	- Refundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#248)
+Reentrancy in Snip3D.sendInSoldierReferal (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#251-288):
+	External calls:
+	- P3Dcontract_.buy.value(buyamount)(masternode) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#275-276)
+	State variables written after the call(s):
+	- Refundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#278)
+	- Refundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#279-282)
+Reentrancy in Snip3D.sendInSoldierReferal (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#251-288):
+	External calls:
+	- P3Dcontract_.buy.value(buyamount)(masternode) (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#275-276)
+	- SPASM_.disburse.value(spasmamount)() (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#284)
+	State variables written after the call(s):
+	- playerVault (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#284-286)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Snip3D.NextAtLineEnd should be constant (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#112)
+Snip3D.NextInLine should be constant (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#110-111)
+Snip3D.blocksBeforeSemiRandomShoot should be constant (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#114-115)
+Snip3D.blocksBeforeTargetShoot should be constant (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#115-118)
+Snip3D.ethtotalSupply should be constant (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#200)
+Snip3D.ethtotalSupplyRefund should be constant (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#428-429)
+Snip3D.pointMultiplier should be constant (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#195-196)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Owned.transferOwnership (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#88-92) should be declared external
+Owned.acceptOwnership (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#92-100) should be declared external
+Snip3D.nextonetogetpaid (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#156-164) should be declared external
+Snip3D.playervanity (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#164-170) should be declared external
+Snip3D.blocksTillSemiShoot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#170-180) should be declared external
+Snip3D.blocksTillTargetShoot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#180-189) should be declared external
+Snip3D.sendInSoldier (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#219-251) should be declared external
+Snip3D.sendInSoldierReferal (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#251-288) should be declared external
+Snip3D.shootSemiRandom (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#288-330) should be declared external
+Snip3D.shootTarget (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#330-371) should be declared external
+Snip3D.Payoutnextrefund (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#371-380) should be declared external
+Snip3D.disburse (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#380-390) should be declared external
+Snip3D.vaultToWallet (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#390-398) should be declared external
+Snip3D.changevanity (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#398-404) should be declared external
+Snip3D.P3DDivstocontract (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#404-413) should be declared external
+Snip3D.legacyStart (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#414-425) should be declared external
+Snip3D.disburseRefund (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#456-465) should be declared external
+Snip3D.DivsToRefundpot (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#465-473) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Owned.transferOwnership (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#90) is not in mixedCase
+Event 'Snip3D.death' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#120-121) is not in CapWords
+Event 'Snip3D.semiShot' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#121) is not in CapWords
+Event 'Snip3D.targetShot' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#121-123) is not in CapWords
+Event 'Snip3D.newSoldiers' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#123-127) is not in CapWords
+Function 'Snip3D.Payoutnextrefund' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#371-380) is not in mixedCase
+Function 'Snip3D.P3DDivstocontract' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#404-413) is not in mixedCase
+Function 'Snip3D.DivsToRefundpot' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#465-473) is not in mixedCase
+Variable 'Snip3D._totalSupply' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#103) is not in mixedCase
+Variable 'Snip3D.RefundWaitingLine' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#109-110) is not in mixedCase
+Variable 'Snip3D.NextInLine' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#110-111) is not in mixedCase
+Variable 'Snip3D.NextAtLineEnd' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#112) is not in mixedCase
+Variable 'Snip3D.Refundpot' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#113-114) is not in mixedCase
+Variable 'Snip3D.NextInLineOld' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#118) is not in mixedCase
+Constant 'Snip3D.P3Dcontract_' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#139-140) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'Snip3D.Vanity' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#199-200) is not in mixedCase
+Variable 'Snip3D._totalSupplyRefund' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol#426) is not in mixedCase
+Function 'Snip3dInterface.RefundWaitingLine' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol) is not in mixedCase
+Function 'Snip3dInterface.NextInLine' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol) is not in mixedCase
+Function 'Snip3dInterface.NextAtLineEnd' (/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x31cf8b6e8bb6cb16f23889f902be86775bb1d0b3.sol analyzed (6 contracts), 54 result(s) found

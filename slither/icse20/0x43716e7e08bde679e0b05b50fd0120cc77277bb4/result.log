@@ -1,0 +1,312 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:246:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:247:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:288:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    address _beneficiary,
+    ^------------------^
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:289:5: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    uint256 _weiAmount
+    ^----------------^
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:919:30: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function withdrawalAllowed(address _payee) public view returns (bool) {
+                             ^------------^
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:230:3: Warning: Function state mutability can be restricted to pure
+  function _preValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:245:3: Warning: Function state mutability can be restricted to pure
+  function _postValidatePurchase(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:287:3: Warning: Function state mutability can be restricted to pure
+  function _updatePurchasingState(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol:473:3: Warning: Function state mutability can be restricted to pure
+  function finalization() internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+RefundEscrow.beneficiaryWithdraw (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#943-946) sends eth to arbitrary user
+	Dangerous calls:
+	- beneficiary.transfer(address(this).balance) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#944-946)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+ClinicAllRefundEscrow.deposits (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#980) shadows:
+	- Escrow.deposits (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#827-829)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variable-shadowing[0m
+INFO:Detectors:[91m
+RBAC.roles (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1600-1601) is never initialized. It is used in:
+	- checkRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1608-1611)
+	- hasRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1622-1626)
+	- addRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1630-1636)
+	- removeRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1643-1646)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+TokenDestructible.destroy (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1200-1212) does not use the value returned by external calls:
+	-token.transfer(owner,balance) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1210-1211)
+ClinicAllCrowdsale.finalization (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2263-2271) does not use the value returned by external calls:
+	-MintableToken(token).finishMinting() (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2270-2271)
+ClinicAllCrowdsale.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) does not use the value returned by external calls:
+	-ClinicAllToken(token).transferToPrivateInvestor(msg.sender,_beneficiary,_value) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ClinicAllRefundEscrow.withdrawChunk has external calls inside a loop:
+	- _refundee.transfer(_paymentWithoutTxFee) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1127)
+ClinicAllCrowdsale.claimRefundChunk has external calls inside a loop:
+	- ClinicAllToken(token).burnAfterRefund(_refundeesList[i]) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2073)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in ClinicAllCrowdsale.claimRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2040-2060):
+	External calls:
+	- require(bool,string)(! goalReached(),Claim refunds is only possible if the soft cap goal has not been reached.) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2049-2050)
+	- deposit = vault.depositsOf(msg.sender) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2052)
+	- vault.withdraw(msg.sender) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2052-2055)
+	State variables written after the call(s):
+	- weiRaised (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2055-2057)
+Reentrancy in ClinicAllCrowdsale.claimRefundChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2065-2073):
+	External calls:
+	- require(bool,string)(! goalReached(),Claim refunds is only possible if the soft cap goal has not been reached.) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2066-2067)
+	- (_weiRefunded,_refundeesList) = vault.withdrawChunk(_txFee,_chunkLength) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2067-2071)
+	State variables written after the call(s):
+	- weiRaised (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2071-2072)
+Reentrancy in ClinicAllCrowdsale.manualRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol):
+	External calls:
+	- deposit = vault.depositsOf(_payee) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol)
+	- vault.manualRefund(_payee) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol)
+	State variables written after the call(s):
+	- weiRaised (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol)
+Reentrancy in ClinicAllCrowdsale.redeemPrivateSaleFunds (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol):
+	External calls:
+	- _balance = ClinicAllToken(token).balanceOf(msg.sender) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol)
+	State variables written after the call(s):
+	- privateSaleSupplyLimit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TimedCrowdsale.constructor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#416-425) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_openingTime >= block.timestamp) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#419-420)
+TimedCrowdsale.hasClosed (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#431-440) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > closingTime (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#440)
+ClinicAllCrowdsale.hasClosed (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2085-2092) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ((block.timestamp > closingTime) || tokenSupplyLimit <= token.totalSupply()) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2087-2090)
+ClinicAllCrowdsale.isDiscount (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2238-2243) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (preSaleClosingTime >= block.timestamp) (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2241-2243)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#508-514) should be declared external
+ERC20Basic.totalSupply (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#64) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#65) should be declared external
+BasicToken.balanceOf (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#535-539) should be declared external
+ERC20.allowance (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#77-80) should be declared external
+StandardToken.allowance (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#602-611) should be declared external
+Ownable.renounceOwnership (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#365-370) should be declared external
+Ownable.transferOwnership (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#374-379) should be declared external
+FinalizableCrowdsale.finalize (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#478-485) should be declared external
+MintableToken.finishMinting (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#718-726) should be declared external
+RefundEscrow.enableRefunds (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#933-940) should be declared external
+RefundEscrow.beneficiaryWithdraw (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#943-946) should be declared external
+ClinicAllRefundEscrow.beneficiaryDepositsOf (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#993-996) should be declared external
+ClinicAllRefundEscrow.depositFunds (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1017-1040) should be declared external
+ClinicAllRefundEscrow.manualRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1074-1078) should be declared external
+ClinicAllRefundEscrow.refundeesListLength (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1088-1091) should be declared external
+ClinicAllRefundEscrow.withdrawEverything (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1149-1157) should be declared external
+ClinicAllRefundEscrow.beneficiaryWithdrawChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1159-1167) should be declared external
+ClinicAllRefundEscrow.beneficiaryWithdrawAll (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1171-1180) should be declared external
+TokenDestructible.destroy (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1200-1212) should be declared external
+BurnableToken.burn (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1230-1231) should be declared external
+Pausable.pause (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1327-1333) should be declared external
+Pausable.unpause (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1337-1341) should be declared external
+TransferableToken.transferOn (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1434-1441) should be declared external
+TransferableToken.transferOff (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1446-1450) should be declared external
+ClinicAllToken.burnAfterRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1471-1478) should be declared external
+ClinicAllToken.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1507-1523) should be declared external
+ClinicAllToken.burnPrivateSale (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1523-1525) should be declared external
+Managed.setManager (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1701-1703) should be declared external
+Managed.removeManager (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1709-1716) should be declared external
+Limited.addAddressesLimits (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1771-1783) should be declared external
+Whitelist.whitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1835-1837) should be declared external
+ManagedWhitelist.addAddressesToWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1905-1910) should be declared external
+Whitelist.addAddressesToWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1845-1849) should be declared external
+ManagedWhitelist.removeAddressesFromWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1929-1935) should be declared external
+Whitelist.removeAddressesFromWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1869-1876) should be declared external
+ClinicAllCrowdsale.updateRate (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2002-2005) should be declared external
+ClinicAllCrowdsale.updateBuyLimitRange (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2014-2025) should be declared external
+ClinicAllCrowdsale.updateKycLimitEliminator (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2032-2039) should be declared external
+ClinicAllCrowdsale.claimRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2040-2060) should be declared external
+ClinicAllCrowdsale.claimRefundChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2065-2073) should be declared external
+ClinicAllCrowdsale.refundeesListLength (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2075-2080) should be declared external
+ClinicAllCrowdsale.supplyRest (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2100-2102) should be declared external
+ClinicAllCrowdsale.getTokenAmount (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2160-2165) should be declared external
+ClinicAllCrowdsale.getRate (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2231-2237) should be declared external
+ClinicAllCrowdsale.transferOn (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2254-2255) should be declared external
+ClinicAllCrowdsale.transferOff (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2256-2260) should be declared external
+ClinicAllCrowdsale.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) should be declared external
+ClinicAllCrowdsale.redeemPrivateSaleFunds (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) should be declared external
+ClinicAllCrowdsale.allocatePrivateSaleFunds (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) should be declared external
+ClinicAllCrowdsale.beneficiaryWithdrawChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) should be declared external
+ClinicAllCrowdsale.beneficiaryWithdrawAll (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) should be declared external
+ClinicAllCrowdsale.manualRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_rate' of Crowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#177) is not in mixedCase
+Parameter '_wallet' of Crowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#177-178) is not in mixedCase
+Parameter '_token' of Crowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#178-179) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.buyTokens (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#202) is not in mixedCase
+Function 'Crowdsale._preValidatePurchase' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#241-243) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._preValidatePurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#241) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._preValidatePurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#241) is not in mixedCase
+Function 'Crowdsale._postValidatePurchase' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#255-257) is not in mixedCase
+Function 'Crowdsale._deliverTokens' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#269-273) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._deliverTokens (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#270) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._deliverTokens (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#270-271) is not in mixedCase
+Function 'Crowdsale._processPurchase' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#283-287) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._processPurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#284) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._processPurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#284-285) is not in mixedCase
+Function 'Crowdsale._updatePurchasingState' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#299-302) is not in mixedCase
+Function 'Crowdsale._getTokenAmount' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#315-319) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._getTokenAmount (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#315) is not in mixedCase
+Function 'Crowdsale._forwardFunds' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#320-325) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#375-376) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#385-392) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#385-386) is not in mixedCase
+Function 'TimedCrowdsale._preValidatePurchase' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#447-455) is not in mixedCase
+Parameter '_beneficiary' of TimedCrowdsale._preValidatePurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#447-448) is not in mixedCase
+Parameter '_weiAmount' of TimedCrowdsale._preValidatePurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#448-450) is not in mixedCase
+Parameter '_openingTime' of TimedCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#416-418) is not in mixedCase
+Parameter '_closingTime' of TimedCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#418) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#535) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#517-518) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#518) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#604) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#604-605) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#564-565) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#565) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#565) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#589-590) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#590-592) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#623) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#623-624) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#650) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#650) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#706) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#706) is not in mixedCase
+Function 'MintedCrowdsale._deliverTokens' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#747-761) is not in mixedCase
+Parameter '_beneficiary' of MintedCrowdsale._deliverTokens (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#749-751) is not in mixedCase
+Parameter '_tokenAmount' of MintedCrowdsale._deliverTokens (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#752-754) is not in mixedCase
+Parameter '_to' of CappedToken.mint (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#785) is not in mixedCase
+Parameter '_amount' of CappedToken.mint (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#785) is not in mixedCase
+Parameter '_cap' of CappedToken. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#772) is not in mixedCase
+Parameter '_payee' of Escrow.depositsOf (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#833) is not in mixedCase
+Parameter '_payee' of Escrow.deposit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#841) is not in mixedCase
+Parameter '_payee' of Escrow.withdraw (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#849-853) is not in mixedCase
+Parameter '_payee' of ConditionalEscrow.withdraw (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#877) is not in mixedCase
+Parameter '_refundee' of RefundEscrow.deposit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#919) is not in mixedCase
+Parameter '_beneficiary' of RefundEscrow. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#909) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.depositsOf (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#990-992) is not in mixedCase
+Parameter '_refundee' of ClinicAllRefundEscrow.deposit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1002-1003) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.withdraw (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1045-1046) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.beneficiaryDepositsOf (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#994) is not in mixedCase
+Parameter '_refundee' of ClinicAllRefundEscrow.depositFunds (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1017) is not in mixedCase
+Parameter '_value' of ClinicAllRefundEscrow.depositFunds (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1017-1019) is not in mixedCase
+Parameter '_payee' of ClinicAllRefundEscrow.manualRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1074) is not in mixedCase
+Parameter '_indexToDelete' of ClinicAllRefundEscrow.removeRefundeeByIndex (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1081) is not in mixedCase
+Parameter '_txFee' of ClinicAllRefundEscrow.withdrawChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1093) is not in mixedCase
+Parameter '_chunkLength' of ClinicAllRefundEscrow.withdrawChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1093-1094) is not in mixedCase
+Parameter '_txFee' of ClinicAllRefundEscrow.withdrawEverything (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1149-1151) is not in mixedCase
+Parameter '_value' of ClinicAllRefundEscrow.beneficiaryWithdrawChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1160) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1230) is not in mixedCase
+Function 'BurnableToken._burn' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1232-1256) is not in mixedCase
+Parameter '_who' of BurnableToken._burn (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1232) is not in mixedCase
+Parameter '_value' of BurnableToken._burn (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1233) is not in mixedCase
+Parameter '_name' of DetailedERC20. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1276) is not in mixedCase
+Parameter '_symbol' of DetailedERC20. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1276-1278) is not in mixedCase
+Parameter '_decimals' of DetailedERC20. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1278) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1352) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1352-1353) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1360) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1360-1361) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1361-1362) is not in mixedCase
+Parameter '_spender' of PausableToken.approve (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1369-1370) is not in mixedCase
+Parameter '_value' of PausableToken.approve (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1370) is not in mixedCase
+Parameter '_spender' of PausableToken.increaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1377-1378) is not in mixedCase
+Parameter '_addedValue' of PausableToken.increaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1378-1383) is not in mixedCase
+Parameter '_spender' of PausableToken.decreaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1385-1386) is not in mixedCase
+Parameter '_subtractedValue' of PausableToken.decreaseApproval (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1387-1389) is not in mixedCase
+Parameter '_to' of ClinicAllToken.transfer (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1485-1486) is not in mixedCase
+Parameter '_value' of ClinicAllToken.transfer (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1486) is not in mixedCase
+Parameter '_from' of ClinicAllToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1497-1498) is not in mixedCase
+Parameter '_to' of ClinicAllToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1499-1500) is not in mixedCase
+Parameter '_value' of ClinicAllToken.transferFrom (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1500-1501) is not in mixedCase
+Parameter '_who' of ClinicAllToken.burnAfterRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1475) is not in mixedCase
+Parameter '_from' of ClinicAllToken.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1510-1512) is not in mixedCase
+Parameter '_to' of ClinicAllToken.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1512) is not in mixedCase
+Parameter '_value' of ClinicAllToken.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1512-1516) is not in mixedCase
+Parameter '_value' of ClinicAllToken.burnPrivateSale (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1524) is not in mixedCase
+Parameter '_operator' of RBAC.checkRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1609) is not in mixedCase
+Parameter '_role' of RBAC.checkRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1609) is not in mixedCase
+Parameter '_operator' of RBAC.hasRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1622-1625) is not in mixedCase
+Parameter '_role' of RBAC.hasRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1625-1626) is not in mixedCase
+Parameter '_operator' of RBAC.addRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1630) is not in mixedCase
+Parameter '_role' of RBAC.addRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1630-1633) is not in mixedCase
+Parameter '_operator' of RBAC.removeRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1643) is not in mixedCase
+Parameter '_role' of RBAC.removeRole (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1643) is not in mixedCase
+Parameter '_operator' of Managed.setManager (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1701-1702) is not in mixedCase
+Parameter '_operator' of Managed.removeManager (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1714) is not in mixedCase
+Parameter '_payee' of Limited.getLimit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1759-1760) is not in mixedCase
+Parameter '_payees' of Limited.addAddressesLimits (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1773-1774) is not in mixedCase
+Parameter '_limits' of Limited.addAddressesLimits (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1774-1776) is not in mixedCase
+Parameter '_payee' of Limited.addLimit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1789) is not in mixedCase
+Parameter '_limit' of Limited.addLimit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1789-1790) is not in mixedCase
+Parameter '_payee' of Limited.removeLimit (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1797-1798) is not in mixedCase
+Parameter '_operator' of Whitelist.addAddressToWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1830-1831) is not in mixedCase
+Parameter '_operator' of Whitelist.whitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1835) is not in mixedCase
+Parameter '_operators' of Whitelist.addAddressesToWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1847) is not in mixedCase
+Parameter '_operator' of Whitelist.removeAddressFromWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1859) is not in mixedCase
+Parameter '_operators' of Whitelist.removeAddressesFromWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1869) is not in mixedCase
+Parameter '_operator' of ManagedWhitelist.addAddressToWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1894-1895) is not in mixedCase
+Parameter '_operators' of ManagedWhitelist.addAddressesToWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1906) is not in mixedCase
+Parameter '_operator' of ManagedWhitelist.removeAddressFromWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1920-1921) is not in mixedCase
+Parameter '_operators' of ManagedWhitelist.removeAddressesFromWhitelist (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1931) is not in mixedCase
+Function 'ClinicAllCrowdsale._preValidatePurchase' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2108-2133) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale._preValidatePurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2109) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._preValidatePurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2110-2111) is not in mixedCase
+Function 'ClinicAllCrowdsale._processPurchase' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2103-2108) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale._processPurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2104) is not in mixedCase
+Parameter '_tokenAmount' of ClinicAllCrowdsale._processPurchase (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2105) is not in mixedCase
+Function 'ClinicAllCrowdsale._getTokenAmount' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2140-2153) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._getTokenAmount (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2142-2143) is not in mixedCase
+Function 'ClinicAllCrowdsale._forwardFunds' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2276-2278) is not in mixedCase
+Parameter '_tokenLimitSupply' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1941-1942) is not in mixedCase
+Parameter '_privateSaleWallet' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1943-1945) is not in mixedCase
+Parameter '_discountTokenAmount' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1948-1949) is not in mixedCase
+Parameter '_discountTokenPercent' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1949-1950) is not in mixedCase
+Parameter '_preSaleClosingTime' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1951) is not in mixedCase
+Parameter '_softCapLimit' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1951-1953) is not in mixedCase
+Parameter '_vault' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1954) is not in mixedCase
+Parameter '_buyLimitSupplyMin' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1954-1955) is not in mixedCase
+Parameter '_buyLimitSupplyMax' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1955-1959) is not in mixedCase
+Parameter '_kycLimitEliminator' of ClinicAllCrowdsale. (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#1959) is not in mixedCase
+Parameter '_rate' of ClinicAllCrowdsale.updateRate (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2002) is not in mixedCase
+Parameter '_min' of ClinicAllCrowdsale.updateBuyLimitRange (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2016) is not in mixedCase
+Parameter '_max' of ClinicAllCrowdsale.updateBuyLimitRange (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2016) is not in mixedCase
+Parameter '_value' of ClinicAllCrowdsale.updateKycLimitEliminator (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2032) is not in mixedCase
+Parameter '_txFee' of ClinicAllCrowdsale.claimRefundChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2065) is not in mixedCase
+Parameter '_chunkLength' of ClinicAllCrowdsale.claimRefundChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2065) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale.getTokenAmount (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2162) is not in mixedCase
+Function 'ClinicAllCrowdsale._getTokensWithDiscount' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2167-2196) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._getTokensWithDiscount (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2167) is not in mixedCase
+Function 'ClinicAllCrowdsale._getDiscountTokenAmount' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2206-2217) is not in mixedCase
+Parameter '_weiAmount' of ClinicAllCrowdsale._getDiscountTokenAmount (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2206-2207) is not in mixedCase
+Function 'ClinicAllCrowdsale._getDiscountRate' (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2217-2229) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale.transferTokensToReserve (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol#2245) is not in mixedCase
+Parameter '_beneficiary' of ClinicAllCrowdsale.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) is not in mixedCase
+Parameter '_value' of ClinicAllCrowdsale.transferToPrivateInvestor (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) is not in mixedCase
+Parameter '_value' of ClinicAllCrowdsale.beneficiaryWithdrawChunk (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) is not in mixedCase
+Parameter '_payee' of ClinicAllCrowdsale.manualRefund (/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x43716e7e08bde679e0b05b50fd0120cc77277bb4.sol analyzed (32 contracts), 224 result(s) found

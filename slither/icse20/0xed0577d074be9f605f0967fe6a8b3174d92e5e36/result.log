@@ -1,0 +1,159 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:
+/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:269:20: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes32 hash = keccak256(address(this), token, amount, user, nonce);
+                   ^--------------------------------------------------^
+/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:272:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", hash), v, r, s) == user);
+                      ^-------------------------------------------------^
+/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:321:25: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+ ... keccak256(address(this), tradeAddresses[0], tradeValues[7], tradeAddresses[1], tradeValues[8], tradeValues[9], tradeValues[2], tradeAddresses[2]) ... 
+     ^-----------------------------------------------------------------------------------------------------------------------------------------------^
+/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:322:25: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+ ... keccak256(address(this), tradeAddresses[1], tradeValues[3], tradeAddresses[0], tradeValues[4], tradeValues[5], tradeValues[6], tradeAddresses[3]) ... 
+     ^-----------------------------------------------------------------------------------------------------------------------------------------------^
+/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:323:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", orderHash), v[0], rs[0], rs[1]) == tradeAddresses[2]);
+                      ^------------------------------------------------------^
+/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:324:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", tradeHash), v[1], rs[2], rs[3]) == tradeAddresses[3]);
+                      ^------------------------------------------------------^
+
+INFO:Detectors:[91m
+OptionToken.transferTokensOrWeiOutToIssuerOnCancel (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#954-987) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool)(msg.sender.send(toTransfer)) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#973-974)
+	- require(bool)(factory.owner().send(fee)) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#975-976)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in OptionToken.execute (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#867-901):
+	External calls:
+	- transferTokensOrWeiOutToSenderOnExecute(amount) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#872-875)
+	- transferTokensOrWeiOutToIssuerOnExecute(issuers[i].addr,amountToDistribute) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#883-885)
+	State variables written after the call(s):
+	- issuers (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#885-886)
+Reentrancy in OptionToken.execute (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#867-901):
+	External calls:
+	- transferTokensOrWeiOutToSenderOnExecute(amount) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#872-875)
+	- transferTokensOrWeiOutToIssuerOnExecute(issuers[i].addr,issuers[i].amount) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#889-891)
+	State variables written after the call(s):
+	- issuers (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#894-895)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[92m
+Reentrancy in DexBrokerage.adminWithdraw (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#260-300):
+	External calls:
+	- require(bool)(ERC20(token).transfer(user,amount)) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#290-294)
+	External calls sending eth:
+	- user.transfer(amount) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#282)
+	State variables written after the call(s):
+	- lastActiveTransaction (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#294-296)
+Reentrancy in OptionToken.issueWithToken (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#735-748):
+	External calls:
+	- fee = factory.calcIssueFeeAmount(msg.sender,amount) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#739-742)
+	- transferTokensInOnIssue(amountWithoutFee,fee) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#742-743)
+	State variables written after the call(s):
+	- balances (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#744-745)
+	- issuers (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#744-745)
+	- totalSupply_ (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#744-745)
+Reentrancy in OptionToken.issueWithWei (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#748-763):
+	External calls:
+	- fee = factory.calcIssueFeeAmount(msg.sender,msg.value) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#750-752)
+	- factory.owner().transfer(fee) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#757)
+	External calls sending eth:
+	- factory.owner().transfer(fee) (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#757)
+	State variables written after the call(s):
+	- balances (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#758-759)
+	- balances (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#761-762)
+	- issuers (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#758-759)
+	- issuers (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#761-762)
+	- totalSupply_ (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#758-759)
+	- totalSupply_ (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#761-762)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+OptionFactory.HUNDERED_PERCENT should be constant (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#438-439)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#38-49) should be declared external
+BasicToken.totalSupply (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#127-129) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#100-101) should be declared external
+BasicToken.balanceOf (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#153-158) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#101-102) should be declared external
+ERC20Basic.transfer (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#102-105) should be declared external
+BasicToken.transfer (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#133-145) should be declared external
+StandardToken.allowance (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#620-621) should be declared external
+ERC20.allowance (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#107-108) should be declared external
+ERC20.transferFrom (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#108-109) should be declared external
+StandardToken.transferFrom (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#587-592) should be declared external
+ERC20.approve (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#109-112) should be declared external
+StandardToken.approve (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#607-613) should be declared external
+DexBrokerage.approveCurrencyTokenAddress (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#191-196) should be declared external
+DexBrokerage.invalidateOrdersBefore (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#196-200) should be declared external
+DexBrokerage.setMakerFee (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#200-211) should be declared external
+DexBrokerage.setTakerFee (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#212-224) should be declared external
+DexBrokerage.setInactivityReleasePeriod (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#224-230) should be declared external
+DexBrokerage.setAdmin (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#232-233) should be declared external
+DexBrokerage.depositToken (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#233-235) should be declared external
+DexBrokerage.deposit (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#242-248) should be declared external
+DexBrokerage.withdraw (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#248-260) should be declared external
+DexBrokerage.adminWithdraw (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#260-300) should be declared external
+DexBrokerage.balanceOf (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#300-305) should be declared external
+DexBrokerage.trade (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#316-411) should be declared external
+OptionFactory.createOption (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#477-510) should be declared external
+OptionFactory.setAdmin (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#518-521) should be declared external
+OptionFactory.setDexbTreshold (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#543-544) should be declared external
+OptionFactory.calcIssueFeeAmount (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#544-549) should be declared external
+OptionFactory.calcExecuteFeeAmount (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#549-556) should be declared external
+OptionFactory.calcCancelFeeAmount (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#556-563) should be declared external
+StandardToken.increaseApproval (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#633-638) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#650-658) should be declared external
+StandardToken.approveAndDeposit (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#678-691) should be declared external
+OptionToken.setMinIssueAmount (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#731-734) should be declared external
+OptionToken.issueWithToken (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#735-748) should be declared external
+OptionToken.issueWithWei (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#748-763) should be declared external
+OptionToken.executeWithToken (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#763-771) should be declared external
+OptionToken.executeWithWei (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#771-777) should be declared external
+OptionToken.cancel (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#780-791) should be declared external
+OptionToken.refund (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#791-796) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#154-156) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#134-135) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#135) is not in mixedCase
+Parameter '_makerFee' of DexBrokerage. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#182-183) is not in mixedCase
+Parameter '_takerFee' of DexBrokerage. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#183-184) is not in mixedCase
+Parameter '_feeAccount' of DexBrokerage. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#184) is not in mixedCase
+Parameter '_inactivityReleasePeriod' of DexBrokerage. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#184-187) is not in mixedCase
+Parameter '_makerFee' of DexBrokerage.setMakerFee (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#202) is not in mixedCase
+Parameter '_takerFee' of DexBrokerage.setTakerFee (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#213-214) is not in mixedCase
+Parameter '_dexbAddress' of OptionFactory. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#443-444) is not in mixedCase
+Parameter '_dexbTreshold' of OptionFactory. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#444) is not in mixedCase
+Parameter '_dexBrokerageAddress' of OptionFactory. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#445) is not in mixedCase
+Variable 'OptionFactory.HUNDERED_PERCENT' (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#438-439) is not in mixedCase
+Variable 'OptionFactory.MAX_FEE' (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#440-443) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#620) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#620) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#587) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#587) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#587) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#607) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#607-611) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#634) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#634) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#650) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#650-651) is not in mixedCase
+Parameter '_exchange' of StandardToken.approveAndDeposit (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#679-682) is not in mixedCase
+Parameter '_amount' of StandardToken.approveAndDeposit (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#682) is not in mixedCase
+Parameter '_factory' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#705-706) is not in mixedCase
+Parameter '_firstToken' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#708-709) is not in mixedCase
+Parameter '_secondToken' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#709) is not in mixedCase
+Parameter '_minIssueAmount' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#709-713) is not in mixedCase
+Parameter '_expiry' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#713-715) is not in mixedCase
+Parameter '_strikePrice' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#715) is not in mixedCase
+Parameter '_isCall' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#715) is not in mixedCase
+Parameter '_symbol' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#716) is not in mixedCase
+Parameter '_decimals' of OptionToken. (/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol#716-719) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/25/0xed0577d074be9f605f0967fe6a8b3174d92e5e36.sol analyzed (9 contracts), 85 result(s) found

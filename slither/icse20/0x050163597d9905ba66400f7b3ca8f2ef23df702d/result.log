@@ -1,0 +1,65 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:38:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Owned() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:136:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ChiSale(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:4:3: Warning: Functions in interfaces should be declared external.
+  function totalSupply() public view returns (uint256);
+  ^---------------------------------------------------^
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:5:3: Warning: Functions in interfaces should be declared external.
+  function balanceOf(address who) public view returns (uint256);
+  ^------------------------------------------------------------^
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:6:3: Warning: Functions in interfaces should be declared external.
+  function transfer(address to, uint256 value) public returns (bool);
+  ^-----------------------------------------------------------------^
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:7:3: Warning: Functions in interfaces should be declared external.
+  function allowance(address owner, address spender) public view returns (uint256);
+  ^-------------------------------------------------------------------------------^
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:8:3: Warning: Functions in interfaces should be declared external.
+  function transferFrom(address from, address to, uint256 value) public returns (bool);
+  ^-----------------------------------------------------------------------------------^
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:9:3: Warning: Functions in interfaces should be declared external.
+  function approve(address spender, uint256 value) public returns (bool);
+  ^---------------------------------------------------------------------^
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:261:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            referralAddress.send(
+            ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:273:9: Warning: Invoking events without "emit" prefix is deprecated.
+        LogChiPurchase(msg.sender, referralAddress, tokensToBuy, now);
+        ^-----------------------------------------------------------^
+
+INFO:Detectors:[93m
+ChiSale.buy (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#191-281) does not use the value returned by external calls:
+	-chiContract.transfer(msg.sender,tokenBalance) (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#248)
+	-chiContract.transfer(msg.sender,tokensToBuy + bonusTokens) (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#249)
+ChiSale.withdrawChi (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#312-327) does not use the value returned by external calls:
+	-chiContract.transfer(msg.sender,chiContract.balanceOf(address(this))) (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#326-327)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in ChiSale.buy (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#191-281):
+	External calls:
+	- tokenBalance = chiContract.balanceOf(address(this)) (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#200-201)
+	State variables written after the call(s):
+	- bonusIndex (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#233-235)
+	- maxBonusThreshold (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#214)
+	- tokensSold (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#238)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20.totalSupply (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#4-5) should be declared external
+ERC20.balanceOf (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#5-6) should be declared external
+ERC20.transfer (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#6-7) should be declared external
+ERC20.allowance (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#7-8) should be declared external
+ERC20.transferFrom (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#8-9) should be declared external
+ERC20.approve (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#9-11) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Owned.Owned' (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#39-43) is not in mixedCase
+Function 'ChiSale.ChiSale' (/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol#141-191) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/23/0x050163597d9905ba66400f7b3ca8f2ef23df702d.sol analyzed (3 contracts), 12 result(s) found

@@ -1,0 +1,43 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol:
+/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol:19:41: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xDF0960778C6E6597f197Ed9a25F12F5d971da86c'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    address constant gooToken = address(0xdf0960778c6e6597f197ed9a25f12f5d971da86c);
+                                        ^----------------------------------------^
+/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol:99:43: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x66a9f1e53173dE33bec727eF76AfA84956aE1B25'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    Bankroll constant bankroll = Bankroll(0x66a9f1e53173de33bec727ef76afa84956ae1b25);
+                                          ^----------------------------------------^
+/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol:100:38: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xDF0960778C6E6597f197Ed9a25F12F5d971da86c'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    GooToken constant goo = GooToken(0xdf0960778c6e6597f197ed9a25f12f5d971da86c);
+                                     ^----------------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in Bankroll.receiveApproval (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#80-99):
+	External calls:
+	- payment = gooBurner.priceOf(amount) (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#85-88)
+	- ERC20(msg.sender).transferFrom(player,address(0),amount) (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#90-92)
+	State variables written after the call(s):
+	- gooPurchaseAllocation (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#97-99)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Bankroll.receiveApproval (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#80-99) does not use the value returned by external calls:
+	-ERC20(msg.sender).transferFrom(player,address(0),amount) (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#90-92)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Bankroll.refundTokenPurchase (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#50-68):
+	External calls:
+	- require(bool)(clans.exists(clanId)) (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#55-56)
+	- tokenAddress = clans.clanToken(clanId) (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#57)
+	- require(bool)(ERC20(tokenAddress).transferFrom(owner,address(clans),tokensAmount)) (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#57-60)
+	State variables written after the call(s):
+	- tokenPurchaseAllocation (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#62-64)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Clans.exists (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#121-125) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '' of Bankroll.receiveApproval (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#83) is not in mixedCase
+Parameter '_scope_0' of Bankroll.receiveApproval (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#83) is not in mixedCase
+Constant 'Bankroll.gooToken' (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#19-20) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'GooBurnAlgo.bankroll' (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#100-102) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'GooBurnAlgo.goo' (/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol#102-105) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/15/0x66a9f1e53173de33bec727ef76afa84956ae1b25.sol analyzed (5 contracts), 9 result(s) found

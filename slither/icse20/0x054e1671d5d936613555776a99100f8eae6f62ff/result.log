@@ -1,0 +1,149 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:21:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:41:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:143:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:199:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:215:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:241:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:262:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:307:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Mint(_to, _amount);
+    ^----------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:308:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(address(0), _to, _amount);
+    ^--------------------------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:319:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:715:21: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    wallet.transfer(this.balance);
+                    ^----------^
+
+INFO:Detectors:[91m
+CommonSale.transferToWallet (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#495-497) sends eth to arbitrary user
+	Dangerous calls:
+	- wallet.transfer(value) (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#497)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+MintTokensFeature.mintTokens (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#375-381) does not use the value returned by external calls:
+	-token.mint(to,tokens) (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#379-381)
+RetrieveTokensFeature.retrieveTokens (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#404-410) does not use the value returned by external calls:
+	-alienToken.transfer(to,alienToken.balanceOf(this)) (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#406-408)
+ITO.finish (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#700-704) does not use the value returned by external calls:
+	-token.finishMinting() (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#702-704)
+PreITO.finish (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#800-803) does not use the value returned by external calls:
+	-token.finishMinting() (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#802)
+Configurator.deploy (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#868-891) does not use the value returned by external calls:
+	-ito.lockAddress(0x3180e7B6E726B23B1d18D9963bDe3264f5107aef,30) (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in PreITO.mintTokensByETH (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#790-800):
+	External calls:
+	- _tokens = super.mintTokensByETH(to,_invested) (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#794-796)
+	State variables written after the call(s):
+	- balances (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#798)
+	- softcapAchieved (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#798)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ExtendedWalletsMintTokensFeature.percentRate should be constant (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#542-546)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#39-47) should be declared external
+AddressesFilterFeature.addAllowedAddress (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#61-65) should be declared external
+AddressesFilterFeature.removeAllowedAddress (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#65-75) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#116-117) should be declared external
+BasicToken.balanceOf (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#160-164) should be declared external
+ERC20.allowance (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#166-168) should be declared external
+StandardToken.allowance (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#232-233) should be declared external
+StandardToken.approve (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#220-222) should be declared external
+ERC20.approve (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#171-175) should be declared external
+StandardToken.increaseApproval (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#242-249) should be declared external
+StandardToken.decreaseApproval (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#260-280) should be declared external
+MintableToken.lock (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#295-300) should be declared external
+MintableToken.setSaleAgent (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#300-307) should be declared external
+MintableToken.mint (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#307-320) should be declared external
+MintableToken.finishMinting (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#324-333) should be declared external
+TokenProvider.setToken (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#355-359) should be declared external
+PercentRateFeature.setPercentRate (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#387-396) should be declared external
+RetrieveTokensFeature.retrieveTokens (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#404-410) should be declared external
+WalletProvider.setWallet (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#418-423) should be declared external
+CommonSale.setHardcap (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#443-447) should be declared external
+CommonSale.setStart (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#455-457) should be declared external
+CommonSale.setMinInvestedLimit (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#457-461) should be declared external
+CommonSale.setDirectMintAgent (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#461-464) should be declared external
+CommonSale.setPrice (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#464-468) should be declared external
+CommonSale.mintTokensExternal (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#468-474) should be declared external
+CommonSale.mintTokensByETHExternal (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#476-483) should be declared external
+WalletsPercents.addWallet (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#531-534) should be declared external
+WalletsPercents.cleanWallets (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#534-536) should be declared external
+StagedCrowdsale.milestonesCount (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#578-583) should be declared external
+StagedCrowdsale.addMilestone (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#585-589) should be declared external
+StagedCrowdsale.removeMilestone (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#589-604) should be declared external
+StagedCrowdsale.changeMilestone (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#604-616) should be declared external
+StagedCrowdsale.insertMilestone (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#617-629) should be declared external
+StagedCrowdsale.clearMilestones (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#630-642) should be declared external
+ITO.lockAddress (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#664-674) should be declared external
+ITO.finish (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#700-704) should be declared external
+NextSaleAgentFeature.setNextSaleAgent (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#709-712) should be declared external
+SoftcapFeature.setSoftcap (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#729-733) should be declared external
+SoftcapFeature.refund (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#756-761) should be declared external
+PreITO.setPeriod (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#777-784) should be declared external
+PreITO.finish (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#800-803) should be declared external
+ReceivingContractCallback.tokenFallback (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#814-815) should be declared external
+Token.registerCallback (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#844-850) should be declared external
+Token.deregisterCallback (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#850-853) should be declared external
+Configurator.deploy (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#868-891) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#21-27) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#161-162) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#140) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#140) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#232) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#232) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#194-196) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#196) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#196) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#220) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#220) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#245-246) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#246) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#260) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#260-262) is not in mixedCase
+Parameter '_to' of MintableToken.transfer (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#333) is not in mixedCase
+Parameter '_value' of MintableToken.transfer (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#335) is not in mixedCase
+Parameter '_from' of MintableToken.lock (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#296) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#307-308) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#308) is not in mixedCase
+Parameter '_invested' of CommonSale.mintTokensByETHExternal (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#478-479) is not in mixedCase
+Parameter '_invested' of CommonSale.mintTokensByETH (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#484) is not in mixedCase
+Parameter '_invested' of ITO.calculateTokens (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#674-676) is not in mixedCase
+Constant 'SoftcapFeature.devLimit' (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#725-726) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SoftcapFeature.devWallet' (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#727-729) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_invested' of PreITO.calculateTokens (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#775) is not in mixedCase
+Parameter '_invested' of PreITO.mintTokensByETH (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#792-794) is not in mixedCase
+Parameter '_to' of Token.transfer (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#821) is not in mixedCase
+Parameter '_value' of Token.transfer (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#821) is not in mixedCase
+Parameter '_from' of Token.transferFrom (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#834-835) is not in mixedCase
+Parameter '_to' of Token.transferFrom (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#836) is not in mixedCase
+Parameter '_value' of Token.transferFrom (/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol#836-838) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x054e1671d5d936613555776a99100f8eae6f62ff.sol analyzed (28 contracts), 86 result(s) found

@@ -1,0 +1,257 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:6:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Permittable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:299:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function TokenFacade() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:35:23: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            _amount = this.balance;
+                      ^----------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:332:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(msg.sender, _to, _amount);
+        ^--------------------------------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:354:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_from, _to, _amount);
+        ^---------------------------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:454:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_from, _to, _amount);
+        ^---------------------------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:497:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(_sender, _recipient, _amount);
+        ^------------------------------------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:517:13: Warning: Invoking events without "emit" prefix is deprecated.
+            TokenPoolExhausting(_ownerBalance);
+            ^--------------------------------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:519:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TokenPurchased(_to, msg.value, _tokens);
+        ^-------------------------------------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:520:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(owner, _to, _tokens);
+        ^---------------------------^
+/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:531:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TokenSold(_from, _tokens);
+        ^-----------------------^
+
+INFO:Detectors:[91m
+Withdrawable.withdraw (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#31-43) sends eth to arbitrary user
+	Dangerous calls:
+	- _to.transfer(_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#41-43)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Destructable.kill (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#25-30) allows anyone to destruct the contract
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#suicidal[0m
+INFO:Detectors:[93m
+Reentrancy in TokenFacade.transferFrom (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#350-364):
+	External calls:
+	- _fee = validator.validateAndGetTransferFee(owner,_from,_to,_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#358-359)
+	- store.transfer(_from,_to,_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#359-360)
+	- store.transfer(_from,store.getSettingAddress(feeReturnAddress),_fee) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#361-362)
+	State variables written after the call(s):
+	- allowed (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#363)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+TokenFacade.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#330-341) does not use the value returned by external calls:
+	-store.transfer(msg.sender,_to,_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#337-338)
+	-store.transfer(msg.sender,store.getSettingAddress(feeReturnAddress),_fee) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#339-340)
+TokenFacade.transferFrom (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#350-364) does not use the value returned by external calls:
+	-store.transfer(_from,_to,_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#359-360)
+	-store.transfer(_from,store.getSettingAddress(feeReturnAddress),_fee) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#361-362)
+TokenFacade.resetDeadTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#412-419) does not use the value returned by external calls:
+	-store.transfer(deadTokensAddress,owner,_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#416-419)
+TokenFacade._transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#463-471) does not use the value returned by external calls:
+	-validator.validateAndGetTransferFee(owner,_from,_to,_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#467-468)
+	-store.transfer(_from,_to,_amount) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#470)
+TokenFacade._start (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#482-487) does not use the value returned by external calls:
+	-store.setBalance(owner,store.getSetting(totalSupply)) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#483-486)
+	-store.setSetting(icoTimestamp,block.timestamp) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#486-487)
+TokenFacade._setSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#496-501) does not use the value returned by external calls:
+	-store.setSetting(_name,_value) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#498-501)
+TokenFacade.__purchase_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#506-533) does not use the value returned by external calls:
+	-store.increaseBalance(_to,_tokens) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#524)
+	-store.decreaseBalance(owner,_tokens) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#524-525)
+TokenFacade.__redeem_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol) does not use the value returned by external calls:
+	-store.transfer(_from,deadTokensAddress,_tokens) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol)
+	-store.transfer(_from,feeReturnAddress,_fee) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+TokenValidator.validateAndGetPurchaseTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#219-235) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)((_purchaseTimeout <= 0) || (block.timestamp - datesOfPurchase[_address] > _purchaseTimeout)) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#226-231)
+TokenValidator.validateAndGetRedeemFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#237-251) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)((_redemptionTimeout <= 0) || (block.timestamp > _icoTimestamp + _redemptionTimeout)) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#245-248)
+TokenValidator.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#260-274) uses timestamp for comparisons
+	Dangerous comparisons:
+	- purchaseTimeoutPassed = ((_purchaseTimeout <= 0) || (block.timestamp - datesOfPurchase[_address] > _purchaseTimeout)) (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#265-267)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Permittable.permit (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#15-19) should be declared external
+Permittable.isPermitted (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#19-24) should be declared external
+Destructable.kill (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#25-30) should be declared external
+Withdrawable.withdraw (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#31-43) should be declared external
+ERC20Token.totalSupply (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#49-50) should be declared external
+TokenFacade.totalSupply (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#317-320) should be declared external
+TokenFacade.balanceOf (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#320-321) should be declared external
+ERC20Token.balanceOf (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#50-51) should be declared external
+ERC20Token.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#51-52) should be declared external
+TokenFacade.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#330-341) should be declared external
+TokenFacade.transferFrom (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#350-364) should be declared external
+ERC20Token.transferFrom (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#52-53) should be declared external
+ERC20Token.approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#53-54) should be declared external
+TokenFacade.approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#370-372) should be declared external
+TokenFacade.allowance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#380-382) should be declared external
+ERC20Token.allowance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#54-57) should be declared external
+TokenStorage._start (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#70-120) should be declared external
+TokenStorage.getBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#121-124) should be declared external
+TokenStorage.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#129-137) should be declared external
+TokenStorage.getSettingAddress (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#156-158) should be declared external
+TokenStorage.newMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#163-172) should be declared external
+TokenStorage.getMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#172-181) should be declared external
+TokenStorage.getMegaboxIndex (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#181-184) should be declared external
+TokenValidator._setStore (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#188-189) should be declared external
+TokenValidator.validateAndGetTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#193-204) should be declared external
+TokenValidator.validateResetDeadTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#204-216) should be declared external
+TokenValidator.validateStart (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#218-219) should be declared external
+TokenValidator.validateAndGetPurchaseTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#219-235) should be declared external
+TokenValidator.updateDateOfPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#235-237) should be declared external
+TokenValidator.validateAndGetRedeemFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#237-251) should be declared external
+TokenValidator.validateStartMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#251-260) should be declared external
+TokenValidator.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#260-274) should be declared external
+TokenValidator.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#274-288) should be declared external
+TokenFacade.fallback (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#316-317) should be declared external
+TokenFacade.redeem (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#390-393) should be declared external
+TokenFacade.getTokensInAction (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#394-397) should be declared external
+TokenFacade.getTokensPrice (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#406-412) should be declared external
+TokenFacade.resetDeadTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#412-419) should be declared external
+TokenFacade.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#419-425) should be declared external
+TokenFacade.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#427-431) should be declared external
+TokenFacade.setInfoAboveSpot (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#431-435) should be declared external
+TokenFacade.setInfoTier (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#435-439) should be declared external
+TokenFacade.setInfoTokenSilverRatio (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#439-445) should be declared external
+TokenFacade.getSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#445-446) should be declared external
+TokenFacade.getMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#446-450) should be declared external
+TokenFacade.getMegaboxIndex (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#450-454) should be declared external
+TokenFacade._approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#456-463) should be declared external
+TokenFacade._transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#463-471) should be declared external
+TokenFacade._purchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#472-478) should be declared external
+TokenFacade._redeem (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#478-482) should be declared external
+TokenFacade._start (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#482-487) should be declared external
+TokenFacade._setStore (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#487-492) should be declared external
+TokenFacade._setValidator (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#493-496) should be declared external
+TokenFacade._setSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#496-501) should be declared external
+TokenFacade._startMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#501-502) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol:
+	- pragma solidity^0.4.15 (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Permittable.Permittable' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#6-10) is not in mixedCase
+Parameter '_address' of Permittable.permit (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#15) is not in mixedCase
+Parameter '_isAllowed' of Permittable.permit (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#15) is not in mixedCase
+Parameter '_address' of Permittable.isPermitted (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#19) is not in mixedCase
+Parameter '_to' of Withdrawable.withdraw (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#31) is not in mixedCase
+Parameter '_amount' of Withdrawable.withdraw (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#31-32) is not in mixedCase
+Function 'TokenStorage._start' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#70-120) is not in mixedCase
+Parameter '_address' of TokenStorage.getBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#123) is not in mixedCase
+Parameter '_address' of TokenStorage.setBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#125) is not in mixedCase
+Parameter '_amount' of TokenStorage.setBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#125-127) is not in mixedCase
+Parameter '_from' of TokenStorage.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#129-131) is not in mixedCase
+Parameter '_to' of TokenStorage.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#131) is not in mixedCase
+Parameter '_amount' of TokenStorage.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#131) is not in mixedCase
+Parameter '_address' of TokenStorage.decreaseBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#139) is not in mixedCase
+Parameter '_amount' of TokenStorage.decreaseBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#139-140) is not in mixedCase
+Parameter '_address' of TokenStorage.increaseBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#146-148) is not in mixedCase
+Parameter '_amount' of TokenStorage.increaseBalance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#148) is not in mixedCase
+Parameter '_name' of TokenStorage.getSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#152) is not in mixedCase
+Parameter '_name' of TokenStorage.getSettingAddress (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#156) is not in mixedCase
+Parameter '_name' of TokenStorage.setSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#161) is not in mixedCase
+Parameter '_value' of TokenStorage.setSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#161) is not in mixedCase
+Parameter '_owner' of TokenStorage.newMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#163) is not in mixedCase
+Parameter '_tokens' of TokenStorage.newMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#163) is not in mixedCase
+Parameter '_timestamp' of TokenStorage.newMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#163) is not in mixedCase
+Function 'TokenValidator._setStore' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#188-189) is not in mixedCase
+Parameter '_address' of TokenValidator._setStore (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#188-189) is not in mixedCase
+Parameter '_owner' of TokenValidator.getTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#189) is not in mixedCase
+Parameter '_address' of TokenValidator.getTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#190-192) is not in mixedCase
+Parameter '_amount' of TokenValidator.getTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#192) is not in mixedCase
+Parameter '_owner' of TokenValidator.validateAndGetTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#196) is not in mixedCase
+Parameter '_from' of TokenValidator.validateAndGetTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#196) is not in mixedCase
+Parameter '' of TokenValidator.validateAndGetTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#196-197) is not in mixedCase
+Parameter '_amount' of TokenValidator.validateAndGetTransferFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#197) is not in mixedCase
+Parameter '_amount' of TokenValidator.validateResetDeadTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#206) is not in mixedCase
+Parameter '_owner' of TokenValidator.validateStart (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#218) is not in mixedCase
+Parameter '_store' of TokenValidator.validateStart (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#218) is not in mixedCase
+Parameter '_owner' of TokenValidator.validateAndGetPurchaseTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#220) is not in mixedCase
+Parameter '_address' of TokenValidator.validateAndGetPurchaseTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#220) is not in mixedCase
+Parameter '_moneyAmount' of TokenValidator.validateAndGetPurchaseTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#220-221) is not in mixedCase
+Parameter '_address' of TokenValidator.updateDateOfPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#235-236) is not in mixedCase
+Parameter '' of TokenValidator.validateAndGetRedeemFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#238) is not in mixedCase
+Parameter '_address' of TokenValidator.validateAndGetRedeemFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#238) is not in mixedCase
+Parameter '_tokens' of TokenValidator.validateAndGetRedeemFee (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#238) is not in mixedCase
+Parameter '_owner' of TokenValidator.validateStartMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#251-253) is not in mixedCase
+Parameter '_tokens' of TokenValidator.validateStartMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#253) is not in mixedCase
+Parameter '_owner' of TokenValidator.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#260-262) is not in mixedCase
+Parameter '_address' of TokenValidator.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#262) is not in mixedCase
+Parameter '_tokens' of TokenValidator.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#262) is not in mixedCase
+Parameter '_owner' of TokenValidator.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#274) is not in mixedCase
+Parameter '_from' of TokenValidator.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#274) is not in mixedCase
+Parameter '' of TokenValidator.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#274-276) is not in mixedCase
+Parameter '_amount' of TokenValidator.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#276) is not in mixedCase
+Parameter '_address' of TokenFacade.balanceOf (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#320) is not in mixedCase
+Parameter '_to' of TokenFacade.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#332) is not in mixedCase
+Parameter '_amount' of TokenFacade.transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#332) is not in mixedCase
+Parameter '_from' of TokenFacade.transferFrom (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#350) is not in mixedCase
+Parameter '_to' of TokenFacade.transferFrom (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#350-352) is not in mixedCase
+Parameter '_amount' of TokenFacade.transferFrom (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#352) is not in mixedCase
+Parameter '_recipient' of TokenFacade.approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#370) is not in mixedCase
+Parameter '_amount' of TokenFacade.approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#370-371) is not in mixedCase
+Parameter '_from' of TokenFacade.allowance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#380) is not in mixedCase
+Parameter '_recipient' of TokenFacade.allowance (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#380) is not in mixedCase
+Function 'TokenFacade.TokenFacade' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#308-312) is not in mixedCase
+Parameter '_tokens' of TokenFacade.redeem (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#390) is not in mixedCase
+Parameter '_amount' of TokenFacade.getTokensPrice (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#406) is not in mixedCase
+Parameter '_amount' of TokenFacade.resetDeadTokens (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#415) is not in mixedCase
+Parameter '_address' of TokenFacade.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#419-420) is not in mixedCase
+Parameter '_tokensAmount' of TokenFacade.canPurchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#420) is not in mixedCase
+Parameter '_from' of TokenFacade.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#427) is not in mixedCase
+Parameter '_to' of TokenFacade.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#427) is not in mixedCase
+Parameter '_amount' of TokenFacade.canTransfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#427) is not in mixedCase
+Parameter '_name' of TokenFacade.getSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#445) is not in mixedCase
+Function 'TokenFacade._approve' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#456-463) is not in mixedCase
+Parameter '_from' of TokenFacade._approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#457-459) is not in mixedCase
+Parameter '_recipient' of TokenFacade._approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#459) is not in mixedCase
+Parameter '_amount' of TokenFacade._approve (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#459) is not in mixedCase
+Function 'TokenFacade._transfer' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#463-471) is not in mixedCase
+Parameter '_from' of TokenFacade._transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#463) is not in mixedCase
+Parameter '_to' of TokenFacade._transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#463-464) is not in mixedCase
+Parameter '_amount' of TokenFacade._transfer (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#464) is not in mixedCase
+Function 'TokenFacade._purchase' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#472-478) is not in mixedCase
+Parameter '_to' of TokenFacade._purchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#474) is not in mixedCase
+Parameter '_amount' of TokenFacade._purchase (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#474) is not in mixedCase
+Function 'TokenFacade._redeem' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#478-482) is not in mixedCase
+Parameter '_from' of TokenFacade._redeem (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#478) is not in mixedCase
+Parameter '_tokens' of TokenFacade._redeem (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#478) is not in mixedCase
+Function 'TokenFacade._start' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#482-487) is not in mixedCase
+Function 'TokenFacade._setStore' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#487-492) is not in mixedCase
+Parameter '_address' of TokenFacade._setStore (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#488) is not in mixedCase
+Function 'TokenFacade._setValidator' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#493-496) is not in mixedCase
+Parameter '_address' of TokenFacade._setValidator (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#495) is not in mixedCase
+Function 'TokenFacade._setSetting' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#496-501) is not in mixedCase
+Parameter '_name' of TokenFacade._setSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#496) is not in mixedCase
+Parameter '_value' of TokenFacade._setSetting (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#497) is not in mixedCase
+Function 'TokenFacade._startMegabox' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#501-502) is not in mixedCase
+Parameter '_tokens' of TokenFacade._startMegabox (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#501) is not in mixedCase
+Function 'TokenFacade.__approve_impl' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#503-506) is not in mixedCase
+Parameter '_sender' of TokenFacade.__approve_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#503) is not in mixedCase
+Parameter '_recipient' of TokenFacade.__approve_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#503-504) is not in mixedCase
+Parameter '_amount' of TokenFacade.__approve_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#504) is not in mixedCase
+Function 'TokenFacade.__purchase_impl' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#506-533) is not in mixedCase
+Parameter '_to' of TokenFacade.__purchase_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#506) is not in mixedCase
+Parameter '_amount' of TokenFacade.__purchase_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol#506) is not in mixedCase
+Function 'TokenFacade.__redeem_impl' (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol) is not in mixedCase
+Parameter '_from' of TokenFacade.__redeem_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol) is not in mixedCase
+Parameter '_tokens' of TokenFacade.__redeem_impl (/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/9/0xaef15564aed6447ed3debd89c8f28c10a5a52eec.sol analyzed (7 contracts), 176 result(s) found

@@ -1,0 +1,197 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:92:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Bob(uint _blocksPerDeal) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:103:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 depositHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:124:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 depositHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:152:7: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+      ripemd160(sha256(_secret)),
+      ^------------------------^
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:152:7: Warning: The provided argument of type bytes32 is not implicitly convertible to expected type bytes memory.
+      ripemd160(sha256(_secret)),
+      ^------------------------^
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:149:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 depositHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:176:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 depositHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:200:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 paymentHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:227:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 paymentHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:252:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 paymentHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:282:7: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+      ripemd160(sha256(_secret)),
+      ^------------------------^
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:282:7: Warning: The provided argument of type bytes32 is not implicitly convertible to expected type bytes memory.
+      ripemd160(sha256(_secret)),
+      ^------------------------^
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:279:27: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    bytes20 paymentHash = ripemd160(
+                          ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:92:3: Warning: No visibility specified. Defaulting to "public". 
+  function Bob(uint _blocksPerDeal) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#145-173) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(_amount) (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#167-168)
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(_amount) (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#195-196)
+Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#251-279) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(_amount) (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#275-276)
+Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#279-296) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(_amount) (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number >= _aliceCanClaimAfter)
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number >= _aliceCanClaimAfter)
+Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#279-296) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number < _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number >= _aliceCanClaimAfter)
+Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#279-296) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number < _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#145-173) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number < _aliceCanClaimAfter)
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number >= _aliceCanClaimAfter)
+Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#279-296) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number < _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#145-173) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number < _aliceCanClaimAfter)
+Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#251-279) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number >= _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number >= _aliceCanClaimAfter)
+Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#279-296) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number < _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#145-173) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number < _aliceCanClaimAfter)
+Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#251-279) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number >= _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#224-251) uses a dangerous strict equality:
+	- require(bool)(_alice != 0x0 && _amount > 0 && payments[_txId].state == PaymentState.Uninitialized && _tokenAddress != 0x0)
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number >= _aliceCanClaimAfter)
+Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#279-296) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number < _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#145-173) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number < _aliceCanClaimAfter)
+Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#251-279) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number >= _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#224-251) uses a dangerous strict equality:
+	- require(bool)(_alice != 0x0 && _amount > 0 && payments[_txId].state == PaymentState.Uninitialized && _tokenAddress != 0x0)
+Bob.bobMakesEthDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#101-121) uses a dangerous strict equality:
+	- require(bool)(_alice != 0x0 && msg.value > 0 && deposits[_txId].state == DepositState.Uninitialized)
+Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#174-199) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number >= _aliceCanClaimAfter)
+Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#279-296) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number < _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#145-173) uses a dangerous strict equality:
+	- require(bool)(deposits[_txId].state == DepositState.BobMadeDeposit)
+	- require(bool)(depositHash == deposits[_txId].depositHash && block.number < _aliceCanClaimAfter)
+Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#251-279) uses a dangerous strict equality:
+	- require(bool)(payments[_txId].state == PaymentState.BobMadePayment)
+	- require(bool)(block.number >= _bobCanClaimAfter && paymentHash == payments[_txId].paymentHash)
+Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#224-251) uses a dangerous strict equality:
+	- require(bool)(_alice != 0x0 && _amount > 0 && payments[_txId].state == PaymentState.Uninitialized && _tokenAddress != 0x0)
+Bob.bobMakesEthDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#101-121) uses a dangerous strict equality:
+	- require(bool)(_alice != 0x0 && msg.value > 0 && deposits[_txId].state == DepositState.Uninitialized)
+Bob.bobMakesEthPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#199-223) uses a dangerous strict equality:
+	- require(bool)(_alice != 0x0 && msg.value > 0 && payments[_txId].state == PaymentState.Uninitialized)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#43)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Basic.balanceOf (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#43-44) should be declared external
+ERC20Basic.transfer (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#44-45) should be declared external
+ERC20.allowance (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#53-54) should be declared external
+ERC20.transferFrom (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#54-55) should be declared external
+ERC20.approve (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#55-56) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Bob.Bob' (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#94-100) is not in mixedCase
+Parameter '_blocksPerDeal' of Bob.Bob (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#94-97) is not in mixedCase
+Parameter '_txId' of Bob.bobMakesEthDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#102) is not in mixedCase
+Parameter '_alice' of Bob.bobMakesEthDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#102) is not in mixedCase
+Parameter '_secretHash' of Bob.bobMakesEthDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#102) is not in mixedCase
+Parameter '_txId' of Bob.bobMakesErc20Deposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#123-124) is not in mixedCase
+Parameter '_amount' of Bob.bobMakesErc20Deposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#124) is not in mixedCase
+Parameter '_alice' of Bob.bobMakesErc20Deposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#125-126) is not in mixedCase
+Parameter '_secretHash' of Bob.bobMakesErc20Deposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#126-127) is not in mixedCase
+Parameter '_tokenAddress' of Bob.bobMakesErc20Deposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#127-128) is not in mixedCase
+Parameter '_txId' of Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#147-148) is not in mixedCase
+Parameter '_amount' of Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#148) is not in mixedCase
+Parameter '_aliceCanClaimAfter' of Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#148) is not in mixedCase
+Parameter '_alice' of Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#149) is not in mixedCase
+Parameter '_tokenAddress' of Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#149-150) is not in mixedCase
+Parameter '_secret' of Bob.bobClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#150-151) is not in mixedCase
+Parameter '_txId' of Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#175) is not in mixedCase
+Parameter '_amount' of Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#175) is not in mixedCase
+Parameter '_aliceCanClaimAfter' of Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#175-176) is not in mixedCase
+Parameter '_bob' of Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#176) is not in mixedCase
+Parameter '_tokenAddress' of Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#177-178) is not in mixedCase
+Parameter '_secretHash' of Bob.aliceClaimsDeposit (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#179-180) is not in mixedCase
+Parameter '_txId' of Bob.bobMakesEthPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#200) is not in mixedCase
+Parameter '_alice' of Bob.bobMakesEthPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#200-201) is not in mixedCase
+Parameter '_secretHash' of Bob.bobMakesEthPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#202-203) is not in mixedCase
+Parameter '_txId' of Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#224) is not in mixedCase
+Parameter '_amount' of Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#224-225) is not in mixedCase
+Parameter '_alice' of Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#225-226) is not in mixedCase
+Parameter '_secretHash' of Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#227) is not in mixedCase
+Parameter '_tokenAddress' of Bob.bobMakesErc20Payment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#227-228) is not in mixedCase
+Parameter '_txId' of Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#252-253) is not in mixedCase
+Parameter '_amount' of Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#253-254) is not in mixedCase
+Parameter '_bobCanClaimAfter' of Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#254-256) is not in mixedCase
+Parameter '_alice' of Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#256-257) is not in mixedCase
+Parameter '_tokenAddress' of Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#257-258) is not in mixedCase
+Parameter '_secretHash' of Bob.bobClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#258-260) is not in mixedCase
+Parameter '_txId' of Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#281-282) is not in mixedCase
+Parameter '_amount' of Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#282) is not in mixedCase
+Parameter '_bobCanClaimAfter' of Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#283-284) is not in mixedCase
+Parameter '_bob' of Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#284-285) is not in mixedCase
+Parameter '_tokenAddress' of Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#285-287) is not in mixedCase
+Parameter '_secret' of Bob.aliceClaimsPayment (/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol#287) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0xb1ad803ea4f57401639c123000c75f5b66e4d123.sol analyzed (4 contracts), 60 result(s) found

@@ -1,0 +1,101 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:56:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function TokenLocker (ERC20 tokenAddr) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:401:15: Warning: Use of the "var" keyword is deprecated.
+        var ( yea, nay, quorum ) = countVotes(proposalNumber);
+              ^-^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:401:20: Warning: Use of the "var" keyword is deprecated.
+        var ( yea, nay, quorum ) = countVotes(proposalNumber);
+                   ^-^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:401:25: Warning: Use of the "var" keyword is deprecated.
+        var ( yea, nay, quorum ) = countVotes(proposalNumber);
+                        ^----^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:435:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function WyvernDAO (ERC20 sharesAddress) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:87:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ReceivedTokens(from, value, token, extraData);
+        ^-------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:94:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ReceivedEther(msg.sender, msg.value);
+        ^----------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:208:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TokensDelegated(msg.sender, tokensToLock, delegate);
+        ^-------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:232:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TokensUndelegated(msg.sender, lockedTokens, delegate);
+        ^---------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:257:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ChangeOfRules(minimumQuorum, debatingPeriodInMinutes, sharesTokenAddress);
+        ^-----------------------------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:289:26: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        p.proposalHash = keccak256(beneficiary, weiAmount, transactionBytecode);
+                         ^----------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:295:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ProposalAdded(proposalID, beneficiary, weiAmount, jobMetadataHash);
+        ^----------------------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:319:34: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return p.proposalHash == keccak256(beneficiary, weiAmount, transactionBytecode);
+                                 ^----------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:346:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Voted(proposalNumber, supportsProposal, msg.sender);
+        ^-------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:398:80: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        require((now >= p.votingDeadline) && !p.finalized && p.proposalHash == keccak256(p.recipient, p.amount, transactionBytecode));
+                                                                               ^---------------------------------------------------^
+/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:422:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ProposalTallied(proposalNumber, yea, nay, quorum, p.proposalPassed);
+        ^-----------------------------------------------------------------^
+
+INFO:Detectors:[93m
+DelegatedShareholderAssociation.clearDelegateAndUnlockTokens (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#225-240) uses a dangerous strict equality:
+	- require(bool)(sharesTokenAddress.balanceOf(tokenLocker) == totalLockedTokens)
+DelegatedShareholderAssociation.clearDelegateAndUnlockTokens (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#225-240) uses a dangerous strict equality:
+	- require(bool)(sharesTokenAddress.balanceOf(tokenLocker) == totalLockedTokens)
+DelegatedShareholderAssociation.setDelegateAndLockTokens (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#202-215) uses a dangerous strict equality:
+	- require(bool)(sharesTokenAddress.balanceOf(tokenLocker) == totalLockedTokens)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in DelegatedShareholderAssociation.executeProposal (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#398-432):
+	External calls:
+	- (yea,nay,quorum) = countVotes(proposalNumber) (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#414)
+	State variables written after the call(s):
+	- proposals (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#422)
+	- proposals (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#426-428)
+	- proposals (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#431)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#34)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Basic.balanceOf (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#34-35) should be declared external
+ERC20Basic.transfer (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#35-36) should be declared external
+ERC20.allowance (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#40-41) should be declared external
+ERC20.transferFrom (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#41-42) should be declared external
+ERC20.approve (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#42-43) should be declared external
+TokenLocker.transfer (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#66-74) should be declared external
+TokenRecipient.receiveApproval (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#84-93) should be declared external
+TokenRecipient.fallback (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#98-100) should be declared external
+DelegatedShareholderAssociation.setDelegateAndLockTokens (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#202-215) should be declared external
+DelegatedShareholderAssociation.clearDelegateAndUnlockTokens (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#225-240) should be declared external
+DelegatedShareholderAssociation.changeVotingRules (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#254-265) should be declared external
+DelegatedShareholderAssociation.newProposal (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#282-308) should be declared external
+DelegatedShareholderAssociation.checkProposalCode (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#319-328) should be declared external
+DelegatedShareholderAssociation.vote (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#343-356) should be declared external
+DelegatedShareholderAssociation.hasVoted (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#363-367) should be declared external
+DelegatedShareholderAssociation.executeProposal (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#398-432) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol:
+	- pragma solidity^0.4.13 (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in DelegatedShareholderAssociation.executeProposal (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#398-432):
+	-require(bool)(p.recipient.call.value(p.amount)(transactionBytecode)) /unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#430-431
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Function 'TokenLocker.TokenLocker' (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol#57-62) is not in mixedCase
+Function 'WyvernDAO.WyvernDAO' (/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x17f68886d00845867c154c912b4ccc506ec92fc7.sol analyzed (7 contracts), 24 result(s) found

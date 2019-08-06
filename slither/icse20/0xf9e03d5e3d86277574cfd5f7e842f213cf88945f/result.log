@@ -1,0 +1,49 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:10:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function self_store() public { owner = msg.sender; }
+    ^--------------------------------------------------^
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:2:1: Warning: Source file does not specify required compiler version!Consider adding "pragma solidity ^0.4.25;"
+contract self_store {
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:13:48: Warning: "suicide" has been deprecated in favour of "selfdestruct"
+    function kill() { if (msg.sender == owner) suicide(owner); }
+                                               ^------------^
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:18:9: Warning: Invoking events without "emit" prefix is deprecated.
+        content(datainfo);
+        ^---------------^
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:22:20: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        owner.send(this.balance);
+                   ^----------^
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:22:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        owner.send(this.balance);
+        ^----------------------^
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:13:5: Warning: No visibility specified. Defaulting to "public". 
+    function kill() { if (msg.sender == owner) suicide(owner); }
+    ^----------------------------------------------------------^
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:15:5: Warning: No visibility specified. Defaulting to "public". 
+    function add(string datainfo) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol:21:5: Warning: No visibility specified. Defaulting to "public". 
+    function flush() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+self_store.flush (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#22-24) sends eth to arbitrary user
+	Dangerous calls:
+	- owner.send(this.balance) (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#22-24)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#13-15:
+	- Usage of "suicide()" should be replaced with "selfdestruct()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+self_store.kill (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#13-15) should be declared external
+self_store.add (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#15-21) should be declared external
+self_store.flush (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#22-24) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Contract 'self_store' (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#2-24) is not in CapWords
+Event 'self_store.content' (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#8-10) is not in CapWords
+Function 'self_store.self_store' (/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol#10-12) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/31/0xf9e03d5e3d86277574cfd5f7e842f213cf88945f.sol analyzed (1 contracts), 8 result(s) found

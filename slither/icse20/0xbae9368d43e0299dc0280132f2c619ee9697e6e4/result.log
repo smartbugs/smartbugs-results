@@ -1,0 +1,323 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:
+/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:985:50: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        oraclize_randomDS_setCommitment(queryId, keccak256(delay_bytes8_left, args[1], sha256(args[0]), args[2]));
+                                                 ^-------------------------------------------------------------^
+/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:1097:47: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        if (!(keccak256(keyhash) == keccak256(sha256(context_name, queryId)))) return false;
+                                              ^---------------------------^
+/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:1097:37: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        if (!(keccak256(keyhash) == keccak256(sha256(context_name, queryId)))) return false;
+                                    ^--------------------------------------^
+/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:1097:37: Warning: The provided argument of type bytes32 is not implicitly convertible to expected type bytes memory.
+        if (!(keccak256(keyhash) == keccak256(sha256(context_name, queryId)))) return false;
+                                    ^--------------------------------------^
+/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:1115:48: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        if (oraclize_randomDS_args[queryId] == keccak256(commitmentSlice1, sessionPubkeyHash)){ //unonce, nbytes and sessionKeyHash match
+                                               ^--------------------------------------------^
+/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:366:5: Warning: Function state mutability can be restricted to pure
+    function __callback(bytes32 myid, string result, bytes proof) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+OracleProxy.withdrawExcess (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol) sends eth to arbitrary user
+	Dangerous calls:
+	- owner.transfer(payment) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Buffer.init (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#93-106) is declared view but contains assembly code
+Buffer.append (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#126-168) is declared view but contains assembly code
+Buffer.append (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#177-194) is declared view but contains assembly code
+Buffer.appendInt (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#199-224) is declared view but contains assembly code
+usingOraclize.getCodeSize (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#786-792) is declared view but contains assembly code
+usingOraclize.copyBytes (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1161-1182) is declared view but contains assembly code
+usingOraclize.safeMemoryCleaner (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1271-1275) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in OracleProxy.__callback (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1498-1512):
+	External calls:
+	- require(bool)(msg.sender == oraclize_cbAddress()) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1502)
+	State variables written after the call(s):
+	- validIds (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1512)
+Reentrancy in usingOraclize.oraclizeAPI (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#319-327):
+	External calls:
+	- address(oraclize) != OAR.getAddress() (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#324-327)
+	- oraclize = OraclizeI(OAR.getAddress()) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#325-327)
+	State variables written after the call(s):
+	- oraclize (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#325-327)
+Reentrancy in OracleProxy.updatePrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol):
+	External calls:
+	- oraclize_setCustomGasPrice(gasPriceInWei) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	- oraclize_getPrice(URL) > address(this).balance (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	State variables written after the call(s):
+	- OAR (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	- oraclize (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+buf in usingOraclize.ba2cbor (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#948-949) is a local variable never initialiazed
+buf in usingOraclize.stra2cbor (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#941) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+CBOR.encodeType (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#233-252) does not use the value returned by external calls:
+	-buf.appendInt(value,1) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#239-240)
+	-buf.appendInt(value,2) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#242-243)
+	-buf.appendInt(value,4) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#247)
+	-buf.appendInt(value,8) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#251)
+CBOR.encodeBytes (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#269-274) does not use the value returned by external calls:
+	-buf.append(value) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#273-274)
+CBOR.encodeString (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#274-281) does not use the value returned by external calls:
+	-buf.append(bytes(value)) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#278-281)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in OracleProxy.__callback (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1498-1512):
+	External calls:
+	- require(bool)(msg.sender == oraclize_cbAddress()) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1502)
+	State variables written after the call(s):
+	- oneCentInWei (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1508-1511)
+Reentrancy in usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#957-1017):
+	External calls:
+	- sessionKeyHash_bytes32 = oraclize_randomDS_getSessionPubKeyHash() (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#970-973)
+	- queryId = oraclize_query(random,args,_customGasLimit) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#980-981)
+	External calls sending eth:
+	- queryId = oraclize_query(random,args,_customGasLimit) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#980-981)
+	State variables written after the call(s):
+	- oraclize_network_name (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#980-981)
+	- oraclize_randomDS_args (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1012-1016)
+Reentrancy in OracleProxy.updatePrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol):
+	External calls:
+	- oraclize_setCustomGasPrice(gasPriceInWei) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	- oraclize_getPrice(URL) > address(this).balance (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	State variables written after the call(s):
+	- oraclize_network_name (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+Reentrancy in OracleProxy.updatePrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol):
+	External calls:
+	- oraclize_setCustomGasPrice(gasPriceInWei) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	- queryId = oraclize_query(0,URL,REQUEST_URL,callbackGasLimit) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	External calls sending eth:
+	- queryId = oraclize_query(0,URL,REQUEST_URL,callbackGasLimit) (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	State variables written after the call(s):
+	- oraclize_network_name (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+	- validIds (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Buffer.init uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#93-106)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#100-106
+Buffer.append uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#126-168)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#136-151
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#154-157
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#159-168
+Buffer.append uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#177-194)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#181-194
+Buffer.appendInt uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#199-224)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#208-223
+usingOraclize.getCodeSize uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#786-792)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#789-792
+usingOraclize.oraclize_newRandomDSQuery uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#957-1017)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#973-977
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#978
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#981-1013
+usingOraclize.verifySig uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1024-1045)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1036-1037
+usingOraclize.copyBytes uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1161-1182)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1176-1178
+usingOraclize.safer_ecrecover uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1186-1213)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1203-1213
+usingOraclize.ecrecovery uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1216-1271)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1231-1265
+usingOraclize.safeMemoryCleaner uses assembly (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1271-1275)
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1271-1275
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+OracleProxy.isOracleProxy should be constant (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1468-1469)
+OraclizeI.cbAddress should be constant (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#41)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:
+	- Version used: ['>=0.4.18', '^0.4.24']
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1 declares pragma solidity^0.4.24
+	- /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#37 declares pragma solidity>=0.4.18
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+OraclizeI.query2 (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#43-44) should be declared external
+OraclizeI.queryN (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#45-46) should be declared external
+OraclizeI.getPrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#47-48) should be declared external
+OraclizeI.getPrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#48-49) should be declared external
+OraclizeAddrResolverI.getAddress (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#56-61) should be declared external
+OracleProxy.__callback (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1498-1512) should be declared external
+usingOraclize.__callback (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#372-375) should be declared external
+Ownable.renounceOwnership (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1375-1378) should be declared external
+Ownable.transferOwnership (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1387-1393) should be declared external
+Destructible.destroy (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1420-1421) should be declared external
+Destructible.destroyAndSend (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1421-1423) should be declared external
+Pausable.pause (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1447-1449) should be declared external
+Pausable.unpause (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1451-1453) should be declared external
+OracleProxy.getQueryPrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1514-1525) should be declared external
+OracleProxy.updatePrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol:
+	- pragma solidity>=0.4.18 (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#37): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'OraclizeI.query_withGasLimit' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#42-43) is not in mixedCase
+Function 'OraclizeI.query2_withGasLimit' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#44-45) is not in mixedCase
+Function 'OraclizeI.queryN_withGasLimit' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#46-47) is not in mixedCase
+Function 'OraclizeI.randomDS_getSessionPubKeyHash' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#51-55) is not in mixedCase
+Struct 'Buffer.buffer' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#92-93) is not in CapWords
+Parameter '_capacity' of Buffer.init (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#94) is not in mixedCase
+Contract 'usingOraclize' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#297-1275) is not in CapWords
+Function 'usingOraclize.oraclize_setNetwork' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#328-333) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetwork' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#333-372) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#372-375) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#375-379) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#379-381) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#381-384) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#384-389) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#389-394) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#394-399) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#399-404) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#404-409) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#409-413) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#414-419) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#419-425) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#425-431) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#431-435) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#436-443) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#443-450) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#450-454) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#454-459) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#459-466) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#467-472) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#472-477) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#477-483) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#483-490) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#490-497) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#497-503) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#503-510) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#510-519) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#519-527) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#527-534) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#534-542) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#542-551) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#551-560) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#560-568) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#568-577) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#577-587) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#587-593) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#593-599) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#599-604) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#604-612) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#612-619) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#619-624) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#624-630) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#630-636) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#636-642) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#642-648) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#648-654) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#654-661) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#661-668) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#668-673) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#673-680) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#680-691) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#691-697) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#697-705) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#705-713) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#713-722) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#722-731) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#731-739) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#740-748) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#749-759) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#759-772) is not in mixedCase
+Function 'usingOraclize.oraclize_cbAddress' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#773-777) is not in mixedCase
+Function 'usingOraclize.oraclize_setProof' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#777-780) is not in mixedCase
+Function 'usingOraclize.oraclize_setCustomGasPrice' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#781-783) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_getSessionPubKeyHash' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#783-786) is not in mixedCase
+Parameter '_a' of usingOraclize.parseAddr (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#793) is not in mixedCase
+Parameter '_a' of usingOraclize.strCompare (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#814-815) is not in mixedCase
+Parameter '_b' of usingOraclize.strCompare (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#815) is not in mixedCase
+Parameter '_haystack' of usingOraclize.indexOf (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#833) is not in mixedCase
+Parameter '_needle' of usingOraclize.indexOf (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#833-834) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#854) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#854) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#854) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#854) is not in mixedCase
+Parameter '_e' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#854) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#878-879) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#879) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#879) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#879) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#883) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#883-884) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#884) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#890) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#890) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#894-895) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#900-901) is not in mixedCase
+Parameter '_b' of usingOraclize.parseInt (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#901) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetworkName' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#954-955) is not in mixedCase
+Parameter '_network_name' of usingOraclize.oraclize_setNetworkName (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#954) is not in mixedCase
+Function 'usingOraclize.oraclize_getNetworkName' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#955-957) is not in mixedCase
+Function 'usingOraclize.oraclize_newRandomDSQuery' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#957-1017) is not in mixedCase
+Parameter '_delay' of usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#959) is not in mixedCase
+Parameter '_nbytes' of usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#959) is not in mixedCase
+Parameter '_customGasLimit' of usingOraclize.oraclize_newRandomDSQuery (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#959-960) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_setCommitment' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1017-1020) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__sessionKeyValidity' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1045-1080) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__returnCode' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1094-1102) is not in mixedCase
+Parameter '_queryId' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1094-1095) is not in mixedCase
+Parameter '_result' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1095) is not in mixedCase
+Parameter '_proof' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1095) is not in mixedCase
+Parameter 'n_random_bytes' of usingOraclize.matchBytes32Prefix (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1102-1103) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__main' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1106-1159) is not in mixedCase
+Parameter 'context_name' of usingOraclize.oraclize_randomDS_proofVerify__main (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1107-1108) is not in mixedCase
+Function 'usingOraclize.safer_ecrecover' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1186-1213) is not in mixedCase
+Constant 'usingOraclize.day' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#298) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.week' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#299) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.month' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#299-300) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_NONE' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#300-301) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_TLSNotary' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#301-302) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Ledger' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#303) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Android' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#304) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Native' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#306-308) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofStorage_IPFS' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#308-310) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_auto' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#310) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_mainnet' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#310-311) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_testnet' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#311-313) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_morden' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#313-314) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_consensys' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#314-316) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'usingOraclize.OAR' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#317-318) is not in mixedCase
+Variable 'usingOraclize.oraclize_network_name' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#953-954) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_args' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1020-1024) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_sessionKeysHashVerified' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1024) is not in mixedCase
+Modifier 'usingOraclize.oraclize_randomDS_proofVerify' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1082-1093) is not in mixedCase
+Parameter '_a' of SafeMath.mul (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1291-1292) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1292) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1308) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1309-1310) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1325) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1325) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1331-1334) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1334) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1388-1391) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1401-1409) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1403) is not in mixedCase
+Parameter '_recipient' of Destructible.destroyAndSend (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1421-1422) is not in mixedCase
+Function 'OracleProxy.__callback' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1498-1512) is not in mixedCase
+Parameter 'EthInCents' of OracleProxy.getQueryPrice (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1515) is not in mixedCase
+Variable 'OracleProxy.REQUEST_URL' (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#1478) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+usingOraclize.day (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#298) is never used in OracleProxy
+usingOraclize.week (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#299) is never used in OracleProxy
+usingOraclize.month (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#299-300) is never used in OracleProxy
+usingOraclize.proofType_NONE (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#300-301) is never used in OracleProxy
+usingOraclize.proofType_TLSNotary (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#301-302) is never used in OracleProxy
+usingOraclize.proofType_Ledger (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#303) is never used in OracleProxy
+usingOraclize.proofType_Android (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#304) is never used in OracleProxy
+usingOraclize.proofType_Native (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#306-308) is never used in OracleProxy
+usingOraclize.proofStorage_IPFS (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#308-310) is never used in OracleProxy
+usingOraclize.networkID_mainnet (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#310-311) is never used in OracleProxy
+usingOraclize.networkID_testnet (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#311-313) is never used in OracleProxy
+usingOraclize.networkID_morden (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#313-314) is never used in OracleProxy
+usingOraclize.networkID_consensys (/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol#314-316) is never used in OracleProxy
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0xbae9368d43e0299dc0280132f2c619ee9697e6e4.sol analyzed (10 contracts), 196 result(s) found

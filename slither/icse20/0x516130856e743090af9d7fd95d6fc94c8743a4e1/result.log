@@ -1,0 +1,281 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:136:5: Warning: Use of the "var" keyword is deprecated.
+    var _allowance = allowed[_from][msg.sender];
+    ^------------^
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:190:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:312:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Crowdsale(uint256 _startPreSale,uint256 _finishPreSale,uint256 _startSale,uint256 _finishSale,address _multisig,address _restricted,address _registerbot, address _release6m, address _release12m, address _release18m) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:87:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:144:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:161:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:244:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Mint(_to, _amount);
+    ^----------------^
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:250:5: Warning: Invoking events without "emit" prefix is deprecated.
+    UnMint(_from, balances[_from]);
+    ^----------------------------^
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:261:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:477:27: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        multisig.transfer(this.balance);
+                          ^----------^
+
+INFO:Detectors:[91m
+Reentrancy in Crowdsale.finishMinting (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#482-503):
+	External calls:
+	- issuedTokenSupply = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#485)
+	- token.mint(restricted,issuedTokenSupply.mul(13).div(100),now) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#490-493)
+	- token.mint(release6m,issuedTokenSupply.mul(85).div(1000),now + 180 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#493-496)
+	- token.mint(release12m,issuedTokenSupply.mul(85).div(1000),now + 365 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#496-499)
+	- token.mint(release18m,issuedTokenSupply.mul(10).div(100),now + 545 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#499-500)
+	- tokenTotal = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#501-502)
+	- token.finishMinting() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#502-503)
+	External calls sending eth:
+	- multisig.transfer(this.balance) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#484-485)
+	State variables written after the call(s):
+	- isFinished (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#503)
+Reentrancy in Crowdsale.refund (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#521-528):
+	External calls:
+	- token.unMint(msg.sender) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#525)
+	External calls sending eth:
+	- msg.sender.transfer(weiBalances[msg.sender]) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#525-526)
+	State variables written after the call(s):
+	- totalWeiSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#526-527)
+Reentrancy in Crowdsale.refund (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#521-528):
+	External calls:
+	- token.unMint(msg.sender) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#525)
+	- tokenTotal = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#527-528)
+	External calls sending eth:
+	- msg.sender.transfer(weiBalances[msg.sender]) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#525-526)
+	State variables written after the call(s):
+	- weiBalances (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#528)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in Crowdsale.changeRelease12m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#388-395):
+	External calls:
+	- require(bool)(token.releaseAt(_new) == 0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#393)
+	- token.changeReleaseAccount(release12m,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#393-394)
+	State variables written after the call(s):
+	- release12m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#394-395)
+Reentrancy in Crowdsale.changeRelease18m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#395-403):
+	External calls:
+	- require(bool)(token.releaseAt(_new) == 0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#398-402)
+	- token.changeReleaseAccount(release18m,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#402)
+	State variables written after the call(s):
+	- release18m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#403)
+Reentrancy in Crowdsale.changeRelease6m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#379-387):
+	External calls:
+	- require(bool)(token.releaseAt(_new) == 0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#383-385)
+	- token.changeReleaseAccount(release6m,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#385-386)
+	State variables written after the call(s):
+	- release6m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#387)
+Reentrancy in Crowdsale.changeRestricted (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#371-379):
+	External calls:
+	- require(bool)(token.releaseAt(_new) == 0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#374-377)
+	- token.changeReleaseAccount(restricted,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#377-378)
+	State variables written after the call(s):
+	- restricted (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#379)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Crowdsale.changeRestricted (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#371-379) does not use the value returned by external calls:
+	-token.changeReleaseAccount(restricted,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#377-378)
+Crowdsale.changeRelease6m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#379-387) does not use the value returned by external calls:
+	-token.changeReleaseAccount(release6m,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#385-386)
+Crowdsale.changeRelease12m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#388-395) does not use the value returned by external calls:
+	-token.changeReleaseAccount(release12m,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#393-394)
+Crowdsale.changeRelease18m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#395-403) does not use the value returned by external calls:
+	-token.changeReleaseAccount(release18m,_new) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#402)
+Crowdsale.deleteCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#444-455) does not use the value returned by external calls:
+	-token.unMint(_customer) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#450-453)
+Crowdsale.finishMinting (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#482-503) does not use the value returned by external calls:
+	-token.mint(restricted,issuedTokenSupply.mul(13).div(100),now) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#490-493)
+	-token.mint(release6m,issuedTokenSupply.mul(85).div(1000),now + 180 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#493-496)
+	-token.mint(release12m,issuedTokenSupply.mul(85).div(1000),now + 365 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#496-499)
+	-token.mint(release18m,issuedTokenSupply.mul(10).div(100),now + 545 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#499-500)
+	-token.finishMinting() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#502-503)
+Crowdsale.foreignBuy (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#511-520) does not use the value returned by external calls:
+	-token.mint(_holder,tokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#516-517)
+Crowdsale.refund (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#521-528) does not use the value returned by external calls:
+	-token.unMint(msg.sender) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#525)
+Crowdsale.buyTokensPreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#528-556) does not use the value returned by external calls:
+	-token.mint(msg.sender,tokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#549-550)
+	-token.mint(referral[msg.sender],refererTokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#552-555)
+Crowdsale.createTokens (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#556-580) does not use the value returned by external calls:
+	-token.mint(msg.sender,tokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#569)
+	-token.mint(referral[msg.sender],refererTokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#576-577)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Crowdsale.buyTokensPreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#528-556):
+	External calls:
+	- token.mint(msg.sender,tokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#549-550)
+	- token.mint(referral[msg.sender],refererTokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#552-555)
+	- tokenTotal = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#555-556)
+	External calls sending eth:
+	- multisig.transfer(msg.value) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#532-533)
+	State variables written after the call(s):
+	- tokenTotal (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#555-556)
+Reentrancy in Crowdsale.createTokens (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#556-580):
+	External calls:
+	- token.mint(msg.sender,tokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#569)
+	- token.mint(referral[msg.sender],refererTokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#576-577)
+	- tokenTotal = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#579-580)
+	State variables written after the call(s):
+	- tokenTotal (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#579-580)
+	- weiBalances (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol)
+Reentrancy in Crowdsale.deleteCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#444-455):
+	External calls:
+	- token.unMint(_customer) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#450-453)
+	External calls sending eth:
+	- _customer.transfer(weiBalances[_customer]) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#453-454)
+	State variables written after the call(s):
+	- weiBalances (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#454)
+Reentrancy in Crowdsale.finishMinting (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#482-503):
+	External calls:
+	- issuedTokenSupply = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#485)
+	- token.mint(restricted,issuedTokenSupply.mul(13).div(100),now) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#490-493)
+	- token.mint(release6m,issuedTokenSupply.mul(85).div(1000),now + 180 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#493-496)
+	- token.mint(release12m,issuedTokenSupply.mul(85).div(1000),now + 365 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#496-499)
+	- token.mint(release18m,issuedTokenSupply.mul(10).div(100),now + 545 * 86400) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#499-500)
+	- tokenTotal = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#501-502)
+	External calls sending eth:
+	- multisig.transfer(this.balance) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#484-485)
+	State variables written after the call(s):
+	- tokenTotal (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#501-502)
+Reentrancy in Crowdsale.foreignBuy (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#511-520):
+	External calls:
+	- token.mint(_holder,tokens,0) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#516-517)
+	- tokenTotal = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#518-520)
+	State variables written after the call(s):
+	- tokenTotal (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#518-520)
+	- totalWeiSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#520)
+Reentrancy in Crowdsale.refund (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#521-528):
+	External calls:
+	- token.unMint(msg.sender) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#525)
+	- tokenTotal = token.totalSupply() (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#527-528)
+	External calls sending eth:
+	- msg.sender.transfer(weiBalances[msg.sender]) (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#525-526)
+	State variables written after the call(s):
+	- tokenTotal (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#527-528)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Crowdsale.bonusPeriod should be constant (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#303-304)
+Crowdsale.refererPercent should be constant (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#302-303)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Basic.balanceOf (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#43-44) should be declared external
+BasicToken.balanceOf (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#97-101) should be declared external
+BasicToken.transfer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#85-93) should be declared external
+ERC20Basic.transfer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#44-45) should be declared external
+StandardToken.allowance (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#179-180) should be declared external
+ERC20.allowance (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#53-54) should be declared external
+StandardToken.transferFrom (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#136-150) should be declared external
+ERC20.transferFrom (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#54-55) should be declared external
+StandardToken.approve (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#154-168) should be declared external
+ERC20.approve (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#55-56) should be declared external
+BasicToken.releaseAt (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#102-105) should be declared external
+BasicToken.changeReleaseAccount (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#106-121) should be declared external
+Ownable.transferOwnership (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#215-217) should be declared external
+MintableToken.mint (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#242-256) should be declared external
+MintableToken.unMint (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#256-268) should be declared external
+MintableToken.finishMinting (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#271-278) should be declared external
+Crowdsale.changeMultisig (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#364-369) should be declared external
+Crowdsale.changeRegisterBot (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#369-371) should be declared external
+Crowdsale.changeRestricted (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#371-379) should be declared external
+Crowdsale.changeRelease6m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#379-387) should be declared external
+Crowdsale.changeRelease12m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#388-395) should be declared external
+Crowdsale.changeRelease18m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#395-403) should be declared external
+Crowdsale.addCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#404-412) should be declared external
+Crowdsale.editCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#412-419) should be declared external
+Crowdsale.checkCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#419-421) should be declared external
+Crowdsale.deleteCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#421-425) should be declared external
+Crowdsale.registerCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#425-434) should be declared external
+Crowdsale.checkCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#434-438) should be declared external
+Crowdsale.checkReleaseAt (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#439-444) should be declared external
+Crowdsale.deleteCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#444-455) should be declared external
+Crowdsale.globalPause (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#455-459) should be declared external
+Crowdsale.changeRateSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#459-466) should be declared external
+Crowdsale.changeRatePreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#467-475) should be declared external
+Crowdsale.changeStartPreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#475-478) should be declared external
+Crowdsale.changeFinishPreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#478-480) should be declared external
+Crowdsale.changeStartSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#480) should be declared external
+Crowdsale.changeFinishSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#481-482) should be declared external
+Crowdsale.finishMinting (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#482-503) should be declared external
+Crowdsale.foreignBuyTest (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#503-511) should be declared external
+Crowdsale.foreignBuy (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#511-520) should be declared external
+Crowdsale.refund (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#521-528) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol:
+	- pragma solidity^0.4.17 (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#100) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#85) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#85) is not in mixedCase
+Parameter '_owner' of BasicToken.releaseAt (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#104) is not in mixedCase
+Parameter '_owner' of BasicToken.changeReleaseAccount (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#107) is not in mixedCase
+Parameter '_newowner' of BasicToken.changeReleaseAccount (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#107) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#179) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#179) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#136) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#138) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#138) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#155) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#155) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#198-203) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#242) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#242-244) is not in mixedCase
+Parameter '_releaseTime' of MintableToken.mint (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#244-245) is not in mixedCase
+Parameter '_from' of MintableToken.unMint (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#257) is not in mixedCase
+Function 'Crowdsale.Crowdsale' (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#315-340) is not in mixedCase
+Parameter '_startPreSale' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#315-316) is not in mixedCase
+Parameter '_finishPreSale' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#316-317) is not in mixedCase
+Parameter '_startSale' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#317) is not in mixedCase
+Parameter '_finishSale' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#317-318) is not in mixedCase
+Parameter '_multisig' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#318) is not in mixedCase
+Parameter '_restricted' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#318-319) is not in mixedCase
+Parameter '_registerbot' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#319-320) is not in mixedCase
+Parameter '_release6m' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#320) is not in mixedCase
+Parameter '_release12m' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#320-321) is not in mixedCase
+Parameter '_release18m' of Crowdsale.Crowdsale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#321-322) is not in mixedCase
+Parameter '_new' of Crowdsale.changeMultisig (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#364-365) is not in mixedCase
+Parameter '_new' of Crowdsale.changeRegisterBot (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#369) is not in mixedCase
+Parameter '_new' of Crowdsale.changeRestricted (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#372) is not in mixedCase
+Parameter '_new' of Crowdsale.changeRelease6m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#380) is not in mixedCase
+Parameter '_new' of Crowdsale.changeRelease12m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#388) is not in mixedCase
+Parameter '_new' of Crowdsale.changeRelease18m (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#396) is not in mixedCase
+Parameter '_id' of Crowdsale.addCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#404) is not in mixedCase
+Parameter '_owner' of Crowdsale.addCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#404) is not in mixedCase
+Parameter '_id' of Crowdsale.editCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#413) is not in mixedCase
+Parameter '_newowner' of Crowdsale.editCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#413-416) is not in mixedCase
+Parameter '_id' of Crowdsale.checkCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#419-420) is not in mixedCase
+Parameter '_id' of Crowdsale.deleteCertificate (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#422-424) is not in mixedCase
+Parameter '_customer' of Crowdsale.registerCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#426) is not in mixedCase
+Parameter '_referral' of Crowdsale.registerCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#426) is not in mixedCase
+Parameter '_customer' of Crowdsale.checkCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#435-436) is not in mixedCase
+Parameter '_owner' of Crowdsale.checkReleaseAt (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#439) is not in mixedCase
+Parameter '_customer' of Crowdsale.deleteCustomer (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#444-445) is not in mixedCase
+Parameter '_state' of Crowdsale.globalPause (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#458) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale.changeRateSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#462) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale.changeRatePreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#469-470) is not in mixedCase
+Parameter '_ts' of Crowdsale.changeStartPreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#476) is not in mixedCase
+Parameter '_ts' of Crowdsale.changeFinishPreSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#478-479) is not in mixedCase
+Parameter '_ts' of Crowdsale.changeStartSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#480) is not in mixedCase
+Parameter '_ts' of Crowdsale.changeFinishSale (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#481) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale.foreignBuyTest (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#504) is not in mixedCase
+Parameter '_rate' of Crowdsale.foreignBuyTest (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#505) is not in mixedCase
+Parameter '_holder' of Crowdsale.foreignBuy (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#511) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale.foreignBuy (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#511-512) is not in mixedCase
+Parameter '_rate' of Crowdsale.foreignBuy (/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol#512) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/3/0x516130856e743090af9d7fd95d6fc94c8743a4e1.sol analyzed (9 contracts), 124 result(s) found

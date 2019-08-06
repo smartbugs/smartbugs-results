@@ -1,0 +1,112 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol:
+/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol:49:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function SimplePHXSalesContract() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+SimplePHXSalesContract.withdrawEth (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#124-128) sends eth to arbitrary user
+	Dangerous calls:
+	- owner.transfer(address(this).balance) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#127-128)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in SimplePHXSalesContract.buy (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#94-103):
+	External calls:
+	- phxCoin.transfer(msg.sender,tokensOffered[_offeror]) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#98-102)
+	External calls sending eth:
+	- _offeror.transfer(_purchasePrice) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#102-103)
+	State variables written after the call(s):
+	- offerors (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#103)
+	- pricePerToken (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#103)
+	- tokensOffered (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#103)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+SimplePHXSalesContract._humanSender (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#131-135) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in SimplePHXSalesContract.canceloffer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#87-93):
+	External calls:
+	- phxCoin.transfer(msg.sender,tokensOffered[msg.sender]) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#89-92)
+	State variables written after the call(s):
+	- AddrNdx (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#93)
+	- tokensOffered (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#93)
+Reentrancy in SimplePHXSalesContract.offer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#55-67):
+	External calls:
+	- require(bool)(phxCoin.transferFrom(msg.sender,this,_tokensOffered)) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#58-60)
+	State variables written after the call(s):
+	- AddrNdx (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#66)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+SimplePHXSalesContract.canceloffer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#87-93) does not use the value returned by external calls:
+	-phxCoin.transfer(msg.sender,tokensOffered[msg.sender]) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#89-92)
+SimplePHXSalesContract.buy (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#94-103) does not use the value returned by external calls:
+	-phxCoin.transfer(msg.sender,tokensOffered[_offeror]) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#98-102)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in SimplePHXSalesContract.buy (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#94-103):
+	External calls:
+	- phxCoin.transfer(msg.sender,tokensOffered[_offeror]) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#98-102)
+	External calls sending eth:
+	- _offeror.transfer(_purchasePrice) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#102-103)
+	State variables written after the call(s):
+	- AddrNdx (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#103)
+	- nxtAddr (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#103)
+Reentrancy in SimplePHXSalesContract.canceloffer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#87-93):
+	External calls:
+	- phxCoin.transfer(msg.sender,tokensOffered[msg.sender]) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#89-92)
+	State variables written after the call(s):
+	- nxtAddr (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#93)
+	- offerors (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#93)
+	- pricePerToken (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#93)
+Reentrancy in SimplePHXSalesContract.offer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#55-67):
+	External calls:
+	- require(bool)(phxCoin.transferFrom(msg.sender,this,_tokensOffered)) (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#58-60)
+	State variables written after the call(s):
+	- nxtAddr (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#66)
+	- offerors (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#62-64)
+	- pricePerToken (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#61-62)
+	- tokensOffered (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#60)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SimplePHXSalesContract._humanSender uses assembly (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#131-135)
+	- /unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#133-135
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+SimplePHXSalesContract.ScaleFactor should be constant (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#34-37)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Token.totalSupply (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#22-23) should be declared external
+ERC20Token.balanceOf (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#23-24) should be declared external
+ERC20Token.allowance (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#24-25) should be declared external
+ERC20Token.transfer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#25-26) should be declared external
+ERC20Token.approve (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#26-27) should be declared external
+ERC20Token.transferFrom (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#27-30) should be declared external
+SimplePHXSalesContract.offer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#55-67) should be declared external
+SimplePHXSalesContract.canceloffer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#87-93) should be declared external
+SimplePHXSalesContract.buy (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#94-103) should be declared external
+SimplePHXSalesContract.updatePrice (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#103-109) should be declared external
+SimplePHXSalesContract.getOfferor (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#110-113) should be declared external
+SimplePHXSalesContract.getOfferPrice (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#113-117) should be declared external
+SimplePHXSalesContract.getOfferAmount (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#117-124) should be declared external
+SimplePHXSalesContract.withdrawEth (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#124-128) should be declared external
+SimplePHXSalesContract.fallback (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#128) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol:
+	- pragma solidity^0.4.20 (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'SimplePHXSalesContract.SimplePHXSalesContract' (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#50-55) is not in mixedCase
+Parameter '_tokensOffered' of SimplePHXSalesContract.offer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#56) is not in mixedCase
+Parameter '_tokenPrice' of SimplePHXSalesContract.offer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#56-57) is not in mixedCase
+Function 'SimplePHXSalesContract._canceloffer' (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#67-87) is not in mixedCase
+Parameter '_offeror' of SimplePHXSalesContract._canceloffer (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#67-68) is not in mixedCase
+Parameter '_ndx' of SimplePHXSalesContract.buy (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#94) is not in mixedCase
+Parameter '_newPrice' of SimplePHXSalesContract.updatePrice (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#104) is not in mixedCase
+Parameter '_ndx' of SimplePHXSalesContract.getOfferor (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#112) is not in mixedCase
+Parameter '_ndx' of SimplePHXSalesContract.getOfferPrice (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#115-116) is not in mixedCase
+Parameter '_ndx' of SimplePHXSalesContract.getOfferAmount (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#120) is not in mixedCase
+Function 'SimplePHXSalesContract._humanSender' (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#131-135) is not in mixedCase
+Variable 'SimplePHXSalesContract.ScaleFactor' (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#34-37) is not in mixedCase
+Variable 'SimplePHXSalesContract.AddrNdx' (/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol#38-41) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/27/0x2f74420b967c1c2c1c162aa27ddf8efce532328b.sol analyzed (2 contracts), 41 result(s) found

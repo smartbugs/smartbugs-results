@@ -1,0 +1,67 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:88:26: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        creator.transfer(this.balance);
+                         ^----------^
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:14:5: Warning: No visibility specified. Defaulting to "public". 
+    constructor()
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:23:5: Warning: No visibility specified. Defaulting to "public". 
+    function balanceOf(address tokenOwner) view returns (uint)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:27:5: Warning: No visibility specified. Defaulting to "public". 
+    function transfer(address to, uint tokens) returns (bool)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:34:5: Warning: No visibility specified. Defaulting to "public". 
+    function transferFrom(address from, address to, uint tokens) returns (bool)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:43:5: Warning: No visibility specified. Defaulting to "public". 
+    function approve(address spender, uint tokens) returns (bool)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:49:5: Warning: No visibility specified. Defaulting to "public". 
+    function allowance(address tokenOwner, address spender) view returns (uint)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:53:5: Warning: No visibility specified. Defaulting to "public". 
+    function burn(uint tokens)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:66:5: Warning: No visibility specified. Defaulting to "public". 
+    constructor(address source)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:71:5: Warning: No visibility specified. Defaulting to "public". 
+    function setPrice(uint price)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:75:5: Warning: No visibility specified. Defaulting to "public". 
+    function setDeadline(uint timestamp)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:79:5: Warning: No visibility specified. Defaulting to "public". 
+    function buyTokens(address beneficiary) payable
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol:86:5: Warning: No visibility specified. Defaulting to "public". 
+    function payout()
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+TokenSale.payout (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol) sends eth to arbitrary user
+	Dangerous calls:
+	- creator.transfer(this.balance) (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[92m
+TokenSale.buyTokens (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#82-90) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp < deadline && tokenPrice > 0 && YellowBetterToken(tokenContract).transfer(beneficiary,1000000000000000000 * msg.value / tokenPrice)) (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#84-90)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+YellowBetterToken.balanceOf (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#23-27) should be declared external
+YellowBetterToken.transfer (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#27-34) should be declared external
+YellowBetterToken.transferFrom (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#34-43) should be declared external
+YellowBetterToken.approve (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#43-49) should be declared external
+YellowBetterToken.allowance (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#49-55) should be declared external
+YellowBetterToken.burn (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#55-63) should be declared external
+TokenSale.setPrice (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#73-77) should be declared external
+TokenSale.setDeadline (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#77-82) should be declared external
+TokenSale.buyTokens (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#82-90) should be declared external
+TokenSale.payout (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Constant 'YellowBetterToken._totalSupply' (/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol#7-8) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/11/0x395941e0c32d5bb7b6cf8e4627a7dd7b17fba880.sol analyzed (2 contracts), 13 result(s) found

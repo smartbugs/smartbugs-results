@@ -1,0 +1,163 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol:
+/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol:413:25: Warning: Unused local variable.
+        (address token, bool status) = getSupportedTokenByIndex(idx);
+                        ^---------^
+/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol:673:59: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+            sha256(abi.encodePacked(msg.sender, attackee, block.blockhash(block.number-1))), // attack Id
+                                                          ^-------------^
+/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol:733:37: Warning: Unused local variable.
+            (address token_address, bool status) = marketDataOracle.getSupportedTokenByIndex(i);
+                                    ^---------^
+/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol:779:29: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+        bytes32 blockHash = block.blockhash(attackInfo.hodlSpellBlockNumber);
+                            ^-------------^
+
+INFO:Detectors:[91m
+BasicToken.totalSupply_ (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#85) is never initialized. It is used in:
+	- totalSupply (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#88-91)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+Reentrancy in WarOfTokens.attack (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#664-711):
+	External calls:
+	- (attackPrizePercent,attackerScore,attackeeScore) = attackPrizeRatio(attackee) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#683-686)
+	State variables written after the call(s):
+	- cntUserAttacks (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#699)
+	- userToUserToAttackId (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#699)
+Reentrancy in WarOfTokens.completeAttack (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#739-776):
+	External calls:
+	- cnt_supported_tokens = marketDataOracle.numberOfSupportedTokens() (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#744-747)
+	State variables written after the call(s):
+	- attackIdToInfo (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#774)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+WarOfTokens.getUserScore has external calls inside a loop:
+	- (token_address,volume,depth,marketcap) = marketDataOracle.getMarketDataByTokenIdx(i) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#648-653)
+WarOfTokens.completeAttack has external calls inside a loop:
+	- (token_address,status) = marketDataOracle.getSupportedTokenByIndex(i) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#747-748)
+WarOfTokens._calculateWinnings has external calls inside a loop:
+	- (token_address,status) = marketDataOracle.getSupportedTokenByIndex(i) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#855-862)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in WarOfTokens.attack (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#664-711):
+	External calls:
+	- (attackPrizePercent,attackerScore,attackeeScore) = attackPrizeRatio(attackee) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#683-686)
+	State variables written after the call(s):
+	- attackIdToInfo (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#699)
+Reentrancy in WarOfTokens.completeAttack (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#739-776):
+	External calls:
+	- cnt_supported_tokens = marketDataOracle.numberOfSupportedTokens() (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#744-747)
+	- (token_address,status) = marketDataOracle.getSupportedTokenByIndex(i) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#747-748)
+	State variables written after the call(s):
+	- tokens (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#756-759)
+	- tokens (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#763-764)
+	- tokens (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#769-772)
+	- tokens (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#772-773)
+Reentrancy in WarOfTokens.completeAttack (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#739-776):
+	External calls:
+	- cnt_supported_tokens = marketDataOracle.numberOfSupportedTokens() (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#744-747)
+	State variables written after the call(s):
+	- cntUserAttacks (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#774)
+	- userToUserToAttackId (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#774)
+Reentrancy in WarOfTokens.depositToken (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#571-588):
+	External calls:
+	- assert(bool)(StandardToken(token).transferFrom(msg.sender,this,amount)) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#582-584)
+	State variables written after the call(s):
+	- activeUsers (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#588)
+	- tokens (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#584-587)
+Reentrancy in WarOfTokens.withdraw (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#589-598):
+	External calls:
+	- assert(bool)(msg.sender.call.value(amount)()) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#593-594)
+	State variables written after the call(s):
+	- activeUsers (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#596-598)
+Reentrancy in WarOfTokens.withdrawToken (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#598-612):
+	External calls:
+	- assert(bool)(StandardToken(token).transfer(msg.sender,amount)) (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#605-607)
+	State variables written after the call(s):
+	- activeUsers (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#611)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply_ should be constant (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#85)
+WarOfTokens.attackPricePrecentBase should be constant (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#514-516)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#686-699:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Deprecated standard detected @ /unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#798-801:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#88-91) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#11-12) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#12-13) should be declared external
+BasicToken.balanceOf (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#115-119) should be declared external
+ERC20Basic.transfer (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#13-14) should be declared external
+BasicToken.transfer (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#95-106) should be declared external
+StandardToken.allowance (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#208-210) should be declared external
+ERC20.allowance (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#125-128) should be declared external
+ERC20.transferFrom (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#128-131) should be declared external
+StandardToken.transferFrom (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#165-177) should be declared external
+StandardToken.approve (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#187-193) should be declared external
+ERC20.approve (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#131-136) should be declared external
+StandardToken.increaseApproval (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#225-232) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#247-263) should be declared external
+Ownable.renounceOwnership (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#306-311) should be declared external
+Ownable.transferOwnership (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#315-319) should be declared external
+Pausable.pause (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#370-372) should be declared external
+Pausable.unpause (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#373-374) should be declared external
+MarketDataStorage.numberOfSupportedTokens (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#412-413) should be declared external
+MarketDataStorage.getMarketDataByTokenIdx (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#420-430) should be declared external
+WarOfTokens.fallback (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#547-552) should be declared external
+WarOfTokens.setMaxOpenAttacks (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#630-631) should be declared external
+WarOfTokens.isTokenSupported (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#634-640) should be declared external
+WarOfTokens.attackerPrizeByToken (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#731-735) should be declared external
+WarOfTokens.attackeePrizeByToken (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#735-739) should be declared external
+WarOfTokens.completeAttack (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#739-776) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in WarOfTokens.withdraw (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#589-598):
+	-assert(bool)(msg.sender.call.value(amount)()) /unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#593-594
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#115) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#96) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#96) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#208) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#209) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#165-166) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#166) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#166) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#191) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#191) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#225) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#225-226) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#249) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#249) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#315-316) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#325-335) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#325-327) is not in mixedCase
+Parameter '_supportedTokens' of MarketDataStorage. (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#407) is not in mixedCase
+Parameter '_dataUpdater' of MarketDataStorage. (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#407) is not in mixedCase
+Parameter 'token_address' of MarketDataStorage.getMarketData (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#430) is not in mixedCase
+Parameter 'token_address' of MarketDataStorage.addSupportedToken (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#443) is not in mixedCase
+Parameter 'token_address' of MarketDataStorage.isTokenSupported (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#460) is not in mixedCase
+Parameter 'token_address' of MarketDataStorage.updateMarketData (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#466-467) is not in mixedCase
+Parameter '_cdtTokenAddress' of WarOfTokens. (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#533) is not in mixedCase
+Parameter '_minCDTToParticipate' of WarOfTokens. (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#533) is not in mixedCase
+Parameter '_marketDataOracleAddress' of WarOfTokens. (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#534-537) is not in mixedCase
+Parameter '_maxAttackPrizeRatio' of WarOfTokens. (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#537) is not in mixedCase
+Parameter 'token_address' of WarOfTokens.isTokenSupported (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#634) is not in mixedCase
+Function 'WarOfTokens._calculateScore' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#659-663) is not in mixedCase
+Parameter 'token_address' of WarOfTokens.attackerPrizeByToken (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#732-733) is not in mixedCase
+Parameter 'token_address' of WarOfTokens.attackeePrizeByToken (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#736) is not in mixedCase
+Function 'WarOfTokens._validateUserActive' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#808-819) is not in mixedCase
+Function 'WarOfTokens._registerAttack' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#819-831) is not in mixedCase
+Function 'WarOfTokens._unregisterAttack' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#831-844) is not in mixedCase
+Function 'WarOfTokens._calculateWinnings' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#847-875) is not in mixedCase
+Function 'WarOfTokens._calculateWinnerBasedOnEntropy' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#897-924) is not in mixedCase
+Function 'WarOfTokens._absSubtraction' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol) is not in mixedCase
+Function 'WarOfTokens._safeSubtract' (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+MarketDataStorage.validIds (/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol#388-389) is never used in MarketDataStorage
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/42/0xbbaefe34968c7bc4e4b69bb9439e590554bd9405.sol analyzed (9 contracts), 81 result(s) found

@@ -1,0 +1,111 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:86:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function CoinoorCrowdsale(address _tokenAddress, address _beneficiary, address _creator, address _marketing, address _bounty, uint256 _start) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:206:30: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        beneficiary.transfer(this.balance);
+                             ^----------^
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:4:5: Warning: No visibility specified. Defaulting to "public". 
+    function issue(address _recipient, uint256 _value) returns (bool);
+    ^----------------------------------------------------------------^
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:5:5: Warning: No visibility specified. Defaulting to "public". 
+    function totalSupply() constant returns (uint256);
+    ^------------------------------------------------^
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:6:5: Warning: No visibility specified. Defaulting to "public". 
+    function unlock() returns (bool);
+    ^-------------------------------^
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:86:5: Warning: No visibility specified. Defaulting to "public". 
+    function CoinoorCrowdsale(address _tokenAddress, address _beneficiary, address _creator, address _marketing, address _bounty, uint256 _start) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:100:5: Warning: No visibility specified. Defaulting to "public". 
+    function init() atStage(Stages.Deploying) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:131:5: Warning: No visibility specified. Defaulting to "public". 
+    function confirmBeneficiary() onlyBeneficiary {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:143:5: Warning: No visibility specified. Defaulting to "public". 
+    function toTokens(uint256 _wei) returns (uint256 amount) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:191:5: Warning: No visibility specified. Defaulting to "public". 
+    function endCrowdsale() atStage(Stages.InProgress) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:205:5: Warning: No visibility specified. Defaulting to "public". 
+    function withdraw() onlyBeneficiary atStage(Stages.Ended) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:213:5: Warning: No visibility specified. Defaulting to "public". 
+    function () payable atStage(Stages.InProgress) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:143:5: Warning: Function state mutability can be restricted to view
+    function toTokens(uint256 _wei) returns (uint256 amount) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in CoinoorCrowdsale.fallback (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#222-249):
+	External calls:
+	- token.totalSupply() + valueInTokens >= maxSupply (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#245-249)
+	State variables written after the call(s):
+	- stage (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#247-249)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in CoinoorCrowdsale.init (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#103-131):
+	External calls:
+	- ! token.issue(beneficiary,4900000 * 10 ** 8) (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#106-111)
+	State variables written after the call(s):
+	- stage (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#114-115)
+Reentrancy in CoinoorCrowdsale.init (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#103-131):
+	External calls:
+	- ! token.issue(beneficiary,4900000 * 10 ** 8) (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#106-111)
+	- ! token.issue(creator,2500000 * 10 ** 8) (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#112-116)
+	State variables written after the call(s):
+	- stage (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#120)
+Reentrancy in CoinoorCrowdsale.init (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#103-131):
+	External calls:
+	- ! token.issue(beneficiary,4900000 * 10 ** 8) (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#106-111)
+	- ! token.issue(creator,2500000 * 10 ** 8) (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#112-116)
+	- ! token.issue(marketing,2500000 * 10 ** 8) (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#117-122)
+	State variables written after the call(s):
+	- stage (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#129)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CoinoorCrowdsale.maxSupply should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#17)
+CoinoorCrowdsale.minAcceptedAmount should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#18-20)
+CoinoorCrowdsale.rateAngelDay should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#23-24)
+CoinoorCrowdsale.rateAngelDayEnd should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#31-32)
+CoinoorCrowdsale.rateFirstWeek should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#24-25)
+CoinoorCrowdsale.rateFirstWeekEnd should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#32-33)
+CoinoorCrowdsale.rateLastWeek should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#27-29)
+CoinoorCrowdsale.rateLastWeekEnd should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#35-38)
+CoinoorCrowdsale.ratePreICO should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#21-22)
+CoinoorCrowdsale.ratePreICOEnd should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#29-30)
+CoinoorCrowdsale.rateSecondWeek should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#25-26)
+CoinoorCrowdsale.rateSecondWeekEnd should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#33-34)
+CoinoorCrowdsale.rateThirdWeek should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#26-27)
+CoinoorCrowdsale.rateThirdWeekEnd should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#34-35)
+CoinoorCrowdsale.rateWaiting should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#22-23)
+CoinoorCrowdsale.rateWaitingEnd should be constant (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#30-31)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+IToken.issue (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#4-5) should be declared external
+IToken.totalSupply (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#5-6) should be declared external
+IToken.unlock (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#6-9) should be declared external
+CoinoorCrowdsale.init (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#103-131) should be declared external
+CoinoorCrowdsale.confirmBeneficiary (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#137-140) should be declared external
+CoinoorCrowdsale.endCrowdsale (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#197-206) should be declared external
+CoinoorCrowdsale.withdraw (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#213-218) should be declared external
+CoinoorCrowdsale.fallback (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#222-249) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol:
+	- pragma solidity^0.4.15 (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'CoinoorCrowdsale.CoinoorCrowdsale' (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#86-100) is not in mixedCase
+Parameter '_tokenAddress' of CoinoorCrowdsale.CoinoorCrowdsale (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#86) is not in mixedCase
+Parameter '_beneficiary' of CoinoorCrowdsale.CoinoorCrowdsale (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#86-87) is not in mixedCase
+Parameter '_creator' of CoinoorCrowdsale.CoinoorCrowdsale (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#87) is not in mixedCase
+Parameter '_marketing' of CoinoorCrowdsale.CoinoorCrowdsale (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#87-88) is not in mixedCase
+Parameter '_bounty' of CoinoorCrowdsale.CoinoorCrowdsale (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#88) is not in mixedCase
+Parameter '_start' of CoinoorCrowdsale.CoinoorCrowdsale (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#88-89) is not in mixedCase
+Parameter '_wei' of CoinoorCrowdsale.toTokens (/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol#147) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/14/0x36cddd1281258e4373ad313a995272f525cc4e63.sol analyzed (2 contracts), 22 result(s) found

@@ -1,0 +1,129 @@
+INFO:Detectors:[91m
+Reentrancy in Fortune777.doInvest (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#591-666):
+	External calls:
+	- senderIsInvestor = m_investors.isInvestor(msg.sender) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#626-627)
+	- referrerAddr.notZero() && ! senderIsInvestor && ! m_referrals[msg.sender] && referrerAddr != msg.sender && m_investors.isInvestor(referrerAddr) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#627-652)
+	External calls sending eth:
+	- msg.sender.transfer(excess) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#619)
+	- advertisingAddress.transfer(m_advertisingPercent.mul(receivedEther)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#622-625)
+	- adminsAddress.transfer(m_adminsPercent.mul(receivedEther)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#625-626)
+	State variables written after the call(s):
+	- m_referrals (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#632-633)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Address.toAddress (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#113-119) is declared view but contains assembly code
+Address.isNotContract (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#119-132) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in Fortune777.getMyDividends (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#560-586):
+	External calls:
+	- require(bool)(now.sub(getMemInvestor(msg.sender).paymentTime) > 86400) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#568-569)
+	- dividends = calcDividends(msg.sender) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#569-573)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#579)
+	State variables written after the call(s):
+	- m_investors (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#582)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+i in PrivateEntrance.provideAccessFor (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#272) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+Fortune777.disqualifyAddress (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#471-477) does not use the value returned by external calls:
+	-m_investors.disqalify(addr) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#477)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Fortune777.doInvest (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#591-666):
+	External calls:
+	- senderIsInvestor = m_investors.isInvestor(msg.sender) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#626-627)
+	- referrerAddr.notZero() && ! senderIsInvestor && ! m_referrals[msg.sender] && referrerAddr != msg.sender && m_investors.isInvestor(referrerAddr) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#627-652)
+	- assert(bool)(m_investors.addInvestment(referrerAddr,referrerBonus)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#641-644)
+	- dividends = calcDividends(msg.sender) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#652-653)
+	- assert(bool)(m_investors.addInvestment(msg.sender,investment)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#657-658)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#658-660)
+	- assert(bool)(m_investors.newInvestor(msg.sender,investment,now)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#661)
+	External calls sending eth:
+	- msg.sender.transfer(excess) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#619)
+	- advertisingAddress.transfer(m_advertisingPercent.mul(receivedEther)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#622-625)
+	- adminsAddress.transfer(m_adminsPercent.mul(receivedEther)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#625-626)
+	State variables written after the call(s):
+	- investmentsNumber (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#665)
+Reentrancy in Fortune777.getMyDividends (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#560-586):
+	External calls:
+	- require(bool)(now.sub(getMemInvestor(msg.sender).paymentTime) > 86400) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#568-569)
+	- dividends = calcDividends(msg.sender) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#569-573)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#579)
+	State variables written after the call(s):
+	- investmentsNumber (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#582)
+	- waveStartup (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#582)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Address.toAddress uses assembly (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#113-119)
+	- /unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#117-119
+Address.isNotContract uses assembly (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#119-132)
+	- /unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#127-129
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Accessibility.ToDo (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#211-216) should be declared external
+Rev1Storage.investorShortInfo (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#218-222) should be declared external
+Rev2Storage.investorInfo (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#224-227) should be declared external
+InvestorsStorage.investorInfo (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#281-289) should be declared external
+InvestorsStorage.newInvestor (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#289-303) should be declared external
+InvestorsStorage.addInvestment (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#303-312) should be declared external
+InvestorsStorage.setPaymentTime (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#313-325) should be declared external
+InvestorsStorage.disqalify (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#325-329) should be declared external
+Fortune777.fallback (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#464-471) should be declared external
+Fortune777.disqualifyAddress (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#471-477) should be declared external
+Fortune777.doDisown (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#477-479) should be declared external
+Fortune777.init (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#479-508) should be declared external
+Fortune777.setAdvertisingAddress (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#508-512) should be declared external
+Fortune777.setAdminsAddress (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#513-518) should be declared external
+Fortune777.privateEntranceProvideAccessFor (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#518-522) should be declared external
+Fortune777.rapidGrowthProtectionmMaxInvestmentAtNow (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#522-526) should be declared external
+Fortune777.investorsNumber (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#526) should be declared external
+Fortune777.balanceETH (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#526-527) should be declared external
+Fortune777.advertisingPercent (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#528-534) should be declared external
+Fortune777.adminsPercent (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#536-539) should be declared external
+Fortune777.investorInfo (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#539-548) should be declared external
+Fortune777.investorDividendsAtNow (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#548-552) should be declared external
+Fortune777.dailyPercentAtNow (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#552-557) should be declared external
+Fortune777.itisnecessary2 (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#586-589) should be declared external
+Fortune777.addInvestment2 (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#589-591) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Struct 'Percent.percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#59) is not in CapWords
+Parameter '_a' of SafeMath.mul (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#142-144) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#145-146) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#150-151) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#151) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#167-169) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#169) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#177) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#177) is not in mixedCase
+Function 'Accessibility.ToDo' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#211-216) is not in mixedCase
+Struct 'PrivateEntrance.privateEntrance' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#231-236) is not in CapWords
+Struct 'RapidGrowthProtection.rapidGrowthProtection' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#333-337) is not in CapWords
+Variable 'Fortune777.m_rgp' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#391-393) is not in mixedCase
+Variable 'Fortune777.m_privEnter' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#393-396) is not in mixedCase
+Variable 'Fortune777.m_referrals' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#396) is not in mixedCase
+Variable 'Fortune777.m_investors' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#396-397) is not in mixedCase
+Constant 'Fortune777.minInvesment' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#397) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Fortune777.maxBalance' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#397-398) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'Fortune777.m_1_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#399-400) is not in mixedCase
+Variable 'Fortune777.m_5_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#400-401) is not in mixedCase
+Variable 'Fortune777.m_7_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#401-402) is not in mixedCase
+Variable 'Fortune777.m_8_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#402-403) is not in mixedCase
+Variable 'Fortune777.m_9_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#404) is not in mixedCase
+Variable 'Fortune777.m_10_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#405) is not in mixedCase
+Variable 'Fortune777.m_11_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#405-406) is not in mixedCase
+Variable 'Fortune777.m_12_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#406-407) is not in mixedCase
+Variable 'Fortune777.m_referal_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#407-408) is not in mixedCase
+Variable 'Fortune777.m_referrer_percent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#408-411) is not in mixedCase
+Variable 'Fortune777.m_referrer_percentMax' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#411-412) is not in mixedCase
+Variable 'Fortune777.m_adminsPercent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#412-413) is not in mixedCase
+Variable 'Fortune777.m_advertisingPercent' (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#413-414) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+Fortune777.m_1_percent (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#399-400) is never used in Fortune777
+Fortune777.m_5_percent (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#400-401) is never used in Fortune777
+Fortune777.m_12_percent (/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol#406-407) is never used in Fortune777
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0x2caa5b13098d9612542c07bad0b80a9e777d3654.sol analyzed (12 contracts), 67 result(s) found

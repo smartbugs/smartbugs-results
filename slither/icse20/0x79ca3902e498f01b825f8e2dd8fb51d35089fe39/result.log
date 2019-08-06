@@ -1,0 +1,186 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:71:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function TokenTimelock(ERC20Basic _token, address _beneficiary, uint256 _releaseTime) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:157:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:217:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function TokenVesting(address _beneficiary, uint256 _start, uint256 _cliff, uint256 _duration, bool _revocable) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:306:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function InitialTokenDistribution(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:350:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function DetailedERC20(string _name, string _symbol, uint8 _decimals) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:375:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function AbacasInitialTokenDistribution(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:175:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:241:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Released(unreleased);
+    ^------------------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:262:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Revoked();
+    ^-------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:452:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Pause();
+    ^-----^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:460:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Unpause();
+    ^-------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:496:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:539:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:555:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:581:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:602:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in TokenVesting.release (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#241-249):
+	External calls:
+	- unreleased = releasableAmount(token) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#245)
+	State variables written after the call(s):
+	- released (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#246-247)
+Reentrancy in TokenVesting.revoke (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#256-270):
+	External calls:
+	- balance = token.balanceOf(this) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#266)
+	- unreleased = releasableAmount(token) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#266-267)
+	State variables written after the call(s):
+	- revoked (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#269)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+InitialTokenDistribution.initialTransfer (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#337-343) does not use the value returned by external calls:
+	-token.transferFrom(msg.sender,to,amount) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#341-343)
+InitialTokenDistribution.lock (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#343-357) does not use the value returned by external calls:
+	-token.transferFrom(msg.sender,address(timelocked[to]),amount) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#351-356)
+AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#683-693) does not use the value returned by external calls:
+	-token.approve(initialDistribution,token.balanceOf(this)) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#386-409):
+	External calls:
+	- decimals = _token.decimals() (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#404)
+	State variables written after the call(s):
+	- reservedTokensCommunity (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#406)
+	- reservedTokensFoundation (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#407)
+	- reservedTokensFounders (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#408)
+	- reservedTokensFutureSale (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#405)
+	- reservedTokensPublicPrivateSale (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#408-409)
+Reentrancy in AbacasInitialTokenDistribution.initialDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#409-422):
+	External calls:
+	- initialTransfer(futureSaleWallet,reservedTokensFutureSale) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#412-413)
+	- initialTransfer(communityWallet,reservedTokensCommunity) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#413-414)
+	State variables written after the call(s):
+	- initiallyDistributed (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#413-414)
+Reentrancy in AbacasInitialTokenDistribution.initialDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#409-422):
+	External calls:
+	- initialTransfer(futureSaleWallet,reservedTokensFutureSale) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#412-413)
+	- initialTransfer(communityWallet,reservedTokensCommunity) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#413-414)
+	- initialTransfer(foundationWallet,reservedTokensFoundation) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#414)
+	State variables written after the call(s):
+	- initiallyDistributed (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#414)
+Reentrancy in AbacasInitialTokenDistribution.initialDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#409-422):
+	External calls:
+	- initialTransfer(futureSaleWallet,reservedTokensFutureSale) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#412-413)
+	- initialTransfer(communityWallet,reservedTokensCommunity) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#413-414)
+	- initialTransfer(foundationWallet,reservedTokensFoundation) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#414)
+	- initialTransfer(publicPrivateSaleWallet,reservedTokensPublicPrivateSale) (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#414-418)
+	State variables written after the call(s):
+	- initiallyDistributed (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#414-418)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#494-496) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#11-12) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#12-13) should be declared external
+BasicToken.balanceOf (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#522-526) should be declared external
+ERC20.allowance (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#24-25) should be declared external
+StandardToken.allowance (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#577-580) should be declared external
+ERC20.approve (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#26-27) should be declared external
+StandardToken.approve (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#565-572) should be declared external
+TokenTimelock.release (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#84-95) should be declared external
+Ownable.transferOwnership (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#179-185) should be declared external
+TokenVesting.release (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#241-249) should be declared external
+TokenVesting.revoke (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#256-270) should be declared external
+InitialTokenDistribution.totalTokensDistributed (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#330) should be declared external
+AbacasInitialTokenDistribution.totalTokensDistributed (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#422-435) should be declared external
+InitialTokenDistribution.processInitialDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#333-337) should be declared external
+Pausable.pause (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#471-475) should be declared external
+Pausable.unpause (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#480-485) should be declared external
+StandardToken.increaseApproval (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#592-596) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#615-628) should be declared external
+PausableToken.changeAllowTransferWallet (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#638-640) should be declared external
+AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#683-693) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'TokenTimelock.TokenTimelock' (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#71-80) is not in mixedCase
+Parameter '_token' of TokenTimelock.TokenTimelock (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#71-72) is not in mixedCase
+Parameter '_beneficiary' of TokenTimelock.TokenTimelock (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#72-73) is not in mixedCase
+Parameter '_releaseTime' of TokenTimelock.TokenTimelock (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#73-74) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#164-170) is not in mixedCase
+Function 'TokenVesting.TokenVesting' (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#221-235) is not in mixedCase
+Parameter '_beneficiary' of TokenVesting.TokenVesting (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#222-223) is not in mixedCase
+Parameter '_start' of TokenVesting.TokenVesting (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#223) is not in mixedCase
+Parameter '_cliff' of TokenVesting.TokenVesting (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#223-224) is not in mixedCase
+Parameter '_duration' of TokenVesting.TokenVesting (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#224) is not in mixedCase
+Parameter '_revocable' of TokenVesting.TokenVesting (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#224-225) is not in mixedCase
+Function 'InitialTokenDistribution.InitialTokenDistribution' (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#320-323) is not in mixedCase
+Parameter '_token' of InitialTokenDistribution.InitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#320-322) is not in mixedCase
+Function 'DetailedERC20.DetailedERC20' (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#362-365) is not in mixedCase
+Parameter '_name' of DetailedERC20.DetailedERC20 (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#363) is not in mixedCase
+Parameter '_symbol' of DetailedERC20.DetailedERC20 (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#363) is not in mixedCase
+Parameter '_decimals' of DetailedERC20.DetailedERC20 (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#363-364) is not in mixedCase
+Function 'AbacasInitialTokenDistribution.AbacasInitialTokenDistribution' (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#386-409) is not in mixedCase
+Parameter '_token' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#388-389) is not in mixedCase
+Parameter '_futureSaleWallet' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#389) is not in mixedCase
+Parameter '_communityWallet' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#390) is not in mixedCase
+Parameter '_foundationWallet' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#390-391) is not in mixedCase
+Parameter '_foundersWallet' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#391-392) is not in mixedCase
+Parameter '_publicPrivateSaleWallet' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#392) is not in mixedCase
+Parameter '_foundersLockStartTime' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#393) is not in mixedCase
+Parameter '_foundersLockPeriod' of AbacasInitialTokenDistribution.AbacasInitialTokenDistribution (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#393-394) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#522) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#503) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#503) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#579) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#579) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#545-546) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#546) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#546) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#565) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#566) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#592) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#592-593) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#615) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#615-618) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#644-645) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#645) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#664) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#664) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#664) is not in mixedCase
+Parameter '_allowedTransferWallet' of PausableToken. (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#631) is not in mixedCase
+Parameter '_allowedTransferWallet' of PausableToken.changeAllowTransferWallet (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#639) is not in mixedCase
+Parameter '_allowedToTransferWallet' of AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#683-685) is not in mixedCase
+Parameter '_futureSaleWallet' of AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#685-689) is not in mixedCase
+Parameter '_communityWallet' of AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#689-690) is not in mixedCase
+Parameter '_foundationWallet' of AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#690-691) is not in mixedCase
+Parameter '_foundersWallet' of AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#691) is not in mixedCase
+Parameter '_publicPrivateSaleWallet' of AbacasTokenFactory.create (/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol#691-693) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/44/0x79ca3902e498f01b825f8e2dd8fb51d35089fe39.sol analyzed (16 contracts), 84 result(s) found

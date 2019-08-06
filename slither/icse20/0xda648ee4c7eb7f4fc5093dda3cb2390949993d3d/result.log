@@ -1,0 +1,135 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol:
+/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol:164:49: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+    uint256 traded_token_balance_plus_amount_ = Token(traded_token).balanceOf(address(this)).add(_amount);
+                                                ^------------------------------------------^
+/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol:170:13: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+    return (Token(traded_token).balanceOf(address(this)).mul(_amount)).div(eth_balance_plus_amount_);
+            ^------------------------------------------^
+
+INFO:Detectors:[91m
+TokenLiquidityMarket.transfer_eth_from_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#98-103) sends eth to arbitrary user
+	Dangerous calls:
+	- _to.transfer(_amount) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#103)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in TokenLiquidityMarket.complete_sell_exchange (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#195-209):
+	External calls:
+	- amount_get_ = get_amount_sell(_amount_give) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#196-197)
+	- transfer_tokens_through_proxy_to_contract(msg.sender,this,_amount_give) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#200-202)
+	External calls sending eth:
+	- transfer_eth_from_contract(msg.sender,amount_get_minus_commission_) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#202-206)
+	- transfer_eth_from_contract(platform,platform_commission_) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#206-207)
+	State variables written after the call(s):
+	- eth_balance (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#206-207)
+Reentrancy in TokenLiquidityMarket.complete_sell_exchange (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#195-209):
+	External calls:
+	- amount_get_ = get_amount_sell(_amount_give) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#196-197)
+	- transfer_tokens_through_proxy_to_contract(msg.sender,this,_amount_give) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#200-202)
+	External calls sending eth:
+	- transfer_eth_from_contract(msg.sender,amount_get_minus_commission_) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#202-206)
+	- transfer_eth_from_contract(platform,platform_commission_) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#206-207)
+	- transfer_eth_from_contract(admin,admin_commission_) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#208-209)
+	State variables written after the call(s):
+	- eth_balance (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#208-209)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in TokenLiquidityMarket.complete_buy_exchange (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#209-226):
+	External calls:
+	- amount_get_ = get_amount_buy(amount_give_) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#210-211)
+	State variables written after the call(s):
+	- eth_balance (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#216)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+TokenLiquidityMarket.withdraw_arbitrary_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#81-85) does not use the value returned by external calls:
+	-Token(_token).transfer(admin,Token(_token).balanceOf(address(this))) (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#85)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Token.transferFrom (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#33-34) should be declared external
+Token.transfer (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#34-35) should be declared external
+Token.balanceOf (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#35-39) should be declared external
+TokenLiquidityMarket.change_admin (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#77-80) should be declared external
+TokenLiquidityMarket.withdraw_arbitrary_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#81-85) should be declared external
+TokenLiquidityMarket.withdraw_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#111-115) should be declared external
+TokenLiquidityMarket.withdraw_eth (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#117-122) should be declared external
+TokenLiquidityMarket.seed_traded_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#129-135) should be declared external
+TokenLiquidityMarket.seed_eth (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#135-142) should be declared external
+TokenLiquidityMarket.seed_additional_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#144-149) should be declared external
+TokenLiquidityMarket.seed_additional_eth (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#149-153) should be declared external
+TokenLiquidityMarket.deactivate_trading (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#158-163) should be declared external
+TokenLiquidityMarket.reactivate_trading (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#163-164) should be declared external
+TokenLiquidityMarket.activate_admin_commission (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#182-187) should be declared external
+TokenLiquidityMarket.deactivate_admin_comission (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#187-189) should be declared external
+TokenLiquidityMarket.change_admin_commission (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#189-195) should be declared external
+TokenLiquidityMarket.sell_tokens (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#226-234) should be declared external
+TokenLiquidityMarket.fallback (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_traded_token' of TokenLiquidityMarket. (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#67) is not in mixedCase
+Parameter '_eth_seed_amount' of TokenLiquidityMarket. (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#67) is not in mixedCase
+Parameter '_traded_token_seed_amount' of TokenLiquidityMarket. (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#67-69) is not in mixedCase
+Parameter '_commission_ratio' of TokenLiquidityMarket. (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#69-70) is not in mixedCase
+Function 'TokenLiquidityMarket.change_admin' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#77-80) is not in mixedCase
+Parameter '_newAdmin' of TokenLiquidityMarket.change_admin (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#80) is not in mixedCase
+Function 'TokenLiquidityMarket.withdraw_arbitrary_token' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#81-85) is not in mixedCase
+Parameter '_token' of TokenLiquidityMarket.withdraw_arbitrary_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#82) is not in mixedCase
+Function 'TokenLiquidityMarket.transfer_tokens_through_proxy_to_contract' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#85-90) is not in mixedCase
+Parameter '_from' of TokenLiquidityMarket.transfer_tokens_through_proxy_to_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#86) is not in mixedCase
+Parameter '_to' of TokenLiquidityMarket.transfer_tokens_through_proxy_to_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#86) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.transfer_tokens_through_proxy_to_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#86-88) is not in mixedCase
+Function 'TokenLiquidityMarket.transfer_tokens_from_contract' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#90-94) is not in mixedCase
+Parameter '_to' of TokenLiquidityMarket.transfer_tokens_from_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#90-91) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.transfer_tokens_from_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#93) is not in mixedCase
+Function 'TokenLiquidityMarket.transfer_eth_to_contract' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#95-98) is not in mixedCase
+Function 'TokenLiquidityMarket.transfer_eth_from_contract' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#98-103) is not in mixedCase
+Parameter '_to' of TokenLiquidityMarket.transfer_eth_from_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#99) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.transfer_eth_from_contract (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#99-102) is not in mixedCase
+Function 'TokenLiquidityMarket.deposit_token' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#103-110) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.deposit_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#103-106) is not in mixedCase
+Function 'TokenLiquidityMarket.deposit_eth' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#110-111) is not in mixedCase
+Function 'TokenLiquidityMarket.withdraw_token' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#111-115) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.withdraw_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#114) is not in mixedCase
+Function 'TokenLiquidityMarket.withdraw_eth' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#117-122) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.withdraw_eth (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#118) is not in mixedCase
+Function 'TokenLiquidityMarket.set_traded_token_as_seeded' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#122-126) is not in mixedCase
+Function 'TokenLiquidityMarket.set_eth_as_seeded' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#126-128) is not in mixedCase
+Function 'TokenLiquidityMarket.seed_traded_token' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#129-135) is not in mixedCase
+Function 'TokenLiquidityMarket.seed_eth' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#135-142) is not in mixedCase
+Function 'TokenLiquidityMarket.seed_additional_token' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#144-149) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.seed_additional_token (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#144) is not in mixedCase
+Function 'TokenLiquidityMarket.seed_additional_eth' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#149-153) is not in mixedCase
+Function 'TokenLiquidityMarket.market_is_open' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#153-158) is not in mixedCase
+Function 'TokenLiquidityMarket.deactivate_trading' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#158-163) is not in mixedCase
+Function 'TokenLiquidityMarket.reactivate_trading' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#163-164) is not in mixedCase
+Function 'TokenLiquidityMarket.get_amount_sell' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#164-170) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.get_amount_sell (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#165) is not in mixedCase
+Function 'TokenLiquidityMarket.get_amount_buy' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#170-177) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.get_amount_buy (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#170) is not in mixedCase
+Function 'TokenLiquidityMarket.get_amount_minus_commission' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#177-182) is not in mixedCase
+Parameter '_amount' of TokenLiquidityMarket.get_amount_minus_commission (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#177-178) is not in mixedCase
+Function 'TokenLiquidityMarket.activate_admin_commission' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#182-187) is not in mixedCase
+Function 'TokenLiquidityMarket.deactivate_admin_comission' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#187-189) is not in mixedCase
+Function 'TokenLiquidityMarket.change_admin_commission' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#189-195) is not in mixedCase
+Parameter '_new_commission_ratio' of TokenLiquidityMarket.change_admin_commission (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#193) is not in mixedCase
+Function 'TokenLiquidityMarket.complete_sell_exchange' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#195-209) is not in mixedCase
+Parameter '_amount_give' of TokenLiquidityMarket.complete_sell_exchange (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#196) is not in mixedCase
+Function 'TokenLiquidityMarket.complete_buy_exchange' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#209-226) is not in mixedCase
+Function 'TokenLiquidityMarket.sell_tokens' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#226-234) is not in mixedCase
+Parameter '_amount_give' of TokenLiquidityMarket.sell_tokens (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#227) is not in mixedCase
+Function 'TokenLiquidityMarket.buy_tokens' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol) is not in mixedCase
+Variable 'TokenLiquidityMarket.traded_token' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#47-48) is not in mixedCase
+Variable 'TokenLiquidityMarket.eth_seed_amount' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#48-49) is not in mixedCase
+Variable 'TokenLiquidityMarket.traded_token_seed_amount' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#49-50) is not in mixedCase
+Variable 'TokenLiquidityMarket.commission_ratio' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#50-52) is not in mixedCase
+Variable 'TokenLiquidityMarket.eth_balance' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#52-53) is not in mixedCase
+Variable 'TokenLiquidityMarket.eth_is_seeded' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#53-54) is not in mixedCase
+Variable 'TokenLiquidityMarket.traded_token_is_seeded' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#54-55) is not in mixedCase
+Variable 'TokenLiquidityMarket.trading_deactivated' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#55-57) is not in mixedCase
+Variable 'TokenLiquidityMarket.admin_commission_activated' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#57-58) is not in mixedCase
+Modifier 'TokenLiquidityMarket.only_admin' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#58-63) is not in mixedCase
+Modifier 'TokenLiquidityMarket.trading_activated' (/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol#63-67) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/28/0xda648ee4c7eb7f4fc5093dda3cb2390949993d3d.sol analyzed (3 contracts), 87 result(s) found

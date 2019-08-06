@@ -1,0 +1,116 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:49:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function CardsAccess() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:70:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:134:5: Warning: Functions in interfaces should be declared external.
+    function getPlayersBattleStats(address player) public constant returns (
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:284:5: Warning: Invoking events without "emit" prefix is deprecated.
+    UnitBought(_address, 1, 1);
+    ^------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:324:5: Warning: Invoking events without "emit" prefix is deprecated.
+    UnitBought(msg.sender, unitId, iAmount);
+    ^-------------------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:379:5: Warning: Invoking events without "emit" prefix is deprecated.
+    UnitBought(msg.sender, unitId, iAmount);
+    ^-------------------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:415:5: Warning: Invoking events without "emit" prefix is deprecated.
+    UpgradeCardBought(msg.sender, upgradeId);
+    ^--------------------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:436:5: Warning: Different number of components on the left hand side (7) than on the right hand side (6).
+    (,,,,upgradeClass, unitId, upgradeValue) = rare.getRareInfo(rareId);
+    ^-----------------------------------------------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:470:5: Warning: Invoking events without "emit" prefix is deprecated.
+    BuyRareCard(msg.sender, previousOwner, rareId, ethCost);
+    ^-----------------------------------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:525:5: Warning: Invoking events without "emit" prefix is deprecated.
+    UnitSold(msg.sender, unitId, amount);
+    ^----------------------------------^
+/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:530:23: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    require(_amount<= this.balance);
+                      ^----------^
+
+INFO:Detectors:[91m
+CardsTrade.withdrawEtherFromTrade (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(amount) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Reentrancy in CardsTrade.sellCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#488-541):
+	External calls:
+	- require(bool)(cards.getGameStarted()) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#488-490)
+	- existing = cards.getOwnedCount(msg.sender,unitId) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#490)
+	- (schemaUnitId,coinCost,ethCost,sellable) = schema.getBattleCardInfo(unitId,existing,amount) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#498-500)
+	- (schemaUnitId,coinProduction,coinCost,ethCost,sellable) = schema.getCardInfo(unitId,existing,amount) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#500-505)
+	- coinChange = SafeMath.add(cards.balanceOfUnclaimed(msg.sender),SafeMath.div(SafeMath.mul(coinCost,70),100)) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#510-512)
+	- coinChange = cards.balanceOfUnclaimed(msg.sender) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#513-515)
+	- cards.setLastJadeSaveTime(msg.sender) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#516)
+	- cards.setRoughSupply(coinChange) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#516)
+	- cards.setJadeCoin(msg.sender,coinChange,true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#516-519)
+	- decreaseCoin = cards.getUnitsInProduction(msg.sender,unitId,amount) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#519-521)
+	- cards.reducePlayersJadeProduction(msg.sender,decreaseCoin) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#522)
+	- cards.setUintCoinProduction(msg.sender,unitId,decreaseCoin,false) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#524-528)
+	- cards.setCoinBalance(msg.sender,SafeMath.div(SafeMath.mul(ethCost,70),100),0,true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#530-534)
+	- cards.setOwnedCount(msg.sender,unitId,amount,false) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#534-535)
+	- cards.setUintsOwnerCount(msg.sender,amount,false) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#535-536)
+	State variables written after the call(s):
+	- unitsOwnedOfEth (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#536-540)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+ethCost in CardsTrade.buyBasicCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#307) is a local variable never initialiazed
+coinProduction in CardsTrade.buyEthCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#349-350) is a local variable never initialiazed
+ethCost in CardsTrade.buyEthCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#350) is a local variable never initialiazed
+coinProduction in CardsTrade.buyBasicCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#305-307) is a local variable never initialiazed
+coinProduction in CardsTrade.sellCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#497-498) is a local variable never initialiazed
+coinCost in CardsTrade.buyBasicCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#307) is a local variable never initialiazed
+coinCost in CardsTrade.buyEthCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#350) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Reentrancy in CardsTrade.buyEthCards (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#335-392):
+	External calls:
+	- require(bool)(cards.getGameStarted()) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#337-340)
+	- existing = cards.getOwnedCount(msg.sender,unitId) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#341-343)
+	- require(bool)(existing < schema.getMaxCAP()) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#343-344)
+	- SafeMath.add(existing,amount) > schema.getMaxCAP() (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#344-349)
+	- iAmount = SafeMath.sub(schema.getMaxCAP(),existing) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#346)
+	- (None,coinProduction,coinCost,ethCost,None) = schema.getCardInfo(unitId,existing,iAmount) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#351-354)
+	- (None,coinCost,ethCost,None) = schema.getBattleCardInfo(unitId,existing,iAmount) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#356-357)
+	- require(bool)(SafeMath.add(cards.coinBalanceOf(msg.sender,0),msg.value) >= ethCost) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#358-360)
+	- require(bool)(cards.balanceOf(msg.sender) >= coinCost) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#360)
+	- cards.updatePlayersCoinByPurchase(msg.sender,coinCost) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#363-364)
+	- cards.setCoinBalance(msg.sender,SafeMath.sub(ethCost,msg.value),0,false) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#364-365)
+	- cards.setCoinBalance(msg.sender,SafeMath.sub(msg.value,ethCost),0,true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#369)
+	- cards.setTotalEtherPool(uint256(SafeMath.div(ethCost,4)),0,true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#370)
+	- cards.setCoinBalance(owner,devFund,0,true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#372-373)
+	- cards.increasePlayersJadeProduction(msg.sender,cards.getUnitsProduction(msg.sender,unitId,iAmount)) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#376-378)
+	- cards.setUintCoinProduction(msg.sender,unitId,cards.getUnitsProduction(msg.sender,unitId,iAmount),true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#378-379)
+	- cards.AddPlayers(msg.sender) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#383)
+	- cards.setUintsOwnerCount(msg.sender,iAmount,true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#384-385)
+	- cards.setOwnedCount(msg.sender,unitId,iAmount,true) (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#386)
+	State variables written after the call(s):
+	- unitsOwnedOfEth (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#386-390)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CardsAccess.transferOwnership (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#69-76) should be declared external
+CardsInterface.getPlayersBattleStats (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#137-144) should be declared external
+CardsTrade.withdrawAmount (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'CardsAccess.CardsAccess' (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#50-53) is not in mixedCase
+Parameter '_address' of CardsAccess.setAutoAddress (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#54) is not in mixedCase
+Function 'CardsInterface.AddPlayers' (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#112-113) is not in mixedCase
+Parameter '_address' of CardsHelper.setCardsAddress (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#188) is not in mixedCase
+Parameter '_address' of CardsHelper.setConfigAddress (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#193) is not in mixedCase
+Parameter '_address' of CardsHelper.setRareAddress (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#196-197) is not in mixedCase
+Parameter '_address' of CardsTrade.sendGiftCard (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol#271-272) is not in mixedCase
+Parameter '_amount' of CardsTrade.withdrawAmount (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol) is not in mixedCase
+Parameter '_address' of CardsTrade.getCanSellUnit (/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/4/0x66ec7145b52cb088e79306beb3d26fad0935f8c3.sol analyzed (7 contracts), 23 result(s) found

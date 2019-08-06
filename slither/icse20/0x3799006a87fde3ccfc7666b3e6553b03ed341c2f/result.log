@@ -1,0 +1,139 @@
+INFO:Detectors:[93m
+DarknodeRegistry.epoch (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#997-1039) uses a dangerous strict equality:
+	- previousEpoch.blocknumber == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+DarknodeRegistry.register (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#957-973) does not use the value returned by external calls:
+	-ren.transfer(address(store),_bond) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#962-963)
+DarknodeRegistry.slash (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1087-1109) does not use the value returned by external calls:
+	-ren.transfer(store.darknodeOwner(_challenger1),reward) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1107-1108)
+	-ren.transfer(store.darknodeOwner(_challenger2),reward) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1108-1109)
+DarknodeRegistry.refund (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1116-1128) does not use the value returned by external calls:
+	-ren.transfer(darknodeOwner,amount) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1126-1127)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+DarknodeRegistry.getDarknodesFromEpochs has external calls inside a loop:
+	- next = store.next(next) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol)
+DarknodeRegistry.getDarknodesFromEpochs has external calls inside a loop:
+	- next = store.next(next) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in DarknodeRegistry.deregister (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#981-993):
+	External calls:
+	- store.updateDarknodeDeregisteredAt(_darknodeID,currentEpoch.blocknumber + minimumEpochInterval) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#986-989)
+	State variables written after the call(s):
+	- numDarknodesNextEpoch (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#991)
+Reentrancy in DarknodeRegistry.register (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#957-973):
+	External calls:
+	- require(bool,string)(ren.transferFrom(msg.sender,address(this),_bond),bond transfer failed) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#962)
+	- ren.transfer(address(store),_bond) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#962-963)
+	- store.appendDarknode(_darknodeID,msg.sender,_bond,_publicKey,currentEpoch.blocknumber + minimumEpochInterval,0) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#964-971)
+	State variables written after the call(s):
+	- numDarknodesNextEpoch (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#971)
+Reentrancy in DarknodeRegistry.slash (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1087-1109):
+	External calls:
+	- penalty = store.darknodeBond(_prover) / 2 (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1089-1090)
+	- store.updateDarknodeBond(_prover,penalty) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1091-1092)
+	- isDeregisterable(_prover) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1095-1103)
+	- store.updateDarknodeDeregisteredAt(_prover,currentEpoch.blocknumber + minimumEpochInterval) (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1097-1100)
+	State variables written after the call(s):
+	- numDarknodesNextEpoch (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1100)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#41-47) should be declared external
+Ownable.transferOwnership (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#50-55) should be declared external
+BasicToken.totalSupply (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#147-148) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#72-73) should be declared external
+BasicToken.balanceOf (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#173-176) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#73-74) should be declared external
+StandardToken.allowance (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#261-263) should be declared external
+ERC20.allowance (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#180-183) should be declared external
+Pausable.pause (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#355-359) should be declared external
+Pausable.unpause (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#365-372) should be declared external
+BurnableToken.burn (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#438-440) should be declared external
+RepublicToken.transferTokens (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#472-483) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#51) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#58-67) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#59-60) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#173-175) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#154) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#154) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#261) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#261-262) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#218-220) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#220) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#220) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#243) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#243-244) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#281-282) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#282) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#301-302) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#303) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#383-384) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#384-386) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#394-395) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#395-396) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#397-398) is not in mixedCase
+Parameter '_spender' of PausableToken.approve (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#405-406) is not in mixedCase
+Parameter '_value' of PausableToken.approve (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#406-407) is not in mixedCase
+Parameter '_spender' of PausableToken.increaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#417-418) is not in mixedCase
+Parameter '_addedValue' of PausableToken.increaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#418) is not in mixedCase
+Parameter '_spender' of PausableToken.decreaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#425-426) is not in mixedCase
+Parameter '_subtractedValue' of PausableToken.decreaseApproval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#426) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#439) is not in mixedCase
+Function 'BurnableToken._burn' (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#440-455) is not in mixedCase
+Parameter '_who' of BurnableToken._burn (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#444) is not in mixedCase
+Parameter '_value' of BurnableToken._burn (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#444) is not in mixedCase
+Parameter '_VERSION' of DarknodeRegistryStore. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#709-710) is not in mixedCase
+Parameter '_ren' of DarknodeRegistryStore. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#710-711) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistryStore.appendDarknode (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#727-730) is not in mixedCase
+Parameter '_darknodeOwner' of DarknodeRegistryStore.appendDarknode (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#730) is not in mixedCase
+Parameter '_bond' of DarknodeRegistryStore.appendDarknode (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#730) is not in mixedCase
+Parameter '_publicKey' of DarknodeRegistryStore.appendDarknode (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#730-731) is not in mixedCase
+Parameter '_registeredAt' of DarknodeRegistryStore.appendDarknode (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#731-732) is not in mixedCase
+Parameter '_deregisteredAt' of DarknodeRegistryStore.appendDarknode (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#732) is not in mixedCase
+Variable 'DarknodeRegistryStore.VERSION' (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#657) is not in mixedCase
+Parameter '_VERSION' of DarknodeRegistry. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#921) is not in mixedCase
+Parameter '_renAddress' of DarknodeRegistry. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#922) is not in mixedCase
+Parameter '_storeAddress' of DarknodeRegistry. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#922-923) is not in mixedCase
+Parameter '_minimumBond' of DarknodeRegistry. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#923) is not in mixedCase
+Parameter '_minimumPodSize' of DarknodeRegistry. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#923) is not in mixedCase
+Parameter '_minimumEpochInterval' of DarknodeRegistry. (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#923-924) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.register (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#958) is not in mixedCase
+Parameter '_publicKey' of DarknodeRegistry.register (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#958-959) is not in mixedCase
+Parameter '_bond' of DarknodeRegistry.register (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#959) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.deregister (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#982) is not in mixedCase
+Parameter '_newOwner' of DarknodeRegistry.transferStoreOwnership (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1042) is not in mixedCase
+Parameter '_nextMinimumBond' of DarknodeRegistry.updateMinimumBond (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1049-1050) is not in mixedCase
+Parameter '_nextMinimumPodSize' of DarknodeRegistry.updateMinimumPodSize (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1057-1058) is not in mixedCase
+Parameter '_nextMinimumEpochInterval' of DarknodeRegistry.updateMinimumEpochInterval (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1062-1063) is not in mixedCase
+Parameter '_slasher' of DarknodeRegistry.updateSlasher (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1072-1073) is not in mixedCase
+Parameter '_prover' of DarknodeRegistry.slash (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1087) is not in mixedCase
+Parameter '_challenger1' of DarknodeRegistry.slash (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1087) is not in mixedCase
+Parameter '_challenger2' of DarknodeRegistry.slash (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1087-1088) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.refund (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1119) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.getDarknodeOwner (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1131) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.getDarknodeBond (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1135-1136) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.getDarknodePublicKey (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1144) is not in mixedCase
+Parameter '_start' of DarknodeRegistry.getDarknodes (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1161) is not in mixedCase
+Parameter '_count' of DarknodeRegistry.getDarknodes (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1161-1162) is not in mixedCase
+Parameter '_start' of DarknodeRegistry.getPreviousDarknodes (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1169) is not in mixedCase
+Parameter '_count' of DarknodeRegistry.getPreviousDarknodes (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1169) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isPendingRegistration (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1177-1178) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isPendingDeregistration (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1185) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isDeregistered (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1189) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isDeregisterable (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1196-1199) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isRefunded (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1211) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isRefundable (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1217) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isRegistered (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1223) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isRegisteredInPreviousEpoch (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1227) is not in mixedCase
+Parameter '_darknodeID' of DarknodeRegistry.isRegisteredInEpoch (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1236-1237) is not in mixedCase
+Parameter '_epoch' of DarknodeRegistry.isRegisteredInEpoch (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#1237-1238) is not in mixedCase
+Parameter '_start' of DarknodeRegistry.getDarknodesFromEpochs (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol) is not in mixedCase
+Parameter '_count' of DarknodeRegistry.getDarknodesFromEpochs (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol) is not in mixedCase
+Parameter '_usePreviousEpoch' of DarknodeRegistry.getDarknodesFromEpochs (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol) is not in mixedCase
+Variable 'DarknodeRegistry.VERSION' (/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol#810) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/11/0x3799006a87fde3ccfc7666b3e6553b03ed341c2f.sol analyzed (13 contracts), 102 result(s) found

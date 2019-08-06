@@ -1,0 +1,104 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:17:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:78:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function STE_Poll() public {        
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:126:13: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        if (this.balance < amount_to_withdraw) revert();
+            ^----------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:103:23: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function transfer(address _to, uint256 _value) public {
+                      ^---------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:103:36: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function transfer(address _to, uint256 _value) public {
+                                   ^------------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:108:22: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function approve(address _spender, uint256 _value) public returns(bool success) {
+                     ^--------------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:108:40: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function approve(address _spender, uint256 _value) public returns(bool success) {
+                                       ^------------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:108:71: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function approve(address _spender, uint256 _value) public returns(bool success) {
+                                                                      ^----------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:113:27: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
+                          ^-----------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:113:42: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
+                                         ^---------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:113:55: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
+                                                      ^------------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:113:86: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
+                                                                                     ^----------^
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:35:5: Warning: Function state mutability can be restricted to view
+    function isOwner() internal returns(bool success) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:103:5: Warning: Function state mutability can be restricted to pure
+    function transfer(address _to, uint256 _value) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:108:5: Warning: Function state mutability can be restricted to pure
+    function approve(address _spender, uint256 _value) public returns(bool success) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:113:5: Warning: Function state mutability can be restricted to pure
+    function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+STE_Poll (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#55-141) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#108)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in STE_Poll.fallback (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#93-104):
+	External calls:
+	- amount = ste_contract.balanceOf(msg.sender) (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#98-102)
+	State variables written after the call(s):
+	- balanceOf (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#103)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+STE_Poll.withdrawToFounders has external calls inside a loop:
+	- ! foundersAddresses[i].send(amount_to_withdraw) (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#138-141)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in STE_Poll.fallback (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#93-104):
+	External calls:
+	- amount = ste_contract.balanceOf(msg.sender) (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#98-102)
+	State variables written after the call(s):
+	- totalSupply (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#103-104)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+STE_Poll.curPrice should be constant (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#66)
+STE_Poll.ethRaised should be constant (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#64)
+STE_Poll.maxBuyPrice should be constant (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#68-69)
+STE_Poll.minBuyPrice should be constant (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#67-68)
+STE_Poll.soldSupply should be constant (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#65)
+STE_Poll.standard should be constant (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#56-58)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+owned.transferOwnership (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#41-48) should be declared external
+STE.totalSupply (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#48-49) should be declared external
+STE.balanceOf (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#49-55) should be declared external
+STE_Poll.transfer (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#108) should be declared external
+STE_Poll.approve (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#112-113) should be declared external
+STE_Poll.transferFrom (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#115-118) should be declared external
+STE_Poll.setStartStopBlocks (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#119-125) should be declared external
+STE_Poll.withdrawToFounders (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#125-141) should be declared external
+STE_Poll.killPoll (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'owned' (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#3-48) is not in CapWords
+Variable 'owned.super_owner' (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#8-10) is not in mixedCase
+Contract 'STE_Poll' (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#55-141) is not in CapWords
+Function 'STE_Poll.STE_Poll' (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#80-91) is not in mixedCase
+Parameter '_pStartBlock' of STE_Poll.setStartStopBlocks (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#120-123) is not in mixedCase
+Parameter '_pStopBlock' of STE_Poll.setStartStopBlocks (/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol#123-124) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/7/0xc512db2a8774d7923bfd625aa590dd15c5ebf017.sol analyzed (3 contracts), 21 result(s) found

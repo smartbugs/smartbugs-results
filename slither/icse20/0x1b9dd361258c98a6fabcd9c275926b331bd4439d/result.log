@@ -1,0 +1,100 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:20:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:141:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ICO() public{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:4:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address receiver, uint amount) public;
+    ^------------------------------------------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:5:5: Warning: Functions in interfaces should be declared external.
+    function unlock() public;
+    ^-----------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:6:5: Warning: Functions in interfaces should be declared external.
+    function burn(uint256 _value) public returns (bool);
+    ^--------------------------------------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:40:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:149:29: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xC4796a5bFC6fA56EA42B5E7C7889abCF724C44Fd'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+        tokenReward = token(0xc4796a5bfc6fa56ea42b5e7c7889abcf724c44fd);
+                            ^----------------------------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:167:13: Warning: Invoking events without "emit" prefix is deprecated.
+            ReceivedETH(msg.sender,msg.value);
+            ^-------------------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:180:13: Warning: Invoking events without "emit" prefix is deprecated.
+            ReceivedBTC(addr,value);
+            ^---------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:194:13: Warning: Invoking events without "emit" prefix is deprecated.
+            ReceivedGBP(addr,value);
+            ^---------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:245:21: Warning: Invoking events without "emit" prefix is deprecated.
+                    FundWithdrawal(msg.sender, amount);
+                    ^--------------------------------^
+/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:198:5: Warning: Function state mutability can be restricted to view
+    function amountToSend(uint amount) internal returns(uint){
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+token (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#3-9) has incorrect ERC20 function interface(s):
+	-transfer (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#4-5)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in ICO.ReceiveBTC (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#173-186):
+	External calls:
+	- tokenReward.transfer(addr,amount) (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#184)
+	State variables written after the call(s):
+	- tokensSold (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#184-185)
+Reentrancy in ICO.ReceiveGBP (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#187-201):
+	External calls:
+	- tokenReward.transfer(addr,amount) (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#198-199)
+	State variables written after the call(s):
+	- tokensSold (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#200)
+Reentrancy in ICO.fallback (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#160-173):
+	External calls:
+	- tokenReward.transfer(msg.sender,amount) (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#171)
+	State variables written after the call(s):
+	- tokensSold (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#171)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+ICO.finalize (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#227-244) does not use the value returned by external calls:
+	-tokenReward.burn(50 * (10 ** 6) * (10 ** 6) - HYDEmitted) (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#241-242)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in ICO.finalize (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#227-244):
+	External calls:
+	- tokenReward.burn(50 * (10 ** 6) * (10 ** 6) - HYDEmitted) (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#241-242)
+	- tokenReward.unlock() (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#243)
+	External calls sending eth:
+	- ! ifSuccessfulSendFundsTo.send(amountRaised) (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#230-232)
+	State variables written after the call(s):
+	- crowdsaleClosed (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#243-244)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+token.transfer (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#4-5) should be declared external
+token.unlock (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#5-6) should be declared external
+token.burn (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#6-9) should be declared external
+Ownable.transferOwnership (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#38-47) should be declared external
+ICO.fallback (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#160-173) should be declared external
+ICO.ReceiveBTC (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#173-186) should be declared external
+ICO.ReceiveGBP (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#187-201) should be declared external
+ICO.finalize (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#227-244) should be declared external
+ICO.safeWithdrawal (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#244-252) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol:
+	- pragma solidity^0.4.16 (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'token' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#3-9) is not in CapWords
+Function 'Ownable.Ownable' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#20-26) is not in mixedCase
+Function 'ICO.ICO' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#145-155) is not in mixedCase
+Function 'ICO.ReceiveBTC' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#173-186) is not in mixedCase
+Function 'ICO.ReceiveGBP' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#187-201) is not in mixedCase
+Variable 'ICO.BTCproxy' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#107-108) is not in mixedCase
+Variable 'ICO.GBPproxy' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#108-109) is not in mixedCase
+Modifier 'ICO.ICOactive' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#127-132) is not in mixedCase
+Modifier 'ICO.ICOinactive' (/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol#132-139) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x1b9dd361258c98a6fabcd9c275926b331bd4439d.sol analyzed (5 contracts), 25 result(s) found

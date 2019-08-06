@@ -1,0 +1,64 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:46:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ethraffle() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:73:13: Warning: Invoking events without "emit" prefix is deprecated.
+            TicketPurchase(raffleId, msg.sender, currTicket);
+            ^----------------------------------------------^
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:91:23: Warning: "sha3" has been deprecated in favour of "keccak256"
+        bytes32 sha = sha3(
+                      ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:91:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 sha = sha3(
+                      ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:99:9: Warning: Invoking events without "emit" prefix is deprecated.
+        RaffleResult(
+        ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:124:17: Warning: Invoking events without "emit" prefix is deprecated.
+                TicketRefund(raffleId, msg.sender, i);
+                ^-----------------------------------^
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:140:21: Warning: Invoking events without "emit" prefix is deprecated.
+                    TicketRefund(raffleId, contestants[i].addr, i);
+                    ^--------------------------------------------^
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:145:13: Warning: Invoking events without "emit" prefix is deprecated.
+            RaffleResult(raffleId, 0, address(0), address(0), address(0), 0, 0);
+            ^-----------------------------------------------------------------^
+/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:90:29: Warning: "msg.gas" has been deprecated in favor of "gasleft()"
+        uint remainingGas = msg.gas;
+                            ^-----^
+
+INFO:Detectors:[91m
+Ethraffle.chooseWinner (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#90-118) sends eth to arbitrary user
+	Dangerous calls:
+	- winningAddress.transfer(prize) (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#116-117)
+	- rakeAddress.transfer(rake) (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#117-118)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[92m
+Ethraffle.endRaffle has external calls inside a loop:
+	- contestants[i].addr.transfer(pricePerTicket) (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#145-147)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#93-94:
+	- Usage of "msg.gas" should be replaced with "gasleft()"
+Deprecated standard detected @ /unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#94-98:
+	- Usage of "sha3()" should be replaced with "keccak256()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Ethraffle.fallback (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#52-56) should be declared external
+Ethraffle.getRefund (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#120-135) should be declared external
+Ethraffle.endRaffle (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#138-158) should be declared external
+Ethraffle.togglePause (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#159-163) should be declared external
+Ethraffle.kill (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol:
+	- pragma solidity^0.4.0 (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ethraffle.Ethraffle' (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#47-50) is not in mixedCase
+Constant 'Ethraffle.prize' (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#33-34) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Ethraffle.rake' (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#34-35) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Ethraffle.totalTickets' (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#35-36) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Ethraffle.pricePerTicket' (/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol#36-39) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/32/0x9a3da065e1100a5613dc15b594f0f6193b419e96.sol analyzed (1 contracts), 15 result(s) found

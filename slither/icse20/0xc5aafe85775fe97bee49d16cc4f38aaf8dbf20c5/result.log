@@ -1,0 +1,383 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:27:46: Warning: This declaration shadows an existing declaration.
+    function totalSupply() constant returns (uint256 totalSupply);
+                                             ^-----------------^
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:27:5: The shadowed declaration is here:
+    function totalSupply() constant returns (uint256 totalSupply);
+    ^------------------------------------------------------------^
+
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:26:5: Warning: No visibility specified. Defaulting to "public". 
+    function SetupToken(string tokenName, string tokenSymbol, uint256 tokenSupply);
+    ^-----------------------------------------------------------------------------^
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:27:5: Warning: No visibility specified. Defaulting to "public". 
+    function totalSupply() constant returns (uint256 totalSupply);
+    ^------------------------------------------------------------^
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:28:5: Warning: No visibility specified. Defaulting to "public". 
+    function balanceOf(address _owner) constant returns (uint256 balance);
+    ^--------------------------------------------------------------------^
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:29:5: Warning: No visibility specified. Defaulting to "public". 
+    function transfer(address _to, uint256 _amount) returns (bool success);
+    ^---------------------------------------------------------------------^
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:30:5: Warning: No visibility specified. Defaulting to "public". 
+    function transferFrom(address _from, address _to, uint256 _amount) returns (bool success);
+    ^----------------------------------------------------------------------------------------^
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:31:5: Warning: No visibility specified. Defaulting to "public". 
+    function approve(address _spender, uint256 _amount) returns (bool success);
+    ^-------------------------------------------------------------------------^
+/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:32:5: Warning: No visibility specified. Defaulting to "public". 
+    function allowance(address _owner, address _spender) constant returns (uint256 remaining);
+    ^----------------------------------------------------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in IBCLotteryGame.endTx (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1478-1528):
+	External calls:
+	- ibcToken_.transfer(officialWallet_,(_ticketPrice / 2)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1510-1512)
+	- ibcToken_.transfer(devATeamWallet_,(_ticketPrice / 4)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1512-1513)
+	External calls sending eth:
+	- devATeamWallet_.transfer(((_eth.mul(12)) / 100)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1518-1519)
+	State variables written after the call(s):
+	- ticketRecord_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1519-1520)
+Reentrancy in IBCLotteryGame.withdraw (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#625-686):
+	External calls:
+	- _eventData_ = endRound(_eventData_) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#647-649)
+	- refundTicket(_pID) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#686)
+	External calls sending eth:
+	- plyr_[_pID].addr.transfer(_eth) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#654-656)
+	- plyr_[_pID].addr.transfer(_eth) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#675-677)
+	State variables written after the call(s):
+	- plyr_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#686)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#874-891) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#874-891) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.iWantXKeys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1094-1109) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#874-891) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.iWantXKeys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1094-1109) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.updateFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1256-1266) uses a dangerous strict equality:
+	- ! (_now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0)))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#874-891) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.iWantXKeys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1094-1109) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.updateFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1256-1266) uses a dangerous strict equality:
+	- ! (_now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0)))
+IBCLotteryGame.updateTimer (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1280-1291) uses a dangerous strict equality:
+	- _now > round_.end && round_.plyr == 0
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#874-891) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.iWantXKeys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1094-1109) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.updateFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1256-1266) uses a dangerous strict equality:
+	- ! (_now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0)))
+IBCLotteryGame.updateTimer (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1280-1291) uses a dangerous strict equality:
+	- _now > round_.end && round_.plyr == 0
+IBCLotteryGame.updateTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1267-1278) uses a dangerous strict equality:
+	- ! (_now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0)))
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-873) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) uses a dangerous strict equality:
+	- now > round_.end && round_.ended == false && round_.plyr != 0
+	- round_.plyr == _pID
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.getTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#874-891) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.iWantXKeys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1094-1109) uses a dangerous strict equality:
+	- _now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0))
+IBCLotteryGame.updateFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1256-1266) uses a dangerous strict equality:
+	- ! (_now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0)))
+IBCLotteryGame.updateTimer (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1280-1291) uses a dangerous strict equality:
+	- _now > round_.end && round_.plyr == 0
+IBCLotteryGame.updateTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1267-1278) uses a dangerous strict equality:
+	- ! (_now > round_.strt && (_now <= round_.end || (_now > round_.end && round_.plyr == 0)))
+IBCLotteryGame.withdraw (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#625-686) uses a dangerous strict equality:
+	- _now > round_.end && round_.ended == false && round_.plyr != 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in IBCLottery.buyTicketCore (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#125-166):
+	External calls:
+	- _allowance = ibcToken_.allowance(_user,this) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#134)
+	- require(bool)(ibcToken_.transferFrom(_user,this,_ticketPrice)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#146-148)
+	State variables written after the call(s):
+	- ticketRecord_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#151-153)
+	- ticketRecord_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#153-155)
+	- ticketRecord_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#157-159)
+Reentrancy in IBCLotteryGame.endTx (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1478-1528):
+	External calls:
+	- ibcToken_.transfer(officialWallet_,(_ticketPrice / 2)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1510-1512)
+	- ibcToken_.transfer(devATeamWallet_,(_ticketPrice / 4)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1512-1513)
+	State variables written after the call(s):
+	- round_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1516-1517)
+Reentrancy in IBCLotteryGame.withdraw (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#625-686):
+	External calls:
+	- _eventData_ = endRound(_eventData_) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#647-649)
+	State variables written after the call(s):
+	- plyr_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#650-651)
+	- round_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#650-651)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+_eventData_ in IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#595-596) is a local variable never initialiazed
+_eventData_ in IBCLotteryGame.withdraw (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#642-643) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+IBCLotteryGame.endRound (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1202-1237) does not use the value returned by external calls:
+	-ibcToken_.transfer(officialWallet_,tokenBackToTeam / 2) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1224-1225)
+	-ibcToken_.transfer(devATeamWallet_,tokenBackToTeam / 2) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1226-1230)
+IBCLotteryGame.refundTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1373-1383) does not use the value returned by external calls:
+	-ibcToken_.transfer(_playerAddress,_refund) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1381-1382)
+IBCLotteryGame.endTx (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1478-1528) does not use the value returned by external calls:
+	-ibcToken_.transfer(officialWallet_,(_ticketPrice / 2)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1510-1512)
+	-ibcToken_.transfer(devATeamWallet_,(_ticketPrice / 4)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1512-1513)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Token.totalSupply.totalSupply (local variable @ /unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#28) shadows:
+	- Token.totalSupply (function @ /unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#27-28)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in IBCLottery.buyTicketCore (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#125-166):
+	External calls:
+	- _allowance = ibcToken_.allowance(_user,this) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#134)
+	- require(bool)(ibcToken_.transferFrom(_user,this,_ticketPrice)) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#146-148)
+	State variables written after the call(s):
+	- tokenRaised_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#149-150)
+Reentrancy in IBCLotteryGame.endRound (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1202-1237):
+	External calls:
+	- ibcToken_.transfer(officialWallet_,tokenBackToTeam / 2) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1224-1225)
+	- ibcToken_.transfer(devATeamWallet_,tokenBackToTeam / 2) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1226-1230)
+	State variables written after the call(s):
+	- plyr_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1233)
+Reentrancy in IBCLotteryGame.withdraw (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#625-686):
+	External calls:
+	- _eventData_ = endRound(_eventData_) (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#647-649)
+	State variables written after the call(s):
+	- plyrRnds_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#650-651)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+IBCLottery.ticketPrice_ should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#48-49)
+IBCLotteryGame.rndInc_ should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#397-398)
+IBCLotteryGame.rndInit_ should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#391)
+IBCLotteryGame.rndMax_ should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#400)
+Token._totalSupply should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#16-17)
+Token.name should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#14-15)
+Token.owner should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#17-18)
+Token.setupDone should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#18-20)
+Token.symbol should be constant (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#13-14)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Token.SetupToken (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#26-27) should be declared external
+Token.totalSupply (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#27-28) should be declared external
+Token.balanceOf (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#28-29) should be declared external
+Token.transfer (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#29-30) should be declared external
+Token.transferFrom (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#30-31) should be declared external
+Token.approve (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#31-32) should be declared external
+Token.allowance (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#32-36) should be declared external
+IBCLottery.getUserPaidIn (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#260-268) should be declared external
+IBCLotteryGame.fallback (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#519-538) should be declared external
+IBCLotteryGame.buyXaddr (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#545-587) should be declared external
+IBCLotteryGame.buyTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#588-623) should be declared external
+IBCLotteryGame.withdraw (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#625-686) should be declared external
+IBCLotteryGame.getBuyPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#698-719) should be declared external
+IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741-827) should be declared external
+IBCLotteryGame.getCurrentRoundInfo (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#906-926) should be declared external
+IBCLotteryGame.getPlayerInfoByAddress (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#938-968) should be declared external
+IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1067-1083) should be declared external
+IBCLotteryGame.iWantXKeys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1094-1109) should be declared external
+IBCLotteryGame.getTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1109-1129) should be declared external
+IBCLotteryGame.hasValidTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1545-1552) should be declared external
+IBCLotteryGame.activate (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1570-1580) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Token.SetupToken' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#26-27) is not in mixedCase
+Variable 'Token._totalSupply' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#16-17) is not in mixedCase
+Parameter '_ibcoin' of IBCLottery. (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#70) is not in mixedCase
+Parameter '_officialWallet' of IBCLottery. (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#71-72) is not in mixedCase
+Parameter '_devATeamWallet' of IBCLottery. (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#73-75) is not in mixedCase
+Parameter '_devBTeamWallet' of IBCLottery. (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#75-76) is not in mixedCase
+Parameter '_pot' of IBCLottery.buyTicketCore (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#127-128) is not in mixedCase
+Parameter '_timeLeft' of IBCLottery.buyTicketCore (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#128) is not in mixedCase
+Parameter '_user' of IBCLottery.buyTicketCore (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#128-129) is not in mixedCase
+Parameter '_user' of IBCLottery.hasValidTicketCore (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#168) is not in mixedCase
+Parameter '_timeLeft' of IBCLottery.hasValidTicketCore (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#168) is not in mixedCase
+Parameter '_pot' of IBCLottery.calculateTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#184-185) is not in mixedCase
+Parameter '_timeLeft' of IBCLottery.calculateTicketPrice (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#185-186) is not in mixedCase
+Parameter '_address' of IBCLottery.getUserPaidIn (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#262-266) is not in mixedCase
+Event 'IBCLotteryEvents.onEndTx' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#287-297) is not in CapWords
+Event 'IBCLotteryEvents.onWithdraw' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#300-307) is not in CapWords
+Event 'IBCLotteryEvents.onWithdrawAndDistribute' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#310-320) is not in CapWords
+Event 'IBCLotteryEvents.onBuyAndDistribute' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#322-331) is not in CapWords
+Event 'IBCLotteryEvents.onBuyTicketAndDistribute' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#331-340) is not in CapWords
+Event 'IBCLotteryEvents.onReLoadAndDistribute' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#341-350) is not in CapWords
+Event 'IBCLotteryEvents.onAffiliatePayout' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#355-359) is not in CapWords
+Event 'IBCLotteryEvents.onRefundTicket' (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#359-363) is not in CapWords
+Parameter '_affCode' of IBCLotteryGame.buyXaddr (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#545-546) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.getPlayerVaults (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#741) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.getPlayerVaultsHelper (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#829) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.getFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#832-833) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.getTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#874-875) is not in mixedCase
+Parameter '_addr' of IBCLotteryGame.getPlayerInfoByAddress (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#939) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.core (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#984) is not in mixedCase
+Parameter '_eth' of IBCLotteryGame.core (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#985) is not in mixedCase
+Parameter '_affID' of IBCLotteryGame.core (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#985) is not in mixedCase
+Parameter '_eventData_' of IBCLotteryGame.core (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#985-986) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.calcUnMaskedEarnings (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1053-1054) is not in mixedCase
+Parameter '_eth' of IBCLotteryGame.calcKeysReceived (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1068) is not in mixedCase
+Parameter '_keys' of IBCLotteryGame.iWantXKeys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1094-1095) is not in mixedCase
+Parameter '_eventData_' of IBCLotteryGame.determinePID (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1142-1146) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.managePlayer (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1184) is not in mixedCase
+Parameter '_eventData_' of IBCLotteryGame.managePlayer (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1184-1185) is not in mixedCase
+Parameter '_eventData_' of IBCLotteryGame.endRound (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1203) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.updateGenVault (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1243) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.updateFinalDistribute (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1256) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.updateTokenShare (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1268) is not in mixedCase
+Parameter '_keys' of IBCLotteryGame.updateTimer (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1281) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.distributeExternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1295) is not in mixedCase
+Parameter '_eth' of IBCLotteryGame.distributeExternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1295) is not in mixedCase
+Parameter '_affID' of IBCLotteryGame.distributeExternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1295-1296) is not in mixedCase
+Parameter '_eventData_' of IBCLotteryGame.distributeExternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1296) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.distributeInternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1345) is not in mixedCase
+Parameter '_eth' of IBCLotteryGame.distributeInternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1345-1346) is not in mixedCase
+Parameter '_keys' of IBCLotteryGame.distributeInternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1346) is not in mixedCase
+Parameter '_eventData_' of IBCLotteryGame.distributeInternal (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1346-1347) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.refundTicket (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1375) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.updateMasks (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1389) is not in mixedCase
+Parameter '_gen' of IBCLotteryGame.updateMasks (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1389) is not in mixedCase
+Parameter '_keys' of IBCLotteryGame.updateMasks (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1389) is not in mixedCase
+Parameter '_pID' of IBCLotteryGame.withdrawEarnings (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1427) is not in mixedCase
+Parameter '_eth' of IBCLotteryGame.endTx (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1479-1481) is not in mixedCase
+Parameter '_keys' of IBCLotteryGame.endTx (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1481-1482) is not in mixedCase
+Parameter '_eventData_' of IBCLotteryGame.endTx (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1482-1485) is not in mixedCase
+Parameter '_curEth' of IBCLotteryKeysCalcLong.keysRec (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1666-1667) is not in mixedCase
+Parameter '_newEth' of IBCLotteryKeysCalcLong.keysRec (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1667) is not in mixedCase
+Parameter '_curKeys' of IBCLotteryKeysCalcLong.ethRec (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1685) is not in mixedCase
+Parameter '_sellKeys' of IBCLotteryKeysCalcLong.ethRec (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1685) is not in mixedCase
+Parameter '_eth' of IBCLotteryKeysCalcLong.keys (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1702) is not in mixedCase
+Parameter '_keys' of IBCLotteryKeysCalcLong.eth (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#1727) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+IBCLottery.ticketPrice_ (/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol#48-49) is never used in IBCLotteryGame
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/9/0xc5aafe85775fe97bee49d16cc4f38aaf8dbf20c5.sol analyzed (7 contracts), 115 result(s) found

@@ -1,0 +1,199 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol:
+/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol:244:59: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function checkAndUpdateUniqueness(BaseWallet _wallet, uint256 _nonce, bytes32 _signHash) internal returns (bool) {
+                                                          ^------------^
+/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol:1104:75: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function checkAndUpdateUniqueness(BaseWallet _wallet, uint256 _nonce, bytes32 _signHash) internal returns (bool) {
+                                                                          ^---------------^
+/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol:1108:53: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function validateSignatures(BaseWallet _wallet, bytes _data, bytes32 _signHash, bytes _signatures) internal view returns (bool) {
+                                                    ^---------^
+/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol:1113:36: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function getRequiredSignatures(BaseWallet _wallet, bytes _data) internal view returns (uint256) {
+                                   ^----------------^
+
+INFO:Detectors:[91m
+BaseWallet.invoke (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#644-650) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool,string)(_target.call.value(_value)(_data),BW: call to target failed) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#647-650)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+RelayerModule.recoverSigner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#281-299) is declared view but contains assembly code
+RelayerModule.verifyData (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#343-355) is declared view but contains assembly code
+RelayerModule.functionPrefix (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#364-368) is declared view but contains assembly code
+GuardianUtils.isContract (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#876-887) is declared view but contains assembly code
+GuardianUtils.isGuardianOwner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#890-902) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+BaseModule.recoverToken (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#100-106) does not use the value returned by external calls:
+	-ERC20(_token).transfer(address(registry),total) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#105-106)
+ModuleRegistry.recoverToken (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#491-495) does not use the value returned by external calls:
+	-ERC20(_token).transfer(msg.sender,total) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#495)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+BaseWallet.init has external calls inside a loop:
+	- Module(_modules[i]).init(this) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#596-597)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in GuardianManager.addGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#984-1012):
+	External calls:
+	- require(bool,string)(! isOwner(_wallet,_guardian),GM: target guardian cannot be owner) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#986-987)
+	- require(bool,string)(! isGuardian(_wallet,_guardian),GM: target is already a guardian) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#987-988)
+	- require(bool,string)(_guardian.call.gas(5000)(abi.encodeWithSignature(owner())),GM: guardian must be EOA or implement owner()) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#997-1000)
+	State variables written after the call(s):
+	- configs (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1007)
+Reentrancy in GuardianManager.revokeGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1049-1061):
+	External calls:
+	- require(bool,string)(isGuardian(_wallet,_guardian),GM: must be an existing guardian) (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1050-1051)
+	State variables written after the call(s):
+	- configs (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1056-1057)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+RelayerModule.recoverSigner uses assembly (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#281-299)
+	- /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#290-297
+RelayerModule.verifyData uses assembly (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#343-355)
+	- /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#352-355
+RelayerModule.functionPrefix uses assembly (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#364-368)
+	- /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#367-368
+BaseWallet.fallback uses assembly (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#656-686)
+	- /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#675-686
+GuardianUtils.isContract uses assembly (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#876-887)
+	- /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#880-887
+GuardianUtils.isGuardianOwner uses assembly (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#890-902)
+	- /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#895-901
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+BaseWallet.implementation should be constant (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#554)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20.totalSupply (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#369) should be declared external
+ERC20.decimals (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#369-370) should be declared external
+ERC20.balanceOf (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#370-374) should be declared external
+ERC20.allowance (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#374-376) should be declared external
+ERC20.transfer (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#377-383) should be declared external
+ERC20.approve (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#383-386) should be declared external
+ERC20.transferFrom (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#386-389) should be declared external
+BaseWallet.fallback (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#656-686) should be declared external
+GuardianManager.confirmGuardianAddition (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1018-1032) should be declared external
+GuardianManager.cancelGuardianAddition (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1034-1043) should be declared external
+GuardianManager.confirmGuardianRevokation (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1066-1080) should be declared external
+GuardianManager.cancelGuardianRevokation (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1086-1098) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in RelayerModule.execute (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#178-205):
+	-success = address(this).call(_data) /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#196-197
+Low level call in BaseWallet.invoke (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#644-650):
+	-require(bool,string)(_target.call.value(_value)(_data),BW: call to target failed) /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#647-650
+Low level call in GuardianManager.addGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#984-1012):
+	-require(bool,string)(_guardian.call.gas(5000)(abi.encodeWithSignature(owner())),GM: guardian must be EOA or implement owner()) /unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#997-1000
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_wallet' of BaseModule.init (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#81-82) is not in mixedCase
+Parameter '_wallet' of BaseModule.addModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#90) is not in mixedCase
+Parameter '_module' of BaseModule.addModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#90) is not in mixedCase
+Parameter '_token' of BaseModule.recoverToken (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#101) is not in mixedCase
+Parameter '_registry' of BaseModule. (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#46-47) is not in mixedCase
+Parameter '_name' of BaseModule. (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#47-48) is not in mixedCase
+Parameter '_wallet' of BaseModule.isOwner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#111-115) is not in mixedCase
+Parameter '_addr' of BaseModule.isOwner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#115) is not in mixedCase
+Parameter '_wallet' of RelayerModule.execute (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#181) is not in mixedCase
+Parameter '_data' of RelayerModule.execute (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#181-183) is not in mixedCase
+Parameter '_nonce' of RelayerModule.execute (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#183) is not in mixedCase
+Parameter '_signatures' of RelayerModule.execute (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#184) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.execute (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#184) is not in mixedCase
+Parameter '_gasLimit' of RelayerModule.execute (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#184) is not in mixedCase
+Parameter '_wallet' of RelayerModule.getNonce (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#210) is not in mixedCase
+Parameter '_from' of RelayerModule.getSignHash (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#229-230) is not in mixedCase
+Parameter '_to' of RelayerModule.getSignHash (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#231) is not in mixedCase
+Parameter '_value' of RelayerModule.getSignHash (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#232) is not in mixedCase
+Parameter '_data' of RelayerModule.getSignHash (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#233) is not in mixedCase
+Parameter '_nonce' of RelayerModule.getSignHash (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#233) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.getSignHash (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#233-234) is not in mixedCase
+Parameter '_gasLimit' of RelayerModule.getSignHash (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#234) is not in mixedCase
+Parameter '_wallet' of RelayerModule.checkAndUpdateUniqueness (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#249-252) is not in mixedCase
+Parameter '_signHash' of RelayerModule.checkAndUpdateUniqueness (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#253) is not in mixedCase
+Parameter '_wallet' of RelayerModule.checkAndUpdateNonce (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#262-263) is not in mixedCase
+Parameter '_nonce' of RelayerModule.checkAndUpdateNonce (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#263) is not in mixedCase
+Parameter '_signedHash' of RelayerModule.recoverSigner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#282) is not in mixedCase
+Parameter '_wallet' of RelayerModule.refund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#305) is not in mixedCase
+Parameter '_gasUsed' of RelayerModule.refund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#305) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.refund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#306) is not in mixedCase
+Parameter '_gasLimit' of RelayerModule.refund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#306) is not in mixedCase
+Parameter '_signatures' of RelayerModule.refund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#306) is not in mixedCase
+Parameter '_relayer' of RelayerModule.refund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#306) is not in mixedCase
+Parameter '_wallet' of RelayerModule.verifyRefund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#330-333) is not in mixedCase
+Parameter '_gasUsed' of RelayerModule.verifyRefund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#333) is not in mixedCase
+Parameter '_gasPrice' of RelayerModule.verifyRefund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#333) is not in mixedCase
+Parameter '_signatures' of RelayerModule.verifyRefund (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#333) is not in mixedCase
+Parameter '_wallet' of RelayerModule.verifyData (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#343-344) is not in mixedCase
+Parameter '_data' of RelayerModule.verifyData (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#345) is not in mixedCase
+Parameter '_data' of RelayerModule.functionPrefix (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#364) is not in mixedCase
+Parameter '_newOwner' of Owned.changeOwner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#414-416) is not in mixedCase
+Parameter '_module' of ModuleRegistry.registerModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#445) is not in mixedCase
+Parameter '_name' of ModuleRegistry.registerModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#445) is not in mixedCase
+Parameter '_module' of ModuleRegistry.deregisterModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#456) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.registerUpgrader (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#466) is not in mixedCase
+Parameter '_name' of ModuleRegistry.registerUpgrader (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#466) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.deregisterUpgrader (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#477) is not in mixedCase
+Parameter '_token' of ModuleRegistry.recoverToken (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#491-492) is not in mixedCase
+Parameter '_module' of ModuleRegistry.moduleInfo (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#502) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.upgraderInfo (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#510-511) is not in mixedCase
+Parameter '_module' of ModuleRegistry.isRegisteredModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#518-519) is not in mixedCase
+Parameter '_modules' of ModuleRegistry.isRegisteredModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#528-529) is not in mixedCase
+Parameter '_upgrader' of ModuleRegistry.isRegisteredUpgrader (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#545) is not in mixedCase
+Parameter '_owner' of BaseWallet.init (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#580-583) is not in mixedCase
+Parameter '_modules' of BaseWallet.init (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#583-584) is not in mixedCase
+Parameter '_module' of BaseWallet.authoriseModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#605) is not in mixedCase
+Parameter '_value' of BaseWallet.authoriseModule (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#605-606) is not in mixedCase
+Parameter '_module' of BaseWallet.enableStaticCall (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#628) is not in mixedCase
+Parameter '_method' of BaseWallet.enableStaticCall (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#628) is not in mixedCase
+Parameter '_newOwner' of BaseWallet.setOwner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#634-635) is not in mixedCase
+Parameter '_target' of BaseWallet.invoke (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#644-645) is not in mixedCase
+Parameter '_value' of BaseWallet.invoke (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#645) is not in mixedCase
+Parameter '_data' of BaseWallet.invoke (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#645) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.addGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#731-732) is not in mixedCase
+Parameter '_guardian' of GuardianStorage.addGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#732) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.revokeGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#745) is not in mixedCase
+Parameter '_guardian' of GuardianStorage.revokeGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#745-746) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.guardianCount (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#765-766) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.getGuardians (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#774) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.isGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#788-789) is not in mixedCase
+Parameter '_guardian' of GuardianStorage.isGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#789-790) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.setLock (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#798-799) is not in mixedCase
+Parameter '_releaseAfter' of GuardianStorage.setLock (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#799) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.isLocked (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#809-813) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.getLock (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#820) is not in mixedCase
+Parameter '_wallet' of GuardianStorage.getLocker (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#827) is not in mixedCase
+Parameter '_guardians' of GuardianUtils.isGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#838-839) is not in mixedCase
+Parameter '_guardian' of GuardianUtils.isGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#839-840) is not in mixedCase
+Parameter '_owner' of GuardianUtils.isGuardianOwner (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#891) is not in mixedCase
+Parameter '_data' of GuardianManager.getRequiredSignatures (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol) is not in mixedCase
+Parameter '_wallet' of GuardianManager.validateSignatures (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol) is not in mixedCase
+Parameter '_signHash' of GuardianManager.validateSignatures (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol) is not in mixedCase
+Parameter '_signatures' of GuardianManager.validateSignatures (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol) is not in mixedCase
+Parameter '_wallet' of GuardianManager.checkAndUpdateUniqueness (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol) is not in mixedCase
+Parameter '_nonce' of GuardianManager.checkAndUpdateUniqueness (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol) is not in mixedCase
+Parameter '_guardianStorage' of GuardianManager. (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#974-975) is not in mixedCase
+Parameter '_securityPeriod' of GuardianManager. (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#975) is not in mixedCase
+Parameter '_securityWindow' of GuardianManager. (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#975-976) is not in mixedCase
+Parameter '_wallet' of GuardianManager.addGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#984) is not in mixedCase
+Parameter '_guardian' of GuardianManager.addGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#984-985) is not in mixedCase
+Parameter '_wallet' of GuardianManager.confirmGuardianAddition (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1018) is not in mixedCase
+Parameter '_guardian' of GuardianManager.confirmGuardianAddition (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1018) is not in mixedCase
+Parameter '_wallet' of GuardianManager.cancelGuardianAddition (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1034) is not in mixedCase
+Parameter '_guardian' of GuardianManager.cancelGuardianAddition (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1034-1035) is not in mixedCase
+Parameter '_wallet' of GuardianManager.revokeGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1049) is not in mixedCase
+Parameter '_guardian' of GuardianManager.revokeGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1049-1050) is not in mixedCase
+Parameter '_wallet' of GuardianManager.confirmGuardianRevokation (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1067) is not in mixedCase
+Parameter '_guardian' of GuardianManager.confirmGuardianRevokation (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1067) is not in mixedCase
+Parameter '_wallet' of GuardianManager.cancelGuardianRevokation (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1087-1088) is not in mixedCase
+Parameter '_guardian' of GuardianManager.cancelGuardianRevokation (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1088) is not in mixedCase
+Parameter '_wallet' of GuardianManager.isGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1104) is not in mixedCase
+Parameter '_guardian' of GuardianManager.isGuardian (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1104-1105) is not in mixedCase
+Parameter '_wallet' of GuardianManager.guardianCount (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#1113) is not in mixedCase
+Parameter '_wallet' of GuardianManager.getGuardians (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+GuardianManager.NAME (/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol#920) is never used in GuardianManager
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/5/0xff5a7299ff6f0fbaad9b38906b77d08c0fbdc9a7.sol analyzed (11 contracts), 138 result(s) found

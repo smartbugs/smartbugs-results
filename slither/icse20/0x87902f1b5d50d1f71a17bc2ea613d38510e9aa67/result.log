@@ -1,0 +1,107 @@
+INFO:Detectors:[91m
+Reentrancy in BancorBuyer.buyOne (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#184-201):
+	External calls:
+	- tokenBalance = token.balanceOf(this) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#188)
+	- require(bool)(_exchange.call.value(_value)(_data)) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#188-189)
+	External calls sending eth:
+	- require(bool)(_exchange.call.value(_value)(_data)) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#188-189)
+	State variables written after the call(s):
+	- balances (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#189-193)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+BancorBuyer.deposit (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#120-136) uses a dangerous strict equality:
+	- require(bool)(token.balanceOf(this) == balance.add(tokenValue))
+BancorBuyer.deposit (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#120-136) uses a dangerous strict equality:
+	- require(bool)(token.balanceOf(this) == balance.add(tokenValue))
+BancorBuyer.withdraw (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#137-153) uses a dangerous strict equality:
+	- require(bool)(token.balanceOf(this) == tokenBalance.sub(tokenValue))
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+BancorBuyer.deposit (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#120-136) does not use the value returned by external calls:
+	-token.transferFrom(msg.sender,this,tokenValue) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#131)
+BancorBuyer.withdraw (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#137-153) does not use the value returned by external calls:
+	-token.transfer(_to,tokenValue) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#148)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+BancorBuyer.sumWeightOfMultiToken has external calls inside a loop:
+	- sumWeight += mtkn.weights(mtkn.tokens(i - 1)) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#119)
+BancorBuyer.deposit has external calls inside a loop:
+	- balance = token.balanceOf(this) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#130)
+BancorBuyer.deposit has external calls inside a loop:
+	- token.transferFrom(msg.sender,this,tokenValue) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#131)
+BancorBuyer.deposit has external calls inside a loop:
+	- require(bool)(token.balanceOf(this) == balance.add(tokenValue)) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#131-135)
+BancorBuyer.withdraw has external calls inside a loop:
+	- tokenBalance = token.balanceOf(this) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#147-148)
+BancorBuyer.withdraw has external calls inside a loop:
+	- token.transfer(_to,tokenValue) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#148)
+BancorBuyer.withdraw has external calls inside a loop:
+	- require(bool)(token.balanceOf(this) == tokenBalance.sub(tokenValue)) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#148-152)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in BancorBuyer.deposit (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#120-136):
+	External calls:
+	- balance = token.balanceOf(this) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#130)
+	- token.transferFrom(msg.sender,this,tokenValue) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#131)
+	- require(bool)(token.balanceOf(this) == balance.add(tokenValue)) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#131-135)
+	State variables written after the call(s):
+	- tokenBalances (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#135-136)
+Reentrancy in BancorBuyer.withdraw (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#137-153):
+	External calls:
+	- tokenBalance = token.balanceOf(this) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#147-148)
+	- token.transfer(_to,tokenValue) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#148)
+	- require(bool)(token.balanceOf(this) == tokenBalance.sub(tokenValue)) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#148-152)
+	External calls sending eth:
+	- _to.transfer(_value) (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#141-142)
+	State variables written after the call(s):
+	- tokenBalances (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#152)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#65) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#66) should be declared external
+ERC20Basic.transfer (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#66-67) should be declared external
+ERC20.allowance (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#78-81) should be declared external
+ERC20.transferFrom (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#81-84) should be declared external
+ERC20.approve (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#84-87) should be declared external
+IMultiToken.tokens (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#101-102) should be declared external
+IMultiToken.weights (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#102-103) should be declared external
+IMultiToken.totalSupply (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#103-108) should be declared external
+IMultiToken.mint (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#108-110) should be declared external
+BancorBuyer.sumWeightOfMultiToken (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#114-120) should be declared external
+BancorBuyer.buyOne (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#184-201) should be declared external
+BancorBuyer.buy1 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#201-215) should be declared external
+BancorBuyer.buy2 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#215-230) should be declared external
+BancorBuyer.buy3 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#231-246) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in BancorBuyer.buyOne (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#184-201):
+	-require(bool)(_exchange.call.value(_value)(_data)) /unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#188-189
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_beneficiary' of BancorBuyer.deposit (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#121) is not in mixedCase
+Parameter '_tokens' of BancorBuyer.deposit (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#121) is not in mixedCase
+Parameter '_tokenValues' of BancorBuyer.deposit (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#121) is not in mixedCase
+Parameter '_to' of BancorBuyer.withdraw (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#137-138) is not in mixedCase
+Parameter '_value' of BancorBuyer.withdraw (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#138) is not in mixedCase
+Parameter '_tokens' of BancorBuyer.withdraw (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#138) is not in mixedCase
+Parameter '_tokenValues' of BancorBuyer.withdraw (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#138) is not in mixedCase
+Parameter '_exchange' of BancorBuyer.buyOne (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#185) is not in mixedCase
+Parameter '_value' of BancorBuyer.buyOne (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#185) is not in mixedCase
+Parameter '_data' of BancorBuyer.buyOne (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#186) is not in mixedCase
+Parameter '_tokens' of BancorBuyer.buy1 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#201-202) is not in mixedCase
+Parameter '_exchanges' of BancorBuyer.buy1 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#202) is not in mixedCase
+Parameter '_values' of BancorBuyer.buy1 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#202) is not in mixedCase
+Parameter '_data1' of BancorBuyer.buy1 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#202-204) is not in mixedCase
+Parameter '_tokens' of BancorBuyer.buy2 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#215) is not in mixedCase
+Parameter '_exchanges' of BancorBuyer.buy2 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#216) is not in mixedCase
+Parameter '_values' of BancorBuyer.buy2 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#216) is not in mixedCase
+Parameter '_data1' of BancorBuyer.buy2 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#216) is not in mixedCase
+Parameter '_data2' of BancorBuyer.buy2 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#217) is not in mixedCase
+Parameter '_tokens' of BancorBuyer.buy3 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#231) is not in mixedCase
+Parameter '_exchanges' of BancorBuyer.buy3 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#231-232) is not in mixedCase
+Parameter '_values' of BancorBuyer.buy3 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#232) is not in mixedCase
+Parameter '_data1' of BancorBuyer.buy3 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#232) is not in mixedCase
+Parameter '_data2' of BancorBuyer.buy3 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#233) is not in mixedCase
+Parameter '_data3' of BancorBuyer.buy3 (/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol#233) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/37/0x87902f1b5d50d1f71a17bc2ea613d38510e9aa67.sol analyzed (5 contracts), 55 result(s) found

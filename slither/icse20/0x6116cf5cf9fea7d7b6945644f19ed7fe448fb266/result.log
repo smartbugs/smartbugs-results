@@ -1,0 +1,82 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:63:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:160:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function SilentNotaryTokenSale(address _token, address _ethMultisigWallet, address _tokenMultisigWallet,
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:189:5: Warning: Use of the "var" keyword is deprecated.
+    var senderAllowed = false;
+    ^---------------^
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:207:5: Warning: Use of the "var" keyword is deprecated.
+    var currentContractTokens = token.balanceOf(address(this));
+    ^-----------------------^
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:209:7: Warning: Use of the "var" keyword is deprecated.
+      var changeTokenAmount = safeSub(tokenAmount, currentContractTokens);
+      ^-------------------^
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:230:5: Warning: Use of the "var" keyword is deprecated.
+    var transferSuccess = token.transfer(receiver, tokenAmount);
+    ^-----------------^
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:239:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Invested(receiver, weiAmount, tokenAmount);
+    ^----------------------------------------^
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:266:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Withdraw(value);
+    ^-------------^
+/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:275:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenPriceChanged(newTokenPrice);
+    ^------------------------------^
+
+INFO:Detectors:[93m
+SilentNotaryTokenSale.withdrawTokens (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#269-276) does not use the value returned by external calls:
+	-token.transfer(tokenMultisigWallet,value) (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#274-275)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in SilentNotaryTokenSale.fallback (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#185-247):
+	External calls:
+	- require(bool)(getCurrentStatus() == Status.Selling || getCurrentStatus() == Status.ProlongedSelling) (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#188-189)
+	- currentContractTokens = token.balanceOf(address(this)) (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#210)
+	State variables written after the call(s):
+	- investedAmountOf (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#223-224)
+	- investorCount (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#221-222)
+	- tokenAmountOf (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#226-227)
+	- tokensSoldAmount (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#230-231)
+	- weiRaisedAmount (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#229-230)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20.totalSupply should be constant (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#49)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20.balanceOf (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#49-50) should be declared external
+ERC20.allowance (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#50-51) should be declared external
+ERC20.transfer (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#51-52) should be declared external
+ERC20.transferFrom (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#52-53) should be declared external
+ERC20.approve (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#53-54) should be declared external
+ERC20.decimals (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#54-55) should be declared external
+Ownable.transferOwnership (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#73-80) should be declared external
+SilentNotaryTokenSale.fallback (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#185-247) should be declared external
+SilentNotaryTokenSale.withdrawTokens (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#269-276) should be declared external
+SilentNotaryTokenSale.changeTokenPrice (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#280-285) should be declared external
+SilentNotaryTokenSale.prolong (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#289-292) should be declared external
+SilentNotaryTokenSale.stopSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#296-299) should be declared external
+SilentNotaryTokenSale.resumeSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol) should be declared external
+SilentNotaryTokenSale.kill (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#67-69) is not in mixedCase
+Function 'SilentNotaryTokenSale.SilentNotaryTokenSale' (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#161-184) is not in mixedCase
+Parameter '_token' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#161) is not in mixedCase
+Parameter '_ethMultisigWallet' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#161) is not in mixedCase
+Parameter '_tokenMultisigWallet' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#161-162) is not in mixedCase
+Parameter '_startTime' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#163) is not in mixedCase
+Parameter '_duration' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#163) is not in mixedCase
+Parameter '_prolongedDuration' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#163-164) is not in mixedCase
+Parameter '_tokenPrice' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#164) is not in mixedCase
+Parameter '_minInvestment' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#164-165) is not in mixedCase
+Parameter '_allowedSenders' of SilentNotaryTokenSale.SilentNotaryTokenSale (/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol#165-166) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/15/0x6116cf5cf9fea7d7b6945644f19ed7fe448fb266.sol analyzed (4 contracts), 29 result(s) found

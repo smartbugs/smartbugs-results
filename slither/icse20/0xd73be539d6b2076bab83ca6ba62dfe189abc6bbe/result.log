@@ -1,0 +1,404 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol:
+/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol:1044:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function BlockchainCutiesCore() public
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol:942:19: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        msgHash = keccak256(_pluginAddress, _signId, _cutieId, _value, _parameter);
+                  ^--------------------------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in BlockchainCutiesCore.bidOnBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1265-1283):
+	External calls:
+	- require(bool)(_canMateViaMarketplace(_momId,_dadId)) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1272-1274)
+	- fee = getBreedingFee(_momId,_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1275-1279)
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1280-1282)
+	- _breedWith(_momId,_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1282)
+	External calls sending eth:
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1280-1282)
+	State variables written after the call(s):
+	- cutieIndexToOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1282)
+	- cuties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1282)
+Reentrancy in BlockchainCutiesCore.bidOnBreedingAuctionTutorial (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1598-1636):
+	External calls:
+	- fee = getBreedingFee(0,_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1606-1607)
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1611-1613)
+	- _triggerCooldown(_dadId,dad) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1618-1619)
+	- babyGen = config.getTutorialBabyGen(dad.generation) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1621-1624)
+	- childGenes = geneMixer.mixGenes(0x0,dad.genes) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1625-1628)
+	- cutieId = _createCutie(0,_dadId,babyGen,getCooldownIndexFromGeneration(babyGen),childGenes,msg.sender,12) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1629-1632)
+	External calls sending eth:
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1611-1613)
+	State variables written after the call(s):
+	- cuties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1629-1632)
+	- isTutorialPetUsed (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1635)
+	- sireAllowedToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1629-1632)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+BlockchainCutiesCore.toSlice (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1768-1774) is declared view but contains assembly code
+BlockchainCutiesCore.memcpy (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1774-1782) is declared view but contains assembly code
+BlockchainCutiesCore.concat (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+BlockchainCutiesCore (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#159-1782) has incorrect ERC20 function interface(s):
+	-transfer (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#338-344)
+	-approve (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#354-362)
+	-transferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#422-439)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in BlockchainCutiesCore._breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1553-1592):
+	External calls:
+	- _triggerCooldown(_dadId,dad) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1563)
+	- _triggerCooldown(_momId,mom) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1565)
+	- babyGen = config.getBabyGen(mom.generation,dad.generation) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1576-1577)
+	- childGenes = geneMixer.mixGenes(mom.genes,dad.genes) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1579-1580)
+	- cutieId = _createCutie(_momId,_dadId,babyGen,getCooldownIndexFromGeneration(babyGen),childGenes,owner,mom.cooldownEndTime) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1582-1589)
+	State variables written after the call(s):
+	- cuties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1582-1589)
+	- sireAllowedToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1582-1589)
+Reentrancy in BlockchainCutiesCore.breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1496-1547):
+	External calls:
+	- require(bool)(getBreedingFee(_momId,_dadId) <= msg.value) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1529-1530)
+	- require(bool)(_canPairMate(mom,_momId,dad,_dadId)) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1545-1546)
+	- _breedWith(_momId,_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1546-1547)
+	State variables written after the call(s):
+	- cutieIndexToOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1546-1547)
+	- cuties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1546-1547)
+	- sireAllowedToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1546-1547)
+Reentrancy in BlockchainCutiesCore.createGen0Auction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1184-1200):
+	External calls:
+	- saleMarket.createAuction(cutieId,startPrice,endPrice,duration,address(this)) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1196-1199)
+	State variables written after the call(s):
+	- gen0CutieCreatedCount (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1199-1200)
+Reentrancy in BlockchainCutiesCore.migrate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1108-1135):
+	External calls:
+	- (genes,birthTime,cooldownEndTime,momId,dadId,cooldownIndex,generation) = old.getCutie(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1118-1120)
+	State variables written after the call(s):
+	- cuties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1135)
+Reentrancy in BlockchainCutiesCore.removePlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#780-791):
+	External calls:
+	- plugins[_address].onRemove() (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#781)
+	State variables written after the call(s):
+	- plugins (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#781-782)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+BlockchainCutiesCore.safeTransferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#378-393) does not use the value returned by external calls:
+	-ERC721TokenReceiver(_to).onERC721Received(_from,_tokenId,data) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#392-393)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+BlockchainCutiesCore.migrate has external calls inside a loop:
+	- (genes,birthTime,cooldownEndTime,momId,dadId,cooldownIndex,generation) = old.getCutie(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1118-1120)
+BlockchainCutiesCore.migrate2 has external calls inside a loop:
+	- owner = old.ownerOf(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1153-1154)
+BlockchainCutiesCore.migrate2 has external calls inside a loop:
+	- (owner,None,None,None,None,None) = oldSaleMarket.getAuctionInfo(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1155-1157)
+BlockchainCutiesCore.migrate2 has external calls inside a loop:
+	- (owner,None,None,None,None,None) = oldBreedingMarket.getAuctionInfo(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1161-1165)
+BlockchainCutiesCore.withdrawBalances has external calls inside a loop:
+	- pluginsArray[i].withdraw() (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1673-1674)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in BlockchainCutiesCore._breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1553-1592):
+	External calls:
+	- _triggerCooldown(_dadId,dad) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1563)
+	- _triggerCooldown(_momId,mom) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1565)
+	State variables written after the call(s):
+	- sireAllowedToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1568)
+	- sireAllowedToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1569-1571)
+Reentrancy in BlockchainCutiesCore.addPlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#760-776):
+	External calls:
+	- require(bool)(candidateContract.isPluginInterface()) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#766-770)
+	State variables written after the call(s):
+	- plugins (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#772-773)
+	- pluginsArray (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#774-776)
+Reentrancy in BlockchainCutiesCore.bidOnBreedingAuctionTutorial (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1598-1636):
+	External calls:
+	- fee = getBreedingFee(0,_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1606-1607)
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1611-1613)
+	- _triggerCooldown(_dadId,dad) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1618-1619)
+	External calls sending eth:
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1611-1613)
+	State variables written after the call(s):
+	- sireAllowedToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1620-1621)
+Reentrancy in BlockchainCutiesCore.bidOnBreedingAuctionTutorial (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1598-1636):
+	External calls:
+	- fee = getBreedingFee(0,_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1606-1607)
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1611-1613)
+	- _triggerCooldown(_dadId,dad) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1618-1619)
+	- babyGen = config.getTutorialBabyGen(dad.generation) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1621-1624)
+	- childGenes = geneMixer.mixGenes(0x0,dad.genes) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1625-1628)
+	- cutieId = _createCutie(0,_dadId,babyGen,getCooldownIndexFromGeneration(babyGen),childGenes,msg.sender,12) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1629-1632)
+	External calls sending eth:
+	- breedingMarket.bid.value(msg.value - fee)(_dadId) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1611-1613)
+	State variables written after the call(s):
+	- cutieIndexToOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1629-1632)
+Reentrancy in BlockchainCutiesCore.migrate2 (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1143-1168):
+	External calls:
+	- owner = old.ownerOf(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1153-1154)
+	- (owner,None,None,None,None,None) = oldSaleMarket.getAuctionInfo(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1155-1157)
+	- (owner,None,None,None,None,None) = oldBreedingMarket.getAuctionInfo(i) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1161-1165)
+	State variables written after the call(s):
+	- cutieIndexToApproved (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1166-1168)
+	- cutieIndexToOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1166-1168)
+	- ownershipTokenCount (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1166-1168)
+	- sireAllowedToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1166-1168)
+Reentrancy in BlockchainCutiesCore.removePlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#780-791):
+	External calls:
+	- plugins[_address].onRemove() (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#781)
+	State variables written after the call(s):
+	- pluginsArray (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#784-787)
+	- pluginsArray (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#787-790)
+Reentrancy in BlockchainCutiesCore.setConfigAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#553-557):
+	External calls:
+	- require(bool)(candidateContract.isConfig()) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#555-556)
+	State variables written after the call(s):
+	- config (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#557)
+Reentrancy in BlockchainCutiesCore.setGeneMixerAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1327-1332):
+	External calls:
+	- require(bool)(candidateContract.isGeneMixer()) (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1330)
+	State variables written after the call(s):
+	- geneMixer (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1331-1332)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BlockchainCutiesCore.toSlice uses assembly (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1768-1774)
+	- /unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1771-1773
+BlockchainCutiesCore.memcpy uses assembly (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1774-1782)
+	- /unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol
+	- /unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol
+BlockchainCutiesCore.concat uses assembly (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol)
+	- /unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+BlockchainCutiesCore.gen0Limit should be constant (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1180-1181)
+BlockchainCutiesCore.promoLimit should be constant (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1181-1182)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+GeneMixerInterface.mixGenes (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#16-18) should be declared external
+GeneMixerInterface.canBreed (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#18-23) should be declared external
+PluginInterface.isPluginInterface (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#27-29) should be declared external
+PluginInterface.onRemove (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#30-31) should be declared external
+PluginInterface.run (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#36-43) should be declared external
+PluginInterface.withdraw (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#59) should be declared external
+MarketInterface.createAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#65-69) should be declared external
+MarketInterface.bid (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#69) should be declared external
+MarketInterface.cancelActiveAuctionWhenPaused (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#71-73) should be declared external
+MarketInterface.getAuctionInfo (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#74-87) should be declared external
+ConfigInterface.isConfig (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#94) should be declared external
+ConfigInterface.getCooldownIndexFromGeneration (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#95-96) should be declared external
+ConfigInterface.getCooldownEndTimeFromIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#98-100) should be declared external
+ConfigInterface.getCooldownIndexCount (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#100-102) should be declared external
+ConfigInterface.getBabyGen (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#102-104) should be declared external
+ConfigInterface.getTutorialBabyGen (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#104-109) should be declared external
+ConfigInterface.getBreedingFee (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#109-110) should be declared external
+BlockchainCutiesCore.setConfigAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#553-557) should be declared external
+BlockchainCutiesCore.restoreCutieToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#675-685) should be declared external
+BlockchainCutiesCore.setOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#699-704) should be declared external
+BlockchainCutiesCore.setOperator (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#706-708) should be declared external
+BlockchainCutiesCore.pause (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#712-715) should be declared external
+BlockchainCutiesCore.setMetadataUrl (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#730-735) should be declared external
+BlockchainCutiesCore.addPlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#760-776) should be declared external
+BlockchainCutiesCore.removePlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#780-791) should be declared external
+BlockchainCutiesCore.runPlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#793-829) should be declared external
+BlockchainCutiesCore.getGenes (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#833-842) should be declared external
+BlockchainCutiesCore.changeGenes (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#846-861) should be declared external
+BlockchainCutiesCore.getCooldownEndTime (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#862-873) should be declared external
+BlockchainCutiesCore.changeCooldownEndTime (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#873-889) should be declared external
+BlockchainCutiesCore.getCooldownIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#889-895) should be declared external
+BlockchainCutiesCore.changeCooldownIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#896-917) should be declared external
+BlockchainCutiesCore.changeGeneration (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#917-935) should be declared external
+BlockchainCutiesCore.getGeneration (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#935-942) should be declared external
+BlockchainCutiesCore.changeOptional (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#942-958) should be declared external
+BlockchainCutiesCore.getOptional (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#958-964) should be declared external
+BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1012-1052) should be declared external
+BlockchainCutiesCore.setMinSign (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1057-1062) should be declared external
+BlockchainCutiesCore.isCutieCore (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1066-1068) should be declared external
+BlockchainCutiesCore.setUpgradedAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1094-1100) should be declared external
+BlockchainCutiesCore.migrate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1108-1135) should be declared external
+BlockchainCutiesCore.migrate2 (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1143-1168) should be declared external
+BlockchainCutiesCore.unpause (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1171-1176) should be declared external
+BlockchainCutiesCore.createGen0Auction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1184-1200) should be declared external
+BlockchainCutiesCore.createPromoCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1200-1212) should be declared external
+BlockchainCutiesCore.createBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1216-1242) should be declared external
+BlockchainCutiesCore.setMarketAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1249-1256) should be declared external
+BlockchainCutiesCore.bidOnBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1265-1283) should be declared external
+BlockchainCutiesCore.createSaleAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1287-1307) should be declared external
+BlockchainCutiesCore.setGeneMixerAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1327-1332) should be declared external
+BlockchainCutiesCore.approveBreeding (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1345-1352) should be declared external
+BlockchainCutiesCore.canBreedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1459-1471) should be declared external
+BlockchainCutiesCore.breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1496-1547) should be declared external
+BlockchainCutiesCore.bidOnBreedingAuctionTutorial (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1598-1636) should be declared external
+BlockchainCutiesCore.setParties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1642-1657) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol:
+	- pragma solidity^0.4.20 (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Struct 'BlockchainCutiesCore.slice' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1756-1759) is not in CapWords
+Function 'BlockchainCutiesCore._totalSupply' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#292-293) is not in mixedCase
+Function 'BlockchainCutiesCore._isOwner' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#301-303) is not in mixedCase
+Parameter '_claimant' of BlockchainCutiesCore._isOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#301-302) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore._isOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#302) is not in mixedCase
+Function 'BlockchainCutiesCore._approvedFor' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#309-311) is not in mixedCase
+Parameter '_claimant' of BlockchainCutiesCore._approvedFor (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#309-310) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore._approvedFor (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#310) is not in mixedCase
+Function 'BlockchainCutiesCore._approve' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#321-326) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore._approve (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#321) is not in mixedCase
+Parameter '_approved' of BlockchainCutiesCore._approve (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#321) is not in mixedCase
+Parameter '_owner' of BlockchainCutiesCore.balanceOf (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#328-329) is not in mixedCase
+Parameter '_to' of BlockchainCutiesCore.transfer (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#341) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.transfer (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#341) is not in mixedCase
+Parameter '_to' of BlockchainCutiesCore.approve (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#355) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.approve (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#355) is not in mixedCase
+Parameter '_from' of BlockchainCutiesCore.safeTransferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#379) is not in mixedCase
+Parameter '_to' of BlockchainCutiesCore.safeTransferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#379) is not in mixedCase
+Parameter '_tokenId' of BlockchainCutiesCore.safeTransferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#379) is not in mixedCase
+Parameter '_from' of BlockchainCutiesCore.safeTransferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#402) is not in mixedCase
+Parameter '_to' of BlockchainCutiesCore.safeTransferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#402) is not in mixedCase
+Parameter '_tokenId' of BlockchainCutiesCore.safeTransferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#402) is not in mixedCase
+Parameter '_from' of BlockchainCutiesCore.transferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#423) is not in mixedCase
+Parameter '_to' of BlockchainCutiesCore.transferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#423) is not in mixedCase
+Parameter '_tokenId' of BlockchainCutiesCore.transferFrom (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#423-424) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.ownerOf (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#442) is not in mixedCase
+Parameter '_owner' of BlockchainCutiesCore.tokenOfOwnerByIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#466-467) is not in mixedCase
+Parameter '_index' of BlockchainCutiesCore.tokenOfOwnerByIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#467) is not in mixedCase
+Parameter '_index' of BlockchainCutiesCore.tokenByIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#482) is not in mixedCase
+Parameter '_operator' of BlockchainCutiesCore.setApprovalForAll (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#503) is not in mixedCase
+Parameter '_approved' of BlockchainCutiesCore.setApprovalForAll (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#503) is not in mixedCase
+Parameter '_tokenId' of BlockchainCutiesCore.getApproved (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#520) is not in mixedCase
+Parameter '_owner' of BlockchainCutiesCore.isApprovedForAll (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#537) is not in mixedCase
+Parameter '_operator' of BlockchainCutiesCore.isApprovedForAll (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#537) is not in mixedCase
+Function 'BlockchainCutiesCore._isApprovedForAll' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#541-547) is not in mixedCase
+Parameter '_owner' of BlockchainCutiesCore._isApprovedForAll (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#542-543) is not in mixedCase
+Parameter '_operator' of BlockchainCutiesCore._isApprovedForAll (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#543) is not in mixedCase
+Parameter '_address' of BlockchainCutiesCore.setConfigAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#553) is not in mixedCase
+Parameter '_generation' of BlockchainCutiesCore.getCooldownIndexFromGeneration (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#558) is not in mixedCase
+Function 'BlockchainCutiesCore._createCutie' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#582-620) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore._createCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#583) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore._createCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#583-585) is not in mixedCase
+Parameter '_generation' of BlockchainCutiesCore._createCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#585) is not in mixedCase
+Parameter '_cooldownIndex' of BlockchainCutiesCore._createCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#586) is not in mixedCase
+Parameter '_genes' of BlockchainCutiesCore._createCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#586-588) is not in mixedCase
+Parameter '_owner' of BlockchainCutiesCore._createCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#588) is not in mixedCase
+Parameter '_birthTime' of BlockchainCutiesCore._createCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#588-590) is not in mixedCase
+Parameter '_id' of BlockchainCutiesCore.getCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#625) is not in mixedCase
+Function 'BlockchainCutiesCore._transfer' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#637-653) is not in mixedCase
+Parameter '_from' of BlockchainCutiesCore._transfer (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#638) is not in mixedCase
+Parameter '_to' of BlockchainCutiesCore._transfer (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#638) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore._transfer (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#638) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.restoreCutieToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#678) is not in mixedCase
+Parameter '_recipient' of BlockchainCutiesCore.restoreCutieToAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#678) is not in mixedCase
+Parameter '_newOwner' of BlockchainCutiesCore.setOwner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#701) is not in mixedCase
+Parameter '_newOperator' of BlockchainCutiesCore.setOperator (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#706) is not in mixedCase
+Parameter '_tokenId' of BlockchainCutiesCore.tokenURI (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#728) is not in mixedCase
+Parameter '_metadataUrlPrefix' of BlockchainCutiesCore.setMetadataUrl (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#730-731) is not in mixedCase
+Parameter '_metadataUrlSuffix' of BlockchainCutiesCore.setMetadataUrl (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#731) is not in mixedCase
+Parameter '_address' of BlockchainCutiesCore.addPlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#760) is not in mixedCase
+Parameter '_address' of BlockchainCutiesCore.removePlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#780) is not in mixedCase
+Parameter '_pluginAddress' of BlockchainCutiesCore.runPlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#794-795) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.runPlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#795-796) is not in mixedCase
+Parameter '_parameter' of BlockchainCutiesCore.runPlugin (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#799) is not in mixedCase
+Parameter '_id' of BlockchainCutiesCore.getGenes (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#834-835) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.changeGenes (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#846) is not in mixedCase
+Parameter '_genes' of BlockchainCutiesCore.changeGenes (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#848) is not in mixedCase
+Parameter '_id' of BlockchainCutiesCore.getCooldownEndTime (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#862) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.changeCooldownEndTime (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#873-875) is not in mixedCase
+Parameter '_cooldownEndTime' of BlockchainCutiesCore.changeCooldownEndTime (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#875) is not in mixedCase
+Parameter '_id' of BlockchainCutiesCore.getCooldownIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#891) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.changeCooldownIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#899) is not in mixedCase
+Parameter '_cooldownIndex' of BlockchainCutiesCore.changeCooldownIndex (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#900-902) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.changeGeneration (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#919) is not in mixedCase
+Parameter '_generation' of BlockchainCutiesCore.changeGeneration (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#919) is not in mixedCase
+Parameter '_id' of BlockchainCutiesCore.getGeneration (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#936) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.changeOptional (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#942-943) is not in mixedCase
+Parameter '_optional' of BlockchainCutiesCore.changeOptional (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#945) is not in mixedCase
+Parameter '_id' of BlockchainCutiesCore.getOptional (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#958) is not in mixedCase
+Parameter '_pluginAddress' of BlockchainCutiesCore.hashArguments (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#968) is not in mixedCase
+Parameter '_signId' of BlockchainCutiesCore.hashArguments (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#969-970) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.hashArguments (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#970-971) is not in mixedCase
+Parameter '_value' of BlockchainCutiesCore.hashArguments (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#971-973) is not in mixedCase
+Parameter '_parameter' of BlockchainCutiesCore.hashArguments (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#973-975) is not in mixedCase
+Parameter '_pluginAddress' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#981) is not in mixedCase
+Parameter '_signId' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#981-982) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#982) is not in mixedCase
+Parameter '_value' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#982-983) is not in mixedCase
+Parameter '_parameter' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#983-984) is not in mixedCase
+Parameter '_v' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#984) is not in mixedCase
+Parameter '_r' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#985) is not in mixedCase
+Parameter '_s' of BlockchainCutiesCore.getSigner (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#986) is not in mixedCase
+Parameter '_pluginAddress' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#998-999) is not in mixedCase
+Parameter '_signId' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#999) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#999) is not in mixedCase
+Parameter '_value' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1000) is not in mixedCase
+Parameter '_parameter' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1000) is not in mixedCase
+Parameter '_v' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1000-1001) is not in mixedCase
+Parameter '_r' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1002) is not in mixedCase
+Parameter '_s' of BlockchainCutiesCore.isValidSignature (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1002) is not in mixedCase
+Parameter '_pluginAddress' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1014) is not in mixedCase
+Parameter '_signId' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1014) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1015) is not in mixedCase
+Parameter '_value' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1015) is not in mixedCase
+Parameter '_parameter' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1016) is not in mixedCase
+Parameter '_v' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1016) is not in mixedCase
+Parameter '_r' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1016-1017) is not in mixedCase
+Parameter '_s' of BlockchainCutiesCore.runPluginSigned (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1017-1018) is not in mixedCase
+Parameter '_newMinSignId' of BlockchainCutiesCore.setMinSign (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1059) is not in mixedCase
+Function 'BlockchainCutiesCore.BlockchainCutiesCore' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1069-1081) is not in mixedCase
+Parameter '_newAddress' of BlockchainCutiesCore.setUpgradedAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1094-1095) is not in mixedCase
+Parameter '_oldAddress' of BlockchainCutiesCore.migrate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1108-1109) is not in mixedCase
+Parameter '_fromIndex' of BlockchainCutiesCore.migrate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1109) is not in mixedCase
+Parameter '_toIndex' of BlockchainCutiesCore.migrate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1109) is not in mixedCase
+Parameter '_oldAddress' of BlockchainCutiesCore.migrate2 (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1143-1144) is not in mixedCase
+Parameter '_fromIndex' of BlockchainCutiesCore.migrate2 (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1144) is not in mixedCase
+Parameter '_toIndex' of BlockchainCutiesCore.migrate2 (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1144-1145) is not in mixedCase
+Parameter '_genes' of BlockchainCutiesCore.createGen0Auction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1185) is not in mixedCase
+Parameter '_genes' of BlockchainCutiesCore.createPromoCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1200) is not in mixedCase
+Parameter '_owner' of BlockchainCutiesCore.createPromoCutie (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1200-1201) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.createBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1217) is not in mixedCase
+Parameter '_startPrice' of BlockchainCutiesCore.createBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1219) is not in mixedCase
+Parameter '_endPrice' of BlockchainCutiesCore.createBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1219) is not in mixedCase
+Parameter '_duration' of BlockchainCutiesCore.createBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1220) is not in mixedCase
+Parameter '_breedingAddress' of BlockchainCutiesCore.setMarketAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1249-1250) is not in mixedCase
+Parameter '_saleAddress' of BlockchainCutiesCore.setMarketAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1250) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore.bidOnBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1266) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore.bidOnBreedingAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1266-1267) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.createSaleAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1288) is not in mixedCase
+Parameter '_startPrice' of BlockchainCutiesCore.createSaleAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1288) is not in mixedCase
+Parameter '_endPrice' of BlockchainCutiesCore.createSaleAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1290) is not in mixedCase
+Parameter '_duration' of BlockchainCutiesCore.createSaleAuction (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1290) is not in mixedCase
+Function 'BlockchainCutiesCore._isBreedingPermitted' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1315-1325) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore._isBreedingPermitted (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1316) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore._isBreedingPermitted (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1316) is not in mixedCase
+Parameter '_address' of BlockchainCutiesCore.setGeneMixerAddress (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1327) is not in mixedCase
+Function 'BlockchainCutiesCore._canBreed' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1333-1336) is not in mixedCase
+Parameter '_cutie' of BlockchainCutiesCore._canBreed (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1335) is not in mixedCase
+Parameter '_addr' of BlockchainCutiesCore.approveBreeding (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1345) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore.approveBreeding (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1345) is not in mixedCase
+Function 'BlockchainCutiesCore._triggerCooldown' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1364-1392) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore._triggerCooldown (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1366-1367) is not in mixedCase
+Parameter '_cutie' of BlockchainCutiesCore._triggerCooldown (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1367) is not in mixedCase
+Parameter '_cutieId' of BlockchainCutiesCore.canBreed (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1401-1402) is not in mixedCase
+Function 'BlockchainCutiesCore._canPairMate' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1412-1455) is not in mixedCase
+Parameter '_mom' of BlockchainCutiesCore._canPairMate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1414-1416) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore._canPairMate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1416) is not in mixedCase
+Parameter '_dad' of BlockchainCutiesCore._canPairMate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1416) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore._canPairMate (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1416-1417) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore.canBreedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1461) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore.canBreedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1461-1462) is not in mixedCase
+Function 'BlockchainCutiesCore._canMateViaMarketplace' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1474-1480) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore._canMateViaMarketplace (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1474) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore._canMateViaMarketplace (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1474) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore.getBreedingFee (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1480) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore.getBreedingFee (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1480-1481) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore.breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1496) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore.breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1496) is not in mixedCase
+Function 'BlockchainCutiesCore._breedWith' (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1553-1592) is not in mixedCase
+Parameter '_momId' of BlockchainCutiesCore._breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1554-1555) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore._breedWith (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1555-1556) is not in mixedCase
+Parameter '_dadId' of BlockchainCutiesCore.bidOnBreedingAuctionTutorial (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1600) is not in mixedCase
+Parameter '_party1' of BlockchainCutiesCore.setParties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1643) is not in mixedCase
+Parameter '_party2' of BlockchainCutiesCore.setParties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1643) is not in mixedCase
+Parameter '_party3' of BlockchainCutiesCore.setParties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1643-1644) is not in mixedCase
+Parameter '_party4' of BlockchainCutiesCore.setParties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1644) is not in mixedCase
+Parameter '_party5' of BlockchainCutiesCore.setParties (/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol#1644) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0xd73be539d6b2076bab83ca6ba62dfe189abc6bbe.sol analyzed (6 contracts), 252 result(s) found

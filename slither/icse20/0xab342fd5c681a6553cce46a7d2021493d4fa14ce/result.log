@@ -1,0 +1,70 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:14:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:100:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ListingsERC20(uint256 percentage) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:34:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:109:27: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        assert(owner.send(this.balance));
+                          ^----------^
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:122:16: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return keccak256(msg.sender, tokenContractAddress, price, allowance, dateEnds, salt);
+               ^---------------------------------------------------------------------------^
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:139:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ListingCreated(listingId, tokenContractAddress, price, allowance, now, dateEnds, msg.sender);
+        ^------------------------------------------------------------------------------------------^
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:147:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ListingCancelled(listingId, now);
+        ^------------------------------^
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:168:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ListingBought(listingId, contractAddress, price, amount, now, msg.sender);
+        ^-----------------------------------------------------------------------^
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:125:16: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        return ERC20(tokenContract).balanceOf.gas(GAS_LIMIT)(seller);
+               ^-------------------------------------------^
+/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:128:16: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        return ERC20(tokenContract).allowance.gas(GAS_LIMIT)(seller, listingContract);
+               ^-------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in ListingsERC20.buyListing (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#151-171):
+	External calls:
+	- require(bool)(getBalance(contractAddress,seller) >= amount) (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#162-163)
+	- require(bool)(getAllowance(contractAddress,seller,this) >= amount) (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#165)
+	- require(bool)(tokenContract.transferFrom(seller,msg.sender,amount)) (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#167-168)
+	External calls sending eth:
+	- seller.transfer(sale - (sale.mul(ownerPercentage).div(10000))) (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#168-171)
+	State variables written after the call(s):
+	- sold (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[92m
+Reentrancy in ListingsERC20.createListing (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#132-145):
+	External calls:
+	- require(bool)(getBalance(tokenContractAddress,msg.sender) >= allowance) (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#136-137)
+	State variables written after the call(s):
+	- listings (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#141-143)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#41)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#32-40) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#41-42) should be declared external
+ERC20Basic.transfer (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#42-43) should be declared external
+ERC20.allowance (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#47-48) should be declared external
+ERC20.transferFrom (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#48-49) should be declared external
+ERC20.approve (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#49-50) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#14-20) is not in mixedCase
+Function 'ListingsERC20.ListingsERC20' (/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol#104-105) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/21/0xab342fd5c681a6553cce46a7d2021493d4fa14ce.sol analyzed (5 contracts), 12 result(s) found

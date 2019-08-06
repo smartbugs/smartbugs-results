@@ -1,0 +1,148 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol:
+/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol:646:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    proposal.digest = keccak256(proposer, amount, transationBytecode);
+                      ^---------------------------------------------^
+/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol:766:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    return  proposal.digest == keccak256(proposer, proposal.amount, transactionBytecode) &&
+                               ^-------------------------------------------------------^
+
+INFO:Detectors:[91m
+IkuraAssociation.mintProposals (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#687-688) is never initialized. It is used in:
+	- constructor (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#726-756)
+IkuraAssociation.burnProposals (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#688) is never initialized. It is used in:
+	- constructor (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#726-756)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+Reentrancy in IkuraStorage.addTokenBalance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#523-535):
+	External calls:
+	- tokenBalances[addr] > 0 && ! isOwnerAddress(addr) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#530-535)
+	State variables written after the call(s):
+	- ownerAddresses (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#534)
+Reentrancy in IkuraAssociation.confirmProposal (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#820-862):
+	External calls:
+	- isProposalExecutable(type_,proposalId,proposal.proposer,) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#852-862)
+	State variables written after the call(s):
+	- proposals (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#853)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+IkuraAssociation.executeMintProposal (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1045-1076) does not use the value returned by external calls:
+	-_storage.addCoinBalance(proposal.proposer,proposal.amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1069-1071)
+	-_storage.addTokenBalance(proposal.proposer,proposal.amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1072-1075)
+IkuraAssociation.executeBurnProposal (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1085-1114) does not use the value returned by external calls:
+	-_storage.subCoinBalance(proposal.proposer,proposal.amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1111-1112)
+	-_storage.subTokenBalance(proposal.proposer,proposal.amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1112-1113)
+ProposalLibrary.mint (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1176-1188) does not use the value returned by external calls:
+	-self._association.newProposal(keccak256()(mint),sender,amount,) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1184-1187)
+ProposalLibrary.burn (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1200-1213) does not use the value returned by external calls:
+	-self._association.newProposal(keccak256()(burn),sender,amount,) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1210-1212)
+IkuraToken.transfer (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1376-1413) does not use the value returned by external calls:
+	-_storage.subCoinBalance(sender,totalAmount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1392-1394)
+	-_storage.addCoinBalance(to,amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1396)
+	-_storage.addCoinBalance(owner,fee) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1409-1411)
+IkuraToken.transferFrom (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) does not use the value returned by external calls:
+	-_storage.subCoinBalance(sender,fee) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+	-_storage.addCoinBalance(owner,fee) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+	-_storage.subCoinBalance(from,amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+	-_storage.subCoinAllowance(from,sender,amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+	-_storage.addCoinBalance(to,amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+IkuraToken.approve (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) does not use the value returned by external calls:
+	-_storage.setCoinAllowance(sender,spender,amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+IkuraToken.transferToken (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) does not use the value returned by external calls:
+	-_storage.subTokenBalance(sender,amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+	-_storage.addTokenBalance(to,amount) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+IkuraToken.mint (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) does not use the value returned by external calls:
+	-_association.newProposal(keccak256()(mint),sender,amount,) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+IkuraToken.burn (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) does not use the value returned by external calls:
+	-_association.newProposal(keccak256()(burn),sender,amount,) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+IkuraToken.transfer.owner (local variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1404-1408) shadows:
+	- DSAuth.owner (state variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#32)
+IkuraToken.transferFrom.owner (local variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) shadows:
+	- DSAuth.owner (state variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#32)
+IkuraToken.allowance.owner (local variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) shadows:
+	- DSAuth.owner (state variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#32)
+IkuraToken.tokenBalanceOf.owner (local variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) shadows:
+	- DSAuth.owner (state variable @ /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#32)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+IkuraAssociation.confirmedTotalToken has external calls inside a loop:
+	- total = add(total,_storage.tokenBalance(proposal.confirmers[i])) (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#914-915)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+IkuraAssociation.confirmTotalTokenThreshold should be constant (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#683)
+IkuraToken._logicVersion should be constant (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1266-1267)
+IkuraToken._transferFeeRate should be constant (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1256)
+IkuraToken._transferMinimumFee should be constant (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1262-1263)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+DSAuthority.canCall (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#18-23) should be declared external
+DSAuth.setOwner (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#38-45) should be declared external
+DSAuth.setAuthority (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#45-54) should be declared external
+IkuraStorage.changeToken (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#213-216) should be declared external
+IkuraStorage.changeAssociation (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#216-224) should be declared external
+IkuraStorage.changeAuthority (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#224-228) should be declared external
+IkuraStorage.totalSupply (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#237-244) should be declared external
+IkuraStorage.addTotalSupply (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#248-254) should be declared external
+IkuraStorage.subTotalSupply (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#256-263) should be declared external
+IkuraStorage.transferFeeRate (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#274-278) should be declared external
+IkuraStorage.setTransferFeeRate (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#286-292) should be declared external
+IkuraStorage.transferMinimumFee (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#305-308) should be declared external
+IkuraStorage.setTransferMinimumFee (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#323-328) should be declared external
+IkuraStorage.primaryOwner (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#408-411) should be declared external
+IkuraStorage.numOwnerAddress (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#438-441) should be declared external
+IkuraStorage.coinBalance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#455-462) should be declared external
+IkuraStorage.addCoinBalance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#471-476) should be declared external
+IkuraStorage.subCoinBalance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#488-491) should be declared external
+IkuraStorage.tokenBalance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#506-514) should be declared external
+IkuraStorage.addTokenBalance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#523-535) should be declared external
+IkuraStorage.subTokenBalance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#544-551) should be declared external
+IkuraStorage.coinAllowance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#560-569) should be declared external
+IkuraStorage.addCoinAllowance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#584-590) should be declared external
+IkuraStorage.subCoinAllowance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#600-604) should be declared external
+IkuraStorage.setCoinAllowance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#610-614) should be declared external
+IkuraAssociation.changeStorage (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#758-762) should be declared external
+IkuraAssociation.changeToken (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#762-766) should be declared external
+IkuraAssociation.newProposal (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#768-809) should be declared external
+IkuraAssociation.proposalExpireAt (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#928-933) should be declared external
+IkuraAssociation.numberOfProposals (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#984-998) should be declared external
+IkuraAssociation.numberOfActiveProposals (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1009-1027) should be declared external
+ProposalLibrary.mint (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1176-1188) should be declared external
+ProposalLibrary.burn (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1200-1213) should be declared external
+ProposalLibrary.confirmProposal (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1229-1232) should be declared external
+ProposalLibrary.numberOfProposals (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1243-1249) should be declared external
+IkuraToken.totalSupply (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1332-1340) should be declared external
+IkuraToken.balanceOf (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1351-1354) should be declared external
+IkuraToken.transfer (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1376-1413) should be declared external
+IkuraToken.transferFrom (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.approve (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.allowance (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.tokenBalanceOf (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.transferToken (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.transferFeeRate (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.transferMinimumFee (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.mint (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.burn (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.confirmProposal (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.numberOfProposals (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.changeAssociation (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.changeStorage (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+IkuraToken.logicVersion (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#14-16): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Variable 'IkuraStorage._totalSupply' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#176) is not in mixedCase
+Variable 'IkuraStorage._transferFeeRate' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#179) is not in mixedCase
+Variable 'IkuraStorage._transferMinimumFee' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#185-186) is not in mixedCase
+Variable 'IkuraAssociation._storage' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#686-687) is not in mixedCase
+Variable 'IkuraAssociation._token' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#687) is not in mixedCase
+Variable 'IkuraToken._transferFeeRate' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1256) is not in mixedCase
+Variable 'IkuraToken._transferMinimumFee' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1262-1263) is not in mixedCase
+Variable 'IkuraToken._logicVersion' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1266-1267) is not in mixedCase
+Variable 'IkuraToken._storage' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1284) is not in mixedCase
+Variable 'IkuraToken._association' (/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol#1284) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/43/0x95709a816a56195062e0a37d1e96a3370613a444.sol analyzed (9 contracts), 83 result(s) found

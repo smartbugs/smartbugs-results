@@ -1,0 +1,119 @@
+INFO:Detectors:[91m
+ZeroBTCWorldCup.concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#665-705) allows anyone to destruct the contract
+ZeroBTCWorldCup.pullRipCord (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#719-728) allows anyone to destruct the contract
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#suicidal[0m
+INFO:Detectors:[91m
+ZeroBTCWorldCup.BTCTKN (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#90-91) is never initialized. It is used in:
+	- register (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#376-391)
+	- seekApproval (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#433-439)
+	- concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#665-705)
+	- pullRipCord (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#719-728)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+Reentrancy in ZeroBTCWorldCup.register (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#376-391):
+	External calls:
+	- require(bool)(BTCTKN.transferFrom(_customerAddress,address(this),entryFee)) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#381-382)
+	State variables written after the call(s):
+	- playerRegistered (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#384-387)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+ZeroBTCWorldCup.register uses tx.origin for authorization:
+	- require(bool)(! playerRegistered[_customerAddress] && tx.origin == _customerAddress) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#378-380)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-usage-of-txorigin[0m
+INFO:Detectors:[93m
+ZeroBTCWorldCup.seekApproval (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#433-439) does not use the value returned by external calls:
+	-BTCTKN.approve(address(this),entryFee) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#436-438)
+ZeroBTCWorldCup.concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#665-705) does not use the value returned by external calls:
+	-BTCTKN.approve(_first,firstPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#683)
+	-BTCTKN.transferFrom(address(this),_first,firstPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#683-684)
+	-BTCTKN.approve(_second,secondPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#684)
+	-BTCTKN.transferFrom(address(this),_second,secondPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#684-686)
+	-BTCTKN.approve(_third,thirdPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#686)
+	-BTCTKN.transferFrom(address(this),_third,thirdPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#686-690)
+	-BTCTKN.approve(givethAddress,givethPool) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#690-691)
+	-BTCTKN.transferFrom(address(this),givethAddress,givethPool) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#691-692)
+	-BTCTKN.approve(administrator,adminPool) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#693)
+	-BTCTKN.transferFrom(address(this),administrator,adminPool) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#693-694)
+	-BTCTKN.approve(_fourth,fourthPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#700-701)
+	-BTCTKN.transferFrom(address(this),_fourth,fourthPrize) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#701-702)
+ZeroBTCWorldCup.pullRipCord (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#719-728) does not use the value returned by external calls:
+	-BTCTKN.approve(administrator,totalPool) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#724-725)
+	-BTCTKN.transferFrom(address(this),administrator,totalPool) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#725-727)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in ZeroBTCWorldCup.register (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#376-391):
+	External calls:
+	- require(bool)(BTCTKN.transferFrom(_customerAddress,address(this),entryFee)) (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#381-382)
+	State variables written after the call(s):
+	- adminPool (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#390-391)
+	- givethPool (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#390)
+	- playerGamesScored (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#387)
+	- playerList (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#388)
+	- prizePool (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#389)
+	- registeredPlayers (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#383-384)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ZeroBTCWorldCup.name should be constant (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#91-92)
+ZeroBTCWorldCup.symbol should be constant (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#92)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ZeroBTCInterface.approve (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#75-76) should be declared external
+ZeroBTCInterface.transferFrom (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#76-82) should be declared external
+ZeroBTCWorldCup.register (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#376-391) should be declared external
+ZeroBTCWorldCup.makePrediction (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#398-424) should be declared external
+ZeroBTCWorldCup.showPlayerScores (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#425-433) should be declared external
+ZeroBTCWorldCup.seekApproval (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#433-439) should be declared external
+ZeroBTCWorldCup.gameResultsLogged (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#441-443) should be declared external
+ZeroBTCWorldCup.calculateScore (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#448-462) should be declared external
+ZeroBTCWorldCup.countParticipants (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#463-465) should be declared external
+ZeroBTCWorldCup.updateAllScores (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#533-546) should be declared external
+ZeroBTCWorldCup.playerLastScoredGame (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#552-559) should be declared external
+ZeroBTCWorldCup.correctResult (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#567-571) should be declared external
+ZeroBTCWorldCup.playerGuess (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#572-574) should be declared external
+ZeroBTCWorldCup.viewScore (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#577-628) should be declared external
+ZeroBTCWorldCup.addNewGame (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#643-646) should be declared external
+ZeroBTCWorldCup.logResult (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#650-663) should be declared external
+ZeroBTCWorldCup.concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#665-705) should be declared external
+ZeroBTCWorldCup.pullRipCord (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#719-728) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_gameID' of ZeroBTCWorldCup.makePrediction (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#399) is not in mixedCase
+Parameter '_prediction' of ZeroBTCWorldCup.makePrediction (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#399) is not in mixedCase
+Parameter '_participant' of ZeroBTCWorldCup.showPlayerScores (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#427-428) is not in mixedCase
+Parameter '_participant' of ZeroBTCWorldCup.calculateScore (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#449) is not in mixedCase
+Parameter '_participant' of ZeroBTCWorldCup.updateScore (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#467-468) is not in mixedCase
+Parameter '_player' of ZeroBTCWorldCup.playerLastScoredGame (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#554) is not in mixedCase
+Parameter '_player' of ZeroBTCWorldCup.playerIsRegistered (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#563) is not in mixedCase
+Parameter '_gameID' of ZeroBTCWorldCup.correctResult (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#568-569) is not in mixedCase
+Parameter '_gameID' of ZeroBTCWorldCup.playerGuess (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#572) is not in mixedCase
+Parameter '_participant' of ZeroBTCWorldCup.viewScore (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#578-579) is not in mixedCase
+Function 'ZeroBTCWorldCup._btcToken' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#636-639) is not in mixedCase
+Parameter '_tokenContract' of ZeroBTCWorldCup._btcToken (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#636-637) is not in mixedCase
+Parameter '_opponents' of ZeroBTCWorldCup.addNewGame (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#643-644) is not in mixedCase
+Parameter '_gameID' of ZeroBTCWorldCup.addNewGame (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#644) is not in mixedCase
+Parameter '_gameID' of ZeroBTCWorldCup.logResult (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#650) is not in mixedCase
+Parameter '_winner' of ZeroBTCWorldCup.logResult (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#650-651) is not in mixedCase
+Parameter '_first' of ZeroBTCWorldCup.concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#665) is not in mixedCase
+Parameter '_second' of ZeroBTCWorldCup.concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#667) is not in mixedCase
+Parameter '_third' of ZeroBTCWorldCup.concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#668-669) is not in mixedCase
+Parameter '_fourth' of ZeroBTCWorldCup.concludeTournament (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#670) is not in mixedCase
+Function 'ZeroBTCWorldCup._isCorrectBuyin' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#732-738) is not in mixedCase
+Parameter '_buyin' of ZeroBTCWorldCup._isCorrectBuyin (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#733) is not in mixedCase
+Parameter '_a' of ZeroBTCWorldCup.compare (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#739-740) is not in mixedCase
+Parameter '_b' of ZeroBTCWorldCup.compare (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#740) is not in mixedCase
+Parameter '_a' of ZeroBTCWorldCup.equalStrings (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#765-766) is not in mixedCase
+Parameter '_b' of ZeroBTCWorldCup.equalStrings (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#766) is not in mixedCase
+Constant 'ZeroBTCWorldCup.administrator' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#84-85) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZeroBTCWorldCup.givethAddress' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#85-86) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'ZeroBTCWorldCup.BTCTKN' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#90-91) is not in mixedCase
+Constant 'ZeroBTCWorldCup.entryFee' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#92-93) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZeroBTCWorldCup.ninetyPercent' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#93-94) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZeroBTCWorldCup.fivePercent' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#94-98) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ZeroBTCWorldCup.tenPercent' (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#98-99) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+ZeroBTCWorldCup.name (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#91-92) is never used in ZeroBTCWorldCup
+ZeroBTCWorldCup.symbol (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#92) is never used in ZeroBTCWorldCup
+ZeroBTCWorldCup.tenPercent (/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol#98-99) is never used in ZeroBTCWorldCup
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/39/0x0b71bee14c6fb53ac5d452e429d57f5020106d3e.sol analyzed (3 contracts), 62 result(s) found

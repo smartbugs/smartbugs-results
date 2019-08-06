@@ -1,0 +1,209 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:2:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:780:9: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+        bytes genericPayload,
+        ^------------------^
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:832:9: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+        bytes genericPayload,
+        ^------------------^
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:88:5: Warning: Function state mutability can be restricted to pure
+    function fetchReturnData() internal returns (bool success){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:430:28: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+            let success := call(
+                           ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:722:24: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+            success := delegatecall(
+                       ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:761:24: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+            success := delegatecall(
+                       ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:1181:5: Warning: Function state mutability can be restricted to pure
+    function initialiseTradeFlags(Trade[] trades)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:1401:5: Warning: Function state mutability can be restricted to pure
+    function calculateFee(uint256 amount, uint256 fee) internal view returns (uint256){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:1408:5: Warning: Function state mutability can be restricted to pure
+    function removeFee(uint256 amount, uint256 fee) internal view returns (uint256){
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Affiliate.payout (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#569-578) sends eth to arbitrary user
+	Dangerous calls:
+	- affiliateBeneficiary.transfer(SafeMath.div(SafeMath.mul(address(this).balance,affiliatePercentage),getTotalFeePercentage())) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#573-576)
+	- companyBeneficiary.transfer(address(this).balance) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#576-578)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Utils.getDecimals (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#424-456) is declared view but contains assembly code
+ExchangeHandler.getAmountToGive (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#718-753) is declared view but contains assembly code
+ExchangeHandler.staticExchangeChecks (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#758-791) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+j in TotlePrimary.performTrade (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1252) is a local variable never initialiazed
+i in TotlePrimary.staticChecks (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1152) is a local variable never initialiazed
+j in TotlePrimary.staticChecks (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1188) is a local variable never initialiazed
+i in TotlePrimary.performRebalance (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1062) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+TotlePrimary.performRebalance has external calls inside a loop:
+	- errorReporter.revertTx(Amounts spent/received in trade not acceptable) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1100-1102)
+TotlePrimary.staticChecks has external calls inside a loop:
+	- errorReporter.revertTx(A buy has occured before this sell) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1157)
+TotlePrimary.staticChecks has external calls inside a loop:
+	- errorReporter.revertTx(Taker has not sent allowance/balance on a non-optional trade) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1162-1165)
+TotlePrimary.performTrade has external calls inside a loop:
+	- amountToGiveForOrder = Utils.min(thisHandler.getAmountToGive(thisOrder.genericPayload),amounts.amountLeftToSpendOnTrade) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1276-1280)
+TotlePrimary.performTrade has external calls inside a loop:
+	- ! thisHandler.staticExchangeChecks(thisOrder.genericPayload) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1288-1289)
+TotlePrimary.performTrade has external calls inside a loop:
+	- errorReporter.revertTx(Unable to transfer tokens to handler) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1295)
+TotlePrimary.performTrade has external calls inside a loop:
+	- (amountSpentOnOrder,amountReceivedFromOrder) = thisHandler.performSellOrder(thisOrder.genericPayload,amountToGiveForOrder) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1300-1302)
+TotlePrimary.performTrade has external calls inside a loop:
+	- (amountSpentOnOrder,amountReceivedFromOrder) = thisHandler.performBuyOrder.value(amountToGiveForOrder)(thisOrder.genericPayload,amountToGiveForOrder) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1312-1314)
+TotlePrimary.transferTokens has external calls inside a loop:
+	- ! tokenTransferProxy.transferFrom(trades[i].tokenAddress,msg.sender,address(this),trades[i].tokenAmount) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1395-1402)
+TotlePrimary.transferTokens has external calls inside a loop:
+	- errorReporter.revertTx(TTP unable to transfer tokens to primary) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1401-1402)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in AffiliateRegistry.overrideRegisterAffiliate (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#600-611):
+	External calls:
+	- newAffiliate.init(_companyBeneficiary,_companyPercentage,affiliateBeneficiary,affiliatePercentage) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#604-606)
+	State variables written after the call(s):
+	- affiliateContracts (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#606)
+Reentrancy in AffiliateRegistry.registerAffiliate (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#590-598):
+	External calls:
+	- newAffiliate.init(companyBeneficiary,companyPercentage,affiliateBeneficiary,affiliatePercentage) (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#592-596)
+	State variables written after the call(s):
+	- affiliateContracts (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#596)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20SafeTransfer.fetchReturnData uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#90-107)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#92-107
+Utils.getDecimals uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#424-456)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#433-456
+AffiliateRegistry.createClone uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#615-625)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#616-625
+ExchangeHandler.getAmountToGive uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#718-753)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#724-753
+ExchangeHandler.staticExchangeChecks uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#758-791)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#764-791
+ExchangeHandler.performBuyOrder uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#800-843)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#808-843
+ExchangeHandler.performSellOrder uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#853-916)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#861-916
+TotlePrimary.fallback uses assembly (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol)
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol:
+	- Version used: ['0.4.25', 'ABIEncoderV2']
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1 declares pragma solidity0.4.25
+	- /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#2-3 declares pragma experimentalABIEncoderV2
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#42-48) should be declared external
+Ownable.transferOwnership (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#51-56) should be declared external
+ERC20.totalSupply (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#135-136) should be declared external
+ERC20.balanceOf (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#136-138) should be declared external
+ERC20.allowance (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#138-141) should be declared external
+ERC20.transfer (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#141-143) should be declared external
+ERC20.approve (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#143-146) should be declared external
+ERC20.transferFrom (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#146-152) should be declared external
+ERC20.decimals (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#154-156) should be declared external
+TokenTransferProxy.addAuthorizedAddress (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#218-226) should be declared external
+TokenTransferProxy.removeAuthorizedAddress (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#230-243) should be declared external
+TokenTransferProxy.transferFrom (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#254-269) should be declared external
+TokenTransferProxy.getAuthorizedAddresses (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#277-284) should be declared external
+Pausable.paused (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#299-301) should be declared external
+Pausable.pause (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#325-330) should be declared external
+Pausable.unpause (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#332-333) should be declared external
+ErrorReporter.revertTx (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#545-546) should be declared external
+Affiliate.init (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#553-569) should be declared external
+Affiliate.payout (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#569-578) should be declared external
+Affiliate.fallback (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#578-579) should be declared external
+AffiliateRegistry.deleteAffiliate (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#611-613) should be declared external
+AffiliateRegistry.isValidAffiliate (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#625-628) should be declared external
+AffiliateRegistry.updateCompanyInfo (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#628-635) should be declared external
+ExchangeHandler.getAmountToGive (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#718-753) should be declared external
+ExchangeHandler.staticExchangeChecks (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#758-791) should be declared external
+ExchangeHandler.performBuyOrder (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#800-843) should be declared external
+ExchangeHandler.performSellOrder (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#853-916) should be declared external
+TotlePrimary.updateDefaultFeeAccount (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#994-996) should be declared external
+TotlePrimary.addHandlerToWhitelist (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1004-1011) should be declared external
+TotlePrimary.removeHandlerFromWhitelist (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1019-1036) should be declared external
+TotlePrimary.performRebalance (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#1040-1139) should be declared external
+TotlePrimary.fallback (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in ERC20SafeTransfer.safeTransfer (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#67-74):
+	-require(bool)(_tokenAddress.call(bytes4(keccak256()(transfer(address,uint256))),_to,_value)) /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#69-74
+Low level call in ERC20SafeTransfer.safeTransferFrom (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#74-81):
+	-require(bool)(_tokenAddress.call(bytes4(keccak256()(transferFrom(address,address,uint256))),_from,_to,_value)) /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#76-81
+Low level call in ERC20SafeTransfer.safeApprove (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#81-90):
+	-require(bool)(_tokenAddress.call(bytes4(keccak256()(approve(address,uint256))),_spender,_value)) /unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#83-88
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#52) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#60-67) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#60-61) is not in mixedCase
+Parameter '_tokenAddress' of ERC20SafeTransfer.safeTransfer (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#67-69) is not in mixedCase
+Parameter '_to' of ERC20SafeTransfer.safeTransfer (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#69) is not in mixedCase
+Parameter '_value' of ERC20SafeTransfer.safeTransfer (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#69) is not in mixedCase
+Parameter '_tokenAddress' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#74) is not in mixedCase
+Parameter '_from' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#74-76) is not in mixedCase
+Parameter '_to' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#76) is not in mixedCase
+Parameter '_value' of ERC20SafeTransfer.safeTransferFrom (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#76) is not in mixedCase
+Parameter '_tokenAddress' of ERC20SafeTransfer.safeApprove (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#81-83) is not in mixedCase
+Parameter '_spender' of ERC20SafeTransfer.safeApprove (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#83) is not in mixedCase
+Parameter '_value' of ERC20SafeTransfer.safeApprove (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#83) is not in mixedCase
+Parameter '_token' of Withdrawable.withdrawToken (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#115) is not in mixedCase
+Parameter '_amount' of Withdrawable.withdrawToken (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#115-116) is not in mixedCase
+Parameter '_amount' of Withdrawable.withdrawETH (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#128) is not in mixedCase
+Parameter '_a' of SafeMath.mul (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#341) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#341) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#358) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#358) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#378) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#378) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#386-388) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#388) is not in mixedCase
+Function 'Utils.max_qty' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#408) is not in mixedCase
+Function 'Utils.max_rate' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#409) is not in mixedCase
+Function 'Utils.max_decimals' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#409-411) is not in mixedCase
+Function 'Utils.eth_decimals' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#411-412) is not in mixedCase
+Function 'Utils.max_uint' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#412-413) is not in mixedCase
+Parameter '_companyBeneficiary' of Affiliate.init (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#553) is not in mixedCase
+Parameter '_companyPercentage' of Affiliate.init (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#553) is not in mixedCase
+Parameter '_affiliateBeneficiary' of Affiliate.init (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#553) is not in mixedCase
+Parameter '_affiliatePercentage' of Affiliate.init (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#553-554) is not in mixedCase
+Parameter '_target' of AffiliateRegistry. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#586-589) is not in mixedCase
+Parameter '_companyBeneficiary' of AffiliateRegistry. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#589) is not in mixedCase
+Parameter '_companyPercentage' of AffiliateRegistry. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#589) is not in mixedCase
+Parameter '_companyBeneficiary' of AffiliateRegistry.overrideRegisterAffiliate (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#600-601) is not in mixedCase
+Parameter '_companyPercentage' of AffiliateRegistry.overrideRegisterAffiliate (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#601) is not in mixedCase
+Parameter '_affiliateAddress' of AffiliateRegistry.deleteAffiliate (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#611) is not in mixedCase
+Parameter '_totlePrimary' of TotleControl. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#657-658) is not in mixedCase
+Parameter '_totlePrimary' of TotleControl.addTotle (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#661) is not in mixedCase
+Parameter '_totlePrimary' of TotleControl.removeTotle (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#666-667) is not in mixedCase
+Constant 'SelectorProvider.getAmountToGiveSelector' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#673-676) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SelectorProvider.staticExchangeChecksSelector' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#677-680) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SelectorProvider.performBuyOrderSelector' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#681-683) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SelectorProvider.performSellOrderSelector' (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#683-687) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_errorReporter' of ExchangeHandler. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#706-707) is not in mixedCase
+Parameter '_tokenTransferProxy' of TotlePrimary. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#975) is not in mixedCase
+Parameter '_affiliateRegistry' of TotlePrimary. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#975-976) is not in mixedCase
+Parameter '_errorReporter' of TotlePrimary. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#976) is not in mixedCase
+Parameter '_defaultFeeAccount' of TotlePrimary. (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#976) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+SelectorProvider.getAmountToGiveSelector (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#673-676) is never used in ExchangeHandler
+SelectorProvider.staticExchangeChecksSelector (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#677-680) is never used in ExchangeHandler
+SelectorProvider.performBuyOrderSelector (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#681-683) is never used in ExchangeHandler
+SelectorProvider.performSellOrderSelector (/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol#683-687) is never used in ExchangeHandler
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/22/0x68a93cb6c0f92e56fa19cd78d4d670f3ea3d5020.sol analyzed (15 contracts), 116 result(s) found

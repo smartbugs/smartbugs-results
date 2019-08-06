@@ -1,0 +1,68 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol:
+/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol:29:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function PotPotato() public{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol:71:16: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        return this.balance;
+               ^----------^
+/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol:97:21: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            lastPot=this.balance;
+                    ^----------^
+/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol:99:38: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            hotPotatoHolder.transfer(this.balance);
+                                     ^----------^
+
+INFO:Detectors:[91m
+PotPotato._endContestIfNeeded (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#94-110) sends eth to arbitrary user
+	Dangerous calls:
+	- hotPotatoHolder.transfer(this.balance) (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#102-103)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+PotPotato.timePassed (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#74-80) uses a dangerous strict equality:
+	- lastBidTime == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+PotPotato.buyPotato (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#40-70) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp > contestStartTime) (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#41-44)
+PotPotato.timePassed (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#74-80) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastBidTime == 0 (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#77-79)
+PotPotato.timeLeftToContestStart (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#80-86) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > contestStartTime (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#83-85)
+PotPotato._setNewStartTime (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#116-127) uses timestamp for comparisons
+	Dangerous comparisons:
+	- start < block.timestamp (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#119-125)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+PotPotato.BASE_TIME_TO_COOK should be constant (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#15)
+PotPotato.CONTEST_INTERVAL should be constant (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#20)
+PotPotato.NUM_POTATOES should be constant (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#18-19)
+PotPotato.START_PRICE should be constant (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#19-20)
+PotPotato.TIME_MULTIPLIER should be constant (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#16)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+PotPotato.buyPotato (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#40-70) should be declared external
+PotPotato.getBalance (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#71-74) should be declared external
+PotPotato.timeLeftToContestStart (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#80-86) should be declared external
+PotPotato.timeLeftToCook (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#86-89) should be declared external
+PotPotato.contestOver (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#89-93) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'PotPotato.PotPotato' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#29-39) is not in mixedCase
+Function 'PotPotato._endContestIfNeeded' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#94-110) is not in mixedCase
+Function 'PotPotato._resetPotatoes' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#110-116) is not in mixedCase
+Function 'PotPotato._setNewStartTime' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#116-127) is not in mixedCase
+Variable 'PotPotato.BASE_TIME_TO_COOK' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#15) is not in mixedCase
+Variable 'PotPotato.TIME_MULTIPLIER' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#16) is not in mixedCase
+Variable 'PotPotato.TIME_TO_COOK' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#17) is not in mixedCase
+Variable 'PotPotato.NUM_POTATOES' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#18-19) is not in mixedCase
+Variable 'PotPotato.START_PRICE' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#19-20) is not in mixedCase
+Variable 'PotPotato.CONTEST_INTERVAL' (/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol#20) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/6/0x96978ba07d6476a47a3f69c8ddebae8dcb16edbd.sol analyzed (2 contracts), 23 result(s) found
