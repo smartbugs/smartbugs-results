@@ -1,0 +1,249 @@
+{
+  "contract": "0x9919d97e50397b7483e9ea61e027e4c4419c8171",
+  "tool": "smartcheck",
+  "start": 1563472399.1074827,
+  "end": 1563472411.4720018,
+  "duration": 12.364519119262695,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 107,
+      "column": 8,
+      "content": "pendingOwner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 124,
+      "column": 8,
+      "content": "pendingOwner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN",
+      "patternId": "58bdd3",
+      "severity": 1,
+      "line": 731,
+      "column": 4,
+      "content": "functionsignatureSplit(bytes_signature)privatepurereturns(bytes32r,bytes32s,uint8v){require(_signature.length==65,\"inv sig\");assembly{r:=mload(add(_signature,32))s:=mload(add(_signature,64))v:=and(mload(add(_signature,65)),0xff)}if(v<2){v=v+27;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 1161,
+      "column": 0,
+      "content": "contractGameChannelisGameChannelConflict{constructor(address_serverAddress,uint128_minStake,uint128_maxStake,address_conflictResAddress,address_houseAddress,uint_chainId)publicGameChannelConflict(_serverAddress,_minStake,_maxStake,_conflictResAddress,_houseAddress,_chainId){}functioncreateGame(bytes32_userEndHash,uint_previousGameId,uint_createBefore,bytes32_serverEndHash,bytes_serverSig)publicpayableonlyValidValueonlyValidHouseStake(activeGames+1)onlyNotPaused{uintpreviousGameId=userGameId[msg.sender];Gamestoragegame=gameIdGame[previousGameId];require(game.status==GameStatus.ENDED,\"prev game not ended\");require(previousGameId==_previousGameId,\"inv gamePrevGameId\");require(block.timestamp<_createBefore,\"expired\");verifyCreateSig(msg.sender,_previousGameId,_createBefore,_serverEndHash,_serverSig);uintgameId=gameIdCntr++;userGameId[msg.sender]=gameId;GamestoragenewGame=gameIdGame[gameId];newGame.stake=uint128(msg.value);newGame.status=GameStatus.ACTIVE;activeGames=activeGames.add(1);emitLogGameCreated(msg.sender,gameId,uint128(msg.value),_serverEndHash,_userEndHash);}functionserverEndGame(uint32_roundId,int_balance,bytes32_serverHash,bytes32_userHash,uint_gameId,address_contractAddress,address_userAddress,bytes_userSig)publiconlyServer{verifySig(_roundId,0,0,0,_balance,_serverHash,_userHash,_gameId,_contractAddress,_userSig,_userAddress);regularEndGame(_userAddress,_roundId,_balance,_gameId,_contractAddress);}functionuserEndGame(uint32_roundId,int_balance,bytes32_serverHash,bytes32_userHash,uint_gameId,address_contractAddress,bytes_serverSig)public{verifySig(_roundId,0,0,0,_balance,_serverHash,_userHash,_gameId,_contractAddress,_serverSig,serverAddress);regularEndGame(msg.sender,_roundId,_balance,_gameId,_contractAddress);}functionverifyCreateSig(address_userAddress,uint_previousGameId,uint_createBefore,bytes32_serverEndHash,bytes_serverSig)privateview{addresscontractAddress=this;bytes32hash=keccak256(abi.encodePacked(contractAddress,_userAddress,_previousGameId,_createBefore,_serverEndHash));verify(hash,_serverSig,serverAddress);}functionregularEndGame(address_userAddress,uint32_roundId,int_balance,uint_gameId,address_contractAddress)private{uintgameId=userGameId[_userAddress];Gamestoragegame=gameIdGame[gameId];intmaxBalance=conflictRes.maxBalance();intgameStake=game.stake;require(_gameId==gameId,\"inv gameId\");require(_roundId>0,\"inv roundId\");require(-gameStake<=_balance&&_balance<=maxBalance,\"inv balance\");require(game.status==GameStatus.ACTIVE,\"inv status\");assert(_contractAddress==address(this));closeGame(game,gameId,_roundId,_userAddress,ReasonEnded.REGULAR_ENDED,_balance);}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 454,
+      "column": 4,
+      "content": "functionsetGameIdCntr(uint_gameIdCntr)publiconlyOwneronlyNotActivated{require(gameIdCntr>0);gameIdCntr=_gameIdCntr;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 495,
+      "column": 4,
+      "content": "functionsetProfitTransferTimeSpan(uint_profitTransferTimeSpan)publiconlyOwneronlyValidTransferTimeSpan(_profitTransferTimeSpan){profitTransferTimeSpan=_profitTransferTimeSpan;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 537,
+      "column": 4,
+      "content": "functionsetHouseAddress(address_houseAddress)publiconlyOwner{houseAddress=_houseAddress;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 546,
+      "column": 4,
+      "content": "functionsetStakeRequirements(uint128_minStake,uint128_maxStake)publiconlyOwner{require(_minStake>0&&_minStake<=_maxStake);minStake=_minStake;maxStake=_maxStake;emitLogStakeLimitsModified(minStake,maxStake);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 914,
+      "column": 15,
+      "content": "if(game.status==GameStatus.SERVER_INITIATED_END&&game.roundId==0){cancelActiveGame(game,gameId,userAddress);}else{revert();}"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 938,
+      "column": 15,
+      "content": "if(game.status==GameStatus.USER_INITIATED_END&&game.roundId==0){cancelActiveGame(game,gameId,_userAddress);}else{revert();}"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 1037,
+      "column": 15,
+      "content": "if(game.status==GameStatus.ACTIVE||(game.status==GameStatus.SERVER_INITIATED_END&&game.roundId<_roundId)){game.status=GameStatus.USER_INITIATED_END;game.endInitiatedTime=block.timestamp;game.roundId=_roundId;game.gameType=_gameType;game.betNum=_num;game.betValue=_value;game.balance=_balance;game.userSeed=_userSeed;game.serverSeed=bytes32(0);emitLogUserRequestedEnd(msg.sender,gameId);}else{revert(\"inv state\");}"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 1101,
+      "column": 15,
+      "content": "if(game.status==GameStatus.ACTIVE||(game.status==GameStatus.USER_INITIATED_END&&game.roundId<_roundId)){game.status=GameStatus.SERVER_INITIATED_END;game.endInitiatedTime=block.timestamp;game.roundId=_roundId;game.gameType=_gameType;game.betNum=_num;game.betValue=_value;game.balance=_balance;game.serverSeed=_serverSeed;game.userSeed=_userSeed;emitLogServerRequestedEnd(_userAddress,gameId);}else{revert(\"inv state\");}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 212,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 278,
+      "column": 4,
+      "content": "usingSafeMathforint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 279,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 752,
+      "column": 4,
+      "content": "usingSafeMathforint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 753,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 731,
+      "column": 4,
+      "content": "functionsignatureSplit(bytes_signature)privatepurereturns(bytes32r,bytes32s,uint8v){require(_signature.length==65,\"inv sig\");assembly{r:=mload(add(_signature,32))s:=mload(add(_signature,64))v:=and(mload(add(_signature,65)),0xff)}if(v<2){v=v+27;}}"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "7d54ca",
+      "severity": 1,
+      "line": 734,
+      "column": 16,
+      "content": "(bytes32r,bytes32s,uint8v)"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 641,
+      "column": 8,
+      "content": "bytes_sig"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 677,
+      "column": 8,
+      "content": "bytes_sig"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 731,
+      "column": 28,
+      "content": "bytes_signature"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 804,
+      "column": 8,
+      "content": "bytes_userSig"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 865,
+      "column": 8,
+      "content": "bytes_serverSig"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 1198,
+      "column": 8,
+      "content": "bytes_serverSig"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 1252,
+      "column": 8,
+      "content": "bytes_userSig"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 1292,
+      "column": 8,
+      "content": "bytes_serverSig"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 1326,
+      "column": 8,
+      "content": "bytes_serverSig"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 738,
+      "column": 8,
+      "content": "assembly{r:=mload(add(_signature,32))s:=mload(add(_signature,64))v:=and(mload(add(_signature,65)),0xff)}"
+    }
+  ]
+}

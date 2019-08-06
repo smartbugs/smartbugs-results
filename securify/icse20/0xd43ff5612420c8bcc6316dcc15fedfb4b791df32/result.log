@@ -1,0 +1,53 @@
+Processing contract: /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol:IBondingManager
+Processing contract: /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol:IController
+Processing contract: /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol:IERC20
+Processing contract: /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol:IRoundsManager
+Processing contract: /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol:LptOrderBook
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'LptOrderBook':
+    |
+    |
+  > |contract LptOrderBook {
+    |
+    |    using SafeMath for uint256;
+  at /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol(134)
+
+[31mViolation[0m for RepeatedCall in contract 'LptOrderBook':
+    |    function _getLivepeerContractAddress(string memory _livepeerContract) internal view returns (address) {
+    |        bytes32 contractId = keccak256(abi.encodePacked(_livepeerContract));
+  > |        return livepeerController.getContract(contractId);
+    |    }
+    |
+  at /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol(244)
+
+[31mViolation[0m for RepeatedCall in contract 'LptOrderBook':
+    |    function _getUnbondingPeriodLength() internal view returns (uint256) {
+    |        IBondingManager bondingManager = IBondingManager(_getLivepeerContractAddress("BondingManager"));
+  > |        uint64 unbondingPeriodRounds = bondingManager.unbondingPeriod();
+    |
+    |        IRoundsManager roundsManager = IRoundsManager(_getLivepeerContractAddress("RoundsManager"));
+  at /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol(249)
+
+[31mViolation[0m for RepeatedCall in contract 'LptOrderBook':
+    |
+    |        IRoundsManager roundsManager = IRoundsManager(_getLivepeerContractAddress("RoundsManager"));
+  > |        uint256 roundLength = roundsManager.roundLength();
+    |
+    |        return roundLength.mul(unbondingPeriodRounds);
+  at /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol(252)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'LptOrderBook':
+    |        daiToken.transferFrom(msg.sender, address(this), lptSellOrder.daiPaymentValue);
+    |
+  > |        lptSellOrder.buyerAddress = msg.sender;
+    |    }
+    |
+  at /unique_contracts/0xd43ff5612420c8bcc6316dcc15fedfb4b791df32.sol(207)

@@ -1,0 +1,161 @@
+{
+  "contract": "0xfebb1084215909306daf9631e010cd27bf16fa58",
+  "tool": "smartcheck",
+  "start": 1563538861.1284616,
+  "end": 1563538870.2849092,
+  "duration": 9.156447649002075,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 100,
+      "column": 31,
+      "content": "0x270ff8c154d4d738B78bEd52a6885b493A2EDdA3"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 101,
+      "column": 26,
+      "content": "0x69B18e895F2D9438d2128DB8151EB6e9bB02136d"
+    },
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 254,
+      "column": 15,
+      "content": "amount.mul(rate).div(ONE_HUNDRED_PERCENTS).mul(duration)"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 146,
+      "column": 16,
+      "content": "for(uinti=0;i<dividends.length;i++){emitDepositDividendPayed(msg.sender,i,user.deposits[i].amount,user.deposits[i].rate,dividends[i]);}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 247,
+      "column": 8,
+      "content": "for(uinti=0;i<user.deposits.length;i++){uint256duration=now.sub(user.lastPayment);dividends[i]=dividendsForAmountAndTime(user.deposits[i].rate,user.deposits[i].amount,duration);}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 267,
+      "column": 8,
+      "content": "for(uinti=0;i<dividends.length;i++){dividendsSum=dividendsSum.add(dividends[i]);}"
+    },
+    {
+      "name": "SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN",
+      "patternId": "58bdd3",
+      "severity": 1,
+      "line": 259,
+      "column": 4,
+      "content": "function_bytesToAddress(bytesdata)privatepurereturns(addressaddr){assembly{addr:=mload(add(data,20))}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 146,
+      "column": 16,
+      "content": "for(uinti=0;i<dividends.length;i++){emitDepositDividendPayed(msg.sender,i,user.deposits[i].amount,user.deposits[i].rate,dividends[i]);}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 247,
+      "column": 8,
+      "content": "for(uinti=0;i<user.deposits.length;i++){uint256duration=now.sub(user.lastPayment);dividends[i]=dividendsForAmountAndTime(user.deposits[i].rate,user.deposits[i].amount,duration);}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 267,
+      "column": 8,
+      "content": "for(uinti=0;i<dividends.length;i++){dividendsSum=dividendsSum.add(dividends[i]);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 70,
+      "column": 0,
+      "content": "contractMyEthLab{usingSafeMathforuint256;uint256constantpublicPERCENT_PER_DAY=5;uint256constantpublicONE_HUNDRED_PERCENTS=10000;uint256constantpublicMARKETING_FEE=700;uint256constantpublicTEAM_FEE=300;uint256constantpublicREFERRAL_PERCENTS=300;uint256constantpublicMAX_RATE=330;uint256constantpublicMAX_DAILY_LIMIT=150ether;uint256constantpublicMAX_DEPOSIT=25ether;uint256constantpublicMIN_DEPOSIT=50finney;uint256constantpublicMAX_USER_DEPOSITS_COUNT=50;structDeposit{uint256time;uint256amount;uint256rate;}structUser{addressreferrer;uint256firstTime;uint256lastPayment;uint256totalAmount;uint256lastInvestment;uint256depositAdditionalRate;Deposit[]deposits;}addresspublicmarketing=0x270ff8c154d4d738B78bEd52a6885b493A2EDdA3;addresspublicteam=0x69B18e895F2D9438d2128DB8151EB6e9bB02136d;uint256publictotalDeposits;uint256publicdailyTime;uint256publicdailyLimit;boolpublicrunning=true;mapping(address=>User)publicusers;eventInvestorAdded(addressindexedinvestor);eventReferrerAdded(addressindexedinvestor,addressindexedreferrer);eventDepositAdded(addressindexedinvestor,uint256indexeddepositsCount,uint256amount);eventUserDividendPayed(addressindexedinvestor,uint256dividend);eventReferrerPayed(addressindexedinvestor,addressindexedreferrer,uint256amount,uint256refAmount);eventFeePayed(addressindexedinvestor,uint256amount);eventTotalDepositsChanged(uint256totalDeposits);eventBalanceChanged(uint256balance);eventDepositDividendPayed(addressindexedinvestor,uint256indexedindex,uint256deposit,uint256rate,uint256dividend);constructor()public{dailyTime=now.add(1days);}function()publicpayable{require(running,\"MyEthLab is not running\");Userstorageuser=users[msg.sender];if(now>dailyTime){dailyTime=now.add(1days);dailyLimit=0;}uint256[]memorydividends=dividendsForUser(msg.sender);uint256dividendsSum=_dividendsSum(dividends);if(dividendsSum>0){if((now.sub(user.lastPayment))>1hours&&(now.sub(user.firstTime))>1days){if(dividendsSum>=address(this).balance){dividendsSum=address(this).balance;running=false;}msg.sender.transfer(dividendsSum);user.lastPayment=now;emitUserDividendPayed(msg.sender,dividendsSum);for(uinti=0;i<dividends.length;i++){emitDepositDividendPayed(msg.sender,i,user.deposits[i].amount,user.deposits[i].rate,dividends[i]);}}}if(msg.value>0){require(msg.value>=MIN_DEPOSIT,\"You dont have enough ethers\");uint256userTotalDeposit=user.totalAmount.add(msg.value);require(userTotalDeposit<=MAX_DEPOSIT,\"You have enough invesments\");if(user.firstTime!=0&&(now.sub(user.lastInvestment))>1days){user.depositAdditionalRate=user.depositAdditionalRate.add(5);}if(user.firstTime==0){user.firstTime=now;user.lastPayment=now;emitInvestorAdded(msg.sender);}user.lastInvestment=now;user.totalAmount=userTotalDeposit;uintcurrentRate=getRate(userTotalDeposit).add(user.depositAdditionalRate).add(balanceAdditionalRate());if(currentRate>MAX_RATE){currentRate=MAX_RATE;}user.deposits.push(Deposit({time:now,amount:msg.value,rate:currentRate}));require(user.deposits.length<=MAX_USER_DEPOSITS_COUNT,\"Too many deposits per user\");emitDepositAdded(msg.sender,user.deposits.length,msg.value);dailyLimit=dailyLimit.add(msg.value);require(dailyLimit<MAX_DAILY_LIMIT,\"Please wait one more day too invest\");totalDeposits=totalDeposits.add(msg.value);emitTotalDepositsChanged(totalDeposits);if(user.referrer==address(0)&&msg.data.length==20){addressreferrer=_bytesToAddress(msg.data);if(referrer!=address(0)&&referrer!=msg.sender&&now>=users[referrer].firstTime){user.referrer=referrer;emitReferrerAdded(msg.sender,referrer);}}if(users[msg.sender].referrer!=address(0)){addressreferrerAddress=users[msg.sender].referrer;uint256refAmount=msg.value.mul(REFERRAL_PERCENTS).div(ONE_HUNDRED_PERCENTS);referrerAddress.send(refAmount);emitReferrerPayed(msg.sender,referrerAddress,msg.value,refAmount);}uint256marketingFee=msg.value.mul(MARKETING_FEE).div(ONE_HUNDRED_PERCENTS);uint256teamFee=msg.value.mul(TEAM_FEE).div(ONE_HUNDRED_PERCENTS);marketing.send(marketingFee);team.send(teamFee);emitFeePayed(msg.sender,marketingFee.add(teamFee));}emitBalanceChanged(address(this).balance);}functiondepositsCountForUser(addresswallet)publicviewreturns(uint256){returnusers[wallet].deposits.length;}functiondepositForUser(addresswallet,uint256index)publicviewreturns(uint256time,uint256amount,uint256rate){time=users[wallet].deposits[index].time;amount=users[wallet].deposits[index].amount;rate=users[wallet].deposits[index].rate;}functiondividendsSumForUser(addresswallet)publicviewreturns(uint256dividendsSum){return_dividendsSum(dividendsForUser(wallet));}functiondividendsForUser(addresswallet)publicviewreturns(uint256[]dividends){Userstorageuser=users[wallet];dividends=newuint256[](user.deposits.length);for(uinti=0;i<user.deposits.length;i++){uint256duration=now.sub(user.lastPayment);dividends[i]=dividendsForAmountAndTime(user.deposits[i].rate,user.deposits[i].amount,duration);}}functiondividendsForAmountAndTime(uint256rate,uint256amount,uint256duration)publicpurereturns(uint256){returnamount.mul(rate).div(ONE_HUNDRED_PERCENTS).mul(duration).div(1days);}function_bytesToAddress(bytesdata)privatepurereturns(addressaddr){assembly{addr:=mload(add(data,20))}}function_dividendsSum(uint256[]dividends)privatepurereturns(uint256dividendsSum){for(uinti=0;i<dividends.length;i++){dividendsSum=dividendsSum.add(dividends[i]);}}functiongetRate(uint256userTotalDeposit)privatepurereturns(uint256){if(userTotalDeposit<5ether){return180;}elseif(userTotalDeposit<10ether){return200;}else{return220;}}functionbalanceAdditionalRate()publicviewreturns(uint256){if(address(this).balance<600ether){return0;}elseif(address(this).balance<1200ether){return10;}elseif(address(this).balance<1800ether){return20;}elseif(address(this).balance<2400ether){return30;}elseif(address(this).balance<3000ether){return40;}else{return50;}}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 71,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 259,
+      "column": 4,
+      "content": "function_bytesToAddress(bytesdata)privatepurereturns(addressaddr){assembly{addr:=mload(add(data,20))}}"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 123,
+      "column": 15,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 243,
+      "column": 66,
+      "content": "uint256[]dividends"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 259,
+      "column": 29,
+      "content": "bytesdata"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 266,
+      "column": 27,
+      "content": "uint256[]dividends"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 261,
+      "column": 8,
+      "content": "assembly{addr:=mload(add(data,20))}"
+    }
+  ]
+}

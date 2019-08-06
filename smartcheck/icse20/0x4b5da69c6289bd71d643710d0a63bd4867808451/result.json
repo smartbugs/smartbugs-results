@@ -1,0 +1,185 @@
+{
+  "contract": "0x4b5da69c6289bd71d643710d0a63bd4867808451",
+  "tool": "smartcheck",
+  "start": 1563568519.1515749,
+  "end": 1563568526.1723905,
+  "duration": 7.02081561088562,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 171,
+      "column": 32,
+      "content": "0x071961b88F848D09C3d988E8814F38cbAE755C44"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 210,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)isTokenTransferpublicreturns(boolsuccess){allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 246,
+      "column": 0,
+      "content": "contractPaoTokenisCoolPandaToken{usingSafeMathforuint256;stringpublicname=\"PAO Token\";stringpublicsymbol=\"PAO\";uintfundRatio=6;uint256publicminBuyETH=50;JPYCpublicjpyc;uint256publicjypcBonus=40000;eventJypcBonus(uint256paoAmount,uint256jpycAmount);constructor()public{totalSupply=10000000000*10**uint256(decimals);tokenPrice=50000;balances[fundWallet]=totalSupply*fundRatio/10;balances[address(this)]=totalSupply.sub(balances[fundWallet]);}function()payablepublic{if(fundWallet!=msg.sender){require(msg.value>=(minBuyETH*10**uint256(decimals)));uint256amount=msg.value.mul(tokenPrice);_buyToken(msg.sender,amount);fundWallet.transfer(msg.value);}}function_buyToken(address_to,uint256_value)isTokenTransferinternal{address_from=address(this);require(_to!=0x0);require(balances[_from]>=_value);require(balances[_to].add(_value)>=balances[_to]);balances[_from]=balances[_from].sub(_value);balances[_to]=balances[_to].add(_value);emitTransfer(_from,_to,_value);uint256_jpycAmount=_getJYPCBonus();jpyc.giveBonus(_to,_jpycAmount);emitJypcBonus(_value,_jpycAmount);}function_getJYPCBonus()internalviewreturns(uint256amount){returnmsg.value.mul(jypcBonus);}functionsetMinBuyEth(uint256_amount)externalonlyOwner{minBuyETH=_amount;}functionsetJypcBonus(uint256_amount)externalonlyOwner{jypcBonus=_amount;}functiontransferToken()onlyOwnerexternal{address_from=address(this);uint256_total=balances[_from];balances[_from]=balances[_from].sub(_total);balances[fundWallet]=balances[fundWallet].add(_total);}functionsetJpycContactAddress(address_tokenAddress)externalonlyOwner{jpyc=JPYC(_tokenAddress);}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 317,
+      "column": 0,
+      "content": "contractJPYCisCoolPandaToken{usingSafeMathforuint256;stringpublicname=\"Japan Yen Coin\";uint256_initialSupply=10000000000*10**uint256(decimals);stringpublicsymbol=\"JPYC\";addresspublicpaoContactAddress;eventIssue(uint256amount);constructor()public{tokenPrice=47000;totalSupply=_initialSupply;balances[fundWallet]=_initialSupply;}function()payablepublic{uintamount=msg.value.mul(tokenPrice);_giveToken(msg.sender,amount);fundWallet.transfer(msg.value);}function_giveToken(address_to,uint256_value)isTokenTransferinternal{require(_to!=0x0);require(totalSupply.add(_value)>=totalSupply);require(balances[_to].add(_value)>=balances[_to]);totalSupply=totalSupply.add(_value);balances[_to]=balances[_to].add(_value);emitTransfer(address(this),_to,_value);}functionissue(uint256amount)externalonlyOwner{_giveToken(fundWallet,amount);emitIssue(amount);}functionsetPaoContactAddress(address_newAddr)externalonlyOwner{require(_newAddr!=address(0));paoContactAddress=_newAddr;}functiongiveBonus(address_to,uint256_value)isTokenTransferexternalreturns(boolsuccess){require(_to!=address(0));if(msg.sender==paoContactAddress){_giveToken(_to,_value);returntrue;}returnfalse;}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 230,
+      "column": 4,
+      "content": "functionsetFundWallet(address_newAddr)externalonlyOwner{require(_newAddr!=address(0));fundWallet=_newAddr;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 239,
+      "column": 4,
+      "content": "functionsetTokenPrice(uint256_newBuyPrice)externalonlyOwner{tokenPrice=_newBuyPrice;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 297,
+      "column": 4,
+      "content": "functionsetMinBuyEth(uint256_amount)externalonlyOwner{minBuyETH=_amount;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 301,
+      "column": 4,
+      "content": "functionsetJypcBonus(uint256_amount)externalonlyOwner{jypcBonus=_amount;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 312,
+      "column": 4,
+      "content": "functionsetJpycContactAddress(address_tokenAddress)externalonlyOwner{jpyc=JPYC(_tokenAddress);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 356,
+      "column": 4,
+      "content": "functionsetPaoContactAddress(address_newAddr)externalonlyOwner{require(_newAddr!=address(0));paoContactAddress=_newAddr;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 104,
+      "column": 12,
+      "content": "if(lockaddress[msg.sender]){revert();}"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 115,
+      "column": 8,
+      "content": "if(lockaddress[msg.sender]){revert();}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 168,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 247,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 318,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 268,
+      "column": 24,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 334,
+      "column": 24,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 92,
+      "column": 4,
+      "content": "mapping(address=>bool)lockaddress;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 154,
+      "column": 4,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 251,
+      "column": 4,
+      "content": "uintfundRatio=6;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 321,
+      "column": 4,
+      "content": "uint256_initialSupply=10000000000*10**uint256(decimals);"
+    }
+  ]
+}

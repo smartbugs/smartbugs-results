@@ -1,0 +1,25 @@
+{
+  "contract": "0xdb58f2c508711d8a979b9600d49b56fc1541bb4c",
+  "tool": "smartcheck",
+  "start": 1563616053.9563653,
+  "end": 1563616061.1849508,
+  "duration": 7.228585481643677,
+  "analysis": [
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 16,
+      "column": 0,
+      "content": "contractdgame{uint256publicregisterDuration=600;uint256publicendRegisterTime;uint256publicgameNumber;uint256publicnumPlayers;mapping(uint256=>mapping(uint256=>addresspayable))publicplayers;mapping(uint256=>mapping(address=>bool))publicregistered;eventStartedGame(addressinitiator,uint256regTimeEnd,uint256amountSent,uint256gameNumber);eventRegisteredPlayer(addressplayer,uint256gameNumber);eventFoundWinner(addressplayer,uint256gameNumber);function()externalpayable{if(endRegisterTime==0){endRegisterTime=block.timestamp+registerDuration;require(msg.value>0);emitStartedGame(msg.sender,endRegisterTime,msg.value,gameNumber);}elseif(block.timestamp>endRegisterTime&&numPlayers>0){uint256winner=uint256(blockhash(block.number-1))%numPlayers;uint256currentGamenumber=gameNumber;emitFoundWinner(players[currentGamenumber][winner],currentGamenumber);endRegisterTime=0;numPlayers=0;gameNumber++;players[currentGamenumber][winner].send(address(this).balance);}else{require(!registered[gameNumber][msg.sender]);registered[gameNumber][msg.sender]=true;players[gameNumber][numPlayers]=(msg.sender);numPlayers++;emitRegisteredPlayer(msg.sender,gameNumber);}}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    }
+  ]
+}

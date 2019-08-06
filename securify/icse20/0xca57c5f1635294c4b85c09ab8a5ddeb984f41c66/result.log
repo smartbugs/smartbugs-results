@@ -1,0 +1,292 @@
+Processing contract: /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol:WinyDice
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for DAOConstantGas in contract 'WinyDice':
+    |    // Helper routine to process the payment.
+    |    function SendFunds(address payable beneficiary, uint amount, uint successLogAmount, uint betId,uint dice) private {
+  > |        if (beneficiary.send(amount)) {
+    |            emit Payment(beneficiary,betId, successLogAmount,dice);
+    |            MAX_PROFIT = (address(this).balance - amount - JACKPOT_BALANCE - LOCKED_IN_BETS) * MAX_PROFIT_PERCENT / 100;
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(240)
+
+[31mViolation[0m for DAOConstantGas in contract 'WinyDice':
+    |    function TransferEther(address payable sendTo, uint amount) public onlyOwner {        
+    |        /* safely update contract balance when sending out funds*/              
+  > |        if(!sendTo.send(amount)) 
+    |            revert("owner transfer ether failed.");
+    |        if(KILLED == false)
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(398)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'WinyDice':
+    |    // Helper routine to process the payment.
+    |    function SendFunds(address payable beneficiary, uint amount, uint successLogAmount, uint betId,uint dice) private {
+  > |        if (beneficiary.send(amount)) {
+    |            emit Payment(beneficiary,betId, successLogAmount,dice);
+    |            MAX_PROFIT = (address(this).balance - amount - JACKPOT_BALANCE - LOCKED_IN_BETS) * MAX_PROFIT_PERCENT / 100;
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(240)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'WinyDice':
+    |    function TransferEther(address payable sendTo, uint amount) public onlyOwner {        
+    |        /* safely update contract balance when sending out funds*/              
+  > |        if(!sendTo.send(amount)) 
+    |            revert("owner transfer ether failed.");
+    |        if(KILLED == false)
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(398)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        if(KILLED == true) revert ("Contract Killed");
+    |        // Check that the bet is in 'clean' state.
+  > |        MAX_PROFIT = (address(this).balance + msg.value - LOCKED_IN_BETS - JACKPOT_BALANCE) * MAX_PROFIT_PERCENT / 100;
+    |        Bet storage bet = bets[betId];
+    |        if(bet.Player != address(0)) revert("Bet should be in a 'clean' state.");
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(197)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'WinyDice':
+    |
+    |        // Move bet into 'processed' state already.
+  > |        bet.Amount = 0;
+    |
+    |        // The RNG - combine "betId" and blockHash of placeBet using Keccak256.
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(303)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |
+    |        // Lock funds.
+  > |        LOCKED_IN_BETS += uint128(possibleWinAmount);
+    |        JACKPOT_BALANCE += uint128(jackpotFee);
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(220)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        // Lock funds.
+    |        LOCKED_IN_BETS += uint128(possibleWinAmount);
+  > |        JACKPOT_BALANCE += uint128(jackpotFee);
+    |
+    |        // Check whether contract has enough funds to process this bet.
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(221)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |
+    |        // Store bet parameters on blockchain.
+  > |        bet.Amount = uint80(msg.value);
+    |        bet.Modulo = uint8(modulo);
+    |        bet.RollUnder = uint8(choiceCount);
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(230)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        // Store bet parameters on blockchain.
+    |        bet.Amount = uint80(msg.value);
+  > |        bet.Modulo = uint8(modulo);
+    |        bet.RollUnder = uint8(choiceCount);
+    |        bet.Mask = uint216(mask);
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(231)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        bet.Amount = uint80(msg.value);
+    |        bet.Modulo = uint8(modulo);
+  > |        bet.RollUnder = uint8(choiceCount);
+    |        bet.Mask = uint216(mask);
+    |        bet.Player = msg.sender;
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(232)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        bet.Modulo = uint8(modulo);
+    |        bet.RollUnder = uint8(choiceCount);
+  > |        bet.Mask = uint216(mask);
+    |        bet.Player = msg.sender;
+    |        bet.PlaceBlockNumber = uint40(block.number);
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(233)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        bet.RollUnder = uint8(choiceCount);
+    |        bet.Mask = uint216(mask);
+  > |        bet.Player = msg.sender;
+    |        bet.PlaceBlockNumber = uint40(block.number);
+    |    }
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(234)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        bet.Mask = uint216(mask);
+    |        bet.Player = msg.sender;
+  > |        bet.PlaceBlockNumber = uint40(block.number);
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(235)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        if (beneficiary.send(amount)) {
+    |            emit Payment(beneficiary,betId, successLogAmount,dice);
+  > |            MAX_PROFIT = (address(this).balance - amount - JACKPOT_BALANCE - LOCKED_IN_BETS) * MAX_PROFIT_PERCENT / 100;
+    |        } else {
+    |            emit FailedPayment(beneficiary,betId,amount,dice);
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(242)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |
+    |        // Move bet into 'processed' state, release funds.
+  > |        bet.Amount = 0;
+    |
+    |        uint diceWinAmount;
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(261)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        (diceWinAmount, jackpotFee) = GetDiceWinAmount(amount, bet.Modulo, bet.RollUnder);
+    |
+  > |        LOCKED_IN_BETS -= uint128(diceWinAmount);
+    |        if (JACKPOT_BALANCE >= jackpotFee) {
+    |            JACKPOT_BALANCE -= uint128(jackpotFee);
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(267)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        LOCKED_IN_BETS -= uint128(diceWinAmount);
+    |        if (JACKPOT_BALANCE >= jackpotFee) {
+  > |            JACKPOT_BALANCE -= uint128(jackpotFee);
+    |        }       
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(269)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        // Send the refund.
+    |        SendFunds(bet.Player, amount, amount, betId,0);
+  > |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE - diceWinAmount) * MAX_PROFIT_PERCENT / 100;
+    |        delete bets[betId];
+    |    }
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(274)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        SendFunds(bet.Player, amount, amount, betId,0);
+    |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE - diceWinAmount) * MAX_PROFIT_PERCENT / 100;
+  > |        delete bets[betId];
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(275)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |
+    |        // Unlock the bet amount, regardless of the outcome.
+  > |        LOCKED_IN_BETS -= uint128(diceWinAmount);
+    |
+    |        // Roll for a jackpot (if eligible).
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(332)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |            if (jackpotRng == 0) {
+    |                jackpotWin = JACKPOT_BALANCE;
+  > |                JACKPOT_BALANCE = 0;
+    |            }
+    |        }
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(343)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        // Send the funds to player.
+    |        SendFunds(player, diceWin + jackpotWin == 0 ? 1 wei : diceWin + jackpotWin, diceWin, betId,dice);
+  > |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE - diceWin) * MAX_PROFIT_PERCENT / 100;
+    |        delete bets[betId];
+    |    }
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(354)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        SendFunds(player, diceWin + jackpotWin == 0 ? 1 wei : diceWin + jackpotWin, diceWin, betId,dice);
+    |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE - diceWin) * MAX_PROFIT_PERCENT / 100;
+  > |        delete bets[betId];
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(355)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |    /* only owner address can set emergency pause #1 */
+    |    function ownerPauseGame(bool newStatus) public onlyOwner {
+  > |        GAME_PAUSED = newStatus;
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(375)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |    /* only owner address can set emergency pause #2 */
+    |    function ownerPausePayouts(bool newPayoutStatus) public onlyOwner {
+  > |        PAYOUT_PAUSED = newPayoutStatus;
+    |    }   
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(380)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |    /* only owner address can set emergency pause #2 */
+    |    function ownerSetMaxProfit(uint _maxProfit) public onlyOwner {
+  > |        MAX_PROFIT = _maxProfit;
+    |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE) * MAX_PROFIT_PERCENT / 100;
+    |    }
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(385)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |    function ownerSetMaxProfit(uint _maxProfit) public onlyOwner {
+    |        MAX_PROFIT = _maxProfit;
+  > |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE) * MAX_PROFIT_PERCENT / 100;
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(386)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |     /* only owner address can set emergency pause #2 */
+    |    function ownerSetMaxProfitPercent(uint _maxProfitPercent) public onlyOwner {
+  > |        MAX_PROFIT_PERCENT = _maxProfitPercent;
+    |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE) * MAX_PROFIT_PERCENT / 100;
+    |    }    
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(391)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |    function ownerSetMaxProfitPercent(uint _maxProfitPercent) public onlyOwner {
+    |        MAX_PROFIT_PERCENT = _maxProfitPercent;
+  > |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE) * MAX_PROFIT_PERCENT / 100;
+    |    }    
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(392)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        if(KILLED == false)
+    |        {
+  > |            MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE) * MAX_PROFIT_PERCENT / 100;            
+    |        }
+    |        emit LogTransferEther(sendTo, amount); 
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(402)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |    function ChargeContract () external payable onlyOwner {
+    |        /* safely update contract balance */ 
+  > |        MAX_PROFIT = (address(this).balance - LOCKED_IN_BETS - JACKPOT_BALANCE) * MAX_PROFIT_PERCENT / 100;       
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(410)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |    function kill() external onlyOwner {
+    |        require(LOCKED_IN_BETS == 0, "All bets should be processed (settled or refunded) before self-destruct.");
+  > |        KILLED = true;
+    |        JACKPOT_BALANCE = 0;        
+    |    }
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(417)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |        require(LOCKED_IN_BETS == 0, "All bets should be processed (settled or refunded) before self-destruct.");
+    |        KILLED = true;
+  > |        JACKPOT_BALANCE = 0;        
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(418)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |
+    |     function ownerSetNewOwner(address payable newOwner) external onlyOwner {
+  > |        OWNER = newOwner;       
+    |    }
+    |
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(422)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinyDice':
+    |
+    |    function ownerSetNewCroupier(address newCroupier) external onlyOwner {
+  > |        CROUPIER =  newCroupier  ; 
+    |    }
+    |}
+  at /unique_chucks/5/0xca57c5f1635294c4b85c09ab8a5ddeb984f41c66.sol(426)

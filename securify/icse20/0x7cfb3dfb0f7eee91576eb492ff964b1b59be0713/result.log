@@ -1,0 +1,590 @@
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:AdminStuffs
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:DSMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:Eth2DaiInterface
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:Helper
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:InstaSwap
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:KyberInterface
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:SplitHelper
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:SplitResolver
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:SplitSwap
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:TokenInterface
+Processing contract: /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol:UniswapExchange
+[31mViolation[0m for TODAmount in contract 'AdminStuffs':
+    |
+    |    function withdrawEth() public payable isAdmin {
+  > |        msg.sender.transfer(address(this).balance);
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(136)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'AdminStuffs':
+    |
+    |    function setSplitEth(uint amt) public isAdmin {
+  > |        maxSplitAmtEth = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(123)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'AdminStuffs':
+    |
+    |    function setSplitDai(uint amt) public isAdmin {
+  > |        maxSplitAmtDai = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(127)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'AdminStuffs':
+    |    function changeFee(uint amt) public isAdmin {
+    |        if (amt > 997000000000000000) {
+  > |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+    |            cut = amt;
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(141)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'AdminStuffs':
+    |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+  > |            cut = amt;
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(143)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |    function getRateEth2Dai(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(178)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(180)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |
+    |    function getRateKyber(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+  > |        (uint kyberPrice,) = KyberInterface(kyberAddr).getExpectedRate(src, dest, srcAmt);
+    |        destAmt = wmul(srcAmt, kyberPrice);
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(185)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |    function getRateUniswap(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(191)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(193)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |    function swapEth2Dai(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == wethAddr) {
+  > |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+    |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(261)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+  > |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(263)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |    function swapKyber(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        uint ethAmt = src == ethAddr ? srcAmt : 0;
+  > |        destAmt = KyberInterface(kyberAddr).trade.value(ethAmt)(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(273)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |    function swapUniswap(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(286)
+
+[31mViolation[0m for RepeatedCall in contract 'InstaSwap':
+    |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(288)
+
+[31mViolation[0m for TODAmount in contract 'InstaSwap':
+    |
+    |    function withdrawEth() public payable isAdmin {
+  > |        msg.sender.transfer(address(this).balance);
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(136)
+
+[33mWarning[0m for TODReceiver in contract 'InstaSwap':
+    |    function swapEth2Dai(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == wethAddr) {
+  > |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+    |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(261)
+
+[33mWarning[0m for TODReceiver in contract 'InstaSwap':
+    |    function swapKyber(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        uint ethAmt = src == ethAddr ? srcAmt : 0;
+  > |        destAmt = KyberInterface(kyberAddr).trade.value(ethAmt)(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(273)
+
+[33mWarning[0m for TODReceiver in contract 'InstaSwap':
+    |    function swapUniswap(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(286)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'InstaSwap':
+    |    function swapEth2Dai(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == wethAddr) {
+  > |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+    |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(261)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'InstaSwap':
+    |    function swapKyber(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        uint ethAmt = src == ethAddr ? srcAmt : 0;
+  > |        destAmt = KyberInterface(kyberAddr).trade.value(ethAmt)(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(273)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'InstaSwap':
+    |    function swapUniswap(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(286)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'InstaSwap':
+    |        destAmt = daiToEthLoop(finalSrcAmt, splitAmt, 0);
+    |        require(destAmt > slippageAmt, "Dest Amt < slippage");
+  > |        msg.sender.transfer(destAmt);
+    |        emit LogDaiToEth(finalSrcAmt, destAmt);
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(312)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'InstaSwap':
+    |
+    |    function setSplitEth(uint amt) public isAdmin {
+  > |        maxSplitAmtEth = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(123)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'InstaSwap':
+    |
+    |    function setSplitDai(uint amt) public isAdmin {
+  > |        maxSplitAmtDai = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(127)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'InstaSwap':
+    |    function changeFee(uint amt) public isAdmin {
+    |        if (amt > 997000000000000000) {
+  > |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+    |            cut = amt;
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(141)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'InstaSwap':
+    |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+  > |            cut = amt;
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(143)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitHelper':
+    |    function getRateEth2Dai(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(178)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitHelper':
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(180)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitHelper':
+    |
+    |    function getRateKyber(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+  > |        (uint kyberPrice,) = KyberInterface(kyberAddr).getExpectedRate(src, dest, srcAmt);
+    |        destAmt = wmul(srcAmt, kyberPrice);
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(185)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitHelper':
+    |    function getRateUniswap(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(191)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitHelper':
+    |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(193)
+
+[31mViolation[0m for TODAmount in contract 'SplitHelper':
+    |
+    |    function withdrawEth() public payable isAdmin {
+  > |        msg.sender.transfer(address(this).balance);
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(136)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitHelper':
+    |
+    |    function setSplitEth(uint amt) public isAdmin {
+  > |        maxSplitAmtEth = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(123)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitHelper':
+    |
+    |    function setSplitDai(uint amt) public isAdmin {
+  > |        maxSplitAmtDai = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(127)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitHelper':
+    |    function changeFee(uint amt) public isAdmin {
+    |        if (amt > 997000000000000000) {
+  > |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+    |            cut = amt;
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(141)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitHelper':
+    |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+  > |            cut = amt;
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(143)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitResolver':
+    |    function getRateEth2Dai(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(178)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitResolver':
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(180)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitResolver':
+    |
+    |    function getRateKyber(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+  > |        (uint kyberPrice,) = KyberInterface(kyberAddr).getExpectedRate(src, dest, srcAmt);
+    |        destAmt = wmul(srcAmt, kyberPrice);
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(185)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitResolver':
+    |    function getRateUniswap(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(191)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitResolver':
+    |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(193)
+
+[31mViolation[0m for TODAmount in contract 'SplitResolver':
+    |
+    |    function withdrawEth() public payable isAdmin {
+  > |        msg.sender.transfer(address(this).balance);
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(136)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitResolver':
+    |
+    |    function setSplitEth(uint amt) public isAdmin {
+  > |        maxSplitAmtEth = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(123)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitResolver':
+    |
+    |    function setSplitDai(uint amt) public isAdmin {
+  > |        maxSplitAmtDai = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(127)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitResolver':
+    |    function changeFee(uint amt) public isAdmin {
+    |        if (amt > 997000000000000000) {
+  > |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+    |            cut = amt;
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(141)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitResolver':
+    |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+  > |            cut = amt;
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(143)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |    function getRateEth2Dai(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(178)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(dest, wethAddr, srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = Eth2DaiInterface(eth2daiAddr).getBuyAmount(wethAddr, src, srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(180)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |
+    |    function getRateKyber(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+  > |        (uint kyberPrice,) = KyberInterface(kyberAddr).getExpectedRate(src, dest, srcAmt);
+    |        destAmt = wmul(srcAmt, kyberPrice);
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(185)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |    function getRateUniswap(address src, address dest, uint srcAmt) internal view returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(191)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |            destAmt = UniswapExchange(uniswapAddr).getEthToTokenInputPrice(srcAmt);
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).getTokenToEthInputPrice(srcAmt);
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(193)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |    function swapEth2Dai(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == wethAddr) {
+  > |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+    |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(261)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+  > |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(263)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |    function swapKyber(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        uint ethAmt = src == ethAddr ? srcAmt : 0;
+  > |        destAmt = KyberInterface(kyberAddr).trade.value(ethAmt)(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(273)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |    function swapUniswap(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(286)
+
+[31mViolation[0m for RepeatedCall in contract 'SplitSwap':
+    |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(288)
+
+[31mViolation[0m for TODAmount in contract 'SplitSwap':
+    |
+    |    function withdrawEth() public payable isAdmin {
+  > |        msg.sender.transfer(address(this).balance);
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(136)
+
+[33mWarning[0m for TODReceiver in contract 'SplitSwap':
+    |    function swapEth2Dai(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == wethAddr) {
+  > |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+    |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(261)
+
+[33mWarning[0m for TODReceiver in contract 'SplitSwap':
+    |    function swapKyber(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        uint ethAmt = src == ethAddr ? srcAmt : 0;
+  > |        destAmt = KyberInterface(kyberAddr).trade.value(ethAmt)(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(273)
+
+[33mWarning[0m for TODReceiver in contract 'SplitSwap':
+    |    function swapUniswap(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(286)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'SplitSwap':
+    |    function swapEth2Dai(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == wethAddr) {
+  > |            TokenInterface(wethAddr).deposit.value(srcAmt)();
+    |        }
+    |        destAmt = Eth2DaiInterface(eth2daiAddr).sellAllAmount(
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(261)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'SplitSwap':
+    |    function swapKyber(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        uint ethAmt = src == ethAddr ? srcAmt : 0;
+  > |        destAmt = KyberInterface(kyberAddr).trade.value(ethAmt)(
+    |                src,
+    |                srcAmt,
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(273)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'SplitSwap':
+    |    function swapUniswap(address src, address dest, uint srcAmt) internal returns (uint destAmt) {
+    |        if (src == ethAddr) {
+  > |            destAmt = UniswapExchange(uniswapAddr).ethToTokenSwapInput.value(srcAmt)(uint(0), uint(1899063809));
+    |        } else if (dest == ethAddr) {
+    |            destAmt = UniswapExchange(uniswapAddr).tokenToEthSwapInput(srcAmt, uint(0), uint(1899063809));
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(286)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'SplitSwap':
+    |        destAmt = daiToEthLoop(finalSrcAmt, splitAmt, 0);
+    |        require(destAmt > slippageAmt, "Dest Amt < slippage");
+  > |        msg.sender.transfer(destAmt);
+    |        emit LogDaiToEth(finalSrcAmt, destAmt);
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(312)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitSwap':
+    |
+    |    function setSplitEth(uint amt) public isAdmin {
+  > |        maxSplitAmtEth = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(123)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitSwap':
+    |
+    |    function setSplitDai(uint amt) public isAdmin {
+  > |        maxSplitAmtDai = amt;
+    |    }
+    |
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(127)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitSwap':
+    |    function changeFee(uint amt) public isAdmin {
+    |        if (amt > 997000000000000000) {
+  > |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+    |            cut = amt;
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(141)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SplitSwap':
+    |            cut = 997000000000000000; // maximum fees can be 0.3%. Minimum 0%
+    |        } else {
+  > |            cut = amt;
+    |        }
+    |    }
+  at /unique_chucks/37/0x7cfb3dfb0f7eee91576eb492ff964b1b59be0713.sol(143)

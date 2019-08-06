@@ -1,0 +1,64 @@
+/unique_chucks/27/0xa05f60e565c15e2fd0e5f8f3b877cefda226f5d6.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 194
+column: 2
+content: functionapprove(addressspender_,uintvalue_)whenNotLockedpublicreturns(bool){if(value_!=0&&allowed[msg.sender][spender_]!=0){revert();}allowed[msg.sender][spender_]=value_;Approval(msg.sender,spender_,value_);returntrue;}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 501
+column: 0
+content: contractMDICOStage1isBaseICO{usingSafeMathforuint;uintinternalconstantONE_TOKEN=1e18;uintpublicconstantETH_TOKEN_EXCHANGE_RATIO=1000;uint8internalconstantBONUS=50;functionMDICOStage1(addressicoToken_,addressteamWallet_,uintlowCapWei_,uinthardCapWei_,uintlowCapTxWei_,uinthardCapTxWei_)public{require(icoToken_!=address(0)&&teamWallet_!=address(0));token=BaseICOToken(icoToken_);teamWallet=teamWallet_;state=State.Inactive;lowCapWei=lowCapWei_;hardCapWei=hardCapWei_;lowCapTxWei=lowCapTxWei_;hardCapTxWei=hardCapTxWei_;}functiontouch()public{if(state!=State.Active&&state!=State.Suspended){return;}if(collectedWei>=hardCapWei){state=State.Completed;endAt=block.timestamp;ICOCompleted(collectedWei);}elseif(block.timestamp>=endAt){if(collectedWei<lowCapWei){state=State.NotCompleted;ICONotCompleted();}else{state=State.Completed;ICOCompleted(collectedWei);}}}functionbuyTokens()publicpayable{require(state==State.Active&&block.timestamp<=endAt&&msg.value>=lowCapTxWei&&msg.value<=hardCapTxWei&&collectedWei+msg.value<=hardCapWei&&whitelisted(msg.sender));uintamountWei=msg.value;uintiwei=amountWei.mul(100+BONUS).div(100);uintitokens=iwei*ETH_TOKEN_EXCHANGE_RATIO;token.icoInvestment(msg.sender,itokens);collectedWei=collectedWei.add(amountWei);ICOInvestment(msg.sender,amountWei,itokens,BONUS);forwardFunds();touch();}function()externalpayable{buyTokens();}}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA
+patternId: 5616b2
+severity: 1
+line: 134
+column: 48
+content: private
+
+ruleId: SOLIDITY_REVERT_REQUIRE
+patternId: c56b12
+severity: 1
+line: 195
+column: 4
+content: if(value_!=0&&allowed[msg.sender][spender_]!=0){revert();}
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 127
+column: 2
+content: usingSafeMathforuint;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 502
+column: 2
+content: usingSafeMathforuint;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 132
+column: 2
+content: mapping(address=>uint)balances;
+
+SOLIDITY_VISIBILITY :1
+SOLIDITY_SAFEMATH :2
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_REVERT_REQUIRE :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA :1
+SOLIDITY_ERC20_APPROVE :1

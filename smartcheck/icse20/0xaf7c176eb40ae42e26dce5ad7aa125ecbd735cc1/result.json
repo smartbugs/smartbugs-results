@@ -1,0 +1,265 @@
+{
+  "contract": "0xaf7c176eb40ae42e26dce5ad7aa125ecbd735cc1",
+  "tool": "smartcheck",
+  "start": 1563642219.4001827,
+  "end": 1563642231.1748643,
+  "duration": 11.774681568145752,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 237,
+      "column": 4,
+      "content": "functionshareholder()constantexternalreturns(address);"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 145,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){require(_spender!=0x0);require(_value>0);allowance[msg.sender][_spender]=_value;returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 465,
+      "column": 8,
+      "content": "for(uinti=0;i<_players.length;i++){if(addPlayer(_players[i],msg.sender)){_result++;}}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 474,
+      "column": 8,
+      "content": "for(uinti=0;i<_players.length;i++){if(addPlayer(_players[i],_referrer)){_result++;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 465,
+      "column": 8,
+      "content": "for(uinti=0;i<_players.length;i++){if(addPlayer(_players[i],msg.sender)){_result++;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 474,
+      "column": 8,
+      "content": "for(uinti=0;i<_players.length;i++){if(addPlayer(_players[i],_referrer)){_result++;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 245,
+      "column": 0,
+      "content": "contractDividendTokenisWithholdToken,IDividendToken{addresspubliciniOwner;structDividendPeriod{uintStartTime;uintEndTime;uint256TotalEtherAmount;uint256ShareEtherAmount;}mapping(uint=>DividendPeriod)publicdividendPeriodOf;uint256publiccurrentDividendPeriodNo=0;uint256publicshareAddEtherValue=0;uint256publicaddTotalEtherValue=0;uintpubliclastDividendTime=now;mapping(address=>uint)publicbalanceTimeOf;uint256publicminDividendEtherAmount=1ether;functionsetMinDividendEtherAmount(uint256_newMinDividendEtherAmount)publiconlyOwner{minDividendEtherAmount=_newMinDividendEtherAmount;}functioncallDividend()publicreturns(uint256_etherAmount){_callDividend(msg.sender);_etherAmount=userEtherOf[msg.sender];return;}eventOnCallDividend(addressindexed_user,uint256_tokenAmount,uint_lastCalTime,uint_etherAmount,uint_eventTime,uint_eventId);function_callDividend(address_user)internalreturns(bool_result){uint_amount=0;uintlastTime=balanceTimeOf[_user];uint256tokenNumber=balanceOf[_user];if(tokenNumber<=0){balanceTimeOf[_user]=now;_result=false;return;}if(currentDividendPeriodNo==0){_result=false;return;}for(uint256i=currentDividendPeriodNo-1;i>=0;i--){DividendPeriodmemorydp=dividendPeriodOf[i];if(lastTime<dp.EndTime){_amount=_amount.add(dp.ShareEtherAmount.mul(tokenNumber));}elseif(lastTime>=dp.EndTime){break;}}balanceTimeOf[_user]=now;if(_amount>0){userEtherOf[_user]=userEtherOf[_user].add(_amount);}emitOnCallDividend(_user,tokenNumber,lastTime,_amount,now,getEventId());_result=true;return;}functionsaveDividendPeriod(uint256_ShareEtherAmount,uint256_TotalEtherAmount)internal{DividendPeriodstoragedp=dividendPeriodOf[currentDividendPeriodNo];dp.ShareEtherAmount=_ShareEtherAmount;dp.TotalEtherAmount=_TotalEtherAmount;dp.EndTime=now;dividendPeriodOf[currentDividendPeriodNo]=dp;}functionnewDividendPeriod(uint_StartTime)internal{DividendPeriodmemorynewdp=DividendPeriod({StartTime:_StartTime,EndTime:0,TotalEtherAmount:0,ShareEtherAmount:0});currentDividendPeriodNo++;dividendPeriodOf[currentDividendPeriodNo]=newdp;}functioncallDividendAndUserRefund()public{callDividend();userRefund();}functiongetProfit(address_profitOrg)public{lock();IProfitOrgpt=IProfitOrg(_profitOrg);addresssh=pt.shareholder();if(sh==address(this)){pt.userRefund();}unLock();}eventOnProfitOrgPay(address_profitOrg,uint256_sendAmount,uint256_divAmount,uint256_shareAmount,uint_eventTime,uint_eventId);uintpublicdivIntervalDays=1days;functionsetDivIntervalDays(uint_days)publiconlyOwner{require(_days>=1&&_days<=30);divIntervalDays=_days*(1days);}functionprofitOrgPay()payableexternal{if(msg.value>0){userEtherOf[this]+=msg.value;addTotalEtherValue+=msg.value;shareAddEtherValue+=msg.value/totalSupply;uint256canValue=userEtherOf[this];if(canValue<minDividendEtherAmount||now-lastDividendTime<divIntervalDays){emitOnProfitOrgPay(msg.sender,msg.value,0,0,now,getEventId());return;}uint256sa=canValue.div(totalSupply);if(sa<=0){emitOnProfitOrgPay(msg.sender,msg.value,0,0,now,getEventId());return;}uint256totalEtherAmount=sa.mul(totalSupply);saveDividendPeriod(sa,totalEtherAmount);newDividendPeriod(now);userEtherOf[this]=userEtherOf[this].sub(totalEtherAmount);emitOnProfitOrgPay(msg.sender,msg.value,totalEtherAmount,sa,now,getEventId());lastDividendTime=now;return;}}eventOnFreeLostToken(address_lostUser,uint256_tokenNum,uint256_etherNum,address_to,uint_eventTime,uint_eventId);functionfreeLostToken(address_user)publiconlyOwner{require(_user!=0x0);uintaddTime=10*365days;require(balanceOf[_user]>0&&createTime.add(addTime)<now&&balanceTimeOf[_user].add(addTime)<now);require(_user!=msg.sender&&_user!=iniOwner);uint256ba=balanceOf[_user];require(ba>0);_callDividend(_user);_callDividend(msg.sender);_callDividend(iniOwner);balanceOf[_user]-=ba;balanceOf[msg.sender]=balanceOf[msg.sender].add(ba/2);balanceOf[iniOwner]=balanceOf[iniOwner].add(ba-(ba/2));uint256amount=userEtherOf[_user];if(amount>0){userEtherOf[_user]=userEtherOf[_user].sub(amount);userEtherOf[msg.sender]=userEtherOf[msg.sender].add(amount/2);userEtherOf[iniOwner]=userEtherOf[iniOwner].add(amount-(amount/2));}emitOnFreeLostToken(_user,ba,amount,msg.sender,now,getEventId());}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 491,
+      "column": 0,
+      "content": "contractGameTokenisReferrerToken,IGameToken{addresspublicboss;addresspublicbossAdmin;functionsetBoss(address_newBoss)public{require(msg.sender==bossAdmin);boss=_newBoss;}functionGameToken(address_ownerAdmin,address_boss,address_bossAdmin)public{require(_ownerAdmin!=0x0);require(_boss!=0x0);require(_bossAdmin!=0x0);owner=msg.sender;iniOwner=msg.sender;ownerAdmin=_ownerAdmin;boss=_boss;bossAdmin=_bossAdmin;totalSupply=0;balanceOf[msg.sender]=totalSupply;}eventOnAddYearToken(uint256_lastTotalSupply,uint256_currentTotalSupply,uint_years,uint_eventTime,uint_eventId);mapping(uint=>uint256)yearTotalSupplyOf;functionaddYearToken()publicreturns(bool_result){_result=false;uinty=(now-createTime)/(365days);if(y>0&&yearTotalSupplyOf[y]==0){_callDividend(iniOwner);uint256_lastTotalSupply=totalSupply;totalSupply=totalSupply.mul(102).div(100);uint256_add=totalSupply.sub(_lastTotalSupply);balanceOf[iniOwner]=balanceOf[iniOwner].add(_add);yearTotalSupplyOf[y]=totalSupply;emitOnAddYearToken(_lastTotalSupply,totalSupply,y,now,getEventId());}}uint256publicbaseMineTokenAmount=1000*(10**uint256(decimals));uint256publiccurrentMineTokenAmount=baseMineTokenAmount;uintpubliccurrentMideTokenTime=now;functiongetMineTokenAmount()publicreturns(uint256_result){_result=0;if(currentMineTokenAmount==0){_result=currentMineTokenAmount;return;}if(now<=1days+currentMideTokenTime){_result=currentMineTokenAmount;return;}currentMineTokenAmount=currentMineTokenAmount*996/1000;if(currentMineTokenAmount<=10**uint256(decimals)){currentMineTokenAmount=0;}currentMideTokenTime=now;_result=currentMineTokenAmount;return;}eventOnMineToken(addressindexed_game,addressindexed_player,uint256_toUser,uint256_toOwner,uint256_toBosss,uint256_toSupper,uint_eventTime,uint_eventId);functionmineToken(address_player,uint256_etherAmount)externalreturns(uint_toPlayerToken){_toPlayerToken=_mineToken(_player,_etherAmount);}function_mineToken(address_player,uint256_etherAmount)privatereturns(uint_toPlayerToken){require(_player!=0x0);require(isWhiteList(msg.sender));require(msg.sender!=tx.origin);require(_etherAmount>0);uint256te=getMineTokenAmount();if(te==0){return;}uint256ToUser=te.mul(_etherAmount).div(1ether);if(ToUser>0){_callDividend(_player);_callDividend(owner);_callDividend(boss);balanceOf[_player]=balanceOf[_player].add(ToUser);uint256ToSupper=0;if(referrerEnable){addresssupper=getReferrer1(_player);if(supper!=0x0){_callDividend(supper);ToSupper=ToUser*refRewardL1Per100/100;balanceOf[supper]=balanceOf[supper].add(ToSupper);}}uint256ToUS=ToUser.add(ToSupper);uint256ToOwner=ToUS.div(8);balanceOf[owner]=balanceOf[owner].add(ToOwner);uint256ToBoss=ToUS.div(8);balanceOf[boss]=balanceOf[boss].add(ToBoss);totalSupply=totalSupply.add(ToUS.add(ToOwner.add(ToBoss)));emitOnMineToken(msg.sender,_player,ToUser,ToOwner,ToBoss,ToSupper,now,getEventId());}_toPlayerToken=ToUser;}function()publicpayable{if(msg.value>0){userEtherOf[msg.sender]+=msg.value;}}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 44,
+      "column": 4,
+      "content": "functionsetOwner(address_newOwner)public{require(msg.sender==ownerAdmin);owner=_newOwner;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 268,
+      "column": 4,
+      "content": "functionsetMinDividendEtherAmount(uint256_newMinDividendEtherAmount)publiconlyOwner{minDividendEtherAmount=_newMinDividendEtherAmount;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 353,
+      "column": 4,
+      "content": "functionsetDivIntervalDays(uint_days)publiconlyOwner{require(_days>=1&&_days<=30);divIntervalDays=_days*(1days);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 425,
+      "column": 4,
+      "content": "functionsetRefRewardPer100(uint256_value1)publiconlyOwner{require(_value1<=50);refRewardL1Per100=_value1;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 432,
+      "column": 4,
+      "content": "functionsetreferrerEnable(bool_enable)publiconlyOwner{referrerEnable=_enable;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 495,
+      "column": 4,
+      "content": "functionsetBoss(address_newBoss)public{require(msg.sender==bossAdmin);boss=_newBoss;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 34,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UINT_CANT_BE_NEGATIVE",
+      "patternId": "11ca45b",
+      "severity": 3,
+      "line": 294,
+      "column": 51,
+      "content": "i>=0"
+    },
+    {
+      "name": "SOLIDITY_UINT_CANT_BE_NEGATIVE",
+      "patternId": "d48ac4",
+      "severity": 2,
+      "line": 294,
+      "column": 51,
+      "content": "i>=0"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 119,
+      "column": 8,
+      "content": "_callDividend(_from)"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 120,
+      "column": 8,
+      "content": "_callDividend(_to)"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 167,
+      "column": 8,
+      "content": "_callDividend(msg.sender)"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 273,
+      "column": 8,
+      "content": "_callDividend(msg.sender)"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 334,
+      "column": 8,
+      "content": "callDividend()"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 399,
+      "column": 8,
+      "content": "_callDividend(_user)"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 400,
+      "column": 8,
+      "content": "_callDividend(msg.sender)"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 401,
+      "column": 8,
+      "content": "_callDividend(iniOwner)"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 612,
+      "column": 16,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 153,
+      "column": 62,
+      "content": "bytes_extraData"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 463,
+      "column": 24,
+      "content": "address[]_players"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 472,
+      "column": 24,
+      "content": "address[]_players"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 421,
+      "column": 4,
+      "content": "mapping(address=>address)playerReferrerOf;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 518,
+      "column": 4,
+      "content": "mapping(uint=>uint256)yearTotalSupplyOf;"
+    }
+  ]
+}

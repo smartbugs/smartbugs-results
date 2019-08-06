@@ -1,0 +1,201 @@
+{
+  "contract": "0xd95e7d16000cbeb66acbf70b4a843d4346ff4555",
+  "tool": "smartcheck",
+  "start": 1563260989.8521123,
+  "end": 1563261002.1122527,
+  "duration": 12.260140419006348,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 160,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_amount)publiconlyFinishedICOonlyUnlockTokenreturns(bool){require(_spender!=address(0),\"Address can not be 0x0\");require(balances[msg.sender]>=_amount,\"Balance does not have enough tokens\");require(!locked[msg.sender],\"Sender address is locked\");require(!locked[_spender],\"Spender address is locked\");allowed[msg.sender][_spender]=_amount;emitApproval(msg.sender,_spender,_amount);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 45,
+      "column": 0,
+      "content": "contractKOZJINisERC20{usingSafeMathforuint256;stringprivateconstant_name=\"KOZJIN Token\";stringprivateconstant_symbol=\"KOZ\";uint8privateconstant_decimals=18;uint256privateconstant_maxCap=300000000ether;uint256private_icoStartDate=1560744000;uint256private_icoEndDate=1562558400;uint256private_totalsupply;addressprivate_owner;addresspayableprivate_ethFundMain;boolprivate_lockToken=true;boolprivate_allowICO=true;mapping(address=>uint256)privatebalances;mapping(address=>mapping(address=>uint256))privateallowed;mapping(address=>bool)privatelocked;eventMint(addressindexedfrom,addressindexedto,uint256amount);eventBurn(addressindexedfrom,uint256amount);eventChangeReceiveWallet(addressindexednewAddress);eventChangeOwnerShip(addressindexednewOwner);eventChangeLockStatusFrom(addressindexedinvestor,boollocked);eventChangeTokenLockStatus(boollocked);eventChangeAllowICOStatus(boolallow);modifieronlyOwner(){require(msg.sender==_owner,\"Only owner is allowed\");_;}modifieronlyICO(){require(now>=_icoStartDate&&now<_icoEndDate,\"CrowdSale is not running\");_;}modifieronlyFinishedICO(){require(now>=_icoEndDate,\"CrowdSale is running\");_;}modifieronlyAllowICO(){require(_allowICO,\"ICO stopped\");_;}modifieronlyUnlockToken(){require(!_lockToken,\"Token locked\");_;}constructor()public{_owner=msg.sender;}functionname()publicpurereturns(stringmemory){return_name;}functionsymbol()publicpurereturns(stringmemory){return_symbol;}functiondecimals()publicpurereturns(uint8){return_decimals;}functionmaxCap()publicpurereturns(uint256){return_maxCap;}functionowner()publicviewreturns(address){return_owner;}functionethFundMain()publicviewreturns(address){return_ethFundMain;}functionicoStartDate()publicviewreturns(uint256){return_icoStartDate;}functionicoEndDate()publicviewreturns(uint256){return_icoEndDate;}functionlockToken()publicviewreturns(bool){return_lockToken;}functionallowICO()publicviewreturns(bool){return_allowICO;}functionlockStatusOf(addressinvestor)publicviewreturns(bool){returnlocked[investor];}functiontotalSupply()publicviewreturns(uint256){return_totalsupply;}functionbalanceOf(addressinvestor)publicviewreturns(uint256){returnbalances[investor];}functionapprove(address_spender,uint256_amount)publiconlyFinishedICOonlyUnlockTokenreturns(bool){require(_spender!=address(0),\"Address can not be 0x0\");require(balances[msg.sender]>=_amount,\"Balance does not have enough tokens\");require(!locked[msg.sender],\"Sender address is locked\");require(!locked[_spender],\"Spender address is locked\");allowed[msg.sender][_spender]=_amount;emitApproval(msg.sender,_spender,_amount);returntrue;}functionallowance(address_from,address_spender)publicviewreturns(uint256){returnallowed[_from][_spender];}functiontransfer(address_to,uint256_amount)publiconlyFinishedICOonlyUnlockTokenreturns(bool){require(_to!=address(0),\"Receiver can not be 0x0\");require(!locked[msg.sender],\"Sender address is locked\");require(!locked[_to],\"Receiver address is locked\");balances[msg.sender]=(balances[msg.sender]).sub(_amount);balances[_to]=(balances[_to]).add(_amount);emitTransfer(msg.sender,_to,_amount);returntrue;}functiontransferFrom(address_from,address_to,uint256_amount)publiconlyFinishedICOonlyUnlockTokenreturns(bool){require(_to!=address(0),\"Receiver can not be 0x0\");require(!locked[_from],\"From address is locked\");require(!locked[_to],\"Receiver address is locked\");balances[_from]=(balances[_from]).sub(_amount);allowed[_from][msg.sender]=(allowed[_from][msg.sender]).sub(_amount);balances[_to]=(balances[_to]).add(_amount);emitTransfer(_from,_to,_amount);returntrue;}functionburn(uint256_value)publiconlyOwnerreturns(bool){balances[msg.sender]=(balances[msg.sender]).sub(_value);_totalsupply=_totalsupply.sub(_value);emitBurn(msg.sender,_value);returntrue;}functionstopTransferToken()externalonlyOwner{_lockToken=true;emitChangeTokenLockStatus(true);}functionstartTransferToken()externalonlyOwner{_lockToken=false;emitChangeTokenLockStatus(false);}function()externalpayableonlyICOonlyAllowICO{}functionmanualMint(addressreceiver,uint256_value)publiconlyOwner{uint256value=_value.mul(10**18);mint(_owner,receiver,value);}functionmint(addressfrom,addressreceiver,uint256value)internal{require(receiver!=address(0),\"Address can not be 0x0\");require(value>0,\"Value should larger than 0\");balances[receiver]=balances[receiver].add(value);_totalsupply=_totalsupply.add(value);require(_totalsupply<=_maxCap,\"CrowdSale hit max cap\");emitMint(from,receiver,value);emitTransfer(address(0),receiver,value);}functionhaltCrowdSale()externalonlyOwner{_allowICO=false;emitChangeAllowICOStatus(false);}functionresumeCrowdSale()externalonlyOwner{_allowICO=true;emitChangeAllowICOStatus(true);}functionchangeReceiveWallet(addresspayablenewAddress)externalonlyOwner{require(newAddress!=address(0),\"Address can not be 0x0\");_ethFundMain=newAddress;emitChangeReceiveWallet(newAddress);}"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 48,
+      "column": 11,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 49,
+      "column": 11,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 50,
+      "column": 10,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 51,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 52,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 53,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 56,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 59,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 60,
+      "column": 20,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 63,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 64,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 66,
+      "column": 32,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 67,
+      "column": 52,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 68,
+      "column": 29,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 46,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 241,
+      "column": 4,
+      "content": "functionchangeReceiveWallet(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 242,
+      "column": 8,
+      "content": "require(newAddress!="
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 242,
+      "column": 30,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 242,
+      "column": 37,
+      "content": "(0),\"Address can not be 0x0\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 243,
+      "column": 8,
+      "content": "_ethFundMain=newAddress;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 244,
+      "column": 8,
+      "content": "emitChangeReceiveWallet"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 244,
+      "column": 32,
+      "content": "(newAddress);"
+    }
+  ]
+}

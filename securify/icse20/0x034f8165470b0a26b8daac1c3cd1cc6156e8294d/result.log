@@ -1,0 +1,144 @@
+Processing contract: /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol:ApproveAndCallFallBack
+Processing contract: /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol:ERC20Interface
+Processing contract: /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol:EracoinToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol:Owned
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'EracoinToken':
+    |// fixed supply
+    |// ----------------------------------------------------------------------------
+  > |contract EracoinToken is ERC20Interface, Owned {
+    |    using SafeMath for uint;
+    |
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(104)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |    function transfer(address to, uint tokens) public returns (bool success) {
+    |        balances[msg.sender] = balances[msg.sender].sub(tokens);
+  > |        balances[to] = balances[to].add(tokens);
+    |        emit Transfer(msg.sender, to, tokens);
+    |        return true;
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(156)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |    // ------------------------------------------------------------------------
+    |    function transferFrom(address from, address to, uint tokens) public returns (bool success) {
+  > |        balances[from] = balances[from].sub(tokens);
+    |        allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
+    |        balances[to] = balances[to].add(tokens);
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(187)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |        balances[from] = balances[from].sub(tokens);
+    |        allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
+  > |        balances[to] = balances[to].add(tokens);
+    |        emit Transfer(from, to, tokens);
+    |        return true;
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(189)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |        require(balances[msg.sender] >= _value);   // Check if the sender has enough
+    |        balances[msg.sender] -= _value;            // Subtract from the sender
+  > |        _totalSupply -= _value;                      // Updates totalSupply
+    |        emit Burn(msg.sender, _value);
+    |        return true;
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(226)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |        require(balances[_from] >= _value);                // Check if the targeted balance is enough
+    |        require(_value <= allowed[_from][msg.sender]);    // Check allowance
+  > |        balances[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowed[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+    |        _totalSupply -= _value;                              // Update totalSupply
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(242)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |        balances[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowed[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+  > |        _totalSupply -= _value;                              // Update totalSupply
+    |        emit Burn(_from, _value);
+    |        return true;
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(244)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |    function acceptOwnership() public {
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(89)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |        require(msg.sender == newOwner);
+    |        emit OwnershipTransferred(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(94)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |        emit OwnershipTransferred(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(95)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |        require(_totalSupply + _value >= _totalSupply); // Overflow check
+    |    
+  > |        _totalSupply += _value;
+    |        balances[_recipient] += _value;
+    |        emit Transfer(address(0), _recipient, _value);
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(260)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'EracoinToken':
+    |    
+    |        _totalSupply += _value;
+  > |        balances[_recipient] += _value;
+    |        emit Transfer(address(0), _recipient, _value);
+    |        return true;
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(261)
+
+[31mViolation[0m for MissingInputValidation in contract 'Owned':
+    |    }
+    |
+  > |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        newOwner = _newOwner;
+    |    }
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(88)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |    function acceptOwnership() public {
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(89)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |        require(msg.sender == newOwner);
+    |        emit OwnershipTransferred(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(94)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |        emit OwnershipTransferred(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/48/0x034f8165470b0a26b8daac1c3cd1cc6156e8294d.sol(95)

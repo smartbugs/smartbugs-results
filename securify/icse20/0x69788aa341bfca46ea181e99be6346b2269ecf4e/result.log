@@ -1,0 +1,260 @@
+Processing contract: /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol:GenesisToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol:TokenERC20
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol:owned
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol:tokenRecipient
+[33mWarning[0m for TODAmount in contract 'GenesisToken':
+    |        require(myAddress.balance >= amount.div(sellPrice));    // checks if the contract has enough ether to buy
+    |        _transfer(msg.sender, address(this), amount);           // makes the transfers
+  > |        msg.sender.transfer(amount.div(sellPrice));             // sends ether to the seller. It's important to do this last to avoid recursion attacks
+    |    }
+    |    
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(302)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'GenesisToken':
+    |        require(myAddress.balance >= amount.div(sellPrice));    // checks if the contract has enough ether to buy
+    |        _transfer(msg.sender, address(this), amount);           // makes the transfers
+  > |        msg.sender.transfer(amount.div(sellPrice));             // sends ether to the seller. It's important to do this last to avoid recursion attacks
+    |    }
+    |    
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(302)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |        require(balanceOf[msg.sender] >= _value);   // Check if the sender has enough
+    |        balanceOf[msg.sender] -= _value;            // Subtract from the sender
+  > |        totalSupply -= _value;                      // Updates totalSupply
+    |        emit Burn(msg.sender, _value);
+    |        return true;
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(205)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |        require(balanceOf[_from] >= _value);                // Check if the targeted balance is enough
+    |        require(_value <= allowance[_from][msg.sender]);    // Check allowance
+  > |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+    |        totalSupply -= _value;                              // Update totalSupply
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(221)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+  > |        totalSupply -= _value;                              // Update totalSupply
+    |        emit Burn(_from, _value);
+    |        return true;
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(223)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |	
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(56)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |        require(msg.sender == newOwner);
+    |        emit OwnershipTransferred(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(62)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |        emit OwnershipTransferred(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(63)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    function mintToken(address target, uint256 mintedAmount) onlyOwner public {
+    |        require(tokenMint);
+  > |        balanceOf[target] += mintedAmount;
+    |        totalSupply += mintedAmount;
+    |        emit Transfer(address(0), address(this), mintedAmount);
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(266)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |        require(tokenMint);
+    |        balanceOf[target] += mintedAmount;
+  > |        totalSupply += mintedAmount;
+    |        emit Transfer(address(0), address(this), mintedAmount);
+    |        emit Transfer(address(this), target, mintedAmount);
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(267)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    /// @param freeze either to freeze it or not
+    |    function freezeAccount(address target, bool freeze) onlyOwner public {
+  > |        frozenAccount[target] = freeze;
+    |        emit FrozenFunds(target, freeze);
+    |    }
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(276)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    /// @param newBuyPrice Price users can buy from the contract
+    |    function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner public {
+  > |        sellPrice = newSellPrice;
+    |        buyPrice = newBuyPrice;
+    |    }
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(284)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner public {
+    |        sellPrice = newSellPrice;
+  > |        buyPrice = newBuyPrice;
+    |    }
+    |
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(285)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    /// @param _saleAgent address of new saleAgent
+    |    function setSaleAgent(address _saleAgent) onlyOwner public {
+  > |        saleAgent = _saleAgent;
+    |    }
+    |    
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(308)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    /// @param _nodeAgent address of new nodeAgent
+    |    function setNodeAgent(address _nodeAgent) onlyOwner public {
+  > |        nodeAgent = _nodeAgent;
+    |    }
+    |    
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(314)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    /// @param _exchangeStatus bool of setExchangeStatus
+    |    function setExchangeStatus(bool _exchangeStatus) onlyOwner public {
+  > |        exchangeStatus = _exchangeStatus; 
+    |    }
+    |    
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(320)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    /// @notice Finalization after ICO
+    |    function finalizationAfterICO() onlyOwner public {
+  > |        tokenMint = false;
+    |        tokenTransfer = true;
+    |    }
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(330)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'GenesisToken':
+    |    function finalizationAfterICO() onlyOwner public {
+    |        tokenMint = false;
+  > |        tokenTransfer = true;
+    |    }
+    |}
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(331)
+
+[31mViolation[0m for LockedEther in contract 'TokenERC20':
+    |interface tokenRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external; }
+    |
+  > |contract TokenERC20 is owned{
+    |    
+    |    using SafeMath for uint;
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(69)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        balanceOf[_from] -= _value;
+    |        // Add the same to the recipient
+  > |        balanceOf[_to] += _value;
+    |        emit Transfer(_from, _to, _value);
+    |        // Asserts are used to use static analysis to find bugs in your code. They should never fail
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(125)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        require(balanceOf[msg.sender] >= _value);   // Check if the sender has enough
+    |        balanceOf[msg.sender] -= _value;            // Subtract from the sender
+  > |        totalSupply -= _value;                      // Updates totalSupply
+    |        emit Burn(msg.sender, _value);
+    |        return true;
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(205)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        require(balanceOf[_from] >= _value);                // Check if the targeted balance is enough
+    |        require(_value <= allowance[_from][msg.sender]);    // Check allowance
+  > |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+    |        totalSupply -= _value;                              // Update totalSupply
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(221)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+  > |        totalSupply -= _value;                              // Update totalSupply
+    |        emit Burn(_from, _value);
+    |        return true;
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(223)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |	
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(56)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        require(msg.sender == newOwner);
+    |        emit OwnershipTransferred(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(62)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        emit OwnershipTransferred(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(63)
+
+[31mViolation[0m for MissingInputValidation in contract 'owned':
+    |    }
+    |
+  > |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        newOwner = _newOwner;
+    |    }
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(55)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'owned':
+    |
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |	
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(56)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'owned':
+    |        require(msg.sender == newOwner);
+    |        emit OwnershipTransferred(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(62)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'owned':
+    |        emit OwnershipTransferred(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/30/0x69788aa341bfca46ea181e99be6346b2269ecf4e.sol(63)

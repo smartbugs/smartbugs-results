@@ -1,0 +1,47 @@
+/unique_chucks/34/0xfeb9195b2a07d854f49d5a1691d70c27bc188f49.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 94
+column: 4
+content: functionapprove(address_spender,uint256_value)publicreturns(bool){allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 117
+column: 0
+content: contractBinvTokenisERC20Standard{stringpublicconstantname="BINV";stringpublicconstantsymbol="BINV";uint256publicconstantinitialSupply=100000000;uint8publicconstantdecimals=18;addresspublicowner;addresspubliccontractAddress;boolpublicpayableEnabled=false;uint256publicpayableWeiReceived=0;uint256publicpayableFinneyReceived=0;uint256publicpayableEtherReceived=0;uint256publicmilliTokensPaid=0;uint256publicmilliTokensSent=0;uint256publictokensPerEther=10000;uint256publichardCapInEther=7000;uint256publicmaxPaymentInEther=50;constructor()public{totalSupply_=initialSupply*(10**uint256(decimals));balances[msg.sender]=totalSupply_;owner=msg.sender;contractAddress=address(this);}function()payablepublic{require(payableEnabled);require(msg.sender!=0x0);require(maxPaymentInEther>uint256(msg.value/(10**18)));require(hardCapInEther>payableEtherReceived);uint256actualTokensPerEther=getActualTokensPerEther();uint256tokensAmount=msg.value*actualTokensPerEther;require(balances[owner]>=tokensAmount);balances[owner]-=tokensAmount;balances[msg.sender]+=tokensAmount;payableWeiReceived+=msg.value;payableFinneyReceived=uint256(payableWeiReceived/(10**15));payableEtherReceived=uint256(payableWeiReceived/(10**18));milliTokensPaid+=uint256(tokensAmount/(10**uint256(decimals-3)));emitTransfer(owner,msg.sender,tokensAmount);owner.transfer(msg.value);}functiongetOwnerBalance()publicviewreturns(uint256){returnbalances[owner];}functiongetOwnerBalanceInMilliTokens()publicviewreturns(uint256){returnuint256(balances[owner]/(10**uint256(decimals-3)));}functiongetActualTokensPerEther()publicviewreturns(uint256){uint256etherReceived=payableEtherReceived;uint256bonusPercent=0;if(etherReceived<1000)bonusPercent=16;elseif(etherReceived<2200)bonusPercent=12;elseif(etherReceived<3600)bonusPercent=8;elseif(etherReceived<5200)bonusPercent=4;uint256actualTokensPerEther=tokensPerEther*(100+bonusPercent)/100;returnactualTokensPerEther;}functionsetTokensPerEther(uint256amount)publicreturns(bool){require(msg.sender==owner);require(amount>0);tokensPerEther=amount;returntrue;}functionsetHardCapInEther(uint256amount)publicreturns(bool){require(msg.sender==owner);require(amount>0);hardCapInEther=amount;returntrue;}functionsetMaxPaymentInEther(uint256amount)publicreturns(bool){require(msg.sender==owner);require(amount>0);maxPaymentInEther=amount;returntrue;}functionenablePayable()publicreturns(bool){require(msg.sender==owner);payableEnabled=true;returntrue;}functiondisablePayable()publicreturns(bool){require(msg.sender==owner);payableEnabled=false;returntrue;}functionsendTokens(uint256milliTokensAmount,addressdestination)publicreturns(bool){require(msg.sender==owner);uint256tokensAmount=milliTokensAmount*(10**uint256(decimals-3));require(balances[owner]>=tokensAmount);balances[owner]-=tokensAmount;balances[destination]+=tokensAmount;milliTokensSent+=milliTokensAmount;emitTransfer(owner,destination,tokensAmount);returntrue;}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 220
+column: 4
+content: functionsetTokensPerEther(uint256amount)publicreturns(bool){require(msg.sender==owner);require(amount>0);tokensPerEther=amount;returntrue;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 230
+column: 4
+content: functionsetHardCapInEther(uint256amount)publicreturns(bool){require(msg.sender==owner);require(amount>0);hardCapInEther=amount;returntrue;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 240
+column: 4
+content: functionsetMaxPaymentInEther(uint256amount)publicreturns(bool){require(msg.sender==owner);require(amount>0);maxPaymentInEther=amount;returntrue;}
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 91h3sa
+severity: 1
+line: 162
+column: 23
+content: public
+
+SOLIDITY_OVERPOWERED_ROLE :3
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_UPGRADE_TO_050 :1
+SOLIDITY_ERC20_APPROVE :1

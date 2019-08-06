@@ -1,0 +1,155 @@
+/unique_chucks/21/0xa8a8509a17a5872d01e489fc85b152eb2a0c092e.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 171
+column: 4
+content: functiongetEncSeckey()publicconstantreturns(bytes32){returnballotEncryptionSeckey;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 243
+column: 4
+content: functiongetPaymentParams(uint8paymentType)internalconstantreturns(bool,uint128,uint128){if(paymentType==PAY_DEMOC){return(democWhitelist[msg.sender],democFee,democFeeFor[msg.sender]);}elseif(paymentType==PAY_BALLOT){return(ballotWhitelist[msg.sender],ballotFee,ballotFeeFor[msg.sender]);}else{assert(false);}}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 311
+column: 4
+content: functionnDemocs()publicconstantreturns(uint256){returndemocList.length;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 360
+column: 4
+content: functiongetDemocInfo(bytes32democHash)publicconstantreturns(stringname,addressadmin,uint256nBallots){return(democs[democHash].name,democs[democHash].admin,democs[democHash].ballots.length);}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 368
+column: 4
+content: functionnBallots(bytes32democHash)publicconstantreturns(uint256){returndemocs[democHash].ballots.length;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 372
+column: 4
+content: functiongetNthBallot(bytes32democHash,uint256n)publicconstantreturns(bytes32specHash,bytes32extraData,addressvotingContract,uint64startTime){return(democs[democHash].ballots[n].specHash,democs[democHash].ballots[n].extraData,democs[democHash].ballots[n].votingContract,democs[democHash].ballots[n].startTs);}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 206
+column: 0
+content: contractSVLightIndex{addresspublicowner;structBallot{bytes32specHash;bytes32extraData;addressvotingContract;uint64startTs;}structDemoc{stringname;addressadmin;Ballot[]ballots;}mapping(bytes32=>Democ)publicdemocs;bytes32[]publicdemocList;mapping(address=>bool)publicdemocWhitelist;mapping(address=>bool)publicballotWhitelist;addresspublicpayTo;uint128publicdemocFee=0.05ether;mapping(address=>uint128)democFeeFor;uint128publicballotFee=0.01ether;mapping(address=>uint128)ballotFeeFor;boolpublicpaymentEnabled=true;uint8constantPAY_DEMOC=0;uint8constantPAY_BALLOT=1;functiongetPaymentParams(uint8paymentType)internalconstantreturns(bool,uint128,uint128){if(paymentType==PAY_DEMOC){return(democWhitelist[msg.sender],democFee,democFeeFor[msg.sender]);}elseif(paymentType==PAY_BALLOT){return(ballotWhitelist[msg.sender],ballotFee,ballotFeeFor[msg.sender]);}else{assert(false);}}eventPaymentMade(uint128[2]valAndRemainder);eventDemocInit(stringname,bytes32democHash,addressadmin);eventBallotInit(bytes32specHash,uint64[2]openPeriod,bool[2]flags);eventBallotAdded(bytes32democHash,bytes32specHash,bytes32extraData,addressvotingContract);eventSetFees(uint128[2]_newFees);eventPaymentEnabled(bool_feeEnabled);modifieronlyBy(address_account){require(msg.sender==_account);_;}modifierpayReq(uint8paymentType){boolwl;uint128genFee;uint128feeFor;(wl,genFee,feeFor)=getPaymentParams(paymentType);uint128v=1000ether;if(paymentEnabled&&!wl){v=feeFor;if(v==0){v=genFee;}require(msg.value>=v);uint128remainder=uint128(msg.value)-v;payTo.transfer(v);if(!msg.sender.send(remainder)){payTo.transfer(remainder);}PaymentMade([v,remainder]);}_;}functionSVLightIndex()public{owner=msg.sender;payTo=msg.sender;}functionnDemocs()publicconstantreturns(uint256){returndemocList.length;}functionsetPayTo(addressnewPayTo)onlyBy(owner)public{payTo=newPayTo;}functionsetEth(uint128[2]newFees)onlyBy(owner)public{democFee=newFees[PAY_DEMOC];ballotFee=newFees[PAY_BALLOT];SetFees([democFee,ballotFee]);}functionsetOwner(address_owner)onlyBy(owner)public{owner=_owner;}functionsetPaymentEnabled(bool_enabled)onlyBy(owner)public{paymentEnabled=_enabled;PaymentEnabled(_enabled);}functionsetWhitelistDemoc(addressaddr,bool_free)onlyBy(owner)public{democWhitelist[addr]=_free;}functionsetWhitelistBallot(addressaddr,bool_free)onlyBy(owner)public{ballotWhitelist[addr]=_free;}functionsetFeeFor(addressaddr,uint128[2]fees)onlyBy(owner)public{democFeeFor[addr]=fees[PAY_DEMOC];ballotFeeFor[addr]=fees[PAY_BALLOT];}functioninitDemoc(stringdemocName)payReq(PAY_DEMOC)publicpayablereturns(bytes32){bytes32democHash=keccak256(democName,msg.sender,democList.length,this);democList.push(democHash);democs[democHash].name=democName;democs[democHash].admin=msg.sender;DemocInit(democName,democHash,msg.sender);returndemocHash;}functiongetDemocInfo(bytes32democHash)publicconstantreturns(stringname,addressadmin,uint256nBallots){return(democs[democHash].name,democs[democHash].admin,democs[democHash].ballots.length);}functionsetAdmin(bytes32democHash,addressnewAdmin)onlyBy(democs[democHash].admin)public{democs[democHash].admin=newAdmin;}functionnBallots(bytes32democHash)publicconstantreturns(uint256){returndemocs[democHash].ballots.length;}functiongetNthBallot(bytes32democHash,uint256n)publicconstantreturns(bytes32specHash,bytes32extraData,addressvotingContract,uint64startTime){return(democs[democHash].ballots[n].specHash,democs[democHash].ballots[n].extraData,democs[democHash].ballots[n].votingContract,democs[democHash].ballots[n].startTs);}function_commitBallot(bytes32democHash,bytes32specHash,bytes32extraData,addressvotingContract,uint64startTs)internal{democs[democHash].ballots.push(Ballot(specHash,extraData,votingContract,startTs));BallotAdded(democHash,specHash,extraData,votingContract);}functionaddBallot(bytes32democHash,bytes32extraData,addressvotingContract)onlyBy(democs[democHash].admin)payReq(PAY_BALLOT)publicpayable{SVLightBallotBoxbb=SVLightBallotBox(votingContract);bytes32specHash=bb.specHash();uint64startTs=bb.startTime();_commitBallot(democHash,specHash,extraData,votingContract,startTs);}functiondeployBallot(bytes32democHash,bytes32specHash,bytes32extraData,uint64[2]openPeriod,bool[2]flags)onlyBy(democs[democHash].admin)payReq(PAY_BALLOT)publicpayable{uint64startTs=max(openPeriod[0],uint64(block.timestamp));SVLightBallotBoxvotingContract=newSVLightBallotBox(specHash,[startTs,openPeriod[1]],flags);votingContract.setOwner(msg.sender);_commitBallot(democHash,specHash,extraData,address(votingContract),startTs);BallotInit(specHash,[startTs,openPeriod[1]],flags);}functionmax(uint64a,uint64b)pureinternalreturns(uint64){if(a>b){returna;}returnb;}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 176
+column: 4
+content: functionsetEndTime(uint64newEndTime)onlyTestingonlyOwnerpublic{endTime=newEndTime;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 185
+column: 4
+content: functionsetOwner(addressnewOwner)onlyOwnerpublic{owner=newOwner;SetOwner(newOwner);}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 243
+column: 75
+content: (bool,uint128,uint128)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 901eae
+severity: 1
+line: 352
+column: 28
+content: keccak256(democName,msg.sender,democList.length,this)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 351
+column: 23
+content: stringdemocName
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 360
+column: 70
+content: stringname
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 56
+column: 4
+content: boolseckeyRevealed=false;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 111
+column: 4
+content: uint16constantF_USE_ENC=0;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 112
+column: 4
+content: uint16constantF_TESTING=1;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 235
+column: 4
+content: mapping(address=>uint128)democFeeFor;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 237
+column: 4
+content: mapping(address=>uint128)ballotFeeFor;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 240
+column: 4
+content: uint8constantPAY_DEMOC=0;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 241
+column: 4
+content: uint8constantPAY_BALLOT=1;
+
+SOLIDITY_VISIBILITY :7
+SOLIDITY_OVERPOWERED_ROLE :2
+SOLIDITY_DEPRECATED_CONSTRUCTIONS :6
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_UPGRADE_TO_050 :3
+SOLIDITY_SHOULD_RETURN_STRUCT :1

@@ -1,0 +1,249 @@
+{
+  "contract": "0xca763db3ef49dbedd62bdb15d23d6bcbe7347c98",
+  "tool": "smartcheck",
+  "start": 1563808511.817895,
+  "end": 1563808522.6632595,
+  "duration": 10.845364570617676,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 456,
+      "column": 8,
+      "content": "_owner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 167,
+      "column": 4,
+      "content": "functionapprove(addressspender,uint256value)publicreturns(bool){_approve(msg.sender,spender,value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 409,
+      "column": 0,
+      "content": "contractPayableOwnable{addresspayableprivate_owner;eventOwnershipTransferred(addressindexedpreviousOwner,addressindexednewOwner);constructor()internal{_owner=msg.sender;emitOwnershipTransferred(address(0),_owner);}functionowner()publicviewreturns(addresspayable){return_owner;}modifieronlyOwner(){require(isOwner());_;}functionisOwner()publicviewreturns(bool){returnmsg.sender==_owner;}functionrenounceOwnership()publiconlyOwner{emitOwnershipTransferred(_owner,address(0));_owner=address(0);}functiontransferOwnership(addresspayablenewOwner)publiconlyOwner{_transferOwnership(newOwner);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 484,
+      "column": 0,
+      "content": "contractPumaPayPullPaymentisPayableOwnable{usingSafeMathforuint256;eventLogExecutorAdded(addressexecutor);eventLogExecutorRemoved(addressexecutor);eventLogSetConversionRate(stringcurrency,uint256conversionRate);eventLogPullPaymentRegistered(addresscustomerAddress,bytes32paymentID,stringuniqueReferenceID);eventLogPullPaymentCancelled(addresscustomerAddress,bytes32paymentID,stringuniqueReferenceID);eventLogPullPaymentExecuted(addresscustomerAddress,bytes32paymentID,stringuniqueReferenceID,uint256pmaAmountTransferred);uint256constantprivateDECIMAL_FIXER=10**10;uint256constantprivateFIAT_TO_CENT_FIXER=100;uint256constantprivateOVERFLOW_LIMITER_NUMBER=10**20;uint256constantprivateONE_ETHER=1ether;uint256constantprivateFUNDING_AMOUNT=0.5ether;uint256constantprivateMINIMUM_AMOUNT_OF_ETH_FOR_OPERATORS=0.15ether;IERC20publictoken;mapping(string=>uint256)privateconversionRates;mapping(address=>bool)publicexecutors;mapping(address=>mapping(address=>PullPayment))publicpullPayments;structPullPayment{bytes32paymentID;bytes32businessID;stringuniqueReferenceID;stringcurrency;uint256initialPaymentAmountInCents;uint256fiatAmountInCents;uint256frequency;uint256numberOfPayments;uint256startTimestamp;uint256nextPaymentTimestamp;uint256lastPaymentTimestamp;uint256cancelTimestamp;addresstreasuryAddress;}modifierisExecutor(){require(executors[msg.sender],\"msg.sender not an executor\");_;}modifierexecutorExists(address_executor){require(executors[_executor],\"Executor does not exists.\");_;}modifierexecutorDoesNotExists(address_executor){require(!executors[_executor],\"Executor already exists.\");_;}modifierpaymentExists(address_customer,address_pullPaymentExecutor){require(doesPaymentExist(_customer,_pullPaymentExecutor),\"Pull Payment does not exists\");_;}modifierpaymentNotCancelled(address_customer,address_pullPaymentExecutor){require(pullPayments[_customer][_pullPaymentExecutor].cancelTimestamp==0,\"Pull Payment is cancelled.\");_;}modifierisValidPullPaymentExecutionRequest(address_customer,address_pullPaymentExecutor,bytes32_paymentID){require((pullPayments[_customer][_pullPaymentExecutor].initialPaymentAmountInCents>0||(now>=pullPayments[_customer][_pullPaymentExecutor].startTimestamp&&now>=pullPayments[_customer][_pullPaymentExecutor].nextPaymentTimestamp)),\"Invalid pull payment execution request - Time of execution is invalid.\");require(pullPayments[_customer][_pullPaymentExecutor].numberOfPayments>0,\"Invalid pull payment execution request - Number of payments is zero.\");require((pullPayments[_customer][_pullPaymentExecutor].cancelTimestamp==0||pullPayments[_customer][_pullPaymentExecutor].cancelTimestamp>pullPayments[_customer][_pullPaymentExecutor].nextPaymentTimestamp),\"Invalid pull payment execution request - Pull payment is cancelled\");require(keccak256(abi.encodePacked(pullPayments[_customer][_pullPaymentExecutor].paymentID))==keccak256(abi.encodePacked(_paymentID)),\"Invalid pull payment execution request - Payment ID not matching.\");_;}modifierisValidDeletionRequest(bytes32_paymentID,address_customer,address_pullPaymentExecutor){require(_customer!=address(0),\"Invalid deletion request - Client address is ZERO_ADDRESS.\");require(_pullPaymentExecutor!=address(0),\"Invalid deletion request - Beneficiary address is ZERO_ADDRESS.\");require(_paymentID.length!=0,\"Invalid deletion request - Payment ID is empty.\");_;}modifierisValidAddress(address_address){require(_address!=address(0),\"Invalid address - ZERO_ADDRESS provided\");_;}modifiervalidConversionRate(stringmemory_currency){require(bytes(_currency).length!=0,\"Invalid conversion rate - Currency is empty.\");require(conversionRates[_currency]>0,\"Invalid conversion rate - Must be higher than zero.\");_;}modifiervalidAmount(uint256_fiatAmountInCents){require(_fiatAmountInCents>0,\"Invalid amount - Must be higher than zero\");_;}constructor(address_token)public{require(_token!=address(0),\"Invalid address for token - ZERO_ADDRESS provided\");token=IERC20(_token);}function()externalpayable{}functionaddExecutor(addresspayable_executor)publiconlyOwnerisValidAddress(_executor)executorDoesNotExists(_executor){_executor.transfer(FUNDING_AMOUNT);executors[_executor]=true;if(isFundingNeeded<missing ';'>(owner())){owner().transfer(FUNDING_AMOUNT);}"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 116,
+      "column": 33,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 118,
+      "column": 54,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 120,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 341,
+      "column": 15,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 410,
+      "column": 20,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 519,
+      "column": 21,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 520,
+      "column": 21,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 521,
+      "column": 21,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 523,
+      "column": 21,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 524,
+      "column": 21,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 525,
+      "column": 21,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 533,
+      "column": 31,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 114,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 486,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 463,
+      "column": 4,
+      "content": "functiontransferOwnership(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 649,
+      "column": 4,
+      "content": "functionaddExecutor(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 464,
+      "column": 8,
+      "content": "_transferOwnership(newOwner);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 652,
+      "column": 4,
+      "content": "isValidAddress(_executor)"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 653,
+      "column": 4,
+      "content": "executorDoesNotExists(_executor){"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 655,
+      "column": 8,
+      "content": "_executor.transfer(FUNDING_AMOUNT);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 656,
+      "column": 8,
+      "content": "executors[_executor]=true;if"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 658,
+      "column": 11,
+      "content": "(isFundingNeeded<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 658,
+      "column": 27,
+      "content": "(owner())){"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 659,
+      "column": 12,
+      "content": "owner"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 659,
+      "column": 17,
+      "content": "().transfer"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 659,
+      "column": 28,
+      "content": "(FUNDING_AMOUNT);"
+    }
+  ]
+}

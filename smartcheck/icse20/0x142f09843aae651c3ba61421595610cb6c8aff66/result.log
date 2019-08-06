@@ -1,0 +1,87 @@
+/unique_chucks/6/0x142f09843aae651c3ba61421595610cb6c8aff66.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN
+patternId: 58bdd3
+severity: 1
+line: 39
+column: 4
+content: functionstringToBytes32(stringmemorysource)internalpurereturns(bytes32result){assembly{result:=mload(add(source,32))}}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 5
+column: 0
+content: contractW4T{stringpublicname='W4T';stringpublicsymbol='W4T';uint8publicdecimals=18;uint256publictotalSupply=1000000000000000000000000;uintpublicminingReward=1000000000000000000;uintprivaterandomNumber;addresspublicowner;uintpublicdomainPrice=10000000000000000000;uintpublicbytePrice=100000000000000;uintpublicpremiumDomainK=10;mapping(address=>uint256)publicbalanceOf;mapping(address=>uint256)publicsuccessesOf;mapping(address=>uint256)publicfailsOf;mapping(address=>mapping(address=>uint256))publicallowance;mapping(bytes8=>bool)publiczones;mapping(bytes8=>mapping(bytes32=>address))publicdomains;mapping(bytes8=>mapping(bytes32=>mapping(bytes32=>string)))publicpages;eventTransfer(addressindexedfrom,addressindexedto,uint256value);eventBurn(addressindexedfrom,uint256value);eventZoneRegister(bytes8zone);eventDomainRegister(bytes8zone,stringdomain,addressowner);eventPageRegister(bytes8zone,stringdomain,bytes32path,stringcontent);eventDomainTransfer(bytes8zone,stringdomain,addressowner);functionstringToBytes32(stringmemorysource)internalpurereturns(bytes32result){assembly{result:=mload(add(source,32))}}functionW4T()public{owner=msg.sender;balanceOf[msg.sender]=totalSupply;}modifieronlyOwner{if(msg.sender!=owner)revert();_;}functiontransferOwnership(addressnewOwner)externalonlyOwner{owner=newOwner;}function_transfer(address_from,address_to,uint_value)internal{require(_to!=0x0);require(balanceOf[_from]>=_value);require(balanceOf[_to]+_value>balanceOf[_to]);uintpreviousBalances=balanceOf[_from]+balanceOf[_to];balanceOf[_from]-=_value;balanceOf[_to]+=_value;Transfer(_from,_to,_value);assert(balanceOf[_from]+balanceOf[_to]==previousBalances);}functiontransfer(address_to,uint256_value)external{_transfer(msg.sender,_to,_value);}functiontransferFrom(address_from,address_to,uint256_value)externalreturns(boolsuccess){require(_value<=allowance[_from][msg.sender]);allowance[_from][msg.sender]-=_value;_transfer(_from,_to,_value);returntrue;}functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){allowance[msg.sender][_spender]=_value;returntrue;}functionapproveAndCall(address_spender,uint256_value,bytes_extraData)publicreturns(boolsuccess){tokenRecipientspender=tokenRecipient(_spender);if(approve(_spender,_value)){spender.receiveApproval(msg.sender,_value,this,_extraData);returntrue;}}functionburn(uint256_value)internalreturns(boolsuccess){require(balanceOf[msg.sender]>=_value);balanceOf[msg.sender]-=_value;totalSupply-=_value;Burn(msg.sender,_value);returntrue;}functionregisterZone(bytes8zone)externalonlyOwner{zones[zone]=true;ZoneRegister(zone);}functionregisterDomain(bytes8zone,stringdomain)external{uintdomainLength=bytes(domain).length;require(domainLength>=2&&domainLength<=32);bytes32domainBytes=stringToBytes32(domain);require(zones[zone]);require(domains[zone][domainBytes]==0x0);uintamount=domainPrice;if(domainLength<=4){amount*=premiumDomainK**(5-domainLength);}burn(amount);domains[zone][domainBytes]=msg.sender;DomainRegister(zone,domain,msg.sender);}functionregisterPage(bytes8zone,stringdomain,bytes32path,stringcontent)external{uintdomainLength=bytes(domain).length;require(domainLength>=2&&domainLength<=32);bytes32domainBytes=stringToBytes32(domain);require(zones[zone]);require(domains[zone][domainBytes]==msg.sender);burn(bytePrice*bytes(content).length);pages[zone][domainBytes][path]=content;PageRegister(zone,domain,path,content);}functiontransferDomain(bytes8zone,stringdomain,addressnewOwner)external{uintdomainLength=bytes(domain).length;require(domainLength>=2&&domainLength<=32);bytes32domainBytes=stringToBytes32(domain);require(zones[zone]);require(domains[zone][domainBytes]==msg.sender);domains[zone][domainBytes]=newOwner;DomainTransfer(zone,domain,newOwner);}function()externalpayable{if(msg.value==0){randomNumber+=block.timestamp+uint(msg.sender);uintminedAtBlock=uint(block.blockhash(block.number-1));uintminedHashRel=uint(sha256(minedAtBlock+randomNumber+uint(msg.sender)))%100000;uintbalanceRel=balanceOf[msg.sender]*1000/totalSupply;if(balanceRel>=1){if(balanceRel>29){balanceRel=29;}balanceRel=2**balanceRel;balanceRel=50000/balanceRel;balanceRel=50000-balanceRel;if(minedHashRel<balanceRel){uintreward=miningReward+minedHashRel*100000000000000;balanceOf[msg.sender]+=reward;totalSupply+=reward;Transfer(0,this,reward);Transfer(this,msg.sender,reward);successesOf[msg.sender]++;}else{Transfer(this,msg.sender,0);failsOf[msg.sender]++;}}else{revert();}}else{revert();}}}
+
+ruleId: SOLIDITY_MSGVALUE_EQUALS_ZERO
+patternId: 1df89a
+severity: 1
+line: 153
+column: 12
+content: msg.value==0
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA
+patternId: 5616b2
+severity: 1
+line: 11
+column: 9
+content: private
+
+ruleId: SOLIDITY_REVERT_REQUIRE
+patternId: c56b12
+severity: 1
+line: 52
+column: 8
+content: if(msg.sender!=owner)revert();
+
+ruleId: SOLIDITY_REVERT_REQUIRE
+patternId: c56b12
+severity: 1
+line: 153
+column: 8
+content: if(msg.value==0){randomNumber+=block.timestamp+uint(msg.sender);uintminedAtBlock=uint(block.blockhash(block.number-1));uintminedHashRel=uint(sha256(minedAtBlock+randomNumber+uint(msg.sender)))%100000;uintbalanceRel=balanceOf[msg.sender]*1000/totalSupply;if(balanceRel>=1){if(balanceRel>29){balanceRel=29;}balanceRel=2**balanceRel;balanceRel=50000/balanceRel;balanceRel=50000-balanceRel;if(minedHashRel<balanceRel){uintreward=miningReward+minedHashRel*100000000000000;balanceOf[msg.sender]+=reward;totalSupply+=reward;Transfer(0,this,reward);Transfer(this,msg.sender,reward);successesOf[msg.sender]++;}else{Transfer(this,msg.sender,0);failsOf[msg.sender]++;}}else{revert();}}else{revert();}
+
+ruleId: SOLIDITY_REVERT_REQUIRE
+patternId: c56b12
+severity: 1
+line: 158
+column: 12
+content: if(balanceRel>=1){if(balanceRel>29){balanceRel=29;}balanceRel=2**balanceRel;balanceRel=50000/balanceRel;balanceRel=50000-balanceRel;if(minedHashRel<balanceRel){uintreward=miningReward+minedHashRel*100000000000000;balanceOf[msg.sender]+=reward;totalSupply+=reward;Transfer(0,this,reward);Transfer(this,msg.sender,reward);successesOf[msg.sender]++;}else{Transfer(this,msg.sender,0);failsOf[msg.sender]++;}}else{revert();}
+
+ruleId: SOLIDITY_SHOULD_NOT_BE_PURE
+patternId: 11314f
+severity: 1
+line: 39
+column: 4
+content: functionstringToBytes32(stringmemorysource)internalpurereturns(bytes32result){assembly{result:=mload(add(source,32))}}
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 92
+column: 62
+content: bytes_extraData
+
+ruleId: SOLIDITY_USING_INLINE_ASSEMBLY
+patternId: 109cd5
+severity: 1
+line: 40
+column: 8
+content: assembly{result:=mload(add(source,32))}
+
+SOLIDITY_MSGVALUE_EQUALS_ZERO :1
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_REVERT_REQUIRE :3
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN :1
+SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA :1
+SOLIDITY_UPGRADE_TO_050 :1
+SOLIDITY_USING_INLINE_ASSEMBLY :1
+SOLIDITY_SHOULD_NOT_BE_PURE :1

@@ -1,0 +1,201 @@
+Processing contract: /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol:ApiKeyRegistry
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol:HasOwners
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol:Registry
+Processing contract: /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol:Stoppable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol:Switchable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol:Validating
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'ApiKeyRegistry':
+    |// File: contracts/registry/ApiKeyRegistry.sol
+    |
+  > |contract ApiKeyRegistry is Switchable, HasOwners, Registry {
+    |  string public version;
+    |
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(109)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |pragma solidity 0.5.3;
+    |
+  > |// File: /private/var/folders/2q/x2n3s2rx0d16552ynj1lx90r0000gn/T/tmp.ODkPvI0P/gluon-plasma/packages/on-chain/contracts/Stoppable.sol
+    |
+    |/* using a master switch, allowing to permanently turn-off functionality */
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(3)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |  function switchOff() external onlyOwner {
+    |    if (isOn) {
+  > |      isOn = false;
+    |      emit Off();
+    |    }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(19)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |  function switchOn() external onlyOwner {
+    |    if (!isOn) {
+  > |      isOn = true;
+    |      emit On();
+    |    }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(33)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |  function _addOwner_(address owner) private validAddress(owner) {
+    |    if (!isOwner[owner]) {
+  > |      isOwner[owner] = true;
+    |      owners.push(owner);
+    |      emit OwnerAdded(owner);
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(70)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |    if (!isOwner[owner]) {
+    |      isOwner[owner] = true;
+  > |      owners.push(owner);
+    |      emit OwnerAdded(owner);
+    |    }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(71)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |    if (isOwner[owner]) {
+    |      require(owners.length > 1, "removing the last owner is not allowed");
+  > |      isOwner[owner] = false;
+    |      for (uint i = 0; i < owners.length - 1; i++) {
+    |        if (owners[i] == owner) {
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(80)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |      for (uint i = 0; i < owners.length - 1; i++) {
+    |        if (owners[i] == owner) {
+  > |          owners[i] = owners[owners.length - 1]; // replace map last entry
+    |          delete owners[owners.length - 1];
+    |          break;
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(83)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |        if (owners[i] == owner) {
+    |          owners[i] = owners[owners.length - 1]; // replace map last entry
+  > |          delete owners[owners.length - 1];
+    |          break;
+    |        }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(84)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |// File: contracts/registry/ApiKeyRegistry.sol
+    |
+  > |contract ApiKeyRegistry is Switchable, HasOwners, Registry {
+    |  string public version;
+    |
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(109)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ApiKeyRegistry':
+    |
+    |  function registerWithUserAgreement(address apiKey, bytes32 userAgreement) public validAddress(apiKey) isAbsent(apiKey) whenOn {
+  > |    accounts[apiKey] = msg.sender;
+    |    if (userAgreement != 0 && userAgreements[msg.sender] == 0) {
+    |      userAgreements[msg.sender] = userAgreement;
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(127)
+
+[31mViolation[0m for LockedEther in contract 'HasOwners':
+    |// File: /private/var/folders/2q/x2n3s2rx0d16552ynj1lx90r0000gn/T/tmp.ODkPvI0P/gluon-plasma/packages/on-chain/contracts/HasOwners.sol
+    |
+  > |contract HasOwners is Validating {
+    |
+    |  mapping(address => bool) public isOwner;
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(52)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'HasOwners':
+    |pragma solidity 0.5.3;
+    |
+  > |// File: /private/var/folders/2q/x2n3s2rx0d16552ynj1lx90r0000gn/T/tmp.ODkPvI0P/gluon-plasma/packages/on-chain/contracts/Stoppable.sol
+    |
+    |/* using a master switch, allowing to permanently turn-off functionality */
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(3)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'HasOwners':
+    |// File: /private/var/folders/2q/x2n3s2rx0d16552ynj1lx90r0000gn/T/tmp.ODkPvI0P/gluon-plasma/packages/on-chain/contracts/HasOwners.sol
+    |
+  > |contract HasOwners is Validating {
+    |
+    |  mapping(address => bool) public isOwner;
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(52)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'HasOwners':
+    |  function _addOwner_(address owner) private validAddress(owner) {
+    |    if (!isOwner[owner]) {
+  > |      isOwner[owner] = true;
+    |      owners.push(owner);
+    |      emit OwnerAdded(owner);
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(70)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'HasOwners':
+    |    if (!isOwner[owner]) {
+    |      isOwner[owner] = true;
+  > |      owners.push(owner);
+    |      emit OwnerAdded(owner);
+    |    }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(71)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'HasOwners':
+    |    if (isOwner[owner]) {
+    |      require(owners.length > 1, "removing the last owner is not allowed");
+  > |      isOwner[owner] = false;
+    |      for (uint i = 0; i < owners.length - 1; i++) {
+    |        if (owners[i] == owner) {
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(80)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'HasOwners':
+    |      for (uint i = 0; i < owners.length - 1; i++) {
+    |        if (owners[i] == owner) {
+  > |          owners[i] = owners[owners.length - 1]; // replace map last entry
+    |          delete owners[owners.length - 1];
+    |          break;
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(83)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'HasOwners':
+    |        if (owners[i] == owner) {
+    |          owners[i] = owners[owners.length - 1]; // replace map last entry
+  > |          delete owners[owners.length - 1];
+    |          break;
+    |        }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(84)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Stoppable':
+    |  function switchOff() external onlyOwner {
+    |    if (isOn) {
+  > |      isOn = false;
+    |      emit Off();
+    |    }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(19)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Switchable':
+    |  function switchOff() external onlyOwner {
+    |    if (isOn) {
+  > |      isOn = false;
+    |      emit Off();
+    |    }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(19)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Switchable':
+    |  function switchOn() external onlyOwner {
+    |    if (!isOn) {
+  > |      isOn = true;
+    |      emit On();
+    |    }
+  at /unique_chucks/13/0x7b70acd346892736f9f6c7f4f196b07400a50da0.sol(33)

@@ -1,0 +1,112 @@
+Processing contract: /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol:IERC20
+Processing contract: /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol:KyberNetworkProxyInterface
+Processing contract: /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol:PaymentsLayer
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol:SafeERC20
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[33mWarning[0m for LockedEther in contract 'PaymentsLayer':
+    |}
+    |
+  > |contract PaymentsLayer {
+    |  using SafeERC20 for IERC20;
+    |  using SafeMath for uint256;
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(135)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |
+    |    function safeTransfer(IERC20 token, address to, uint256 value) internal {
+  > |        require(token.transfer(to, value));
+    |    }
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(104)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |      _srcToken.safeTransferFrom(msg.sender, address(this), srcQuantity);
+    |
+  > |      require(_srcToken.allowance(address(this), address(_kyberNetworkProxy)) == 0, "non-zero initial _kyberNetworkProxy allowance");
+    |      require(_srcToken.approve(address(_kyberNetworkProxy), srcQuantity), "approving _kyberNetworkProxy failed");
+    |    }
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(154)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |
+    |      require(_srcToken.allowance(address(this), address(_kyberNetworkProxy)) == 0, "non-zero initial _kyberNetworkProxy allowance");
+  > |      require(_srcToken.approve(address(_kyberNetworkProxy), srcQuantity), "approving _kyberNetworkProxy failed");
+    |    }
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(155)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |    require(amountDai >= srcQuantity.mul(_minimumRate).div(1e18), "_kyberNetworkProxy failed");
+    |
+  > |    require(dai.allowance(address(this), _destinationAddress) == 0, "non-zero initial destination allowance");
+    |    require(dai.approve(_destinationAddress, amountDai), "approving destination failed");
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(161)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |
+    |    require(dai.allowance(address(this), _destinationAddress) == 0, "non-zero initial destination allowance");
+  > |    require(dai.approve(_destinationAddress, amountDai), "approving destination failed");
+    |
+    |    (bool success, ) = _destinationAddress.call(_encodedFunctionCall);
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(162)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |    if (changeDai > 0) {
+    |      dai.safeTransfer(msg.sender, changeDai);
+  > |      require(dai.approve(_destinationAddress, 0), "un-approving destination failed");
+    |    }
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(170)
+
+[33mWarning[0m for RepeatedCall in contract 'PaymentsLayer':
+    |    }
+    |
+  > |    uint256 amountDai = address(_srcToken) == ETH_TOKEN_ADDRESS ? _kyberNetworkProxy.swapEtherToToken.value(srcQuantity)(dai, _minimumRate) : _kyberNetworkProxy.swapTokenToToken(_srcToken, srcQuantity, dai, _minimumRate);
+    |    require(amountDai >= srcQuantity.mul(_minimumRate).div(1e18), "_kyberNetworkProxy failed");
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(158)
+
+[33mWarning[0m for RepeatedCall in contract 'PaymentsLayer':
+    |    require(dai.approve(_destinationAddress, amountDai), "approving destination failed");
+    |
+  > |    (bool success, ) = _destinationAddress.call(_encodedFunctionCall);
+    |    require(success, "destination call failed");
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(164)
+
+[33mWarning[0m for RepeatedCall in contract 'PaymentsLayer':
+    |    require(success, "destination call failed");
+    |
+  > |    uint256 changeDai = dai.allowance(address(this), _destinationAddress);
+    |    if (changeDai > 0) {
+    |      dai.safeTransfer(msg.sender, changeDai);
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(167)
+
+[33mWarning[0m for TODAmount in contract 'PaymentsLayer':
+    |    }
+    |
+  > |    uint256 amountDai = address(_srcToken) == ETH_TOKEN_ADDRESS ? _kyberNetworkProxy.swapEtherToToken.value(srcQuantity)(dai, _minimumRate) : _kyberNetworkProxy.swapTokenToToken(_srcToken, srcQuantity, dai, _minimumRate);
+    |    require(amountDai >= srcQuantity.mul(_minimumRate).div(1e18), "_kyberNetworkProxy failed");
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(158)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'PaymentsLayer':
+    |    }
+    |
+  > |    uint256 amountDai = address(_srcToken) == ETH_TOKEN_ADDRESS ? _kyberNetworkProxy.swapEtherToToken.value(srcQuantity)(dai, _minimumRate) : _kyberNetworkProxy.swapTokenToToken(_srcToken, srcQuantity, dai, _minimumRate);
+    |    require(amountDai >= srcQuantity.mul(_minimumRate).div(1e18), "_kyberNetworkProxy failed");
+    |
+  at /unique_chucks/16/0x8224230665ec40e717827c3862abb53a88ab4a45.sol(158)

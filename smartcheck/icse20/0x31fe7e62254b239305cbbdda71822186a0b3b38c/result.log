@@ -1,0 +1,112 @@
+/unique_chucks/46/0x31fe7e62254b239305cbbdda71822186a0b3b38c.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 46
+column: 0
+content: contractILOTContract{stringpublicname="ILOT Interest-Paying Lottery Token";stringpublicsymbol="ILOT";stringpublicsite_url="https://ILOT.io/";bytes32privatecurrent_jackpot_hash="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";uint8publicdecimals=18;uintpublictotalSupply=0;uintpublicinterestRate=15;uinttokensPerEthereum=147000;uintpublicjackpotDifficulty=6;addresspublicowner;functionILOTContract()public{owner=msg.sender;}mapping(address=>uint)publicbalanceOf;mapping(address=>mapping(address=>uint))publicallowance;mapping(address=>uint)publicdepositTotal;mapping(address=>uint)publiclastBlockInterestPaid;eventTransfer(addressindexedfrom,addressindexedto,uintbhtc_value);eventBurn(addressindexedfrom,uintbhtc_value);eventGameResult(addressplayer,uintzeroes);eventBonusPaid(addressto,uintbhtc_value);eventInterestPaid(addressto,uintbhtc_value);eventJackpot(addresswinner,uinteth_amount);uintmaintenanceDebt;modifieronlyOwner{require(msg.sender==owner);_;}functiongetInterest(address_to)publicviewreturns(uintinterest){if(lastBlockInterestPaid[_to]>0){interest=((block.number-lastBlockInterestPaid[_to])*balanceOf[_to]*interestRate)/(86400000);}else{interest=0;}returninterest;}functiongetBonus(address_to)publicviewreturns(uintinterest){return((depositTotal[_to]*tokensPerEthereum)/100);}function_transfer(address_from,address_to,uint_value)internal{require(_to!=0x0);payInterest(_from);require(balanceOf[_from]>=_value);require(balanceOf[_to]+_value>balanceOf[_to]);uintpreviousBalances=balanceOf[_from]+balanceOf[_to];balanceOf[_from]-=_value;balanceOf[_to]+=_value;Transfer(_from,_to,_value);assert(balanceOf[_from]+balanceOf[_to]==previousBalances);}functiontransfer(address_to,uint_value)public{_transfer(msg.sender,_to,_value);}functionsetUrl(stringu)publiconlyOwner{site_url=u;}functiongetUrl()publicviewreturns(string){returnsite_url;}functionsetDifficulty(uintz)publiconlyOwner{jackpotDifficulty=z;}functiongetDifficulty()publicviewreturns(uint){returnjackpotDifficulty;}functiontransferFrom(address_from,address_to,uint_value)publicreturns(boolsuccess){require(_value<=allowance[_from][msg.sender]);allowance[_from][msg.sender]-=_value;_transfer(_from,_to,_value);returntrue;}functionapprove(address_spender,uint_value)publicreturns(boolsuccess){allowance[msg.sender][_spender]=_value;returntrue;}functionapproveAndCall(address_spender,uint_value,bytes_extraData)publicreturns(boolsuccess){tokenRecipientspender=tokenRecipient(_spender);if(approve(_spender,_value)){spender.receiveApproval(msg.sender,_value,this,_extraData);returntrue;}}functionchown(addressto)publiconlyOwner{owner=to;}functionburn(uint_value)publicreturns(boolsuccess){require(balanceOf[msg.sender]>=_value);balanceOf[msg.sender]-=_value;totalSupply-=_value;Burn(msg.sender,_value);returntrue;}functionburnFrom(address_from,uint_value)publicreturns(boolsuccess){require(balanceOf[_from]>=_value);require(_value<=allowance[_from][msg.sender]);balanceOf[_from]-=_value;allowance[_from][msg.sender]-=_value;totalSupply-=_value;Burn(_from,_value);returntrue;}functionpayInterest(address_to)private{uintinterest=getInterest(_to);if(interest>0){require((balanceOf[_to]+interest)>balanceOf[_to]);balanceOf[msg.sender]+=interest;totalSupply+=interest;Transfer(this,msg.sender,interest);InterestPaid(_to,interest);}lastBlockInterestPaid[_to]=block.number;}functionpayBonus(address_to)private{if(depositTotal[_to]>0){uintbonus=getBonus(_to);if(bonus>0){require((balanceOf[_to]+bonus)>balanceOf[_to]);balanceOf[_to]+=bonus;totalSupply+=bonus;Transfer(this,_to,bonus);BonusPaid(_to,bonus);}}}functionhashDifficulty(bytes32hash)publicpurereturns(uint){uintdiff=0;for(uinti=0;i<32;i++){if(hash[i]==0){diff++;}else{returndiff;}}returndiff;}functionaddressToString(addressx)privatepurereturns(string){bytesmemoryb=newbytes(20);for(uinti=0;i<20;i++)b[i]=byte(uint8(uint(x)/(2**(8*(19-i)))));returnstring(b);}function()publicpayable{if(msg.sender==owner){return;}if(msg.value>0){uintmfee=(2*msg.value)/100;if(address(this).balance>=mfee){if(address(this).balance>=(mfee+maintenanceDebt)){owner.transfer(mfee+maintenanceDebt);maintenanceDebt=0;}else{owner.transfer(mfee);}}else{maintenanceDebt+=mfee;}uinttokenAmount=tokensPerEthereum*msg.value;if(tokenAmount>0){require((balanceOf[msg.sender]+tokenAmount)>balanceOf[msg.sender]);payBonus(msg.sender);payInterest(msg.sender);balanceOf[msg.sender]+=tokenAmount;totalSupply+=tokenAmount;Transfer(this,msg.sender,tokenAmount);depositTotal[msg.sender]+=msg.value;stringmemoryats=addressToString(msg.sender);current_jackpot_hash=keccak256(current_jackpot_hash,ats,block.coinbase,block.number,block.timestamp);uintdiffx=hashDifficulty(current_jackpot_hash);if(diffx>=jackpotDifficulty){Jackpot(msg.sender,address(this).balance);msg.sender.transfer(address(this).balance);}GameResult(msg.sender,diffx);}}}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 137
+column: 4
+content: functionsetUrl(stringu)publiconlyOwner{site_url=u;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 148
+column: 4
+content: functionsetDifficulty(uintz)publiconlyOwner{jackpotDifficulty=z;}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA
+patternId: 5616b2
+severity: 1
+line: 58
+column: 12
+content: private
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 901eae
+severity: 1
+line: 341
+column: 39
+content: keccak256(current_jackpot_hash,ats,block.coinbase,block.number,block.timestamp)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 91h3sa
+severity: 1
+line: 270
+column: 16
+content: public
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 44
+column: 96
+content: bytes_extraData
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 137
+column: 20
+content: stringu
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 141
+column: 43
+content: string
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 173
+column: 59
+content: bytes_extraData
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 259
+column: 62
+content: string
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 23rt6g
+severity: 1
+line: 44
+column: 114
+content: public
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 62
+column: 4
+content: uinttokensPerEthereum=147000;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 85
+column: 4
+content: uintmaintenanceDebt;
+
+SOLIDITY_VISIBILITY :3
+SOLIDITY_OVERPOWERED_ROLE :2
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA :1
+SOLIDITY_UPGRADE_TO_050 :7

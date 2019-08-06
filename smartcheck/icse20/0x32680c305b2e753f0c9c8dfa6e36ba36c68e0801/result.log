@@ -1,0 +1,170 @@
+/unique_chucks/8/0x32680c305b2e753f0c9c8dfa6e36ba36c68e0801.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 54
+column: 16
+content: 0x0
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 452
+column: 12
+content: for(uinti=0;i<fromTokens.length-1;i++){if(iFound){fromTokens[i]=fromTokens[i+1];}elseif(fromTokens[i]==_tokenId){iFound=true;}}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 662
+column: 12
+content: for(uinti=0;i<fromTokens.length-1;i++){if(iFound){fromTokens[i]=fromTokens[i+1];}elseif(fromTokens[i]==_tokenId){iFound=true;}}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 903
+column: 0
+content: contractDungeonChallengeisDungeonBase{eventDungeonChallenged(uinttimestamp,addressindexedplayerAddress,uintindexeddungeonId,uintheroGenes,uintfloorNumber,uintfloorGenes,boolsuccess,uintnewFloorGenes,uintsuccessRewards,uintmasterRewards);uint256publicchallengeFeeMultiplier=1finney;uintpublicchallengeRewardsPercent=64;uintpublicmasterRewardsPercent=8;functionchallenge(uint_dungeonId)externalpayablewhenNotPausedcanChallenge(_dungeonId){uintdifficulty;uintseedGenes;(,,difficulty,,,,seedGenes,)=dungeonTokenContract.dungeons(_dungeonId);uintrequiredFee=difficulty*challengeFeeMultiplier;require(msg.value>=requiredFee);dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee);asyncSend(msg.sender,msg.value-requiredFee);_challengePart2(_dungeonId,requiredFee);}function_challengePart2(uint_dungeonId,uint_requiredFee)private{uintfloorNumber;uintrewards;uintfloorGenes;(,,,floorNumber,,rewards,,floorGenes)=dungeonTokenContract.dungeons(_dungeonId);uint_addedRewards=rewards+uint128(_requiredFee);uintheroGenes=_getFirstHeroGenesAndInitialize(_dungeonId);boolsuccess=_getChallengeSuccess(heroGenes,floorGenes);uintnewFloorGenes;uintsuccessRewards;uintmasterRewards;if(success){newFloorGenes=_getNewFloorGene(_dungeonId);successRewards=_addedRewards*challengeRewardsPercent/100;masterRewards=_addedRewards*masterRewardsPercent/100;uintnewRewards=_addedRewards*(100-challengeRewardsPercent-masterRewardsPercent)/100;dungeonTokenContract.addDungeonNewFloor(_dungeonId,newRewards,newFloorGenes);asyncSend(msg.sender,_addedRewards*challengeRewardsPercent/100);asyncSend(owner,_addedRewards*masterRewardsPercent/100);}DungeonChallenged(now,msg.sender,_dungeonId,heroGenes,floorNumber,floorGenes,success,newFloorGenes,successRewards,masterRewards);}function_getFirstHeroGenesAndInitialize(uint_dungeonId)privatereturns(uintheroGenes){uintseedGenes;(,,,,,,seedGenes,)=dungeonTokenContract.dungeons(_dungeonId);uintheroId;if(heroTokenContract.balanceOf(msg.sender)==0){heroId=heroTokenContract.createHero(seedGenes,msg.sender);}else{heroId=heroTokenContract.ownerTokens(msg.sender,0);}(,heroGenes)=heroTokenContract.heroes(heroId);}function_getChallengeSuccess(uintheroGenes,uintfloorGenes)privatepurereturns(bool){uintheroPower=_getGenesPower(heroGenes);uintfloorPower=_getGenesPower(floorGenes);returnheroPower>floorPower;}function_getNewFloorGene(uint_dungeonId)privateviewreturns(uint){uintseedGenes;uintfloorGenes;(,,,,,seedGenes,floorGenes)=dungeonTokenContract.dungeons(_dungeonId);uintfloorPower=_getGenesPower(floorGenes);uintnewFloorGenes=challengeScienceContract.mixGenes(floorGenes,seedGenes);uintnewFloorPower=_getGenesPower(newFloorGenes);if(newFloorPower<floorPower){newFloorGenes=floorGenes;}returnnewFloorGenes;}functionsetChallengeFeeMultiplier(uint_newChallengeFeeMultiplier)externalonlyOwner{challengeFeeMultiplier=_newChallengeFeeMultiplier;}functionsetChallengeRewardsPercent(uint_newChallengeRewardsPercent)onlyOwnerexternal{challengeRewardsPercent=_newChallengeRewardsPercent;}functionsetMasterRewardsPercent(uint_newMasterRewardsPercent)onlyOwnerexternal{masterRewardsPercent=_newMasterRewardsPercent;}}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 1082
+column: 0
+content: contractDungeonTrainingisDungeonChallenge{eventHeroTrained(uinttimestamp,addressindexedplayerAddress,uintindexeddungeonId,uintheroGenes,uintfloorNumber,uintfloorGenes,boolsuccess,uintnewHeroGenes);uint256publictrainingFeeMultiplier=2finney;functionsetTrainingFeeMultiplier(uint_newTrainingFeeMultiplier)externalonlyOwner{trainingFeeMultiplier=_newTrainingFeeMultiplier;}functiontrain1(uint_dungeonId)externalpayablewhenNotPausedcanTrain(_dungeonId){_train(_dungeonId,1);}functiontrain2(uint_dungeonId)externalpayablewhenNotPausedcanTrain(_dungeonId){_train(_dungeonId,2);}functiontrain3(uint_dungeonId)externalpayablewhenNotPausedcanTrain(_dungeonId){_train(_dungeonId,3);}function_train(uint_dungeonId,uint_trainingTimes)private{uintdifficulty;uintfloorNumber;uintrewards;uintseedGenes;uintfloorGenes;(,,difficulty,floorNumber,,rewards,seedGenes,floorGenes)=dungeonTokenContract.dungeons(_dungeonId);require(_trainingTimes<10);uintrequiredFee=difficulty*trainingFeeMultiplier*_trainingTimes;require(msg.value>=requiredFee);uintheroId;if(heroTokenContract.balanceOf(msg.sender)==0){heroId=heroTokenContract.createHero(seedGenes,msg.sender);}else{heroId=heroTokenContract.ownerTokens(msg.sender,0);}dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee);asyncSend(msg.sender,msg.value-requiredFee);_trainPart2(_dungeonId,_trainingTimes,heroId);}function_trainPart2(uint_dungeonId,uint_trainingTimes,uint_heroId)private{uintfloorNumber;uintfloorGenes;(,,,floorNumber,,,,floorGenes)=dungeonTokenContract.dungeons(_dungeonId);uintheroGenes;(,heroGenes)=heroTokenContract.heroes(_heroId);uintheroPower=_getGenesPower(heroGenes);uintnewHeroGenes=heroGenes;uintnewHeroPower=heroPower;for(uinti=0;i<_trainingTimes;i++){uinttmpHeroGenes=trainingScienceContract.mixGenes(newHeroGenes,floorGenes);uinttmpHeroPower=_getGenesPower(tmpHeroGenes);if(tmpHeroPower>newHeroPower){newHeroGenes=tmpHeroGenes;newHeroPower=tmpHeroPower;}}boolsuccess=newHeroPower>heroPower;if(success){heroTokenContract.setHeroGenes(_heroId,newHeroGenes);}HeroTrained(now,msg.sender,_dungeonId,heroGenes,floorNumber,floorGenes,success,newHeroGenes);}}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 1205
+column: 0
+content: contractDungeonCoreAlphaisDestructible,DungeonTraining{functionDungeonCoreAlpha(address_dungeonTokenAddress,address_heroTokenAddress,address_challengeScienceAddress,address_trainingScienceAddress)publicpayable{dungeonTokenContract=DungeonToken(_dungeonTokenAddress);heroTokenContract=HeroToken(_heroTokenAddress);challengeScienceContract=ChallengeScienceInterface(_challengeScienceAddress);trainingScienceContract=TrainingScienceInterface(_trainingScienceAddress);}functiongetDungeonDetails(uint_id)externalviewreturns(uintcreationTime,uintstatus,uintdifficulty,uintfloorNumber,uintfloorCreationTime,uintrewards,uintseedGenes,uintfloorGenes){require(_id<dungeonTokenContract.totalSupply());(creationTime,status,difficulty,floorNumber,floorCreationTime,rewards,seedGenes,floorGenes)=dungeonTokenContract.dungeons(_id);}functiongetHeroDetails(uint_id)externalviewreturns(uintcreationTime,uintgenes){require(_id<heroTokenContract.totalSupply());(creationTime,genes)=heroTokenContract.heroes(_id);}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 803
+column: 4
+content: functionsetDungeonTokenContract(address_newDungeonTokenContract)onlyOwnerexternal{dungeonTokenContract=DungeonToken(_newDungeonTokenContract);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 811
+column: 4
+content: functionsetHeroTokenContract(address_newHeroTokenContract)onlyOwnerexternal{heroTokenContract=HeroToken(_newHeroTokenContract);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 819
+column: 4
+content: functionsetChallengeScienceContract(address_newChallengeScienceAddress)onlyOwnerexternal{challengeScienceContract=ChallengeScienceInterface(_newChallengeScienceAddress);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 827
+column: 4
+content: functionsetTrainingScienceContract(address_newTrainingScienceAddress)onlyOwnerexternal{trainingScienceContract=TrainingScienceInterface(_newTrainingScienceAddress);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 1062
+column: 4
+content: functionsetChallengeFeeMultiplier(uint_newChallengeFeeMultiplier)externalonlyOwner{challengeFeeMultiplier=_newChallengeFeeMultiplier;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 1069
+column: 4
+content: functionsetChallengeRewardsPercent(uint_newChallengeRewardsPercent)onlyOwnerexternal{challengeRewardsPercent=_newChallengeRewardsPercent;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 1076
+column: 4
+content: functionsetMasterRewardsPercent(uint_newMasterRewardsPercent)onlyOwnerexternal{masterRewardsPercent=_newMasterRewardsPercent;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 1094
+column: 4
+content: functionsetTrainingFeeMultiplier(uint_newTrainingFeeMultiplier)externalonlyOwner{trainingFeeMultiplier=_newTrainingFeeMultiplier;}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 211
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SEND
+patternId: 430636
+severity: 1
+line: 229
+column: 17
+content: send(payment)
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 383
+column: 4
+content: mapping(uint=>address)tokenIndexToOwner;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 388
+column: 4
+content: mapping(address=>uint)ownershipTokenCount;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 593
+column: 4
+content: mapping(uint=>address)tokenIndexToOwner;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 598
+column: 4
+content: mapping(address=>uint)ownershipTokenCount;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 789
+column: 4
+content: ChallengeScienceInterfacechallengeScienceContract;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 794
+column: 4
+content: TrainingScienceInterfacetrainingScienceContract;
+
+SOLIDITY_VISIBILITY :6
+SOLIDITY_SAFEMATH :1
+SOLIDITY_OVERPOWERED_ROLE :8
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :3
+SOLIDITY_SEND :1
+SOLIDITY_EXTRA_GAS_IN_LOOPS :2
+SOLIDITY_ADDRESS_HARDCODED :1

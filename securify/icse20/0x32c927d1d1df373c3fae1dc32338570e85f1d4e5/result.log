@@ -1,0 +1,283 @@
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:ClientRaindropInterface
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:HydroInterface
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:IdentityRegistryInterface
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:Ownable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:Snowflake
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:SnowflakeResolverInterface
+Processing contract: /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol:SnowflakeViaInterface
+[31mViolation[0m for UnrestrictedWrite in contract 'Ownable':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(71)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(53)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(71)
+
+[31mViolation[0m for LockedEther in contract 'Snowflake':
+    |}
+    |
+  > |contract Snowflake is Ownable {
+    |    using SafeMath for uint;
+    |
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(243)
+
+[31mViolation[0m for RepeatedCall in contract 'Snowflake':
+    |    // enforces that a particular EIN exists
+    |    modifier identityExists(uint ein, bool check) {
+  > |        require(identityRegistry.identityExists(ein) == check, "The EIN does not exist.");
+    |        _;
+    |    }
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(269)
+
+[31mViolation[0m for RepeatedCall in contract 'Snowflake':
+    |        private
+    |    {
+  > |        require(!identityRegistry.isResolverFor(ein, resolver), "Identity has already set this resolver.");
+    |
+    |        address[] memory resolvers = new address[](1);
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(440)
+
+[31mViolation[0m for RepeatedCall in contract 'Snowflake':
+    |
+    |        for (uint i; i < resolvers.length; i++) {
+  > |            require(identityRegistry.isResolverFor(ein, resolvers[i]), "Identity has not set this resolver.");
+    |            resolverAllowances[ein][resolvers[i]] = withdrawAllowances[i];
+    |            emit SnowflakeResolverAllowanceChanged(ein, resolvers[i], withdrawAllowances[i]);
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(493)
+
+[31mViolation[0m for RepeatedCall in contract 'Snowflake':
+    |    // common logic to remove resolvers
+    |    function removeResolver(uint ein, address resolver, bool isSnowflake, bytes memory extraData) private {
+  > |        require(identityRegistry.isResolverFor(ein, resolver), "Identity has not yet set this resolver.");
+    |    
+    |        delete resolverAllowances[ein][resolver];
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(542)
+
+[31mViolation[0m for RepeatedCall in contract 'Snowflake':
+    |        if (isSnowflake) {
+    |            SnowflakeResolverInterface snowflakeResolver = SnowflakeResolverInterface(resolver);
+  > |            if (snowflakeResolver.callOnRemoval())
+    |                require(snowflakeResolver.onRemoval(ein, extraData), "Removal failure.");
+    |            emit SnowflakeResolverRemoved(ein, resolver);
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(548)
+
+[31mViolation[0m for RepeatedCall in contract 'Snowflake':
+    |    {
+    |        // check that resolver-related details are correct
+  > |        require(identityRegistry.isResolverFor(ein, destination), "Destination has not been set by from tokenholder.");
+    |        if (amount != 0) {
+    |            resolverAllowances[ein][destination] = resolverAllowances[ein][destination].add(amount);
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(746)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |        uint ein = identityRegistry.getEIN(approvingAddress);
+    |        require(
+  > |            identityRegistry.isSigned(
+    |                approvingAddress,
+    |                keccak256(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(327)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |        uint ein = identityRegistry.getEIN(approvingAddress);
+    |        require(
+  > |            identityRegistry.isSigned(
+    |                approvingAddress,
+    |                keccak256(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(352)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |    {
+    |        require(
+  > |            identityRegistry.isSigned(
+    |                approvingAddress,
+    |                keccak256(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(421)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |        address[] memory resolvers = new address[](1);
+    |        resolvers[0] = resolver;
+  > |        identityRegistry.addResolversFor(ein, resolvers);
+    |
+    |        if (isSnowflake) {
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(444)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |            resolverAllowances[ein][resolver] = withdrawAllowance;
+    |            SnowflakeResolverInterface snowflakeResolver = SnowflakeResolverInterface(resolver);
+  > |            if (snowflakeResolver.callOnAddition())
+    |                require(snowflakeResolver.onAddition(ein, withdrawAllowance, extraData), "Sign up failure.");
+    |            emit SnowflakeResolverAdded(ein, resolver, withdrawAllowance);
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(449)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |            SnowflakeResolverInterface snowflakeResolver = SnowflakeResolverInterface(resolver);
+    |            if (snowflakeResolver.callOnAddition())
+  > |                require(snowflakeResolver.onAddition(ein, withdrawAllowance, extraData), "Sign up failure.");
+    |            emit SnowflakeResolverAdded(ein, resolver, withdrawAllowance);
+    |        }
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(450)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |        uint nonce = signatureNonce[ein]++;
+    |        require(
+  > |            identityRegistry.isSigned(
+    |                approvingAddress,
+    |                keccak256(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(471)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |    {
+    |        require(
+  > |            identityRegistry.isSigned(
+    |                approvingAddress,
+    |                keccak256(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(525)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |        address[] memory resolvers = new address[](1);
+    |        resolvers[0] = resolver;
+  > |        identityRegistry.removeResolversFor(ein, resolvers);
+    |    }
+    |
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(555)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |            SnowflakeViaInterface viaContract = SnowflakeViaInterface(via);
+    |            if (isTransfer) {
+  > |                viaContract.snowflakeCall(resolver, to, amount, snowflakeCallBytes);
+    |                emit SnowflakeTransferToVia(resolver, via, to, amount);
+    |            } else {
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(612)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |            } else {
+    |                address payable payableTo = address(to);
+  > |                viaContract.snowflakeCall(resolver, payableTo, amount, snowflakeCallBytes);
+    |                emit SnowflakeWithdrawToVia(resolver, via, address(to), amount);
+    |            }
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(616)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |        _withdraw(einFrom, via, amount);
+    |        SnowflakeViaInterface viaContract = SnowflakeViaInterface(via);
+  > |        viaContract.snowflakeCall(msg.sender, einFrom, einTo, amount, _bytes);
+    |        emit SnowflakeTransferFromVia(msg.sender, einTo);
+    |    }
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(653)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |        _withdraw(einFrom, via, amount);
+    |        SnowflakeViaInterface viaContract = SnowflakeViaInterface(via);
+  > |        viaContract.snowflakeCall(msg.sender, einFrom, to, amount, _bytes);
+    |        emit SnowflakeWithdrawFromVia(msg.sender, to);
+    |    }
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(666)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |    {
+    |        require(
+  > |            identityRegistry.isSigned(
+    |                approvingAddress,
+    |                keccak256(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(727)
+
+[33mWarning[0m for RepeatedCall in contract 'Snowflake':
+    |
+    |        // solium-disable-next-line security/no-low-level-calls
+  > |        (bool success, bytes memory _returnData) = destination.call(data);
+    |        require(success, "Call was not successful.");
+    |        return _returnData;
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(752)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |
+    |        if (isSnowflake) {
+  > |            resolverAllowances[ein][resolver] = withdrawAllowance;
+    |            SnowflakeResolverInterface snowflakeResolver = SnowflakeResolverInterface(resolver);
+    |            if (snowflakeResolver.callOnAddition())
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(447)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |        uint ein = identityRegistry.getEIN(approvingAddress);
+    |
+  > |        uint nonce = signatureNonce[ein]++;
+    |        require(
+    |            identityRegistry.isSigned(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(469)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |        for (uint i; i < resolvers.length; i++) {
+    |            require(identityRegistry.isResolverFor(ein, resolvers[i]), "Identity has not set this resolver.");
+  > |            resolverAllowances[ein][resolvers[i]] = withdrawAllowances[i];
+    |            emit SnowflakeResolverAllowanceChanged(ein, resolvers[i], withdrawAllowances[i]);
+    |        }
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(494)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |        require(identityRegistry.isResolverFor(ein, resolver), "Identity has not yet set this resolver.");
+    |    
+  > |        delete resolverAllowances[ein][resolver];
+    |    
+    |        if (isSnowflake) {
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(544)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |    {
+    |        uint ein = identityRegistry.getEIN(approvingAddress);
+  > |        uint nonce = signatureNonce[ein]++;
+    |        require(
+    |            identityRegistry.isSigned(
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(564)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |    function _transfer(uint einFrom, uint einTo, uint amount) private identityExists(einTo, true) returns (bool) {
+    |        require(deposits[einFrom] >= amount, "Cannot withdraw more than the current deposit balance.");
+  > |        deposits[einFrom] = deposits[einFrom].sub(amount);
+    |        deposits[einTo] = deposits[einTo].add(amount);
+    |
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(672)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |
+    |        require(deposits[einFrom] >= amount, "Cannot withdraw more than the current deposit balance.");
+  > |        deposits[einFrom] = deposits[einFrom].sub(amount);
+    |        require(hydroToken.transfer(to, amount), "Transfer was unsuccessful");
+    |
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(682)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Snowflake':
+    |    {
+    |        uint ein = identityRegistry.getEIN(approvingAddress);
+  > |        uint nonce = signatureNonce[ein]++;
+    |        validateAllowAndCallDelegatedSignature(approvingAddress, ein, destination, amount, data, nonce, v, r, s);
+    |
+  at /unique_chucks/8/0x32c927d1d1df373c3fae1dc32338570e85f1d4e5.sol(714)

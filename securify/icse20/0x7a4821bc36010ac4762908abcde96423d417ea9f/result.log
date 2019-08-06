@@ -1,0 +1,127 @@
+Processing contract: /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol:ERC20Interface
+Processing contract: /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol:Owned
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol:VaultPOC
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for MissingInputValidation in contract 'Owned':
+    |    }
+    |
+  > |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        newOwner = _newOwner;
+    |    }
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(62)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |    function acceptOwnership() public {
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(63)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |        require(msg.sender == newOwner);
+    |        emit OwnershipTransferred(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(68)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |        emit OwnershipTransferred(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(69)
+
+[31mViolation[0m for RepeatedCall in contract 'VaultPOC':
+    |        
+    |        inchWormContract.transfer(msg.sender, _tokensToWithdraw);
+  > |        daiContract.transferFrom(msg.sender, address(this), _daiToDeposit);
+    |    }
+    |    
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(145)
+
+[31mViolation[0m for RepeatedCall in contract 'VaultPOC':
+    |    function withdrawWei(uint _weiToWithdraw) external {
+    |        uint _inchToDeposit = _weiToWithdraw.mul(etherPeg).mul((initialSupply.div(inchWormContract.totalSupply())));
+  > |        inchWormContract.transferFrom(msg.sender, address(this), _inchToDeposit); 
+    |        uint _inchToBurn = _inchToDeposit.mul(burnRate).div(100);
+    |        inchWormContract.transfer(address(0), _inchToBurn);
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(157)
+
+[31mViolation[0m for RepeatedCall in contract 'VaultPOC':
+    |    function withdrawDai(uint _daiToWithdraw) external {
+    |        uint _inchToDeposit = _daiToWithdraw.mul(initialSupply.div(inchWormContract.totalSupply()));
+  > |        inchWormContract.transferFrom(msg.sender, address(this), _inchToDeposit); 
+    |        uint _inchToBurn = _inchToDeposit.mul(burnRate).div(100);
+    |        inchWormContract.transfer(address(0), _inchToBurn);
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(172)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'VaultPOC':
+    |        uint _inchToBurn = _inchToDeposit.mul(burnRate).div(100);
+    |        inchWormContract.transfer(address(0), _inchToBurn);
+  > |        msg.sender.transfer(1 wei * _weiToWithdraw);
+    |    }
+    |    
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(160)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VaultPOC':
+    |
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |    function acceptOwnership() public {
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(63)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VaultPOC':
+    |        require(msg.sender == newOwner);
+    |        emit OwnershipTransferred(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(68)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VaultPOC':
+    |        emit OwnershipTransferred(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(69)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VaultPOC':
+    |    /// @notice Sets the address for the INCH and Dai tokens, as well as the deployer
+    |    function initialize(address _inchwormAddress, address _daiAddress) external onlyOwner {
+  > |        inchWormContract = ERC20Interface(_inchwormAddress);
+    |        daiContract = ERC20Interface(_daiAddress);
+    |        deployer = owner;
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(106)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VaultPOC':
+    |    function initialize(address _inchwormAddress, address _daiAddress) external onlyOwner {
+    |        inchWormContract = ERC20Interface(_inchwormAddress);
+  > |        daiContract = ERC20Interface(_daiAddress);
+    |        deployer = owner;
+    |    }
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(107)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VaultPOC':
+    |        inchWormContract = ERC20Interface(_inchwormAddress);
+    |        daiContract = ERC20Interface(_daiAddress);
+  > |        deployer = owner;
+    |    }
+    |
+  at /unique_chucks/26/0x7a4821bc36010ac4762908abcde96423d417ea9f.sol(108)

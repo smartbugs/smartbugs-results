@@ -1,0 +1,224 @@
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:AddressRecord
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:AddressRegistry
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:InstaRegistry
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:LogicRegistry
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:RegistryInterface
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:UserAuth
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:UserNote
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:UserWallet
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol:WalletRegistry
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[33mWarning[0m for MissingInputValidation in contract 'AddressRegistry':
+    |    /// @param _name (string) Role name
+    |    /// @param _userAddress (string) User Address
+  > |    function setAddress(string memory _name, address _userAddress) public isAdmin {
+    |        registry[keccak256(abi.encodePacked(_name))] = _userAddress;
+    |        emit LogSetAddress(_name, _userAddress);
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(202)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'AddressRegistry':
+    |    /// @param _userAddress (string) User Address
+    |    function setAddress(string memory _name, address _userAddress) public isAdmin {
+  > |        registry[keccak256(abi.encodePacked(_name))] = _userAddress;
+    |        emit LogSetAddress(_name, _userAddress);
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(203)
+
+[31mViolation[0m for LockedEther in contract 'InstaRegistry':
+    |/// @title InstaRegistry
+    |/// @dev Initializing Registry
+  > |contract InstaRegistry is WalletRegistry {
+    |
+    |    constructor() public {
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(315)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'InstaRegistry':
+    |        require(proxies[_owner] == UserWallet(0), "multiple-proxy-per-user-not-allowed");
+    |        proxy = new UserWallet();
+  > |        proxies[address(this)] = proxy; // will be changed via record() in next line execution
+    |        proxy.setOwner(_owner);
+    |        emit Created(msg.sender, _owner, address(proxy));
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(294)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'InstaRegistry':
+    |    /// @param _userAddress (string) User Address
+    |    function setAddress(string memory _name, address _userAddress) public isAdmin {
+  > |        registry[keccak256(abi.encodePacked(_name))] = _userAddress;
+    |        emit LogSetAddress(_name, _userAddress);
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(203)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'InstaRegistry':
+    |        require(msg.sender == address(proxies[_currentOwner]), "invalid-proxy-or-owner");
+    |        require(proxies[_nextOwner] == UserWallet(0), "multiple-proxy-per-user-not-allowed");
+  > |        proxies[_nextOwner] = proxies[_currentOwner];
+    |        proxies[_currentOwner] = UserWallet(0);
+    |        emit LogRecord(_currentOwner, _nextOwner, address(proxies[_nextOwner]));
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(305)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'InstaRegistry':
+    |        require(proxies[_nextOwner] == UserWallet(0), "multiple-proxy-per-user-not-allowed");
+    |        proxies[_nextOwner] = proxies[_currentOwner];
+  > |        proxies[_currentOwner] = UserWallet(0);
+    |        emit LogRecord(_currentOwner, _nextOwner, address(proxies[_nextOwner]));
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(306)
+
+[31mViolation[0m for LockedEther in contract 'LogicRegistry':
+    |/// @notice
+    |/// @dev LogicRegistry 
+  > |contract LogicRegistry is AddressRegistry {
+    |
+    |    event LogEnableStaticLogic(address logicAddress);
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(212)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'LogicRegistry':
+    |    /// @param _userAddress (string) User Address
+    |    function setAddress(string memory _name, address _userAddress) public isAdmin {
+  > |        registry[keccak256(abi.encodePacked(_name))] = _userAddress;
+    |        emit LogSetAddress(_name, _userAddress);
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(203)
+
+[31mViolation[0m for MissingInputValidation in contract 'UserAuth':
+    |     * @dev sets new owner
+    |     */
+  > |    function setOwner(address nextOwner) public auth {
+    |        RegistryInterface(registry).record(owner, nextOwner);
+    |        owner = nextOwner;
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(53)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'UserAuth':
+    |    function setOwner(address nextOwner) public auth {
+    |        RegistryInterface(registry).record(owner, nextOwner);
+  > |        owner = nextOwner;
+    |        emit LogSetOwner(nextOwner);
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(55)
+
+[31mViolation[0m for DAO in contract 'UserWallet':
+    |     */
+    |    function setOwner(address nextOwner) public auth {
+  > |        RegistryInterface(registry).record(owner, nextOwner);
+    |        owner = nextOwner;
+    |        emit LogSetOwner(nextOwner);
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(54)
+
+[33mWarning[0m for MissingInputValidation in contract 'UserWallet':
+    |     * @dev sets new owner
+    |     */
+  > |    function setOwner(address nextOwner) public auth {
+    |        RegistryInterface(registry).record(owner, nextOwner);
+    |        owner = nextOwner;
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(53)
+
+[33mWarning[0m for MissingInputValidation in contract 'UserWallet':
+    |     * @param _session to find the session
+    |     */
+  > |    function execute(
+    |        address _target,
+    |        bytes memory _data,
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(131)
+
+[33mWarning[0m for TODAmount in contract 'UserWallet':
+    |     */
+    |    function setOwner(address nextOwner) public auth {
+  > |        RegistryInterface(registry).record(owner, nextOwner);
+    |        owner = nextOwner;
+    |        emit LogSetOwner(nextOwner);
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(54)
+
+[33mWarning[0m for TODReceiver in contract 'UserWallet':
+    |     */
+    |    function setOwner(address nextOwner) public auth {
+  > |        RegistryInterface(registry).record(owner, nextOwner);
+    |        owner = nextOwner;
+    |        emit LogSetOwner(nextOwner);
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(54)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'UserWallet':
+    |     */
+    |    function setOwner(address nextOwner) public auth {
+  > |        RegistryInterface(registry).record(owner, nextOwner);
+    |        owner = nextOwner;
+    |        emit LogSetOwner(nextOwner);
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(54)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'UserWallet':
+    |    function setOwner(address nextOwner) public auth {
+    |        RegistryInterface(registry).record(owner, nextOwner);
+  > |        owner = nextOwner;
+    |        emit LogSetOwner(nextOwner);
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(55)
+
+[31mViolation[0m for LockedEther in contract 'WalletRegistry':
+    | * @dev Deploys a new proxy instance and sets msg.sender as owner of proxy
+    | */
+  > |contract WalletRegistry is LogicRegistry {
+    |    
+    |    event Created(address indexed sender, address indexed owner, address proxy);
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(273)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'WalletRegistry':
+    |        require(proxies[_owner] == UserWallet(0), "multiple-proxy-per-user-not-allowed");
+    |        proxy = new UserWallet();
+  > |        proxies[address(this)] = proxy; // will be changed via record() in next line execution
+    |        proxy.setOwner(_owner);
+    |        emit Created(msg.sender, _owner, address(proxy));
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(294)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WalletRegistry':
+    |    /// @param _userAddress (string) User Address
+    |    function setAddress(string memory _name, address _userAddress) public isAdmin {
+  > |        registry[keccak256(abi.encodePacked(_name))] = _userAddress;
+    |        emit LogSetAddress(_name, _userAddress);
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(203)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WalletRegistry':
+    |        require(msg.sender == address(proxies[_currentOwner]), "invalid-proxy-or-owner");
+    |        require(proxies[_nextOwner] == UserWallet(0), "multiple-proxy-per-user-not-allowed");
+  > |        proxies[_nextOwner] = proxies[_currentOwner];
+    |        proxies[_currentOwner] = UserWallet(0);
+    |        emit LogRecord(_currentOwner, _nextOwner, address(proxies[_nextOwner]));
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(305)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WalletRegistry':
+    |        require(proxies[_nextOwner] == UserWallet(0), "multiple-proxy-per-user-not-allowed");
+    |        proxies[_nextOwner] = proxies[_currentOwner];
+  > |        proxies[_currentOwner] = UserWallet(0);
+    |        emit LogRecord(_currentOwner, _nextOwner, address(proxies[_nextOwner]));
+    |    }
+  at /unique_contracts/0x498b3bfabe9f73db90d252bcd4fa9548cd0fd981.sol(306)

@@ -1,0 +1,97 @@
+{
+  "contract": "0x781aca570d581f51a2fac341f768242ae2220bf9",
+  "tool": "smartcheck",
+  "start": 1563353004.714918,
+  "end": 1563353017.679937,
+  "duration": 12.96501898765564,
+  "analysis": [
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 284,
+      "column": 4,
+      "content": "for(uint256i=0;i<_addresses.length;i++){if(addAddressToWhitelist(_addresses[i],_rate)){success=true;}}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 317,
+      "column": 4,
+      "content": "for(uint256i=0;i<_addresses.length;i++){if(removeAddressFromWhitelist(_addresses[i])){success=true;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 284,
+      "column": 4,
+      "content": "for(uint256i=0;i<_addresses.length;i++){if(addAddressToWhitelist(_addresses[i],_rate)){success=true;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 317,
+      "column": 4,
+      "content": "for(uint256i=0;i<_addresses.length;i++){if(removeAddressFromWhitelist(_addresses[i])){success=true;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 381,
+      "column": 4,
+      "content": "for(uint256i=0;i<len;i++){if((periods[i].startTimestamp<=block.timestamp)&&(periods[i].endTimestamp>=block.timestamp)){_period=periods[i];break;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 168,
+      "column": 0,
+      "content": "contractPGF500SaleisPausable{usingSafeMathforuint256;structPeriod{uint256startTimestamp;uint256endTimestamp;uint256rate;}Period[]privateperiods;mapping(address=>bool)publicwhitelistedAddresses;mapping(address=>uint256)publicwhitelistedRates;ERC20publictoken;addresspublicwallet;addresspublictokenWallet;uint256publicweiRaised;eventTokensPurchased(addressindexed_purchaser,uint256_value,uint256_amount);uint256constantpublicMINIMUM_AMOUNT=0.05ether;uint256constantpublicMAXIMUM_NON_WHITELIST_AMOUNT=20ether;functionPGF500Sale(address_wallet,ERC20_token,address_tokenWallet)public{require(_wallet!=address(0));require(_token!=address(0));require(_tokenWallet!=address(0));wallet=_wallet;token=_token;tokenWallet=_tokenWallet;}function()externalpayable{require(msg.sender!=address(0));require(msg.value>=MINIMUM_AMOUNT);require(isOpen());if(msg.value>MAXIMUM_NON_WHITELIST_AMOUNT){require(isAddressInWhitelist(msg.sender));}uint256tokenAmount=getTokenAmount(msg.sender,msg.value);weiRaised=weiRaised.add(msg.value);token.transferFrom(tokenWallet,msg.sender,tokenAmount);emitTokensPurchased(msg.sender,msg.value,tokenAmount);wallet.transfer(msg.value);}functionaddPeriod(uint256_startTimestamp,uint256_endTimestamp,uint256_rate)onlyOwnerpublic{require(_startTimestamp!=0);require(_endTimestamp>_startTimestamp);require(_rate!=0);Periodmemoryperiod=Period(_startTimestamp,_endTimestamp,_rate);periods.push(period);}functionclearPeriods()onlyOwnerpublic{deleteperiods;}functionaddAddressToWhitelist(address_address,uint256_rate)onlyOwnerpublicreturns(boolsuccess){require(_address!=address(0));success=false;if(!whitelistedAddresses[_address]){whitelistedAddresses[_address]=true;success=true;}if(_rate!=0){whitelistedRates[_address]=_rate;}}functionaddAddressesToWhitelist(address[]_addresses,uint256_rate)onlyOwnerpublicreturns(boolsuccess){success=false;for(uint256i=0;i<_addresses.length;i++){if(addAddressToWhitelist(_addresses[i],_rate)){success=true;}}}functionremoveAddressFromWhitelist(address_address)onlyOwnerpublicreturns(boolsuccess){require(_address!=address(0));success=false;if(whitelistedAddresses[_address]){whitelistedAddresses[_address]=false;success=true;}if(whitelistedRates[_address]!=0){whitelistedRates[_address]=0;}}functionremoveAddressesFromWhitelist(address[]_addresses)onlyOwnerpublicreturns(boolsuccess){success=false;for(uint256i=0;i<_addresses.length;i++){if(removeAddressFromWhitelist(_addresses[i])){success=true;}}}functionisAddressInWhitelist(address_address)viewpublicreturns(bool){returnwhitelistedAddresses[_address];}functionisOpen()viewpublicreturns(bool){return((!paused)&&(_getCurrentPeriod().rate!=0));}functiongetCurrentRate(address_purchaser)publicviewreturns(uint256rate){PeriodmemorycurrentPeriod=_getCurrentPeriod();require(currentPeriod.rate!=0);rate=whitelistedRates[_purchaser];if(rate==0){rate=currentPeriod.rate;}}functiongetTokenAmount(address_purchaser,uint256_weiAmount)publicviewreturns(uint256){return_weiAmount.mul(getCurrentRate(_purchaser));}functionremainingTokens()publicviewreturns(uint256){returntoken.allowance(tokenWallet,this);}function_getCurrentPeriod()viewinternalreturns(Periodmemory_period){_period=Period(0,0,0);uint256len=periods.length;for(uint256i=0;i<len;i++){if((periods[i].startTimestamp<=block.timestamp)&&(periods[i].endTimestamp>=block.timestamp)){_period=periods[i];break;}}}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 177,
+      "column": 11,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 169,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 282,
+      "column": 35,
+      "content": "address[]_addresses"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 315,
+      "column": 40,
+      "content": "address[]_addresses"
+    }
+  ]
+}

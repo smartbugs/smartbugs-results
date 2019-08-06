@@ -1,0 +1,193 @@
+{
+  "contract": "0xf67acb7b9226e482afcf7f08aac9466c50c19d9c",
+  "tool": "smartcheck",
+  "start": 1563464923.2048573,
+  "end": 1563464932.9855533,
+  "duration": 9.780695915222168,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 406,
+      "column": 25,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 116,
+      "column": 2,
+      "content": "functionbalanceOf(address_owner)constantpublicreturns(uintbalance);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 120,
+      "column": 2,
+      "content": "functionallowance(address_owner,address_spender)constantpublicreturns(uintremaining);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 194,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)constantpublicreturns(uint){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 198,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)constantpublicreturns(uint){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 727,
+      "column": 4,
+      "content": "functioncalculateTierBonus(uint_contribution)constantinternalreturns(uint){uinttierBonus=0;if(bonusPhase==BonusPhase.TenPercent){tierBonus=_contribution.div(10);}elseif(bonusPhase==BonusPhase.FivePercent){tierBonus=_contribution.div(20);}tierBonus=tierBonus.mul(tokenRate);returntierBonus;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 744,
+      "column": 4,
+      "content": "functioncalculateSizeBonus(uint_contribution)constantinternalreturns(uint){uintsizeBonus=0;if(crowdsalePhase==CrowdsalePhase.PhaseOne){if(_contribution>=hugeContributionBound){sizeBonus=_contribution.div(10);}elseif(_contribution>=bigContributionBound){sizeBonus=_contribution.div(20);}sizeBonus=sizeBonus.mul(tokenRate);}returnsizeBonus;}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 202,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint_value)publicreturns(bool){require(_spender!=address(0));require((_value==0)||(allowed[msg.sender][_spender]==0));allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 295,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint_value)publicreturns(bool){require(!tokensAreFrozen);returnsuper.approve(_spender,_value);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 441,
+      "column": 0,
+      "content": "contractTokenAllocationisGenericCrowdsale{usingSafeMathforuint;eventTokensAllocated(address_beneficiary,uint_contribution,uint_tokensIssued);eventBonusIssued(address_beneficiary,uint_bonusTokensIssued);eventFoundersAndPartnersTokensIssued(address_foundersWallet,uint_tokensForFounders,address_partnersWallet,uint_tokensForPartners);uintpublictokenRate=125;CappasitypublictokenContract;addresspublicfoundersWallet;addresspublicpartnersWallet;uintconstantpublichardCap=5*1e7*1e2;uintconstantpublicphaseOneCap=3*1e7*1e2;uintpublictotalCentsGathered=0;uintpubliccentsInPhaseOne=0;uintpublictotalTokenSupply=0;uintpublictokensDuringPhaseOne=0;VestingWalletpublicvestingWallet;enumCrowdsalePhase{PhaseOne,BetweenPhases,PhaseTwo,Finished}enumBonusPhase{TenPercent,FivePercent,None}uintpublicconstantbonusTierSize=1*1e7*1e2;uintpublicconstantbigContributionBound=1*1e5*1e2;uintpublicconstanthugeContributionBound=3*1e5*1e2;CrowdsalePhasepubliccrowdsalePhase=CrowdsalePhase.PhaseOne;BonusPhasepublicbonusPhase=BonusPhase.TenPercent;functionTokenAllocation(address_icoManager,address_icoBackend,address_foundersWallet,address_partnersWallet,address_emergencyManager)public{require(_icoManager!=address(0));require(_icoBackend!=address(0));require(_foundersWallet!=address(0));require(_partnersWallet!=address(0));require(_emergencyManager!=address(0));tokenContract=newCappasity(address(this));icoManager=_icoManager;icoBackend=_icoBackend;foundersWallet=_foundersWallet;partnersWallet=_partnersWallet;emergencyManager=_emergencyManager;}functionissueTokens(address_beneficiary,uint_contribution)externalonlyBackendonlyValidPhaseonlyUnpaused{if(crowdsalePhase==CrowdsalePhase.PhaseOne){require(totalCentsGathered.add(_contribution)<=phaseOneCap);}else{require(totalCentsGathered.add(_contribution)<=hardCap);}uintremainingContribution=_contribution;do{uintcentsLeftInPhase=calculateCentsLeftInPhase(remainingContribution);uintcontributionPart=min(remainingContribution,centsLeftInPhase);uinttokensToMint=tokenRate.mul(contributionPart);mintAndUpdate(_beneficiary,tokensToMint);TokensAllocated(_beneficiary,contributionPart,tokensToMint);uinttierBonus=calculateTierBonus(contributionPart);if(tierBonus>0){mintAndUpdate(_beneficiary,tierBonus);BonusIssued(_beneficiary,tierBonus);}if((bonusPhase!=BonusPhase.None)&&(contributionPart==centsLeftInPhase)){advanceBonusPhase();}totalCentsGathered=totalCentsGathered.add(contributionPart);remainingContribution=remainingContribution.sub(contributionPart);}while(remainingContribution>0);uintsizeBonus=calculateSizeBonus(_contribution);if(sizeBonus>0){mintAndUpdate(_beneficiary,sizeBonus);BonusIssued(_beneficiary,sizeBonus);}}functionissueTokensWithCustomBonus(address_beneficiary,uint_contribution,uint_tokens,uint_bonus)externalonlyBackendonlyValidPhaseonlyUnpaused{require(_tokens>0);require(_tokens>=_bonus);if(crowdsalePhase==CrowdsalePhase.PhaseOne){require(totalCentsGathered.add(_contribution)<=phaseOneCap);}else{require(totalCentsGathered.add(_contribution)<=hardCap);}uintremainingContribution=_contribution;do{uintcentsLeftInPhase=calculateCentsLeftInPhase(remainingContribution);uintcontributionPart=min(remainingContribution,centsLeftInPhase);totalCentsGathered=totalCentsGathered.add(contributionPart);remainingContribution=remainingContribution.sub(contributionPart);if((remainingContribution==centsLeftInPhase)&&(bonusPhase!=BonusPhase.None)){advanceBonusPhase();}}while(remainingContribution>0);mintAndUpdate(_beneficiary,_tokens);if(_tokens>_bonus){TokensAllocated(_beneficiary,_contribution,_tokens.sub(_bonus));}if(_bonus>0){BonusIssued(_beneficiary,_bonus);}}functionrewardFoundersAndPartners()externalonlyManageronlyValidPhaseonlyUnpaused{uinttokensDuringThisPhase;if(crowdsalePhase==CrowdsalePhase.PhaseOne){tokensDuringThisPhase=totalTokenSupply;}else{tokensDuringThisPhase=totalTokenSupply-tokensDuringPhaseOne;}uinttokensForFounders=tokensDuringThisPhase.mul(257).div(1000);uinttokensForPartners=tokensDuringThisPhase.mul(171).div(1000);tokenContract.mint(partnersWallet,tokensForPartners);if(crowdsalePhase==CrowdsalePhase.PhaseOne){vestingWallet=newVestingWallet(foundersWallet,address(tokenContract));tokenContract.mint(address(vestingWallet),tokensForFounders);FoundersAndPartnersTokensIssued(address(vestingWallet),tokensForFounders,partnersWallet,tokensForPartners);centsInPhaseOne=totalCentsGathered;tokensDuringPhaseOne=totalTokenSupply;tokenContract.unfreeze();crowdsalePhase=CrowdsalePhase.BetweenPhases;}else{tokenContract.mint(address(vestingWallet),tokensForFounders);vestingWallet.launchVesting();FoundersAndPartnersTokensIssued(address(vestingWallet),tokensForFounders,partnersWallet,tokensForPartners);crowdsalePhase=CrowdsalePhase.Finished;}tokenContract.endMinting();}functionbeginPhaseTwo(uint_tokenRate)externalonlyManageronlyUnpaused{require(crowdsalePhase==CrowdsalePhase.BetweenPhases);require(_tokenRate!=0);tokenRate=_tokenRate;crowdsalePhase=CrowdsalePhase.PhaseTwo;bonusPhase=BonusPhase.TenPercent;tokenContract.startMinting();}functionfreeze()externalonlyUnpausedonlyEmergency{require(crowdsalePhase!=CrowdsalePhase.PhaseOne);tokenContract.freeze();}functionunfreeze()externalonlyUnpausedonlyEmergency{require(crowdsalePhase!=CrowdsalePhase.PhaseOne);tokenContract.unfreeze();}functioncalculateCentsLeftInPhase(uint_remainingContribution)internalviewreturns(uint){if(bonusPhase==BonusPhase.TenPercent){returnbonusTierSize.sub(totalCentsGathered.sub(centsInPhaseOne));}if(bonusPhase==BonusPhase.FivePercent){returnbonusTierSize.mul(2).sub(totalCentsGathered);}return_remainingContribution;}functionmintAndUpdate(address_beneficiary,uint_tokensToMint)internal{tokenContract.mint(_beneficiary,_tokensToMint);totalTokenSupply=totalTokenSupply.add(_tokensToMint);}functioncalculateTierBonus(uint_contribution)constantinternalreturns(uint){uinttierBonus=0;if(bonusPhase==BonusPhase.TenPercent){tierBonus=_contribution.div(10);}elseif(bonusPhase==BonusPhase.FivePercent){tierBonus=_contribution.div(20);}tierBonus=tierBonus.mul(tokenRate);returntierBonus;}functioncalculateSizeBonus(uint_contribution)constantinternalreturns(uint){uintsizeBonus=0;if(crowdsalePhase==CrowdsalePhase.PhaseOne){if(_contribution>=hugeContributionBound){sizeBonus=_contribution.div(10);}elseif(_contribution>=bigContributionBound){sizeBonus=_contribution.div(20);}sizeBonus=sizeBonus.mul(tokenRate);}returnsizeBonus;}functionadvanceBonusPhase()internalonlyValidPhase{if(crowdsalePhase==CrowdsalePhase.PhaseOne){if(bonusPhase==BonusPhase.TenPercent){bonusPhase=BonusPhase.FivePercent;}elseif(bonusPhase==BonusPhase.FivePercent){bonusPhase=BonusPhase.None;}}elseif(bonusPhase==BonusPhase.TenPercent){bonusPhase=BonusPhase.None;}}functionmin(uint_a,uint_b)internalpurereturns(uintresult){return_a<_b?_a:_b;}modifieronlyValidPhase(){require(crowdsalePhase==CrowdsalePhase.PhaseOne||crowdsalePhase==CrowdsalePhase.PhaseTwo);_;}function()payablepublic{revert();}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_REDUNDANT_FALLBACK_REJECT",
+      "patternId": "b85a32",
+      "severity": 1,
+      "line": 279,
+      "column": 30,
+      "content": "{revert();}"
+    },
+    {
+      "name": "SOLIDITY_REDUNDANT_FALLBACK_REJECT",
+      "patternId": "b85a32",
+      "severity": 1,
+      "line": 790,
+      "column": 30,
+      "content": "{revert();}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 157,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 360,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 442,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 279,
+      "column": 23,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 790,
+      "column": 23,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 9,
+      "column": 4,
+      "content": "boolpaused=false;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 159,
+      "column": 4,
+      "content": "mapping(address=>uint)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 160,
+      "column": 4,
+      "content": "mapping(address=>mapping(address=>uint))allowed;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 370,
+      "column": 4,
+      "content": "uintconstantcliffPeriod=30days;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 371,
+      "column": 4,
+      "content": "uintconstanttotalPeriods=24;"
+    }
+  ]
+}

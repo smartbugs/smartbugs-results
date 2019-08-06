@@ -1,0 +1,161 @@
+{
+  "contract": "0x992f32ff4021b53610807ee39a22cfb026f81daf",
+  "tool": "smartcheck",
+  "start": 1563531970.343978,
+  "end": 1563531980.1068747,
+  "duration": 9.76289677619934,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 17,
+      "column": 43,
+      "content": "0xa4048772583220896ec93316616778B4EbC70F9d"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 3,
+      "column": 0,
+      "content": "contractOperator{uint256publicONE_DAY=86400;uint256publicMIN_DEP=1ether;uint256publicMAX_DEP=100ether;addresspublicadmin;addresspublicadmin2;addresspublicquerierAddress;uint256publicdepositedAmountGross=0;uint256publicpaySystemCommissionTimes=1;uint256publicpayDailyIncomeTimes=1;uint256publiclastPaySystemCommission=now;uint256publiclastPayDailyIncome=now;uint256publiccontractStartAt=now;uint256publiclastReset=now;addresspayablepublicoperationFund=0xa4048772583220896ec93316616778B4EbC70F9d;address[]publicinvestorAddresses;bytes32[]publicinvestmentIds;bytes32[]publicwithdrawalIds;bytes32[]publicmaxOutIds;mapping(address=>Investor)investors;mapping(bytes32=>Investment)publicinvestments;mapping(bytes32=>Withdrawal)publicwithdrawals;mapping(bytes32=>MaxOut)publicmaxOuts;mapping(address=>WithdrawAccount)publicwithdrawAccounts;uint256additionNow=0;uint256publicmaxLevelsAddSale=200;uint256publicmaximumMaxOutInWeek=2;boolpublicimporting=true;VotepubliccurrentVote;structWithdrawAccount{addressinitialAddress;addresscurrentWithdrawalAddress;addressrequestingWithdrawalAddress;}structVote{uint256startTime;stringreason;mapping(address=>uint8)votes;addresspayableemergencyAddress;uint256yesPoint;uint256noPoint;uint256totalPoint;}structInvestment{bytes32id;uint256at;uint256amount;addressinvestor;addressnextInvestor;boolnextBranch;}structWithdrawal{bytes32id;uint256at;uint256amount;addressinvestor;addresspresentee;uint256reason;uint256times;}structInvestor{addressparent;addressleftChild;addressrightChild;addresspresenter;uint256generation;uint256depositedAmount;uint256withdrewAmount;boolisDisabled;uint256lastMaxOut;uint256maxOutTimes;uint256maxOutTimesInWeek;uint256totalSell;uint256sellThisMonth;uint256rightSell;uint256leftSell;uint256reserveCommission;uint256dailyIncomeWithrewAmount;uint256registerTime;uint256minDeposit;bytes32[]investments;bytes32[]withdrawals;}structMaxOut{bytes32id;addressinvestor;uint256times;uint256at;}constructor()public{admin=msg.sender;}modifiermustBeAdmin(){require(msg.sender==admin||msg.sender==querierAddress||msg.sender==admin2);_;}modifiermustBeImporting(){require(importing);require(msg.sender==querierAddress||msg.sender==admin);_;}function()payableexternal{deposit();}functiongetNow()internalviewreturns(uint256){returnadditionNow+now;}functiondepositProcess(addresssender)internal{Investorstorageinvestor=investors[sender];require(investor.generation!=0);if(investor.depositedAmount==0)require(msg.value>=investor.minDeposit);require(investor.maxOutTimesInWeek<maximumMaxOutInWeek);require(investor.maxOutTimes<50);require(investor.maxOutTimes==0||getNow()-investor.lastMaxOut<ONE_DAY*7||investor.depositedAmount!=0);depositedAmountGross+=msg.value;bytes32id=keccak256(abi.encodePacked(block.number,getNow(),sender,msg.value));uint256investmentValue=investor.depositedAmount+msg.value<=MAX_DEP?msg.value:MAX_DEP-investor.depositedAmount;if(investmentValue==0)return;boolnextBranch=investors[investor.parent].leftChild==sender;Investmentmemoryinvestment=Investment({id:id,at:getNow(),amount:investmentValue,investor:sender,nextInvestor:investor.parent,nextBranch:nextBranch});investments[id]=investment;processInvestments(id);investmentIds.push(id);}functionpushNewMaxOut(addressinvestorAddress,uint256times,uint256depositedAmount)internal{bytes32id=keccak256(abi.encodePacked(block.number,getNow(),investorAddress,times));MaxOutmemorymaxOut=MaxOut({id:id,at:getNow(),investor:investorAddress,times:times});maxOutIds.push(id);maxOuts[id]=maxOut;investors[investorAddress].minDeposit=depositedAmount;}functiondeposit()payablepublic{depositProcess(msg.sender);}functionprocessInvestments(bytes32investmentId)internal{Investmentstorageinvestment=investments[investmentId];uint256amount=investment.amount;Investorstorageinvestor=investors[investment.investor];investor.investments.push(investmentId);investor.depositedAmount+=amount;<missing ';'>addresspayable<missing ';'>presenterAddress=address(uint160(investor.presenter));Investorstoragepresenter=investors[presenterAddress];if(presenterAddress!=address(0)){presenter.totalSell+=amount;presenter.sellThisMonth+=amount;}if(presenter.depositedAmount>=MIN_DEP&&!presenter.isDisabled){sendEtherForInvestor(presenterAddress,amount/10,1,investment.investor,0);}}functiongetWithdrawAddress(addresspayableinitialAddress)publicviewreturns<missing ';'>(addresspayable){WithdrawAccountmemorywithdrawAccount=withdrawAccounts[initialAddress];addresswithdrawAddress=withdrawAccount.currentWithdrawalAddress;if(withdrawAddress!=<missing ';'>address(0))returnaddress(uint160<missing ';'>(withdrawAddress));returninitialAddress;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 749,
+      "column": 0,
+      "content": "contractQuerier{Operatorpublicoperator;functionsetOperator(addresspayableoperatorAddress)public{operator=Operator(operatorAddress);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 161,
+      "column": 4,
+      "content": "functiongetWithdrawAddress(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 752,
+      "column": 4,
+      "content": "functionsetOperator(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 22,
+      "column": 4,
+      "content": "mapping(address=>Investor)investors;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 27,
+      "column": 4,
+      "content": "uint256additionNow=0;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 161,
+      "column": 84,
+      "content": "(addresspayable){WithdrawAccountmemory"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 162,
+      "column": 31,
+      "content": "withdrawAccount=withdrawAccounts["
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 162,
+      "column": 66,
+      "content": "initialAddress];"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 163,
+      "column": 8,
+      "content": "addresswithdrawAddress=withdrawAccount.currentWithdrawalAddress;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 164,
+      "column": 11,
+      "content": "(withdrawAddress!=<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 164,
+      "column": 31,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 164,
+      "column": 38,
+      "content": "(0))return"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 164,
+      "column": 50,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 164,
+      "column": 57,
+      "content": "(uint160<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 164,
+      "column": 65,
+      "content": "(withdrawAddress));return"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 165,
+      "column": 15,
+      "content": "initialAddress;"
+    }
+  ]
+}

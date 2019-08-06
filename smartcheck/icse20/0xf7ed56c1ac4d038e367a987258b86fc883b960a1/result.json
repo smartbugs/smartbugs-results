@@ -1,0 +1,337 @@
+{
+  "contract": "0xf7ed56c1ac4d038e367a987258b86fc883b960a1",
+  "tool": "smartcheck",
+  "start": 1563450371.867799,
+  "end": 1563450380.140815,
+  "duration": 8.273015975952148,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 1623,
+      "column": 49,
+      "content": "0x47169f78750Be1e6ec2DEb2974458ac4F8751714"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 1633,
+      "column": 49,
+      "content": "0x47169f78750Be1e6ec2DEb2974458ac4F8751714"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 55,
+      "column": 16,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 955,
+      "column": 29,
+      "content": "top5HeroesPower/64*transportationFeeMultiplier"
+    },
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 1070,
+      "column": 30,
+      "content": "(cooldownIndex/2)**2*1minutes"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 780,
+      "column": 12,
+      "content": "for(uintk=0;k<heroPowers.length;k++){if(heroPowers[k]>curMax){curMax=heroPowers[k];curMaxIndex=k;}}"
+    },
+    {
+      "name": "SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN",
+      "patternId": "58bdd3",
+      "severity": 1,
+      "line": 647,
+      "column": 4,
+      "content": "functiongetHeroPower(uint_genes,uint_dungeonDifficulty)publicpurereturns(uinttotalPower,uintequipmentPower,uintstatsPower,boolisSuper,uintsuperRank,uintsuperBoost){uint16[32]memoryEQUIPMENT_POWERS=[1,2,4,5,16,17,32,33,8,16,16,32,32,48,64,96,4,16,32,64,32,48,80,128,32,96,80,192,192,288,384,512];uint[]memoryattributes=getHeroAttributes(_genes);superRank=attributes[0];for(uinti=0;i<8;i++){uintequipment=attributes[i];equipmentPower+=EQUIPMENT_POWERS[equipment];if(superRank!=equipment){superRank=0;}}for(uintj=8;j<12;j++){statsPower+=attributes[j]+1;}isSuper=superRank>=16;if(superRank>=28){superBoost=(_dungeonDifficulty-1)*MEGA_HERO_MULTIPLIER;}elseif(superRank>=24){superBoost=(_dungeonDifficulty-1)*ULTRA_HERO_MULTIPLIER;}elseif(superRank>=16){superBoost=(_dungeonDifficulty-1)*SUPER_HERO_MULTIPLIER;}totalPower=statsPower+equipmentPower+superBoost;}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 780,
+      "column": 12,
+      "content": "for(uintk=0;k<heroPowers.length;k++){if(heroPowers[k]>curMax){curMax=heroPowers[k];curMaxIndex=k;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 901,
+      "column": 0,
+      "content": "contractEDTransportationisEDBase{functionrecruitHero()whenNotPausedexternalpayablereturns(uint){require(playerToDungeonID[msg.sender]==noviceDungeonId||!playerToFirstHeroRecruited[msg.sender]);require(msg.value>=recruitHeroFee);dungeonTokenContract.addDungeonRewards(noviceDungeonId,recruitHeroFee);asyncSend(msg.sender,msg.value-recruitHeroFee);if(!playerToFirstHeroRecruited[msg.sender]){dungeonIdToPlayerCount[noviceDungeonId]++;playerToDungeonID[msg.sender]=noviceDungeonId;playerToFirstHeroRecruited[msg.sender]=true;}returnheroTokenContract.createHero(0,msg.sender);}functiontransport(uint_destinationDungeonId)whenNotPauseddungeonCanTransport(_destinationDungeonId)playerAllowedToTransport()externalpayable{uintoriginDungeonId=playerToDungeonID[msg.sender];require(_destinationDungeonId!=originDungeonId);uintdifficulty;(,,difficulty,,,,,,)=dungeonTokenContract.dungeons(_destinationDungeonId);uinttop5HeroesPower=calculateTop5HeroesPower(msg.sender,_destinationDungeonId);require(top5HeroesPower>=difficulty*12);uintbaseFee=difficulty*transportationFeeMultiplier;uintadditionalFee=top5HeroesPower/64*transportationFeeMultiplier;uintrequiredFee=baseFee+additionalFee;require(msg.value>=requiredFee);dungeonTokenContract.addDungeonRewards(originDungeonId,requiredFee);asyncSend(msg.sender,msg.value-requiredFee);_transport(originDungeonId,_destinationDungeonId);}function_transport(uint_originDungeonId,uint_destinationDungeonId)internal{if(dungeonIdToPlayerCount[_originDungeonId]>0){dungeonIdToPlayerCount[_originDungeonId]--;}dungeonIdToPlayerCount[_destinationDungeonId]++;playerToDungeonID[msg.sender]=_destinationDungeonId;PlayerTransported(now,msg.sender,_originDungeonId,_destinationDungeonId);}modifierdungeonCanTransport(uint_destinationDungeonId){require(_destinationDungeonId<dungeonTokenContract.totalSupply());uintstatus;uintcapacity;(,status,,capacity,,,,,)=dungeonTokenContract.dungeons(_destinationDungeonId);require(status==0||status==1);require(capacity==0||dungeonIdToPlayerCount[_destinationDungeonId]<capacity);_;}modifierplayerAllowedToTransport(){require(playerToFirstHeroRecruited[msg.sender]);_;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 1024,
+      "column": 0,
+      "content": "contractEDChallengeisEDTransportation{functionchallenge(uint_dungeonId,uint_heroId)whenNotPauseddungeonCanChallenge(_dungeonId)heroAllowedToChallenge(_heroId)externalpayable{playerToLastActionBlockNumber[msg.sender]=block.number;_setTempHeroPower();uintdifficulty;uintseedGenes;(,,difficulty,,,,,seedGenes,)=dungeonTokenContract.dungeons(_dungeonId);uintrequiredFee=difficulty*challengeFeeMultiplier;require(msg.value>=requiredFee);dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee);asyncSend(msg.sender,msg.value-requiredFee);_challengePart2(_dungeonId,difficulty,_heroId);}function_computeCooldownRemainingTime(uint_heroId)internalviewreturns(uint){uintcooldownStartTime;uintcooldownIndex;(,cooldownStartTime,cooldownIndex,)=heroTokenContract.heroes(_heroId);uintcooldownPeriod=(cooldownIndex/2)**2*1minutes;if(cooldownPeriod>100minutes){cooldownPeriod=100minutes;}uintcooldownEndTime=cooldownStartTime+cooldownPeriod;if(cooldownEndTime<=now){return0;}else{returncooldownEndTime-now;}}function_challengePart2(uint_dungeonId,uint_dungeonDifficulty,uint_heroId)private{uintfloorNumber;uintrewards;uintfloorGenes;(,,,,floorNumber,,rewards,,floorGenes)=dungeonTokenContract.dungeons(_dungeonId);uintheroGenes;(,,,heroGenes)=heroTokenContract.heroes(_heroId);boolsuccess=_getChallengeSuccess(heroGenes,_dungeonDifficulty,floorGenes);uintnewFloorGenes;uintmasterRewards;uintconsolationRewards;uintsuccessRewards;uintnewRewards;if(success){newFloorGenes=_getNewFloorGene(_dungeonId);masterRewards=rewards*masterRewardsPercent/100;consolationRewards=rewards*consolationRewardsPercent/100;if(floorNumber<rushTimeFloorCount){successRewards=rewards*rushTimeChallengeRewardsPercent/100;newRewards=rewards*(100-rushTimeChallengeRewardsPercent-masterRewardsPercent-consolationRewardsPercent)/100;}else{successRewards=rewards*challengeRewardsPercent/100;newRewards=rewards*(100-challengeRewardsPercent-masterRewardsPercent-consolationRewardsPercent)/100;}require(successRewards+masterRewards+consolationRewards+newRewards<=rewards);grandConsolationRewards+=consolationRewards;dungeonTokenContract.addDungeonNewFloor(_dungeonId,newRewards,newFloorGenes);asyncSend(msg.sender,successRewards);asyncSend(dungeonTokenContract.ownerOf(_dungeonId),masterRewards);}heroTokenContract.triggerCooldown(_heroId);DungeonChallenged(now,msg.sender,_dungeonId,_heroId,heroGenes,floorNumber,floorGenes,success,newFloorGenes,successRewards,masterRewards);}function_getChallengeSuccess(uint_heroGenes,uint_dungeonDifficulty,uint_floorGenes)privatepurereturns(bool){uintheroPower;(heroPower,,,,,)=getHeroPower(_heroGenes,_dungeonDifficulty);uintfloorPower=getDungeonPower(_floorGenes);returnheroPower>floorPower;}function_getNewFloorGene(uint_dungeonId)privatereturns(uint){uintseedGenes;uintfloorGenes;(,,,,,,seedGenes,floorGenes)=dungeonTokenContract.dungeons(_dungeonId);uintfloorPower=getDungeonPower(floorGenes);uintnewFloorGenes=challengeFormulaContract.calculateResult(floorGenes,seedGenes);uintnewFloorPower=getDungeonPower(newFloorGenes);if(newFloorPower<floorPower){newFloorGenes=floorGenes;}returnnewFloorGenes;}modifierdungeonCanChallenge(uint_dungeonId){require(_dungeonId<dungeonTokenContract.totalSupply());uintcreationTime;uintstatus;(creationTime,status,,,,,,,)=dungeonTokenContract.dungeons(_dungeonId);require(status==0||status==2);require(playerToDungeonID[msg.sender]==_dungeonId);require(creationTime+dungeonPreparationTime<=now);_;}modifierheroAllowedToChallenge(uint_heroId){require(heroTokenContract.ownerOf(_heroId)==msg.sender);uintcooldownRemainingTime=_computeCooldownRemainingTime(_heroId);require(cooldownRemainingTime==0);require(block.number>playerToLastActionBlockNumber[msg.sender]);_;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 1223,
+      "column": 0,
+      "content": "contractEDTrainingisEDChallenge{functiontrain1(uint_dungeonId,uint_heroId)whenNotPauseddungeonCanTrain(_dungeonId)heroAllowedToTrain(_heroId)externalpayable{_train(_dungeonId,_heroId,0,1);}functiontrain2(uint_dungeonId,uint_heroId)whenNotPauseddungeonCanTrain(_dungeonId)heroAllowedToTrain(_heroId)externalpayable{_train(_dungeonId,_heroId,0,2);}functiontrain3(uint_dungeonId,uint_heroId)whenNotPauseddungeonCanTrain(_dungeonId)heroAllowedToTrain(_heroId)externalpayable{_train(_dungeonId,_heroId,0,3);}functiontrainEquipment(uint_dungeonId,uint_heroId,uint_equipmentIndex)whenNotPauseddungeonCanTrain(_dungeonId)heroAllowedToTrain(_heroId)externalpayable{require(_equipmentIndex<=8);_train(_dungeonId,_heroId,_equipmentIndex,1);}function_train(uint_dungeonId,uint_heroId,uint_equipmentIndex,uint_trainingTimes)private{playerToLastActionBlockNumber[msg.sender]=block.number;_setTempHeroPower();uintcreationTime;uintdifficulty;uintfloorNumber;uintrewards;uintseedGenes;uintfloorGenes;(creationTime,,difficulty,,floorNumber,,rewards,seedGenes,floorGenes)=dungeonTokenContract.dungeons(_dungeonId);require(_trainingTimes<10);uintrequiredFee;if(now<creationTime+dungeonPreparationTime){if(_equipmentIndex>0){requiredFee=difficulty*preparationPeriodEquipmentTrainingFeeMultiplier*_trainingTimes;}else{requiredFee=difficulty*preparationPeriodTrainingFeeMultiplier*_trainingTimes;}}else{if(_equipmentIndex>0){requiredFee=difficulty*equipmentTrainingFeeMultiplier*_trainingTimes;}else{requiredFee=difficulty*trainingFeeMultiplier*_trainingTimes;}}require(msg.value>=requiredFee);uintheroGenes;(,,,heroGenes)=heroTokenContract.heroes(_heroId);dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee);asyncSend(msg.sender,msg.value-requiredFee);_trainPart2(_dungeonId,_heroId,_equipmentIndex,_trainingTimes,difficulty,floorNumber,floorGenes,heroGenes);}function_trainPart2(uint_dungeonId,uint_heroId,uint_equipmentIndex,uint_trainingTimes,uint_dungeonDifficulty,uint_floorNumber,uint_floorGenes,uint_heroGenes)private{uintheroPower;boolisSuper;(heroPower,,,isSuper,,)=getHeroPower(_heroGenes,_dungeonDifficulty);uintnewHeroGenes;uintnewHeroPower;(newHeroGenes,newHeroPower)=_calculateNewHeroPower(_dungeonDifficulty,_heroGenes,_equipmentIndex,_trainingTimes,heroPower,isSuper,_floorGenes);if(newHeroGenes!=_heroGenes){if(newHeroPower>=256){tempSuccessTrainingHeroId=_heroId;tempSuccessTrainingNewHeroGenes=newHeroGenes;}else{heroTokenContract.setHeroGenes(_heroId,newHeroGenes);}}boolsuccess=newHeroPower>heroPower;if(!success){_handleTrainingFailure(_equipmentIndex,_trainingTimes,_dungeonDifficulty);}HeroTrained(now,msg.sender,_dungeonId,_heroId,_heroGenes,_floorNumber,_floorGenes,success,newHeroGenes);}function_calculateNewHeroPower(uint_dungeonDifficulty,uint_heroGenes,uint_equipmentIndex,uint_trainingTimes,uint_heroPower,bool_isSuper,uint_floorGenes)privatereturns(uintnewHeroGenes,uintnewHeroPower){newHeroGenes=_heroGenes;newHeroPower=_heroPower;boolnewIsSuper=_isSuper;for(uinti=0;i<_trainingTimes;i++){uinttmpHeroGenes=trainingFormulaContract.calculateResult(newHeroGenes,_floorGenes,_equipmentIndex);uinttmpHeroPower;booltmpIsSuper;(tmpHeroPower,,,tmpIsSuper,,)=getHeroPower(tmpHeroGenes,_dungeonDifficulty);if(tmpHeroPower>newHeroPower){if(!(newIsSuper&&!tmpIsSuper)){newHeroGenes=tmpHeroGenes;newHeroPower=tmpHeroPower;}}elseif(_equipmentIndex>0&&tmpHeroPower==newHeroPower&&tmpHeroGenes!=newHeroGenes){newHeroGenes=tmpHeroGenes;newHeroPower=tmpHeroPower;}}}function_handleTrainingFailure(uint_equipmentIndex,uint_trainingTimes,uint_dungeonDifficulty)private{uintfaith=playerToFaith[msg.sender];uintfaithEarned;if(_equipmentIndex==0){faithEarned=_dungeonDifficulty*_trainingTimes;}else{faithEarned=_dungeonDifficulty*_trainingTimes*2;}uintnewFaith=faith+faithEarned;if(newFaith>=consolationRewardsRequiredFaith){uintconsolationRewards=grandConsolationRewards*consolationRewardsClaimPercent/100;grandConsolationRewards-=consolationRewards;asyncSend(msg.sender,consolationRewards);newFaith-=consolationRewardsRequiredFaith;ConsolationRewardsClaimed(now,msg.sender,consolationRewards);}playerToFaith[msg.sender]=newFaith;}modifierdungeonCanTrain(uint_dungeonId){require(_dungeonId<dungeonTokenContract.totalSupply());uintstatus;(,status,,,,,,,)=dungeonTokenContract.dungeons(_dungeonId);require(status==0||status==3);require(playerToDungeonID[msg.sender]==_dungeonId);_;}modifierheroAllowedToTrain(uint_heroId){require(heroTokenContract.ownerOf(_heroId)==msg.sender);require(block.number>playerToLastActionBlockNumber[msg.sender]);_;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 1479,
+      "column": 0,
+      "content": "contractEDCoreVersion1isDestructible,EDTraining{functionEDCoreVersion1(address_dungeonTokenAddress,address_heroTokenAddress,address_challengeFormulaAddress,address_trainingFormulaAddress)publicpayable{dungeonTokenContract=DungeonTokenInterface(_dungeonTokenAddress);heroTokenContract=HeroTokenInterface(_heroTokenAddress);challengeFormulaContract=ChallengeFormulaInterface(_challengeFormulaAddress);trainingFormulaContract=TrainingFormulaInterface(_trainingFormulaAddress);}functiongetGameSettings()externalviewreturns(uint_recruitHeroFee,uint_transportationFeeMultiplier,uint_noviceDungeonId,uint_consolationRewardsRequiredFaith,uint_challengeFeeMultiplier,uint_dungeonPreparationTime,uint_trainingFeeMultiplier,uint_equipmentTrainingFeeMultiplier,uint_preparationPeriodTrainingFeeMultiplier,uint_preparationPeriodEquipmentTrainingFeeMultiplier){_recruitHeroFee=recruitHeroFee;_transportationFeeMultiplier=transportationFeeMultiplier;_noviceDungeonId=noviceDungeonId;_consolationRewardsRequiredFaith=consolationRewardsRequiredFaith;_challengeFeeMultiplier=challengeFeeMultiplier;_dungeonPreparationTime=dungeonPreparationTime;_trainingFeeMultiplier=trainingFeeMultiplier;_equipmentTrainingFeeMultiplier=equipmentTrainingFeeMultiplier;_preparationPeriodTrainingFeeMultiplier=preparationPeriodTrainingFeeMultiplier;_preparationPeriodEquipmentTrainingFeeMultiplier=preparationPeriodEquipmentTrainingFeeMultiplier;}functiongetPlayerDetails(address_address)externalviewreturns(uintdungeonId,uintpayment,uintdungeonCount,uintheroCount,uintfaith,boolfirstHeroRecruited){payment=payments[_address];dungeonCount=dungeonTokenContract.balanceOf(_address);heroCount=heroTokenContract.balanceOf(_address);faith=playerToFaith[_address];firstHeroRecruited=playerToFirstHeroRecruited[_address];if(firstHeroRecruited){dungeonId=playerToDungeonID[_address];}else{dungeonId=noviceDungeonId;}}functiongetDungeonDetails(uint_id)externalviewreturns(uintcreationTime,uintstatus,uintdifficulty,uintcapacity,addressowner,boolisReady,uintplayerCount){require(_id<dungeonTokenContract.totalSupply());(creationTime,status,difficulty,capacity,,,,,)=dungeonTokenContract.dungeons(_id);owner=dungeonTokenContract.ownerOf(_id);isReady=creationTime+dungeonPreparationTime<=now;playerCount=dungeonIdToPlayerCount[_id];}functiongetDungeonFloorDetails(uint_id)externalviewreturns(uintfloorNumber,uintfloorCreationTime,uintrewards,uintseedGenes,uintfloorGenes){require(_id<dungeonTokenContract.totalSupply());(,,,,floorNumber,floorCreationTime,rewards,seedGenes,floorGenes)=dungeonTokenContract.dungeons(_id);}functiongetHeroDetails(uint_id)externalviewreturns(uintcreationTime,uintcooldownStartTime,uintcooldownIndex,uintgenes,addressowner,boolisReady,uintcooldownRemainingTime){require(_id<heroTokenContract.totalSupply());(creationTime,cooldownStartTime,cooldownIndex,genes)=heroTokenContract.heroes(_id);owner=heroTokenContract.ownerOf(_id);cooldownRemainingTime=_computeCooldownRemainingTime(_id);isReady=cooldownRemainingTime==0;}functionmigrateDungeon(uint_id,uint_playerCount)external{require(now<1520694000&&tx.origin==0x47169f78750Be1e6ec2DEb2974458ac4F8751714);dungeonIdToPlayerCount[_id]=_playerCount;}functionmigratePlayer(address_address,uint_ownerDungeonId,uint_payment,uint_faith)external{require(now<1520694000&&tx.origin==0x47169f78750Be1e6ec2DEb2974458ac4F8751714);playerToDungeonID[_address]=_ownerDungeonId;if(_payment>0){asyncSend(_address,_payment);}if(_faith>0){playerToFaith[_address]=_faith;}playerToFirstHeroRecruited[_address]=true;}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 805,
+      "column": 4,
+      "content": "functionsetDungeonTokenContract(address_newDungeonTokenContract)onlyOwnerexternal{dungeonTokenContract=DungeonTokenInterface(_newDungeonTokenContract);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 810,
+      "column": 4,
+      "content": "functionsetHeroTokenContract(address_newHeroTokenContract)onlyOwnerexternal{heroTokenContract=HeroTokenInterface(_newHeroTokenContract);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 815,
+      "column": 4,
+      "content": "functionsetChallengeFormulaContract(address_newChallengeFormulaAddress)onlyOwnerexternal{challengeFormulaContract=ChallengeFormulaInterface(_newChallengeFormulaAddress);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 820,
+      "column": 4,
+      "content": "functionsetTrainingFormulaContract(address_newTrainingFormulaAddress)onlyOwnerexternal{trainingFormulaContract=TrainingFormulaInterface(_newTrainingFormulaAddress);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 825,
+      "column": 4,
+      "content": "functionsetRecruitHeroFee(uint_newRecruitHeroFee)onlyOwnerexternal{recruitHeroFee=_newRecruitHeroFee;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 830,
+      "column": 4,
+      "content": "functionsetTransportationFeeMultiplier(uint_newTransportationFeeMultiplier)onlyOwnerexternal{transportationFeeMultiplier=_newTransportationFeeMultiplier;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 835,
+      "column": 4,
+      "content": "functionsetNoviceDungeonId(uint_newNoviceDungeonId)onlyOwnerexternal{noviceDungeonId=_newNoviceDungeonId;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 840,
+      "column": 4,
+      "content": "functionsetConsolationRewardsRequiredFaith(uint_newConsolationRewardsRequiredFaith)onlyOwnerexternal{consolationRewardsRequiredFaith=_newConsolationRewardsRequiredFaith;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 845,
+      "column": 4,
+      "content": "functionsetConsolationRewardsClaimPercent(uint_newConsolationRewardsClaimPercent)onlyOwnerexternal{consolationRewardsClaimPercent=_newConsolationRewardsClaimPercent;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 850,
+      "column": 4,
+      "content": "functionsetConsolationRewardsPercent(uint_newConsolationRewardsPercent)onlyOwnerexternal{consolationRewardsPercent=_newConsolationRewardsPercent;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 855,
+      "column": 4,
+      "content": "functionsetDungeonPreparationTime(uint_newDungeonPreparationTime)onlyOwnerexternal{dungeonPreparationTime=_newDungeonPreparationTime;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 860,
+      "column": 4,
+      "content": "functionsetTrainingFeeMultiplier(uint_newTrainingFeeMultiplier)onlyOwnerexternal{trainingFeeMultiplier=_newTrainingFeeMultiplier;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 865,
+      "column": 4,
+      "content": "functionsetEquipmentTrainingFeeMultiplier(uint_newEquipmentTrainingFeeMultiplier)onlyOwnerexternal{equipmentTrainingFeeMultiplier=_newEquipmentTrainingFeeMultiplier;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 162,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SEND",
+      "patternId": 430636,
+      "severity": 1,
+      "line": 180,
+      "column": 17,
+      "content": "send(payment)"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "7d54ca",
+      "severity": 1,
+      "line": 1375,
+      "column": 22,
+      "content": "(uintnewHeroGenes,uintnewHeroPower)"
+    },
+    {
+      "name": "SOLIDITY_TX_ORIGIN",
+      "patternId": "12e802",
+      "severity": 2,
+      "line": 1623,
+      "column": 36,
+      "content": "tx.origin"
+    },
+    {
+      "name": "SOLIDITY_TX_ORIGIN",
+      "patternId": "12e802",
+      "severity": 2,
+      "line": 1633,
+      "column": 36,
+      "content": "tx.origin"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 632,
+      "column": 65,
+      "content": "uint[]"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 487,
+      "column": 4,
+      "content": "ChallengeFormulaInterfacechallengeFormulaContract;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 490,
+      "column": 4,
+      "content": "TrainingFormulaInterfacetrainingFormulaContract;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 589,
+      "column": 4,
+      "content": "mapping(address=>uint)playerToLastActionBlockNumber;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 590,
+      "column": 4,
+      "content": "uinttempSuccessTrainingHeroId;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 591,
+      "column": 4,
+      "content": "uinttempSuccessTrainingNewHeroGenes=1;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 597,
+      "column": 4,
+      "content": "mapping(address=>uint)playerToDungeonID;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 600,
+      "column": 4,
+      "content": "mapping(address=>uint)playerToFaith;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 606,
+      "column": 4,
+      "content": "mapping(address=>bool)playerToFirstHeroRecruited;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 609,
+      "column": 4,
+      "content": "mapping(uint=>uint)dungeonIdToPlayerCount;"
+    }
+  ]
+}

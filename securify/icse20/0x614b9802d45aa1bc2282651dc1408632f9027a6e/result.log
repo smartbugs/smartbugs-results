@@ -1,0 +1,60 @@
+Processing contract: /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol:TrustInvest
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'TrustInvest':
+    |pragma solidity ^0.5.3;
+    |
+  > |contract TrustInvest{
+    |    event mintTransfer(address indexe,uint);
+    |    event Transfer(address indexed _from,address indexed _to,uint _amount);
+  at /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol(3)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustInvest':
+    |        uint previosBalances = balanceOf[_from] + balanceOf[_to];
+    |        balanceOf[_from]-=_value;
+  > |        balanceOf[_to]+=_value;
+    |        emit Transfer(_from,_to,_value);
+    |        assert(balanceOf[_from] + balanceOf[_to] == previosBalances);
+  at /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol(30)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustInvest':
+    |        require(balanceOf[_from]>= _amount);
+    |        require(_amount<=allowed[_from][msg.sender]);
+  > |        balanceOf[_from]-=_amount;
+    |        allowed[_from][msg.sender]-=_amount;
+    |        totalSupply-=_amount;
+  at /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol(66)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustInvest':
+    |        balanceOf[_from]-=_amount;
+    |        allowed[_from][msg.sender]-=_amount;
+  > |        totalSupply-=_amount;
+    |        emit Burn(_from,_amount);
+    |        return true;
+  at /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol(68)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TrustInvest':
+    |    function mintToken(address _target,uint _amountMintToken)public{
+    |        require(msg.sender == ownerOfTotalSupply);
+  > |        balanceOf[_target]+=_amountMintToken;
+    |        totalSupply+=_amountMintToken;
+    |        emit mintTransfer(ownerOfTotalSupply,_amountMintToken);
+  at /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol(50)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TrustInvest':
+    |        require(msg.sender == ownerOfTotalSupply);
+    |        balanceOf[_target]+=_amountMintToken;
+  > |        totalSupply+=_amountMintToken;
+    |        emit mintTransfer(ownerOfTotalSupply,_amountMintToken);
+    |        emit Transfer(ownerOfTotalSupply,_target,_amountMintToken);
+  at /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol(51)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TrustInvest':
+    |        require(balanceOf[msg.sender] >=_amount);
+    |        balanceOf[msg.sender]-=_amount;
+  > |        totalSupply-=_amount;
+    |        emit Burn(msg.sender,_amount);
+    |        return true;
+  at /unique_chucks/14/0x614b9802d45aa1bc2282651dc1408632f9027a6e.sol(59)

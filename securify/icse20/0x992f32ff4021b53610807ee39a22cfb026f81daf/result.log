@@ -1,0 +1,142 @@
+Processing contract: /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol:Operator
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+java.io.IOException: Timeout for /tmp/binaries_souffle1307220954459982857/mustExplicit -j 2 -F /tmp/souffle-21c9d45b-402b-417b-a748-06caf3d153c6 -D /tmp/souffle-21c9d45b-402b-417b-a748-06caf3d153c6_OUT
+	at ch.securify.analysis.AbstractDataflow.runCommand(AbstractDataflow.java:277)
+	at ch.securify.analysis.AbstractDataflow.initDataflow(AbstractDataflow.java:169)
+	at ch.securify.analysis.MustExplicitDataflow.<init>(MustExplicitDataflow.java:33)
+	at ch.securify.analysis.Dataflow.<init>(Dataflow.java:33)
+	at ch.securify.analysis.DataflowFactory.getDataflow(DataflowFactory.java:54)
+	at ch.securify.Main.checkPatterns(Main.java:388)
+	at ch.securify.Main.processHexFile(Main.java:189)
+	at ch.securify.Main.processCompilationOutput(Main.java:129)
+	at ch.securify.Main.processSolidityFile(Main.java:100)
+	at ch.securify.Main.main(Main.java:254)
+Error in Securify
+java.lang.RuntimeException
+	at ch.securify.analysis.Dataflow.<init>(Dataflow.java:37)
+	at ch.securify.analysis.DataflowFactory.getDataflow(DataflowFactory.java:54)
+	at ch.securify.Main.checkPatterns(Main.java:388)
+	at ch.securify.Main.processHexFile(Main.java:189)
+	at ch.securify.Main.processCompilationOutput(Main.java:129)
+	at ch.securify.Main.processSolidityFile(Main.java:100)
+	at ch.securify.Main.main(Main.java:254)
+Error, skipping: /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol:Operator
+Processing contract: /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol:Querier
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'Querier':
+    |    }
+    |}
+  > |contract Querier {
+    |    Operator public operator;
+    |    
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(749)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |        ats = new uint256[] (length);
+    |        for (uint256 i = 0; i < length; i++) {
+  > |            bytes32 id = operator.maxOutIds(i);
+    |            address investor;
+    |            uint256 time;
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(777)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |            uint256 time;
+    |            uint256 at;
+  > |            (id, investor, time, at) = operator.maxOuts(id);
+    |            ids[i] = id;
+    |            times[i] = time;
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(781)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |
+    |    function getInvestmentById(bytes32 investmentId) public view returns (bytes32 id, uint256 at, uint256 amount, address investor, address nextInvestor, bool nextBranch) {
+  > |        return operator.investments(investmentId);
+    |    }
+    |    
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(791)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |    
+    |    function getWithdrawalById(bytes32 withdrawalId) public view returns (bytes32 id, uint256 at, uint256 amount, address investor, address presentee, uint256 reason, uint256 times) {
+  > |        return operator.withdrawals(withdrawalId);
+    |    }
+    |    
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(795)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |        investors = new address[](baseArrayLength);
+    |        for (uint256 i = 0; i < baseArrayLength; i++) {
+  > |            address investorAddress = operator.investorAddresses(i + from);
+    |            address[] memory oneAddresses;
+    |            uint256[] memory oneNumbers;
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(808)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |            uint256[] memory oneNumbers;
+    |            bool isDisabled;
+  > |            (oneAddresses, isDisabled, oneNumbers) = operator.getInvestor(investorAddress);
+    |            for (uint256 a = 0; a < oneAddresses.length; a++) {
+    |                addresses[i * 5 + a] = oneAddresses[a];
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(812)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |        nextInvestors = new address[](arrayLength);
+    |        for (uint256 i = 0; i < arrayLength; i++) {
+  > |            bytes32 id = operator.investmentIds(i + from);
+    |            uint256 at;
+    |            uint256 amount;
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(837)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |    function putWithdrawalsPart1(uint256 from, uint256 length, bytes32[] memory ids, uint256[] memory ats, uint256[] memory amounts, address[] memory investors) internal view {
+    |        for (uint256 i = 0; i < length; i++) {
+  > |            bytes32 id = operator.withdrawalIds(i + from);
+    |            uint256 at;
+    |            uint256 amount;
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(871)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |    function putWithdrawalsPart2(uint256 from, uint256 length, address[] memory presentees, uint256[] memory reasons, uint256[] memory times) internal view {
+    |        for (uint256 i = 0; i < length; i++) {
+  > |            bytes32 id = operator.withdrawalIds(i + from);
+    |            uint256 reason;
+    |            uint256 time;
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(885)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |            address[] memory adds = splitAddresses(addresses, index * 5, index * 5 + 4);
+    |            uint256[] memory nums = splitNumbers(numbers, index * 13, index * 13 + 12);
+  > |            operator.importInvestor(adds, isDisableds[index], nums);
+    |        }
+    |    }
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(906)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |    function importMoreInvestments(bytes32[] memory ids, uint256[] memory ats, uint256[] memory amounts, address[] memory investorAddresses) public {
+    |        for (uint256 index = 0; index < ids.length; index++) {
+  > |            operator.importInvestments(ids[index], ats[index], amounts[index], investorAddresses[index]);
+    |        }
+    |    }
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(912)
+
+[31mViolation[0m for RepeatedCall in contract 'Querier':
+    |    function importMoreWithdrawals(bytes32[] memory ids, uint256[] memory ats, uint256[] memory amounts, address[] memory investorAddresses, address[] memory presentees, uint256[] memory reasons, uint256[] memory times) public {
+    |        for (uint256 index = 0; index < ids.length; index++) {
+  > |            operator.importWithdrawals(ids[index], ats[index], amounts[index], investorAddresses[index], presentees[index], reasons[index], times[index]);
+    |        }
+    |    }
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(918)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Querier':
+    |    
+    |    function setOperator(address payable operatorAddress) public {
+  > |        operator = Operator(operatorAddress);
+    |    }
+    |    
+  at /unique_chucks/13/0x992f32ff4021b53610807ee39a22cfb026f81daf.sol(753)

@@ -1,0 +1,201 @@
+{
+  "contract": "0xe0e85967afcb4c6cd4f696b58f24f96456591db1",
+  "tool": "smartcheck",
+  "start": 1563713685.566154,
+  "end": 1563713696.8999884,
+  "duration": 11.333834409713745,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 624,
+      "column": 39,
+      "content": "0x97763051c517DD3aBc2F6030eac6Aa04576E05E1"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 735,
+      "column": 3,
+      "content": "functionvalidPurchase()internalconstantreturns(bool){boolminContribution=minContribAmount<=msg.value;boolwithinPeriod=now>=startTime&&now<=endTime;boolnonZeroPurchase=msg.value!=0;boolPublicsale=publicSaleCap!=0;returnwithinPeriod&&minContribution&&nonZeroPurchase&&Publicsale;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 743,
+      "column": 3,
+      "content": "functiongetNow()publicconstantreturns(uint){return(now);}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 748,
+      "column": 3,
+      "content": "functiongetTimebasedBonusRate()internalconstantreturns(uint256){uint256bonusRate=0;if(state==State.PRESALE){bonusRate=100;}else{uint256nowTime=getNow();uint256bonusFirstWeek=startTime+(7days*1000);uint256bonusSecondWeek=bonusFirstWeek+(7days*1000);uint256bonusThirdWeek=bonusSecondWeek+(7days*1000);uint256bonusFourthWeek=bonusThirdWeek+(7days*1000);if(nowTime<=bonusFirstWeek){bonusRate=30;}elseif(nowTime<=bonusSecondWeek){bonusRate=30;}elseif(nowTime<=bonusThirdWeek){bonusRate=15;}elseif(nowTime<=bonusFourthWeek){bonusRate=15;}}returnbonusRate;}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 159,
+      "column": 2,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(bool){allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 651,
+      "column": 0,
+      "content": "contractTLCMarketCrowdsaleisRefundableCrowdsale,CappedCrowdsale{enumState{PRESALE,PUBLICSALE}Statepublicstate;uint256publicconstantdecimalFactor=10**uint256(18);uint256publicconstant_totalSupply=2990000000*decimalFactor;uint256publicpresaleCap=200000000*decimalFactor;uint256publicsoldTokenInPresale;uint256publicpublicSaleCap=1950000000*decimalFactor;uint256publicsoldTokenInPublicsale;uint256publicdistributionSupply=840000000*decimalFactor;Allocationallocation;mapping(address=>uint256)publicinvestedAmountOf;uint256publicinvestorCount;uint256publicminContribAmount=0.1ether;functionTLCMarketCrowdsale(uint256_startTime,uint256_endTime,uint256_rate,address_wallet,uint256_goal,uint256_cap)Crowdsale(_startTime,_endTime,_rate,_wallet)RefundableCrowdsale(_goal*decimalFactor)CappedCrowdsale(_cap*decimalFactor){state=State.PRESALE;}functioncreateTokenContract()internalreturns(MintableToken){returnnewToplancer();}functionbuyTokens(addressbeneficiary)publicpayable{require(publicSaleCap>0);require(validPurchase());uint256weiAmount=msg.value;uint256tokens=weiAmount.mul(rate);uint256Bonus=tokens.mul(getTimebasedBonusRate()).div(100);tokens=tokens.add(Bonus);if(state==State.PRESALE){assert(soldTokenInPresale+tokens<=presaleCap);soldTokenInPresale=soldTokenInPresale.add(tokens);presaleCap=presaleCap.sub(tokens);}elseif(state==State.PUBLICSALE){assert(soldTokenInPublicsale+tokens<=publicSaleCap);soldTokenInPublicsale=soldTokenInPublicsale.add(tokens);publicSaleCap=publicSaleCap.sub(tokens);}if(investedAmountOf[beneficiary]==0){investorCount++;}investedAmountOf[beneficiary]=investedAmountOf[beneficiary].add(weiAmount);forwardFunds();weiRaised=weiRaised.add(weiAmount);token.mint(beneficiary,tokens);TokenPurchase(msg.sender,beneficiary,weiAmount,tokens);}functionvalidPurchase()internalconstantreturns(bool){boolminContribution=minContribAmount<=msg.value;boolwithinPeriod=now>=startTime&&now<=endTime;boolnonZeroPurchase=msg.value!=0;boolPublicsale=publicSaleCap!=0;returnwithinPeriod&&minContribution&&nonZeroPurchase&&Publicsale;}functiongetNow()publicconstantreturns(uint){return(now);}functiongetTimebasedBonusRate()internalconstantreturns(uint256){uint256bonusRate=0;if(state==State.PRESALE){bonusRate=100;}else{uint256nowTime=getNow();uint256bonusFirstWeek=startTime+(7days*1000);uint256bonusSecondWeek=bonusFirstWeek+(7days*1000);uint256bonusThirdWeek=bonusSecondWeek+(7days*1000);uint256bonusFourthWeek=bonusThirdWeek+(7days*1000);if(nowTime<=bonusFirstWeek){bonusRate=30;}elseif(nowTime<=bonusSecondWeek){bonusRate=30;}elseif(nowTime<=bonusThirdWeek){bonusRate=15;}elseif(nowTime<=bonusFourthWeek){bonusRate=15;}}returnbonusRate;}functionstartPublicsale(uint256_startTime,uint256_endTime)publiconlyOwner{require(state==State.PRESALE&&_endTime>=_startTime);state=State.PUBLICSALE;startTime=_startTime;endTime=_endTime;publicSaleCap=publicSaleCap.add(presaleCap);presaleCap=presaleCap.sub(presaleCap);}functionfinalization()internal{if(goalReached()){allocation=newAllocation();token.mint(address(allocation),distributionSupply);distributionSupply=distributionSupply.sub(distributionSupply);}token.finishMinting();super.finalization();}functionchangeStarttime(uint256_startTime)publiconlyOwner{require(_startTime!=0);startTime=_startTime;}functionchangeEndtime(uint256_endTime)publiconlyOwner{require(_endTime!=0);endTime=_endTime;}functionchangeRate(uint256_rate)publiconlyOwner{require(_rate!=0);rate=_rate;}functionchangeWallet(address_wallet)onlyOwner{wallet=_wallet;}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 65,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 314,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 428,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 465,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 520,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 575,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 610,
+      "column": 2,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 626,
+      "column": 2,
+      "content": "functionTeamAllocation(){tlc=Toplancer(msg.sender);unlockedAt=now;founderAllocations[founderStorageVault]=FounderAllocationTokens;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 635,
+      "column": 2,
+      "content": "functiongetTotalAllocation()returns(uint256){return(FounderAllocationTokens);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 684,
+      "column": 2,
+      "content": "functionTLCMarketCrowdsale(uint256_startTime,uint256_endTime,uint256_rate,address_wallet,uint256_goal,uint256_cap)Crowdsale(_startTime,_endTime,_rate,_wallet)RefundableCrowdsale(_goal*decimalFactor)CappedCrowdsale(_cap*decimalFactor){state=State.PRESALE;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 822,
+      "column": 3,
+      "content": "functionchangeWallet(address_wallet)onlyOwner{wallet=_wallet;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 67,
+      "column": 2,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 69,
+      "column": 2,
+      "content": "uint256totalSupply_;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 612,
+      "column": 2,
+      "content": "Toplancertlc;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 613,
+      "column": 2,
+      "content": "mapping(address=>uint)founderAllocations;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 614,
+      "column": 2,
+      "content": "uint256tokensCreated=0;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 672,
+      "column": 1,
+      "content": "Allocationallocation;"
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+/unique_chucks/2/0x02557a5e05defeffd4cae6d83ea3d173b272c904.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 925
+column: 8
+content: for(uinti=0;i<numAssets;i++){result[i]=setPriceInternal(assets[i],requestedPriceMantissas[i]);}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 392
+column: 0
+content: contractPriceOracleisExponential{boolpublicpaused;uintpublicconstantnumBlocksPerPeriod=240;uintpublicconstantmaxSwingMantissa=(10**17);mapping(address=>DSValue)publicreaders;mapping(address=>Exp)public_assetPrices;constructor(address_poster,addressaddr0,addressreader0,addressaddr1,addressreader1)public{anchorAdmin=msg.sender;poster=_poster;maxSwing=Exp({mantissa:maxSwingMantissa});assert(addr0==address(0)||(addr0!=addr1));if(addr0!=address(0)){assert(reader0!=address(0));readers[addr0]=DSValue(reader0);}else{assert(reader0==address(0));}if(addr1!=address(0)){assert(reader1!=address(0));readers[addr1]=DSValue(reader1);}else{assert(reader1==address(0));}}function()payablepublic{revert();}enumOracleError{NO_ERROR,UNAUTHORIZED,FAILED_TO_SET_PRICE}enumOracleFailureInfo{ACCEPT_ANCHOR_ADMIN_PENDING_ANCHOR_ADMIN_CHECK,SET_PAUSED_OWNER_CHECK,SET_PENDING_ANCHOR_ADMIN_OWNER_CHECK,SET_PENDING_ANCHOR_PERMISSION_CHECK,SET_PRICE_CALCULATE_SWING,SET_PRICE_CAP_TO_MAX,SET_PRICE_MAX_SWING_CHECK,SET_PRICE_NO_ANCHOR_PRICE_OR_INITIAL_PRICE_ZERO,SET_PRICE_PERMISSION_CHECK,SET_PRICE_ZERO_PRICE,SET_PRICES_PARAM_VALIDATION,SET_PRICE_IS_READER_ASSET}eventOracleFailure(addressmsgSender,addressasset,uinterror,uintinfo,uintdetail);functionfailOracle(addressasset,OracleErrorerr,OracleFailureInfoinfo)internalreturns(uint){emitOracleFailure(msg.sender,asset,uint(err),uint(info),0);returnuint(err);}functionfailOracleWithDetails(addressasset,OracleErrorerr,OracleFailureInfoinfo,uintdetails)internalreturns(uint){emitOracleFailure(msg.sender,asset,uint(err),uint(info),details);returnuint(err);}addresspublicanchorAdmin;addresspublicpendingAnchorAdmin;addresspublicposter;ExppublicmaxSwing;structAnchor{uintperiod;uintpriceMantissa;}mapping(address=>Anchor)publicanchors;mapping(address=>uint)publicpendingAnchors;eventNewPendingAnchor(addressanchorAdmin,addressasset,uintoldScaledPrice,uintnewScaledPrice);function_setPendingAnchor(addressasset,uintnewScaledPrice)publicreturns(uint){if(msg.sender!=anchorAdmin){returnfailOracle(asset,OracleError.UNAUTHORIZED,OracleFailureInfo.SET_PENDING_ANCHOR_PERMISSION_CHECK);}uintoldScaledPrice=pendingAnchors[asset];pendingAnchors[asset]=newScaledPrice;emitNewPendingAnchor(msg.sender,asset,oldScaledPrice,newScaledPrice);returnuint(OracleError.NO_ERROR);}eventPricePosted(addressasset,uintpreviousPriceMantissa,uintrequestedPriceMantissa,uintnewPriceMantissa);eventCappedPricePosted(addressasset,uintrequestedPriceMantissa,uintanchorPriceMantissa,uintcappedPriceMantissa);eventSetPaused(boolnewState);eventNewPendingAnchorAdmin(addressoldPendingAnchorAdmin,addressnewPendingAnchorAdmin);eventNewAnchorAdmin(addressoldAnchorAdmin,addressnewAnchorAdmin);function_setPaused(boolrequestedState)publicreturns(uint){if(msg.sender!=anchorAdmin){returnfailOracle(0,OracleError.UNAUTHORIZED,OracleFailureInfo.SET_PAUSED_OWNER_CHECK);}paused=requestedState;emitSetPaused(requestedState);returnuint(Error.NO_ERROR);}function_setPendingAnchorAdmin(addressnewPendingAnchorAdmin)publicreturns(uint){if(msg.sender!=anchorAdmin){returnfailOracle(0,OracleError.UNAUTHORIZED,OracleFailureInfo.SET_PENDING_ANCHOR_ADMIN_OWNER_CHECK);}addressoldPendingAnchorAdmin=pendingAnchorAdmin;pendingAnchorAdmin=newPendingAnchorAdmin;emitNewPendingAnchorAdmin(oldPendingAnchorAdmin,newPendingAnchorAdmin);returnuint(Error.NO_ERROR);}function_acceptAnchorAdmin()publicreturns(uint){if(msg.sender!=pendingAnchorAdmin){returnfailOracle(0,OracleError.UNAUTHORIZED,OracleFailureInfo.ACCEPT_ANCHOR_ADMIN_PENDING_ANCHOR_ADMIN_CHECK);}addressoldAnchorAdmin=anchorAdmin;anchorAdmin=pendingAnchorAdmin;pendingAnchorAdmin=0;emitNewAnchorAdmin(oldAnchorAdmin,msg.sender);returnuint(Error.NO_ERROR);}functionassetPrices(addressasset)publicviewreturns(uint){if(paused){return0;}else{if(readers[asset]!=address(0)){(bytes32readValue,boolfoundValue)=readers[asset].peek();if(foundValue){(Errorerror,ExpmemoryinvertedVal)=getExp(mantissaOne,uint256(readValue));if(error!=Error.NO_ERROR){return0;}returninvertedVal.mantissa;}else{return0;}}else{return_assetPrices[asset].mantissa;}}}functiongetPrice(addressasset)publicviewreturns(uint){returnassetPrices(asset);}structSetPriceLocalVars{Expprice;Expswing;ExpanchorPrice;uintanchorPeriod;uintcurrentPeriod;boolpriceCapped;uintcappingAnchorPriceMantissa;uintpendingAnchorMantissa;}functionsetPrice(addressasset,uintrequestedPriceMantissa)publicreturns(uint){if(msg.sender!=poster){returnfailOracle(asset,OracleError.UNAUTHORIZED,OracleFailureInfo.SET_PRICE_PERMISSION_CHECK);}returnsetPriceInternal(asset,requestedPriceMantissa);}functionsetPriceInternal(addressasset,uintrequestedPriceMantissa)internalreturns(uint){Errorerr;SetPriceLocalVarsmemorylocalVars;localVars.currentPeriod=(block.number/numBlocksPerPeriod)+1;localVars.pendingAnchorMantissa=pendingAnchors[asset];localVars.price=Exp({mantissa:requestedPriceMantissa});if(readers[asset]!=address(0)){returnfailOracle(asset,OracleError.FAILED_TO_SET_PRICE,OracleFailureInfo.SET_PRICE_IS_READER_ASSET);}if(localVars.pendingAnchorMantissa!=0){localVars.anchorPeriod=0;localVars.anchorPrice=Exp({mantissa:localVars.pendingAnchorMantissa});(err,localVars.swing)=calculateSwing(localVars.anchorPrice,localVars.price);if(err!=Error.NO_ERROR){returnfailOracleWithDetails(asset,OracleError.FAILED_TO_SET_PRICE,OracleFailureInfo.SET_PRICE_CALCULATE_SWING,uint(err));}if(greaterThanExp(localVars.swing,maxSwing)){returnfailOracleWithDetails(asset,OracleError.FAILED_TO_SET_PRICE,OracleFailureInfo.SET_PRICE_MAX_SWING_CHECK,localVars.swing.mantissa);}}else{localVars.anchorPeriod=anchors[asset].period;localVars.anchorPrice=Exp({mantissa:anchors[asset].priceMantissa});if(localVars.anchorPeriod!=0){(err,localVars.priceCapped,localVars.price)=capToMax(localVars.anchorPrice,localVars.price);if(err!=Error.NO_ERROR){returnfailOracleWithDetails(asset,OracleError.FAILED_TO_SET_PRICE,OracleFailureInfo.SET_PRICE_CAP_TO_MAX,uint(err));}if(localVars.priceCapped){localVars.cappingAnchorPriceMantissa=localVars.anchorPrice.mantissa;}}else{localVars.anchorPrice=Exp({mantissa:requestedPriceMantissa});}}if(isZeroExp(localVars.anchorPrice)){returnfailOracle(asset,OracleError.FAILED_TO_SET_PRICE,OracleFailureInfo.SET_PRICE_NO_ANCHOR_PRICE_OR_INITIAL_PRICE_ZERO);}if(isZeroExp(localVars.price)){returnfailOracle(asset,OracleError.FAILED_TO_SET_PRICE,OracleFailureInfo.SET_PRICE_ZERO_PRICE);}if(pendingAnchors[asset]!=0){pendingAnchors[asset]=0;}if(localVars.currentPeriod>localVars.anchorPeriod){anchors[asset]=Anchor({period:localVars.currentPeriod,priceMantissa:localVars.price.mantissa});}uintpreviousPrice=_assetPrices[asset].mantissa;setPriceStorageInternal(asset,localVars.price.mantissa);emitPricePosted(asset,previousPrice,requestedPriceMantissa,localVars.price.mantissa);if(localVars.priceCapped){emitCappedPricePosted(asset,requestedPriceMantissa,localVars.cappingAnchorPriceMantissa,localVars.price.mantissa);}returnuint(OracleError.NO_ERROR);}functionsetPriceStorageInternal(addressasset,uint256priceMantissa)internal{_assetPrices[asset]=Exp({mantissa:priceMantissa});}functioncalculateSwing(ExpmemoryanchorPrice,Expmemoryprice)pureinternalreturns(Error,Expmemory){Expmemorynumerator;Errorerr;if(greaterThanExp(anchorPrice,price)){(err,numerator)=subExp(anchorPrice,price);assert(err==Error.NO_ERROR);}else{(err,numerator)=subExp(price,anchorPrice);assert(err==Error.NO_ERROR);}returndivExp(numerator,anchorPrice);}functioncapToMax(ExpmemoryanchorPrice,Expmemoryprice)viewinternalreturns(Error,bool,Expmemory){Expmemoryone=Exp({mantissa:mantissaOne});ExpmemoryonePlusMaxSwing;ExpmemoryoneMinusMaxSwing;Expmemorymax;Expmemorymin;Errorerr;(err,onePlusMaxSwing)=addExp(one,maxSwing);if(err!=Error.NO_ERROR){return(err,false,Exp({mantissa:0}));}(err,max)=mulExp(anchorPrice,onePlusMaxSwing);if(err!=Error.NO_ERROR){return(err,false,Exp({mantissa:0}));}if(greaterThanExp(price,max)){return(Error.NO_ERROR,true,max);}(err,oneMinusMaxSwing)=subExp(one,maxSwing);if(err!=Error.NO_ERROR){return(err,false,Exp({mantissa:0}));}(err,min)=mulExp(anchorPrice,oneMinusMaxSwing);assert(err==Error.NO_ERROR);if(lessThanExp(price,min)){return(Error.NO_ERROR,true,min);}return(Error.NO_ERROR,false,price);}functionsetPrices(address[]assets,uint[]requestedPriceMantissas)publicreturns(uint[]memory){uintnumAssets=assets.length;uintnumPrices=requestedPriceMantissas.length;uint[]memoryresult;if(msg.sender!=poster){result=newuint[](1);result[0]=failOracle(0,OracleError.UNAUTHORIZED,OracleFailureInfo.SET_PRICE_PERMISSION_CHECK);returnresult;}if((numAssets==0)||(numPrices!=numAssets)){result=newuint[](1);result[0]=failOracle(0,OracleError.FAILED_TO_SET_PRICE,OracleFailureInfo.SET_PRICES_PARAM_VALIDATION);returnresult;}result=newuint[](numAssets);for(uinti=0;i<numAssets;i++){result[i]=setPriceInternal(assets[i],requestedPriceMantissas[i]);}returnresult;}}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_REDUNDANT_FALLBACK_REJECT
+patternId: b85a32
+severity: 1
+line: 451
+column: 30
+content: {revert();}
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 161
+column: 55
+content: (Error,uint)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 178
+column: 55
+content: (Error,uint)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 189
+column: 55
+content: (Error,uint)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 200
+column: 55
+content: (Error,uint)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 213
+column: 70
+content: (Error,uint)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 245
+column: 64
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 262
+column: 70
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 271
+column: 70
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 280
+column: 72
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 292
+column: 72
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 304
+column: 76
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 324
+column: 70
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 351
+column: 70
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 836
+column: 92
+content: (Error,Expmemory)
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 853
+column: 86
+content: (Error,bool,Expmemory)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 91h3sa
+severity: 1
+line: 451
+column: 23
+content: public
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 304
+column: 41
+content: Expdivisor
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 905
+column: 23
+content: address[]assets
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 905
+column: 41
+content: uint[]requestedPriceMantissas
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 228
+column: 4
+content: uintconstantexpScale=10**18;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 231
+column: 4
+content: uintconstanthalfExpScale=expScale/2;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 237
+column: 4
+content: uintconstantmantissaOne=10**18;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 238
+column: 4
+content: uintconstantmantissaOneTenth=10**17;
+
+SOLIDITY_VISIBILITY :4
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_UPGRADE_TO_050 :4
+SOLIDITY_GAS_LIMIT_IN_LOOPS :1
+SOLIDITY_SHOULD_RETURN_STRUCT :15
+SOLIDITY_REDUNDANT_FALLBACK_REJECT :1

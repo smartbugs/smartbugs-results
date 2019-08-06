@@ -1,0 +1,274 @@
+Processing contract: /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol:DAIHardFactory
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol:DAIHardTrade
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol:ERC20Interface
+[31mViolation[0m for LockedEther in contract 'DAIHardFactory':
+    |}
+    |
+  > |contract DAIHardFactory {
+    |    event NewTrade(uint id, address tradeAddress, bool indexed initiatorIsPayer);
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(17)
+
+[33mWarning[0m for RepeatedCall in contract 'DAIHardFactory':
+    |        //transfer DAI to the trade and open it
+    |        require(daiContract.transferFrom(msg.sender, address(newTrade), transferAmount), "Token transfer failed. Did you call approve() on the DAI contract?");
+  > |        newTrade.open(_initiator, initiatorIsBuyer, newUintArgs, _totalPrice, _fiatTransferMethods, _commPubkey);
+    |    }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(90)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardFactory':
+    |pragma solidity 0.5.6;
+    |
+  > |contract ERC20Interface {
+    |    function totalSupply() public view returns (uint);
+    |    function balanceOf(address tokenOwner) public view returns (uint balance);
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(3)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardFactory':
+    |        //create the new trade and add its creationInfo to createdTrades
+    |        DAIHardTrade newTrade = new DAIHardTrade(daiContract, devFeeAddress);
+  > |        createdTrades.push(CreationInfo(address(newTrade), block.number));
+    |        emit NewTrade(createdTrades.length - 1, address(newTrade), initiatorIsBuyer);
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(85)
+
+[31mViolation[0m for LockedEther in contract 'DAIHardTrade':
+    |}
+    |
+  > |contract DAIHardTrade {
+    |    enum Phase {Created, Open, Committed, Claimed, Closed}
+    |    Phase public phase;
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(101)
+
+[31mViolation[0m for RepeatedCall in contract 'DAIHardTrade':
+    |
+    |        //Send back deposits minus burned amounts.
+  > |        require(daiContract.transfer(buyer, buyerDeposit - burnAmount), "Token transfer to Buyer failed!");
+    |        require(daiContract.transfer(seller, daiAmount - burnAmount), "Token transfer to Seller failed!");
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(314)
+
+[31mViolation[0m for RepeatedCall in contract 'DAIHardTrade':
+    |        }
+    |        
+  > |        require(daiContract.transfer(initiator, sendBackToInitiator), "Token refund of devFee+pokeReward to Initiator failed!");
+    |        
+    |        //There may be a wei or two left over in the contract due to integer division. Not a big deal.
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(323)
+
+[31mViolation[0m for RepeatedCall in contract 'DAIHardTrade':
+    |        //If the pokeReward has not been sent, refund it to the initiator
+    |        if (!pokeRewardSent) {
+  > |            require(daiContract.transfer(initiator, pokeReward), "Refund of pokeReward to Initiator failed!");
+    |        }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(382)
+
+[31mViolation[0m for RepeatedCall in contract 'DAIHardTrade':
+    |    view
+    |    returns(uint balance, Phase phase, uint phaseStartTimestamp, address responder) {
+  > |        return (getBalance(), this.phase(), phaseStartTimestamps[uint(phase)], this.responder());
+    |    }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(418)
+
+[31mViolation[0m for RepeatedCall in contract 'DAIHardTrade':
+    |    view
+    |    returns(uint) {
+  > |        return daiContract.balanceOf(address(this));
+    |    }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(425)
+
+[31mViolation[0m for RepeatedCall in contract 'DAIHardTrade':
+    |    returns (address initiator, bool initiatorIsBuyer, uint daiAmount, string memory totalPrice, uint buyerDeposit, uint autorecallInterval, uint autoabortInterval, uint autoreleaseInterval, uint pokeReward)
+    |    {
+  > |        return (this.initiator(), this.initiatorIsBuyer(), this.daiAmount(), this.price(), this.buyerDeposit(), this.autorecallInterval(), this.autoabortInterval(), this.autoreleaseInterval(), this.pokeReward());
+    |    }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(433)
+
+[31mViolation[0m for RepeatedCall in contract 'DAIHardTrade':
+    |    returns (bool moved) {
+    |        if (pokeNeeded()) {
+  > |            daiContract.transfer(msg.sender, pokeReward);
+    |            pokeRewardSent = true;
+    |            emit Poke();
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(455)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        require(!autorecallAvailable(), "autorecallInterval has passed; this offer has expired.");
+    |
+  > |        responder = msg.sender;
+    |
+    |        if (initiatorIsBuyer) {
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(267)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |
+    |        if (initiatorIsBuyer) {
+  > |            seller = responder;
+    |        }
+    |        else {
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(270)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        }
+    |        else {
+  > |            buyer = responder;
+    |        }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(273)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        if (pokeNeeded()) {
+    |            daiContract.transfer(msg.sender, pokeReward);
+  > |            pokeRewardSent = true;
+    |            emit Poke();
+    |        }
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(456)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |}
+    |
+  > |contract DAIHardTrade {
+    |    enum Phase {Created, Open, Committed, Claimed, Closed}
+    |    Phase public phase;
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(101)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |    function changePhase(Phase p)
+    |    internal {
+  > |        phase = p;
+    |        phaseStartTimestamps[uint(p)] = block.timestamp;
+    |    }
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(114)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |    internal {
+    |        phase = p;
+  > |        phaseStartTimestamps[uint(p)] = block.timestamp;
+    |    }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(115)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        require(getBalance() > 0, "You can't open a trade without first depositing DAI.");
+    |
+  > |        responderDeposit = uintArgs[0];
+    |        pokeReward = uintArgs[1];
+    |        devFee = uintArgs[2];
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(194)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |
+    |        responderDeposit = uintArgs[0];
+  > |        pokeReward = uintArgs[1];
+    |        devFee = uintArgs[2];
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(195)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        responderDeposit = uintArgs[0];
+    |        pokeReward = uintArgs[1];
+  > |        devFee = uintArgs[2];
+    |
+    |        autorecallInterval = uintArgs[3];
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(196)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        devFee = uintArgs[2];
+    |
+  > |        autorecallInterval = uintArgs[3];
+    |        autoabortInterval = uintArgs[4];
+    |        autoreleaseInterval = uintArgs[5];
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(198)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |
+    |        autorecallInterval = uintArgs[3];
+  > |        autoabortInterval = uintArgs[4];
+    |        autoreleaseInterval = uintArgs[5];
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(199)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        autorecallInterval = uintArgs[3];
+    |        autoabortInterval = uintArgs[4];
+  > |        autoreleaseInterval = uintArgs[5];
+    |
+    |        initiator = _initiator;
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(200)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        autoreleaseInterval = uintArgs[5];
+    |
+  > |        initiator = _initiator;
+    |        initiatorIsBuyer = _initiatorIsBuyer;
+    |        if (initiatorIsBuyer) {
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(202)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |
+    |        initiator = _initiator;
+  > |        initiatorIsBuyer = _initiatorIsBuyer;
+    |        if (initiatorIsBuyer) {
+    |            buyer = initiator;
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(203)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        initiatorIsBuyer = _initiatorIsBuyer;
+    |        if (initiatorIsBuyer) {
+  > |            buyer = initiator;
+    |            daiAmount = responderDeposit;
+    |            buyerDeposit = getBalance() - (pokeReward + devFee);
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(205)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        if (initiatorIsBuyer) {
+    |            buyer = initiator;
+  > |            daiAmount = responderDeposit;
+    |            buyerDeposit = getBalance() - (pokeReward + devFee);
+    |        }
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(206)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |            buyer = initiator;
+    |            daiAmount = responderDeposit;
+  > |            buyerDeposit = getBalance() - (pokeReward + devFee);
+    |        }
+    |        else {
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(207)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        }
+    |        else {
+  > |            seller = initiator;
+    |            daiAmount = getBalance() - (pokeReward + devFee);
+    |            buyerDeposit = responderDeposit;
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(210)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |        else {
+    |            seller = initiator;
+  > |            daiAmount = getBalance() - (pokeReward + devFee);
+    |            buyerDeposit = responderDeposit;
+    |        }
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(211)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DAIHardTrade':
+    |            seller = initiator;
+    |            daiAmount = getBalance() - (pokeReward + devFee);
+  > |            buyerDeposit = responderDeposit;
+    |        }
+    |
+  at /unique_chucks/46/0x4b354bc1cedd5887a3d7206a1e0b1f1882c446e0.sol(212)

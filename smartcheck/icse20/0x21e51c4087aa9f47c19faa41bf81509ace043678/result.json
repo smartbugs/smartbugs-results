@@ -1,0 +1,97 @@
+{
+  "contract": "0x21e51c4087aa9f47c19faa41bf81509ace043678",
+  "tool": "smartcheck",
+  "start": 1563636667.2092717,
+  "end": 1563636675.2860103,
+  "duration": 8.076738595962524,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 161,
+      "column": 15,
+      "content": "deposits[user].mul(percents).div(ONE_HUNDRED_PERCENTS).mul(now.sub(updatedAt[user]))"
+    },
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 185,
+      "column": 12,
+      "content": "HIGHEST_DIVIDEND_PERCENTS.sub(LOWEST_DIVIDEND_PERCENTS).mul(healthPercents().mul(45).div(ONE_HUNDRED_PERCENTS.mul(80).div(100)))"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 140,
+      "column": 12,
+      "content": "for(uinti=0;referrer!=address(0)&&i<referralPercents.length;i++){uint256refAmount=msg.value.mul(referralPercents[i]).div(ONE_HUNDRED_PERCENTS);referrer.send(refAmount);emitReferrerPayed(msg.sender,referrer,refAmount);referrer=referrers[referrer];}"
+    },
+    {
+      "name": "SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN",
+      "patternId": "58bdd3",
+      "severity": 1,
+      "line": 201,
+      "column": 4,
+      "content": "functionbytesToAddress(bytesdata)internalpurereturns(addressaddr){assembly{addr:=mload(add(data,20))}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 80,
+      "column": 0,
+      "content": "contractEfirica{usingSafeMathforuint256;uint256constantpublicONE_HUNDRED_PERCENTS=10000;uint256constantpublicLOWEST_DIVIDEND_PERCENTS=50;uint256constantpublicHIGHEST_DIVIDEND_PERCENTS=500;uint256[]publicreferralPercents=[500,300,200];addresspublicadmin=msg.sender;uint256publictotalDeposits=0;mapping(address=>uint256)publicdeposits;mapping(address=>uint256)publicjoinedAt;mapping(address=>uint256)publicupdatedAt;mapping(address=>address)publicreferrers;eventInvestorAdded(addressinvestor);eventReferrerAdded(addressinvestor,addressreferrer);eventDepositAdded(addressinvestor,uint256deposit,uint256amount);eventDividendPayed(addressinvestor,uint256dividend);eventReferrerPayed(addressinvestor,addressreferrer,uint256amount);eventAdminFeePayed(addressinvestor,uint256amount);eventTotalDepositsChanged(uint256totalDeposits);eventBalanceChanged(uint256balance);function()publicpayable{uint256dividends=dividendsForUser(msg.sender);if(dividends>0){if(dividends>address(this).balance){dividends=address(this).balance;}msg.sender.transfer(dividends);updatedAt[msg.sender]=now;emitDividendPayed(msg.sender,dividends);}if(msg.value>0){if(deposits[msg.sender]==0){joinedAt[msg.sender]=now;emitInvestorAdded(msg.sender);}updatedAt[msg.sender]=now;deposits[msg.sender]=deposits[msg.sender].add(msg.value);emitDepositAdded(msg.sender,deposits[msg.sender],msg.value);totalDeposits=totalDeposits.add(msg.value);emitTotalDepositsChanged(totalDeposits);if(referrers[msg.sender]==address(0)&&msg.data.length==20){addressreferrer=bytesToAddress(msg.data);if(referrer!=address(0)&&deposits[referrer]>0&&now>=joinedAt[referrer].add(1days)){referrers[msg.sender]=referrer;emitReferrerAdded(msg.sender,referrer);}}referrer=referrers[msg.sender];for(uinti=0;referrer!=address(0)&&i<referralPercents.length;i++){uint256refAmount=msg.value.mul(referralPercents[i]).div(ONE_HUNDRED_PERCENTS);referrer.send(refAmount);emitReferrerPayed(msg.sender,referrer,refAmount);referrer=referrers[referrer];}uint256adminFee=msg.value.div(100);admin.send(adminFee);emitAdminFeePayed(msg.sender,adminFee);}emitBalanceChanged(address(this).balance);}functiondividendsForUser(addressuser)publicviewreturns(uint256){returndividendsForPercents(user,percentsForUser(user));}functiondividendsForPercents(addressuser,uint256percents)publicviewreturns(uint256){returndeposits[user].mul(percents).div(ONE_HUNDRED_PERCENTS).mul(now.sub(updatedAt[user])).div(1days);}functionpercentsForUser(addressuser)publicviewreturns(uint256){uint256percents=generalPercents();if(referrers[user]!=address(0)){percents=percents.mul(110).div(100);}returnpercents;}functiongeneralPercents()publicviewreturns(uint256){uint256health=healthPercents();if(health>=ONE_HUNDRED_PERCENTS.mul(80).div(100)){returnHIGHEST_DIVIDEND_PERCENTS;}uint256percents=LOWEST_DIVIDEND_PERCENTS.add(HIGHEST_DIVIDEND_PERCENTS.sub(LOWEST_DIVIDEND_PERCENTS).mul(healthPercents().mul(45).div(ONE_HUNDRED_PERCENTS.mul(80).div(100))).div(45));returnpercents;}functionhealthPercents()publicviewreturns(uint256){if(totalDeposits==0){returnONE_HUNDRED_PERCENTS;}returnaddress(this).balance.mul(ONE_HUNDRED_PERCENTS).div(totalDeposits);}functionbytesToAddress(bytesdata)internalpurereturns(addressaddr){assembly{addr:=mload(add(data,20))}}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 81,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 201,
+      "column": 4,
+      "content": "functionbytesToAddress(bytesdata)internalpurereturns(addressaddr){assembly{addr:=mload(add(data,20))}}"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 104,
+      "column": 15,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 201,
+      "column": 28,
+      "content": "bytesdata"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 203,
+      "column": 8,
+      "content": "assembly{addr:=mload(add(data,20))}"
+    }
+  ]
+}

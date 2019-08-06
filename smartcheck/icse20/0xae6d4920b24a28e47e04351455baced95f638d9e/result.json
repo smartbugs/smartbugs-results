@@ -1,0 +1,73 @@
+{
+  "contract": "0xae6d4920b24a28e47e04351455baced95f638d9e",
+  "tool": "smartcheck",
+  "start": 1563610020.730859,
+  "end": 1563610029.9138591,
+  "duration": 9.183000087738037,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 194,
+      "column": 2,
+      "content": "functionapprove(addressspender_,uintvalue_)whenNotLockedpublicreturns(bool){if(value_!=0&&allowed[msg.sender][spender_]!=0){revert();}allowed[msg.sender][spender_]=value_;Approval(msg.sender,spender_,value_);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 501,
+      "column": 0,
+      "content": "contractMDPreICOisBaseICO{usingSafeMathforuint;uintinternalconstantONE_TOKEN=1e18;uintpublicconstantETH_TOKEN_EXCHANGE_RATIO=1000;uint8internalconstantBONUS=100;functionMDPreICO(addressicoToken_,addressteamWallet_,uintlowCapWei_,uinthardCapWei_,uintlowCapTxWei_,uinthardCapTxWei_)public{require(icoToken_!=address(0)&&teamWallet_!=address(0));token=BaseICOToken(icoToken_);teamWallet=teamWallet_;state=State.Inactive;lowCapWei=lowCapWei_;hardCapWei=hardCapWei_;lowCapTxWei=lowCapTxWei_;hardCapTxWei=hardCapTxWei_;}functiontouch()public{if(state!=State.Active&&state!=State.Suspended){return;}if(collectedWei>=hardCapWei){state=State.Completed;endAt=block.timestamp;ICOCompleted(collectedWei);}elseif(block.timestamp>=endAt){if(collectedWei<lowCapWei){state=State.NotCompleted;ICONotCompleted();}else{state=State.Completed;ICOCompleted(collectedWei);}}}functionbuyTokens()publicpayable{require(state==State.Active&&block.timestamp<=endAt&&msg.value>=lowCapTxWei&&msg.value<=hardCapTxWei&&collectedWei+msg.value<=hardCapWei&&whitelisted(msg.sender));uintamountWei=msg.value;uintiwei=amountWei.mul(100+BONUS).div(100);uintitokens=iwei*ETH_TOKEN_EXCHANGE_RATIO;token.icoInvestment(msg.sender,itokens);collectedWei=collectedWei.add(amountWei);ICOInvestment(msg.sender,amountWei,itokens,BONUS);forwardFunds();touch();}function()externalpayable{buyTokens();}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 134,
+      "column": 48,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 195,
+      "column": 4,
+      "content": "if(value_!=0&&allowed[msg.sender][spender_]!=0){revert();}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 127,
+      "column": 2,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 502,
+      "column": 2,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 132,
+      "column": 2,
+      "content": "mapping(address=>uint)balances;"
+    }
+  ]
+}

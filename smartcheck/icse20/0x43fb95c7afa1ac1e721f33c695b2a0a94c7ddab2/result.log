@@ -1,0 +1,196 @@
+/unique_chucks/6/0x43fb95c7afa1ac1e721f33c695b2a0a94c7ddab2.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ARRAY_LENGTH_MANIPULATION
+patternId: 872bdd
+severity: 1
+line: 218
+column: 8
+content: plotsOwned[addr].length--
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 85
+column: 2
+content: functionbalanceOf(addressaddr)constantreturns(uint){returnplotsOwned[addr].length;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 89
+column: 2
+content: functiontokensOfOwnerByIndex(addressaddr,uintidx)constantreturns(uint){returnplotsOwned[addr][idx];}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 93
+column: 2
+content: functionownerOf(uintid)constantvalidID(id)returns(address){returnplots[id].owner;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 97
+column: 2
+content: functionisUnowned(uintid)constantvalidID(id)returns(bool){returnplots[id].owner==0x0;}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 213
+column: 4
+content: for(uint8i=0;i<n;i++){if(plotsOwned[addr][i]==id){plotsOwned[addr][i]=plotsOwned[addr][n-1];deleteplotsOwned[addr][n-1];plotsOwned[addr].length--;break;}}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 441gim
+severity: 1
+line: 119
+column: 4
+content: LunarPlotplot=plots[id]
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 65
+column: 2
+content: functionLunarToken(uint_numPlots,uint_initialPriceInWei,uint8_feePercentage,bool_tradingEnabled,bool_subdivisionEnabled,uint8_maxSubdivisions){numPlots=_numPlots;totalSupply=_numPlots;initialPrice=_initialPriceInWei;feePercentage=_feePercentage>100?100:_feePercentage;tradingEnabled=_tradingEnabled;subdivisionEnabled=_subdivisionEnabled;maxSubdivisions=_maxSubdivisions;owner=msg.sender;beneficiary=msg.sender;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 85
+column: 2
+content: functionbalanceOf(addressaddr)constantreturns(uint){returnplotsOwned[addr].length;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 89
+column: 2
+content: functiontokensOfOwnerByIndex(addressaddr,uintidx)constantreturns(uint){returnplotsOwned[addr][idx];}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 93
+column: 2
+content: functionownerOf(uintid)constantvalidID(id)returns(address){returnplots[id].owner;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 97
+column: 2
+content: functionisUnowned(uintid)constantvalidID(id)returns(bool){returnplots[id].owner==0x0;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 101
+column: 2
+content: functiontransfer(uintid,addressnewOwner,stringnewData)validID(id)isOwnerOf(id)tradingIsEnabledreturns(bool){plots[id].owner=newOwner;if(bytes(newData).length!=0){plots[id].metadata=newData;}Transfer(msg.sender,newOwner,id);addPlot(newOwner,id);removePlot(msg.sender,id);returntrue;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 116
+column: 2
+content: functionpurchase(uintid,stringmetadata,boolforSale,uintnewPrice)validID(id)tradingIsEnabledpayablereturns(bool){LunarPlotplot=plots[id];if(isUnowned(id)){require(msg.value>=initialPrice);}else{require(plot.forSale&&msg.value>=plot.price);}if(plot.owner!=0x0){uintfee=plot.price*feePercentage/100;uintsaleProceeds=plot.price-fee;plot.owner.transfer(saleProceeds);removePlot(plot.owner,id);}else{totalOwned++;}addPlot(msg.sender,id);plot.owner=msg.sender;plot.forSale=forSale;plot.price=newPrice;if(bytes(metadata).length!=0){plot.metadata=metadata;}Purchase(msg.sender,id,msg.value);totalPurchases++;returntrue;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 151
+column: 2
+content: functionsubdivide(uintid,boolforSale1,boolforSale2,uintprice1,uintprice2,stringmetadata1,stringmetadata2)isOwnerOf(id)subdivisionIsEnabled{require(plots[id].subdivision<maxSubdivisions);LunarPlotstorageoldPlot=plots[id];uintid1=numPlots++;plots[id1]=LunarPlot({owner:msg.sender,price:price1,forSale:forSale1,metadata:metadata1,disabled:false,parentID:id,subdivision:oldPlot.subdivision+1});uintid2=numPlots++;plots[id2]=LunarPlot({owner:msg.sender,price:price2,forSale:forSale2,metadata:metadata2,disabled:false,parentID:id,subdivision:oldPlot.subdivision+1});plots[id].disabled=true;totalOwned+=1;totalSupply+=1;removePlot(msg.sender,id);addPlot(msg.sender,id1);addPlot(msg.sender,id2);}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 197
+column: 2
+content: functionsetPrice(uintid,boolforSale,uintnewPrice)validID(id)isOwnerOf(id){plots[id].price=newPrice;plots[id].forSale=forSale;PriceChanged(msg.sender,id,newPrice);}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 203
+column: 2
+content: functionsetMetadata(uintid,stringnewData)validID(id)isOwnerOf(id){plots[id].metadata=newData;MetadataUpdated(msg.sender,id,newData);}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 230
+column: 2
+content: functionsetOwner(addressnewOwner)ownerOnly{owner=newOwner;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 234
+column: 2
+content: functionsetBeneficiary(addressnewBeneficiary)ownerOnly{beneficiary=newBeneficiary;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 238
+column: 2
+content: functionsetSubdivisionEnabled(boolenabled)ownerOnly{subdivisionEnabled=enabled;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 242
+column: 2
+content: functionsetTradingEnabled(boolenabled)ownerOnly{tradingEnabled=enabled;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 246
+column: 2
+content: functionsetFeePercentage(uint8_percentage)ownerOnly{feePercentage=_percentage>100?100:_percentage;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 250
+column: 2
+content: functionsetInitialPrice(uint_priceInWei)ownerOnly{initialPrice=_priceInWei;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 254
+column: 2
+content: functionwithdraw()ownerOnly{beneficiary.transfer(this.balance);}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 15
+column: 2
+content: addressowner;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 16
+column: 2
+content: addressbeneficiary;
+
+SOLIDITY_VISIBILITY :19
+SOLIDITY_DEPRECATED_CONSTRUCTIONS :4
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_ARRAY_LENGTH_MANIPULATION :1
+SOLIDITY_UPGRADE_TO_050 :1
+SOLIDITY_GAS_LIMIT_IN_LOOPS :1

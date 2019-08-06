@@ -1,0 +1,57 @@
+{
+  "contract": "0x43a25127f0286d406d789ae86edc48564df44feb",
+  "tool": "smartcheck",
+  "start": 1563723096.7183042,
+  "end": 1563723104.6488514,
+  "duration": 7.93054723739624,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 135,
+      "column": 2,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){require((_value==0)||(users[msg.sender].authorized[_spender]==0));users[msg.sender].authorized[_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 68,
+      "column": 0,
+      "content": "contractFLYCoinisMigrationSource,ERC20{usingSafeMathforuint256;stringpublicconstantname=\"FLYCoin\";stringpublicconstantsymbol=\"FLY\";uint8publicconstantdecimals=5;uintinternaltotalSupply_=3000000000000000;addresspublicowner;mapping(address=>User)publicusers;MigrationSourcepublicmigrateFrom;addresspublicmigrateTo;structUser{uint256balance;mapping(address=>uint256)authorized;}modifieronly_owner(){require(msg.sender==owner);_;}eventApproval(addressindexedowner,addressindexedspender,uint256value);eventTransfer(addressindexedfrom,addressindexedto,uint256value);eventOptIn(addressindexedowner,uint256value);eventVacate(addressindexedowner,uint256value);constructor()public{owner=msg.sender;Userstorageuser=users[owner];user.balance=totalSupply_;emitTransfer(0,owner,totalSupply_);}functiontotalSupply()publicviewreturns(uint256){returntotalSupply_;}functionbalanceOf(address_addr)publicviewreturns(uint256balance){returnusers[_addr].balance;}functiontransfer(address_to,uint256_value)publicreturns(boolsuccess){Userstorageuser=users[msg.sender];user.balance=user.balance.sub(_value);users[_to].balance=users[_to].balance.add(_value);emitTransfer(msg.sender,_to,_value);returntrue;}functiontransferFrom(address_from,address_to,uint256_value)publicreturns(boolsuccess){Userstorageuser=users[_from];user.balance=user.balance.sub(_value);users[_to].balance=users[_to].balance.add(_value);user.authorized[msg.sender]=user.authorized[msg.sender].sub(_value);emitTransfer(_from,_to,_value);returntrue;}functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){require((_value==0)||(users[msg.sender].authorized[_spender]==0));users[msg.sender].authorized[_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}functionallowance(address_user,address_spender)publicviewreturns(uint256){returnusers[_user].authorized[_spender];}functionsetOwner(address_addr)publiconly_owner{owner=_addr;}functionsetMigrateFrom(address_addr)publiconly_owner{require(migrateFrom==MigrationSource(0));migrateFrom=MigrationSource(_addr);}functionsetMigrateTo(address_addr)publiconly_owner{migrateTo=_addr;}functionoptIn()publicreturns(boolsuccess){require(migrateFrom!=MigrationSource(0));Userstorageuser=users[msg.sender];uint256balance;(balance)=migrateFrom.vacate(msg.sender);emitOptIn(msg.sender,balance);user.balance=user.balance.add(balance);totalSupply_=totalSupply_.add(balance);returntrue;}functionvacate(address_addr)publicreturns(uint256o_balance){require(msg.sender==migrateTo);Userstorageuser=users[_addr];require(user.balance>0);o_balance=user.balance;totalSupply_=totalSupply_.sub(user.balance);user.balance=0;emitVacate(_addr,o_balance);}function()publicpayable{revert();}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_REDUNDANT_FALLBACK_REJECT",
+      "patternId": "b85a32",
+      "severity": 1,
+      "line": 209,
+      "column": 29,
+      "content": "{revert();}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 69,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 209,
+      "column": 14,
+      "content": "public"
+    }
+  ]
+}

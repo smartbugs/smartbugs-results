@@ -1,0 +1,205 @@
+/unique_contracts/0xeb72f169016fec42b63ae5e87207f0fb274408c7.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 8
+column: 2
+content: functionmul(uint256a,uint256b)internalconstantreturns(uint256){uint256c=a*b;assert(a==0||c/a==b);returnc;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 14
+column: 2
+content: functiondiv(uint256a,uint256b)internalconstantreturns(uint256){uint256c=a/b;returnc;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 21
+column: 2
+content: functionsub(uint256a,uint256b)internalconstantreturns(uint256){assert(b<=a);returna-b;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 26
+column: 2
+content: functionadd(uint256a,uint256b)internalconstantreturns(uint256){uint256c=a+b;assert(c>=a);returnc;}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 83
+column: 2
+content: functionbalanceOf(addresswho)publicconstantreturns(uint256);
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 95
+column: 2
+content: functionallowance(addressowner,addressspender)publicconstantreturns(uint256);
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 132
+column: 2
+content: functionbalanceOf(address_owner)publicconstantreturns(uint256balance){returnbalances[_owner];}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 195
+column: 2
+content: functionallowance(address_owner,address_spender)publicconstantreturns(uint256remaining){returnallowed[_owner][_spender];}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 319
+column: 2
+content: functiontransferAllowedOf(address_value)publicconstantreturns(boolsuccess){returntransferAllowed[_value];}
+
+ruleId: SOLIDITY_DIV_MUL
+patternId: 09hhh1
+severity: 2
+line: 285
+column: 21
+content: recieveAmount.div(amountToken).mul(10**uint256(decimals))
+
+ruleId: SOLIDITY_DIV_MUL
+patternId: 09hhh1
+severity: 2
+line: 291
+column: 22
+content: tokens.div(10**uint256(decimals)).mul(amountToken)
+
+ruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 183
+column: 2
+content: functionapprove(address_spender,uint256_value)publicreturns(bool){allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 230
+column: 0
+content: contractMidexTokenisStandardToken,Ownable{stringpublicconstantname="Midex";stringpublicconstantsymbol="MDX";uint8publicconstantdecimals=18;addresspublicexchangeRegulatorWallet;addresspublicwallet;uint256publicinitialSupply=75000000*(10**uint256(decimals));uint256publicamountToken=1*(10**uint256(decimals));uintpublicendTime;mapping(address=>bool)transferAllowed;functionMidexToken(){totalSupply=initialSupply;balances[msg.sender]=initialSupply;wallet=owner;exchangeRegulatorWallet=owner;endTime=1523750400;}functionsetAmountToken(uint256_value)onlyOwnerOrRegulatorExchange{amountToken=_value;}functionsetExchangeRegulatorWallet(address_value)onlyOwner{exchangeRegulatorWallet=_value;}modifieronlyOwnerOrRegulatorExchange(){require(msg.sender==owner||msg.sender==exchangeRegulatorWallet);_;}functionsetWallet(address_value)onlyOwner{wallet=_value;}modifiersaleIsOn(){require(now<endTime);_;}modifiertokenAvaiable(){require(balances[owner]>0);_;}function()payablesaleIsOntokenAvaiable{uint256recieveAmount=msg.value;uint256tokens=recieveAmount.div(amountToken).mul(10**uint256(decimals));assert(balances[msg.sender]+tokens>=balances[msg.sender]);if(balances[owner]<tokens){tokens=balances[owner];recieveAmount=tokens.div(10**uint256(decimals)).mul(amountToken);}balances[msg.sender]+=tokens;balances[owner]-=tokens;Transfer(owner,msg.sender,tokens);wallet.transfer(recieveAmount);}functionburn()onlyOwner{addressburner=msg.sender;uint256quantity=balances[burner];totalSupply=totalSupply.sub(quantity);balances[burner]=0;Burn(burner,quantity);}eventBurn(addressindexedburner,uintindexedvalue);functiontransferAllowedAdd(address_value)onlyOwnerreturns(boolsuccess){transferAllowed[_value]=true;returntrue;}functiontransferAllowedDelete(address_value)onlyOwnerreturns(boolsuccess){deletetransferAllowed[_value];returntrue;}functiontransferAllowedOf(address_value)publicconstantreturns(boolsuccess){returntransferAllowed[_value];}functiontransferFrom(address_from,address_to,uint256_value)transferFromIsOnpublicreturns(bool){require(_to!=address(0));uint256_allowance=allowed[_from][msg.sender];balances[_from]=balances[_from].sub(_value);balances[_to]=balances[_to].add(_value);allowed[_from][msg.sender]=_allowance.sub(_value);Transfer(_from,_to,_value);returntrue;}modifiertransferFromIsOn(){require(msg.sender==owner||transferAllowed[msg.sender]==true||now>endTime);_;}functiontransfer(address_to,uint256_value)transferFromIsOnpublicreturns(bool){require(_to!=address(0));balances[msg.sender]=balances[msg.sender].sub(_value);balances[_to]=balances[_to].add(_value);Transfer(msg.sender,_to,_value);returntrue;}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 259
+column: 2
+content: functionsetExchangeRegulatorWallet(address_value)onlyOwner{exchangeRegulatorWallet=_value;}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 269
+column: 2
+content: functionsetWallet(address_value)onlyOwner{wallet=_value;}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 108
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 50
+column: 2
+content: functionOwnable(){owner=msg.sender;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 247
+column: 2
+content: functionMidexToken(){totalSupply=initialSupply;balances[msg.sender]=initialSupply;wallet=owner;exchangeRegulatorWallet=owner;endTime=1523750400;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 255
+column: 2
+content: functionsetAmountToken(uint256_value)onlyOwnerOrRegulatorExchange{amountToken=_value;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 259
+column: 2
+content: functionsetExchangeRegulatorWallet(address_value)onlyOwner{exchangeRegulatorWallet=_value;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 269
+column: 2
+content: functionsetWallet(address_value)onlyOwner{wallet=_value;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 283
+column: 2
+content: function()payablesaleIsOntokenAvaiable{uint256recieveAmount=msg.value;uint256tokens=recieveAmount.div(amountToken).mul(10**uint256(decimals));assert(balances[msg.sender]+tokens>=balances[msg.sender]);if(balances[owner]<tokens){tokens=balances[owner];recieveAmount=tokens.div(10**uint256(decimals)).mul(amountToken);}balances[msg.sender]+=tokens;balances[owner]-=tokens;Transfer(owner,msg.sender,tokens);wallet.transfer(recieveAmount);}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 299
+column: 2
+content: functionburn()onlyOwner{addressburner=msg.sender;uint256quantity=balances[burner];totalSupply=totalSupply.sub(quantity);balances[burner]=0;Burn(burner,quantity);}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 309
+column: 2
+content: functiontransferAllowedAdd(address_value)onlyOwnerreturns(boolsuccess){transferAllowed[_value]=true;returntrue;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 314
+column: 2
+content: functiontransferAllowedDelete(address_value)onlyOwnerreturns(boolsuccess){deletetransferAllowed[_value];returntrue;}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 110
+column: 2
+content: mapping(address=>uint256)balances;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 244
+column: 2
+content: mapping(address=>bool)transferAllowed;
+
+SOLIDITY_VISIBILITY :11
+SOLIDITY_SAFEMATH :1
+SOLIDITY_OVERPOWERED_ROLE :2
+SOLIDITY_DEPRECATED_CONSTRUCTIONS :9
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_DIV_MUL :2
+SOLIDITY_ERC20_APPROVE :1

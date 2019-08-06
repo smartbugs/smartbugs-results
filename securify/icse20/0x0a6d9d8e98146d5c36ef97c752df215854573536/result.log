@@ -1,0 +1,117 @@
+Processing contract: /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol:Factory
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol:IERC20
+Processing contract: /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol:Ownable
+Processing contract: /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol:Proxy
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol:RelayRegistry
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol:SmartWallet
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for RepeatedCall in contract 'Factory':
+    |        SmartWallet wallet = SmartWallet(uint160(addr));
+    |        require(wallet.initiate(signer, msg.sender, fee, token));
+  > |        require(wallet.pay(to, value, token));
+    |        emit Deployed(addr, signer);
+    |    }
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(234)
+
+[31mViolation[0m for MissingInputValidation in contract 'Proxy':
+    |    
+    |    // Shared key value store. Data should be encoded and decoded using abi.encode()/abi.decode() by different implementations
+  > |    mapping (bytes32 => bytes) public store;
+    |    
+    |    constructor() public {
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(163)
+
+[31mViolation[0m for MissingInputValidation in contract 'RelayRegistry':
+    |    event RemovedRelay(address relay);
+    |    
+  > |    mapping (address => bool) public relays;
+    |    
+    |    constructor(address initialRelay) public {
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(47)
+
+[31mViolation[0m for MissingInputValidation in contract 'RelayRegistry':
+    |    }
+    |    
+  > |    function triggerRelay(address relay, bool value) onlyOwner public returns (bool) {
+    |        relays[relay] = value;
+    |        if(value) {
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(53)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'RelayRegistry':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(38)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RelayRegistry':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(28)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RelayRegistry':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(38)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RelayRegistry':
+    |    
+    |    function triggerRelay(address relay, bool value) onlyOwner public returns (bool) {
+  > |        relays[relay] = value;
+    |        if(value) {
+    |            emit AddedRelay(relay);
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(54)
+
+[31mViolation[0m for LockedEther in contract 'SmartWallet':
+    |
+    |// All functions of SmartWallet Implementations should be called using delegatecall
+  > |contract SmartWallet {
+    |
+    |    event Upgrade(address indexed newImplementation);
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(70)
+
+[31mViolation[0m for RepeatedCall in contract 'SmartWallet':
+    |        store["nonce"] = abi.encode(currentNonce+1);
+    |        require(token.transfer(to, value));
+  > |        require(token.transfer(msg.sender, fee));
+    |        return true;
+    |    }
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(113)
+
+[31mViolation[0m for RepeatedCall in contract 'SmartWallet':
+    |        for (uint i; i < to.length; i++) {
+    |            IERC20 token = IERC20(tokenContract[i]);
+  > |            require(token.transfer(to[i], value[i]));
+    |        }
+    |        return true;
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(126)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'SmartWallet':
+    |
+    |// All functions of SmartWallet Implementations should be called using delegatecall
+  > |contract SmartWallet {
+    |
+    |    event Upgrade(address indexed newImplementation);
+  at /unique_contracts/0x0a6d9d8e98146d5c36ef97c752df215854573536.sol(70)

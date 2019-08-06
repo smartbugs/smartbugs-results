@@ -1,0 +1,105 @@
+{
+  "contract": "0xa609f05557d458727c90603adad436041915a0ca",
+  "tool": "smartcheck",
+  "start": 1563648100.1252253,
+  "end": 1563648110.5865471,
+  "duration": 10.461321830749512,
+  "analysis": [
+    {
+      "name": "SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN",
+      "patternId": "58bdd3",
+      "severity": 1,
+      "line": 96,
+      "column": 2,
+      "content": "functiongetAction(uint_ptr)internalpurereturns(bytes4action){assembly{action:=and(mload(_ptr),0xffffffff00000000000000000000000000000000000000000000000000000000)}}"
+    },
+    {
+      "name": "SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN",
+      "patternId": "58bdd3",
+      "severity": 1,
+      "line": 299,
+      "column": 2,
+      "content": "functiongetSelector(bytesmemory_calldata)internalpurereturns(bytes4selector){assembly{selector:=and(mload(add(0x20,_calldata)),0xffffffff00000000000000000000000000000000000000000000000000000000)}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 21,
+      "column": 0,
+      "content": "contractScriptExec{addresspublicapp_storage;addresspublicprovider;bytes32publicregistry_exec_id;addresspublicexec_admin;structInstance{addresscurrent_provider;bytes32current_registry_exec_id;bytes32app_exec_id;bytes32app_name;bytes32version_name;}mapping(bytes32=>address)publicdeployed_by;mapping(bytes32=>Instance)publicinstance_info;mapping(address=>Instance[])publicdeployed_instances;mapping(bytes32=>bytes32[])publicapp_instances;eventAppInstanceCreated(addressindexedcreator,bytes32indexedexecution_id,bytes32app_name,bytes32version_name);eventStorageException(bytes32indexedexecution_id,stringmessage);modifieronlyAdmin(){require(msg.sender==exec_admin);_;}function()publicpayable{}functionconfigure(address_exec_admin,address_app_storage,address_provider)public{require(app_storage==0,\"ScriptExec already configured\");require(_app_storage!=0,'Invalid input');exec_admin=_exec_admin;app_storage=_app_storage;provider=_provider;if(exec_admin==0)exec_admin=msg.sender;}bytes4internalconstantEXEC_SEL=bytes4(keccak256('exec(address,bytes32,bytes)'));functionexec(bytes32_exec_id,bytes_calldata)externalpayablereturns(boolsuccess);bytes4internalconstantERR=bytes4(keccak256('Error(string)'));functiongetAction(uint_ptr)internalpurereturns(bytes4action){assembly{action:=and(mload(_ptr),0xffffffff00000000000000000000000000000000000000000000000000000000)}}functioncheckErrors(bytes32_exec_id)internal{stringmemorymessage;bytes4err_sel=ERR;assembly{letptr:=mload(0x40)returndatacopy(ptr,0,returndatasize)mstore(0x40,add(ptr,returndatasize))ifeq(mload(ptr),and(err_sel,0xffffffff00000000000000000000000000000000000000000000000000000000)){message:=add(0x24,ptr)}}if(bytes(message).length==0)emitStorageException(_exec_id,\"No error recieved\");elseemitStorageException(_exec_id,message);}functioncheckReturn()internalpurereturns(boolsuccess){success=false;assembly{ifeq(returndatasize,0x60){letptr:=mload(0x40)returndatacopy(ptr,0,returndatasize)ifiszero(iszero(mload(ptr))){success:=1}ifiszero(iszero(mload(add(0x20,ptr)))){success:=1}ifiszero(iszero(mload(add(0x40,ptr)))){success:=1}}}returnsuccess;}functioncreateAppInstance(bytes32_app_name,bytes_init_calldata)externalreturns(bytes32exec_id,bytes32version){require(_app_name!=0&&_init_calldata.length>=4,'invalid input');(exec_id,version)=StorageInterface(app_storage).createInstance(msg.sender,_app_name,provider,registry_exec_id,_init_calldata);deployed_by[exec_id]=msg.sender;app_instances[_app_name].push(exec_id);Instancememoryinst=Instance(provider,registry_exec_id,exec_id,_app_name,version);instance_info[exec_id]=inst;deployed_instances[msg.sender].push(inst);emitAppInstanceCreated(msg.sender,exec_id,_app_name,version);}functionsetRegistryExecID(bytes32_exec_id)publiconlyAdmin(){registry_exec_id=_exec_id;}functionsetProvider(address_provider)publiconlyAdmin(){provider=_provider;}functionsetAdmin(address_admin)publiconlyAdmin(){require(_admin!=0);exec_admin=_admin;}functiongetInstances(bytes32_app_name)publicviewreturns(bytes32[]memory){returnapp_instances[_app_name];}functiongetDeployedLength(address_deployer)publicviewreturns(uint){returndeployed_instances[_deployer].length;}bytes4internalconstantREGISTER_APP_SEL=bytes4(keccak256('registerApp(bytes32,address,bytes4[],address[])'));functiongetRegistryImplementation()publicviewreturns(addressindex,addressimplementation){index=StorageInterface(app_storage).getIndex(registry_exec_id);implementation=StorageInterface(app_storage).getTarget(registry_exec_id,REGISTER_APP_SEL);}functiongetInstanceImplementation(bytes32_exec_id)publicviewreturns(addressindex,bytes4[]memoryfunctions,address[]memoryimplementations){Instancememoryapp=instance_info[_exec_id];index=StorageInterface(app_storage).getIndex(app.current_registry_exec_id);(index,functions,implementations)=RegistryInterface(index).getVersionImplementation(app_storage,app.current_registry_exec_id,app.current_provider,app.app_name,app.version_name);}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 96,
+      "column": 2,
+      "content": "functiongetAction(uint_ptr)internalpurereturns(bytes4action){assembly{action:=and(mload(_ptr),0xffffffff00000000000000000000000000000000000000000000000000000000)}}"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 127,
+      "column": 2,
+      "content": "functioncheckReturn()internalpurereturns(boolsuccess){success=false;assembly{ifeq(returndatasize,0x60){letptr:=mload(0x40)returndatacopy(ptr,0,returndatasize)ifiszero(iszero(mload(ptr))){success:=1}ifiszero(iszero(mload(add(0x20,ptr)))){success:=1}ifiszero(iszero(mload(add(0x40,ptr)))){success:=1}}}returnsuccess;}"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 299,
+      "column": 2,
+      "content": "functiongetSelector(bytesmemory_calldata)internalpurereturns(bytes4selector){assembly{selector:=and(mload(add(0x20,_calldata)),0xffffffff00000000000000000000000000000000000000000000000000000000)}}"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 61,
+      "column": 14,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 97,
+      "column": 4,
+      "content": "assembly{action:=and(mload(_ptr),0xffffffff00000000000000000000000000000000000000000000000000000000)}"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 108,
+      "column": 4,
+      "content": "assembly{letptr:=mload(0x40)returndatacopy(ptr,0,returndatasize)mstore(0x40,add(ptr,returndatasize))ifeq(mload(ptr),and(err_sel,0xffffffff00000000000000000000000000000000000000000000000000000000)){message:=add(0x24,ptr)}}"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 129,
+      "column": 4,
+      "content": "assembly{ifeq(returndatasize,0x60){letptr:=mload(0x40)returndatacopy(ptr,0,returndatasize)ifiszero(iszero(mload(ptr))){success:=1}ifiszero(iszero(mload(add(0x20,ptr)))){success:=1}ifiszero(iszero(mload(add(0x40,ptr)))){success:=1}}}"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 300,
+      "column": 4,
+      "content": "assembly{selector:=and(mload(add(0x20,_calldata)),0xffffffff00000000000000000000000000000000000000000000000000000000)}"
+    }
+  ]
+}

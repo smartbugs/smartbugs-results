@@ -1,0 +1,164 @@
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:ERC20Token
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:IERC20Token
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:IOwnable
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:IWinbixPayable
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:IWinbixToken
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:MakePayable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:Ownable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol:WinbixToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'ERC20Token':
+    |}
+    |
+  > |contract ERC20Token is IERC20Token, SafeMath {
+    |    mapping (address => uint256) public balances;
+    |    mapping (address => mapping (address => uint256)) public allowed;
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(52)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ERC20Token':
+    |
+    |        balances[msg.sender] = safeSub(balances[msg.sender], _value);
+  > |        balances[_to] = safeAdd(balances[_to], _value);
+    |        emit Transfer(msg.sender, _to, _value);
+    |        return true;
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(61)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ERC20Token':
+    |        require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value);
+    |
+  > |        balances[_to] = safeAdd(balances[_to], _value);
+    |        balances[_from] = safeSub(balances[_from], _value);
+    |        allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(70)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ERC20Token':
+    |
+    |        balances[_to] = safeAdd(balances[_to], _value);
+  > |        balances[_from] = safeSub(balances[_from], _value);
+    |        allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);
+    |        emit Transfer(_from, _to, _value);
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(71)
+
+[31mViolation[0m for MissingInputValidation in contract 'Ownable':
+    |    }
+    |
+  > |    function changeOwner(address _newOwner) public onlyOwner {
+    |        newOwner = _newOwner;
+    |    }
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(115)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |
+    |    function changeOwner(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(116)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |        require(msg.sender == newOwner);
+    |        emit OwnerChanged(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(122)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |        emit OwnerChanged(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(123)
+
+[31mViolation[0m for LockedEther in contract 'WinbixToken':
+    |}
+    |
+  > |contract WinbixToken is IWinbixToken, ERC20Token, Ownable, MakePayable {
+    |
+    |    mapping (address => bool) private frozen;
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(171)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |    function burnTokens(address _from, uint256 _value) private {
+    |        require(balances[_from] >= _value);
+  > |        totalSupply -= _value;
+    |        balances[_from] -= _value;
+    |        emit BurnTokens(_from, _value);
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(257)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |
+    |    function changeOwner(address _newOwner) public onlyOwner {
+  > |        newOwner = _newOwner;
+    |    }
+    |
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(116)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |        require(msg.sender == newOwner);
+    |        emit OwnerChanged(owner, newOwner);
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(122)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |        emit OwnerChanged(owner, newOwner);
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(123)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |
+    |    function setIssuer(address _address) public onlyOwner {
+  > |        issuer = _address;
+    |        emit SetIssuer(_address);
+    |    }
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(197)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |    function freeze(address _address) public onlyIssuer {
+    |        if (frozen[_address]) return;
+  > |        frozen[_address] = true;
+    |        emit FreezeWallet(_address);
+    |    }
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(203)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |    function unfreeze(address _address) public onlyIssuer {
+    |        if (!frozen[_address]) return;
+  > |        frozen[_address] = false;
+    |        emit UnfreezeWallet(_address);
+    |    }
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(209)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WinbixToken':
+    |            return;
+    |        }
+  > |        transferAllowed = _allowTransfer;
+    |        emit TransferAllowed(_allowTransfer);
+    |    }
+  at /unique_chucks/18/0x9abbba89700e1ce5a9a6e5d6748e5cc464c3771d.sol(266)

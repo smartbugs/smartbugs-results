@@ -1,0 +1,34 @@
+Processing contract: /unique_chucks/23/0x560b63bb82ce25c2c9b7a63c96378f6b1f9ea5b0.sol:CliffTokenVesting
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/23/0x560b63bb82ce25c2c9b7a63c96378f6b1f9ea5b0.sol:ERC20TokenInterface
+Processing contract: /unique_chucks/23/0x560b63bb82ce25c2c9b7a63c96378f6b1f9ea5b0.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for UnrestrictedWrite in contract 'CliffTokenVesting':
+    |        uint256 unreleased = releasableAmount(account);
+    |        require(unreleased > 0);
+  > |        beneficiary[account].releasedAmount = beneficiary[account].releasedAmount.add(unreleased);
+    |        token.transfer(account, unreleased);
+    |        emit Released(account, unreleased);
+  at /unique_chucks/23/0x560b63bb82ce25c2c9b7a63c96378f6b1f9ea5b0.sol(101)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'CliffTokenVesting':
+    |        emit Released(account, unreleased);
+    |        if (beneficiary[account].releasedAmount == beneficiary[account].totalAmount) { // When done, clean beneficiary info
+  > |            delete beneficiary[account];
+    |        }
+    |    }
+  at /unique_chucks/23/0x560b63bb82ce25c2c9b7a63c96378f6b1f9ea5b0.sol(105)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'CliffTokenVesting':
+    |        require(amount != 0 && start != 0 && account != address(0x0) && cliff < duration && beneficiary[account].start == 0);
+    |        require(token.transferFrom(msg.sender, address(this), amount));
+  > |        beneficiary[account] = Beneficiary({
+    |            start: start,
+    |            duration: duration,
+  at /unique_chucks/23/0x560b63bb82ce25c2c9b7a63c96378f6b1f9ea5b0.sol(128)

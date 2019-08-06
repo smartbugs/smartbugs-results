@@ -1,0 +1,94 @@
+Processing contract: /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol:MCToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol:TokenERC20
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol:owned
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'MCToken':
+    |}
+    |
+  > |contract MCToken is owned, TokenERC20 {
+    |
+    |    mapping (address => bool) public frozenAccount;
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(73)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MCToken':
+    |        require(!frozenAccount[_to]);
+    |        balanceOf[_from] -= _value;
+  > |        balanceOf[_to] += _value;
+    |        emit Transfer(_from, _to, _value);
+    |    }
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(92)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MCToken':
+    |
+    |    function transferOwnership(address newOwner) onlyOwner public {
+  > |        owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(16)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MCToken':
+    |
+    |    function mintToken(address target, uint256 mintedAmount) onlyOwner public {
+  > |        balanceOf[target] += mintedAmount;
+    |        totalSupply += mintedAmount;
+    |        emit Transfer(address(0), owner, mintedAmount);
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(97)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MCToken':
+    |    function mintToken(address target, uint256 mintedAmount) onlyOwner public {
+    |        balanceOf[target] += mintedAmount;
+  > |        totalSupply += mintedAmount;
+    |        emit Transfer(address(0), owner, mintedAmount);
+    |        emit Transfer(owner, target, mintedAmount);
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(98)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MCToken':
+    |
+    |    function freezeAccount(address target, bool freeze) onlyOwner public {
+  > |        frozenAccount[target] = freeze;
+    |        emit FrozenFunds(target, freeze);
+    |    }
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(104)
+
+[31mViolation[0m for LockedEther in contract 'TokenERC20':
+    |}
+    |
+  > |contract TokenERC20 {
+    |    string public name;
+    |    string public symbol;
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(20)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        uint previousBalances = balanceOf[_from] + balanceOf[_to];
+    |        balanceOf[_from] -= _value;
+  > |        balanceOf[_to] += _value;
+    |        emit Transfer(_from, _to, _value);
+    |        assert(balanceOf[_from] + balanceOf[_to] == previousBalances);
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(49)
+
+[31mViolation[0m for MissingInputValidation in contract 'owned':
+    |    }
+    |
+  > |    function transferOwnership(address newOwner) onlyOwner public {
+    |        owner = newOwner;
+    |    }
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(15)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'owned':
+    |
+    |    function transferOwnership(address newOwner) onlyOwner public {
+  > |        owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/2/0xa38b7ee9df79955b90cc4e2de90421f6baa83a3d.sol(16)

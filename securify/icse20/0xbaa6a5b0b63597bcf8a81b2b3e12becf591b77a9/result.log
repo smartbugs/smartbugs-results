@@ -1,0 +1,117 @@
+Processing contract: /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol:Esplanade
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol:ICustodian
+[31mViolation[0m for RepeatedCall in contract 'Esplanade':
+    |		require(!existingCustodians[custodianAddr] && !existingOtherContracts[custodianAddr]);
+    |		ICustodian custodian = ICustodian(custodianAddr);
+  > |		require(custodian.totalUsers() >= 0);
+    |		// custodian.users(0);
+    |		uint custodianLength = custodianPool.length;
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(266)
+
+[31mViolation[0m for RepeatedCall in contract 'Esplanade':
+    |		uint prevHashNumber = uint256(keccak256(abi.encodePacked(blockhash(block.number - 1))));
+    |		ICustodian custodian = ICustodian(custodianAddr);
+  > |		uint userLength = custodian.totalUsers();
+    |		if(userLength > 255) {
+    |			address randomUserAddress = custodian.users(prevHashNumber % userLength);
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(420)
+
+[31mViolation[0m for RepeatedCall in contract 'Esplanade':
+    |		uint userLength = custodian.totalUsers();
+    |		if(userLength > 255) {
+  > |			address randomUserAddress = custodian.users(prevHashNumber % userLength);
+    |			return uint256(keccak256(abi.encodePacked(randomUserAddress))) % addrPool[poolIndex].length;
+    |		} else 
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(422)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |/// @title Esplanade - coordinate multiple custodians, oracles and other contracts.
+    |/// @author duo.network
+  > |contract Esplanade {
+    |
+    |	/*
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(17)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |	/// @dev proposeNewModerator function.
+    |	function startModeratorVoting() public inColdAddrPool() returns (bool) {
+  > |		candidate = msg.sender;
+    |		votingStage = VotingStage.Moderator;
+    |		removeFromPoolByAddr(COLD_POOL_IDX, candidate);
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(212)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |	function startModeratorVoting() public inColdAddrPool() returns (bool) {
+    |		candidate = msg.sender;
+  > |		votingStage = VotingStage.Moderator;
+    |		removeFromPoolByAddr(COLD_POOL_IDX, candidate);
+    |		startVoting();
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(213)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |		address voter = msg.sender;
+    |		if (voteFor)
+  > |			votedFor = votedFor + 1;
+    |		else
+    |			votedAgainst += 1;
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(227)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |			votedFor = votedFor + 1;
+    |		else
+  > |			votedAgainst += 1;
+    |		voted[voter] = true;
+    |		uint threshold = addrPool[COLD_POOL_IDX].length / 2;
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(229)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |		if (votedFor > threshold || votedAgainst > threshold) {
+    |			if (votingStage == VotingStage.Contract) {
+  > |				passedContract[candidate] = true;
+    |				emit CompleteVoting(true, candidate);
+    |			}
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(235)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |			else {
+    |				emit CompleteVoting(false, candidate);
+  > |				moderator = candidate;
+    |			}
+    |			votingStage = VotingStage.NotStarted;
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(240)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |				moderator = candidate;
+    |			}
+  > |			votingStage = VotingStage.NotStarted;
+    |		}
+    |		return true;
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(242)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |		address[] memory coldPool = addrPool[COLD_POOL_IDX];
+    |		for (uint i = 0; i < coldPool.length; i++) 
+  > |			voted[coldPool[i]] = false;
+    |		votedFor = 0;
+    |		votedAgainst = 0;
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(373)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |		for (uint i = 0; i < coldPool.length; i++) 
+    |			voted[coldPool[i]] = false;
+  > |		votedFor = 0;
+    |		votedAgainst = 0;
+    |		voteStartTimestamp = getNowTimestamp();
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(374)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Esplanade':
+    |			voted[coldPool[i]] = false;
+    |		votedFor = 0;
+  > |		votedAgainst = 0;
+    |		voteStartTimestamp = getNowTimestamp();
+    |	}
+  at /unique_contracts/0xbaa6a5b0b63597bcf8a81b2b3e12becf591b77a9.sol(375)

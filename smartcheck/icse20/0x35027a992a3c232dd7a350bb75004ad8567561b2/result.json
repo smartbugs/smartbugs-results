@@ -1,0 +1,41 @@
+{
+  "contract": "0x35027a992a3c232dd7a350bb75004ad8567561b2",
+  "tool": "smartcheck",
+  "start": 1563509169.197227,
+  "end": 1563509176.4618351,
+  "duration": 7.264608144760132,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 42,
+      "column": 16,
+      "content": "5900*((block.number-nextBlock)/5900+1)"
+    },
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 46,
+      "column": 29,
+      "content": "invested[msg.sender]*interestRate/100*(block.number-atBlock[msg.sender])"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 26,
+      "column": 0,
+      "content": "contractEasyInvestForever{mapping(address=>uint256)publicinvested;mapping(address=>uint256)publicatBlock;uint256publicpreviousBalance=0;uint256publicinterestRate=1;uint256publicnextBlock=block.number+5900;function()externalpayable{if(block.number>=nextBlock){uint256currentBalance=address(this).balance;if(currentBalance<previousBalance)currentBalance=previousBalance;interestRate=(currentBalance-previousBalance)/10e18+1;interestRate=(interestRate>10)?10:((interestRate<1)?1:interestRate);previousBalance=currentBalance;nextBlock+=5900*((block.number-nextBlock)/5900+1);}if(invested[msg.sender]!=0){uint256amount=invested[msg.sender]*interestRate/100*(block.number-atBlock[msg.sender])/5900;amount=(amount>invested[msg.sender]/10)?invested[msg.sender]/10:amount;msg.sender.transfer(amount);}atBlock[msg.sender]=block.number;invested[msg.sender]+=msg.value;}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    }
+  ]
+}

@@ -1,0 +1,537 @@
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:Address
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:Arbitrage
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:ArbitrageMainnet
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:IDutchExchange
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:IERC20
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:ITokenMinimal
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:IUniswapExchange
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:IUniswapFactory
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:Ownable
+Processing contract: /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol:SafeERC20
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[33mWarning[0m for DAO in contract 'Arbitrage':
+    |        // // Deposit balance to WETH
+    |        address weth = dutchXProxy.ethToken();
+  > |        ITokenMinimal(weth).deposit.value(balance)();
+    |
+    |        uint wethBalance = ITokenMinimal(weth).balanceOf(address(this));
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(355)
+
+[33mWarning[0m for DAO in contract 'Arbitrage':
+    |        // deadline is now since trade is atomic
+    |        // solium-disable-next-line security/no-block-members
+  > |        uint256 tokensBought = IUniswapExchange(uniFactory.getExchange(arbToken)).ethToTokenSwapInput.value(amount)(1, block.timestamp);
+    |
+    |        // tokens need to be approved for the dutchX before they are deposited
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(515)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        // safeApprove should only be called when setting an initial allowance,
+    |        // or when resetting it to zero.
+  > |        require((_value == 0) || (IERC20(_erc20Addr).allowance(address(this), _spender) == 0), "safeApprove should only be called when setting an initial allowance, or when resetting it to zero.");
+    |
+    |        (bool success, bytes memory returnValue) =
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(235)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        (bool success, bytes memory returnValue) =
+    |        // solhint-disable-next-line avoid-low-level-calls
+  > |        _erc20Addr.call(abi.encodeWithSelector(APPROVE_SELECTOR, _spender, _value));
+    |        // call return false when something wrong
+    |        require(success, "safeApprove must succeed");
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(239)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |
+    |        // // Deposit balance to WETH
+  > |        address weth = dutchXProxy.ethToken();
+    |        ITokenMinimal(weth).deposit.value(balance)();
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(354)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |
+    |        // Deposit new amount on dutchX, confirm there's at least the amount we just deposited
+  > |        uint newBalance = dutchXProxy.deposit(weth, balance);
+    |        require(newBalance >= balance, "Deposit WETH to DutchX didn't work.");
+    |    }
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(370)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |    /// @param amount The amount of WETH to withdraw and convert.
+    |    function _withdrawEther(uint amount) internal {
+  > |        address weth = dutchXProxy.ethToken();
+    |        dutchXProxy.withdraw(weth, amount);
+    |        ITokenMinimal(weth).withdraw(amount);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(397)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |    function _withdrawEther(uint amount) internal {
+    |        address weth = dutchXProxy.ethToken();
+  > |        dutchXProxy.withdraw(weth, amount);
+    |        ITokenMinimal(weth).withdraw(amount);
+    |    }
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(398)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |    /// @param amount The amount of token to deposit.
+    |    function _depositToken(address token, uint amount) internal returns(uint deposited) {
+  > |        uint balance = ITokenMinimal(token).balanceOf(address(this));
+    |        uint min = balance < amount ? balance : amount;
+    |        require(min > 0, "Balance of token insufficient");
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(436)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        require(min > 0, "Balance of token insufficient");
+    |
+  > |        uint allowance = ITokenMinimal(token).allowance(address(this), address(dutchXProxy));
+    |        if (allowance < min) {
+    |            if (allowance != 0) {
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(440)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |
+    |        // Confirm that the balance of the token on the DutchX is at least how much was deposited
+  > |        uint newBalance = dutchXProxy.deposit(token, min);
+    |        require(newBalance >= min, "deposit didn't work");
+    |        return min;
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(449)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |    function dutchOpportunity(address arbToken, uint256 amount) external onlyOwner {
+    |
+  > |        address etherToken = dutchXProxy.ethToken();
+    |
+    |        // The order of parameters for getAuctionIndex don't matter
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(460)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |
+    |        // The order of parameters for getAuctionIndex don't matter
+  > |        uint256 dutchAuctionIndex = dutchXProxy.getAuctionIndex(arbToken, etherToken);
+    |
+    |        // postBuyOrder(sellToken, buyToken, amount)
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(463)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        // which means the buyToken is what the buyer wants to get rid of.
+    |        // "The buy token is what the buyer provides, the seller token is what the seller provides."
+  > |        dutchXProxy.postBuyOrder(arbToken, etherToken, dutchAuctionIndex, amount);
+    |
+    |        (uint tokensBought, ) = dutchXProxy.claimBuyerFunds(arbToken, etherToken, address(this), dutchAuctionIndex);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(469)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        dutchXProxy.postBuyOrder(arbToken, etherToken, dutchAuctionIndex, amount);
+    |
+  > |        (uint tokensBought, ) = dutchXProxy.claimBuyerFunds(arbToken, etherToken, address(this), dutchAuctionIndex);
+    |        dutchXProxy.withdraw(arbToken, tokensBought);
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(471)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |
+    |        (uint tokensBought, ) = dutchXProxy.claimBuyerFunds(arbToken, etherToken, address(this), dutchAuctionIndex);
+  > |        dutchXProxy.withdraw(arbToken, tokensBought);
+    |
+    |        address uniswapExchange = uniFactory.getExchange(arbToken);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(472)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        dutchXProxy.withdraw(arbToken, tokensBought);
+    |
+  > |        address uniswapExchange = uniFactory.getExchange(arbToken);
+    |
+    |        uint allowance = ITokenMinimal(arbToken).allowance(address(this), address(uniswapExchange));
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(474)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        address uniswapExchange = uniFactory.getExchange(arbToken);
+    |
+  > |        uint allowance = ITokenMinimal(arbToken).allowance(address(this), address(uniswapExchange));
+    |        if (allowance < tokensBought) {
+    |            if (allowance != 0) {
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(476)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        // minimumReturn is enough to make a profit (excluding gas)
+    |        // timeToLive is now because transaction is atomic
+  > |        uint256 etherReturned = IUniswapExchange(uniswapExchange).tokenToEthSwapInput(tokensBought, 1, block.timestamp);
+    |
+    |        // gas costs were excluded because worse case scenario the tx fails and gas costs were spent up to here anyway
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(489)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        // deadline is now since trade is atomic
+    |        // solium-disable-next-line security/no-block-members
+  > |        uint256 tokensBought = IUniswapExchange(uniFactory.getExchange(arbToken)).ethToTokenSwapInput.value(amount)(1, block.timestamp);
+    |
+    |        // tokens need to be approved for the dutchX before they are deposited
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(515)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |
+    |        // The order of parameters for getAuctionIndex don't matter
+  > |        uint256 dutchAuctionIndex = dutchXProxy.getAuctionIndex(arbToken, etherToken);
+    |
+    |        // spend max amount of tokens currently on the dutch x (might be combined from previous remainders)
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(523)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        // max is automatically reduced to maximum available tokens because there may be
+    |        // token remainders from previous auctions which closed after previous arbitrage opportunities
+  > |        dutchXProxy.postBuyOrder(etherToken, arbToken, dutchAuctionIndex, max);
+    |        // solium-disable-next-line no-unused-vars
+    |        (uint etherReturned, ) = dutchXProxy.claimBuyerFunds(etherToken, arbToken, address(this), dutchAuctionIndex);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(528)
+
+[31mViolation[0m for RepeatedCall in contract 'Arbitrage':
+    |        dutchXProxy.postBuyOrder(etherToken, arbToken, dutchAuctionIndex, max);
+    |        // solium-disable-next-line no-unused-vars
+  > |        (uint etherReturned, ) = dutchXProxy.claimBuyerFunds(etherToken, arbToken, address(this), dutchAuctionIndex);
+    |
+    |        // gas costs were excluded because worse case scenario the tx fails and gas costs were spent up to here anyway
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(530)
+
+[33mWarning[0m for RepeatedCall in contract 'Arbitrage':
+    |        (bool success, bytes memory returnValue) =
+    |        // solhint-disable-next-line avoid-low-level-calls
+  > |        _erc20Addr.call(abi.encodeWithSelector(TRANSFER_SELECTOR, _to, _value));
+    |        // call return false when something wrong
+    |        require(success, "safeTransfer must succeed");
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(207)
+
+[31mViolation[0m for TODAmount in contract 'Arbitrage':
+    |        // // Deposit balance to WETH
+    |        address weth = dutchXProxy.ethToken();
+  > |        ITokenMinimal(weth).deposit.value(balance)();
+    |
+    |        uint wethBalance = ITokenMinimal(weth).balanceOf(address(this));
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(355)
+
+[31mViolation[0m for TODReceiver in contract 'Arbitrage':
+    |    function withdrawEtherThenTransfer(uint amount) external onlyOwner {
+    |        _withdrawEther(amount);
+  > |        address(uint160(owner())).transfer(amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(378)
+
+[31mViolation[0m for TODReceiver in contract 'Arbitrage':
+    |    function transferEther(uint amount) external onlyOwner {
+    |        // If amount is zero, deposit the entire contract balance.
+  > |        address(uint160(owner())).transfer(amount == 0 ? address(this).balance : amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(385)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Arbitrage':
+    |    function withdrawEtherThenTransfer(uint amount) external onlyOwner {
+    |        _withdrawEther(amount);
+  > |        address(uint160(owner())).transfer(amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(378)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Arbitrage':
+    |    function transferEther(uint amount) external onlyOwner {
+    |        // If amount is zero, deposit the entire contract balance.
+  > |        address(uint160(owner())).transfer(amount == 0 ? address(this).balance : amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(385)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Arbitrage':
+    |        // deadline is now since trade is atomic
+    |        // solium-disable-next-line security/no-block-members
+  > |        uint256 tokensBought = IUniswapExchange(uniFactory.getExchange(arbToken)).ethToTokenSwapInput.value(amount)(1, block.timestamp);
+    |
+    |        // tokens need to be approved for the dutchX before they are deposited
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(515)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Arbitrage':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(301)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Arbitrage':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(319)
+
+[33mWarning[0m for DAO in contract 'ArbitrageMainnet':
+    |        // // Deposit balance to WETH
+    |        address weth = dutchXProxy.ethToken();
+  > |        ITokenMinimal(weth).deposit.value(balance)();
+    |
+    |        uint wethBalance = ITokenMinimal(weth).balanceOf(address(this));
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(355)
+
+[33mWarning[0m for DAO in contract 'ArbitrageMainnet':
+    |        // deadline is now since trade is atomic
+    |        // solium-disable-next-line security/no-block-members
+  > |        uint256 tokensBought = IUniswapExchange(uniFactory.getExchange(arbToken)).ethToTokenSwapInput.value(amount)(1, block.timestamp);
+    |
+    |        // tokens need to be approved for the dutchX before they are deposited
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(515)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        // safeApprove should only be called when setting an initial allowance,
+    |        // or when resetting it to zero.
+  > |        require((_value == 0) || (IERC20(_erc20Addr).allowance(address(this), _spender) == 0), "safeApprove should only be called when setting an initial allowance, or when resetting it to zero.");
+    |
+    |        (bool success, bytes memory returnValue) =
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(235)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        (bool success, bytes memory returnValue) =
+    |        // solhint-disable-next-line avoid-low-level-calls
+  > |        _erc20Addr.call(abi.encodeWithSelector(APPROVE_SELECTOR, _spender, _value));
+    |        // call return false when something wrong
+    |        require(success, "safeApprove must succeed");
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(239)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |
+    |        // // Deposit balance to WETH
+  > |        address weth = dutchXProxy.ethToken();
+    |        ITokenMinimal(weth).deposit.value(balance)();
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(354)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |
+    |        // Deposit new amount on dutchX, confirm there's at least the amount we just deposited
+  > |        uint newBalance = dutchXProxy.deposit(weth, balance);
+    |        require(newBalance >= balance, "Deposit WETH to DutchX didn't work.");
+    |    }
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(370)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |    /// @param amount The amount of WETH to withdraw and convert.
+    |    function _withdrawEther(uint amount) internal {
+  > |        address weth = dutchXProxy.ethToken();
+    |        dutchXProxy.withdraw(weth, amount);
+    |        ITokenMinimal(weth).withdraw(amount);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(397)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |    function _withdrawEther(uint amount) internal {
+    |        address weth = dutchXProxy.ethToken();
+  > |        dutchXProxy.withdraw(weth, amount);
+    |        ITokenMinimal(weth).withdraw(amount);
+    |    }
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(398)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |    /// @param amount The amount of token to deposit.
+    |    function _depositToken(address token, uint amount) internal returns(uint deposited) {
+  > |        uint balance = ITokenMinimal(token).balanceOf(address(this));
+    |        uint min = balance < amount ? balance : amount;
+    |        require(min > 0, "Balance of token insufficient");
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(436)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        require(min > 0, "Balance of token insufficient");
+    |
+  > |        uint allowance = ITokenMinimal(token).allowance(address(this), address(dutchXProxy));
+    |        if (allowance < min) {
+    |            if (allowance != 0) {
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(440)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |
+    |        // Confirm that the balance of the token on the DutchX is at least how much was deposited
+  > |        uint newBalance = dutchXProxy.deposit(token, min);
+    |        require(newBalance >= min, "deposit didn't work");
+    |        return min;
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(449)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |    function dutchOpportunity(address arbToken, uint256 amount) external onlyOwner {
+    |
+  > |        address etherToken = dutchXProxy.ethToken();
+    |
+    |        // The order of parameters for getAuctionIndex don't matter
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(460)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |
+    |        // The order of parameters for getAuctionIndex don't matter
+  > |        uint256 dutchAuctionIndex = dutchXProxy.getAuctionIndex(arbToken, etherToken);
+    |
+    |        // postBuyOrder(sellToken, buyToken, amount)
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(463)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        // which means the buyToken is what the buyer wants to get rid of.
+    |        // "The buy token is what the buyer provides, the seller token is what the seller provides."
+  > |        dutchXProxy.postBuyOrder(arbToken, etherToken, dutchAuctionIndex, amount);
+    |
+    |        (uint tokensBought, ) = dutchXProxy.claimBuyerFunds(arbToken, etherToken, address(this), dutchAuctionIndex);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(469)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        dutchXProxy.postBuyOrder(arbToken, etherToken, dutchAuctionIndex, amount);
+    |
+  > |        (uint tokensBought, ) = dutchXProxy.claimBuyerFunds(arbToken, etherToken, address(this), dutchAuctionIndex);
+    |        dutchXProxy.withdraw(arbToken, tokensBought);
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(471)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |
+    |        (uint tokensBought, ) = dutchXProxy.claimBuyerFunds(arbToken, etherToken, address(this), dutchAuctionIndex);
+  > |        dutchXProxy.withdraw(arbToken, tokensBought);
+    |
+    |        address uniswapExchange = uniFactory.getExchange(arbToken);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(472)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        dutchXProxy.withdraw(arbToken, tokensBought);
+    |
+  > |        address uniswapExchange = uniFactory.getExchange(arbToken);
+    |
+    |        uint allowance = ITokenMinimal(arbToken).allowance(address(this), address(uniswapExchange));
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(474)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        address uniswapExchange = uniFactory.getExchange(arbToken);
+    |
+  > |        uint allowance = ITokenMinimal(arbToken).allowance(address(this), address(uniswapExchange));
+    |        if (allowance < tokensBought) {
+    |            if (allowance != 0) {
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(476)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        // minimumReturn is enough to make a profit (excluding gas)
+    |        // timeToLive is now because transaction is atomic
+  > |        uint256 etherReturned = IUniswapExchange(uniswapExchange).tokenToEthSwapInput(tokensBought, 1, block.timestamp);
+    |
+    |        // gas costs were excluded because worse case scenario the tx fails and gas costs were spent up to here anyway
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(489)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        // deadline is now since trade is atomic
+    |        // solium-disable-next-line security/no-block-members
+  > |        uint256 tokensBought = IUniswapExchange(uniFactory.getExchange(arbToken)).ethToTokenSwapInput.value(amount)(1, block.timestamp);
+    |
+    |        // tokens need to be approved for the dutchX before they are deposited
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(515)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |
+    |        // The order of parameters for getAuctionIndex don't matter
+  > |        uint256 dutchAuctionIndex = dutchXProxy.getAuctionIndex(arbToken, etherToken);
+    |
+    |        // spend max amount of tokens currently on the dutch x (might be combined from previous remainders)
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(523)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        // max is automatically reduced to maximum available tokens because there may be
+    |        // token remainders from previous auctions which closed after previous arbitrage opportunities
+  > |        dutchXProxy.postBuyOrder(etherToken, arbToken, dutchAuctionIndex, max);
+    |        // solium-disable-next-line no-unused-vars
+    |        (uint etherReturned, ) = dutchXProxy.claimBuyerFunds(etherToken, arbToken, address(this), dutchAuctionIndex);
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(528)
+
+[31mViolation[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        dutchXProxy.postBuyOrder(etherToken, arbToken, dutchAuctionIndex, max);
+    |        // solium-disable-next-line no-unused-vars
+  > |        (uint etherReturned, ) = dutchXProxy.claimBuyerFunds(etherToken, arbToken, address(this), dutchAuctionIndex);
+    |
+    |        // gas costs were excluded because worse case scenario the tx fails and gas costs were spent up to here anyway
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(530)
+
+[33mWarning[0m for RepeatedCall in contract 'ArbitrageMainnet':
+    |        (bool success, bytes memory returnValue) =
+    |        // solhint-disable-next-line avoid-low-level-calls
+  > |        _erc20Addr.call(abi.encodeWithSelector(TRANSFER_SELECTOR, _to, _value));
+    |        // call return false when something wrong
+    |        require(success, "safeTransfer must succeed");
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(207)
+
+[31mViolation[0m for TODAmount in contract 'ArbitrageMainnet':
+    |        // // Deposit balance to WETH
+    |        address weth = dutchXProxy.ethToken();
+  > |        ITokenMinimal(weth).deposit.value(balance)();
+    |
+    |        uint wethBalance = ITokenMinimal(weth).balanceOf(address(this));
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(355)
+
+[31mViolation[0m for TODReceiver in contract 'ArbitrageMainnet':
+    |    function withdrawEtherThenTransfer(uint amount) external onlyOwner {
+    |        _withdrawEther(amount);
+  > |        address(uint160(owner())).transfer(amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(378)
+
+[31mViolation[0m for TODReceiver in contract 'ArbitrageMainnet':
+    |    function transferEther(uint amount) external onlyOwner {
+    |        // If amount is zero, deposit the entire contract balance.
+  > |        address(uint160(owner())).transfer(amount == 0 ? address(this).balance : amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(385)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'ArbitrageMainnet':
+    |    function withdrawEtherThenTransfer(uint amount) external onlyOwner {
+    |        _withdrawEther(amount);
+  > |        address(uint160(owner())).transfer(amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(378)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'ArbitrageMainnet':
+    |    function transferEther(uint amount) external onlyOwner {
+    |        // If amount is zero, deposit the entire contract balance.
+  > |        address(uint160(owner())).transfer(amount == 0 ? address(this).balance : amount);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(385)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'ArbitrageMainnet':
+    |        // deadline is now since trade is atomic
+    |        // solium-disable-next-line security/no-block-members
+  > |        uint256 tokensBought = IUniswapExchange(uniFactory.getExchange(arbToken)).ethToTokenSwapInput.value(amount)(1, block.timestamp);
+    |
+    |        // tokens need to be approved for the dutchX before they are deposited
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(515)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ArbitrageMainnet':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(301)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ArbitrageMainnet':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/19/0xaf6ad121d423cb66231229770a431f423e30e02e.sol(319)

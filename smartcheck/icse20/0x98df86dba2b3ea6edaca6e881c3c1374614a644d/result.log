@@ -1,0 +1,496 @@
+/unique_chucks/20/0x98df86dba2b3ea6edaca6e881c3c1374614a644d.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: a91b18
+severity: 1
+line: 42
+column: 4
+content: owner=address(0)
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 551
+column: 41
+content: 0x0
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 561
+column: 41
+content: 0x0
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 607
+column: 45
+content: 0x0
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 608
+column: 42
+content: 0x0
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 885
+column: 47
+content: 0x0
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 886
+column: 42
+content: 0x0
+
+ruleId: SOLIDITY_ARRAY_LENGTH_MANIPULATION
+patternId: 872bdd
+severity: 1
+line: 232
+column: 16
+content: authorities.length-=1
+
+ruleId: SOLIDITY_ARRAY_LENGTH_MANIPULATION
+patternId: 872bdd
+severity: 1
+line: 922
+column: 16
+content: handlerWhitelistArray.length-=1
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 229
+column: 8
+content: for(uinti=0;i<authorities.length;i++){if(authorities[i]==target){authorities[i]=authorities[authorities.length-1];authorities.length-=1;break;}}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 919
+column: 8
+content: for(uinti=0;i<handlerWhitelistArray.length;i++){if(handlerWhitelistArray[i]==handler){handlerWhitelistArray[i]=handlerWhitelistArray[handlerWhitelistArray.length-1];handlerWhitelistArray.length-=1;break;}}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 954
+column: 8
+content: for(uint256i;i<trades.length;i++){TradememorythisTrade=trades[i];TradeFlagmemorythisTradeFlag=tradeFlags[i];CurrentAmountsmemoryamounts=CurrentAmounts({amountSpentOnTrade:0,amountReceivedFromTrade:0,amountLeftToSpendOnTrade:thisTrade.isSell?thisTrade.tokenAmount:calculateMaxEtherSpend(thisTrade,etherBalance)});performTrade(thisTrade,thisTradeFlag,amounts);if(amounts.amountReceivedFromTrade==0&&thisTrade.optionalTrade){continue;}if(!checkIfTradeAmountsAcceptable(thisTrade,amounts.amountSpentOnTrade,amounts.amountReceivedFromTrade)){errorReporter.revertTx("Amounts spent/received in trade not acceptable");}if(thisTrade.isSell){etherBalance=SafeMath.add(etherBalance,amounts.amountReceivedFromTrade);}else{etherBalance=SafeMath.sub(etherBalance,amounts.amountSpentOnTrade);}transferTokensToUser(thisTrade.tokenAddress,thisTrade.isSell?amounts.amountLeftToSpendOnTrade:amounts.amountReceivedFromTrade);}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 1035
+column: 8
+content: for(uint256i;i<trades.length;i++){TradememorythisTrade=trades[i];if(thisTrade.isSell){if(previousBuyOccured){errorReporter.revertTx("A buy has occured before this sell");}if(!Utils.tokenAllowanceAndBalanceSet(msg.sender,thisTrade.tokenAddress,thisTrade.tokenAmount,tokenTransferProxy)){if(!thisTrade.optionalTrade){errorReporter.revertTx("Taker has not sent allowance/balance on a non-optional trade");}tradeFlags[i].ignoreTrade=true;continue;}}else{previousBuyOccured=true;}for(uint256j;j<thisTrade.orders.length;j++){OrdermemorythisOrder=thisTrade.orders[j];if(!handlerWhitelistMap[thisOrder.exchangeHandler]){tradeFlags[i].ignoreOrder[j]=true;continue;}}}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 1062
+column: 12
+content: for(uint256j;j<thisTrade.orders.length;j++){OrdermemorythisOrder=thisTrade.orders[j];if(!handlerWhitelistMap[thisOrder.exchangeHandler]){tradeFlags[i].ignoreOrder[j]=true;continue;}}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 1093
+column: 8
+content: for(uint256i=0;i<trades.length;i++){tradeFlags[i].ignoreOrder=newbool[](trades[i].orders.length);}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 1130
+column: 8
+content: for(uint256j;j<trade.orders.length;j++){if(amounts.amountReceivedFromTrade>=trade.minimumAcceptableTokenAmount){return;}if(tradeFlag.ignoreOrder[j]||amounts.amountLeftToSpendOnTrade==0){continue;}uint256amountSpentOnOrder=0;uint256amountReceivedFromOrder=0;OrdermemorythisOrder=trade.orders[j];ExchangeHandlerthisHandler=ExchangeHandler(thisOrder.exchangeHandler);uint256amountToGiveForOrder=Utils.min(thisHandler.getAmountToGive(thisOrder.genericPayload),amounts.amountLeftToSpendOnTrade);if(amountToGiveForOrder==0){continue;}if(!thisHandler.staticExchangeChecks(thisOrder.genericPayload)){continue;}if(trade.isSell){if(!ERC20SafeTransfer.safeTransfer(trade.tokenAddress,address(thisHandler),amountToGiveForOrder)){if(!trade.optionalTrade)errorReporter.revertTx("Unable to transfer tokens to handler");else{return;}}(amountSpentOnOrder,amountReceivedFromOrder)=thisHandler.performSellOrder(thisOrder.genericPayload,amountToGiveForOrder);}else{(amountSpentOnOrder,amountReceivedFromOrder)=thisHandler.performBuyOrder.value(amountToGiveForOrder)(thisOrder.genericPayload,amountToGiveForOrder);}if(amountReceivedFromOrder>0){amounts.amountLeftToSpendOnTrade=SafeMath.sub(amounts.amountLeftToSpendOnTrade,amountSpentOnOrder);amounts.amountSpentOnTrade=SafeMath.add(amounts.amountSpentOnTrade,amountSpentOnOrder);amounts.amountReceivedFromTrade=SafeMath.add(amounts.amountReceivedFromTrade,amountReceivedFromOrder);}}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 1266
+column: 8
+content: for(uint256i=0;i<trades.length;i++){if(trades[i].isSell&&!tradeFlags[i].ignoreTrade){if(!TokenTransferProxy(tokenTransferProxy).transferFrom(trades[i].tokenAddress,msg.sender,address(this),trades[i].tokenAmount)){errorReporter.revertTx("TTP unable to transfer tokens to primary");}emitGenericEvent(3);}}
+
+ruleId: SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN
+patternId: 58bdd3
+severity: 1
+line: 86
+column: 4
+content: functionfetchReturnData()internalreturns(boolsuccess){assembly{switchreturndatasize()case0{success:=1}case32{returndatacopy(0,0,32)success:=mload(0)}default{revert(0,0)}}}
+
+ruleId: SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN
+patternId: 58bdd3
+severity: 1
+line: 412
+column: 4
+content: functiongetDecimals(addresstoken)internalviewreturns(uint256decimals){bytes4functionSig=bytes4(keccak256("decimals()"));assembly{letptr:=mload(0x40)mstore(ptr,functionSig)letfunctionSigLength:=0x04letwordLength:=0x20letsuccess:=call(5000,token,0,ptr,functionSigLength,ptr,wordLength)switchsuccesscase0{decimals:=18}case1{decimals:=mload(ptr)}mstore(0x40,add(ptr,0x04))}}
+
+ruleId: SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN
+patternId: 58bdd3
+severity: 1
+line: 618
+column: 4
+content: functiongetAmountToGive(bytesgenericPayload)publicviewonlyTotlewhenNotPausedreturns(uint256amountToGive){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.getAmountToGive.selector);assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)amountToGive:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}}
+
+ruleId: SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN
+patternId: 58bdd3
+severity: 1
+line: 661
+column: 4
+content: functionstaticExchangeChecks(bytesgenericPayload)publicviewonlyTotlewhenNotPausedreturns(boolchecksPassed){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.staticExchangeChecks.selector);assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)checksPassed:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}}
+
+ruleId: SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN
+patternId: 58bdd3
+severity: 1
+line: 704
+column: 4
+content: functionperformBuyOrder(bytesgenericPayload,uint256amountToGiveForOrder)publicpayableonlyTotlewhenNotPausedreturns(uint256amountSpentOnOrder,uint256amountReceivedFromOrder){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.performBuyOrder.selector);assembly{letcallDataOffset:=0x44letfunctionSelectorOffset:=0x1CletfunctionSelectorLength:=0x04letscratchSpace:=0x0letwordLength:=0x20letstartOfFreeMemory:=mload(0x40)calldatacopy(startOfFreeMemory,callDataOffset,calldatasize)letbytesLength:=mload(startOfFreeMemory)lettotalLength:=add(add(functionSelectorLength,bytesLength),wordLength)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(startOfFreeMemory,functionSelectorCorrect)mstore(add(startOfFreeMemory,add(wordLength,bytesLength)),amountToGiveForOrder)letstartOfNewData:=add(startOfFreeMemory,functionSelectorOffset)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,mul(wordLength,0x02))amountSpentOnOrder:=mload(scratchSpace)amountReceivedFromOrder:=mload(add(scratchSpace,wordLength))ifeq(success,0){revert(0,0)}}}
+
+ruleId: SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN
+patternId: 58bdd3
+severity: 1
+line: 759
+column: 4
+content: functionperformSellOrder(bytesgenericPayload,uint256amountToGiveForOrder)publiconlyTotlewhenNotPausedreturns(uint256amountSpentOnOrder,uint256amountReceivedFromOrder){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.performSellOrder.selector);assembly{letcallDataOffset:=0x44letfunctionSelectorOffset:=0x1CletfunctionSelectorLength:=0x04letscratchSpace:=0x0letwordLength:=0x20letstartOfFreeMemory:=mload(0x40)calldatacopy(startOfFreeMemory,callDataOffset,calldatasize)letbytesLength:=mload(startOfFreeMemory)lettotalLength:=add(add(functionSelectorLength,bytesLength),wordLength)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(startOfFreeMemory,functionSelectorCorrect)mstore(add(startOfFreeMemory,add(wordLength,bytesLength)),amountToGiveForOrder)letstartOfNewData:=add(startOfFreeMemory,functionSelectorOffset)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,mul(wordLength,0x02))amountSpentOnOrder:=mload(scratchSpace)amountReceivedFromOrder:=mload(add(scratchSpace,wordLength))ifeq(success,0){revert(0,0)}}}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 229
+column: 8
+content: for(uinti=0;i<authorities.length;i++){if(authorities[i]==target){authorities[i]=authorities[authorities.length-1];authorities.length-=1;break;}}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 919
+column: 8
+content: for(uinti=0;i<handlerWhitelistArray.length;i++){if(handlerWhitelistArray[i]==handler){handlerWhitelistArray[i]=handlerWhitelistArray[handlerWhitelistArray.length-1];handlerWhitelistArray.length-=1;break;}}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 954
+column: 8
+content: for(uint256i;i<trades.length;i++){TradememorythisTrade=trades[i];TradeFlagmemorythisTradeFlag=tradeFlags[i];CurrentAmountsmemoryamounts=CurrentAmounts({amountSpentOnTrade:0,amountReceivedFromTrade:0,amountLeftToSpendOnTrade:thisTrade.isSell?thisTrade.tokenAmount:calculateMaxEtherSpend(thisTrade,etherBalance)});performTrade(thisTrade,thisTradeFlag,amounts);if(amounts.amountReceivedFromTrade==0&&thisTrade.optionalTrade){continue;}if(!checkIfTradeAmountsAcceptable(thisTrade,amounts.amountSpentOnTrade,amounts.amountReceivedFromTrade)){errorReporter.revertTx("Amounts spent/received in trade not acceptable");}if(thisTrade.isSell){etherBalance=SafeMath.add(etherBalance,amounts.amountReceivedFromTrade);}else{etherBalance=SafeMath.sub(etherBalance,amounts.amountSpentOnTrade);}transferTokensToUser(thisTrade.tokenAddress,thisTrade.isSell?amounts.amountLeftToSpendOnTrade:amounts.amountReceivedFromTrade);}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 1035
+column: 8
+content: for(uint256i;i<trades.length;i++){TradememorythisTrade=trades[i];if(thisTrade.isSell){if(previousBuyOccured){errorReporter.revertTx("A buy has occured before this sell");}if(!Utils.tokenAllowanceAndBalanceSet(msg.sender,thisTrade.tokenAddress,thisTrade.tokenAmount,tokenTransferProxy)){if(!thisTrade.optionalTrade){errorReporter.revertTx("Taker has not sent allowance/balance on a non-optional trade");}tradeFlags[i].ignoreTrade=true;continue;}}else{previousBuyOccured=true;}for(uint256j;j<thisTrade.orders.length;j++){OrdermemorythisOrder=thisTrade.orders[j];if(!handlerWhitelistMap[thisOrder.exchangeHandler]){tradeFlags[i].ignoreOrder[j]=true;continue;}}}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 1062
+column: 12
+content: for(uint256j;j<thisTrade.orders.length;j++){OrdermemorythisOrder=thisTrade.orders[j];if(!handlerWhitelistMap[thisOrder.exchangeHandler]){tradeFlags[i].ignoreOrder[j]=true;continue;}}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 1093
+column: 8
+content: for(uint256i=0;i<trades.length;i++){tradeFlags[i].ignoreOrder=newbool[](trades[i].orders.length);}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 1130
+column: 8
+content: for(uint256j;j<trade.orders.length;j++){if(amounts.amountReceivedFromTrade>=trade.minimumAcceptableTokenAmount){return;}if(tradeFlag.ignoreOrder[j]||amounts.amountLeftToSpendOnTrade==0){continue;}uint256amountSpentOnOrder=0;uint256amountReceivedFromOrder=0;OrdermemorythisOrder=trade.orders[j];ExchangeHandlerthisHandler=ExchangeHandler(thisOrder.exchangeHandler);uint256amountToGiveForOrder=Utils.min(thisHandler.getAmountToGive(thisOrder.genericPayload),amounts.amountLeftToSpendOnTrade);if(amountToGiveForOrder==0){continue;}if(!thisHandler.staticExchangeChecks(thisOrder.genericPayload)){continue;}if(trade.isSell){if(!ERC20SafeTransfer.safeTransfer(trade.tokenAddress,address(thisHandler),amountToGiveForOrder)){if(!trade.optionalTrade)errorReporter.revertTx("Unable to transfer tokens to handler");else{return;}}(amountSpentOnOrder,amountReceivedFromOrder)=thisHandler.performSellOrder(thisOrder.genericPayload,amountToGiveForOrder);}else{(amountSpentOnOrder,amountReceivedFromOrder)=thisHandler.performBuyOrder.value(amountToGiveForOrder)(thisOrder.genericPayload,amountToGiveForOrder);}if(amountReceivedFromOrder>0){amounts.amountLeftToSpendOnTrade=SafeMath.sub(amounts.amountLeftToSpendOnTrade,amountSpentOnOrder);amounts.amountSpentOnTrade=SafeMath.add(amounts.amountSpentOnTrade,amountSpentOnOrder);amounts.amountReceivedFromTrade=SafeMath.add(amounts.amountReceivedFromTrade,amountReceivedFromOrder);}}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 1266
+column: 8
+content: for(uint256i=0;i<trades.length;i++){if(trades[i].isSell&&!tradeFlags[i].ignoreTrade){if(!TokenTransferProxy(tokenTransferProxy).transferFrom(trades[i].tokenAddress,msg.sender,address(this),trades[i].tokenAmount)){errorReporter.revertTx("TTP unable to transfer tokens to primary");}emitGenericEvent(3);}}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 576
+column: 0
+content: contractExchangeHandlerisTotleControl,Withdrawable,Pausable{SelectorProviderpublicselectorProvider;ErrorReporterpublicerrorReporter;modifieronlySelf(){require(msg.sender==address(this));_;}constructor(address_selectorProvider,addresstotlePrimary,address_errorReporter)TotleControl(totlePrimary)public{require(_selectorProvider!=address(0x0));require(_errorReporter!=address(0x0));selectorProvider=SelectorProvider(_selectorProvider);errorReporter=ErrorReporter(_errorReporter);}functiongetAmountToGive(bytesgenericPayload)publicviewonlyTotlewhenNotPausedreturns(uint256amountToGive){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.getAmountToGive.selector);assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)amountToGive:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}}functionstaticExchangeChecks(bytesgenericPayload)publicviewonlyTotlewhenNotPausedreturns(boolchecksPassed){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.staticExchangeChecks.selector);assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)checksPassed:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}}functionperformBuyOrder(bytesgenericPayload,uint256amountToGiveForOrder)publicpayableonlyTotlewhenNotPausedreturns(uint256amountSpentOnOrder,uint256amountReceivedFromOrder){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.performBuyOrder.selector);assembly{letcallDataOffset:=0x44letfunctionSelectorOffset:=0x1CletfunctionSelectorLength:=0x04letscratchSpace:=0x0letwordLength:=0x20letstartOfFreeMemory:=mload(0x40)calldatacopy(startOfFreeMemory,callDataOffset,calldatasize)letbytesLength:=mload(startOfFreeMemory)lettotalLength:=add(add(functionSelectorLength,bytesLength),wordLength)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(startOfFreeMemory,functionSelectorCorrect)mstore(add(startOfFreeMemory,add(wordLength,bytesLength)),amountToGiveForOrder)letstartOfNewData:=add(startOfFreeMemory,functionSelectorOffset)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,mul(wordLength,0x02))amountSpentOnOrder:=mload(scratchSpace)amountReceivedFromOrder:=mload(add(scratchSpace,wordLength))ifeq(success,0){revert(0,0)}}}functionperformSellOrder(bytesgenericPayload,uint256amountToGiveForOrder)publiconlyTotlewhenNotPausedreturns(uint256amountSpentOnOrder,uint256amountReceivedFromOrder){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.performSellOrder.selector);assembly{letcallDataOffset:=0x44letfunctionSelectorOffset:=0x1CletfunctionSelectorLength:=0x04letscratchSpace:=0x0letwordLength:=0x20letstartOfFreeMemory:=mload(0x40)calldatacopy(startOfFreeMemory,callDataOffset,calldatasize)letbytesLength:=mload(startOfFreeMemory)lettotalLength:=add(add(functionSelectorLength,bytesLength),wordLength)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(startOfFreeMemory,functionSelectorCorrect)mstore(add(startOfFreeMemory,add(wordLength,bytesLength)),amountToGiveForOrder)letstartOfNewData:=add(startOfFreeMemory,functionSelectorOffset)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,mul(wordLength,0x02))amountSpentOnOrder:=mload(scratchSpace)amountReceivedFromOrder:=mload(add(scratchSpace,wordLength))ifeq(success,0){revert(0,0)}}}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 558
+column: 4
+content: functionsetTotle(address_totlePrimary)externalonlyOwner{require(_totlePrimary!=address(0x0));totlePrimary=_totlePrimary;}
+
+ruleId: SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA
+patternId: 5616b2
+severity: 1
+line: 280
+column: 7
+content: private
+
+ruleId: SOLIDITY_SHOULD_NOT_BE_VIEW
+patternId: 189abf
+severity: 1
+line: 412
+column: 4
+content: functiongetDecimals(addresstoken)internalviewreturns(uint256decimals){bytes4functionSig=bytes4(keccak256("decimals()"));assembly{letptr:=mload(0x40)mstore(ptr,functionSig)letfunctionSigLength:=0x04letwordLength:=0x20letsuccess:=call(5000,token,0,ptr,functionSigLength,ptr,wordLength)switchsuccesscase0{decimals:=18}case1{decimals:=mload(ptr)}mstore(0x40,add(ptr,0x04))}}
+
+ruleId: SOLIDITY_SHOULD_NOT_BE_VIEW
+patternId: 189abf
+severity: 1
+line: 618
+column: 4
+content: functiongetAmountToGive(bytesgenericPayload)publicviewonlyTotlewhenNotPausedreturns(uint256amountToGive){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.getAmountToGive.selector);assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)amountToGive:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}}
+
+ruleId: SOLIDITY_SHOULD_NOT_BE_VIEW
+patternId: 189abf
+severity: 1
+line: 661
+column: 4
+content: functionstaticExchangeChecks(bytesgenericPayload)publicviewonlyTotlewhenNotPausedreturns(boolchecksPassed){boolsuccess;bytes4functionSelector=selectorProvider.getSelector(this.staticExchangeChecks.selector);assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)checksPassed:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}}
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 83k1no
+severity: 1
+line: 67
+column: 30
+content: call(bytes4(keccak256("transfer(address,uint256)")),_to,_value)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 83k1no
+severity: 1
+line: 74
+column: 30
+content: call(bytes4(keccak256("transferFrom(address,address,uint256)")),_from,_to,_value)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 83k1no
+severity: 1
+line: 81
+column: 30
+content: call(bytes4(keccak256("approve(address,uint256)")),_spender,_value)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 91h3sa
+severity: 1
+line: 1314
+column: 15
+content: public
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 266
+column: 17
+content: address[]
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 529
+column: 22
+content: stringreason
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 619
+column: 8
+content: bytesgenericPayload
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 662
+column: 8
+content: bytesgenericPayload
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 705
+column: 8
+content: bytesgenericPayload
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 760
+column: 8
+content: bytesgenericPayload
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 932
+column: 8
+content: Trade[]trades
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1026
+column: 8
+content: Trade[]trades
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1027
+column: 8
+content: TradeFlag[]tradeFlags
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1087
+column: 34
+content: Trade[]trades
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1089
+column: 17
+content: TradeFlag[]
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1122
+column: 8
+content: Tradetrade
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1123
+column: 8
+content: TradeFlagtradeFlag
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1124
+column: 8
+content: CurrentAmountsamounts
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1225
+column: 8
+content: Tradetrade
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1265
+column: 28
+content: Trade[]trades
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1265
+column: 44
+content: TradeFlag[]tradeFlags
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 1296
+column: 36
+content: Tradetrade
+
+ruleId: SOLIDITY_USING_INLINE_ASSEMBLY
+patternId: 109cd5
+severity: 1
+line: 87
+column: 8
+content: assembly{switchreturndatasize()case0{success:=1}case32{returndatacopy(0,0,32)success:=mload(0)}default{revert(0,0)}}
+
+ruleId: SOLIDITY_USING_INLINE_ASSEMBLY
+patternId: 109cd5
+severity: 1
+line: 421
+column: 8
+content: assembly{letptr:=mload(0x40)mstore(ptr,functionSig)letfunctionSigLength:=0x04letwordLength:=0x20letsuccess:=call(5000,token,0,ptr,functionSigLength,ptr,wordLength)switchsuccesscase0{decimals:=18}case1{decimals:=mload(ptr)}mstore(0x40,add(ptr,0x04))}
+
+ruleId: SOLIDITY_USING_INLINE_ASSEMBLY
+patternId: 109cd5
+severity: 1
+line: 630
+column: 8
+content: assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)amountToGive:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}
+
+ruleId: SOLIDITY_USING_INLINE_ASSEMBLY
+patternId: 109cd5
+severity: 1
+line: 672
+column: 8
+content: assembly{letfunctionSelectorLength:=0x04letfunctionSelectorOffset:=0x1CletscratchSpace:=0x0letwordLength:=0x20letbytesLength:=mload(genericPayload)lettotalLength:=add(functionSelectorLength,bytesLength)letstartOfNewData:=add(genericPayload,functionSelectorOffset)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(genericPayload,functionSelectorCorrect)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,wordLength)checksPassed:=mload(scratchSpace)ifeq(success,0){revert(0,0)}}
+
+ruleId: SOLIDITY_USING_INLINE_ASSEMBLY
+patternId: 109cd5
+severity: 1
+line: 716
+column: 8
+content: assembly{letcallDataOffset:=0x44letfunctionSelectorOffset:=0x1CletfunctionSelectorLength:=0x04letscratchSpace:=0x0letwordLength:=0x20letstartOfFreeMemory:=mload(0x40)calldatacopy(startOfFreeMemory,callDataOffset,calldatasize)letbytesLength:=mload(startOfFreeMemory)lettotalLength:=add(add(functionSelectorLength,bytesLength),wordLength)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(startOfFreeMemory,functionSelectorCorrect)mstore(add(startOfFreeMemory,add(wordLength,bytesLength)),amountToGiveForOrder)letstartOfNewData:=add(startOfFreeMemory,functionSelectorOffset)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,mul(wordLength,0x02))amountSpentOnOrder:=mload(scratchSpace)amountReceivedFromOrder:=mload(add(scratchSpace,wordLength))ifeq(success,0){revert(0,0)}}
+
+ruleId: SOLIDITY_USING_INLINE_ASSEMBLY
+patternId: 109cd5
+severity: 1
+line: 770
+column: 8
+content: assembly{letcallDataOffset:=0x44letfunctionSelectorOffset:=0x1CletfunctionSelectorLength:=0x04letscratchSpace:=0x0letwordLength:=0x20letstartOfFreeMemory:=mload(0x40)calldatacopy(startOfFreeMemory,callDataOffset,calldatasize)letbytesLength:=mload(startOfFreeMemory)lettotalLength:=add(add(functionSelectorLength,bytesLength),wordLength)mstore(add(scratchSpace,functionSelectorOffset),functionSelector)letfunctionSelectorCorrect:=mload(scratchSpace)mstore(startOfFreeMemory,functionSelectorCorrect)mstore(add(startOfFreeMemory,add(wordLength,bytesLength)),amountToGiveForOrder)letstartOfNewData:=add(startOfFreeMemory,functionSelectorOffset)success:=call(gas,address,callvalue,startOfNewData,totalLength,scratchSpace,mul(wordLength,0x02))amountSpentOnOrder:=mload(scratchSpace)amountReceivedFromOrder:=mload(add(scratchSpace,wordLength))ifeq(success,0){revert(0,0)}}
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 567
+column: 4
+content: bytes4constantgetAmountToGive=bytes4(keccak256("getAmountToGive(bytes)"));
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 568
+column: 4
+content: bytes4constantstaticExchangeChecks=bytes4(keccak256("staticExchangeChecks(bytes)"));
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 569
+column: 4
+content: bytes4constantperformBuyOrder=bytes4(keccak256("performBuyOrder(bytes,uint256)"));
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 570
+column: 4
+content: bytes4constantperformSellOrder=bytes4(keccak256("performSellOrder(bytes,uint256)"));
+
+SOLIDITY_VISIBILITY :4
+SOLIDITY_OVERPOWERED_ROLE :1
+SOLIDITY_ARRAY_LENGTH_MANIPULATION :2
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN :6
+SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA :1
+SOLIDITY_EXTRA_GAS_IN_LOOPS :8
+SOLIDITY_ADDRESS_HARDCODED :7
+SOLIDITY_UPGRADE_TO_050 :22
+SOLIDITY_GAS_LIMIT_IN_LOOPS :8
+SOLIDITY_USING_INLINE_ASSEMBLY :6
+SOLIDITY_SHOULD_NOT_BE_VIEW :3

@@ -1,0 +1,68 @@
+Processing contract: /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol:DAIHardFactory
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol:DAIHardTrade
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+java.io.IOException: Timeout for /tmp/binaries_souffle8683068261511110743/mustExplicit -j 1 -F /tmp/souffle-9e759f6c-57ed-4be1-9eee-f1f3865346ed -D /tmp/souffle-9e759f6c-57ed-4be1-9eee-f1f3865346ed_OUT
+	at ch.securify.analysis.AbstractDataflow.runCommand(AbstractDataflow.java:277)
+	at ch.securify.analysis.AbstractDataflow.initDataflow(AbstractDataflow.java:169)
+	at ch.securify.analysis.MustExplicitDataflow.<init>(MustExplicitDataflow.java:33)
+	at ch.securify.analysis.Dataflow.<init>(Dataflow.java:33)
+	at ch.securify.analysis.DataflowFactory.getDataflow(DataflowFactory.java:54)
+	at ch.securify.Main.checkPatterns(Main.java:388)
+	at ch.securify.Main.processHexFile(Main.java:189)
+	at ch.securify.Main.processCompilationOutput(Main.java:129)
+	at ch.securify.Main.processSolidityFile(Main.java:100)
+	at ch.securify.Main.main(Main.java:254)
+Error in Securify
+java.lang.RuntimeException
+	at ch.securify.analysis.Dataflow.<init>(Dataflow.java:37)
+	at ch.securify.analysis.DataflowFactory.getDataflow(DataflowFactory.java:54)
+	at ch.securify.Main.checkPatterns(Main.java:388)
+	at ch.securify.Main.processHexFile(Main.java:189)
+	at ch.securify.Main.processCompilationOutput(Main.java:129)
+	at ch.securify.Main.processSolidityFile(Main.java:100)
+	at ch.securify.Main.main(Main.java:254)
+Error, skipping: /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol:DAIHardTrade
+Processing contract: /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol:ERC20Interface
+Processing contract: /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'DAIHardFactory':
+    |}
+    |
+  > |contract DAIHardFactory {
+    |    event NewTrade(uint id, address tradeAddress, bool indexed initiatorIsPayer);
+    |
+  at /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol(82)
+
+[33mWarning[0m for RepeatedCall in contract 'DAIHardFactory':
+    |        //transfer DAI to the trade and open it
+    |        require(daiContract.transferFrom(msg.sender, address(newTrade), transferAmount), "Token transfer failed. Did you call approve() on the DAI contract?");
+  > |        newTrade.open(_initiator, initiatorIsBuyer, newUintArgs, _totalPrice, _fiatTransferMethods, _commPubkey);
+    |
+    |        return newTrade;
+  at /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol(159)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardFactory':
+    |
+    |/**
+  > | * @title SafeMath
+    | * @dev Unsigned math operations with safety checks that revert on error.
+    | * Code yanked from https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/math/SafeMath.sol
+  at /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol(4)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DAIHardFactory':
+    |        //create the new trade and add its creationInfo to createdTrades
+    |        DAIHardTrade newTrade = new DAIHardTrade(daiContract, devFeeAddress);
+  > |        createdTrades.push(CreationInfo(address(newTrade), block.number));
+    |        emit NewTrade(createdTrades.length - 1, address(newTrade), initiatorIsBuyer);
+    |
+  at /unique_contracts/0xee7c042bdba8ec063aadf9f08f413e170ed5443c.sol(154)

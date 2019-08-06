@@ -1,0 +1,49 @@
+{
+  "contract": "0x652729577d5c5a13060f81c256aa79adb264f188",
+  "tool": "smartcheck",
+  "start": 1563697589.7735264,
+  "end": 1563697597.8811169,
+  "duration": 8.107590436935425,
+  "analysis": [
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 126,
+      "column": 0,
+      "content": "contractVNETTokenPreSaleisOwnable{usingSafeMathforuint256;stringpublicdescription=\"VNET Token Pre-Sale Contract\";ERC20BasicpublicvnetToken;addresswallet;uint256publicratioNext;uint256publicethPrice;uint256publicvnetSold;uint256publicvnetSupply=30*(10**8)*(10**6);uint256publicvnetPriceStart=0.0026*(10**8);uint256publicvnetPriceTarget=0.0065*(10**8);uint256publicweiMinimum=1*(10**18);uint256publicweiMaximum=100*(10**18);uint256publicweiWelfare=10*(10**18);mapping(address=>bool)publicwelfare;eventWelfare(addressindexed_buyer);eventBuyVNET(addressindexed_buyer,uint256_ratio,uint256_vnetAmount,uint256_weiAmount);eventEthPrice(uint256_ethPrice);constructor(ERC20Basic_vnetToken,uint256_ethPrice)public{vnetToken=_vnetToken;wallet=owner;calcRatioNext();updateEthPrice(_ethPrice);}function()publicpayable{uint256vnetBalance=vnetToken.balanceOf(address(this));require(vnetBalance>0);require(vnetSold<vnetSupply);uint256weiAmount=msg.value;require(weiAmount>=weiMinimum);require(weiAmount<=weiMaximum);uint256vnetAmount=weiAmount.mul(ratioNext).div(10**18);if(vnetBalance>=vnetAmount){assert(vnetToken.transfer(msg.sender,vnetAmount));emitBuyVNET(msg.sender,ratioNext,vnetAmount,weiAmount);vnetSold=vnetSold.add(vnetAmount);if(weiAmount>=weiWelfare){welfare[msg.sender]=true;emitWelfare(msg.sender);}}else{uint256weiExpend=vnetBalance.mul(10**18).div(ratioNext);assert(vnetToken.transfer(msg.sender,vnetBalance));emitBuyVNET(msg.sender,ratioNext,vnetBalance,weiExpend);vnetSold=vnetSold.add(vnetBalance);msg.sender.transfer(weiAmount.sub(weiExpend));if(weiExpend>=weiWelfare){welfare[msg.sender]=true;emitWelfare(msg.sender);}}calcRatioNext();uint256etherBalance=address(this).balance;wallet.transfer(etherBalance);}functioncalcRatioNext()private{ratioNext=ethPrice.mul(10**6).div(vnetPriceStart.add(vnetPriceTarget.sub(vnetPriceStart).mul(vnetSold).div(vnetSupply)));}functionupdateWallet(address_wallet)onlyOwnerpublic{wallet=_wallet;}functionupdateEthPrice(uint256_ethPrice)onlyOwnerpublic{ethPrice=_ethPrice;emitEthPrice(_ethPrice);calcRatioNext();}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 127,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 163,
+      "column": 16,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 132,
+      "column": 4,
+      "content": "addresswallet;"
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+Processing contract: /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol:Blacklist
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol:CosmoCoin
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol:ERC20
+Processing contract: /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol:Ownable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol:Pausable
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol:Whitelist
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[33mWarning[0m for UnrestrictedWrite in contract 'Blacklist':
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        require(_newOwner != address(0));
+  > |        newOwner = _newOwner;
+    |    }
+    |
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(67)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Blacklist':
+    |    function acceptOwnership() public onlyNewOwner returns(bool) {
+    |        emit OwnershipTransferred(owner, newOwner);        
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Blacklist':
+    |        emit OwnershipTransferred(owner, newOwner);        
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(73)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Blacklist':
+    |        require(account != owner);
+    |
+  > |        blacklist[account] = true;
+    |        emit AddBlackListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(155)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Blacklist':
+    |        require(account != address(0));
+    |        require(blacklist[account] == true);
+  > |        blacklist[account] = false;
+    |        emit RemoveBlackListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(163)
+
+[31mViolation[0m for LockedEther in contract 'CosmoCoin':
+    |}
+    |
+  > |contract CosmoCoin is ERC20, Ownable, Pausable, Blacklist{
+    |    mapping(address => uint256) balances;
+    |    mapping(address => mapping(address => uint256)) internal allowed;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(169)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(blacklist[msg.sender] == false);
+    |
+  > |        balances[_from] = balances[_from].sub(_amount);
+    |        allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_amount);
+    |        balances[_to] = balances[_to].add(_amount);
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(231)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(_value <= balances[_address]);
+    |        require((whitelist[msg.sender] == true && _address == msg.sender) || (msg.sender == owner));
+  > |        balances[_address] = balances[_address].sub(_value);
+    |        totalTokenSupply = totalTokenSupply.sub(_value);
+    |        emit Burn(msg.sender, _address, _value);
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(257)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require((whitelist[msg.sender] == true && _address == msg.sender) || (msg.sender == owner));
+    |        balances[_address] = balances[_address].sub(_value);
+  > |        totalTokenSupply = totalTokenSupply.sub(_value);
+    |        emit Burn(msg.sender, _address, _value);
+    |        emit Transfer(_address, address(0), _value);
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(258)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        require(_newOwner != address(0));
+  > |        newOwner = _newOwner;
+    |    }
+    |
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(67)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |    function acceptOwnership() public onlyNewOwner returns(bool) {
+    |        emit OwnershipTransferred(owner, newOwner);        
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        emit OwnershipTransferred(owner, newOwner);        
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(73)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(whitelist[account] == false);
+    |        require(account != address(this));
+  > |        whitelist[account] = true;
+    |        emit AddWhiteListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(94)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(whitelist[account] == true);
+    |        require(account != owner);
+  > |        whitelist[account] = false;
+    |        emit RemoveWhiteListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(103)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |
+    |    function pause() onlyOwner whenNotPaused public {
+  > |        paused = true;
+    |        emit Pause();
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(126)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |
+    |    function unpause() onlyOwner whenPaused public {
+  > |        paused = false;
+    |        emit Unpause();
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(131)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(account != owner);
+    |
+  > |        blacklist[account] = true;
+    |        emit AddBlackListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(155)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(account != address(0));
+    |        require(blacklist[account] == true);
+  > |        blacklist[account] = false;
+    |        emit RemoveBlackListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(163)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |
+    |        balances[msg.sender] = balances[msg.sender].sub(_amount);
+  > |        balances[_to] = balances[_to].add(_amount);
+    |        emit Transfer(msg.sender, _to, _amount);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(217)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        balances[_from] = balances[_from].sub(_amount);
+    |        allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_amount);
+  > |        balances[_to] = balances[_to].add(_amount);
+    |        emit Transfer(_from, _to, _amount);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(233)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(blacklist[_beneficiary] == false);
+    |        require(_value > 0);
+  > |        balances[_beneficiary] = balances[_beneficiary].add(_value);
+    |        totalTokenSupply = totalTokenSupply.add(_value);
+    |        emit Mint(_beneficiary, _value);
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(267)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CosmoCoin':
+    |        require(_value > 0);
+    |        balances[_beneficiary] = balances[_beneficiary].add(_value);
+  > |        totalTokenSupply = totalTokenSupply.add(_value);
+    |        emit Mint(_beneficiary, _value);
+    |        emit Transfer(address(0), _beneficiary, _value);
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(268)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        require(_newOwner != address(0));
+  > |        newOwner = _newOwner;
+    |    }
+    |
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(67)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |    function acceptOwnership() public onlyNewOwner returns(bool) {
+    |        emit OwnershipTransferred(owner, newOwner);        
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |        emit OwnershipTransferred(owner, newOwner);        
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(73)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pausable':
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        require(_newOwner != address(0));
+  > |        newOwner = _newOwner;
+    |    }
+    |
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(67)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pausable':
+    |    function acceptOwnership() public onlyNewOwner returns(bool) {
+    |        emit OwnershipTransferred(owner, newOwner);        
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pausable':
+    |        emit OwnershipTransferred(owner, newOwner);        
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(73)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pausable':
+    |        require(whitelist[account] == false);
+    |        require(account != address(this));
+  > |        whitelist[account] = true;
+    |        emit AddWhiteListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(94)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pausable':
+    |        require(whitelist[account] == true);
+    |        require(account != owner);
+  > |        whitelist[account] = false;
+    |        emit RemoveWhiteListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(103)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pausable':
+    |
+    |    function pause() onlyOwner whenNotPaused public {
+  > |        paused = true;
+    |        emit Pause();
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(126)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pausable':
+    |
+    |    function unpause() onlyOwner whenPaused public {
+  > |        paused = false;
+    |        emit Unpause();
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(131)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Whitelist':
+    |    function transferOwnership(address _newOwner) public onlyOwner {
+    |        require(_newOwner != address(0));
+  > |        newOwner = _newOwner;
+    |    }
+    |
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(67)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Whitelist':
+    |    function acceptOwnership() public onlyNewOwner returns(bool) {
+    |        emit OwnershipTransferred(owner, newOwner);        
+  > |        owner = newOwner;
+    |        newOwner = address(0);
+    |    }
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Whitelist':
+    |        emit OwnershipTransferred(owner, newOwner);        
+    |        owner = newOwner;
+  > |        newOwner = address(0);
+    |    }
+    |}
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(73)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Whitelist':
+    |        require(whitelist[account] == false);
+    |        require(account != address(this));
+  > |        whitelist[account] = true;
+    |        emit AddWhiteListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(94)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Whitelist':
+    |        require(whitelist[account] == true);
+    |        require(account != owner);
+  > |        whitelist[account] = false;
+    |        emit RemoveWhiteListAddress(account);
+    |        return true;
+  at /unique_chucks/2/0xd1e10c37a27d95d95720291b1dc6f12f74c71443.sol(103)

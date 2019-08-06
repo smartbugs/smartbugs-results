@@ -1,0 +1,156 @@
+Processing contract: /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol:AuctioneerManaged
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol:DutchX
+Processing contract: /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol:DutchXPriceOracle
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol:TokenWhitelist
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol:WhitelistPriceOracle
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[33mWarning[0m for UnrestrictedWrite in contract 'AuctioneerManaged':
+    |    function updateAuctioneer(address _auctioneer) public onlyAuctioneer {
+    |        require(_auctioneer != address(0), "The auctioneer must be a valid address");
+  > |        auctioneer = _auctioneer;
+    |    }
+    |
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(320)
+
+[31mViolation[0m for LockedEther in contract 'DutchXPriceOracle':
+    |/// @author Dominik Teiml - dominik@gnosis.pm
+    |
+  > |contract DutchXPriceOracle {
+    |
+    |    DutchX public dutchX;
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(45)
+
+[31mViolation[0m for RepeatedCall in contract 'DutchXPriceOracle':
+    |            // Loop begins by calling auctionIndex - 1 and ends by calling auctionIndex - numberOfAcutions
+    |            // That gives numberOfAuctions calls
+  > |            (uint num, uint den) = dutchX.getPriceInPastAuction(token, ethToken, auctionIndex - 1 - i);
+    |
+    |            (nums[i], dens[i]) = (num, den);
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(153)
+
+[31mViolation[0m for RepeatedCall in contract 'DutchXPriceOracle':
+    |
+    |        uint mid = (lowerBound + upperBound) / 2;
+  > |        clearingTime = dutchX.getClearingTime(token, ethToken, mid);
+    |
+    |        if (time < clearingTime) {
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(266)
+
+[33mWarning[0m for RepeatedCall in contract 'DutchXPriceOracle':
+    |
+    |            if (upperBound == initialUpperBound) {
+  > |                clearingTime = dutchX.getClearingTime(token, ethToken, upperBound);
+    |
+    |                if (time < clearingTime) {
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(251)
+
+[31mViolation[0m for LockedEther in contract 'TokenWhitelist':
+    |// File: @gnosis.pm/dx-contracts/contracts/base/TokenWhitelist.sol
+    |
+  > |contract TokenWhitelist is AuctioneerManaged {
+    |    // Mapping that stores the tokens, which are approved
+    |    // Only tokens approved by auctioneer generate frtToken tokens
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(335)
+
+[31mViolation[0m for MissingInputValidation in contract 'TokenWhitelist':
+    |    // Only tokens approved by auctioneer generate frtToken tokens
+    |    // addressToken => boolApproved
+  > |    mapping(address => bool) public approvedTokens;
+    |
+    |    event Approval(address indexed token, bool approved);
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(339)
+
+[31mViolation[0m for MissingInputValidation in contract 'TokenWhitelist':
+    |    /// @dev for quick overview of approved Tokens
+    |    /// @param addressesToCheck are the ERC-20 token addresses to be checked whether they are approved
+  > |    function getApprovedAddressesOfList(address[] calldata addressesToCheck) external view returns (bool[] memory) {
+    |        uint length = addressesToCheck.length;
+    |
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(345)
+
+[33mWarning[0m for MissingInputValidation in contract 'TokenWhitelist':
+    |    }
+    |    
+  > |    function updateApprovalOfToken(address[] memory token, bool approved) public onlyAuctioneer {
+    |        for (uint i = 0; i < token.length; i++) {
+    |            approvedTokens[token[i]] = approved;
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(357)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TokenWhitelist':
+    |    function updateApprovalOfToken(address[] memory token, bool approved) public onlyAuctioneer {
+    |        for (uint i = 0; i < token.length; i++) {
+  > |            approvedTokens[token[i]] = approved;
+    |            emit Approval(token[i], approved);
+    |        }
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(359)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TokenWhitelist':
+    |    function updateAuctioneer(address _auctioneer) public onlyAuctioneer {
+    |        require(_auctioneer != address(0), "The auctioneer must be a valid address");
+  > |        auctioneer = _auctioneer;
+    |    }
+    |
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(320)
+
+[31mViolation[0m for LockedEther in contract 'WhitelistPriceOracle':
+    |/// @title A DutchXPriceOracle that uses it's own whitelisted tokens instead of the ones of the DutchX
+    |/// @author Angel Rodriguez - angel@gnosis.pm
+  > |contract WhitelistPriceOracle is TokenWhitelist, DutchXPriceOracle {
+    |    constructor(DutchX _dutchX, address _ethToken, address _auctioneer)
+    |        DutchXPriceOracle(_dutchX, _ethToken)
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(370)
+
+[31mViolation[0m for RepeatedCall in contract 'WhitelistPriceOracle':
+    |            // Loop begins by calling auctionIndex - 1 and ends by calling auctionIndex - numberOfAcutions
+    |            // That gives numberOfAuctions calls
+  > |            (uint num, uint den) = dutchX.getPriceInPastAuction(token, ethToken, auctionIndex - 1 - i);
+    |
+    |            (nums[i], dens[i]) = (num, den);
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(153)
+
+[31mViolation[0m for RepeatedCall in contract 'WhitelistPriceOracle':
+    |
+    |        uint mid = (lowerBound + upperBound) / 2;
+  > |        clearingTime = dutchX.getClearingTime(token, ethToken, mid);
+    |
+    |        if (time < clearingTime) {
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(266)
+
+[33mWarning[0m for RepeatedCall in contract 'WhitelistPriceOracle':
+    |
+    |            if (upperBound == initialUpperBound) {
+  > |                clearingTime = dutchX.getClearingTime(token, ethToken, upperBound);
+    |
+    |                if (time < clearingTime) {
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(251)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WhitelistPriceOracle':
+    |    function updateApprovalOfToken(address[] memory token, bool approved) public onlyAuctioneer {
+    |        for (uint i = 0; i < token.length; i++) {
+  > |            approvedTokens[token[i]] = approved;
+    |            emit Approval(token[i], approved);
+    |        }
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(359)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'WhitelistPriceOracle':
+    |    function updateAuctioneer(address _auctioneer) public onlyAuctioneer {
+    |        require(_auctioneer != address(0), "The auctioneer must be a valid address");
+  > |        auctioneer = _auctioneer;
+    |    }
+    |
+  at /unique_chucks/24/0xccaca999be06df2dd72b15f5827c1a329a5b5f59.sol(320)
