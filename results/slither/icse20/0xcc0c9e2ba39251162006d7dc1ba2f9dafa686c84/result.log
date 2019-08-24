@@ -1,0 +1,258 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol:
+/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol:1:1: Warning: Source file does not specify required compiler version!Consider adding "pragma solidity ^0.4.25;"
+contract Ownable {
+^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+GTXToken.timeLockContract (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#436) shadows:
+	- StandardToken.timeLockContract (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#161)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variable-shadowing[0m
+INFO:Detectors:[93m
+GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1133-1177) uses a dangerous strict equality:
+	- require(bool,string)(ERC20.balanceOf(address(this)) == ERC20.getAuctionAllocation(),Incorrect balance assigned by auction allocation)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol:
+	Contract GTXToken has payable functions:
+	 - fallback (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#480)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in GTXAuction.claimTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1296-1325):
+	External calls:
+	- require(bool,string)(gtxRecord.lockRecords(),gtx records record updating must be locked) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1302-1304)
+	- require(bool,string)(gtxPresale.lockRecords(),presale record updating must be locked) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1305-1307)
+	- accumulatedTokens = calculateTokens(msg.sender) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1313-1315)
+	State variables written after the call(s):
+	- bids (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1315-1316)
+	- claimedStatus (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1319)
+	- totalTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1316-1319)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+TimeLock.timeLockTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#373-390) does not use the value returned by external calls:
+	-ERC20.transferFrom(msg.sender,this,lockAmount) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#389-390)
+TimeLock.tokenRelease (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#391-405) does not use the value returned by external calls:
+	-ERC20.transfer(msg.sender,transferUnlockedBalance) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#401-405)
+GTXToken.recoverLost (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#482-483) does not use the value returned by external calls:
+	-_token.transfer(owner(),_token.balanceOf(this)) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#483)
+GTXAuction.recoverTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1086-1097) does not use the value returned by external calls:
+	-_token.transfer(owner(),_token.balanceOf(address(this)).sub(maxTotalClaim)) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1090)
+	-_token.transfer(owner(),_token.balanceOf(address(this))) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1091-1096)
+	-_token.transfer(owner(),_token.balanceOf(address(this))) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1096)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in GTXAuction.calculateTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1330-1351):
+	External calls:
+	- gtxRecordTokens = gtxRecord.claimableGTX(_receiver) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1336-1337)
+	- gtxPresaleTokens = gtxPresale.claimableGTX(_receiver) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1338-1339)
+	State variables written after the call(s):
+	- bidTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1339-1340)
+	- totalAuctionTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1343-1348)
+	- totalTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1349-1351)
+Reentrancy in GTXAuction.claimTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1296-1325):
+	External calls:
+	- require(bool,string)(gtxRecord.lockRecords(),gtx records record updating must be locked) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1302-1304)
+	- require(bool,string)(gtxPresale.lockRecords(),presale record updating must be locked) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1305-1307)
+	State variables written after the call(s):
+	- fundsClaimed (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1310-1312)
+Reentrancy in GTXToken.constructor (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#454-478):
+	External calls:
+	- require(bool,string)(_gtxPresale.getStage() > 0,Presale must have already set its allocation) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#462-468)
+	- require(bool,string)(_gtxRecord.maxRecords().add(_gtxPresale.totalPresaleTokens()) <= _totalSupply,Records & PreSale allocation exceeds the proposed total supply) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#469-472)
+	State variables written after the call(s):
+	- gtxPresale (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#477-478)
+	- gtxRecord (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#477)
+	- totalSupply_ (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#472-473)
+Reentrancy in GTXAuction.constructor (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1050-1079):
+	External calls:
+	- gtxSwapTokens = gtxRecord.maxRecords() (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1072-1073)
+	- gtxPresaleTokens = gtxPresale.totalPresaleTokens() (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1074-1076)
+	State variables written after the call(s):
+	- maxTotalClaim (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1076-1077)
+	- stage (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1078-1079)
+Reentrancy in GTXERC20Migrate.initiateGTXMigration (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#347-356):
+	External calls:
+	- migratable = ERC20.migrateTransfer(msg.sender,_balanceToMigrate) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#349-351)
+	State variables written after the call(s):
+	- migratableGTX (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#352-355)
+Reentrancy in GTXToken.passAuctionAllocation (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#551-566):
+	External calls:
+	- require(bool,string)(gtxRecord.lockRecords() == true,GTXRecord contract lock state should be true) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#554-555)
+	- gtxRecordTotal = gtxRecord.totalClaimableGTX() (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#555-556)
+	- gtxPresaleTotal = gtxPresale.totalPresaleTokens() (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#556-560)
+	State variables written after the call(s):
+	- balances (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#561-562)
+	- balances (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#563-564)
+	- totalAllocation (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#560-561)
+Reentrancy in GTXToken.setAuctionAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#500-511):
+	External calls:
+	- require(bool,string)(_gtxAuctionContract.ERC20() == address(this),Auction contract does not have this token assigned) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#509-510)
+	State variables written after the call(s):
+	- gtxAuctionContract (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#510-511)
+Reentrancy in GTXToken.setMigrationAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#486-497):
+	External calls:
+	- require(bool,string)(_gtxMigrateContract.ERC20() == address(this),Migration contract does not have this token assigned) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#495-496)
+	State variables written after the call(s):
+	- gtxMigrationContract (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#496)
+Reentrancy in GTXToken.setTimeLockAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#516-527):
+	External calls:
+	- require(bool,string)(_timeLockContract.ERC20() == address(this),TimeLock contract does not have this token assigned) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#524-525)
+	State variables written after the call(s):
+	- timeLockContract (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#525-526)
+Reentrancy in GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1133-1177):
+	External calls:
+	- ERC20.passAuctionAllocation(maxTokens) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1152)
+	- require(bool,string)(ERC20.balanceOf(address(this)) == ERC20.getAuctionAllocation(),Incorrect balance assigned by auction allocation) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1153-1155)
+	State variables written after the call(s):
+	- bonusPercent (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1165-1166)
+	- bonusThresholdWei (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1166-1170)
+	- ceiling (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1157)
+	- floor (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1158)
+	- hardCap (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1158-1161)
+	- priceConstant (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1173-1175)
+	- remainingCap (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1171-1172)
+	- stage (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1175)
+Reentrancy in TimeLock.timeLockTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#373-390):
+	External calls:
+	- lockAmount = ERC20.allowance(msg.sender,this) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#373-374)
+	State variables written after the call(s):
+	- accounts (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#380-381)
+	- accounts (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#386-387)
+	- accounts (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#387)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TimeLock.tokenRelease (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#391-405) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(accounts[msg.sender].balance != 0 && accounts[msg.sender].releaseTime <= block.timestamp) (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#392-396)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#46-52) should be declared external
+Ownable.transferOwnership (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#55-60) should be declared external
+StandardToken.totalSupply (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#183-186) should be declared external
+ERC20Interface.totalSupply (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#132) should be declared external
+ERC20Interface.transfer (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#133-134) should be declared external
+StandardToken.transfer (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#190-199) should be declared external
+ERC20Interface.allowance (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#135-136) should be declared external
+StandardToken.allowance (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#264-267) should be declared external
+ERC20Interface.transferFrom (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#136-137) should be declared external
+StandardToken.transferFrom (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#221-234) should be declared external
+StandardToken.approve (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#247-250) should be declared external
+ERC20Interface.approve (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#137-142) should be declared external
+StandardToken.increaseApproval (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#281-290) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#304-322) should be declared external
+GTXERC20Migrate.initiateGTXMigration (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#347-356) should be declared external
+TimeLock.timeLockTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#373-390) should be declared external
+TimeLock.tokenRelease (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#391-405) should be declared external
+TimeLock.getLockedFunds (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#407-409) should be declared external
+TimeLock.getReleaseTime (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#409-415) should be declared external
+GTXToken.fallback (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#480) should be declared external
+GTXToken.recoverLost (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#482-483) should be declared external
+GTXToken.setMigrationAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#486-497) should be declared external
+GTXToken.setAuctionAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#500-511) should be declared external
+GTXToken.setTimeLockAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#516-527) should be declared external
+GTXToken.startMigration (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#529-547) should be declared external
+GTXToken.passAuctionAllocation (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#551-566) should be declared external
+GTXToken.migrateTransfer (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#584-594) should be declared external
+GTXToken.getGTXRecord (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#596-598) should be declared external
+GTXToken.getAuctionAllocation (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#601-607) should be declared external
+GTXRecord.lock (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#674-677) should be declared external
+GTXRecord.recordCreate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#686-700) should be declared external
+GTXRecord.recordUpdate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#710-727) should be declared external
+GTXRecord.recordMove (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#738-749) should be declared external
+GTXPresale.lock (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#818-822) should be declared external
+GTXPresale.recordCreate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#844-859) should be declared external
+GTXPresale.recordUpdate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#864-885) should be declared external
+GTXPresale.recordMove (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#894-917) should be declared external
+GTXPresale.getStage (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#937-938) should be declared external
+GTXAuction.fallback (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1080) should be declared external
+GTXAuction.startAuction (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1216-1223) should be declared external
+GTXAuction.endClaim (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1227-1240) should be declared external
+GTXAuction.claimTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1296-1325) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Ownable._transferOwnership' (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#64-72) is not in mixedCase
+Parameter '_owner' of StandardToken.balanceOf (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#207) is not in mixedCase
+Parameter '_to' of StandardToken.transfer (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#190) is not in mixedCase
+Parameter '_value' of StandardToken.transfer (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#190) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#265) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#265) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#221-222) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#222) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#222-223) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#247) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#247) is not in mixedCase
+Parameter '_name' of StandardToken. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#175) is not in mixedCase
+Parameter '_symbol' of StandardToken. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#175) is not in mixedCase
+Parameter '_decimals' of StandardToken. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#176-177) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#282) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#285-286) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#305) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#305-306) is not in mixedCase
+Parameter '_ERC20' of GTXERC20Migrate. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#330) is not in mixedCase
+Parameter '_balanceToMigrate' of GTXERC20Migrate.initiateGTXMigration (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#348-349) is not in mixedCase
+Variable 'GTXERC20Migrate.ERC20' (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#329) is not in mixedCase
+Struct 'TimeLock.accountData' (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#359-362) is not in CapWords
+Parameter '_ERC20' of TimeLock. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#372) is not in mixedCase
+Parameter '_lockTimeS' of TimeLock.timeLockTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#373) is not in mixedCase
+Parameter '_account' of TimeLock.getLockedFunds (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#407-408) is not in mixedCase
+Parameter '_account' of TimeLock.getReleaseTime (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#410) is not in mixedCase
+Variable 'TimeLock.ERC20' (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#356-358) is not in mixedCase
+Parameter '_totalSupply' of GTXToken. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#454) is not in mixedCase
+Parameter '_gtxRecord' of GTXToken. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#454) is not in mixedCase
+Parameter '_gtxPresale' of GTXToken. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#454) is not in mixedCase
+Parameter '_token' of GTXToken.recoverLost (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#482) is not in mixedCase
+Parameter '_gtxMigrateContract' of GTXToken.setMigrationAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#486-490) is not in mixedCase
+Parameter '_gtxAuctionContract' of GTXToken.setAuctionAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#502-505) is not in mixedCase
+Parameter '_timeLockContract' of GTXToken.setTimeLockAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#519) is not in mixedCase
+Parameter '_auctionAllocation' of GTXToken.passAuctionAllocation (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#552) is not in mixedCase
+Parameter '_account' of GTXToken.migrateTransfer (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#584) is not in mixedCase
+Parameter '_amount' of GTXToken.migrateTransfer (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#584-586) is not in mixedCase
+Parameter '_maxRecords' of GTXRecord. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#662-663) is not in mixedCase
+Parameter '_conversionRate' of GTXRecord.setConversionRate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#670-671) is not in mixedCase
+Parameter '_recordAddress' of GTXRecord.recordCreate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#687) is not in mixedCase
+Parameter '_finPointAmount' of GTXRecord.recordCreate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#687) is not in mixedCase
+Parameter '_applyConversionRate' of GTXRecord.recordCreate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#687) is not in mixedCase
+Parameter '_recordAddress' of GTXRecord.recordUpdate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#710) is not in mixedCase
+Parameter '_finPointAmount' of GTXRecord.recordUpdate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#710-711) is not in mixedCase
+Parameter '_applyConversionRate' of GTXRecord.recordUpdate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#711) is not in mixedCase
+Parameter '_oldAddress' of GTXRecord.recordMove (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#740) is not in mixedCase
+Parameter '_newAddress' of GTXRecord.recordMove (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#740) is not in mixedCase
+Parameter '_maxPresaleTokens' of GTXPresale.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#830) is not in mixedCase
+Parameter '_bonusThreshold' of GTXPresale.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#830) is not in mixedCase
+Parameter '_bonusPercent' of GTXPresale.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#831) is not in mixedCase
+Parameter '_recordAddress' of GTXPresale.recordCreate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#844) is not in mixedCase
+Parameter '_gtxTokens' of GTXPresale.recordCreate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#844) is not in mixedCase
+Parameter '_recordAddress' of GTXPresale.recordUpdate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#864-868) is not in mixedCase
+Parameter '_gtxTokens' of GTXPresale.recordUpdate (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#868) is not in mixedCase
+Parameter '_oldAddress' of GTXPresale.recordMove (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#894) is not in mixedCase
+Parameter '_newAddress' of GTXPresale.recordMove (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#894) is not in mixedCase
+Parameter '_receiver' of GTXPresale.calculateBonus (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#924) is not in mixedCase
+Parameter '_gtxToken' of GTXAuction. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1051-1052) is not in mixedCase
+Parameter '_gtxRecord' of GTXAuction. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1054) is not in mixedCase
+Parameter '_gtxPresale' of GTXAuction. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1054-1055) is not in mixedCase
+Parameter '_biddingPeriod' of GTXAuction. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1055-1056) is not in mixedCase
+Parameter '_waitingPeriod' of GTXAuction. (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1056-1059) is not in mixedCase
+Parameter '_token' of GTXAuction.recoverTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1086-1087) is not in mixedCase
+Parameter '_bidder_addresses' of GTXAuction.addToWhitelist (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1098) is not in mixedCase
+Parameter '_bidder_addresses' of GTXAuction.removeFromWhitelist (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1102) is not in mixedCase
+Parameter '_maxTokens' of GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1133) is not in mixedCase
+Parameter '_etherPrice' of GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1133) is not in mixedCase
+Parameter '_hardCap' of GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1135) is not in mixedCase
+Parameter '_ceiling' of GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1135) is not in mixedCase
+Parameter '_floor' of GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1135) is not in mixedCase
+Parameter '_bonusThreshold' of GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1135-1136) is not in mixedCase
+Parameter '_bonusPercent' of GTXAuction.setup (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1136) is not in mixedCase
+Parameter '_etherPrice' of GTXAuction.changeSettings (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1184-1185) is not in mixedCase
+Parameter '_hardCap' of GTXAuction.changeSettings (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1185-1186) is not in mixedCase
+Parameter '_ceiling' of GTXAuction.changeSettings (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1186) is not in mixedCase
+Parameter '_floor' of GTXAuction.changeSettings (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1186) is not in mixedCase
+Parameter '_bonusThreshold' of GTXAuction.changeSettings (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1186) is not in mixedCase
+Parameter '_bonusPercent' of GTXAuction.changeSettings (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1186-1187) is not in mixedCase
+Parameter '_multiSigAddress' of GTXAuction.setMultiSigAddress (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1246) is not in mixedCase
+Parameter '_receiver' of GTXAuction.bid (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1259) is not in mixedCase
+Parameter '_receiver' of GTXAuction.calculateTokens (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#1331-1332) is not in mixedCase
+Parameter '_receiver' of GTXAuction.calculateBonus (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol) is not in mixedCase
+Parameter '_bidBlock' of GTXAuction.calcTokenPrice (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol) is not in mixedCase
+Variable 'GTXAuction.ERC20' (/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol#946) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/22/0xcc0c9e2ba39251162006d7dc1ba2f9dafa686c84.sol analyzed (10 contracts), 146 result(s) found

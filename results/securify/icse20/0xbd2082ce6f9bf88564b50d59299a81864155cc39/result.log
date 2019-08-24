@@ -1,0 +1,377 @@
+Processing contract: /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol:BidderInterface
+Processing contract: /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol:ERC20x
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol:ERC20xVariables
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol:OptionToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol:Protocol
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol:VariableSupplyToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'ERC20x':
+    |}
+    |
+  > |contract ERC20x is ERC20xVariables {
+    |
+    |    function transfer(address _to, uint256 _value) public returns (bool success) {
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(30)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ERC20x':
+    |        require(balances[_from] >= _value);
+    |        balances[_from] -= _value;
+  > |        balances[_to] += _value;
+    |    }
+    |}
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(67)
+
+[31mViolation[0m for LockedEther in contract 'ERC20xVariables':
+    |pragma solidity ^0.5;
+    |
+  > |contract ERC20xVariables {
+    |    address public creator;
+    |    address public lib;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(3)
+
+[31mViolation[0m for LockedEther in contract 'OptionToken':
+    |}
+    |
+  > |contract OptionToken is VariableSupplyToken {
+    |    constructor(string memory _name, string memory _symbol) public {
+    |        creator = msg.sender;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(94)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'OptionToken':
+    |        require(balances[_from] >= _value);
+    |        balances[_from] -= _value;
+  > |        balances[_to] += _value;
+    |    }
+    |}
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(67)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'OptionToken':
+    |        require(msg.sender == creator);
+    |        require(balances[to] + amount >= amount);
+  > |        balances[to] += amount;
+    |        totalSupply += amount;
+    |        return true;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(80)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'OptionToken':
+    |        require(balances[to] + amount >= amount);
+    |        balances[to] += amount;
+  > |        totalSupply += amount;
+    |        return true;
+    |    }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(81)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'OptionToken':
+    |        require(msg.sender == creator);
+    |        require(balances[from] >= amount);
+  > |        balances[from] -= amount;
+    |        totalSupply -= amount;
+    |        return true;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(88)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'OptionToken':
+    |        require(balances[from] >= amount);
+    |        balances[from] -= amount;
+  > |        totalSupply -= amount;
+    |        return true;
+    |    }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(89)
+
+[31mViolation[0m for DAOConstantGas in contract 'Protocol':
+    |
+    |            if (hasFunds) {
+  > |                msg.sender.transfer(amount);
+    |            } else {
+    |                bidder.receiveETH(_series, amount);
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(275)
+
+[33mWarning[0m for DAOConstantGas in contract 'Protocol':
+    |            } else {
+    |                require(msg.value >= amount);
+  > |                msg.sender.transfer(msg.value - amount);
+    |            }
+    |        }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(296)
+
+[33mWarning[0m for DAOConstantGas in contract 'Protocol':
+    |            owed = writers[_series][msg.sender] * unsettledPercent / 1 ether;
+    |            if (owed > 0) {
+  > |                msg.sender.transfer(owed);
+    |            }
+    |
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(316)
+
+[33mWarning[0m for DAOConstantGas in contract 'Protocol':
+    |            owed = writers[_series][msg.sender] * exercisedPercent / 1 ether;
+    |            if (owed > 0) {
+  > |                msg.sender.transfer(owed);
+    |            }
+    |        }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(333)
+
+[31mViolation[0m for RepeatedCall in contract 'Protocol':
+    |            holdersSettlement[_series] += givGet - amount * series.strike / 1 ether;
+    |
+  > |            bool hasFunds = usdERC20.balanceOf(msg.sender) >= givGet && usdERC20.allowance(msg.sender, address(this)) >= givGet;
+    |
+    |            if (hasFunds) {
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(272)
+
+[31mViolation[0m for RepeatedCall in contract 'Protocol':
+    |            }
+    |
+  > |            require(usdERC20.transferFrom(msg.sender, address(this), givGet));
+    |        } else {
+    |            offer = (DURATION * 1 ether * 1 ether) / (series.strike * elapsed);
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(280)
+
+[31mViolation[0m for RepeatedCall in contract 'Protocol':
+    |                expectValue[msg.sender] = amount;
+    |                
+  > |                bidder.receiveUSD(_series, givGet);
+    |                require(expectValue[msg.sender] == 0);
+    |            } else {
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(292)
+
+[31mViolation[0m for RepeatedCall in contract 'Protocol':
+    |            } else {
+    |                require(msg.value >= amount);
+  > |                msg.sender.transfer(msg.value - amount);
+    |            }
+    |        }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(296)
+
+[31mViolation[0m for RepeatedCall in contract 'Protocol':
+    |    function _preference(address from) public view returns (uint) {
+    |        return _min(
+  > |            protocolToken.balanceOf(from) * 1 ether / protocolToken.totalSupply(),
+    |            PREFERENCE_MAX
+    |        );
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(360)
+
+[33mWarning[0m for TODAmount in contract 'Protocol':
+    |            owed = writers[_series][msg.sender] * unsettledPercent / 1 ether;
+    |            if (owed > 0) {
+  > |                msg.sender.transfer(owed);
+    |            }
+    |
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(316)
+
+[33mWarning[0m for TODAmount in contract 'Protocol':
+    |            owed = writers[_series][msg.sender] * exercisedPercent / 1 ether;
+    |            if (owed > 0) {
+  > |                msg.sender.transfer(owed);
+    |            }
+    |        }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(333)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'Protocol':
+    |        
+    |        if (series.flavor == Flavor.Call) {
+  > |            msg.sender.transfer(amount);
+    |        } else {
+    |            usdERC20.transfer(msg.sender, amount * series.strike / 1 ether);
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(204)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'Protocol':
+    |
+    |        if (series.flavor == Flavor.Call) {
+  > |            msg.sender.transfer(amount);
+    |            require(msg.value == 0);
+    |            usdERC20.transferFrom(msg.sender, address(this), usd);
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(226)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Protocol':
+    |
+    |            if (hasFunds) {
+  > |                msg.sender.transfer(amount);
+    |            } else {
+    |                bidder.receiveETH(_series, amount);
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(275)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Protocol':
+    |            } else {
+    |                require(msg.value >= amount);
+  > |                msg.sender.transfer(msg.value - amount);
+    |            }
+    |        }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(296)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Protocol':
+    |            owed = writers[_series][msg.sender] * unsettledPercent / 1 ether;
+    |            if (owed > 0) {
+  > |                msg.sender.transfer(owed);
+    |            }
+    |
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(316)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Protocol':
+    |            owed = writers[_series][msg.sender] * exercisedPercent / 1 ether;
+    |            if (owed > 0) {
+  > |                msg.sender.transfer(owed);
+    |            }
+    |        }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(333)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |    function issue(string memory name, string memory symbol, uint expiration, Flavor flavor, uint strike) public returns (address) {
+    |        address series = address(new OptionToken(name, symbol));
+  > |        seriesInfo[series] = OptionSeries(expiration, flavor, strike);
+    |        emit SeriesIssued(series);
+    |        return series;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(163)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |        }
+    |        
+  > |        openInterest[_series] += amount;
+    |        totalInterest[_series] += amount;
+    |        writers[_series][msg.sender] += amount;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(184)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |        
+    |        openInterest[_series] += amount;
+  > |        totalInterest[_series] += amount;
+    |        writers[_series][msg.sender] += amount;
+    |
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(185)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |        require(writers[_series][msg.sender] >= amount);
+    |        writers[_series][msg.sender] -= amount;
+  > |        openInterest[_series] -= amount;
+    |        totalInterest[_series] -= amount;
+    |        
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(200)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |        writers[_series][msg.sender] -= amount;
+    |        openInterest[_series] -= amount;
+  > |        totalInterest[_series] -= amount;
+    |        
+    |        if (series.flavor == Flavor.Call) {
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(201)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |        usd /= 1 ether;
+    |
+  > |        openInterest[_series] -= amount;
+    |        earlyExercised[_series] += amount;
+    |
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(222)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |
+    |        openInterest[_series] -= amount;
+  > |        earlyExercised[_series] += amount;
+    |
+    |        if (series.flavor == Flavor.Call) {
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(223)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Protocol':
+    |
+    |        require(isAuction == false);
+  > |        isAuction = true;
+    |
+    |        OptionSeries memory series = seriesInfo[_series];
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(244)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Protocol':
+    |        amount = _min(amount, openInterest[_series]);
+    |
+  > |        openInterest[_series] -= amount;
+    |
+    |        uint offer;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(258)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Protocol':
+    |            offer = (series.strike * DURATION) / elapsed;
+    |            givGet = offer * amount / 1 ether;
+  > |            holdersSettlement[_series] += givGet - amount * series.strike / 1 ether;
+    |
+    |            bool hasFunds = usdERC20.balanceOf(msg.sender) >= givGet && usdERC20.allowance(msg.sender, address(this)) >= givGet;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(270)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Protocol':
+    |            givGet = (amount * 1 ether) / offer;
+    |
+  > |            holdersSettlement[_series] += amount * series.strike / 1 ether - givGet;
+    |            usdERC20.transfer(msg.sender, givGet);
+    |
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(285)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Protocol':
+    |        }
+    |
+  > |        isAuction = false;
+    |        return true;
+    |    }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(300)
+
+[31mViolation[0m for LockedEther in contract 'VariableSupplyToken':
+    |}
+    |
+  > |contract VariableSupplyToken is ERC20x {
+    |    function grant(address to, uint256 amount) public returns (bool) {
+    |        require(msg.sender == creator);
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(76)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'VariableSupplyToken':
+    |        require(balances[_from] >= _value);
+    |        balances[_from] -= _value;
+  > |        balances[_to] += _value;
+    |    }
+    |}
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(67)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VariableSupplyToken':
+    |        require(msg.sender == creator);
+    |        require(balances[to] + amount >= amount);
+  > |        balances[to] += amount;
+    |        totalSupply += amount;
+    |        return true;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(80)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VariableSupplyToken':
+    |        require(balances[to] + amount >= amount);
+    |        balances[to] += amount;
+  > |        totalSupply += amount;
+    |        return true;
+    |    }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(81)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VariableSupplyToken':
+    |        require(msg.sender == creator);
+    |        require(balances[from] >= amount);
+  > |        balances[from] -= amount;
+    |        totalSupply -= amount;
+    |        return true;
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(88)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'VariableSupplyToken':
+    |        require(balances[from] >= amount);
+    |        balances[from] -= amount;
+  > |        totalSupply -= amount;
+    |        return true;
+    |    }
+  at /unique_chucks/14/0xbd2082ce6f9bf88564b50d59299a81864155cc39.sol(89)

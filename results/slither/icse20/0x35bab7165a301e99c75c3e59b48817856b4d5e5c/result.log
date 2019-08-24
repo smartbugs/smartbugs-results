@@ -1,0 +1,143 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:91:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:233:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Bet(address _dealer, bytes32 _category, bytes32 _gameId, uint _minimumBet, 
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:109:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:370:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogParticipant(msg.sender, choice, msg.value);
+    ^-------------------------------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:423:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogGameResult(betInfo.category, betInfo.gameId, leftPts, rightPts);
+    ^----------------------------------------------------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:436:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogBetClosed(false, now);
+    ^----------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:449:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogGameResult(betInfo.category, betInfo.gameId, leftPts, rightPts);
+    ^----------------------------------------------------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:462:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogBetClosed(false, now);
+    ^----------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:487:7: Warning: Invoking events without "emit" prefix is deprecated.
+      LogRefund(players[i], playerInfo[players[i]].betAmount);
+      ^-----------------------------------------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:491:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogBetClosed(true, now);
+    ^---------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:502:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogDealerWithdraw(betInfo.dealer, _balance);
+    ^-----------------------------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:512:9: Warning: Invoking events without "emit" prefix is deprecated.
+        LogDistributeReward(players[i], winOdds.mul(playerInfo[players[i]].betAmount).div(100), i);
+        ^----------------------------------------------------------------------------------------^
+/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:534:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogCreateBet(msg.sender, bet, category, startTime);
+    ^------------------------------------------------^
+
+INFO:Detectors:[91m
+Bet.withdraw (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#511-520) sends eth to arbitrary user
+	Dangerous calls:
+	- betInfo.dealer.transfer(_balance) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#512-518)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Bet.closeBet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#456-485):
+	External calls:
+	- (leftPts,rightPts,confirmations) = dataCenterGetResult(betInfo.gameId) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#458-463)
+	External calls sending eth:
+	- distributeReward(betInfo.leftOdds) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#476-477)
+	- distributeReward(betInfo.middleOdds) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#481)
+	- distributeReward(betInfo.rightOdds) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#482)
+	State variables written after the call(s):
+	- isBetClosed (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#484)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+DataCenterBridge.getCodeSize (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#68-77) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in DataCenterBridge.dataCenterAPI (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#26-35):
+	External calls:
+	- address(dataCenter) != DAR.getAddress() (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#29-35)
+	- dataCenter = DataCenterInterface(DAR.getAddress()) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#30-35)
+	State variables written after the call(s):
+	- dataCenter (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#30-35)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Bet.refund has external calls inside a loop:
+	- players[i].transfer(playerInfo[players[i]].betAmount) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#506)
+Bet.distributeReward has external calls inside a loop:
+	- players[i].transfer(winOdds.mul(playerInfo[players[i]].betAmount).div(100)) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#527-528)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Bet.closeBet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#456-485):
+	External calls:
+	- (leftPts,rightPts,confirmations) = dataCenterGetResult(betInfo.gameId) (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#458-463)
+	State variables written after the call(s):
+	- winChoice (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#473-476)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+DataCenterBridge.getCodeSize uses assembly (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#68-77)
+	- /unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#76-77
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+DataCenterBridge.mainnetAddr should be constant (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#19-20)
+DataCenterBridge.testnetAddr should be constant (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#20-22)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+DataCenterInterface.getResult (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#6-9) should be declared external
+DataCenterAddrResolverInterface.getAddress (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#10-13) should be declared external
+Ownable.transferOwnership (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#109-119) should be declared external
+Bet.fallback (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#234-235) should be declared external
+Bet.getBetInfo (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#262-275) should be declared external
+Bet.getBetMutableData (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#283-289) should be declared external
+Bet.getBetResult (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#295-303) should be declared external
+Bet.placeBet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#364-384) should be declared external
+Bet.rechargeDeposit (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#387-392) should be declared external
+Bet.getPlayers (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#486-487) should be declared external
+Bet.getBalance (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#491-496) should be declared external
+Bet.refund (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#501-510) should be declared external
+BetCenter.fallback (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#534) should be declared external
+BetCenter.createBet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#534-549) should be declared external
+BetCenter.getBetsByCategory (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol) should be declared external
+BetCenter.getGameIdsByCategory (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '' of DataCenterBridge.setNetwork (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#38) is not in mixedCase
+Parameter '_networkName' of DataCenterBridge.setNetworkName (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#57-60) is not in mixedCase
+Parameter '_gameId' of DataCenterBridge.dataCenterGetResult (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#64-65) is not in mixedCase
+Constant 'DataCenterBridge.networkID_auto' (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#14-15) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'DataCenterBridge.networkID_mainnet' (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#15-16) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'DataCenterBridge.networkID_testnet' (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#16-17) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'DataCenterBridge.DAR' (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#22-24) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#96-98) is not in mixedCase
+Function 'Bet.Bet' (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#235-261) is not in mixedCase
+Parameter '_dealer' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#235) is not in mixedCase
+Parameter '_category' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#235) is not in mixedCase
+Parameter '_gameId' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#235-236) is not in mixedCase
+Parameter '_minimumBet' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#236) is not in mixedCase
+Parameter '_spread' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#237) is not in mixedCase
+Parameter '_leftOdds' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#237-238) is not in mixedCase
+Parameter '_middleOdds' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#238) is not in mixedCase
+Parameter '_rightOdds' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#238-239) is not in mixedCase
+Parameter '_flag' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#239) is not in mixedCase
+Parameter '_startTime' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#239-241) is not in mixedCase
+Parameter '_neededConfirmations' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#241-242) is not in mixedCase
+Parameter '_owner' of Bet.Bet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#242) is not in mixedCase
+Parameter '_leftPts' of Bet.getWinChoice (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#397) is not in mixedCase
+Parameter '_rightPts' of Bet.getWinChoice (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#397-398) is not in mixedCase
+Parameter '_leftPts' of Bet.manualCloseBet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#432) is not in mixedCase
+Parameter '_rightPts' of Bet.manualCloseBet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#432) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+DataCenterBridge.networkID_mainnet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#15-16) is never used in Bet
+DataCenterBridge.networkID_testnet (/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol#16-17) is never used in Bet
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/19/0x35bab7165a301e99c75c3e59b48817856b4d5e5c.sol analyzed (7 contracts), 52 result(s) found

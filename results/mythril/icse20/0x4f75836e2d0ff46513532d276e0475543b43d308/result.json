@@ -1,0 +1,318 @@
+{
+  "contract": "0x4f75836e2d0ff46513532d276e0475543b43d308",
+  "tool": "mythril",
+  "start": 1563261639.9135344,
+  "end": 1563262970.9396362,
+  "duration": 1331.0261018276215,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 459,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 471,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 480,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 486,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff41\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 529,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 541,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 550,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 556,
+        "code": "= sha3(_chequeId);\n        Cheque cheque = items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_NOT_EXIST, 0, _sendTo);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRedeem(chequeIdHash, ResultCode.ERROR_USED, 0, _sendTo);\n            return ResultCode.ERROR_USED;\n        }\n        if (msg.sender != cheque.creator) {\n            if (cheque.status != Status.CREATED) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n                return ResultCode.ERROR_INVALID_STATUS;\n            }\n            if (cheque.attempt > maxAttempt) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_LOCKED, 0, _sendTo);\n                return ResultCode.ERROR_LOCKED;\n            }\n            if (cheque.expiringPeriod > 0 && now > (cheque.createTime + cheque.expiringPeriod)) {\n                LogRedeem(chequeIdHash, ResultCode.ERROR_EXPIRED, 0, _sendTo);\n                return ResultCode.ERROR_EXPIRED;\n            }\n        }\n        \n        // check pin\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            cheque.attempt += 1;\n            LogRedeem(chequeIdHash, ResultCode.ERROR_INVALID_STATUS, 0, _sendTo);\n            return ResultCode.ERROR_INVALID_STATUS;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendMount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        _sendTo.transfer(sendMount);\n        LogRedeem(chequeIdHash, ResultCode.SUCCESS, sendMount, _sendTo);\n        return ResultCode.SUCCESS;\n    }\n\n}",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0x746e42ddbe03c97fe6e530ac0258466c4a20dfffffffffffffffffffffffffc1\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0xcf9f8ea5a709fb58f8ed502cd9b08a9b1306dfffffffffffffffffffffffff61\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 317,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 743,
+        "code": "urn (Status.NONE, 0, 0, 0);\n\n        if (cheque.expiringPeriod > 0) {\n            uint timeGap = now;\n            if (timeGap > cheque.createTime)\n                timeGap = timeGap - cheque.createTime;\n            else\n                timeGap = 0;\n\n            if (cheque.expiringPeriod > timeGap)\n                return (cheque.status, cheque.value, cheque.attempt, cheque.expiringPeriod - timeGap);\n            else\n                return (Status.EXPIRED, cheque.value, cheque.attempt, 0);\n        }\n        return (cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // transaction\n    function Create(uint256 _chequeIdHash, uint256 _pinHash, uint32 _expiringPeriod) payable isActive returns(ResultCode) {\n        // condition: \n        // 1. check min value\n        // 2. check _chequeId exist or not\n        byt",
+        "debug": "calldata_EtherCheque_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EtherCheque_0: 0x31c3366900000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `GetChequeInfo(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "GetChequeInfo(string)",
+        "lineno": 242,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 948,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 960,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 969,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 975,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff41\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1018,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1030,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1039,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1045,
+        "code": "      if (cheque.status == Status.NONE) {\n            return (ResultCode.ERROR_NOT_EXIST, Status.NONE, 0, 0, 0);\n        }\n        if (cheque.status == Status.USED) {\n            return (ResultCode.ERROR_USED, Status.USED, 0, 0, 0);\n        }\n        if (cheque.pinHash != sha3(_chequeId, _pin)) {\n            return (ResultCode.ERROR_INVALID_STATUS, Status.NONE, 0, 0, 0);\n        }\n        \n        return (ResultCode.SUCCESS, cheque.status, cheque.value, cheque.attempt, 0);\n    }\n    \n    // constant function\n    function GetChequeInfo(string _chequeId) constant returns(Status, uint, uint, uint) {\n        bytes32 hashChequeId = sha3(_chequeId);\n        Cheque cheque = items[hashChequeId];\n        if (cheque.s",
+        "debug": "calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0x746e42ddbe03c97fe6e530ac0258466c4a20dfffffffffffffffffffffffffc1\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0xcf9f8ea5a709fb58f8ed502cd9b08a9b1306dfffffffffffffffffffffffff61\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 224,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1706,
+        "code": "= items[chequeIdHash];\n        if (cheque.status == Status.NONE) {\n            LogRefundCheque(chequeIdHash, ResultCode.ERROR_NOT_EXIST);\n            return ResultCode.ERROR_NOT_EXIST;\n        }\n        if (cheque.status == Status.USED) {\n            LogRefundCheque(chequeIdHash, ResultCode.ERROR_USED);\n            return ResultCode.ERROR_USED;\n        }\n        \n        totalRedeemedCheque += 1;\n        totalRedeemedValue += cheque.value;\n        uint sendAmount = cheque.value;\n        \n        cheque.status = Status.USED;\n        cheque.value = 0;\n        \n        cheque.creator.transfer(sendAmount);\n        LogRefundCheque(chequeIdHash, ResultCode.SUCCESS);\n        return ResultCode.SUCCESS;\n    }\n\n    function RefundChequeByHash(uint256 _chequeIdHash) onlyModerators returns(ResultCode) {\n        bytes32 chequeIdHash = bytes32(_chequeIdHash);\n        Cheque cheque = ",
+        "debug": "calldata_EtherCheque_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EtherCheque_0: 0xaa2529a200000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `RefundChequeById(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "RefundChequeById(string)",
+        "lineno": 154,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2880,
+        "code": "USED;\n        }\n        if (",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x8000\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0xe0\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 325,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 3724,
+        "code": "em(chequeIdHash, ResultCode.ERROR_INVALID",
+        "debug": "storage_3 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0xb2c81e3be60b809eebca250ae5f3958de8241f3c0942692d3cecd1fd00743211\nstorage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x100\nstorage_4 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x93931c13e507cbbcbf74d9eee4fb920eeaef84aa5110428da2eddb017d5ebcdd\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0x40\nstorage_10: 0x0\nstorage_5 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x0\ncaller: 0xfffffffffffffffffffffffffffffffffffffffe\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 345,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3967,
+        "code": "   cheque.status = St",
+        "debug": "storage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x100\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0x28\ncalldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffec1\ncaller: 0x1\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 353,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4050,
+        "code": "   cheque.status = St",
+        "debug": "storage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x200\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0x20\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_4)): 0x2a\ncalldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffec1\ncaller: 0x2\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 353,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4285,
+        "debug": "storage_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x200\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0x20\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_4)): 0x20\ncaller: 0x2\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\nKECCAC_mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_4)) +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4))): 0x0\nstorage_0 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x0\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 361,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4305,
+        "debug": "storage_5: 0xa872d441fffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_2 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x57b107bd80000000000000000000000000000000000000000000000000000000\nstorage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x100\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0x20\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_4)): 0x20\ncaller: 0x1\ncalldata_EtherCheque_0: 0x164d3f3a00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\nKECCAC_mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_4)) +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_32 + 4))): 0x0\nstorage_0 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x0\n",
+        "description": "A possible integer overflow exists in the function `Redeem(string,string,address)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 361,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4415,
+        "debug": "",
+        "description": "In the function `Redeem(string,string,address)` the following predictable state variables are used to determine Ether recipient:\n- block.timestamp\n",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "Redeem(string,string,address)",
+        "lineno": 361,
+        "title": "Dependence on predictable environment variable",
+        "type": "Warning"
+      },
+      {
+        "address": 4776,
+        "code": "teTime;\n            else\n   ",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_128_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))): 0x8000\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0xc0\ncalldata_EtherCheque_0: 0x31c3366900000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "GetChequeInfo(string)",
+        "lineno": 247,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 5761,
+        "code": "        }\n        if (cheque",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x8000\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0x40\nstorage_80084422859880547211683076133703299733277748156566366325829078699459944778998: 0x0\nstorage_1: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_0: 0xffffffffffffffffffffffffffffffffffffffff00\ncaller: 0x0\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 229,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 6052,
+        "code": "nt function\n    funct",
+        "debug": "storage_1 +\nkeccac_115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\n115792089237316195423570985008687907853269984665640564039457584007913129639935_-\n0_&\nKECCAC_mem_160_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_4))_+\n32_+\n32*\nConcat(0,\n_______Extract(255,\n_______________5,\n_______________31_+\n_______________calldata_EtherCheque_4_+_calldata_EtherCheque_32_+_4))): 0x100\ncalldata_EtherCheque_4 + calldata_EtherCheque_4: 0x0\nmem_128 +\n32 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_EtherCheque_4 + calldata_EtherCheque_4)): 0x3e\ncalldata_EtherCheque_4 + calldata_EtherCheque_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff01\nstorage_0: 0x0\ncaller: 0x0\ncalldata_EtherCheque_0: 0x5a0024ae00000000000000000000000000000000000000000000000000000000\ncalldatasize_EtherCheque: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `VerifyCheque(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x4f75836e2d0ff46513532d276e0475543b43d308.sol",
+        "function": "VerifyCheque(string,string)",
+        "lineno": 237,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

@@ -1,0 +1,452 @@
+INFO:Detectors:[93m
+AddressUtils.isContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#939-951) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ERC721Basic (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#852-898) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#873-875)
+	-transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#888-890)
+ERC721BasicToken (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#994-1327) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1073-1082)
+	-transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1140-1148)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+TokenDestructible.destroy (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2598-2612) does not use the value returned by external calls:
+	-token.transfer(owner,balance) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2609-2610)
+GameV001.attack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2751-2828) does not use the value returned by external calls:
+	-goldToken.transfer(castleOwner,reward / 2) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2797-2798)
+	-castleToken.win(_castleid,_ninjaid,uint256(_path[i]),steps,count) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2798-2800)
+	-ninjaToken.lost(_ninjaid) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2800-2801)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+CastleToken._create.name (local variable @ /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1749-1756) shadows:
+	- ERC721Token.name (function @ /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1366-1371)
+	- ERC721Metadata.name (function @ /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#917-918)
+NinjaToken._create.name (local variable @ /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2329-2333) shadows:
+	- ERC721Token.name (function @ /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1366-1371)
+	- ERC721Metadata.name (function @ /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#917-918)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+GameV001.defence has external calls inside a loop:
+	- require(bool)(itemToken.useItem(_beneficiary,i,_useTraps[i])) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2716-2717)
+GameV001.addTraps has external calls inside a loop:
+	- require(bool)(itemToken.useItem(msg.sender,i,_useTraps[i])) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2742-2744)
+GameV001.attack has external calls inside a loop:
+	- castleOwner = castleToken.ownerOf(_castleid) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2794-2797)
+GameV001.attack has external calls inside a loop:
+	- goldToken.transfer(castleOwner,reward / 2) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2797-2798)
+GameV001.attack has external calls inside a loop:
+	- castleToken.win(_castleid,_ninjaid,uint256(_path[i]),steps,count) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2798-2800)
+GameV001.attack has external calls inside a loop:
+	- ninjaToken.lost(_ninjaid) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2800-2801)
+GameV001.attack has external calls inside a loop:
+	- ninjaToken.setPath(_ninjaid,_castleid,_path,steps) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2801-2804)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in GameV001.attack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2751-2828):
+	External calls:
+	- reward = castleToken.getReward(_castleid) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2759-2762)
+	- hp = ninjaToken.getHp(_ninjaid) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2764-2766)
+	State variables written after the call(s):
+	- numAttackLogs (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2767-2768)
+Reentrancy in GameV001.attack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2751-2828):
+	External calls:
+	- reward = castleToken.getReward(_castleid) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2759-2762)
+	- hp = ninjaToken.getHp(_ninjaid) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2764-2766)
+	- trapDamage = _computeDamage(_castleid,_ninjaid,uint8(_path[i])) (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2776-2780)
+	State variables written after the call(s):
+	- attackLogs (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2789-2793)
+	- attackLogs (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2810-2814)
+	- numAttackLogs (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2789-2793)
+	- numAttackLogs (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2810-2814)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+AddressUtils.isContract uses assembly (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#939-951)
+	- /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#950-951
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+CastleToken.expOnFault should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1567-1568)
+CastleToken.expOnSuccess should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1566)
+CastleToken.initDepth should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1559-1561)
+CastleToken.initWidth should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1559)
+CastleToken.leveupExp should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1569-1571)
+NinjaToken.expOnFault should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2170)
+NinjaToken.expOnSuccess should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2168-2169)
+NinjaToken.leveupExp should be constant (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2171-2173)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#38-44) should be declared external
+Claimable.transferOwnership (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#131-133) should be declared external
+Ownable.transferOwnership (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#47-52) should be declared external
+Pausable.pause (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#96-100) should be declared external
+Pausable.unpause (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#106-108) should be declared external
+Claimable.claimOwnership (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#136-144) should be declared external
+AccessByGame.grantAccess (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#156-166) should be declared external
+AccessByGame.revokeAccess (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#166-170) should be declared external
+BasicToken.totalSupply (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#305-307) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#172-173) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#173-177) should be declared external
+BasicToken.balanceOf (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#331-335) should be declared external
+StandardToken.allowance (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#400-404) should be declared external
+ERC20.allowance (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#187-188) should be declared external
+MintableToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#687-696) should be declared external
+EverGold.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#730-750) should be declared external
+MintableToken.finishMinting (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#702-708) should be declared external
+StringLib.generateName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#839-849) should be declared external
+ERC721BasicToken.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1073-1082) should be declared external
+ERC721Basic.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#873-875) should be declared external
+ERC721BasicToken.setApprovalForAll (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1101-1112) should be declared external
+ERC721Basic.setApprovalForAll (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#882-887) should be declared external
+ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1166-1173) should be declared external
+ERC721Basic.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#890-892) should be declared external
+ERC721Enumerable.tokenOfOwnerByIndex (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#907-911) should be declared external
+ERC721Token.tokenOfOwnerByIndex (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1394-1397) should be declared external
+ERC721Enumerable.tokenByIndex (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#911-912) should be declared external
+ERC721Token.tokenByIndex (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1410-1414) should be declared external
+ERC721Token.name (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1366-1371) should be declared external
+ERC721Metadata.name (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#917-918) should be declared external
+ERC721Token.symbol (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1372-1373) should be declared external
+ERC721Metadata.symbol (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#918-919) should be declared external
+ERC721Token.tokenURI (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1377-1383) should be declared external
+ERC721Metadata.tokenURI (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#919-920) should be declared external
+ERC721Receiver.onERC721Received (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#987-991) should be declared external
+CastleToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1595-1602) should be declared external
+CastleToken.setTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1602-1623) should be declared external
+CastleToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1647-1684) should be declared external
+CastleToken.lost (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1684-1710) should be declared external
+CastleToken.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1715-1726) should be declared external
+CastleToken.setMaxCoordinate (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1733-1740) should be declared external
+CastleToken.isReady (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1897-1907) should be declared external
+CastleToken.getReward (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1907-1917) should be declared external
+CastleToken.getTrapid (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1929-1935) should be declared external
+CastleToken.getPrice (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1935-1941) should be declared external
+ItemToken.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2003-2013) should be declared external
+ItemToken.buy (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2013-2023) should be declared external
+ItemToken.useItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2026-2042) should be declared external
+ItemToken.setItemAvailable (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2063-2071) should be declared external
+ItemToken.getItemCounts (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2071-2087) should be declared external
+ItemToken.getItemCount (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2088-2100) should be declared external
+ItemToken.getItemKindCount (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2100-2109) should be declared external
+ItemToken.getItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2109-2120) should be declared external
+ItemToken.getPower (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2121-2128) should be declared external
+ItemToken.getPrice (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2128-2136) should be declared external
+NinjaToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2227-2232) should be declared external
+NinjaToken.setPath (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2236-2249) should be declared external
+NinjaToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2249-2262) should be declared external
+NinjaToken.lost (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2262-2278) should be declared external
+NinjaToken.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2282-2291) should be declared external
+NinjaToken.setNinjaKindCount (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2291-2299) should be declared external
+NinjaToken.setPrice (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2299-2304) should be declared external
+NinjaToken.setMaxCoordinate (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2305-2312) should be declared external
+NinjaToken.setMaxCoordinate (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2312-2318) should be declared external
+NinjaToken.getHp (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2395-2407) should be declared external
+NinjaToken.getDna1 (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2407-2416) should be declared external
+NinjaToken.getDna2 (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2417-2425) should be declared external
+NinjaToken.isReady (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2425-2433) should be declared external
+NinjaToken.getReward (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2433-2447) should be declared external
+NinjaToken.getPath (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2447-2453) should be declared external
+NinjaToken.getLastAttack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2453-2469) should be declared external
+NinjaToken.getPrice (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2507-2509) should be declared external
+UserToken.setName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2542-2550) should be declared external
+UserToken.getUserInfo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2557-2562) should be declared external
+TokenDestructible.destroy (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2598-2612) should be declared external
+GameV001.registerUser (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2679-2683) should be declared external
+GameV001.buyNinja (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2683-2688) should be declared external
+GameV001.buyCastle (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2688-2696) should be declared external
+GameV001.buyItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2696-2706) should be declared external
+GameV001.defence (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2706-2722) should be declared external
+GameV001.addTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2722-2751) should be declared external
+GameV001.attack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2751-2828) should be declared external
+GameV001.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) should be declared external
+GameV001.setCastleContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) should be declared external
+GameV001.setNinjaContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) should be declared external
+GameV001.setItemContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) should be declared external
+GameV001.setUserContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) should be declared external
+GameV001.getLastAttack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) should be declared external
+GameV001.getLastAttackCount (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in ERC827Caller.makeCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#462-472):
+	-_target.call.value(msg.value)(_data) /unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#468-472
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#48) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#55-64) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#56-57) is not in mixedCase
+Parameter '_address' of AccessByGame.grantAccess (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#158-160) is not in mixedCase
+Parameter '_address' of AccessByGame.revokeAccess (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#166-167) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#331) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#314-316) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#316) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#401) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#401-402) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#358) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#358) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#358-359) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#382) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#382-383) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#422) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#423) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#449) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#449) is not in mixedCase
+Parameter '_target' of ERC827Caller.makeCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#462-464) is not in mixedCase
+Parameter '_data' of ERC827Caller.makeCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#464) is not in mixedCase
+Parameter '_spender' of ERC827Token.approveAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#510-511) is not in mixedCase
+Parameter '_value' of ERC827Token.approveAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#511) is not in mixedCase
+Parameter '_data' of ERC827Token.approveAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#511) is not in mixedCase
+Parameter '_to' of ERC827Token.transferAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#539-540) is not in mixedCase
+Parameter '_value' of ERC827Token.transferAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#540) is not in mixedCase
+Parameter '_data' of ERC827Token.transferAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#540) is not in mixedCase
+Parameter '_from' of ERC827Token.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#567) is not in mixedCase
+Parameter '_to' of ERC827Token.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#567-568) is not in mixedCase
+Parameter '_value' of ERC827Token.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#568) is not in mixedCase
+Parameter '_data' of ERC827Token.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#568) is not in mixedCase
+Parameter '_spender' of ERC827Token.increaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#599-600) is not in mixedCase
+Parameter '_addedValue' of ERC827Token.increaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#600) is not in mixedCase
+Parameter '_data' of ERC827Token.increaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#600) is not in mixedCase
+Parameter '_spender' of ERC827Token.decreaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#633) is not in mixedCase
+Parameter '_subtractedValue' of ERC827Token.decreaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#633-635) is not in mixedCase
+Parameter '_data' of ERC827Token.decreaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#635) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#687-688) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#688) is not in mixedCase
+Parameter '_to' of EverGold.transfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#751-752) is not in mixedCase
+Parameter '_value' of EverGold.transfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#752-753) is not in mixedCase
+Parameter '_from' of EverGold.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#760-763) is not in mixedCase
+Parameter '_to' of EverGold.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#763) is not in mixedCase
+Parameter '_value' of EverGold.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#763-764) is not in mixedCase
+Parameter '_spender' of EverGold.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#773-774) is not in mixedCase
+Parameter '_value' of EverGold.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#774) is not in mixedCase
+Parameter '_spender' of EverGold.approveAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#782-783) is not in mixedCase
+Parameter '_value' of EverGold.approveAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#784) is not in mixedCase
+Parameter '_data' of EverGold.approveAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#785) is not in mixedCase
+Parameter '_to' of EverGold.transferAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#793-794) is not in mixedCase
+Parameter '_value' of EverGold.transferAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#795-796) is not in mixedCase
+Parameter '_data' of EverGold.transferAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#797) is not in mixedCase
+Parameter '_from' of EverGold.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#805) is not in mixedCase
+Parameter '_to' of EverGold.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#806-807) is not in mixedCase
+Parameter '_value' of EverGold.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#807-808) is not in mixedCase
+Parameter '_data' of EverGold.transferFromAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#808-810) is not in mixedCase
+Parameter '_spender' of EverGold.increaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#817) is not in mixedCase
+Parameter '_addedValue' of EverGold.increaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#817) is not in mixedCase
+Parameter '_data' of EverGold.increaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#818) is not in mixedCase
+Parameter '_spender' of EverGold.decreaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#828) is not in mixedCase
+Parameter '_subtractedValue' of EverGold.decreaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#829) is not in mixedCase
+Parameter '_data' of EverGold.decreaseApprovalAndCall (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#830) is not in mixedCase
+Parameter '_to' of EverGold.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#732) is not in mixedCase
+Parameter '_amount' of EverGold.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#733-734) is not in mixedCase
+Parameter '_s' of StringLib.generateName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#840-841) is not in mixedCase
+Parameter '_len' of StringLib.generateName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#841-843) is not in mixedCase
+Parameter '_n' of StringLib.generateName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#843) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.balanceOf (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1041) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.ownerOf (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1049) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.exists (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1059) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1073) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.approve (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1074) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.getApproved (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1095-1096) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.setApprovalForAll (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1101-1103) is not in mixedCase
+Parameter '_approved' of ERC721BasicToken.setApprovalForAll (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1103) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.isApprovedForAll (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1124) is not in mixedCase
+Parameter '_operator' of ERC721BasicToken.isApprovedForAll (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1124) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1140-1141) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1141) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.transferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1141-1143) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1167) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1167) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1167-1170) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1198-1199) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1199) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1199) is not in mixedCase
+Parameter '_data' of ERC721BasicToken.safeTransferFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1199-1200) is not in mixedCase
+Parameter '_spender' of ERC721BasicToken.isApprovedOrOwner (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1216) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.isApprovedOrOwner (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1216-1220) is not in mixedCase
+Function 'ERC721BasicToken._mint' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1235-1238) is not in mixedCase
+Parameter '_to' of ERC721BasicToken._mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1235) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken._mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1235-1236) is not in mixedCase
+Function 'ERC721BasicToken._burn' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1245-1247) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken._burn (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1245) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken._burn (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1245) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.clearApproval (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1256) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.clearApproval (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1256) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.addTokenTo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1265-1266) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.addTokenTo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1266-1267) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.removeTokenFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1285-1286) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.removeTokenFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1286) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1311) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1312-1313) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1313) is not in mixedCase
+Parameter '_data' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1313) is not in mixedCase
+Parameter '_owner' of ERC721Token.tokenOfOwnerByIndex (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1394) is not in mixedCase
+Parameter '_index' of ERC721Token.tokenOfOwnerByIndex (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1394-1395) is not in mixedCase
+Parameter '_index' of ERC721Token.tokenByIndex (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1412) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.tokenURI (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1377-1378) is not in mixedCase
+Function 'ERC721Token._mint' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1487-1495) is not in mixedCase
+Parameter '_to' of ERC721Token._mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1488) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1488-1489) is not in mixedCase
+Function 'ERC721Token._burn' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1506-1528) is not in mixedCase
+Parameter '_owner' of ERC721Token._burn (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1508) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._burn (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1508) is not in mixedCase
+Parameter '_to' of ERC721Token.addTokenTo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1428-1429) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.addTokenTo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1429) is not in mixedCase
+Parameter '_from' of ERC721Token.removeTokenFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1443) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.removeTokenFrom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1444) is not in mixedCase
+Parameter '_name' of ERC721Token. (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1362-1363) is not in mixedCase
+Parameter '_symbol' of ERC721Token. (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1363) is not in mixedCase
+Function 'ERC721Token._setTokenURI' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1418-1419) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._setTokenURI (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1419) is not in mixedCase
+Parameter '_uri' of ERC721Token._setTokenURI (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1419) is not in mixedCase
+Parameter '_beneficiary' of CastleToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1595) is not in mixedCase
+Parameter '_castleid' of CastleToken.setTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1603) is not in mixedCase
+Parameter '_reward' of CastleToken.setTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1603) is not in mixedCase
+Parameter '_traps' of CastleToken.setTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1603-1604) is not in mixedCase
+Parameter '_castleid' of CastleToken.resetTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1625) is not in mixedCase
+Parameter '_castleid' of CastleToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1650) is not in mixedCase
+Parameter '_ninjaid' of CastleToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1650-1651) is not in mixedCase
+Parameter '_path' of CastleToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1651-1652) is not in mixedCase
+Parameter '_steps' of CastleToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1652-1654) is not in mixedCase
+Parameter '_count' of CastleToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1654-1655) is not in mixedCase
+Parameter '_castleid' of CastleToken.lost (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1684-1685) is not in mixedCase
+Parameter '_ninjaid' of CastleToken.lost (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1685) is not in mixedCase
+Parameter '_castleid' of CastleToken.setName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1710) is not in mixedCase
+Parameter '_newName' of CastleToken.setName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1710-1711) is not in mixedCase
+Parameter '_goldTokenAddress' of CastleToken.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1716-1718) is not in mixedCase
+Parameter '_price' of CastleToken.setFee (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1728) is not in mixedCase
+Parameter '_amount' of CastleToken.setItemPerPage (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1731) is not in mixedCase
+Parameter '_cooldownTime' of CastleToken.setMaxCoordinate (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1735) is not in mixedCase
+Function 'CastleToken._create' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1740-1773) is not in mixedCase
+Parameter '_beneficiary' of CastleToken._create (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1740-1741) is not in mixedCase
+Parameter '_width' of CastleToken._create (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1741-1742) is not in mixedCase
+Parameter '_depth' of CastleToken._create (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1742) is not in mixedCase
+Function 'CastleToken._levelUp' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1773-1784) is not in mixedCase
+Parameter '_castle' of CastleToken._levelUp (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1774-1776) is not in mixedCase
+Function 'CastleToken._triggerCooldown' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1784-1798) is not in mixedCase
+Parameter '_castleid' of CastleToken._triggerCooldown (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1787) is not in mixedCase
+Parameter '_startIndex' of CastleToken.getOpen (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1805-1807) is not in mixedCase
+Parameter '_owner' of CastleToken.getByOwner (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1837-1838) is not in mixedCase
+Parameter '_castleid' of CastleToken.getInfo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1845) is not in mixedCase
+Parameter '_castleid' of CastleToken.getLevel (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1873) is not in mixedCase
+Parameter '_castleid' of CastleToken.getLogs (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1880) is not in mixedCase
+Parameter '_castleid' of CastleToken.getTrapInfo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1892) is not in mixedCase
+Parameter '_castleid' of CastleToken.isReady (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1899-1901) is not in mixedCase
+Parameter '_castleid' of CastleToken.getReward (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1908) is not in mixedCase
+Parameter '_castleid' of CastleToken.getWidth (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1919) is not in mixedCase
+Parameter '_castleid' of CastleToken.getTrapid (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1929) is not in mixedCase
+Parameter '_path' of CastleToken.getTrapid (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1929-1930) is not in mixedCase
+Function 'CastleToken._generateLog' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1941-1963) is not in mixedCase
+Parameter '_datetime' of CastleToken._generateLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1942) is not in mixedCase
+Parameter '_id' of CastleToken._generateLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1942-1943) is not in mixedCase
+Parameter '_ninjaid' of CastleToken._generateLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1943) is not in mixedCase
+Parameter '_x' of CastleToken._generateLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1943) is not in mixedCase
+Parameter '_y' of CastleToken._generateLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1943-1944) is not in mixedCase
+Parameter '_win' of CastleToken._generateLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1945) is not in mixedCase
+Parameter '_goldTokenAddress' of ItemToken.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2005-2008) is not in mixedCase
+Parameter '_to' of ItemToken.buy (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2013-2014) is not in mixedCase
+Parameter '_itemid' of ItemToken.buy (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2014) is not in mixedCase
+Parameter '_amount' of ItemToken.buy (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2014) is not in mixedCase
+Parameter '_owner' of ItemToken.useItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2026) is not in mixedCase
+Parameter '_itemid' of ItemToken.useItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2026-2028) is not in mixedCase
+Parameter '_amount' of ItemToken.useItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2028-2029) is not in mixedCase
+Parameter '_name' of ItemToken.addItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2044) is not in mixedCase
+Parameter '_price' of ItemToken.addItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2044-2045) is not in mixedCase
+Parameter '_power' of ItemToken.addItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2045-2046) is not in mixedCase
+Parameter '_enabled' of ItemToken.addItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2046-2047) is not in mixedCase
+Parameter '_itemid' of ItemToken.setItemAvailable (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2063-2064) is not in mixedCase
+Parameter '_enabled' of ItemToken.setItemAvailable (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2064) is not in mixedCase
+Parameter '_itemid' of ItemToken.getItemCount (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2089-2090) is not in mixedCase
+Parameter '_itemid' of ItemToken.getItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2110) is not in mixedCase
+Parameter '_itemid' of ItemToken.getPower (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2121-2122) is not in mixedCase
+Parameter '_itemid' of ItemToken.getPrice (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2128-2129) is not in mixedCase
+Parameter '_beneficiary' of NinjaToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2227-2228) is not in mixedCase
+Parameter '_tokenId' of NinjaToken.burn (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2233) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.setPath (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2236-2237) is not in mixedCase
+Parameter '_castleid' of NinjaToken.setPath (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2237) is not in mixedCase
+Parameter '_path' of NinjaToken.setPath (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2237-2239) is not in mixedCase
+Parameter '_steps' of NinjaToken.setPath (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2239) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.win (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2251-2252) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.lost (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2262) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.setName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2280) is not in mixedCase
+Parameter '_newName' of NinjaToken.setName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2280-2281) is not in mixedCase
+Parameter '_goldTokenAddress' of NinjaToken.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2285) is not in mixedCase
+Parameter '_kindCount' of NinjaToken.setNinjaKindCount (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2294) is not in mixedCase
+Parameter '_price' of NinjaToken.setPrice (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2299-2300) is not in mixedCase
+Parameter '_maxCoordinate' of NinjaToken.setMaxCoordinate (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2306-2308) is not in mixedCase
+Parameter '_cooldownTime' of NinjaToken.setMaxCoordinate (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2314-2315) is not in mixedCase
+Function 'NinjaToken._create' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2318-2350) is not in mixedCase
+Parameter '_beneficiary' of NinjaToken._create (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2321) is not in mixedCase
+Parameter '_dna1' of NinjaToken._create (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2321) is not in mixedCase
+Parameter '_dna2' of NinjaToken._create (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2321-2322) is not in mixedCase
+Function 'NinjaToken._triggerCooldown' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2351-2360) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken._triggerCooldown (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2353-2355) is not in mixedCase
+Function 'NinjaToken._levelUp' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2360-2373) is not in mixedCase
+Parameter '_ninja' of NinjaToken._levelUp (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2361-2362) is not in mixedCase
+Parameter '_owner' of NinjaToken.getByOwner (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2375) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.getInfo (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2379-2380) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.getHp (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2396-2399) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.getDna1 (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2409) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.getDna2 (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2419) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.isReady (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2426) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.getReward (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2435) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.getPath (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2447-2448) is not in mixedCase
+Parameter '_ninjaid' of NinjaToken.getLastAttack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2456) is not in mixedCase
+Parameter '_pattern' of NinjaToken.getAttr (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2471) is not in mixedCase
+Parameter '_n' of NinjaToken.getAttr (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2471) is not in mixedCase
+Function 'NinjaToken._getRandom' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2480-2491) is not in mixedCase
+Parameter '_modulus' of NinjaToken._getRandom (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2482) is not in mixedCase
+Function 'NinjaToken._generateInitialPattern' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2492-2507) is not in mixedCase
+Variable 'NinjaToken.COLORS' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2185-2210) is not in mixedCase
+Parameter '_beneficiary' of UserToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2526-2527) is not in mixedCase
+Parameter '_name' of UserToken.mint (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2527) is not in mixedCase
+Parameter '_name' of UserToken.setName (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2543) is not in mixedCase
+Parameter '_owner' of UserToken.getUserid (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2551-2552) is not in mixedCase
+Parameter '_userid' of UserToken.getUserInfoById (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2563) is not in mixedCase
+Parameter '_goldTokenAddress' of GameV001. (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2651-2652) is not in mixedCase
+Parameter '_castleTokenAddress' of GameV001. (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2652-2653) is not in mixedCase
+Parameter '_ninjaTokenAddress' of GameV001. (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2653) is not in mixedCase
+Parameter '_userTokenAddress' of GameV001. (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2653-2656) is not in mixedCase
+Parameter '_itemTokenAddress' of GameV001. (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2656) is not in mixedCase
+Parameter '_name' of GameV001.registerUser (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2680) is not in mixedCase
+Parameter '_beneficiary' of GameV001.buyNinja (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2684-2685) is not in mixedCase
+Parameter '_beneficiary' of GameV001.buyCastle (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2688) is not in mixedCase
+Parameter '_beneficiary' of GameV001.buyItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2696) is not in mixedCase
+Parameter '_itemid' of GameV001.buyItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2696) is not in mixedCase
+Parameter '_amount' of GameV001.buyItem (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2697-2698) is not in mixedCase
+Parameter '_beneficiary' of GameV001.defence (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2706) is not in mixedCase
+Parameter '_castleid' of GameV001.defence (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2706-2707) is not in mixedCase
+Parameter '_reward' of GameV001.defence (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2708-2709) is not in mixedCase
+Parameter '_traps' of GameV001.defence (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2709-2711) is not in mixedCase
+Parameter '_useTraps' of GameV001.defence (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2711) is not in mixedCase
+Parameter '_castleid' of GameV001.addTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2723-2724) is not in mixedCase
+Parameter '_traps' of GameV001.addTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2725) is not in mixedCase
+Parameter '_useTraps' of GameV001.addTraps (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2726) is not in mixedCase
+Parameter '_ninjaid' of GameV001.attack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2752-2754) is not in mixedCase
+Parameter '_castleid' of GameV001.attack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2754-2755) is not in mixedCase
+Parameter '_path' of GameV001.attack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2755) is not in mixedCase
+Function 'GameV001._computeDamage' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2828-2873) is not in mixedCase
+Parameter '_castleid' of GameV001._computeDamage (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2830-2832) is not in mixedCase
+Parameter '_ninjaid' of GameV001._computeDamage (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2832) is not in mixedCase
+Parameter '_itemid' of GameV001._computeDamage (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2832) is not in mixedCase
+Function 'GameV001._insertAttackLog' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_ninjaid' of GameV001._insertAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_castleid' of GameV001._insertAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_reward' of GameV001._insertAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_hp' of GameV001._insertAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_path' of GameV001._insertAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_trapDamage' of GameV001._insertAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_dead' of GameV001._insertAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Function 'GameV001._clearAttackLog' (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_ninjaid' of GameV001._clearAttackLog (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_goldTokenAddress' of GameV001.setGoldContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_castleTokenAddress' of GameV001.setCastleContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_ninjaTokenAddress' of GameV001.setNinjaContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_itemTokenAddress' of GameV001.setItemContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_userTokenAddress' of GameV001.setUserContract (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_ninjaid' of GameV001.getLastAttack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_index' of GameV001.getLastAttack (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Parameter '_ninjaid' of GameV001.getLastAttackCount (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+CastleToken.NAME (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1530-1534) is never used in CastleToken
+CastleToken.SYMBOL (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1534-1535) is never used in CastleToken
+CastleToken.MAX_WIDTH (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#1536-1537) is never used in CastleToken
+GameV001.INIT_WIDTH (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2618-2620) is never used in GameV001
+GameV001.INIT_DEPTH (/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol#2620-2622) is never used in GameV001
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/11/0xa13db2f412cef4b4186ed1d2d12c9ec16bde82f4.sol analyzed (29 contracts), 382 result(s) found

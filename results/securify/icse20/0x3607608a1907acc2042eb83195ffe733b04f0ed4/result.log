@@ -1,0 +1,982 @@
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:ApproveAndCallFallBack
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:Arbitrable
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:Arbitrator
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:BlockHashRNG
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:BlockHashRNGFallback
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:Controlled
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:Kleros
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:MiniMeTokenFactory
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:PEpsilon
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:Pinakion
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:RNG
+Processing contract: /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol:TokenController
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNG':
+    |     *  @param _block Block linked to the request.
+    |     */
+  > |    function requestRN(uint _block) public payable {
+    |        contribute(_block);
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(768)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNG':
+    |     *  @return RN Random Number. If the number is not ready or has not been required 0 instead.
+    |     */
+  > |    function getUncorrelatedRN(uint _block) public returns (uint RN) {
+    |        uint baseRN=getRN(_block);
+    |        if (baseRN==0)
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(783)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNG':
+    |contract BlockHashRNG is RNG {
+    |
+  > |    mapping (uint => uint) public randomNumber; // randomNumber[block] is the random number for this block, 0 otherwise.
+    |    mapping (uint => uint) public reward; // reward[block] is the amount to be paid to the party w.
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(800)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNG':
+    |
+    |    mapping (uint => uint) public randomNumber; // randomNumber[block] is the random number for this block, 0 otherwise.
+  > |    mapping (uint => uint) public reward; // reward[block] is the amount to be paid to the party w.
+    |
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(801)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNG':
+    |     *  @param _block Block the random number is linked to.
+    |     */
+  > |    function contribute(uint _block) public payable { reward[_block]+=msg.value; }
+    |
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(808)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNG':
+    |     *  @return RN Random Number. If the number is not ready or has not been requested 0 instead.
+    |     */
+  > |    function getRN(uint _block) public returns (uint RN) {
+    |        RN=randomNumber[_block];
+    |        if (RN==0){
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(815)
+
+[33mWarning[0m for MissingInputValidation in contract 'BlockHashRNG':
+    |     *  @param _block Block the random number is linked to.
+    |     */
+  > |    function saveRN(uint _block) public {
+    |        if (blockhash(_block) != 0x0)
+    |            randomNumber[_block] = uint(blockhash(_block));
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(828)
+
+[33mWarning[0m for TODAmount in contract 'BlockHashRNG':
+    |            uint rewardToSend = reward[_block];
+    |            reward[_block] = 0;
+  > |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case msg.sender has a fallback issue.
+    |        }
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(834)
+
+[31mViolation[0m for UnhandledException in contract 'BlockHashRNG':
+    |            uint rewardToSend = reward[_block];
+    |            reward[_block] = 0;
+  > |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case msg.sender has a fallback issue.
+    |        }
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(834)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'BlockHashRNG':
+    |            uint rewardToSend = reward[_block];
+    |            reward[_block] = 0;
+  > |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case msg.sender has a fallback issue.
+    |        }
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(834)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'BlockHashRNG':
+    |     *  @param _block Block the random number is linked to.
+    |     */
+  > |    function contribute(uint _block) public payable { reward[_block]+=msg.value; }
+    |
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(808)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'BlockHashRNG':
+    |    function saveRN(uint _block) public {
+    |        if (blockhash(_block) != 0x0)
+  > |            randomNumber[_block] = uint(blockhash(_block));
+    |        if (randomNumber[_block] != 0) { // If the number is set.
+    |            uint rewardToSend = reward[_block];
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(830)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'BlockHashRNG':
+    |        if (randomNumber[_block] != 0) { // If the number is set.
+    |            uint rewardToSend = reward[_block];
+  > |            reward[_block] = 0;
+    |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case msg.sender has a fallback issue.
+    |        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(833)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNGFallback':
+    |     *  @param _block Block linked to the request.
+    |     */
+  > |    function requestRN(uint _block) public payable {
+    |        contribute(_block);
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(768)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNGFallback':
+    |     *  @return RN Random Number. If the number is not ready or has not been required 0 instead.
+    |     */
+  > |    function getUncorrelatedRN(uint _block) public returns (uint RN) {
+    |        uint baseRN=getRN(_block);
+    |        if (baseRN==0)
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(783)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNGFallback':
+    |contract BlockHashRNG is RNG {
+    |
+  > |    mapping (uint => uint) public randomNumber; // randomNumber[block] is the random number for this block, 0 otherwise.
+    |    mapping (uint => uint) public reward; // reward[block] is the amount to be paid to the party w.
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(800)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNGFallback':
+    |
+    |    mapping (uint => uint) public randomNumber; // randomNumber[block] is the random number for this block, 0 otherwise.
+  > |    mapping (uint => uint) public reward; // reward[block] is the amount to be paid to the party w.
+    |
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(801)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNGFallback':
+    |     *  @param _block Block the random number is linked to.
+    |     */
+  > |    function contribute(uint _block) public payable { reward[_block]+=msg.value; }
+    |
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(808)
+
+[31mViolation[0m for MissingInputValidation in contract 'BlockHashRNGFallback':
+    |     *  @return RN Random Number. If the number is not ready or has not been requested 0 instead.
+    |     */
+  > |    function getRN(uint _block) public returns (uint RN) {
+    |        RN=randomNumber[_block];
+    |        if (RN==0){
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(815)
+
+[33mWarning[0m for MissingInputValidation in contract 'BlockHashRNGFallback':
+    |     *  @param _block Block the random number is linked to.
+    |     */
+  > |    function saveRN(uint _block) public {
+    |        if (_block<block.number && randomNumber[_block]==0) {// If the random number is not already set and can be.
+    |            if (blockhash(_block)!=0x0) // Normal case.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(852)
+
+[33mWarning[0m for TODAmount in contract 'BlockHashRNGFallback':
+    |            uint rewardToSend=reward[_block];
+    |            reward[_block]=0;
+  > |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case the msg.sender has a fallback issue.
+    |        }
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(862)
+
+[31mViolation[0m for UnhandledException in contract 'BlockHashRNGFallback':
+    |            uint rewardToSend=reward[_block];
+    |            reward[_block]=0;
+  > |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case the msg.sender has a fallback issue.
+    |        }
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(862)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'BlockHashRNGFallback':
+    |            uint rewardToSend=reward[_block];
+    |            reward[_block]=0;
+  > |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case the msg.sender has a fallback issue.
+    |        }
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(862)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'BlockHashRNGFallback':
+    |     *  @param _block Block the random number is linked to.
+    |     */
+  > |    function contribute(uint _block) public payable { reward[_block]+=msg.value; }
+    |
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(808)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'BlockHashRNGFallback':
+    |        if (_block<block.number && randomNumber[_block]==0) {// If the random number is not already set and can be.
+    |            if (blockhash(_block)!=0x0) // Normal case.
+  > |                randomNumber[_block]=uint(blockhash(_block));
+    |            else // The contract was not called in time. Fallback to returning previous blockhash.
+    |                randomNumber[_block]=uint(blockhash(block.number-1));
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(855)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'BlockHashRNGFallback':
+    |                randomNumber[_block]=uint(blockhash(_block));
+    |            else // The contract was not called in time. Fallback to returning previous blockhash.
+  > |                randomNumber[_block]=uint(blockhash(block.number-1));
+    |        }
+    |        if (randomNumber[_block] != 0) { // If the random number is set.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(857)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'BlockHashRNGFallback':
+    |        if (randomNumber[_block] != 0) { // If the random number is set.
+    |            uint rewardToSend=reward[_block];
+  > |            reward[_block]=0;
+    |            msg.sender.send(rewardToSend); // Note that the use of send is on purpose as we don't want to block in case the msg.sender has a fallback issue.
+    |        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(861)
+
+[31mViolation[0m for MissingInputValidation in contract 'Controlled':
+    |    /// @notice Changes the controller of the contract
+    |    /// @param _newController The new controller of the contract
+  > |    function changeController(address _newController) public onlyController {
+    |        controller = _newController;
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(229)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Controlled':
+    |    /// @param _newController The new controller of the contract
+    |    function changeController(address _newController) public onlyController {
+  > |        controller = _newController;
+    |    }
+    |}
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(230)
+
+[33mWarning[0m for TODAmount in contract 'Kleros':
+    |        juror.atStake += _draws.length * getStakePerDraw();
+    |        uint feeToPay = _draws.length * dispute.arbitrationFeePerJuror;
+  > |        msg.sender.transfer(feeToPay);
+    |        ArbitrationReward(msg.sender, _disputeID, feeToPay);
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1279)
+
+[33mWarning[0m for TODAmount in contract 'Kleros':
+    |        jurors[governor].balance += penality / 2; // The other half to the governor.
+    |        TokenShift(governor, _disputeID, int(penality / 2));
+  > |        msg.sender.transfer(_draws.length*dispute.arbitrationFeePerJuror); // Give the arbitration fees to the caller.
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1306)
+
+[31mViolation[0m for UnhandledException in contract 'Kleros':
+    |     */
+    |    function executeOrder(bytes32 _data, uint _value, address _target) public onlyGovernor {
+  > |        _target.call.value(_value)(_data);
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1748)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Kleros':
+    |        juror.atStake += _draws.length * getStakePerDraw();
+    |        uint feeToPay = _draws.length * dispute.arbitrationFeePerJuror;
+  > |        msg.sender.transfer(feeToPay);
+    |        ArbitrationReward(msg.sender, _disputeID, feeToPay);
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1279)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'Kleros':
+    |        jurors[governor].balance += penality / 2; // The other half to the governor.
+    |        TokenShift(governor, _disputeID, int(penality / 2));
+  > |        msg.sender.transfer(_draws.length*dispute.arbitrationFeePerJuror); // Give the arbitration fees to the caller.
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1306)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |/** @title PEpsilon
+  > | *  @author Daniel Babbev
+    | *
+    | *  This contract implements a p + epsilon attack against the Kleros court.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(2)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |
+    |
+  > |contract Kleros is Arbitrator, ApproveAndCallFallBack {
+    |
+    |    // **************************** //
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1014)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |
+    |        if (period == Period.Activation) {
+  > |            rnBlock = block.number + 1;
+    |            rng.requestRN(rnBlock);
+    |            period = Period.Draw;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1203)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            rnBlock = block.number + 1;
+    |            rng.requestRN(rnBlock);
+  > |            period = Period.Draw;
+    |        } else if (period == Period.Draw) {
+    |            randomNumber = rng.getUncorrelatedRN(rnBlock);
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1205)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            period = Period.Draw;
+    |        } else if (period == Period.Draw) {
+  > |            randomNumber = rng.getUncorrelatedRN(rnBlock);
+    |            require(randomNumber != 0);
+    |            period = Period.Vote;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1207)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            randomNumber = rng.getUncorrelatedRN(rnBlock);
+    |            require(randomNumber != 0);
+  > |            period = Period.Vote;
+    |        } else if (period == Period.Vote) {
+    |            period = Period.Appeal;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1209)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            period = Period.Vote;
+    |        } else if (period == Period.Vote) {
+  > |            period = Period.Appeal;
+    |        } else if (period == Period.Appeal) {
+    |            period = Period.Execution;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1211)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            period = Period.Appeal;
+    |        } else if (period == Period.Appeal) {
+  > |            period = Period.Execution;
+    |        } else if (period == Period.Execution) {
+    |            period = Period.Activation;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1213)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            period = Period.Execution;
+    |        } else if (period == Period.Execution) {
+  > |            period = Period.Activation;
+    |            ++session;
+    |            segmentSize = 0;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1215)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        } else if (period == Period.Execution) {
+    |            period = Period.Activation;
+  > |            ++session;
+    |            segmentSize = 0;
+    |            rnBlock = 0;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1216)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            period = Period.Activation;
+    |            ++session;
+  > |            segmentSize = 0;
+    |            rnBlock = 0;
+    |            randomNumber = 0;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1217)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            ++session;
+    |            segmentSize = 0;
+  > |            rnBlock = 0;
+    |            randomNumber = 0;
+    |        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1218)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            segmentSize = 0;
+    |            rnBlock = 0;
+  > |            randomNumber = 0;
+    |        }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1219)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |
+    |
+  > |        lastPeriodChange = now;
+    |        NewPeriod(period, session);
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1223)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        juror.lastSession = session;
+    |        juror.segmentStart = segmentSize;
+  > |        segmentSize += _value;
+    |        juror.segmentEnd = segmentSize;
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1240)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |
+    |        dispute.lastSessionVote[msg.sender] = session;
+  > |        voteCounter.voteCount[_ruling] += _draws.length;
+    |        if (voteCounter.winningCount < voteCounter.voteCount[_ruling]) {
+    |            voteCounter.winningCount = voteCounter.voteCount[_ruling];
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1263)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        voteCounter.voteCount[_ruling] += _draws.length;
+    |        if (voteCounter.winningCount < voteCounter.voteCount[_ruling]) {
+  > |            voteCounter.winningCount = voteCounter.voteCount[_ruling];
+    |            voteCounter.winningChoice = _ruling;
+    |        } else if (voteCounter.winningCount==voteCounter.voteCount[_ruling] && _draws.length!=0) { // Verify draw length to be non-zero to avoid the possibility of setting tie by casting 0 votes.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1265)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        if (voteCounter.winningCount < voteCounter.voteCount[_ruling]) {
+    |            voteCounter.winningCount = voteCounter.voteCount[_ruling];
+  > |            voteCounter.winningChoice = _ruling;
+    |        } else if (voteCounter.winningCount==voteCounter.voteCount[_ruling] && _draws.length!=0) { // Verify draw length to be non-zero to avoid the possibility of setting tie by casting 0 votes.
+    |            voteCounter.winningChoice = 0; // It's currently a tie.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1266)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            voteCounter.winningChoice = _ruling;
+    |        } else if (voteCounter.winningCount==voteCounter.voteCount[_ruling] && _draws.length!=0) { // Verify draw length to be non-zero to avoid the possibility of setting tie by casting 0 votes.
+  > |            voteCounter.winningChoice = 0; // It's currently a tie.
+    |        }
+    |        for (uint i = 0; i < _draws.length; ++i) {
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1268)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        }
+    |        for (uint i = 0; i < _draws.length; ++i) {
+  > |            dispute.votes[dispute.appeals].push(Vote({
+    |                account: msg.sender,
+    |                ruling: _ruling
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1271)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        }
+    |
+  > |        juror.atStake += _draws.length * getStakePerDraw();
+    |        uint feeToPay = _draws.length * dispute.arbitrationFeePerJuror;
+    |        msg.sender.transfer(feeToPay);
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1277)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        require(period > Period.Vote);
+    |        require(dispute.lastSessionVote[_jurorAddress] != session); // Verify the juror hasn't voted.
+  > |        dispute.lastSessionVote[_jurorAddress] = session; // Update last session to avoid penalizing multiple times.
+    |        require(validDraws(_jurorAddress, _disputeID, _draws));
+    |        uint penality = _draws.length * minActivatedToken * 2 * alpha / ALPHA_DIVISOR;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1296)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        uint penality = _draws.length * minActivatedToken * 2 * alpha / ALPHA_DIVISOR;
+    |        penality = (penality < inactiveJuror.balance) ? penality : inactiveJuror.balance; // Make sure the penality is not higher than the balance.
+  > |        inactiveJuror.balance -= penality;
+    |        TokenShift(_jurorAddress, _disputeID, -int(penality));
+    |        jurors[msg.sender].balance += penality / 2; // Give half of the penalty to the caller.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1300)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        jurors[msg.sender].balance += penality / 2; // Give half of the penalty to the caller.
+    |        TokenShift(msg.sender, _disputeID, int(penality / 2));
+  > |        jurors[governor].balance += penality / 2; // The other half to the governor.
+    |        TokenShift(governor, _disputeID, int(penality / 2));
+    |        msg.sender.transfer(_draws.length*dispute.arbitrationFeePerJuror); // Give the arbitration fees to the caller.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1304)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                        Juror storage juror = jurors[vote.account];
+    |                        uint penalty = amountShift<juror.balance ? amountShift : juror.balance;
+  > |                        juror.balance -= penalty;
+    |                        TokenShift(vote.account, _disputeID, int(-penalty));
+    |                        totalToRedistribute += penalty;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1336)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                }
+    |                if (nbCoherent == 0) { // No one was coherent at this stage. Give the tokens to the governor.
+  > |                    jurors[governor].balance += totalToRedistribute;
+    |                    TokenShift(governor, _disputeID, int(totalToRedistribute));
+    |                } else { // otherwise, redistribute them.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1344)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                        if (vote.ruling == winningChoice) {
+    |                            juror = jurors[vote.account];
+  > |                            juror.balance += toRedistribute;
+    |                            TokenShift(vote.account, _disputeID, int(toRedistribute));
+    |                        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1353)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                vote = dispute.votes[i][j];
+    |                juror = jurors[vote.account];
+  > |                juror.atStake -= amountShift; // Note that it can't underflow due to amountShift not changing between vote and redistribution.
+    |            }
+    |        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1363)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            }
+    |        }
+  > |        dispute.state = DisputeState.Executable; // Since it was solved in one shot, go directly to the executable step.
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1366)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        require(dispute.state <= DisputeState.Resolving);
+    |        require(dispute.session+dispute.appeals <= session);
+  > |        dispute.state = DisputeState.Resolving; // Mark as resolving so oneShotTokenRepartition cannot be called on dispute.
+    |
+    |        uint winningChoice = dispute.voteCounter[dispute.appeals].winningChoice;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1379)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            if (winningChoice==0 && (dispute.voteCounter[dispute.appeals].voteCount[0] != dispute.voteCounter[dispute.appeals].winningCount)) {
+    |                // If ruling is a tie we can skip to at stake.
+  > |                dispute.appealsRepartitioned[i].stage = RepartitionStage.AtStake;
+    |            }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1393)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                        Juror storage juror = jurors[vote.account];
+    |                        uint penalty = amountShift<juror.balance ? amountShift : juror.balance;
+  > |                        juror.balance -= penalty;
+    |                        TokenShift(vote.account, _disputeID, int(-penalty));
+    |                        dispute.appealsRepartitioned[i].totalToRedistribute += penalty;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1406)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                        juror.balance -= penalty;
+    |                        TokenShift(vote.account, _disputeID, int(-penalty));
+  > |                        dispute.appealsRepartitioned[i].totalToRedistribute += penalty;
+    |                    } else {
+    |                        ++dispute.appealsRepartitioned[i].nbCoherent;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1408)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                        dispute.appealsRepartitioned[i].totalToRedistribute += penalty;
+    |                    } else {
+  > |                        ++dispute.appealsRepartitioned[i].nbCoherent;
+    |                    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1410)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                    }
+    |
+  > |                    ++dispute.appealsRepartitioned[i].currentIncoherentVote;
+    |                    ++currentIterations;
+    |                }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1413)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                }
+    |
+  > |                dispute.appealsRepartitioned[i].stage = RepartitionStage.Coherent;
+    |            }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1417)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            if (dispute.appealsRepartitioned[i].stage == RepartitionStage.Coherent) {
+    |                if (dispute.appealsRepartitioned[i].nbCoherent == 0) { // No one was coherent at this stage. Give the tokens to the governor.
+  > |                    jurors[governor].balance += dispute.appealsRepartitioned[i].totalToRedistribute;
+    |                    TokenShift(governor, _disputeID, int(dispute.appealsRepartitioned[i].totalToRedistribute));
+    |                    dispute.appealsRepartitioned[i].stage = RepartitionStage.AtStake;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1423)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                    jurors[governor].balance += dispute.appealsRepartitioned[i].totalToRedistribute;
+    |                    TokenShift(governor, _disputeID, int(dispute.appealsRepartitioned[i].totalToRedistribute));
+  > |                    dispute.appealsRepartitioned[i].stage = RepartitionStage.AtStake;
+    |                } else { // Otherwise, redistribute them.
+    |                    uint toRedistribute = dispute.appealsRepartitioned[i].totalToRedistribute / dispute.appealsRepartitioned[i].nbCoherent; // Note that few fractions of tokens can be lost but due to the high amount of decimals we don't care.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1425)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                        if (vote.ruling == winningChoice) {
+    |                            juror = jurors[vote.account];
+  > |                            juror.balance += toRedistribute;
+    |                            TokenShift(vote.account, _disputeID, int(toRedistribute));
+    |                        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1436)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |
+    |                        ++currentIterations;
+  > |                        ++dispute.appealsRepartitioned[i].currentCoherentVote;
+    |                    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1441)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                    }
+    |
+  > |                    dispute.appealsRepartitioned[i].stage = RepartitionStage.AtStake;
+    |                }
+    |            }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1444)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                    vote = dispute.votes[i][j];
+    |                    juror = jurors[vote.account];
+  > |                    juror.atStake -= amountShift; // Note that it can't underflow due to amountShift not changing between vote and redistribution.
+    |
+    |                    ++currentIterations;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1456)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |
+    |                    ++currentIterations;
+  > |                    ++dispute.appealsRepartitioned[i].currentAtStakeVote;
+    |                }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1459)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |                }
+    |
+  > |                dispute.appealsRepartitioned[i].stage = RepartitionStage.Complete;
+    |            }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1462)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |
+    |            if (dispute.appealsRepartitioned[i].stage == RepartitionStage.Complete) {
+  > |                ++dispute.currentAppealToRepartition;
+    |            }
+    |        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1466)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        }
+    |
+  > |        dispute.state = DisputeState.Executable;
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1470)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        disputeID = disputes.length++;
+    |        Dispute storage dispute = disputes[disputeID];
+  > |        dispute.arbitrated = Arbitrable(msg.sender);
+    |        if (period < Period.Draw) // If drawing did not start schedule it for the current session.
+    |            dispute.session = session;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1536)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        dispute.arbitrated = Arbitrable(msg.sender);
+    |        if (period < Period.Draw) // If drawing did not start schedule it for the current session.
+  > |            dispute.session = session;
+    |        else // Otherwise schedule it for the next one.
+    |            dispute.session = session+1;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1538)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            dispute.session = session;
+    |        else // Otherwise schedule it for the next one.
+  > |            dispute.session = session+1;
+    |        dispute.choices = _choices;
+    |        dispute.initialNumberJurors = nbJurors;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1540)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        else // Otherwise schedule it for the next one.
+    |            dispute.session = session+1;
+  > |        dispute.choices = _choices;
+    |        dispute.initialNumberJurors = nbJurors;
+    |        dispute.arbitrationFeePerJuror = arbitrationFeePerJuror; // We store it as the general fee can be changed through the governance mechanism.
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1541)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |            dispute.session = session+1;
+    |        dispute.choices = _choices;
+  > |        dispute.initialNumberJurors = nbJurors;
+    |        dispute.arbitrationFeePerJuror = arbitrationFeePerJuror; // We store it as the general fee can be changed through the governance mechanism.
+    |        dispute.votes.length++;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1542)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        dispute.choices = _choices;
+    |        dispute.initialNumberJurors = nbJurors;
+  > |        dispute.arbitrationFeePerJuror = arbitrationFeePerJuror; // We store it as the general fee can be changed through the governance mechanism.
+    |        dispute.votes.length++;
+    |        dispute.voteCounter.length++;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1543)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Kleros':
+    |        require(dispute.state == DisputeState.Executable);
+    |
+  > |        dispute.state = DisputeState.Executed;
+    |        dispute.arbitrated.rule(disputeID, dispute.voteCounter[dispute.appeals].winningChoice);
+    |    }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(1574)
+
+[31mViolation[0m for MissingInputValidation in contract 'MiniMeTokenFactory':
+    |    /// @param _transfersEnabled If true, tokens will be able to be transferred
+    |    /// @return The address of the new token contract
+  > |    function createCloneToken(
+    |        address _parentToken,
+    |        uint _snapshotBlock,
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(735)
+
+[31mViolation[0m for MissingInputValidation in contract 'PEpsilon':
+    |  bool public settled;
+    |  uint public maxAppeals; // The maximum number of appeals this cotracts promises to pay
+  > |  mapping (address => uint) public withdraw; // We'll use a withdraw pattern here to avoid multiple sends when a juror has voted multiple times.
+    |
+    |  address public attacker;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(17)
+
+[31mViolation[0m for MissingInputValidation in contract 'PEpsilon':
+    |   *  @param _amount Amount of tokens to transfer to this contract (in basic units).
+    |   */
+  > |  function receiveApproval(address _from, uint _amount, address, bytes) public onlyBy(pinakion) {
+    |    require(pinakion.transferFrom(_from, this, _amount));
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(50)
+
+[31mViolation[0m for MissingInputValidation in contract 'PEpsilon':
+    |   *  @param _juror The address of the juror
+    |   */
+  > |  function withdrawSelect(address _juror) {
+    |    uint amount = withdraw[_juror];
+    |    withdraw[_juror] = 0;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(65)
+
+[33mWarning[0m for TODAmount in contract 'PEpsilon':
+    |
+    |    // The juror receives d + p + e (deposit + p + epsilon)
+  > |    require(pinakion.transfer(_juror, amount));
+    |  }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(73)
+
+[33mWarning[0m for TODReceiver in contract 'PEpsilon':
+    |
+    |    // The juror receives d + p + e (deposit + p + epsilon)
+  > |    require(pinakion.transfer(_juror, amount));
+    |  }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(73)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'PEpsilon':
+    |
+    |    // The juror receives d + p + e (deposit + p + epsilon)
+  > |    require(pinakion.transfer(_juror, amount));
+    |  }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(73)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |  function withdrawSelect(address _juror) {
+    |    uint amount = withdraw[_juror];
+  > |    withdraw[_juror] = 0;
+    |
+    |    balance = sub(balance, amount); // Could underflow
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(67)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |    withdraw[_juror] = 0;
+    |
+  > |    balance = sub(balance, amount); // Could underflow
+    |    remainingWithdraw = sub(remainingWithdraw, amount);
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(69)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |
+    |    balance = sub(balance, amount); // Could underflow
+  > |    remainingWithdraw = sub(remainingWithdraw, amount);
+    |
+    |    // The juror receives d + p + e (deposit + p + epsilon)
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(70)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |      // The remaning balance of PNK after settlement is transfered to the attacker.
+    |      uint amount = balance - remainingWithdraw;
+  > |      balance = remainingWithdraw;
+    |
+    |      require(pinakion.transfer(attacker, amount));
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(92)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |    require(!settled); // This function can be executed only once.
+    |
+  > |    settled = true; // settle the bribe
+    |
+    |    // From the dispute we get the # of appeals and the available choices
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(108)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |              if (voteRuling == desiredOutcome){ // If the juror voted as we desired.
+    |                // Transfer this juror back the penalty.
+  > |                withdraw[voteAccount] += amountShift + epsilon;
+    |                remainingWithdraw += amountShift + epsilon;
+    |                emit AmountShift(amountShift, epsilon, voteAccount);
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(149)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |                // Transfer this juror back the penalty.
+    |                withdraw[voteAccount] += amountShift + epsilon;
+  > |                remainingWithdraw += amountShift + epsilon;
+    |                emit AmountShift(amountShift, epsilon, voteAccount);
+    |              }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(150)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |            if (voteRuling == desiredOutcome){
+    |              // Add the coherent juror reward to the total payout.
+  > |              withdraw[voteAccount] += toRedistribute;
+    |              remainingWithdraw += toRedistribute;
+    |              emit AmountShift(toRedistribute, 0, voteAccount);
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(167)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |              // Add the coherent juror reward to the total payout.
+    |              withdraw[voteAccount] += toRedistribute;
+  > |              remainingWithdraw += toRedistribute;
+    |              emit AmountShift(toRedistribute, 0, voteAccount);
+    |            }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(168)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PEpsilon':
+    |    require(pinakion.transferFrom(_from, this, _amount));
+    |
+  > |    balance += _amount;
+    |  }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(53)
+
+[31mViolation[0m for RepeatedCall in contract 'Pinakion':
+    |           // Alerts the token controller of the transfer
+    |           if (isContract(controller)) {
+  > |               require(TokenController(controller).onTransfer(_from, _to, _amount));
+    |           }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(387)
+
+[31mViolation[0m for RepeatedCall in contract 'Pinakion':
+    |            || (balances[_owner][0].fromBlock > _blockNumber)) {
+    |            if (address(parentToken) != 0) {
+  > |                return parentToken.balanceOfAt(_owner, min(_blockNumber, parentSnapShotBlock));
+    |            } else {
+    |                // Has no parent
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(486)
+
+[31mViolation[0m for RepeatedCall in contract 'Pinakion':
+    |            || (totalSupplyHistory[0].fromBlock > _blockNumber)) {
+    |            if (address(parentToken) != 0) {
+  > |                return parentToken.totalSupplyAt(min(_blockNumber, parentSnapShotBlock));
+    |            } else {
+    |                return 0;
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(511)
+
+[31mViolation[0m for RepeatedCall in contract 'Pinakion':
+    |            );
+    |
+  > |        cloneToken.changeController(msg.sender);
+    |
+    |        // An event to make the token easy to find on the blockchain
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(553)
+
+[33mWarning[0m for RepeatedCall in contract 'Pinakion':
+    |        // Alerts the token controller of the approve function call
+    |        if (isContract(controller)) {
+  > |            require(TokenController(controller).onApprove(msg.sender, _spender, _amount));
+    |        }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(421)
+
+[33mWarning[0m for RepeatedCall in contract 'Pinakion':
+    |        require(approve(_spender, _amount));
+    |
+  > |        ApproveAndCallFallBack(_spender).receiveApproval(
+    |            msg.sender,
+    |            _amount,
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(450)
+
+[33mWarning[0m for RepeatedCall in contract 'Pinakion':
+    |    function () public payable {
+    |        require(isContract(controller));
+  > |        require(TokenController(controller).proxyPayment.value(msg.value)(msg.sender));
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(678)
+
+[31mViolation[0m for TODAmount in contract 'Pinakion':
+    |    function claimTokens(address _token) public onlyController {
+    |        if (_token == 0x0) {
+  > |            controller.transfer(this.balance);
+    |            return;
+    |        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(691)
+
+[33mWarning[0m for TODAmount in contract 'Pinakion':
+    |    function () public payable {
+    |        require(isContract(controller));
+  > |        require(TokenController(controller).proxyPayment.value(msg.value)(msg.sender));
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(678)
+
+[31mViolation[0m for TODReceiver in contract 'Pinakion':
+    |    function () public payable {
+    |        require(isContract(controller));
+  > |        require(TokenController(controller).proxyPayment.value(msg.value)(msg.sender));
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(678)
+
+[31mViolation[0m for TODReceiver in contract 'Pinakion':
+    |    function claimTokens(address _token) public onlyController {
+    |        if (_token == 0x0) {
+  > |            controller.transfer(this.balance);
+    |            return;
+    |        }
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(691)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pinakion':
+    |///  that deploys the contract, so usually this token will be deployed by a
+    |///  token controller contract, which Giveth will call a "Campaign"
+  > |contract Pinakion is Controlled {
+    |
+    |    string public name;                //The Token's name: e.g. DigixDAO Tokens
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(237)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pinakion':
+    |    /// @param _newController The new controller of the contract
+    |    function changeController(address _newController) public onlyController {
+  > |        controller = _newController;
+    |    }
+    |}
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(230)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Pinakion':
+    |    /// @param _transfersEnabled True if transfers are allowed in the clone
+    |    function enableTransfers(bool _transfersEnabled) public onlyController {
+  > |        transfersEnabled = _transfersEnabled;
+    |    }
+    |
+  at /unique_chucks/31/0x3607608a1907acc2042eb83195ffe733b04f0ed4.sol(605)

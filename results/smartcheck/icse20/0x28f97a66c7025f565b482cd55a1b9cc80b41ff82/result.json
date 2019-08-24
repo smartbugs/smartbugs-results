@@ -1,0 +1,105 @@
+{
+  "contract": "0x28f97a66c7025f565b482cd55a1b9cc80b41ff82",
+  "tool": "smartcheck",
+  "start": 1563713621.9414735,
+  "end": 1563713630.9256675,
+  "duration": 8.984194040298462,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 559,
+      "column": 2,
+      "content": "functiongetInvestorDepositAmount(address_investor)publicconstantreturns(uint256paid){return_balances[_investor];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 660,
+      "column": 4,
+      "content": "functionvalidPurchase()internalconstantreturns(bool){boolminContribution=minContribAmount<=msg.value;returnminContribution;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 575,
+      "column": 0,
+      "content": "contractBitcoinageCrowdsaleisTimedCrowdsale,EscrowAccountCrowdsale,PostDeliveryCrowdsale{enumStage{KYC_FAILED,KYC_SUCCESS,AML_FAILED,AML_SUCCESS}enumPhase{PRESALE,PUBLICSALE}Phasepublicphase;uint256privateconstantDECIMALFACTOR=10**uint256(18);uint256public_totalSupply=200000000*DECIMALFACTOR;uint256publicpresale=5000000*DECIMALFACTOR;uint256publicpublicsale=110000000*DECIMALFACTOR;uint256publicteamAndAdvisorsAndBountyAllocation=12000000*DECIMALFACTOR;uint256publicoperatingBudgetAllocation=5000000*DECIMALFACTOR;uint256publictokensVested=28000000*DECIMALFACTOR;structwhitelisted{Stagestage;}uint256publicadminCharge=0.025ether;uint256publicminContribAmount=0.2ether;mapping(address=>whitelisted)publicwhitelist;mapping(address=>uint256)publicinvestedAmountOf;uint256publicinvestorCount;eventupdateRate(uint256tokenRate,uint256time);functionBitcoinageCrowdsale(uint256_starttime,uint256_endTime,uint256_rate,address_wallet,IERC20_token)TimedCrowdsale(_starttime,_endTime)Crowdsale(_rate,_wallet,_token){phase=Phase.PRESALE;}function()externalpayable{buyTokens(msg.sender);}functionbuyTokens(address_beneficiary)publicpayableonlyWhileOpen{require(_beneficiary!=address(0));require(validPurchase());uint256weiAmount=msg.value;uint256tokens=weiAmount.mul(_rate);if(phase==Phase.PRESALE){assert(presale>=tokens);presale=presale.sub(tokens);}else{assert(publicsale>=tokens);publicsale=publicsale.sub(tokens);}_forwardFunds();_processPurchase(_beneficiary,tokens);if(investedAmountOf[msg.sender]==0){investorCount++;}investedAmountOf[msg.sender]=investedAmountOf[msg.sender].add(weiAmount);if(whitelist[_beneficiary].stage==Stage.AML_SUCCESS){afterWhtelistedBuy(_beneficiary);}}functionvalidPurchase()internalconstantreturns(bool){boolminContribution=minContribAmount<=msg.value;returnminContribution;}modifierisWhitelisted(address_beneficiary){require(whitelist[_beneficiary].stage==Stage.AML_SUCCESS);_;}functionaddToWhitelist(address_beneficiary,uint256_stage)externalonlyOwner{require(_beneficiary!=address(0));if(_stage==1){failedWhitelistForDebit(_beneficiary,_rate.mul(adminCharge));adminChargeForDebit(_beneficiary,adminCharge);whitelist[_beneficiary].stage=Stage.KYC_FAILED;uint256value=investedAmountOf[_beneficiary];value=value.sub(adminCharge);investedAmountOf[_beneficiary]=value;}elseif(_stage==2){whitelist[_beneficiary].stage=Stage.KYC_SUCCESS;}elseif(_stage==3){whitelist[_beneficiary].stage=Stage.AML_FAILED;returnInvestoramount(_beneficiary,adminCharge);failedWhitelist(_beneficiary);investedAmountOf[_beneficiary]=0;}elseif(_stage==4){whitelist[_beneficiary].stage=Stage.AML_SUCCESS;afterWhtelisted(_beneficiary);}}functionwithdrawTokens()publicisWhitelisted(msg.sender){uint256amount=_balances[msg.sender];require(amount>0);_deliverTokens(msg.sender,amount);_balances[msg.sender]=0;}functionchangeEndtime(uint256_endTime)publiconlyOwner{require(_endTime>0);_closingTime=_endTime;}functionchangeStarttime(uint256_startTime)publiconlyOwner{require(_startTime>0);_openingTime=_startTime;}functionchangeStage(uint256_rate)publiconlyOwner{require(_rate>0);_rate=_rate;phase=Phase.PUBLICSALE;}functionchangeRate(uint256_rate)publiconlyOwner{require(_rate>0);_rate=_rate;emitupdateRate(_rate,block.timestamp);}functionchangeAdminCharge(uint256_adminCharge)publiconlyOwner{require(_adminCharge>0);adminCharge=_adminCharge;}functiontransferTeamAndAdvisorsAndBountyAllocation(addressto,uint256tokens)publiconlyOwner{require(to!=0x0&&tokens>0&&teamAndAdvisorsAndBountyAllocation>=tokens);_deliverTokens(to,tokens);teamAndAdvisorsAndBountyAllocation=teamAndAdvisorsAndBountyAllocation.sub(tokens);}functiontransferTokensVested(addressto,uint256tokens)publiconlyOwner{require(to!=0x0&&tokens>0&&tokensVested>=tokens);_deliverTokens(to,tokens);tokensVested=tokensVested.sub(tokens);}functiontransferOperatingBudgetAllocation(addressto,uint256tokens)publiconlyOwner{require(to!=0x0&&tokens>0&&operatingBudgetAllocation>=tokens);_deliverTokens(to,tokens);operatingBudgetAllocation=operatingBudgetAllocation.sub(tokens);}}"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 583,
+      "column": 10,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 162,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 355,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 421,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 466,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 522,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 128,
+      "column": 1,
+      "content": "functionOwnable(){owner=msg.sender;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 481,
+      "column": 2,
+      "content": "functiondeposit(addressinvestor)onlyOwnerpayable{deposited[investor]=deposited[investor].add(msg.value);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 613,
+      "column": 1,
+      "content": "functionBitcoinageCrowdsale(uint256_starttime,uint256_endTime,uint256_rate,address_wallet,IERC20_token)TimedCrowdsale(_starttime,_endTime)Crowdsale(_rate,_wallet,_token){phase=Phase.PRESALE;}"
+    }
+  ]
+}

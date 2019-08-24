@@ -1,0 +1,65 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol:
+/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol:74:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function TokenVesting
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol:171:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Grant(msg.sender, beneficiary, vestedJiffys, unvestedJiffys);   // Fire event
+        ^----------------------------------------------------------^
+/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol:300:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Revoke(vestingGrants[account].issuer, account, balanceJiffys);
+        ^-----------------------------------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in TokenVesting.grant (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#135-187):
+	External calls:
+	- whenContract.vestingGrant(msg.sender,beneficiary,vestedJiffys,unvestedJiffys) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#156-157)
+	State variables written after the call(s):
+	- vestingGrants (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#159-173)
+Reentrancy in TokenVesting.grant (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#135-187):
+	External calls:
+	- whenContract.vestingGrant(msg.sender,beneficiary,vestedJiffys,unvestedJiffys) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#156-157)
+	- releaseFor(beneficiary) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#185-186)
+	State variables written after the call(s):
+	- vestingGrants (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#185-186)
+Reentrancy in TokenVesting.initialize (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#93-124):
+	External calls:
+	- (companyJiffys,partnerJiffys,foundationJiffys) = whenContract.getTokenAllocations() (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#107-108)
+	- grant(companyAccount,companyInitialGrant,companyInitialGrant.mul(2),GENESIS_TIMESTAMP + ONE_YEAR,0,TWO_YEARS,false) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#110-113)
+	- grant(partnerAccount,0,partnerJiffys,GENESIS_TIMESTAMP,ONE_MONTH.mul(6),THREE_YEARS,true) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#116-117)
+	State variables written after the call(s):
+	- vestingGrantLookup (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#116-117)
+	- vestingGrants (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#116-117)
+Reentrancy in TokenVesting.initialize (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#93-124):
+	External calls:
+	- (companyJiffys,partnerJiffys,foundationJiffys) = whenContract.getTokenAllocations() (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#107-108)
+	- grant(companyAccount,companyInitialGrant,companyInitialGrant.mul(2),GENESIS_TIMESTAMP + ONE_YEAR,0,TWO_YEARS,false) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#110-113)
+	- grant(partnerAccount,0,partnerJiffys,GENESIS_TIMESTAMP,ONE_MONTH.mul(6),THREE_YEARS,true) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#116-117)
+	- grant(foundationAccount,0,foundationJiffys,GENESIS_TIMESTAMP,ONE_MONTH.mul(6),THREE_YEARS,true) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#121-124)
+	State variables written after the call(s):
+	- vestingGrantLookup (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#121-124)
+	- vestingGrants (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#121-124)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in TokenVesting.grant (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#135-187):
+	External calls:
+	- whenContract.vestingGrant(msg.sender,beneficiary,vestedJiffys,unvestedJiffys) (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#156-157)
+	State variables written after the call(s):
+	- vestingGrantLookup (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#173)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TokenVesting.name should be constant (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#60)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+TokenVesting.fallback (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#58-60) should be declared external
+TokenVesting.release (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#229-234) should be declared external
+TokenVesting.revoke (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#290-315) should be declared external
+WHENToken.isOperational (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#315-319) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'TokenVesting.TokenVesting' (/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol#76-87) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/13/0x4c84949b55f21a376dba12e732958ede8b033b0e.sol analyzed (3 contracts), 12 result(s) found

@@ -1,0 +1,119 @@
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:Address
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:IERC20
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:KyberNetworkProxyInterface
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:LandRegistryProxyInterface
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:PaymentsLayer
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:ReentrancyGuard
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:SafeERC20
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |        // or when resetting it to zero. To increase and decrease it, use
+    |        // 'safeIncreaseAllowance' and 'safeDecreaseAllowance'
+  > |        require((value == 0) || (token.allowance(address(this), spender) == 0));
+    |        callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
+    |    }
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(102)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |
+    |        // solhint-disable-next-line avoid-low-level-calls
+  > |        (bool success, bytes memory returndata) = address(token).call(data);
+    |        require(success);
+    |
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(134)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |      dest.safeApprove(destAddress, destAmount);
+    |
+  > |    (bool success, ) = destAddress.call.value((address(dest) == ETH_TOKEN_ADDRESS) ? destAmount : 0)(encodedFunctionCall);
+    |    require(success, "dest call failed");
+    |
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(221)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |    require(success, "dest call failed");
+    |
+  > |    uint256 change = (address(dest) == ETH_TOKEN_ADDRESS) ? address(this).balance : dest.allowance(address(this), destAddress);
+    |    (change > 0 && address(dest) == ETH_TOKEN_ADDRESS) ? msg.sender.transfer(change) : dest.safeTransfer(msg.sender, change);
+    |
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(224)
+
+[31mViolation[0m for RepeatedCall in contract 'PaymentsLayer':
+    |
+    |    uint256 change = (address(dest) == ETH_TOKEN_ADDRESS) ? address(this).balance : dest.allowance(address(this), destAddress);
+  > |    (change > 0 && address(dest) == ETH_TOKEN_ADDRESS) ? msg.sender.transfer(change) : dest.safeTransfer(msg.sender, change);
+    |
+    |    emit PaymentForwarded(src, srcAmount, dest, destAddress, destAmount.sub(change));
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(225)
+
+[33mWarning[0m for TODAmount in contract 'PaymentsLayer':
+    |      dest.safeApprove(destAddress, destAmount);
+    |
+  > |    (bool success, ) = destAddress.call.value((address(dest) == ETH_TOKEN_ADDRESS) ? destAmount : 0)(encodedFunctionCall);
+    |    require(success, "dest call failed");
+    |
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(221)
+
+[33mWarning[0m for TODAmount in contract 'PaymentsLayer':
+    |
+    |    uint256 change = (address(dest) == ETH_TOKEN_ADDRESS) ? address(this).balance : dest.allowance(address(this), destAddress);
+  > |    (change > 0 && address(dest) == ETH_TOKEN_ADDRESS) ? msg.sender.transfer(change) : dest.safeTransfer(msg.sender, change);
+    |
+    |    emit PaymentForwarded(src, srcAmount, dest, destAddress, destAmount.sub(change));
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(225)
+
+[33mWarning[0m for TODReceiver in contract 'PaymentsLayer':
+    |      dest.safeApprove(destAddress, destAmount);
+    |
+  > |    (bool success, ) = destAddress.call.value((address(dest) == ETH_TOKEN_ADDRESS) ? destAmount : 0)(encodedFunctionCall);
+    |    require(success, "dest call failed");
+    |
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(221)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'PaymentsLayer':
+    |    }
+    |
+  > |    uint256 destAmount = KYBER_NETWORK_PROXY.trade.value((address(src) == ETH_TOKEN_ADDRESS) ? srcAmount : 0)(src, srcAmount, dest, address(this), ~uint256(0), minConversionRate, LAND_REGISTRY_PROXY.owner());
+    |    require(destAmount >= minDestAmount);
+    |    if (address(dest) != ETH_TOKEN_ADDRESS)
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(216)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'PaymentsLayer':
+    |      dest.safeApprove(destAddress, destAmount);
+    |
+  > |    (bool success, ) = destAddress.call.value((address(dest) == ETH_TOKEN_ADDRESS) ? destAmount : 0)(encodedFunctionCall);
+    |    require(success, "dest call failed");
+    |
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(221)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'PaymentsLayer':
+    |
+    |    uint256 change = (address(dest) == ETH_TOKEN_ADDRESS) ? address(this).balance : dest.allowance(address(this), destAddress);
+  > |    (change > 0 && address(dest) == ETH_TOKEN_ADDRESS) ? msg.sender.transfer(change) : dest.safeTransfer(msg.sender, change);
+    |
+    |    emit PaymentForwarded(src, srcAmount, dest, destAddress, destAmount.sub(change));
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(225)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PaymentsLayer':
+    |     */
+    |    modifier nonReentrant() {
+  > |        _guardCounter += 1;
+    |        uint256 localCounter = _guardCounter;
+    |        _;
+  at /unique_chucks/48/0x044ed85880c7df6c1491b140e46af893e0b30b77.sol(183)

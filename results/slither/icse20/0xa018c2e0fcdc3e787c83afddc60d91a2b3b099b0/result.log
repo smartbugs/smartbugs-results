@@ -1,0 +1,530 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:
+/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:620:9: Warning: Invoking events without "emit" prefix is deprecated.
+        VaultInitialized(_owner);
+        ^----------------------^
+/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:705:13: Warning: Invoking events without "emit" prefix is deprecated.
+            EventPaymentReceived( purchase.payment_method, purchase.amount, purchase.index );
+            ^------------------------------------------------------------------------------^
+/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:731:45: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            uint256 milestoneEtherBalance = this.balance;
+                                            ^----------^
+/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:778:44: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+                    outputAddress.transfer(this.balance);
+                                           ^----------^
+/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:811:37: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+                    transferEther = this.balance;
+                                    ^----------^
+/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:876:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            vaultOwner.transfer(this.balance);
+                                ^----------^
+
+INFO:Detectors:[91m
+Reentrancy in FundingVault.ReleaseFundsAndTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868):
+	External calls:
+	- ! canCashBack() && allFundingProcessed == false (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#780-866)
+	- FundingManagerEntity.CurrentEntityState() == FundingManagerEntity.getEntityState(FUNDING_SUCCESSFUL_PROGRESS) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#781-866)
+	- TokenEntity.transfer(vaultOwner,TokenEntity.balanceOf(address(this))) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#792-793)
+	External calls sending eth:
+	- outputAddress.transfer(this.balance) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#795-796)
+	State variables written after the call(s):
+	- allFundingProcessed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#798)
+Reentrancy in FundingVault.ReleaseFundsAndTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868):
+	External calls:
+	- ! canCashBack() && allFundingProcessed == false (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#780-866)
+	- FundingManagerEntity.CurrentEntityState() == FundingManagerEntity.getEntityState(FUNDING_SUCCESSFUL_PROGRESS) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#781-866)
+	- TokenEntity.transfer(vaultOwner,getDirectBoughtTokens()) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#803)
+	External calls sending eth:
+	- outputAddress.transfer(amount_direct) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#806-807)
+	State variables written after the call(s):
+	- DirectFundingProcessed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#807)
+Reentrancy in FundingVault.ReleaseFundsAndTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868):
+	External calls:
+	- ! canCashBack() && allFundingProcessed == false (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#780-866)
+	- FundingManagerEntity.CurrentEntityState() == FundingManagerEntity.getEntityState(MILESTONE_PROCESS_PROGRESS) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#809-866)
+	- milestoneId = MilestonesEntity.currentRecord() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#815-816)
+	- transferTokens = TokenEntity.balanceOf(address(this)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#837-838)
+	- TokenEntity.transfer(vaultOwner,transferTokens) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#848-849)
+	External calls sending eth:
+	- outputAddress.transfer(transferEther) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#853-857)
+	State variables written after the call(s):
+	- allFundingProcessed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#864-865)
+Reentrancy in FundingVault.releaseTokensAndEtherForEmergencyFund (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#868-881):
+	External calls:
+	- TokenEntity.transfer(vaultOwner,tokenBalances[0]) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#875-876)
+	External calls sending eth:
+	- outputAddress.transfer(etherBalances[0]) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#878)
+	State variables written after the call(s):
+	- emergencyFundReleased (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#879)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+FundingVault.ReleaseFundsAndTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868) uses a dangerous strict equality:
+	- amount_direct > 0 && amount_milestone == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in FundingVault.initMilestoneTokenAndEtherBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#741-774):
+	External calls:
+	- milestoneTokenBalance = TokenEntity.balanceOf(address(this)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#744-745)
+	- perc = MilestonesEntity.getMilestoneFundingPercentage(i) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#768-769)
+	State variables written after the call(s):
+	- etherBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#771)
+	- tokenBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#769-771)
+Reentrancy in FundingVault.initMilestoneTokenAndEtherBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#741-774):
+	External calls:
+	- milestoneTokenBalance = TokenEntity.balanceOf(address(this)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#744-745)
+	- i <= MilestonesEntity.RecordNum() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#766-772)
+	State variables written after the call(s):
+	- BalancesInitialised (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#772-774)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+FundingVault.ReleaseFundsAndTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868) does not use the value returned by external calls:
+	-TokenEntity.transfer(vaultOwner,TokenEntity.balanceOf(address(this))) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#792-793)
+	-TokenEntity.transfer(vaultOwner,getDirectBoughtTokens()) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#803)
+	-TokenEntity.transfer(vaultOwner,transferTokens) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#848-849)
+FundingVault.releaseTokensAndEtherForEmergencyFund (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#868-881) does not use the value returned by external calls:
+	-TokenEntity.transfer(vaultOwner,tokenBalances[0]) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#875-876)
+FundingVault.ReleaseFundsToInvestor (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#881-912) does not use the value returned by external calls:
+	-TokenEntity.transfer(outputAddress,myBalance) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#890-891)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ABIFundingManager.VaultRequestedUpdateForLockedVotingTokens.owner (local variable @ /unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#503-504) shadows:
+	- ABIApplicationAsset.owner (state variable @ /unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#147-149)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+FundingVault.initMilestoneTokenAndEtherBalances has external calls inside a loop:
+	- i <= MilestonesEntity.RecordNum() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#766-772)
+FundingVault.initMilestoneTokenAndEtherBalances has external calls inside a loop:
+	- perc = MilestonesEntity.getMilestoneFundingPercentage(i) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#768-769)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in FundingVault.ReleaseFundsAndTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868):
+	External calls:
+	- ! canCashBack() && allFundingProcessed == false (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#780-866)
+	- FundingManagerEntity.CurrentEntityState() == FundingManagerEntity.getEntityState(FUNDING_SUCCESSFUL_PROGRESS) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#781-866)
+	- TokenEntity.transfer(vaultOwner,getDirectBoughtTokens()) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#803)
+	- initMilestoneTokenAndEtherBalances() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#808-809)
+	External calls sending eth:
+	- outputAddress.transfer(amount_direct) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#806-807)
+	State variables written after the call(s):
+	- BalanceNum (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#808-809)
+Reentrancy in FundingVault.ReleaseFundsToInvestor (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#881-912):
+	External calls:
+	- canCashBack() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#882-912)
+	- myBalance = TokenEntity.balanceOf(address(this)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#889)
+	- TokenEntity.transfer(outputAddress,myBalance) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#890-891)
+	- FundingManagerEntity.VaultRequestedUpdateForLockedVotingTokens(vaultOwner) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#897-901)
+	External calls sending eth:
+	- vaultOwner.transfer(this.balance) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#892-894)
+	State variables written after the call(s):
+	- allFundingProcessed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#907-909)
+Reentrancy in FundingVault.addPayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#688-731):
+	External calls:
+	- msg.value > 0 && FundingEntity.allowedPaymentMethod(_payment_method) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#694-731)
+	State variables written after the call(s):
+	- amount_direct (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#703)
+	- amount_milestone (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#707-709)
+	- purchaseRecords (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#699)
+	- purchaseRecords (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#699)
+	- purchaseRecords (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#699-700)
+	- purchaseRecords (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#700)
+	- purchaseRecords (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#700-701)
+	- purchaseRecordsNum (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#698)
+	- stageAmounts (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#726)
+	- stageAmountsDirect (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#705)
+Reentrancy in FundingVault.initMilestoneTokenAndEtherBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#741-774):
+	External calls:
+	- milestoneTokenBalance = TokenEntity.balanceOf(address(this)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#744-745)
+	State variables written after the call(s):
+	- etherBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#759-763)
+	- tokenBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#753-758)
+Reentrancy in FundingVault.initMilestoneTokenAndEtherBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#741-774):
+	External calls:
+	- milestoneTokenBalance = TokenEntity.balanceOf(address(this)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#744-745)
+	- i <= MilestonesEntity.RecordNum() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#766-772)
+	State variables written after the call(s):
+	- BalanceNum (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#772)
+Reentrancy in FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-681):
+	External calls:
+	- TokenManagerAddress = FundingEntity.getApplicationAssetAddressByName(TokenManager) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#645-648)
+	- TokenAddress = TokenManagerEntity.TokenEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#649)
+	State variables written after the call(s):
+	- TokenEntity (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#649-650)
+Reentrancy in FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-681):
+	External calls:
+	- TokenManagerAddress = FundingEntity.getApplicationAssetAddressByName(TokenManager) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#645-648)
+	- TokenAddress = TokenManagerEntity.TokenEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#649)
+	- TokenSCADAAddress = TokenManagerEntity.TokenSCADAEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#650)
+	State variables written after the call(s):
+	- TokenSCADAEntity (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#650-651)
+Reentrancy in FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-681):
+	External calls:
+	- TokenManagerAddress = FundingEntity.getApplicationAssetAddressByName(TokenManager) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#645-648)
+	- TokenAddress = TokenManagerEntity.TokenEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#649)
+	- TokenSCADAAddress = TokenManagerEntity.TokenSCADAEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#650)
+	- ApplicationEntityAddress = TokenManagerEntity.owner() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#653-655)
+	- emergencyFundPercentage = uint8(ApplicationEntity.getBylawUint256(emergency_fund_percentage)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#662-665)
+	State variables written after the call(s):
+	- emergencyFundPercentage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#662-665)
+Reentrancy in FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-681):
+	External calls:
+	- TokenManagerAddress = FundingEntity.getApplicationAssetAddressByName(TokenManager) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#645-648)
+	- TokenAddress = TokenManagerEntity.TokenEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#649)
+	- TokenSCADAAddress = TokenManagerEntity.TokenSCADAEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#650)
+	- ApplicationEntityAddress = TokenManagerEntity.owner() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#653-655)
+	- emergencyFundPercentage = uint8(ApplicationEntity.getBylawUint256(emergency_fund_percentage)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#662-665)
+	- BylawsCashBackOwnerMiaDuration = ApplicationEntity.getBylawUint256(cashback_owner_mia_dur) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#666-669)
+	State variables written after the call(s):
+	- BylawsCashBackOwnerMiaDuration (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#666-669)
+Reentrancy in FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-681):
+	External calls:
+	- TokenManagerAddress = FundingEntity.getApplicationAssetAddressByName(TokenManager) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#645-648)
+	- TokenAddress = TokenManagerEntity.TokenEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#649)
+	- TokenSCADAAddress = TokenManagerEntity.TokenSCADAEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#650)
+	- ApplicationEntityAddress = TokenManagerEntity.owner() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#653-655)
+	- emergencyFundPercentage = uint8(ApplicationEntity.getBylawUint256(emergency_fund_percentage)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#662-665)
+	- BylawsCashBackOwnerMiaDuration = ApplicationEntity.getBylawUint256(cashback_owner_mia_dur) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#666-669)
+	- BylawsCashBackVoteRejectedDuration = ApplicationEntity.getBylawUint256(cashback_investor_no) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#670-675)
+	State variables written after the call(s):
+	- BylawsCashBackVoteRejectedDuration (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#670-675)
+Reentrancy in FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-681):
+	External calls:
+	- TokenManagerAddress = FundingEntity.getApplicationAssetAddressByName(TokenManager) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#645-648)
+	- TokenAddress = TokenManagerEntity.TokenEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#649)
+	- TokenSCADAAddress = TokenManagerEntity.TokenSCADAEntity() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#650)
+	- ApplicationEntityAddress = TokenManagerEntity.owner() (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#653-655)
+	- emergencyFundPercentage = uint8(ApplicationEntity.getBylawUint256(emergency_fund_percentage)) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#662-665)
+	- BylawsCashBackOwnerMiaDuration = ApplicationEntity.getBylawUint256(cashback_owner_mia_dur) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#666-669)
+	- BylawsCashBackVoteRejectedDuration = ApplicationEntity.getBylawUint256(cashback_investor_no) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#670-675)
+	- BylawsProposalVotingDuration = ApplicationEntity.getBylawUint256(proposal_voting_duration) (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#675-678)
+	State variables written after the call(s):
+	- BylawsProposalVotingDuration (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#675-678)
+	- _initialized (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#680-681)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ABIApplicationAsset.CurrentEntityState should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#144-145)
+ABIApplicationAsset.RecordNum should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#145-146)
+ABIApplicationAsset._initialized should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#146)
+ABIApplicationAsset._settingsApplied should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#146-147)
+ABIApplicationAsset.assetName should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#143-144)
+ABIApplicationAsset.deployerAddress should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#149)
+ABIApplicationAsset.owner should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#147-149)
+ABIFunding.AmountRaised should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#218)
+ABIFunding.DirectInput should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#193-194)
+ABIFunding.FundingManagerEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#197)
+ABIFunding.FundingStageNum should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#216-217)
+ABIFunding.Funding_Setting_cashback_before_start_wait_duration should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#229-231)
+ABIFunding.Funding_Setting_cashback_duration should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#231-232)
+ABIFunding.Funding_Setting_cashback_time_end should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#227-229)
+ABIFunding.Funding_Setting_cashback_time_start should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#223-227)
+ABIFunding.Funding_Setting_funding_time_end should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#222-223)
+ABIFunding.Funding_Setting_funding_time_start should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#222)
+ABIFunding.GlobalAmountCapHard should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#220-221)
+ABIFunding.GlobalAmountCapSoft should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#219-220)
+ABIFunding.MilestoneAmountRaised should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#219)
+ABIFunding.MilestoneInput should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#195-196)
+ABIFunding.TokenManagerEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#196-197)
+ABIFunding.TokenSellPercentage should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#221)
+ABIFunding.currentFundingStage should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#217-218)
+ABIFunding.multiSigOutputAddress should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#191-193)
+ABIFundingManager.FundingPoolBalancesAllocated should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#479-480)
+ABIFundingManager.LockedVotingTokens should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#481-482)
+ABIFundingManager.VaultCountPerProcess should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#480)
+ABIFundingManager.currentTask should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#482)
+ABIFundingManager.fundingProcessed should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#479)
+ABIFundingManager.lastProcessedVaultId should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#480-481)
+ABIFundingManager.vaultNum should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#481)
+ABIMilestones.MilestoneCashBackTime should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#292-293)
+ABIMilestones.currentRecord should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#292)
+ABIProposals.ActiveProposalNum should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#378)
+ABIProposals.Application should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#341-342)
+ABIProposals.EmergencyFundingReleaseApproved should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#379)
+ABIProposals.FundingEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#343)
+ABIProposals.FundingManagerEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#343-345)
+ABIProposals.ListingContractEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#342-343)
+ABIProposals.MilestonesEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#348-349)
+ABIProposals.TokenEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#346-347)
+ABIProposals.TokenManagerEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#345-346)
+ABIProposals.VoteCountPerProcess should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#378-379)
+ABIToken.decimals should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#100)
+ABIToken.deployer should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#105-107)
+ABIToken.initialized should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#107-108)
+ABIToken.manager should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#105)
+ABIToken.mintingFinished should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#107)
+ABIToken.name should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#99-100)
+ABIToken.symbol should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#98-99)
+ABIToken.totalSupply should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#100-101)
+ABIToken.version should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#101)
+ABITokenManager.MarketingMethodAddress should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#445-446)
+ABITokenManager.OwnerTokenBalancesReleased should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#446)
+ABITokenManager.TokenEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#445)
+ABITokenManager.TokenSCADAEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#444-445)
+ABITokenSCADAVariable.SCADA_requires_hard_cap should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#539)
+ABITokenSCADAVariable.deployerAddress should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#542-543)
+ABITokenSCADAVariable.initialized should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#541)
+ApplicationEntityABI.AssetCollectionNum should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#35)
+ApplicationEntityABI.BountyManagerEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#25-26)
+ApplicationEntityABI.CurrentEntityState should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#33-34)
+ApplicationEntityABI.FundingEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#22-23)
+ApplicationEntityABI.FundingManagerEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#28-29)
+ApplicationEntityABI.GatewayInterfaceAddress should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#35-36)
+ApplicationEntityABI.ListingContractEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#27-28)
+ApplicationEntityABI.MeetingsEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#24-25)
+ApplicationEntityABI.MilestonesEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#23-24)
+ApplicationEntityABI.NewsContractEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#29-31)
+ApplicationEntityABI.ProposalsEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#21-22)
+ApplicationEntityABI.TokenManagerEntity should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#26-27)
+ApplicationEntityABI._initialized should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#31-32)
+ApplicationEntityABI._locked should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#33)
+ApplicationEntityABI.deployerAddress should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#37)
+ApplicationEntityABI.testAddressAllowUpgradeFrom should be constant (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#37-38)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ApplicationEntityABI.ApplicationEntity (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#45) should be declared external
+ApplicationEntityABI.getEntityState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#45-46) should be declared external
+ApplicationEntityABI.setUpgradeState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#47-48) should be declared external
+ApplicationEntityABI.getAssetAddressByName (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#57-58) should be declared external
+ApplicationEntityABI.setBylawUint256 (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#58-59) should be declared external
+ApplicationEntityABI.getBylawUint256 (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#59-60) should be declared external
+ApplicationEntityABI.setBylawBytes32 (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#60-61) should be declared external
+ApplicationEntityABI.getBylawBytes32 (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#61-63) should be declared external
+ApplicationEntityABI.canInitiateCodeUpgrade (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#69-71) should be declared external
+ApplicationEntityABI.doStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#71-72) should be declared external
+ApplicationEntityABI.hasRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#72-73) should be declared external
+ApplicationEntityABI.anyAssetHasChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#73) should be declared external
+ApplicationEntityABI.getRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#75-81) should be declared external
+ApplicationEntityABI.getTimestamp (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#81-83) should be declared external
+ABIToken.transfer (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#108-109) should be declared external
+ABIToken.balanceOf (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#109-110) should be declared external
+ABIToken.transferFrom (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#110-111) should be declared external
+ABIToken.approve (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#111-112) should be declared external
+ABIToken.allowance (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#112-113) should be declared external
+ABIToken.increaseApproval (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#113-114) should be declared external
+ABIToken.decreaseApproval (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#114-115) should be declared external
+ABIToken.mint (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#115-117) should be declared external
+ABIToken.finishMinting (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#117-118) should be declared external
+ABIApplicationAsset.setInitialApplicationAddress (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#151-152) should be declared external
+ABIProposals.getRecordState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#392-393) should be declared external
+ABIApplicationAsset.getRecordState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#153-154) should be declared external
+ABIApplicationAsset.getEntityState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#154-155) should be declared external
+ABIApplicationAsset.applyAndLockSettings (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#155) should be declared external
+ABIApplicationAsset.transferToNewOwner (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#155-157) should be declared external
+ABIApplicationAsset.getApplicationAssetAddressByName (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#157-158) should be declared external
+ABIApplicationAsset.getApplicationState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#158) should be declared external
+ABIApplicationAsset.getApplicationEntityState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#159-160) should be declared external
+ABIApplicationAsset.getAppBylawUint256 (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#160-167) should be declared external
+ABIApplicationAsset.getAppBylawBytes32 (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#167-170) should be declared external
+ABIApplicationAsset.getTimestamp (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#170-171) should be declared external
+ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#233-242) should be declared external
+ABIFunding.addSettings (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#242-243) should be declared external
+ABIFunding.getStageAmount (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#243-244) should be declared external
+ABIFunding.allowedPaymentMethod (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#244-245) should be declared external
+ABIFunding.receivePayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#245-246) should be declared external
+ABIFunding.canAcceptPayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#247) should be declared external
+ABIFunding.getValueOverCurrentCap (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#248-249) should be declared external
+ABIFunding.isFundingStageUpdateAllowed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#249-250) should be declared external
+ABIFunding.getRecordStateRequiredChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#250-258) should be declared external
+ABIFunding.doStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#258-259) should be declared external
+ABIFunding.hasRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#259-260) should be declared external
+ABIFunding.getRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#262) should be declared external
+ABIMilestones.getBylawsProjectDevelopmentStart (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#295-296) should be declared external
+ABIMilestones.getBylawsMinTimeInTheFutureForMeetingCreation (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#296-297) should be declared external
+ABIMilestones.getBylawsCashBackVoteRejectedDuration (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#297-298) should be declared external
+ABIMilestones.addRecord (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#298-300) should be declared external
+ABIMilestones.getMilestoneFundingPercentage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#300-301) should be declared external
+ABIMilestones.doStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#301) should be declared external
+ABIMilestones.getRecordStateRequiredChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#301-302) should be declared external
+ABIMilestones.hasRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#303) should be declared external
+ABIMilestones.afterVoteNoCashBackTime (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#304) should be declared external
+ABIMilestones.getHash (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#304-306) should be declared external
+ABIMilestones.getCurrentHash (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#306) should be declared external
+ABIMilestones.setCurrentMilestoneMeetingTime (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#307-312) should be declared external
+ABIMilestones.isRecordUpdateAllowed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#314-316) should be declared external
+ABIMilestones.getRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#317-320) should be declared external
+ABIMilestones.ApplicationIsInDevelopment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#320) should be declared external
+ABIMilestones.MeetingTimeSetFailure (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#320-328) should be declared external
+ABIProposals.getActionType (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#393) should be declared external
+ABIProposals.getProposalState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#393-395) should be declared external
+ABIProposals.getBylawsProposalVotingDuration (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#395-396) should be declared external
+ABIProposals.getBylawsMilestoneMinPostponing (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#396-397) should be declared external
+ABIProposals.getBylawsMilestoneMaxPostponing (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#397-398) should be declared external
+ABIProposals.getHash (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#398-399) should be declared external
+ABIProposals.process (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#399) should be declared external
+ABIProposals.hasRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#399-400) should be declared external
+ABIProposals.getRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#400-401) should be declared external
+ABIProposals.getCurrentMilestonePostponingProposalDuration (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#404-405) should be declared external
+ABIProposals.getCurrentMilestoneProposalStatusForType (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#405-406) should be declared external
+ABIProposals.RegisterVote (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#408-409) should be declared external
+ABIProposals.hasPreviousVote (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#409-411) should be declared external
+ABIProposals.getTotalTokenVotingPower (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#411-412) should be declared external
+ABIProposals.getVotingPower (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#412-413) should be declared external
+ABIProposals.ProcessVoteTotals (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#414-415) should be declared external
+ABIProposals.canEndVoting (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#415) should be declared external
+ABIProposals.getProposalType (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#415-416) should be declared external
+ABIProposals.expiryChangesState (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#416-424) should be declared external
+ABIProposals.needsProcessing (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#424-426) should be declared external
+ABIProposals.getMyVoteForCurrentMilestoneRelease (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#426-434) should be declared external
+ABIProposals.getHasVoteForCurrentMilestoneRelease (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#436-438) should be declared external
+ABIProposals.getMyVote (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#438-441) should be declared external
+ABITokenManager.addSettings (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#446-454) should be declared external
+ABITokenManager.getTokenSCADARequiresHardCap (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#454-456) should be declared external
+ABITokenManager.mint (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#456-458) should be declared external
+ABITokenManager.finishMinting (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#458-463) should be declared external
+ABITokenManager.ReleaseOwnersLockedTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#469-471) should be declared external
+ABIFundingManager.receivePayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#484-486) should be declared external
+ABIFundingManager.getMyVaultAddress (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#486-487) should be declared external
+ABIFundingManager.getHash (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#488-489) should be declared external
+ABIFundingManager.getCurrentMilestoneProcessed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#489) should be declared external
+ABIFundingManager.processFundingFailedFinished (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#489-490) should be declared external
+ABIFundingManager.processFundingSuccessfulFinished (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#490-492) should be declared external
+ABIFundingManager.processMilestoneFinished (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#493-494) should be declared external
+ABIFundingManager.processEmergencyFundReleaseFinished (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#494-500) should be declared external
+ABIFundingManager.getAfterTransferLockedTokenBalances (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#500-502) should be declared external
+ABIFundingManager.VaultRequestedUpdateForLockedVotingTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#502-504) should be declared external
+ABIFundingManager.doStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#504-507) should be declared external
+ABIFundingManager.hasRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#509-510) should be declared external
+ABIFundingManager.getRequiredStateChanges (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#510-513) should be declared external
+ABIFundingManager.ApplicationInFundingOrDevelopment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#513-516) should be declared external
+ABITokenSCADAVariable.addSettings (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#543-545) should be declared external
+ABITokenSCADAVariable.requiresHardCap (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#545-549) should be declared external
+ABITokenSCADAVariable.getTokensForValueInCurrentStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#549-554) should be declared external
+ABITokenSCADAVariable.getTokensForValueInStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#555-556) should be declared external
+ABITokenSCADAVariable.getBoughtTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#556-557) should be declared external
+FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-681) should be declared external
+FundingVault.addPayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#688-731) should be declared external
+FundingVault.getBoughtTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#731-735) should be declared external
+FundingVault.ReleaseFundsAndTokens (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868) should be declared external
+FundingVault.releaseTokensAndEtherForEmergencyFund (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#868-881) should be declared external
+FundingVault.ReleaseFundsToInvestor (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#881-912) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol:
+	- pragma solidity^0.4.17 (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'ApplicationEntityABI.ApplicationEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#45) is not in mixedCase
+Variable 'ApplicationEntityABI.ProposalsEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#21-22) is not in mixedCase
+Variable 'ApplicationEntityABI.FundingEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#22-23) is not in mixedCase
+Variable 'ApplicationEntityABI.MilestonesEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#23-24) is not in mixedCase
+Variable 'ApplicationEntityABI.MeetingsEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#24-25) is not in mixedCase
+Variable 'ApplicationEntityABI.BountyManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#25-26) is not in mixedCase
+Variable 'ApplicationEntityABI.TokenManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#26-27) is not in mixedCase
+Variable 'ApplicationEntityABI.ListingContractEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#27-28) is not in mixedCase
+Variable 'ApplicationEntityABI.FundingManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#28-29) is not in mixedCase
+Variable 'ApplicationEntityABI.NewsContractEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#29-31) is not in mixedCase
+Variable 'ApplicationEntityABI._initialized' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#31-32) is not in mixedCase
+Variable 'ApplicationEntityABI._locked' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#33) is not in mixedCase
+Variable 'ApplicationEntityABI.CurrentEntityState' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#33-34) is not in mixedCase
+Variable 'ApplicationEntityABI.AssetCollectionNum' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#35) is not in mixedCase
+Variable 'ApplicationEntityABI.GatewayInterfaceAddress' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#35-36) is not in mixedCase
+Variable 'ApplicationEntityABI.EntityStates' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#38-39) is not in mixedCase
+Variable 'ApplicationEntityABI.AssetCollection' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#39-40) is not in mixedCase
+Variable 'ApplicationEntityABI.AssetCollectionIdToName' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#40-41) is not in mixedCase
+Variable 'ApplicationEntityABI.BylawsUint256' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#41-42) is not in mixedCase
+Variable 'ApplicationEntityABI.BylawsBytes32' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#42-44) is not in mixedCase
+Variable 'ABIApplicationAsset.CurrentEntityState' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#144-145) is not in mixedCase
+Variable 'ABIApplicationAsset.RecordNum' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#145-146) is not in mixedCase
+Variable 'ABIApplicationAsset._initialized' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#146) is not in mixedCase
+Variable 'ABIApplicationAsset._settingsApplied' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#146-147) is not in mixedCase
+Variable 'ABIApplicationAsset.EntityStates' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#149-150) is not in mixedCase
+Variable 'ABIApplicationAsset.RecordStates' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#150) is not in mixedCase
+Parameter '_time_start' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#235) is not in mixedCase
+Parameter '_time_end' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#235-236) is not in mixedCase
+Parameter '_amount_cap_soft' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#236-237) is not in mixedCase
+Parameter '_amount_cap_hard' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#238-240) is not in mixedCase
+Parameter '_minimum_entry' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#240) is not in mixedCase
+Parameter '_fixed_tokens' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#240) is not in mixedCase
+Parameter '_price_addition_percentage' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#240-241) is not in mixedCase
+Parameter '_token_share_percentage' of ABIFunding.addFundingStage (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#241) is not in mixedCase
+Parameter 'soft_cap' of ABIFunding.addSettings (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#242) is not in mixedCase
+Parameter 'hard_cap' of ABIFunding.addSettings (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#242-243) is not in mixedCase
+Parameter 'sale_percentage' of ABIFunding.addSettings (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#243) is not in mixedCase
+Parameter 'StageId' of ABIFunding.getStageAmount (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#244) is not in mixedCase
+Parameter '_payment_method' of ABIFunding.allowedPaymentMethod (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#245) is not in mixedCase
+Parameter '_payment_method' of ABIFunding.receivePayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#246) is not in mixedCase
+Parameter '_new_state' of ABIFunding.isFundingStageUpdateAllowed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#250) is not in mixedCase
+Variable 'ABIFunding.DirectInput' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#193-194) is not in mixedCase
+Variable 'ABIFunding.MilestoneInput' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#195-196) is not in mixedCase
+Variable 'ABIFunding.TokenManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#196-197) is not in mixedCase
+Variable 'ABIFunding.FundingManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#197) is not in mixedCase
+Variable 'ABIFunding.Collection' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#215-216) is not in mixedCase
+Variable 'ABIFunding.FundingStageNum' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#216-217) is not in mixedCase
+Variable 'ABIFunding.AmountRaised' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#218) is not in mixedCase
+Variable 'ABIFunding.MilestoneAmountRaised' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#219) is not in mixedCase
+Variable 'ABIFunding.GlobalAmountCapSoft' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#219-220) is not in mixedCase
+Variable 'ABIFunding.GlobalAmountCapHard' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#220-221) is not in mixedCase
+Variable 'ABIFunding.TokenSellPercentage' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#221) is not in mixedCase
+Variable 'ABIFunding.Funding_Setting_funding_time_start' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#222) is not in mixedCase
+Variable 'ABIFunding.Funding_Setting_funding_time_end' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#222-223) is not in mixedCase
+Variable 'ABIFunding.Funding_Setting_cashback_time_start' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#223-227) is not in mixedCase
+Variable 'ABIFunding.Funding_Setting_cashback_time_end' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#227-229) is not in mixedCase
+Variable 'ABIFunding.Funding_Setting_cashback_before_start_wait_duration' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#229-231) is not in mixedCase
+Variable 'ABIFunding.Funding_Setting_cashback_duration' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#231-232) is not in mixedCase
+Parameter '_meeting_time' of ABIMilestones.setCurrentMilestoneMeetingTime (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#308) is not in mixedCase
+Parameter '_new_state' of ABIMilestones.isRecordUpdateAllowed (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#314-316) is not in mixedCase
+Function 'ABIMilestones.ApplicationIsInDevelopment' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#320) is not in mixedCase
+Function 'ABIMilestones.MeetingTimeSetFailure' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#320-328) is not in mixedCase
+Variable 'ABIMilestones.MilestoneCashBackTime' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#292-293) is not in mixedCase
+Variable 'ABIMilestones.Collection' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#293) is not in mixedCase
+Variable 'ABIMilestones.MilestonePostponingHash' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#294) is not in mixedCase
+Variable 'ABIMilestones.ProposalIdByHash' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#294-295) is not in mixedCase
+Function 'ABIProposals.RegisterVote' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#408-409) is not in mixedCase
+Function 'ABIProposals.ProcessVoteTotals' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#414-415) is not in mixedCase
+Variable 'ABIProposals.Application' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#341-342) is not in mixedCase
+Variable 'ABIProposals.ListingContractEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#342-343) is not in mixedCase
+Variable 'ABIProposals.FundingEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#343) is not in mixedCase
+Variable 'ABIProposals.FundingManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#343-345) is not in mixedCase
+Variable 'ABIProposals.TokenManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#345-346) is not in mixedCase
+Variable 'ABIProposals.TokenEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#346-347) is not in mixedCase
+Variable 'ABIProposals.MilestonesEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#348-349) is not in mixedCase
+Variable 'ABIProposals.ActiveProposalNum' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#378) is not in mixedCase
+Variable 'ABIProposals.VoteCountPerProcess' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#378-379) is not in mixedCase
+Variable 'ABIProposals.EmergencyFundingReleaseApproved' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#379) is not in mixedCase
+Variable 'ABIProposals.ActionTypes' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#380) is not in mixedCase
+Variable 'ABIProposals.ActiveProposalIds' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#380-381) is not in mixedCase
+Variable 'ABIProposals.ExpiredProposalIds' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#381-382) is not in mixedCase
+Variable 'ABIProposals.ProposalsById' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#382-383) is not in mixedCase
+Variable 'ABIProposals.ProposalIdByHash' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#383-384) is not in mixedCase
+Variable 'ABIProposals.VotesByProposalId' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#384-385) is not in mixedCase
+Variable 'ABIProposals.VotesByCaster' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#385-387) is not in mixedCase
+Variable 'ABIProposals.VotesNumByProposalId' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#387-388) is not in mixedCase
+Variable 'ABIProposals.ResultsByProposalId' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#388-389) is not in mixedCase
+Variable 'ABIProposals.ProcessedVotesByProposal' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#390-391) is not in mixedCase
+Variable 'ABIProposals.VoteCountAtProcessingStartByProposal' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#391-392) is not in mixedCase
+Function 'ABITokenManager.ReleaseOwnersLockedTokens' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#469-471) is not in mixedCase
+Variable 'ABITokenManager.TokenSCADAEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#444-445) is not in mixedCase
+Variable 'ABITokenManager.TokenEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#445) is not in mixedCase
+Variable 'ABITokenManager.MarketingMethodAddress' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#445-446) is not in mixedCase
+Variable 'ABITokenManager.OwnerTokenBalancesReleased' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#446) is not in mixedCase
+Parameter '_payment_method' of ABIFundingManager.receivePayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#485) is not in mixedCase
+Parameter '_funding_stage' of ABIFundingManager.receivePayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#485) is not in mixedCase
+Function 'ABIFundingManager.VaultRequestedUpdateForLockedVotingTokens' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#502-504) is not in mixedCase
+Function 'ABIFundingManager.ApplicationInFundingOrDevelopment' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#513-516) is not in mixedCase
+Variable 'ABIFundingManager.FundingPoolBalancesAllocated' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#479-480) is not in mixedCase
+Variable 'ABIFundingManager.VaultCountPerProcess' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#480) is not in mixedCase
+Variable 'ABIFundingManager.LockedVotingTokens' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#481-482) is not in mixedCase
+Variable 'ABITokenSCADAVariable.SCADA_requires_hard_cap' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#539) is not in mixedCase
+Parameter '_owner' of FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#631-632) is not in mixedCase
+Parameter '_output' of FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#632) is not in mixedCase
+Parameter '_fundingAddress' of FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#632-634) is not in mixedCase
+Parameter '_milestoneAddress' of FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#634) is not in mixedCase
+Parameter '_proposalsAddress' of FundingVault.initialize (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#634) is not in mixedCase
+Parameter '_payment_method' of FundingVault.addPayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#688-689) is not in mixedCase
+Parameter '_funding_stage' of FundingVault.addPayment (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#689-690) is not in mixedCase
+Function 'FundingVault.ReleaseFundsAndTokens' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#774-868) is not in mixedCase
+Function 'FundingVault.ReleaseFundsToInvestor' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#881-912) is not in mixedCase
+Variable 'FundingVault._initialized' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#569-571) is not in mixedCase
+Variable 'FundingVault.DirectFundingProcessed' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#591-592) is not in mixedCase
+Variable 'FundingVault.FundingEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#595-596) is not in mixedCase
+Variable 'FundingVault.FundingManagerEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#596-598) is not in mixedCase
+Variable 'FundingVault.MilestonesEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#598-599) is not in mixedCase
+Variable 'FundingVault.ProposalsEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#599-600) is not in mixedCase
+Variable 'FundingVault.TokenSCADAEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#601-603) is not in mixedCase
+Variable 'FundingVault.TokenEntity' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#603-604) is not in mixedCase
+Variable 'FundingVault.amount_direct' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#606) is not in mixedCase
+Variable 'FundingVault.amount_milestone' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#606) is not in mixedCase
+Variable 'FundingVault.BylawsCashBackOwnerMiaDuration' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#610-611) is not in mixedCase
+Variable 'FundingVault.BylawsCashBackVoteRejectedDuration' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#611-613) is not in mixedCase
+Variable 'FundingVault.BylawsProposalVotingDuration' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#613-614) is not in mixedCase
+Variable 'FundingVault.BalanceNum' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#738-740) is not in mixedCase
+Variable 'FundingVault.BalancesInitialised' (/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol#740-741) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/43/0xa018c2e0fcdc3e787c83afddc60d91a2b3b099b0.sol analyzed (10 contracts), 268 result(s) found

@@ -1,0 +1,310 @@
+INFO:Detectors:[91m
+PreOrder.reserveManyTokens (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2191-2211) sends eth to arbitrary user
+	Dangerous calls:
+	- escrow.transfer(ether_required) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2206)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+AddressUtils.isContract (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#343-361) is declared view but contains assembly code
+strings.memcpy (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#959-976) is declared view but contains assembly code
+strings.toSlice (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#981-991) is declared view but contains assembly code
+strings.toSliceB32 (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1027-1038) is declared view but contains assembly code
+strings.toString (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1050-1060) is declared view but contains assembly code
+strings.len (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1075-1092) is declared view but contains assembly code
+strings.compare (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1115-1144) is declared view but contains assembly code
+strings.nextRune (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1172-1203) is declared view but contains assembly code
+strings.ord (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1228-1263) is declared view but contains assembly code
+strings.keccak (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1267-1271) is declared view but contains assembly code
+strings.startsWith (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1279-1297) is declared view but contains assembly code
+strings.beyond (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1310-1330) is declared view but contains assembly code
+strings.endsWith (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1336-1355) is declared view but contains assembly code
+strings.until (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1362-1379) is declared view but contains assembly code
+strings.findPtr (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1385-1420) is declared view but contains assembly code
+strings.rfindPtr (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1429-1460) is declared view but contains assembly code
+strings.concat (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1607-1618) is declared view but contains assembly code
+strings.join (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1632-1651) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ERC721Basic (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#108-180) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#159)
+	-transferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#166-170)
+ERC721BasicToken (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#402-711) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#462-470)
+	-transferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#525-531)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in PreOrder.buyCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2239-2271):
+	External calls:
+	- _tokenId = factory.mintFor(cType,new_owner) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+	State variables written after the call(s):
+	- midGradeHold (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+	- premiumHold (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+	- regularHold (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+Reentrancy in CarFactory.mintFor (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1689-1710):
+	External calls:
+	- require(bool,string)(! token.exists(_tokenId),Token already exists) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1696-1699)
+	- token.mint(_tokenId,_metadata,cType,tankSize,newOwner) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1707-1708)
+	State variables written after the call(s):
+	- mintedCars (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1709)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+PreOrder.buyCar uses tx.origin for authorization:
+	- require(bool,string)(referal != tx.origin,The referal cannot be the tranaction origin) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-usage-of-txorigin[0m
+INFO:Detectors:[93m
+ret in strings.len (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#997-998) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+strings.memcpy.len (local variable @ /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#962-963) shadows:
+	- strings.len (function @ /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#997-1017)
+	- strings.len (function @ /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1075-1092)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+CarFactory.setTokenMeta has external calls inside a loop:
+	- require(bool)(_tankSize <= token.maxTankSizes(cType)) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1761-1762)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in PreOrder.buyCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2239-2271):
+	External calls:
+	- _tokenId = factory.mintFor(cType,new_owner) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+	State variables written after the call(s):
+	- midGradeCarsBought (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+	- premiumCarsBought (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+	- regularCarsBought (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol)
+Reentrancy in CarFactory.giveaway (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1710-1744):
+	External calls:
+	- require(bool,string)(! token.exists(_tokenId),Token already exists) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1718-1719)
+	- require(bool)(_tankSize <= token.maxTankSizes(cType)) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1722-1724)
+	State variables written after the call(s):
+	- savedTypes (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1728-1730)
+	- tankSizes (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1725-1728)
+Reentrancy in CarFactory.giveaway (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1710-1744):
+	External calls:
+	- require(bool,string)(! token.exists(_tokenId),Token already exists) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1718-1719)
+	- require(bool)(_tankSize <= token.maxTankSizes(cType)) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1722-1724)
+	- token.mint(_tokenId,_metadata,cType,_tankSize,dst) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1735-1741)
+	State variables written after the call(s):
+	- giveawayCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1741-1742)
+	- mintedCars (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1741)
+Reentrancy in CarFactory.setTokenMeta (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1744-1767):
+	External calls:
+	- require(bool)(_tankSize <= token.maxTankSizes(cType)) (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1761-1762)
+	State variables written after the call(s):
+	- availableIds (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1765-1766)
+	- savedTypes (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1764)
+	- tankSizes (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1763)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+AddressUtils.isContract uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#343-361)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#361
+strings.memcpy uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#959-976)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#965-967
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#971-976
+strings.toSlice uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#981-991)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#985-988
+strings.toSliceB32 uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1027-1038)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1035-1037
+strings.toString uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1050-1060)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1055-1057
+strings.len uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1075-1092)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1080-1081
+strings.compare uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1115-1144)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1125-1127
+strings.nextRune uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1172-1203)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1181-1183
+strings.ord uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1228-1263)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1237-1238
+strings.keccak uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1267-1271)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1268-1271
+strings.startsWith uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1279-1297)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1292-1297
+strings.beyond uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1310-1330)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1319-1325
+strings.endsWith uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1336-1355)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1349-1355
+strings.until uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1362-1379)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1371-1377
+strings.findPtr uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1385-1420)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1394-1395
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1398-1400
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1405-1406
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1410-1412
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1415-1416
+strings.rfindPtr uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1429-1460)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1436
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1438-1440
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1445-1446
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1451
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1454-1458
+strings.concat uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1607-1618)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1613-1615
+strings.join uses assembly (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1632-1651)
+	- /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1643-1645
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+CarToken.MIDGRADE_TYPE_COUNT should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1833)
+CarToken.PREMIUM_TYPE_COUNT should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1832)
+CarToken.REGULAR_TYPE_COUNT should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1834-1835)
+PreOrder.MIDGRADE_TYPE_COUNT should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2043-2044)
+PreOrder.PREMIUM_TYPE_COUNT should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2038-2042)
+PreOrder.REGULAR_TYPE_COUNT should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2044-2048)
+PreOrder.midgrade_offset should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2048-2049)
+PreOrder.regular_offset should be constant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2049-2050)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#41-47) should be declared external
+Ownable.transferOwnership (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#50-55) should be declared external
+Destructible.destroy (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#77-78) should be declared external
+Destructible.destroyAndSend (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#78-84) should be declared external
+ERC721Basic.approve (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#159) should be declared external
+ERC721BasicToken.approve (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#462-470) should be declared external
+ERC721BasicToken.setApprovalForAll (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#484-495) should be declared external
+ERC721Basic.setApprovalForAll (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#161-163) should be declared external
+ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#550-554) should be declared external
+ERC721Basic.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#170-177) should be declared external
+ERC721Token.tokenOfOwnerByIndex (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#790-797) should be declared external
+ERC721Enumerable.tokenOfOwnerByIndex (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#190-196) should be declared external
+ERC721Enumerable.tokenByIndex (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#196-198) should be declared external
+ERC721Token.tokenByIndex (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#811-814) should be declared external
+ERC721Metadata.tokenURI (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#207-209) should be declared external
+ERC721Token.tokenURI (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#777-780) should be declared external
+ERC721Receiver.onERC721Received (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#395-399) should be declared external
+CarFactory.mintFor (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1689-1710) should be declared external
+CarFactory.giveaway (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1710-1744) should be declared external
+CarFactory.setTokenMeta (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1744-1767) should be declared external
+CarFactory.attachPreOrder (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1779-1785) should be declared external
+CarFactory.attachToken (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1788-1798) should be declared external
+CarToken.isCarSpecial (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1917-1918) should be declared external
+CarToken.getCarType (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1919-1922) should be declared external
+CarToken.mint (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1922-1958) should be declared external
+CarToken.isRegular (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1965-1971) should be declared external
+CarToken.getTotalSupplyForType (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1971-1974) should be declared external
+CarToken.getPremiumCarsForVariant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1974-1978) should be declared external
+CarToken.getMidgradeCarsForVariant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1979-1982) should be declared external
+CarToken.getRegularCarsForVariant (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1982-1987) should be declared external
+CarToken.getPremiumCarSupply (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1989-1992) should be declared external
+CarToken.getMidgradeCarSupply (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1993-1998) should be declared external
+CarToken.getRegularCarSupply (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1998-2001) should be declared external
+CarToken.exists (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2001-2003) should be declared external
+PreOrder.fallback (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2122) should be declared external
+PreOrder.setCommission (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2139-2150) should be declared external
+PreOrder.setPercentIncrease (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2151-2161) should be declared external
+PreOrder.openShop (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2161-2173) should be declared external
+PreOrder.setTypePrice (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2177-2182) should be declared external
+PreOrder.withdraw (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2186-2191) should be declared external
+PreOrder.reserveManyTokens (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2191-2211) should be declared external
+PreOrder.buyBulkPremiumCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2211-2217) should be declared external
+PreOrder.buyBulkMidGradeCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2217-2227) should be declared external
+PreOrder.buyBulkRegularCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2227-2239) should be declared external
+PreOrder.sold (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol:
+	- pragma solidity^0.4.22 (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#51) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#58-67) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#59-60) is not in mixedCase
+Parameter '_recipient' of Destructible.destroyAndSend (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#82-83) is not in mixedCase
+Constant 'ERC721Basic.InterfaceId_ERC721' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#109-110) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ERC721Basic.InterfaceId_ERC721Enumerable' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#123-124) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ERC721Basic.InterfaceId_ERC721Metadata' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#131-133) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_interfaceId' of SupportsInterfaceWithLookup.supportsInterface (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#255-257) is not in mixedCase
+Function 'SupportsInterfaceWithLookup._registerInterface' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#266-272) is not in mixedCase
+Parameter '_interfaceId' of SupportsInterfaceWithLookup._registerInterface (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#269) is not in mixedCase
+Constant 'SupportsInterfaceWithLookup.InterfaceId_ERC165' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#227-228) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_a' of SafeMath.mul (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#275) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#276) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#297) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#297) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#311-313) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#313-314) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#320) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#320-321) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.balanceOf (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#437) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.ownerOf (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#447) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.approve (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#462) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.approve (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#462) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.getApproved (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#475-476) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.setApprovalForAll (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#484-485) is not in mixedCase
+Parameter '_approved' of ERC721BasicToken.setApprovalForAll (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#486) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.isApprovedForAll (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#503) is not in mixedCase
+Parameter '_operator' of ERC721BasicToken.isApprovedForAll (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#503) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.transferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#525) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.transferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#525) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.transferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#525-526) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#551) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#551) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#551) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#577-580) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#581) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#581) is not in mixedCase
+Parameter '_data' of ERC721BasicToken.safeTransferFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#581) is not in mixedCase
+Function 'ERC721BasicToken._exists' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#591-597) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken._exists (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#593-594) is not in mixedCase
+Parameter '_spender' of ERC721BasicToken.isApprovedOrOwner (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#610) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.isApprovedOrOwner (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#610) is not in mixedCase
+Function 'ERC721BasicToken._mint' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#630-633) is not in mixedCase
+Parameter '_to' of ERC721BasicToken._mint (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#631) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken._mint (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#631) is not in mixedCase
+Function 'ERC721BasicToken._burn' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#638-644) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken._burn (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#638) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken._burn (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#638-642) is not in mixedCase
+Parameter '_owner' of ERC721BasicToken.clearApproval (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#650) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.clearApproval (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#650-654) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.addTokenTo (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#661) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.addTokenTo (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#661-662) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.removeTokenFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#671) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.removeTokenFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#671-672) is not in mixedCase
+Parameter '_from' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#697-699) is not in mixedCase
+Parameter '_to' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#699-700) is not in mixedCase
+Parameter '_tokenId' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#700-702) is not in mixedCase
+Parameter '_data' of ERC721BasicToken.checkAndCallSafeTransfer (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#702-703) is not in mixedCase
+Function 'ERC721Token._mint' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#877-889) is not in mixedCase
+Parameter '_to' of ERC721Token._mint (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#877) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._mint (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#877-879) is not in mixedCase
+Function 'ERC721Token._burn' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#894-902) is not in mixedCase
+Parameter '_owner' of ERC721Token._burn (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#894) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._burn (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#894) is not in mixedCase
+Parameter '_to' of ERC721Token.addTokenTo (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#829) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.addTokenTo (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#829) is not in mixedCase
+Parameter '_from' of ERC721Token.removeTokenFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#838) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.removeTokenFrom (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#838) is not in mixedCase
+Parameter '_owner' of ERC721Token.tokenOfOwnerByIndex (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#790) is not in mixedCase
+Parameter '_index' of ERC721Token.tokenOfOwnerByIndex (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#790-791) is not in mixedCase
+Parameter '_index' of ERC721Token.tokenByIndex (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#811-812) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.tokenURI (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#777-778) is not in mixedCase
+Parameter '_name' of ERC721Token. (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#750-751) is not in mixedCase
+Parameter '_symbol' of ERC721Token. (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#751) is not in mixedCase
+Function 'ERC721Token._setTokenURI' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#821-823) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._setTokenURI (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#821) is not in mixedCase
+Parameter '_uri' of ERC721Token._setTokenURI (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#821) is not in mixedCase
+Contract 'strings' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#955-1651) is not in CapWords
+Struct 'strings.slice' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#956-959) is not in CapWords
+Parameter '_tokenId' of CarFactory.giveaway (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1713-1714) is not in mixedCase
+Parameter '_tankSize' of CarFactory.giveaway (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1714) is not in mixedCase
+Parameter '_tokenIds' of CarFactory.setTokenMeta (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1747-1748) is not in mixedCase
+Parameter '_tokenId' of CarToken.mint (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1922-1923) is not in mixedCase
+Parameter '_metadata' of CarToken.mint (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1923-1925) is not in mixedCase
+Parameter '_tokenId' of CarToken.exists (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2001-2002) is not in mixedCase
+Variable 'CarToken.PREMIUM_TYPE_COUNT' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1832) is not in mixedCase
+Variable 'CarToken.MIDGRADE_TYPE_COUNT' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1833) is not in mixedCase
+Variable 'CarToken.REGULAR_TYPE_COUNT' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#1834-1835) is not in mixedCase
+Event 'PreOrder.consumerBulkBuy' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2022-2024) is not in CapWords
+Parameter 'new_owner' of PreOrder.buyBulkPremiumCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2212-2213) is not in mixedCase
+Parameter 'new_owner' of PreOrder.buyBulkMidGradeCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2219) is not in mixedCase
+Parameter 'new_owner' of PreOrder.buyBulkRegularCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2228) is not in mixedCase
+Parameter 'give_refund' of PreOrder.buyCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2240) is not in mixedCase
+Parameter 'new_owner' of PreOrder.buyCar (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2240) is not in mixedCase
+Parameter '_tokenId' of PreOrder.sold (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol) is not in mixedCase
+Variable 'PreOrder.PREMIUM_TYPE_COUNT' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2038-2042) is not in mixedCase
+Variable 'PreOrder.MIDGRADE_TYPE_COUNT' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2043-2044) is not in mixedCase
+Variable 'PreOrder.REGULAR_TYPE_COUNT' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2044-2048) is not in mixedCase
+Variable 'PreOrder.midgrade_offset' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2048-2049) is not in mixedCase
+Variable 'PreOrder.regular_offset' (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2049-2050) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+PreOrder.midgrade_offset (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2048-2049) is never used in PreOrder
+PreOrder.regular_offset (/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol#2049-2050) is never used in PreOrder
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/5/0xe272fddbd056240149c771f9fd917fa040dceb39.sol analyzed (17 contracts), 197 result(s) found

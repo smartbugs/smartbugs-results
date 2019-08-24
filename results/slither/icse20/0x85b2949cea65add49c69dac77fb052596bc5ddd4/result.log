@@ -1,0 +1,310 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:299:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function EthernautsStorage() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:963:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function EthernautsLogic() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:1031:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function EthernautsExplore() public
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:821:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _to, _tokenId);
+        ^---------------------------------^
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:934:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Build(
+        ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:983:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ContractUpgrade(_v2Address);
+        ^-------------------------^
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:1011:22: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        _to.transfer(this.balance);
+                     ^----------^
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:1016:16: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        return this.balance;
+               ^----------^
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:1221:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Explore(_shipTokenId, _sectorTokenId, _crewTokenId, now + time);
+        ^-------------------------------------------------------------^
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:1280:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Result(_shipTokenId, _sectorTokenId);
+        ^----------------------------------^
+/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:1319:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Build(
+        ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#5-33) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#10-11)
+	-transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#11-12)
+	-transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#12-13)
+EthernautsOwnership (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#718-977) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#830-842)
+	-transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#795-821)
+	-transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#882-887)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:
+	Contract EthernautsStorage has payable functions:
+	 - fallback (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#323-324)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[92m
+Reentrancy in EthernautsExplore.explorationResults (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1280-1326):
+	External calls:
+	- (None,None,None,None,None,cooldownEndBlock,cooldown,builtBy) = ethernautsStorage.assets(_shipTokenId) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1288-1289)
+	- owner = ethernautsStorage.ownerOf(_shipTokenId) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1289-1290)
+	State variables written after the call(s):
+	- explorers (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1313-1315)
+	- tokenIndexToSector (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1316-1318)
+Reentrancy in EthernautsExplore.explore (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1161-1261):
+	External calls:
+	- require(bool)(ethernautsStorage.isCategory(_shipTokenId,uint8(AssetCategory.Ship))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1168-1169)
+	- require(bool)(ethernautsStorage.isCategory(_sectorTokenId,uint8(AssetCategory.Sector))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1173-1174)
+	- require(bool)(ethernautsStorage.isState(_shipTokenId,uint8(AssetState.Available))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1176-1177)
+	- require(bool)(! isExploring(_shipTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1179)
+	- require(bool)(msg.sender == ethernautsStorage.ownerOf(_shipTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1180-1182)
+	- sectorOwner = ethernautsStorage.ownerOf(_sectorTokenId) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1182-1185)
+	- require(bool)(! isExploring(_crewTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1187-1188)
+	- require(bool)(ethernautsStorage.isCategory(_crewTokenId,uint8(AssetCategory.CrewMember))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1188-1191)
+	- require(bool)(msg.sender == ethernautsStorage.ownerOf(_crewTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1192-1193)
+	State variables written after the call(s):
+	- explorers (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1194-1198)
+	- tokenIndexToExplore (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1194-1198)
+	- tokenIndexToSector (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1198-1199)
+Reentrancy in EthernautsExplore.explore (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1161-1261):
+	External calls:
+	- require(bool)(ethernautsStorage.isCategory(_shipTokenId,uint8(AssetCategory.Ship))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1168-1169)
+	- require(bool)(ethernautsStorage.isCategory(_sectorTokenId,uint8(AssetCategory.Sector))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1173-1174)
+	- require(bool)(ethernautsStorage.isState(_shipTokenId,uint8(AssetState.Available))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1176-1177)
+	- require(bool)(! isExploring(_shipTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1179)
+	- require(bool)(msg.sender == ethernautsStorage.ownerOf(_shipTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1180-1182)
+	- sectorOwner = ethernautsStorage.ownerOf(_sectorTokenId) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1182-1185)
+	- require(bool)(! isExploring(_crewTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1187-1188)
+	- require(bool)(ethernautsStorage.isCategory(_crewTokenId,uint8(AssetCategory.CrewMember))) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1188-1191)
+	- require(bool)(msg.sender == ethernautsStorage.ownerOf(_crewTokenId)) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1192-1193)
+	- _shipStats = ethernautsStorage.getStats(_shipTokenId) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1200-1201)
+	- _sectorStats = ethernautsStorage.getStats(_sectorTokenId) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1201-1204)
+	State variables written after the call(s):
+	- exploreIndexToCrew (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1208)
+	- missions (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1210)
+Reentrancy in EthernautsLogic.setEthernautsStorageContract (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1006-1015):
+	External calls:
+	- require(bool)(candidateContract.isEthernautsStorage()) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1011-1014)
+	State variables written after the call(s):
+	- ethernautsStorage (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1014-1015)
+Reentrancy in EthernautsLogic.unpause (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1023-1027):
+	External calls:
+	- require(bool)(ethernautsStorage.contractsGrantedAccess(address(this)) == true) (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1025-1026)
+	State variables written after the call(s):
+	- paused (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1026)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+EthernautsBase.ATTR_CONSUMABLE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#158)
+EthernautsBase.ATTR_EXPLORABLE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#153)
+EthernautsBase.ATTR_GOLDENGOOSE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#159)
+EthernautsBase.ATTR_LEASABLE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#154)
+EthernautsBase.ATTR_PERMANENT should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#155)
+EthernautsBase.ATTR_PRODUCIBLE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#152)
+EthernautsBase.ATTR_SEEDED should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#151)
+EthernautsBase.ATTR_TRADABLE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#158-159)
+EthernautsExplore.MAX_TIME_EXPLORE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1087)
+EthernautsExplore.MIN_TIME_EXPLORE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1085-1087)
+EthernautsExplore.RANGE_SCALE should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1087-1088)
+EthernautsExplore.RANGE_STAT_MAX should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1084-1085)
+EthernautsExplore.SPEED_STAT_MAX should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1083-1084)
+EthernautsExplore.isEthernautsExplore should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1076-1077)
+EthernautsStorage.isEthernautsStorage should be constant (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#409-410)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC721.totalSupply (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#7-8) should be declared external
+EthernautsOwnership.totalSupply (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#906-910) should be declared external
+EthernautsOwnership.balanceOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#784-787) should be declared external
+ERC721.balanceOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#8-9) should be declared external
+EthernautsOwnership.takeOwnership (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#898-903) should be declared external
+ERC721.takeOwnership (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#13-14) should be declared external
+ERC721.implementsERC721 (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#14-16) should be declared external
+EthernautsOwnership.implementsERC721 (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#742-743) should be declared external
+EthernautsStorage.grantAccess (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#331-336) should be declared external
+EthernautsStorage.removeAccess (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#338-348) should be declared external
+EthernautsStorage.setPrice (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#441-444) should be declared external
+EthernautsStorage.approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#446-449) should be declared external
+EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#486-524) should be declared external
+EthernautsStorage.updateStats (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#577-579) should be declared external
+EthernautsStorage.updateState (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#583-588) should be declared external
+EthernautsStorage.setAssetCooldown (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#590-596) should be declared external
+EthernautsStorage.getStats (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#603-607) should be declared external
+EthernautsStorage.priceOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#608-610) should be declared external
+EthernautsStorage.hasAllAttrs (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#615-617) should be declared external
+EthernautsStorage.hasAnyAttrs (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#622-624) should be declared external
+EthernautsStorage.isCategory (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#630-634) should be declared external
+EthernautsStorage.isState (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#639-643) should be declared external
+EthernautsStorage.ownerOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#645-649) should be declared external
+EthernautsStorage.balanceOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#655-656) should be declared external
+EthernautsStorage.approvedFor (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#658-664) should be declared external
+EthernautsStorage.totalSupply (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#666-668) should be declared external
+EthernautsLogic.setEthernautsStorageContract (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1006-1015) should be declared external
+EthernautsLogic.withdrawBalances (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1028-1032) should be declared external
+EthernautsLogic.getBalance (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1035-1036) should be declared external
+EthernautsExplore.getExplorerList (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1117-1131) should be declared external
+EthernautsExplore.setMissions (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1137-1138) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Constant 'EthernautsBase.InterfaceSignature_ERC721' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#114-126) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'EthernautsBase.ATTR_SEEDED' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#151) is not in mixedCase
+Variable 'EthernautsBase.ATTR_PRODUCIBLE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#152) is not in mixedCase
+Variable 'EthernautsBase.ATTR_EXPLORABLE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#153) is not in mixedCase
+Variable 'EthernautsBase.ATTR_LEASABLE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#154) is not in mixedCase
+Variable 'EthernautsBase.ATTR_PERMANENT' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#155) is not in mixedCase
+Variable 'EthernautsBase.ATTR_CONSUMABLE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#158) is not in mixedCase
+Variable 'EthernautsBase.ATTR_TRADABLE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#158-159) is not in mixedCase
+Variable 'EthernautsBase.ATTR_GOLDENGOOSE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#159) is not in mixedCase
+Parameter '_newCEO' of EthernautsAccessControl.setCEO (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#221) is not in mixedCase
+Parameter '_newCTO' of EthernautsAccessControl.setCTO (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#232) is not in mixedCase
+Parameter '_newCOO' of EthernautsAccessControl.setCOO (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#244) is not in mixedCase
+Parameter '_newOracle' of EthernautsAccessControl.setOracle (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#255) is not in mixedCase
+Function 'EthernautsStorage.EthernautsStorage' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#307-320) is not in mixedCase
+Parameter '_v2Address' of EthernautsStorage.grantAccess (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#331-332) is not in mixedCase
+Parameter '_v2Address' of EthernautsStorage.removeAccess (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#342) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.setPrice (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#441) is not in mixedCase
+Parameter '_price' of EthernautsStorage.setPrice (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#441-442) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#446) is not in mixedCase
+Parameter '_approved' of EthernautsStorage.approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#446) is not in mixedCase
+Parameter '_from' of EthernautsStorage.transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#453) is not in mixedCase
+Parameter '_to' of EthernautsStorage.transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#453) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#453) is not in mixedCase
+Parameter '_creatorTokenID' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#487-488) is not in mixedCase
+Parameter '_owner' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#488-490) is not in mixedCase
+Parameter '_price' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#490) is not in mixedCase
+Parameter '_ID' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#491) is not in mixedCase
+Parameter '_category' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#492) is not in mixedCase
+Parameter '_state' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#492-493) is not in mixedCase
+Parameter '_attributes' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#493) is not in mixedCase
+Parameter '_stats' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#494) is not in mixedCase
+Parameter '_cooldown' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#494-495) is not in mixedCase
+Parameter '_cooldownEndBlock' of EthernautsStorage.createAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#495-496) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#549) is not in mixedCase
+Parameter '_creatorTokenID' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#549-551) is not in mixedCase
+Parameter '_price' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#551) is not in mixedCase
+Parameter '_ID' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#552) is not in mixedCase
+Parameter '_category' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#552-553) is not in mixedCase
+Parameter '_state' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#553-554) is not in mixedCase
+Parameter '_attributes' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#554) is not in mixedCase
+Parameter '_stats' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#554-555) is not in mixedCase
+Parameter '_cooldown' of EthernautsStorage.editAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#555-556) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.updateStats (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#577) is not in mixedCase
+Parameter '_stats' of EthernautsStorage.updateStats (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#577-578) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.updateState (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#584-586) is not in mixedCase
+Parameter '_state' of EthernautsStorage.updateState (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#586) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.setAssetCooldown (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#590) is not in mixedCase
+Parameter '_cooldown' of EthernautsStorage.setAssetCooldown (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#590-591) is not in mixedCase
+Parameter '_cooldownEndBlock' of EthernautsStorage.setAssetCooldown (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#591) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.getStats (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#603-604) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.priceOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#608-609) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.hasAllAttrs (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#615) is not in mixedCase
+Parameter '_attributes' of EthernautsStorage.hasAllAttrs (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#615-616) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.hasAnyAttrs (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#622) is not in mixedCase
+Parameter '_attributes' of EthernautsStorage.hasAnyAttrs (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#622-623) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.isCategory (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#631) is not in mixedCase
+Parameter '_category' of EthernautsStorage.isCategory (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#631) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.isState (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#639-640) is not in mixedCase
+Parameter '_state' of EthernautsStorage.isState (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#640) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.ownerOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#645-646) is not in mixedCase
+Parameter '_owner' of EthernautsStorage.balanceOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#655) is not in mixedCase
+Parameter '_tokenId' of EthernautsStorage.approvedFor (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#660) is not in mixedCase
+Parameter '_owner' of EthernautsStorage.getTokenList (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#672-673) is not in mixedCase
+Parameter '_withAttributes' of EthernautsStorage.getTokenList (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#673-674) is not in mixedCase
+Parameter '_owner' of EthernautsOwnership.balanceOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#785) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership.ownerOf (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#918-919) is not in mixedCase
+Parameter '_to' of EthernautsOwnership.approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#831-832) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership.approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#832-833) is not in mixedCase
+Parameter '_to' of EthernautsOwnership.transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#795) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership.transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#797) is not in mixedCase
+Parameter '_from' of EthernautsOwnership.transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#882) is not in mixedCase
+Parameter '_to' of EthernautsOwnership.transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#885) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership.transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#885) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership.takeOwnership (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#898) is not in mixedCase
+Parameter '_interfaceID' of EthernautsOwnership.supportsInterface (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#749) is not in mixedCase
+Function 'EthernautsOwnership._owns' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#756-757) is not in mixedCase
+Parameter '_claimant' of EthernautsOwnership._owns (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#756) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership._owns (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#756) is not in mixedCase
+Function 'EthernautsOwnership._approvedFor' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#763-766) is not in mixedCase
+Parameter '_claimant' of EthernautsOwnership._approvedFor (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#763) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership._approvedFor (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#763) is not in mixedCase
+Function 'EthernautsOwnership._approve' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#774-777) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership._approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#774) is not in mixedCase
+Parameter '_approved' of EthernautsOwnership._approve (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#775) is not in mixedCase
+Function 'EthernautsOwnership._transferFrom' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#852-870) is not in mixedCase
+Parameter '_from' of EthernautsOwnership._transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#852-853) is not in mixedCase
+Parameter '_to' of EthernautsOwnership._transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#853) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership._transferFrom (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#853) is not in mixedCase
+Parameter '_creatorTokenID' of EthernautsOwnership.createNewAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#946) is not in mixedCase
+Parameter '_owner' of EthernautsOwnership.createNewAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#946) is not in mixedCase
+Parameter '_price' of EthernautsOwnership.createNewAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#946-947) is not in mixedCase
+Parameter '_assetID' of EthernautsOwnership.createNewAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#947-948) is not in mixedCase
+Parameter '_category' of EthernautsOwnership.createNewAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#948-949) is not in mixedCase
+Parameter '_attributes' of EthernautsOwnership.createNewAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#949) is not in mixedCase
+Parameter '_stats' of EthernautsOwnership.createNewAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#949) is not in mixedCase
+Parameter '_tokenId' of EthernautsOwnership.isExploring (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#974) is not in mixedCase
+Constant 'EthernautsOwnership.InterfaceSignature_ERC165' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#730-732) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'EthernautsLogic.EthernautsLogic' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#986-989) is not in mixedCase
+Parameter '_v2Address' of EthernautsLogic.setNewAddress (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#998-999) is not in mixedCase
+Parameter '_CStorageAddress' of EthernautsLogic.setEthernautsStorageContract (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1009) is not in mixedCase
+Parameter '_to' of EthernautsLogic.withdrawBalances (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1030) is not in mixedCase
+Function 'EthernautsExplore.EthernautsExplore' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1059-1062) is not in mixedCase
+Parameter '_sectorId' of EthernautsExplore.setOwnerCut (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1131) is not in mixedCase
+Parameter '_ownerCut' of EthernautsExplore.setOwnerCut (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1131) is not in mixedCase
+Parameter '_sectorId' of EthernautsExplore.setOracleFee (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1132-1133) is not in mixedCase
+Parameter '_oracleFee' of EthernautsExplore.setOracleFee (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1133) is not in mixedCase
+Parameter '_tickTime' of EthernautsExplore.setTickTime (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1134-1135) is not in mixedCase
+Parameter '_percentageCut' of EthernautsExplore.setPercentageCut (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1136) is not in mixedCase
+Parameter '_tokenId' of EthernautsExplore.setMissions (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1137) is not in mixedCase
+Parameter '_total' of EthernautsExplore.setMissions (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1137-1138) is not in mixedCase
+Parameter '_shipTokenId' of EthernautsExplore.explore (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1161-1162) is not in mixedCase
+Parameter '_sectorTokenId' of EthernautsExplore.explore (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1162) is not in mixedCase
+Parameter '_crewTokenId' of EthernautsExplore.explore (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1162-1163) is not in mixedCase
+Parameter '_shipTokenId' of EthernautsExplore.explorationResults (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1280-1283) is not in mixedCase
+Parameter '_sectorTokenId' of EthernautsExplore.explorationResults (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1283) is not in mixedCase
+Parameter '_IDs' of EthernautsExplore.explorationResults (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1283) is not in mixedCase
+Parameter '_attributes' of EthernautsExplore.explorationResults (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1283-1284) is not in mixedCase
+Parameter '_stats' of EthernautsExplore.explorationResults (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1284) is not in mixedCase
+Function 'EthernautsExplore._buildAsset' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1341-1359) is not in mixedCase
+Parameter '_creatorTokenID' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1341-1342) is not in mixedCase
+Parameter '_owner' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1342-1343) is not in mixedCase
+Parameter '_price' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1343) is not in mixedCase
+Parameter '_assetID' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1343-1345) is not in mixedCase
+Parameter '_category' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1345) is not in mixedCase
+Parameter '_attributes' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1345) is not in mixedCase
+Parameter '_stats' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1345-1346) is not in mixedCase
+Parameter '_cooldown' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1346) is not in mixedCase
+Parameter '_cooldownEndBlock' of EthernautsExplore._buildAsset (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1346-1347) is not in mixedCase
+Function 'EthernautsExplore._explorationTime' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1366-1370) is not in mixedCase
+Parameter '_shipRange' of EthernautsExplore._explorationTime (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1367) is not in mixedCase
+Parameter '_shipSpeed' of EthernautsExplore._explorationTime (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1368) is not in mixedCase
+Parameter '_sectorSize' of EthernautsExplore._explorationTime (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1369-1370) is not in mixedCase
+Parameter '_subject' of EthernautsExplore.fraction (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol) is not in mixedCase
+Parameter '_numerator' of EthernautsExplore.fraction (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol) is not in mixedCase
+Parameter '_denominator' of EthernautsExplore.fraction (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol) is not in mixedCase
+Parameter '_secs' of EthernautsExplore.setSecondsPerBlock (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol) is not in mixedCase
+Variable 'EthernautsExplore.TICK_TIME' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1080-1081) is not in mixedCase
+Variable 'EthernautsExplore.SPEED_STAT_MAX' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1083-1084) is not in mixedCase
+Variable 'EthernautsExplore.RANGE_STAT_MAX' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1084-1085) is not in mixedCase
+Variable 'EthernautsExplore.MIN_TIME_EXPLORE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1085-1087) is not in mixedCase
+Variable 'EthernautsExplore.MAX_TIME_EXPLORE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1087) is not in mixedCase
+Variable 'EthernautsExplore.RANGE_SCALE' (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#1087-1088) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+ERC721 (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#5-33) does not mark important ERC20 parameters as 'indexed':
+	-Transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#17-18) does not index parameter 'from'
+	-Transfer (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#17-18) does not index parameter 'to'
+	-Approval (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#18-20) does not index parameter 'owner'
+	-Approval (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#18-20) does not index parameter 'approved'
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unindexed-erc20-event-parameters[0m
+INFO:Detectors:[92m
+EthernautsBase.InterfaceSignature_ERC721 (/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol#114-126) is never used in EthernautsStorage
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/6/0x85b2949cea65add49c69dac77fb052596bc5ddd4.sol analyzed (8 contracts), 185 result(s) found

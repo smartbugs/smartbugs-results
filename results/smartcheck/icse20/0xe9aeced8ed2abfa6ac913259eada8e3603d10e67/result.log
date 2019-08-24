@@ -1,0 +1,84 @@
+/unique_chucks/26/0xe9aeced8ed2abfa6ac913259eada8e3603d10e67.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: adc165
+severity: 1
+line: 20
+column: 14
+content: 0x447870C2f334Fcda68e644aE53Db3471A9f7302D
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: adc165
+severity: 1
+line: 21
+column: 14
+content: 0x6EC9C6fcE15DB982521eA2087474291fA5Ad6d31
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: adc165
+severity: 1
+line: 22
+column: 14
+content: 0x391Ef2cB0c81A2C47D659c3e3e6675F550e4b183
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 180
+column: 7
+content: for(uint256i=1;i<nextSkinId;i++){if(skinIdToOwner[i]==account){if(count==id){returni;}count++;}}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 543
+column: 8
+content: for(uint256i=0;i<legacyOwner.length;i++){newSkin.appearance=legacyAppearance[i];newSkin.cooldownEndTime=uint64(now);newSkin.mixingWithId=0;skins[nextSkinId]=newSkin;skinIdToOwner[nextSkinId]=legacyOwner[i];isOnSale[nextSkinId]=legacyIsOnSale[i];desiredPrice[nextSkinId]=legacyDesiredPrice[i];CreateNewSkin(nextSkinId,legacyOwner[i]);nextSkinId++;numSkinOfAccounts[legacyOwner[i]]+=1;skinCreatedNum+=1;}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 543
+column: 8
+content: for(uint256i=0;i<legacyOwner.length;i++){newSkin.appearance=legacyAppearance[i];newSkin.cooldownEndTime=uint64(now);newSkin.mixingWithId=0;skins[nextSkinId]=newSkin;skinIdToOwner[nextSkinId]=legacyOwner[i];isOnSale[nextSkinId]=legacyIsOnSale[i];desiredPrice[nextSkinId]=legacyDesiredPrice[i];CreateNewSkin(nextSkinId,legacyOwner[i]);nextSkinId++;numSkinOfAccounts[legacyOwner[i]]+=1;skinCreatedNum+=1;}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 229
+column: 0
+content: contractSkinMixisSkinBase{MixFormulaInterfacepublicmixFormula;uint256publicprePaidFee=150000*5000000000;eventMixStart(addressaccount,uint256skinAId,uint256skinBId);eventAutoMix(addressaccount,uint256skinAId,uint256skinBId,uint64cooldownEndTime);eventMixSuccess(addressaccount,uint256skinId,uint256skinAId,uint256skinBId);functionsetMixFormulaAddress(addressmixFormulaAddress)externalonlyCOO{mixFormula=MixFormulaInterface(mixFormulaAddress);}functionsetPrePaidFee(uint256newPrePaidFee)externalonlyCOO{prePaidFee=newPrePaidFee;}function_isCooldownReady(uint256skinAId,uint256skinBId)privateviewreturns(bool){return(skins[skinAId].cooldownEndTime<=uint64(now))&&(skins[skinBId].cooldownEndTime<=uint64(now));}function_isNotMixing(uint256skinAId,uint256skinBId)privateviewreturns(bool){return(skins[skinAId].mixingWithId==0)&&(skins[skinBId].mixingWithId==0);}function_setCooldownEndTime(uint256skinAId,uint256skinBId)private{uint256end=now+5minutes;skins[skinAId].cooldownEndTime=uint64(end);skins[skinBId].cooldownEndTime=uint64(end);}function_isValidSkin(addressaccount,uint256skinAId,uint256skinBId)privateviewreturns(bool){if(skinAId==skinBId){returnfalse;}if((skinAId==0)||(skinBId==0)){returnfalse;}if((skinAId>=nextSkinId)||(skinBId>=nextSkinId)){returnfalse;}return(skinIdToOwner[skinAId]==account)&&(skinIdToOwner[skinBId]==account);}function_isNotOnSale(uint256skinId)privateviewreturns(bool){return(isOnSale[skinId]==false);}functionmix(uint256skinAId,uint256skinBId)publicwhenNotPaused{require(_isValidSkin(msg.sender,skinAId,skinBId));require(_isNotOnSale(skinAId)&&_isNotOnSale(skinBId));require(_isCooldownReady(skinAId,skinBId));require(_isNotMixing(skinAId,skinBId));_setCooldownEndTime(skinAId,skinBId);skins[skinAId].mixingWithId=uint64(skinBId);skins[skinBId].mixingWithId=uint64(skinAId);MixStart(msg.sender,skinAId,skinBId);}functionmixAuto(uint256skinAId,uint256skinBId)publicpayablewhenNotPaused{require(msg.value>=prePaidFee);mix(skinAId,skinBId);Skinstorageskin=skins[skinAId];AutoMix(msg.sender,skinAId,skinBId,skin.cooldownEndTime);}functiongetMixingResult(uint256skinAId,uint256skinBId)publicwhenNotPaused{addressaccount=skinIdToOwner[skinAId];require(account==skinIdToOwner[skinBId]);SkinstorageskinA=skins[skinAId];SkinstorageskinB=skins[skinBId];require(skinA.mixingWithId==uint64(skinBId));require(skinB.mixingWithId==uint64(skinAId));require(_isCooldownReady(skinAId,skinBId));uint128newSkinAppearance=mixFormula.calcNewSkinAppearance(skinA.appearance,skinB.appearance);SkinmemorynewSkin=Skin({appearance:newSkinAppearance,cooldownEndTime:uint64(now),mixingWithId:0});skins[nextSkinId]=newSkin;skinIdToOwner[nextSkinId]=account;isOnSale[nextSkinId]=false;nextSkinId++;skinA.mixingWithId=0;skinB.mixingWithId=0;deleteskinIdToOwner[skinAId];deleteskinIdToOwner[skinBId];numSkinOfAccounts[account]-=1;MixSuccess(account,nextSkinId-1,skinAId,skinBId);}}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 463
+column: 0
+content: contractSkinMintingisSkinMarket{uint256publicskinCreatedLimit=50000;uint256publicskinCreatedNum;mapping(address=>uint256)publicaccountToSummonNum;mapping(address=>uint256)publicaccountToBleachNum;mapping(address=>uint256)publicaccountToPayLevel;mapping(address=>uint256)publicaccountLastClearTime;uint256publiclevelClearTime=now;uint256publicbleachDailyLimit=3;uint256publicbaseSummonPrice=1finney;uint256publicbleachPrice=300finney;uint256[5]publiclevelSplits=[10,20,50,100,200];uint256[6]publicpayMultiple=[10,12,15,20,30,40];eventCreateNewSkin(uint256skinId,addressaccount);eventBleach(uint256skinId,uint128newAppearance);functionsetBaseSummonPrice(uint256newPrice)externalonlyCOO{baseSummonPrice=newPrice;}functionsetBleachPrice(uint256newPrice)externalonlyCOO{bleachPrice=newPrice;}functionsetBleachDailyLimit(uint256limit)externalonlyCOO{bleachDailyLimit=limit;}functioncreateSkin(uint128specifiedAppearance,uint256salePrice)externalonlyCOO{require(skinCreatedNum<skinCreatedLimit);SkinmemorynewSkin=Skin({appearance:specifiedAppearance,cooldownEndTime:uint64(now),mixingWithId:0});skins[nextSkinId]=newSkin;skinIdToOwner[nextSkinId]=coo;isOnSale[nextSkinId]=false;CreateNewSkin(nextSkinId,coo);putOnSale(nextSkinId,salePrice);nextSkinId++;numSkinOfAccounts[coo]+=1;skinCreatedNum+=1;}functiondonateSkin(uint128[]legacyAppearance,address[]legacyOwner,bool[]legacyIsOnSale,uint256[]legacyDesiredPrice)externalonlyCOO{SkinmemorynewSkin=Skin({appearance:0,cooldownEndTime:0,mixingWithId:0});for(uint256i=0;i<legacyOwner.length;i++){newSkin.appearance=legacyAppearance[i];newSkin.cooldownEndTime=uint64(now);newSkin.mixingWithId=0;skins[nextSkinId]=newSkin;skinIdToOwner[nextSkinId]=legacyOwner[i];isOnSale[nextSkinId]=legacyIsOnSale[i];desiredPrice[nextSkinId]=legacyDesiredPrice[i];CreateNewSkin(nextSkinId,legacyOwner[i]);nextSkinId++;numSkinOfAccounts[legacyOwner[i]]+=1;skinCreatedNum+=1;}}functionsummon()externalpayablewhenNotPaused{if(accountLastClearTime[msg.sender]==uint256(0)){accountLastClearTime[msg.sender]=now;}else{if(accountLastClearTime[msg.sender]<levelClearTime&&now>levelClearTime){accountToSummonNum[msg.sender]=0;accountToPayLevel[msg.sender]=0;accountLastClearTime[msg.sender]=now;}}uint256payLevel=accountToPayLevel[msg.sender];uint256price=payMultiple[payLevel]*baseSummonPrice;require(msg.value>=price);uint128randomAppearance=mixFormula.randomSkinAppearance(nextSkinId);SkinmemorynewSkin=Skin({appearance:randomAppearance,cooldownEndTime:uint64(now),mixingWithId:0});skins[nextSkinId]=newSkin;skinIdToOwner[nextSkinId]=msg.sender;isOnSale[nextSkinId]=false;CreateNewSkin(nextSkinId,msg.sender);nextSkinId++;numSkinOfAccounts[msg.sender]+=1;accountToSummonNum[msg.sender]+=1;if(payLevel<5){if(accountToSummonNum[msg.sender]>=levelSplits[payLevel]){accountToPayLevel[msg.sender]=payLevel+1;}}}functionbleach(uint128skinId,uint128attributes)externalpayablewhenNotPaused{if(accountLastClearTime[msg.sender]==uint256(0)){accountLastClearTime[msg.sender]=now;}else{if(accountLastClearTime[msg.sender]<levelClearTime&&now>levelClearTime){accountToBleachNum[msg.sender]=0;accountLastClearTime[msg.sender]=now;}}require(accountToBleachNum[msg.sender]<bleachDailyLimit);accountToBleachNum[msg.sender]+=1;require(msg.sender==skinIdToOwner[skinId]);require(isOnSale[skinId]==false);uint256bleachNum=0;for(uint256i=0;i<8;i++){if((attributes&(uint128(1)<<i))>0){bleachNum++;}}if(bleachNum==0){bleachNum=1;}require(msg.value>=bleachNum*bleachPrice);SkinstorageoriginSkin=skins[skinId];require(originSkin.mixingWithId==0);uint128newAppearance=mixFormula.bleachAppearance(originSkin.appearance,attributes);originSkin.appearance=newAppearance;Bleach(skinId,newAppearance);}functionclearSummonNum()externalonlyCOO{uint256nextDay=levelClearTime+1days;if(now>nextDay){levelClearTime=nextDay;}}}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 43
+column: 4
+content: boolallowTransfer=false;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 129
+column: 4
+content: mapping(uint256=>Skin)skins;
+
+SOLIDITY_VISIBILITY :2
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :2
+SOLIDITY_EXTRA_GAS_IN_LOOPS :2
+SOLIDITY_ADDRESS_HARDCODED :3
+SOLIDITY_GAS_LIMIT_IN_LOOPS :1

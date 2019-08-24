@@ -1,0 +1,109 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:64:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:84:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:163:18: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+      teamHash = keccak256(teamHash,now,_areaId,zombiemain.seeZombieDna(_zombieId[i]));
+                 ^-------------------------------------------------------------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:180:5: Warning: Invoking events without "emit" prefix is deprecated.
+    StartInvasion(teamHash, _areaId, _zombieId);
+    ^-----------------------------------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:204:26: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+ ... keccak256(teams[_teamId].teamHash, now, block.blockhash(block.number-1),block.blockhash(teams[_teamId].blocknumber)) ... 
+     ^------------------------------------------------------------------------------------------------------------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:211:7: Warning: Invoking events without "emit" prefix is deprecated.
+      AwardInvation(_teamId, false, 0);
+      ^------------------------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:219:7: Warning: Invoking events without "emit" prefix is deprecated.
+      AwardInvation(_teamId, true, areas[teams[_teamId].areaID].ZOBRevenue);
+      ^-------------------------------------------------------------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:156:24: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+    bytes32 teamHash = block.blockhash(block.number-1);
+                       ^-------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:204:66: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+ ... block.blockhash ... 
+     ^-------------^
+/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:204:98: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+ ... block.blockhash ... 
+     ^-------------^
+
+INFO:Detectors:[93m
+zombieInvasion.awardInvation (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#191-227) uses a dangerous strict equality:
+	- require(bool)(teams[_teamId].Owner == msg.sender)
+zombieInvasion.awardInvation (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#191-227) uses a dangerous strict equality:
+	- require(bool)(teams[_teamId].Owner == msg.sender)
+zombieInvasion.startInvasion (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#153-191) uses a dangerous strict equality:
+	- require(bool)(teams[teamHash].areaID == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in zombieInvasion.awardInvation (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#191-227):
+	External calls:
+	- zombietoken.mint(teams[_teamId].Owner,areas[teams[_teamId].areaID].ZOBRevenue) (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#226)
+	State variables written after the call(s):
+	- areas (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#227)
+	- teams (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#227)
+Reentrancy in zombieInvasion.startInvasion (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#153-191):
+	External calls:
+	- teamHash = keccak256()(teamHash,now,_areaId,zombiemain.seeZombieDna(_zombieId[i])) (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#169-171)
+	State variables written after the call(s):
+	- zombies (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#171-172)
+	- zombies (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#172)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+zombieInvasion.awardInvation (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#191-227) does not use the value returned by external calls:
+	-zombietoken.mint(teams[_teamId].Owner,areas[teams[_teamId].areaID].ZOBRevenue) (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#226)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+zombieInvasion.startInvasion has external calls inside a loop:
+	- zombiemain.seeZombieRole(_zombieId[a]) != areas[_areaId].roletype[a] (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#178-180)
+zombieInvasion.startInvasion has external calls inside a loop:
+	- teamHash = keccak256()(teamHash,now,_areaId,zombiemain.seeZombieDna(_zombieId[i])) (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#169-171)
+zombieInvasion.awardInvation has external calls inside a loop:
+	- totalStar += zombiemain.seeZombieStar(zb[i]) (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#201)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:
+	- Version used: ['^0.4.16', '^0.4.18']
+	- /unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#1 declares pragma solidity^0.4.16
+	- /unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#2-3 declares pragma solidity^0.4.18
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#161-163:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Deprecated standard detected @ /unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#208-227:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#83-92) should be declared external
+zombieToken.mint (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#95-96) should be declared external
+zombieMain.checkAllOwner (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#97-98) should be declared external
+zombieMain.seeZombieRole (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#98-99) should be declared external
+zombieMain.seeZombieColor (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#99-100) should be declared external
+zombieMain.seeZombieStar (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#100-103) should be declared external
+zombieMain.seeZombieDna (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#103-106) should be declared external
+zombieInvasion.startInvasion (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#153-191) should be declared external
+zombieInvasion.awardInvation (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#191-227) should be declared external
+zombieInvasion.addArea (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#227-234) should be declared external
+zombieInvasion.closeArea (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol:
+	- pragma solidity^0.4.16 (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#1): it allows old versions
+	- pragma solidity^0.4.18 (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#2-3): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#69-70) is not in mixedCase
+Contract 'zombieToken' (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#92-96) is not in CapWords
+Contract 'zombieMain' (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#96-106) is not in CapWords
+Contract 'zombieInvasion' (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#106-234) is not in CapWords
+Parameter '_areaId' of zombieInvasion.startInvasion (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#153-154) is not in mixedCase
+Parameter '_zombieId' of zombieInvasion.startInvasion (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#154) is not in mixedCase
+Parameter '_teamId' of zombieInvasion.awardInvation (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#191) is not in mixedCase
+Parameter 'TeamMemberlimitCount' of zombieInvasion.addArea (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#230) is not in mixedCase
+Parameter '_totallimitTeamCount' of zombieInvasion.addArea (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol#231-232) is not in mixedCase
+Parameter 'ZOBRevenue' of zombieInvasion.addArea (/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/25/0x0b5271ae4e4492fe1f4e4879e68f28b42d966289.sol analyzed (5 contracts), 33 result(s) found

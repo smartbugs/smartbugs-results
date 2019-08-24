@@ -1,0 +1,81 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol:
+/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol:110:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ChildDeposit() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol:202:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol:311:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MasterDeposit(address _wallet1, address _wallet2, uint _percentage) onlyValidPercentage(_percentage) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol:220:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol:256:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, pendingOwner);
+    ^---------------------------------------^
+
+INFO:Detectors:[93m
+MasterDeposit.transferTokens (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#392-419) uses a dangerous strict equality:
+	- erc20Balance == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+ChildDeposit.withdraw (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#142-152) does not use the value returned by external calls:
+	-ERC20(_tokenAddress).transfer(_destination,_value) (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#146-152)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MasterDeposit.transferTokens has external calls inside a loop:
+	- erc20Balance = ERC20(_tokenContractAddress).balanceOf(deposit) (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#398-399)
+MasterDeposit.transferTokens has external calls inside a loop:
+	- ChildDeposit(deposit).withdraw(_tokenContractAddress,coldWallet1Share,coldWallet1) (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#410-415)
+MasterDeposit.transferTokens has external calls inside a loop:
+	- ChildDeposit(deposit).withdraw(_tokenContractAddress,coldWallet2Share,coldWallet2) (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#415-419)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+MasterDeposit.fireDepositToChildEvent (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#371-374) should be declared external
+MasterDepositInterface.fireDepositToChildEvent (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#13-16) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#73-74) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#74-75) should be declared external
+ERC20Basic.transfer (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#75) should be declared external
+ERC20.allowance (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#86) should be declared external
+ERC20.transferFrom (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#86-88) should be declared external
+ERC20.approve (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#88-91) should be declared external
+ChildDeposit.fallback (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#122-136) should be declared external
+ChildDeposit.withdraw (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#142-152) should be declared external
+Ownable.transferOwnership (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#226-231) should be declared external
+Claimable.transferOwnership (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#256-262) should be declared external
+Claimable.claimOwnership (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#265-266) should be declared external
+MasterDeposit.createChildDeposits (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#331-340) should be declared external
+MasterDeposit.addDepositCreator (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#342-348) should be declared external
+MasterDeposit.removeDepositCreator (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#350-355) should be declared external
+MasterDeposit.setColdWallet1SplitPercentage (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#358-365) should be declared external
+MasterDeposit.setColdWallet1 (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#377-380) should be declared external
+MasterDeposit.setColdWallet2 (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#381-382) should be declared external
+MasterDeposit.transferTokens (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#392-419) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'ChildDeposit.ChildDeposit' (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#112-117) is not in mixedCase
+Parameter '_tokenAddress' of ChildDeposit.withdraw (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#143-145) is not in mixedCase
+Parameter '_value' of ChildDeposit.withdraw (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#145-146) is not in mixedCase
+Parameter '_destination' of ChildDeposit.withdraw (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#146) is not in mixedCase
+Variable 'ReentrancyGuard.reentrancy_lock' (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#169-170) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#214-215) is not in mixedCase
+Parameter '_amount' of MasterDeposit.fireDepositToChildEvent (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#371-372) is not in mixedCase
+Function 'MasterDeposit.MasterDeposit' (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#319-325) is not in mixedCase
+Parameter '_wallet1' of MasterDeposit.MasterDeposit (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#320) is not in mixedCase
+Parameter '_wallet2' of MasterDeposit.MasterDeposit (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#320) is not in mixedCase
+Parameter '_percentage' of MasterDeposit.MasterDeposit (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#320-321) is not in mixedCase
+Parameter '_count' of MasterDeposit.createChildDeposits (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#332) is not in mixedCase
+Parameter '_depositCreator' of MasterDeposit.addDepositCreator (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#343-344) is not in mixedCase
+Parameter '_depositCreator' of MasterDeposit.removeDepositCreator (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#350) is not in mixedCase
+Parameter '_percentage' of MasterDeposit.setColdWallet1SplitPercentage (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#359) is not in mixedCase
+Parameter '_coldWallet1' of MasterDeposit.setColdWallet1 (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#379) is not in mixedCase
+Parameter '_coldWallet2' of MasterDeposit.setColdWallet2 (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#381) is not in mixedCase
+Parameter '_deposits' of MasterDeposit.transferTokens (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#392-394) is not in mixedCase
+Parameter '_tokenContractAddress' of MasterDeposit.transferTokens (/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol#394-395) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/9/0xc2ee4954ea6e5164fa4ab8af4d326f6398c23299.sol analyzed (9 contracts), 45 result(s) found

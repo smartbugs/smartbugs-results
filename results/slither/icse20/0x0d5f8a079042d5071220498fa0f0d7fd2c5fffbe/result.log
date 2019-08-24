@@ -1,0 +1,95 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:25:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Forwarder() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:55:5: Warning: Use of the "var" keyword is deprecated.
+    var forwarderAddress = address(this);
+    ^------------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:56:5: Warning: Use of the "var" keyword is deprecated.
+    var forwarderBalance = instance.balanceOf(forwarderAddress);
+    ^------------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:130:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function WalletSimple(address[] allowedSigners) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:201:5: Warning: Use of the "var" keyword is deprecated.
+    var operationHash = keccak256("ETHER", toAddress, value, data, expireTime, sequenceId);
+    ^---------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:203:5: Warning: Use of the "var" keyword is deprecated.
+    var otherSigner = verifyMultiSig(toAddress, operationHash, signature, expireTime, sequenceId);
+    ^-------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:233:5: Warning: Use of the "var" keyword is deprecated.
+    var operationHash = keccak256("ERC20", toAddress, value, tokenContractAddress, expireTime, sequenceId);
+    ^---------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:275:5: Warning: Use of the "var" keyword is deprecated.
+    var otherSigner = recoverAddressFromSignature(operationHash, signature);
+    ^-------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:46:5: Warning: Invoking events without "emit" prefix is deprecated.
+    ForwarderDeposited(msg.sender, msg.value, msg.data);
+    ^-------------------------------------------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:71:28: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    parentAddress.transfer(this.balance);
+                           ^----------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:169:7: Warning: Invoking events without "emit" prefix is deprecated.
+      Deposited(msg.sender, msg.value, msg.data);
+      ^----------------------------------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:201:25: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    var operationHash = keccak256("ETHER", toAddress, value, data, expireTime, sequenceId);
+                        ^----------------------------------------------------------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:210:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transacted(msg.sender, otherSigner, operationHash, toAddress, value, data);
+    ^------------------------------------------------------------------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:233:25: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    var operationHash = keccak256("ERC20", toAddress, value, tokenContractAddress, expireTime, sequenceId);
+                        ^--------------------------------------------------------------------------------^
+/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:308:5: Warning: Invoking events without "emit" prefix is deprecated.
+    SafeModeActivated(msg.sender);
+    ^---------------------------^
+
+INFO:Detectors:[91m
+Forwarder.flush (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#71-80) sends eth to arbitrary user
+	Dangerous calls:
+	- parentAddress.transfer(this.balance) (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#78-80)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+WalletSimple.recoverAddressFromSignature (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#328-343) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Forwarder.flushTokens (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#53-66) uses a dangerous strict equality:
+	- forwarderBalance == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+WalletSimple.verifyMultiSig (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#277-313) uses timestamp for comparisons
+	Dangerous comparisons:
+	- expireTime < block.timestamp (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#292-295)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+WalletSimple.recoverAddressFromSignature uses assembly (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#328-343)
+	- /unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#339-341
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ERC20Interface.transfer (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#9-10) should be declared external
+ERC20Interface.balanceOf (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#11-15) should be declared external
+Forwarder.fallback (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#43-50) should be declared external
+Forwarder.flushTokens (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#53-66) should be declared external
+Forwarder.flush (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#71-80) should be declared external
+WalletSimple.fallback (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#171-177) should be declared external
+WalletSimple.createForwarder (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#182-183) should be declared external
+WalletSimple.sendMultiSig (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#200-215) should be declared external
+WalletSimple.sendMultiSigToken (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#232-246) should be declared external
+WalletSimple.flushForwarderTokens (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#258-263) should be declared external
+WalletSimple.activateSafeMode (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#317-320) should be declared external
+WalletSimple.getNextSequenceId (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in WalletSimple.sendMultiSig (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#200-215):
+	-! (toAddress.call.value(value)(data)) /unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#214
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Function 'Forwarder.Forwarder' (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#25-30) is not in mixedCase
+Function 'WalletSimple.WalletSimple' (/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol#132-141) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x0d5f8a079042d5071220498fa0f0d7fd2c5fffbe.sol analyzed (3 contracts), 21 result(s) found

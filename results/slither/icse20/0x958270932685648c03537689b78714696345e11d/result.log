@@ -1,0 +1,128 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol:
+/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol:578:5: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+    advertisingAddress.send(m_advertisingPercent.mul(receivedEther));
+    ^--------------------------------------------------------------^
+/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol:579:5: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+    adminsAddress.send(m_adminsPercent.mul(receivedEther));
+    ^----------------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in BitCar.doInvest (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#559-634):
+	External calls:
+	- senderIsInvestor = m_investors.isInvestor(msg.sender) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#594-595)
+	- referrerAddr.notZero() && ! senderIsInvestor && ! m_referrals[msg.sender] && referrerAddr != msg.sender && m_investors.isInvestor(referrerAddr) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#595-615)
+	External calls sending eth:
+	- msg.sender.transfer(excess) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#585-587)
+	- advertisingAddress.send(m_advertisingPercent.mul(receivedEther)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#589-591)
+	- adminsAddress.send(m_adminsPercent.mul(receivedEther)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#591-594)
+	State variables written after the call(s):
+	- m_referrals (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#597-600)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Address.toAddress (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#106-112) is declared view but contains assembly code
+Address.isNotContract (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#112-122) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in BitCar.getMyDividends (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#538-558):
+	External calls:
+	- require(bool)(now.sub(getMemInvestor(msg.sender).paymentTime) > 86400) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#545-548)
+	- dividends = calcDividends(msg.sender) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#548)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#551)
+	State variables written after the call(s):
+	- m_investors (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#554-555)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+i in PrivateEntrance.provideAccessFor (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#257) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+BitCar.disqualifyAddress (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#456-460) does not use the value returned by external calls:
+	-m_investors.disqalify(addr) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#458-459)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in BitCar.doInvest (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#559-634):
+	External calls:
+	- senderIsInvestor = m_investors.isInvestor(msg.sender) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#594-595)
+	- referrerAddr.notZero() && ! senderIsInvestor && ! m_referrals[msg.sender] && referrerAddr != msg.sender && m_investors.isInvestor(referrerAddr) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#595-615)
+	- assert(bool)(m_investors.addInvestment(referrerAddr,referrerBonus)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#609-610)
+	- dividends = calcDividends(msg.sender) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#618-621)
+	- assert(bool)(m_investors.addInvestment(msg.sender,investment)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#623-626)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#626-627)
+	- assert(bool)(m_investors.newInvestor(msg.sender,investment,now)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#627-629)
+	External calls sending eth:
+	- msg.sender.transfer(excess) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#585-587)
+	- advertisingAddress.send(m_advertisingPercent.mul(receivedEther)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#589-591)
+	- adminsAddress.send(m_adminsPercent.mul(receivedEther)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#591-594)
+	State variables written after the call(s):
+	- investmentsNumber (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#630)
+Reentrancy in BitCar.getMyDividends (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#538-558):
+	External calls:
+	- require(bool)(now.sub(getMemInvestor(msg.sender).paymentTime) > 86400) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#545-548)
+	- dividends = calcDividends(msg.sender) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#548)
+	- assert(bool)(m_investors.setPaymentTime(msg.sender,now)) (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#551)
+	State variables written after the call(s):
+	- investmentsNumber (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#554-555)
+	- waveStartup (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#554-555)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Address.toAddress uses assembly (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#106-112)
+	- /unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#110-112
+Address.isNotContract uses assembly (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#112-122)
+	- /unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#120-121
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Rev1Storage.investorShortInfo (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#203-208) should be declared external
+Rev2Storage.investorInfo (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#210-213) should be declared external
+InvestorsStorage.investorInfo (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#268-274) should be declared external
+InvestorsStorage.newInvestor (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#274-287) should be declared external
+InvestorsStorage.addInvestment (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#287-295) should be declared external
+InvestorsStorage.setPaymentTime (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#295-307) should be declared external
+InvestorsStorage.disqalify (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#307-313) should be declared external
+BitCar.fallback (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#450-456) should be declared external
+BitCar.disqualifyAddress (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#456-460) should be declared external
+BitCar.doDisown (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#462-464) should be declared external
+BitCar.init (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#465-492) should be declared external
+BitCar.setAdvertisingAddress (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#492-497) should be declared external
+BitCar.setAdminsAddress (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#499-503) should be declared external
+BitCar.privateEntranceProvideAccessFor (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#503-504) should be declared external
+BitCar.rapidGrowthProtectionmMaxInvestmentAtNow (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#504-508) should be declared external
+BitCar.investorsNumber (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#508-511) should be declared external
+BitCar.balanceETH (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#511-512) should be declared external
+BitCar.advertisingPercent (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#512-517) should be declared external
+BitCar.adminsPercent (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#517-521) should be declared external
+BitCar.investorInfo (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#521-529) should be declared external
+BitCar.investorDividendsAtNow (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#529-532) should be declared external
+BitCar.dailyPercentAtNow (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#532-538) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Struct 'Percent.percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#50-52) is not in CapWords
+Parameter '_a' of SafeMath.mul (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#133) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#133) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#143) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#143-144) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#160) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#160) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#170) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#170) is not in mixedCase
+Struct 'PrivateEntrance.privateEntrance' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#218-222) is not in CapWords
+Struct 'RapidGrowthProtection.rapidGrowthProtection' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#315-321) is not in CapWords
+Variable 'BitCar.m_rgp' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#379-381) is not in mixedCase
+Variable 'BitCar.m_privEnter' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#381-384) is not in mixedCase
+Variable 'BitCar.m_referrals' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#385) is not in mixedCase
+Variable 'BitCar.m_investors' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#385-386) is not in mixedCase
+Constant 'BitCar.minInvesment' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#387) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'BitCar.maxBalance' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#387-388) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'BitCar.m_5_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#390-391) is not in mixedCase
+Variable 'BitCar.m_6_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#391-392) is not in mixedCase
+Variable 'BitCar.m_7_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#392-393) is not in mixedCase
+Variable 'BitCar.m_8_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#393-394) is not in mixedCase
+Variable 'BitCar.m_9_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#394-395) is not in mixedCase
+Variable 'BitCar.m_10_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#395-396) is not in mixedCase
+Variable 'BitCar.m_11_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#396-397) is not in mixedCase
+Variable 'BitCar.m_12_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#397-399) is not in mixedCase
+Variable 'BitCar.m_referal_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#399-400) is not in mixedCase
+Variable 'BitCar.m_referrer_percent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#400-401) is not in mixedCase
+Variable 'BitCar.m_referrer_percentMax' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#401) is not in mixedCase
+Variable 'BitCar.m_adminsPercent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#401-402) is not in mixedCase
+Variable 'BitCar.m_advertisingPercent' (/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol#402-403) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/32/0x958270932685648c03537689b78714696345e11d.sol analyzed (12 contracts), 62 result(s) found

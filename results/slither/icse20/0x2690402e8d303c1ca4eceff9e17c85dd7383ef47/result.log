@@ -1,0 +1,387 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:
+/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:48:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:634:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function RefundVault() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:709:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function PeriodicAllocation(ERC20Basic _token) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:763:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function AllocationQueue(ERC20Basic _token) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:1057:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Crowdsale(Creator _creator) public
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:780:5: Warning: Function state mutability can be restricted to pure
+    function groupDates(uint256 _date) internal view returns (uint256) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+RefundVault.refund (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#686-700) sends eth to arbitrary user
+	Dangerous calls:
+	- investor.transfer(depositedValue) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#697-699)
+Crowdsale.forwardFunds (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1174-1181) sends eth to arbitrary user
+	Dangerous calls:
+	- wallets[uint8(Roles.beneficiary)].transfer(address(this).balance) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1180)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+AllocationQueue.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#860-881) uses a dangerous strict equality:
+	- require(bool)(token.balanceOf(this) == totalShare.add(_tokens))
+Crowdsale.finalization (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1244-1293) uses a dangerous strict equality:
+	- stopTime == 0
+Crowdsale.finalization (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1244-1293) uses a dangerous strict equality:
+	- stopTime == 0
+Crowdsale.validPurchase (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1182-1194) uses a dangerous strict equality:
+	- withinPeriod = (now > startTime && stopTime == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in AllocationQueue.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#860-881):
+	External calls:
+	- require(bool)(token.balanceOf(this) == totalShare.add(_tokens)) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#865-866)
+	State variables written after the call(s):
+	- totalShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#878-881)
+Reentrancy in Crowdsale.finalization (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1244-1293):
+	External calls:
+	- vault.close(wallets[uint8(Roles.beneficiary)],wallets[uint8(Roles.fees)],ethWeiRaised.mul(7).div(100)) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1256-1260)
+	- token.mint(wallets[uint8(Roles.accountant)],tokenReserved) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1264-1266)
+	State variables written after the call(s):
+	- ethWeiRaised (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1283)
+	- nonEthWeiRaised (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1283)
+	- tokenReserved (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1267)
+Reentrancy in Crowdsale.initialize (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1332-1345):
+	External calls:
+	- begin() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1336-1338)
+	- initialization() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1344)
+	State variables written after the call(s):
+	- isInitialized (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1344-1345)
+Reentrancy in Crowdsale.privateMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1149-1164):
+	External calls:
+	- begin() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1159)
+	State variables written after the call(s):
+	- ethWeiRaised (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1161-1162)
+Reentrancy in Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1393-1428):
+	External calls:
+	- begin() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1402)
+	State variables written after the call(s):
+	- bonuses (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1415-1418)
+	- bonuses (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1418-1420)
+	- bonuses (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1419)
+	- profits (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1423-1424)
+	- profits (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1424-1428)
+	- profits (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1426-1428)
+Reentrancy in PeriodicAllocation.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#742-772):
+	External calls:
+	- unlockedToken = token.balanceOf(this).mul(share).div(totalShare) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#763-767)
+	State variables written after the call(s):
+	- totalShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#767-768)
+	- unlocked (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#768-769)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+i in Crowdsale.massBurnTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1570) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+PeriodicAllocation.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#742-772) does not use the value returned by external calls:
+	-token.transfer(_owner,unlockedToken) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#770-772)
+AllocationQueue.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#881-888) does not use the value returned by external calls:
+	-token.transfer(_owner,share) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#887)
+Crowdsale.privateMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1149-1164) does not use the value returned by external calls:
+	-token.mint(wallets[uint8(Roles.accountant)],_amount) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1162-1164)
+Crowdsale.finalization (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1244-1293) does not use the value returned by external calls:
+	-token.mint(wallets[uint8(Roles.accountant)],tokenReserved) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1264-1266)
+Crowdsale.queueMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1677-1681) does not use the value returned by external calls:
+	-token.mint(address(allocationQueue),_value) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1680)
+Crowdsale.systemWalletsMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1682-1728) does not use the value returned by external calls:
+	-token.mint(address(allocation),tokens.mul(7).div(50)) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1691-1693)
+	-token.mint(wallets[uint8(Roles.referrals)],tokens.mul(4).div(50)) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol)
+Crowdsale.buyTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol) does not use the value returned by external calls:
+	-token.mint(beneficiary,tokens) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Crowdsale.massBurnTokens has external calls inside a loop:
+	- token.burn(_beneficiary[i],_value[i]) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1571-1572)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in AllocationQueue.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#860-881):
+	External calls:
+	- require(bool)(token.balanceOf(this) == totalShare.add(_tokens)) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#865-866)
+	State variables written after the call(s):
+	- queue (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#876-877)
+Reentrancy in Crowdsale.begin (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1097-1140):
+	External calls:
+	- token = creator.createToken() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1100-1102)
+	- allocation = creator.createPeriodicAllocation(token) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1102-1103)
+	State variables written after the call(s):
+	- allocation (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1102-1103)
+Reentrancy in Crowdsale.begin (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1097-1140):
+	External calls:
+	- token = creator.createToken() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1100-1102)
+	- allocation = creator.createPeriodicAllocation(token) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1102-1103)
+	- allocationQueue = creator.createAllocationQueue(token) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1104-1110)
+	State variables written after the call(s):
+	- allocationQueue (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1104-1110)
+Reentrancy in Crowdsale.begin (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1097-1140):
+	External calls:
+	- token = creator.createToken() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1100-1102)
+	- allocation = creator.createPeriodicAllocation(token) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1102-1103)
+	- allocationQueue = creator.createAllocationQueue(token) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1104-1110)
+	- vault = creator.createRefund() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1110)
+	State variables written after the call(s):
+	- vault (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1110)
+Reentrancy in Crowdsale.begin (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1097-1140):
+	External calls:
+	- token = creator.createToken() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1100-1102)
+	- allocation = creator.createPeriodicAllocation(token) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1102-1103)
+	- allocationQueue = creator.createAllocationQueue(token) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1104-1110)
+	- vault = creator.createRefund() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1110)
+	- token.setUnpausedWallet(wallets[uint8(Roles.accountant)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1111-1112)
+	- token.setUnpausedWallet(wallets[uint8(Roles.manager)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1112-1113)
+	- token.setUnpausedWallet(wallets[uint8(Roles.bounty)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1113-1114)
+	- token.setUnpausedWallet(wallets[uint8(Roles.advisers)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1114-1116)
+	- token.setUnpausedWallet(wallets[uint8(Roles.observer)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1116-1119)
+	- token.setUnpausedWallet(wallets[uint8(Roles.players)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1119-1120)
+	- token.setUnpausedWallet(wallets[uint8(Roles.airdrop)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1120-1122)
+	- token.setUnpausedWallet(wallets[uint8(Roles.fund)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1124-1127)
+	- token.setUnpausedWallet(wallets[uint8(Roles.founders)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1127-1129)
+	- token.setUnpausedWallet(wallets[uint8(Roles.referrals)],true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1129-1133)
+	- token.setUnpausedWallet(allocation,true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1134)
+	- token.setUnpausedWallet(allocationQueue,true) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1134-1136)
+	State variables written after the call(s):
+	- bonuses (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1138)
+	- profits (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1138-1139)
+	- profits (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1139)
+	- profits (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1140)
+Reentrancy in Crowdsale.finalization (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1244-1293):
+	External calls:
+	- vault.close(wallets[uint8(Roles.beneficiary)],wallets[uint8(Roles.fees)],ethWeiRaised.mul(7).div(100)) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1256-1260)
+	- token.mint(wallets[uint8(Roles.accountant)],tokenReserved) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1264-1266)
+	State variables written after the call(s):
+	- TokenSale (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1275-1277)
+	- chargeBonuses (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1285-1286)
+	- isFinalized (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1275)
+	- isInitialized (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1273-1275)
+	- weiRound1 (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1282)
+Reentrancy in Crowdsale.finalization (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1244-1293):
+	External calls:
+	- vault.close(wallets[uint8(Roles.beneficiary)],wallets[uint8(Roles.fees)],ethWeiRaised.mul(7).div(100)) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1256-1260)
+	- token.mint(wallets[uint8(Roles.accountant)],tokenReserved) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1264-1266)
+	- totalSaledToken = token.totalSupply() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1286-1287)
+	State variables written after the call(s):
+	- totalSaledToken (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1286-1287)
+Reentrancy in UnburnableListToken.grantToSetUnburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#476-482):
+	External calls:
+	- require(bool)(owner == msg.sender || msg.sender == Crowdsale(owner).wallets(uint8(Crowdsale.Roles.manager))) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#476-481)
+	State variables written after the call(s):
+	- grantedToSetUnburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#481-482)
+Reentrancy in PausableToken.grantToSetUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#304-306):
+	External calls:
+	- require(bool)(owner == msg.sender || msg.sender == Crowdsale(owner).wallets(uint8(Crowdsale.Roles.manager))) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#305-306)
+	State variables written after the call(s):
+	- grantedToSetUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#306)
+Reentrancy in UnburnableListToken.setUnburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#485-498):
+	External calls:
+	- require(bool)(owner == msg.sender || grantedToSetUnburnableWallet[msg.sender] || msg.sender == Crowdsale(owner).wallets(uint8(Crowdsale.Roles.manager))) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#487-495)
+	State variables written after the call(s):
+	- unburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#495-497)
+Reentrancy in Pausable.setUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#96-103):
+	External calls:
+	- require(bool)(owner == msg.sender || msg.sender == Crowdsale(owner).wallets(uint8(Crowdsale.Roles.manager))) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#96-101)
+	State variables written after the call(s):
+	- unpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#101-103)
+Reentrancy in PausableToken.setUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#311-324):
+	External calls:
+	- require(bool)(owner == msg.sender || grantedToSetUnpausedWallet[msg.sender] || msg.sender == Crowdsale(owner).wallets(uint8(Crowdsale.Roles.manager))) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#318-322)
+	State variables written after the call(s):
+	- unpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#323)
+Reentrancy in Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1393-1428):
+	External calls:
+	- begin() (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1402)
+	State variables written after the call(s):
+	- exchange (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1411)
+	- hardCap (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1408)
+	- maxAllProfit (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1411-1412)
+	- minPay (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1410-1411)
+	- overLimit (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1410)
+	- rate (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1409-1410)
+	- softCap (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1407)
+	- startTime (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1406)
+Reentrancy in AllocationQueue.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#881-888):
+	External calls:
+	- token.transfer(_owner,share) (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#887)
+	State variables written after the call(s):
+	- totalShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#888)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#64-74) should be declared external
+Pausable.setUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#96-103) should be declared external
+PausableToken.setUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#311-324) should be declared external
+Pausable.setPause (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#105-119) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#125) should be declared external
+BasicToken.totalSupply (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#162-164) should be declared external
+StandardToken.allowance (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#247-248) should be declared external
+ERC20.allowance (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#136-137) should be declared external
+ERC20.approve (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#138-143) should be declared external
+StandardToken.approve (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#235-238) should be declared external
+StandardToken.increaseApproval (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#257-265) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#275-291) should be declared external
+PausableToken.grantToSetUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#304-306) should be declared external
+FreezingToken.defrostDate (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#343-349) should be declared external
+FreezingToken.freezeTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#350-355) should be declared external
+MintableToken.mint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#404-412) should be declared external
+MigrationAgent.migrateFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#413-416) should be declared external
+MigratableToken.setMigrationAgent (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#423-429) should be declared external
+MigratableToken.migrateAll (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#448-452) should be declared external
+MigratableToken.migrate (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#453-455) should be declared external
+UnburnableListToken.grantToSetUnburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#476-482) should be declared external
+UnburnableListToken.setUnburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#485-498) should be declared external
+ERC223ReceivingContract.tokenFallback (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#508) should be declared external
+Token.transferToContract (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#552-564) should be declared external
+Token.grantToAllowBlocking (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#569-579) should be declared external
+Token.allowBlocking (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#581-589) should be declared external
+Token.blockTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#593-601) should be declared external
+Token.unblockTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#610-631) should be declared external
+RefundVault.deposit (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#653-660) should be declared external
+RefundVault.close (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#663-667) should be declared external
+RefundVault.enableRefunds (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#669-672) should be declared external
+RefundVault.refund (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#686-700) should be declared external
+PeriodicAllocation.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#742-772) should be declared external
+AllocationQueue.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#881-888) should be declared external
+AllocationQueue.getShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#890-900) should be declared external
+Crowdsale.privateMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1149-1164) should be declared external
+Crowdsale.finalize (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1218-1233) should be declared external
+Crowdsale.finalize2 (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1309-1317) should be declared external
+Crowdsale.initialize (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1332-1345) should be declared external
+Crowdsale.stop (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1352-1361) should be declared external
+Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1393-1428) should be declared external
+Crowdsale.tokenPause (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1484-1489) should be declared external
+Crowdsale.setCrowdsalePause (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1497-1499) should be declared external
+Crowdsale.moveTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1519-1522) should be declared external
+Crowdsale.migrateAll (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1526-1528) should be declared external
+Crowdsale.distructVault (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1600-1605) should be declared external
+Crowdsale.paymentsInOtherCurrency (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1669-1677) should be declared external
+Crowdsale.fallback (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#49-53) is not in mixedCase
+Parameter '_wallet' of Pausable.setUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#96) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#190-191) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#169) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#169) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#247) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#247) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#211) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#211) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#211) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#235) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#235) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#260-261) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#261) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#275) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#275-276) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#296-299) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#299) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#300) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#300) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#300) is not in mixedCase
+Parameter '_wallet' of PausableToken.setUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#313) is not in mixedCase
+Parameter '_to' of PausableToken.grantToSetUnpausedWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#304-305) is not in mixedCase
+Struct 'FreezingToken.freeze' (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#325) is not in CapWords
+Parameter '_to' of FreezingToken.transfer (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#366) is not in mixedCase
+Parameter '_value' of FreezingToken.transfer (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#366) is not in mixedCase
+Parameter '_from' of FreezingToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#376) is not in mixedCase
+Parameter '_to' of FreezingToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#377) is not in mixedCase
+Parameter '_value' of FreezingToken.transferFrom (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#377) is not in mixedCase
+Parameter '_beneficiary' of FreezingToken.freezedTokenOf (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#333) is not in mixedCase
+Parameter '_beneficiary' of FreezingToken.defrostDate (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#344) is not in mixedCase
+Parameter '_beneficiary' of FreezingToken.freezeTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#351-352) is not in mixedCase
+Parameter '_amount' of FreezingToken.freezeTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#352) is not in mixedCase
+Parameter '_when' of FreezingToken.freezeTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#352) is not in mixedCase
+Parameter '_to' of FreezingToken.transferAndFreeze (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#356-359) is not in mixedCase
+Parameter '_value' of FreezingToken.transferAndFreeze (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#359) is not in mixedCase
+Parameter '_when' of FreezingToken.transferAndFreeze (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#359) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#404) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#404) is not in mixedCase
+Parameter '_migrationAgent' of MigratableToken.setMigrationAgent (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#425) is not in mixedCase
+Parameter '_holder' of MigratableToken.migrateInternal (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#429) is not in mixedCase
+Parameter '_holders' of MigratableToken.migrateAll (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#449) is not in mixedCase
+Parameter '_beneficiary' of BurnableToken.burn (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#460) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#460) is not in mixedCase
+Parameter '_beneficiary' of UnburnableListToken.burn (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#501-503) is not in mixedCase
+Parameter '_value' of UnburnableListToken.burn (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#503) is not in mixedCase
+Parameter '_to' of UnburnableListToken.grantToSetUnburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#476) is not in mixedCase
+Parameter '_wallet' of UnburnableListToken.setUnburnableWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#486-487) is not in mixedCase
+Parameter '_to' of Token.transferToContract (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#553) is not in mixedCase
+Parameter '_value' of Token.transferToContract (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#553) is not in mixedCase
+Parameter '_data' of Token.transferToContract (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#554) is not in mixedCase
+Parameter '_contract' of Token.grantToAllowBlocking (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#571) is not in mixedCase
+Parameter '_owner' of Token.allowBlocking (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#581) is not in mixedCase
+Parameter '_contract' of Token.allowBlocking (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#582) is not in mixedCase
+Parameter '_blocking' of Token.blockTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#593-594) is not in mixedCase
+Parameter '_value' of Token.blockTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#594) is not in mixedCase
+Parameter '_blocking' of Token.unblockTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#610) is not in mixedCase
+Parameter '_unblockTo' of Token.unblockTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#610-613) is not in mixedCase
+Parameter '_value' of Token.unblockTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#614-615) is not in mixedCase
+Function 'RefundVault.RefundVault' (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#647-649) is not in mixedCase
+Parameter '_wallet1' of RefundVault.close (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#663-664) is not in mixedCase
+Parameter '_wallet2' of RefundVault.close (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#664) is not in mixedCase
+Parameter '_feesValue' of RefundVault.close (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#664) is not in mixedCase
+Parameter '_wallet' of RefundVault.del (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#713) is not in mixedCase
+Function 'PeriodicAllocation.PeriodicAllocation' (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#727-728) is not in mixedCase
+Parameter '_token' of PeriodicAllocation.PeriodicAllocation (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#728) is not in mixedCase
+Parameter '_unlockStart' of PeriodicAllocation.setUnlockStart (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#729) is not in mixedCase
+Parameter '_beneficiary' of PeriodicAllocation.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#733) is not in mixedCase
+Parameter '_proportion' of PeriodicAllocation.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#733) is not in mixedCase
+Parameter '_periods' of PeriodicAllocation.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#733) is not in mixedCase
+Parameter '_periodLength' of PeriodicAllocation.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#733-734) is not in mixedCase
+Parameter '_owner' of PeriodicAllocation.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#742-743) is not in mixedCase
+Function 'AllocationQueue.AllocationQueue' (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#787-788) is not in mixedCase
+Parameter '_token' of AllocationQueue.AllocationQueue (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#787) is not in mixedCase
+Parameter '_date' of AllocationQueue.groupDates (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#798-800) is not in mixedCase
+Parameter '_beneficiary' of AllocationQueue.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#861-864) is not in mixedCase
+Parameter '_tokens' of AllocationQueue.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#864) is not in mixedCase
+Parameter '_freezeTime' of AllocationQueue.addShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#864) is not in mixedCase
+Parameter '_owner' of AllocationQueue.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#881) is not in mixedCase
+Parameter '_date' of AllocationQueue.unlockFor (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#881) is not in mixedCase
+Parameter '_owner' of AllocationQueue.getShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#891-893) is not in mixedCase
+Parameter '_date' of AllocationQueue.getShare (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#893) is not in mixedCase
+Parameter '_token' of Creator.createPeriodicAllocation (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#909) is not in mixedCase
+Parameter '_token' of Creator.createAllocationQueue (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#913) is not in mixedCase
+Function 'Crowdsale.Crowdsale' (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1087-1088) is not in mixedCase
+Parameter '_creator' of Crowdsale.Crowdsale (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1087) is not in mixedCase
+Parameter '_amount' of Crowdsale.privateMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1149) is not in mixedCase
+Parameter '_startTime' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1393) is not in mixedCase
+Parameter '_softCap' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1393-1395) is not in mixedCase
+Parameter '_hardCap' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1396) is not in mixedCase
+Parameter '_rate' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1396) is not in mixedCase
+Parameter '_exchange' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1396) is not in mixedCase
+Parameter '_maxAllProfit' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1397) is not in mixedCase
+Parameter '_overLimit' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1397) is not in mixedCase
+Parameter '_minPay' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1397) is not in mixedCase
+Parameter '_durationTB' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1398) is not in mixedCase
+Parameter '_percentTB' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1398-1399) is not in mixedCase
+Parameter '_valueVB' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1399-1401) is not in mixedCase
+Parameter '_percentVB' of Crowdsale.setup (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1401) is not in mixedCase
+Parameter '_timeNow' of Crowdsale.getProfitPercentForData (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1440) is not in mixedCase
+Parameter '_value' of Crowdsale.getBonuses (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1448) is not in mixedCase
+Parameter '_migrationAgent' of Crowdsale.moveTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1519-1520) is not in mixedCase
+Parameter '_holders' of Crowdsale.migrateAll (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1526-1527) is not in mixedCase
+Parameter '_role' of Crowdsale.changeWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1542-1543) is not in mixedCase
+Parameter '_wallet' of Crowdsale.changeWallet (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1543) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.massBurnTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1568) is not in mixedCase
+Parameter '_value' of Crowdsale.massBurnTokens (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1568) is not in mixedCase
+Parameter '_token' of Crowdsale.paymentsInOtherCurrency (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1669) is not in mixedCase
+Parameter '_value' of Crowdsale.paymentsInOtherCurrency (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1669) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.queueMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1677) is not in mixedCase
+Parameter '_value' of Crowdsale.queueMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1678-1680) is not in mixedCase
+Parameter '_freezeTime' of Crowdsale.queueMint (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#1680) is not in mixedCase
+Variable 'Crowdsale.TokenSale' (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#938) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+Crowdsale.ROUND_PROLONGATE (/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol#936) is never used in Crowdsale
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/17/0x2690402e8d303c1ca4eceff9e17c85dd7383ef47.sol analyzed (21 contracts), 197 result(s) found

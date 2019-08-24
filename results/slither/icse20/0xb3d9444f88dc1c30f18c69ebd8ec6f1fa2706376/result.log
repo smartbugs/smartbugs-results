@@ -1,0 +1,271 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:74:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewSymbol(currency);
+        ^-----------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1064:5: Warning: Functions in interfaces should be declared external.
+    function createLoan(address _oracleContract, address _borrower, bytes32 _currency, uint256 _amount, uint256 _interestRate,
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1066:5: Warning: Functions in interfaces should be declared external.
+    function getIdentifier(uint256 index) public view returns (bytes32);
+    ^------------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1067:5: Warning: Functions in interfaces should be declared external.
+    function registerApprove(bytes32 identifier, uint8 v, bytes32 r, bytes32 s) public returns (bool);
+    ^------------------------------------------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1068:5: Warning: Functions in interfaces should be declared external.
+    function pay(uint index, uint256 _amount, address _from, bytes oracleData) public returns (bool);
+    ^-----------------------------------------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1069:5: Warning: Functions in interfaces should be declared external.
+    function rcn() public view returns (Token);
+    ^-----------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1070:5: Warning: Functions in interfaces should be declared external.
+    function getOracle(uint256 index) public view returns (Oracle);
+    ^-------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1071:5: Warning: Functions in interfaces should be declared external.
+    function getAmount(uint256 index) public view returns (uint256);
+    ^--------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1072:5: Warning: Functions in interfaces should be declared external.
+    function getCurrency(uint256 index) public view returns (bytes32);
+    ^----------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1073:5: Warning: Functions in interfaces should be declared external.
+    function convertRate(Oracle oracle, bytes32 currency, bytes data, uint256 amount) public view returns (uint256);
+    ^--------------------------------------------------------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1074:5: Warning: Functions in interfaces should be declared external.
+    function lend(uint index, bytes oracleData, Cosigner cosigner, bytes cosignerData) public returns (bool);
+    ^-------------------------------------------------------------------------------------------------------^
+/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol:1075:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address to, uint256 index) public returns (bool);
+    ^-----------------------------------------------------------------^
+
+INFO:Detectors:[91m
+MortgageHelper.pay (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol) uses delegatecall to a input-controlled function id
+	require(bool,string)(address(converterRamp).delegatecall(bytes4(0x86ee863d),address(tokenConverter),address(mana),loanParams,0x140,converterParams,0x0),Error delegate pay call) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#controlled-delegatecall[0m
+INFO:Detectors:[93m
+Oracle.encodeCurrency (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#84-93) is declared view but contains assembly code
+Oracle.decodeCurrency (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#94-111) is declared view but contains assembly code
+BytesUtils.readBytes32 (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#229-233) is declared view but contains assembly code
+ERC721Base._isContract (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#618-620) is declared view but contains assembly code
+MortgageManager.getData (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1048-1055) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ERC721Base (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#254-620) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#394-410)
+	-transferFrom (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#549-556)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in MortgageManager.claim (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#958-1005):
+	External calls:
+	- mortgage.engine.getStatus(loanId) == Engine.Status.paid || mortgage.engine.getStatus(loanId) == Engine.Status.destroyed (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#967-998)
+	State variables written after the call(s):
+	- mortgages (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#980-982)
+Reentrancy in MortgageManager.claim (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#958-1005):
+	External calls:
+	- isDefaulted(mortgage.engine,loanId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#987-998)
+	- require(bool,string)(msg.sender == mortgage.engine.ownerOf(loanId),Sender not lender) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#989-993)
+	State variables written after the call(s):
+	- mortgages (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#993)
+Reentrancy in MortgageManager.claim (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#958-1005):
+	External calls:
+	- mortgage.engine.getStatus(loanId) == Engine.Status.paid || mortgage.engine.getStatus(loanId) == Engine.Status.destroyed (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#967-998)
+	- land.safeTransferFrom(this,msg.sender,mortgage.landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#983-985)
+	- isDefaulted(mortgage.engine,loanId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#987-998)
+	- require(bool,string)(msg.sender == mortgage.engine.ownerOf(loanId),Sender not lender) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#989-993)
+	- land.safeTransferFrom(this,msg.sender,mortgage.landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#995)
+	State variables written after the call(s):
+	- _holderOf (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#998)
+Reentrancy in MortgageManager.requestMortgageId (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#776-837):
+	External calls:
+	- require(bool,string)(engine.getCurrency(loanId) == MANA_CURRENCY,Loan currency is not MANA) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#778-781)
+	- borrower = engine.getBorrower(loanId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#782)
+	- require(bool,string)(engine.getStatus(loanId) == Engine.Status.initial,Loan status is not inital) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#783-785)
+	- require(bool,string)(msg.sender == engine.getBorrower(loanId) || (msg.sender == engine.getCreator(loanId) && creators[msg.sender]),Creator should be borrower or authorized) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#785-789)
+	- require(bool,string)(engine.isApproved(loanId),Loan is not approved) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#789-790)
+	- require(bool,string)(rcn.allowance(borrower,this) >= REQUIRED_ALLOWANCE,Manager cannot handle borrower's funds) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#790-794)
+	- (None,None,landCost,None) = landMarket.auctionByAssetId(landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#802-804)
+	- loanAmount = engine.getAmount(loanId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#806-807)
+	- require(bool,string)(mana.transferFrom(msg.sender,this,deposit),Error pulling mana) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#819-820)
+	State variables written after the call(s):
+	- loanToLiability (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#829)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in MortgageManager.claim (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#958-1005):
+	External calls:
+	- mortgage.engine.getStatus(loanId) == Engine.Status.paid || mortgage.engine.getStatus(loanId) == Engine.Status.destroyed (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#967-998)
+	- land.safeTransferFrom(this,msg.sender,mortgage.landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#983-985)
+	- isDefaulted(mortgage.engine,loanId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#987-998)
+	- require(bool,string)(msg.sender == mortgage.engine.ownerOf(loanId),Sender not lender) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#989-993)
+	- land.safeTransferFrom(this,msg.sender,mortgage.landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#995)
+	State variables written after the call(s):
+	- _assetsOf (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#998)
+	- _count (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#998)
+	- _indexOfAsset (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#998)
+	- mortgageByLandId (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1003)
+Reentrancy in MortgageManager.requestCosign (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#869-933):
+	External calls:
+	- loanAmount = convertRate(engine.getOracle(index),engine.getCurrency(index),oracleData,engine.getAmount(index)) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#885-887)
+	- require(bool,string)(rcn.transferFrom(mortgage.owner,this,loanAmount),Error pulling RCN from borrower) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#887-889)
+	- boughtMana = convertSafe(mortgage.tokenConverter,rcn,mana,loanAmount) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#891-892)
+	- (None,None,currentLandCost,None) = landMarket.auctionByAssetId(mortgage.landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#896)
+	- require(bool)(mana.approve(landMarket,currentLandCost)) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#901-902)
+	State variables written after the call(s):
+	- flagReceiveLand (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#902-904)
+Reentrancy in MortgageManager.requestCosign (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#869-933):
+	External calls:
+	- loanAmount = convertRate(engine.getOracle(index),engine.getCurrency(index),oracleData,engine.getAmount(index)) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#885-887)
+	- require(bool,string)(rcn.transferFrom(mortgage.owner,this,loanAmount),Error pulling RCN from borrower) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#887-889)
+	- boughtMana = convertSafe(mortgage.tokenConverter,rcn,mana,loanAmount) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#891-892)
+	- (None,None,currentLandCost,None) = landMarket.auctionByAssetId(mortgage.landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#896)
+	- require(bool)(mana.approve(landMarket,currentLandCost)) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#901-902)
+	- landMarket.executeOrder(mortgage.landId,currentLandCost) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#904-905)
+	- require(bool)(mana.approve(landMarket,0)) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#905-908)
+	- require(bool,string)(land.ownerOf(mortgage.landId) == address(this),Error buying parcel) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#912-913)
+	- require(bool,string)(mana.transfer(mortgage.owner,totalMana.sub(currentLandCost)),Error returning MANA) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#922-925)
+	- require(bool,string)(mortgage.engine.cosign(index,0),Error performing cosign) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#926-927)
+	State variables written after the call(s):
+	- mortgageByLandId (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#928-929)
+Reentrancy in MortgageManager.requestMortgageId (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#776-837):
+	External calls:
+	- require(bool,string)(engine.getCurrency(loanId) == MANA_CURRENCY,Loan currency is not MANA) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#778-781)
+	- borrower = engine.getBorrower(loanId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#782)
+	- require(bool,string)(engine.getStatus(loanId) == Engine.Status.initial,Loan status is not inital) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#783-785)
+	- require(bool,string)(msg.sender == engine.getBorrower(loanId) || (msg.sender == engine.getCreator(loanId) && creators[msg.sender]),Creator should be borrower or authorized) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#785-789)
+	- require(bool,string)(engine.isApproved(loanId),Loan is not approved) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#789-790)
+	- require(bool,string)(rcn.allowance(borrower,this) >= REQUIRED_ALLOWANCE,Manager cannot handle borrower's funds) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#790-794)
+	- (None,None,landCost,None) = landMarket.auctionByAssetId(landId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#802-804)
+	- loanAmount = engine.getAmount(loanId) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#806-807)
+	- require(bool,string)(mana.transferFrom(msg.sender,this,deposit),Error pulling mana) (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#819-820)
+	State variables written after the call(s):
+	- mortgages (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#821-828)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+MortgageManager.isDefaulted (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1009-1017) uses timestamp for comparisons
+	Dangerous comparisons:
+	- engine.getStatus(index) == Engine.Status.lent && engine.getDueTime(index).add(604800) <= block.timestamp (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1010-1017)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Oracle.encodeCurrency uses assembly (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#84-93)
+	- /unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#91-93
+Oracle.decodeCurrency uses assembly (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#94-111)
+	- /unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#99-111
+BytesUtils.readBytes32 uses assembly (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#229-233)
+	- /unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#233
+ERC721Base._isContract uses assembly (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#618-620)
+	- /unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#619-620
+MortgageManager.getData uses assembly (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1048-1055)
+	- /unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1048-1055
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Engine.VERSION should be constant (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#111-112)
+Engine.VERSION_NAME should be constant (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#113-114)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Token.transfer (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#4-5) should be declared external
+Token.transferFrom (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#5-6) should be declared external
+Token.allowance (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#6-7) should be declared external
+Token.approve (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#7-8) should be declared external
+Token.increaseApproval (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#8-9) should be declared external
+Token.balanceOf (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#9-13) should be declared external
+Ownable.transferTo (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#30-39) should be declared external
+Oracle.url (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#58) should be declared external
+Oracle.getRate (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#63-66) should be declared external
+Oracle.addCurrency (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#73-83) should be declared external
+Oracle.decodeCurrency (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#94-111) should be declared external
+Engine.getTotalLoans (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#119-120) should be declared external
+Engine.getOracle (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#120-121) should be declared external
+Engine.getBorrower (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#121-122) should be declared external
+Engine.getCosigner (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#122-123) should be declared external
+Engine.ownerOf (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#123-124) should be declared external
+Engine.getCreator (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#124-125) should be declared external
+Engine.getAmount (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#125-126) should be declared external
+Engine.getPaid (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#126-127) should be declared external
+Engine.getDueTime (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#127-128) should be declared external
+Engine.getApprobation (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#128-129) should be declared external
+Engine.getStatus (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#130) should be declared external
+Engine.isApproved (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#131) should be declared external
+Engine.getPendingAmount (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#131-132) should be declared external
+Engine.getCurrency (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#132-133) should be declared external
+Engine.approveLoan (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#135) should be declared external
+Engine.transfer (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#136) should be declared external
+Engine.takeOwnership (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#136-137) should be declared external
+Engine.withdrawal (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#137-142) should be declared external
+Engine.identifierToIndex (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#142-144) should be declared external
+Cosigner.requestCosign (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#179-182) should be declared external
+MortgageManager.requestCosign (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#869-933) should be declared external
+LandMarket.executeOrder (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#627-629) should be declared external
+Land.updateLandData (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#629-631) should be declared external
+Land.decodeTokenId (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#631) should be declared external
+Land.safeTransferFrom (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#631-633) should be declared external
+Land.ownerOf (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#633-636) should be declared external
+MortgageManager.name (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#656-660) should be declared external
+MortgageManager.symbol (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#660-663) should be declared external
+MortgageManager.getData (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1048-1055) should be declared external
+NanoLoanEngine.createLoan (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1075-1085) should be declared external
+NanoLoanEngine.getIdentifier (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1085-1088) should be declared external
+NanoLoanEngine.registerApprove (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1088-1092) should be declared external
+NanoLoanEngine.pay (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1092-1095) should be declared external
+NanoLoanEngine.rcn (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1095-1096) should be declared external
+NanoLoanEngine.getOracle (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1097-1099) should be declared external
+NanoLoanEngine.getAmount (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1099) should be declared external
+NanoLoanEngine.getCurrency (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1099-1101) should be declared external
+NanoLoanEngine.convertRate (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1101-1103) should be declared external
+NanoLoanEngine.lend (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1103-1105) should be declared external
+NanoLoanEngine.transfer (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1105-1106) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in MortgageHelper.pay (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol):
+	-require(bool,string)(address(converterRamp).delegatecall(bytes4(0x86ee863d),address(tokenConverter),address(mana),loanParams,0x140,converterParams,0x0),Error delegate pay call) /unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_to' of Ownable.transferTo (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#30) is not in mixedCase
+Parameter '' of Engine.ownerOf (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#124) is not in mixedCase
+Variable 'Engine.VERSION' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#111-112) is not in mixedCase
+Variable 'Engine.VERSION_NAME' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#113-114) is not in mixedCase
+Function 'ERC721Base._totalSupply' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#283-285) is not in mixedCase
+Function 'ERC721Base._ownerOf' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#300-302) is not in mixedCase
+Function 'ERC721Base._balanceOf' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#315-317) is not in mixedCase
+Function 'ERC721Base._isApprovedForAll' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#333-336) is not in mixedCase
+Function 'ERC721Base._getApprovedAddress' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#346-348) is not in mixedCase
+Function 'ERC721Base._isAuthorized' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#358-371) is not in mixedCase
+Function 'ERC721Base._setApprovalForAll' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#383-390) is not in mixedCase
+Function 'ERC721Base._addAuthorization' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#412-418) is not in mixedCase
+Function 'ERC721Base._clearAuthorization' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#418-422) is not in mixedCase
+Function 'ERC721Base._addAssetTo' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#423-429) is not in mixedCase
+Function 'ERC721Base._removeAssetFrom' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#429-461) is not in mixedCase
+Function 'ERC721Base._clearApproval' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#463-472) is not in mixedCase
+Function 'ERC721Base._generate' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#476-485) is not in mixedCase
+Function 'ERC721Base._destroy' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#485-495) is not in mixedCase
+Function 'ERC721Base._doTransferFrom' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#556-562) is not in mixedCase
+Function 'ERC721Base._moveToken' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#562-590) is not in mixedCase
+Parameter '_interfaceID' of ERC721Base.supportsInterface (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#607) is not in mixedCase
+Function 'ERC721Base._isContract' (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#618-620) is not in mixedCase
+Parameter '' of MortgageManager.cost (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#742-743) is not in mixedCase
+Parameter '_scope_0' of MortgageManager.cost (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#743) is not in mixedCase
+Parameter '_scope_1' of MortgageManager.cost (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#743) is not in mixedCase
+Parameter '_scope_2' of MortgageManager.cost (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#743) is not in mixedCase
+Parameter '' of MortgageManager.claim (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#960) is not in mixedCase
+Parameter '_rcn' of MortgageManager. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#691) is not in mixedCase
+Parameter '_mana' of MortgageManager. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#691) is not in mixedCase
+Parameter '_land' of MortgageManager. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#691) is not in mixedCase
+Parameter '_landMarket' of MortgageManager. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#691-692) is not in mixedCase
+Parameter '_tokenId' of MortgageManager.onERC721Received (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1021-1022) is not in mixedCase
+Parameter '' of MortgageManager.onERC721Received (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1022) is not in mixedCase
+Parameter '_scope_0' of MortgageManager.onERC721Received (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1022) is not in mixedCase
+Parameter '' of MortgageManager.onERC721Received (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1037-1038) is not in mixedCase
+Parameter '_tokenId' of MortgageManager.onERC721Received (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1038-1039) is not in mixedCase
+Parameter '_scope_0' of MortgageManager.onERC721Received (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1039) is not in mixedCase
+Parameter '_mortgageManager' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1148) is not in mixedCase
+Parameter '_nanoLoanEngine' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1148-1149) is not in mixedCase
+Parameter '_rcn' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1149-1150) is not in mixedCase
+Parameter '_mana' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1150) is not in mixedCase
+Parameter '_landMarket' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1151-1152) is not in mixedCase
+Parameter '_manaOracle' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1152-1153) is not in mixedCase
+Parameter '_tokenConverter' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1153-1155) is not in mixedCase
+Parameter '_converterRamp' of MortgageHelper. (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1155-1156) is not in mixedCase
+Parameter '_maxSpend' of MortgageHelper.setMaxSpend (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1203-1204) is not in mixedCase
+Parameter '_requiredTotal' of MortgageHelper.setRequiredTotal (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1214-1215) is not in mixedCase
+Parameter '_converterRamp' of MortgageHelper.setConverterRamp (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1227) is not in mixedCase
+Parameter '_rebuyThreshold' of MortgageHelper.setRebuyThreshold (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1239) is not in mixedCase
+Parameter '_marginSpend' of MortgageHelper.setMarginSpend (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1250) is not in mixedCase
+Parameter '_tokenConverter' of MortgageHelper.setTokenConverter (/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol#1266) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/26/0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376.sol analyzed (16 contracts), 125 result(s) found

@@ -1,0 +1,225 @@
+{
+  "contract": "0x4e9992c9b97873a39e264832972f29ce672ebaf1",
+  "tool": "smartcheck",
+  "start": 1563808289.172454,
+  "end": 1563808300.5594437,
+  "duration": 11.38698959350586,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 8,
+      "column": 2,
+      "content": "functionmul(uint256a,uint256b)internalconstantreturns(uint256){uint256c=a*b;assert(a==0||c/a==b);returnc;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 14,
+      "column": 2,
+      "content": "functiondiv(uint256a,uint256b)internalconstantreturns(uint256){uint256c=a/b;returnc;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 21,
+      "column": 2,
+      "content": "functionsub(uint256a,uint256b)internalconstantreturns(uint256){assert(b<=a);returna-b;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 26,
+      "column": 2,
+      "content": "functionadd(uint256a,uint256b)internalconstantreturns(uint256){uint256c=a+b;assert(c>=a);returnc;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 199,
+      "column": 4,
+      "content": "functionisPreWhiteListed(bytes32id)externalconstantreturns(bool){require(id!=0&&investorsList[id].id!=0);returninvestorsList[id].whiteListStatus==WhiteListStatus.PreWhiteList;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 375,
+      "column": 4,
+      "content": "functioncalculateBonus(bytes32id,uinttokensCount)publicconstantreturns(uint){if(now<(startDate.add(whiteListPreSaleDuration))){require(tokensCount>=3000*tokenDecimals);if(investors.isPreWhiteListed(id)){returntokensCount.mul(35).div(100);}returntokensCount.mul(25).div(100);}uintday=((now.sub(startDate.add(whiteListPreSaleDuration))).div(1days)).add(1);uintB1;uintB2;if(tokensCount<uint(1000).mul(tokenDecimals)){B1=(((tokensCount-100*tokenDecimals)*(firstColumn[1]-firstColumn[0]))/((1000-100)*tokenDecimals))+firstColumn[0];B2=(((tokensCount-100*tokenDecimals)*(secondColumn[1]-secondColumn[0]))/((1000-100)*tokenDecimals))+secondColumn[0];}if(tokensCount>=uint(1000).mul(tokenDecimals)&&tokensCount<uint(10000).mul(tokenDecimals)){B1=(((tokensCount-1000*tokenDecimals)*(firstColumn[2]-firstColumn[1]))/((10000-1000)*tokenDecimals))+firstColumn[1];B2=(((tokensCount-1000*tokenDecimals)*(secondColumn[2]-secondColumn[1]))/((10000-1000)*tokenDecimals))+secondColumn[1];}if(tokensCount>=uint(10000).mul(tokenDecimals)&&tokensCount<uint(50000).mul(tokenDecimals)){B1=(((tokensCount-10000*tokenDecimals)*(firstColumn[3]-firstColumn[2]))/((50000-10000)*tokenDecimals))+firstColumn[2];B2=(((tokensCount-10000*tokenDecimals)*(secondColumn[3]-secondColumn[2]))/((50000-10000)*tokenDecimals))+secondColumn[2];}if(tokensCount>=uint(50000).mul(tokenDecimals)){B1=firstColumn[3];B2=secondColumn[3];}uintbonusPercent=B1.sub(((day-1).mul(B1-B2)).div(12));returncalculateBonusTokensAmount(tokensCount,bonusPercent);}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 415,
+      "column": 4,
+      "content": "functioncalculateBonusTokensAmount(uinttokensCount,uintbonusPercent)privateconstantreturns(uint){uintbonus=tokensCount.mul(bonusPercent);bonus=bonus.div(100);bonus=bonus.div(fiatValueMultiplier);returnbonus;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 235,
+      "column": 0,
+      "content": "contractBonumFinancialTokenPreSaleisPausable{usingSafeMathforuint;stringpublicconstantname=\"Bonum Financial Token PreSale\";uintpublicstartDate;uintpublicendDate;uintpublicwhiteListPreSaleDuration=1days;functionsetWhiteListDuration(uintduration)externalonlyOwner{require(duration>0);whiteListPreSaleDuration=duration*1days;}uintpublicfiatValueMultiplier=10**6;uintpublictokenDecimals=10**18;InvestorsListpublicinvestors;addressbeneficiary;uintpublicethUsdRate;uintpubliccollected=0;uintpublictokensSold=0;uintpublictokensSoldWithBonus=0;uint[]firstColumn;uint[]secondColumn;eventNewContribution(addressindexedholder,uinttokenAmount,uintetherAmount);functionBonumFinancialTokenPreSale(uint_startDate,uint_endDate,address_investors,address_beneficiary,uint_baseEthUsdRate)public{startDate=_startDate;endDate=_endDate;investors=InvestorsList(_investors);beneficiary=_beneficiary;ethUsdRate=_baseEthUsdRate;initBonusSystem();}functioninitBonusSystem()private{firstColumn.push(1750000);firstColumn.push(10360000);firstColumn.push(18980000);firstColumn.push(25000000);secondColumn.push(1560000);secondColumn.push(9220000);secondColumn.push(16880000);secondColumn.push(22230000);}functionsetNewBeneficiary(addressnewBeneficiary)externalonlyOwner{require(newBeneficiary!=0x0);beneficiary=newBeneficiary;}functionsetEthUsdRate(uintrate)externalonlyOwner{require(rate>0);ethUsdRate=rate;}functionsetNewStartDate(uintnewStartDate)externalonlyOwner{require(newStartDate>0);startDate=newStartDate;}functionsetNewEndDate(uintnewEndDate)externalonlyOwner{require(newEndDate>0);endDate=newEndDate;}functionsetNewInvestorsList(addressinvestorsList)externalonlyOwner{require(investorsList!=0x0);investors=InvestorsList(investorsList);}modifieractivePreSale(){require(now>=startDate&&now<endDate);_;}modifierunderCap(){require(tokensSold<uint(750000).mul(tokenDecimals));_;}modifierisAllowedToBuy(){require(investors.isAllowedToBuyByAddressWithoutVerification(msg.sender));_;}modifierminimumAmount(){require(msg.value.mul(ethUsdRate).div(fiatValueMultiplier.mul(1ether))>=100);_;}function()payablepublicwhenNotPausedactivePreSaleminimumAmountunderCapisAllowedToBuy{bytes32id=investors.nativeInvestorsIds(msg.sender);uinttokens=msg.value.mul(ethUsdRate).div(fiatValueMultiplier);tokensSold=tokensSold.add(tokens);tokens=tokens.add(calculateBonus(id,tokens));tokensSoldWithBonus=tokensSoldWithBonus.add(tokens);NewContribution(msg.sender,tokens,msg.value);collected=collected.add(msg.value);investors.addTokens(id,tokens);beneficiary.transfer(msg.value);}functionotherCoinsPurchase(bytes32id,uintamountInUsd)externalwhenNotPausedunderCapactivePreSaleonlyOwner{require(id.length>0&&amountInUsd>=(uint(100).mul(fiatValueMultiplier))&&investors.isAllowedToBuy(id));uinttokens=amountInUsd.mul(tokenDecimals).div(fiatValueMultiplier);tokensSold=tokensSold.add(tokens);tokens=tokens.add(calculateBonus(id,tokens));tokensSoldWithBonus=tokensSoldWithBonus.add(tokens);investors.addTokens(id,tokens);}functioncalculateBonus(bytes32id,uinttokensCount)publicconstantreturns(uint){if(now<(startDate.add(whiteListPreSaleDuration))){require(tokensCount>=3000*tokenDecimals);if(investors.isPreWhiteListed(id)){returntokensCount.mul(35).div(100);}returntokensCount.mul(25).div(100);}uintday=((now.sub(startDate.add(whiteListPreSaleDuration))).div(1days)).add(1);uintB1;uintB2;if(tokensCount<uint(1000).mul(tokenDecimals)){B1=(((tokensCount-100*tokenDecimals)*(firstColumn[1]-firstColumn[0]))/((1000-100)*tokenDecimals))+firstColumn[0];B2=(((tokensCount-100*tokenDecimals)*(secondColumn[1]-secondColumn[0]))/((1000-100)*tokenDecimals))+secondColumn[0];}if(tokensCount>=uint(1000).mul(tokenDecimals)&&tokensCount<uint(10000).mul(tokenDecimals)){B1=(((tokensCount-1000*tokenDecimals)*(firstColumn[2]-firstColumn[1]))/((10000-1000)*tokenDecimals))+firstColumn[1];B2=(((tokensCount-1000*tokenDecimals)*(secondColumn[2]-secondColumn[1]))/((10000-1000)*tokenDecimals))+secondColumn[1];}if(tokensCount>=uint(10000).mul(tokenDecimals)&&tokensCount<uint(50000).mul(tokenDecimals)){B1=(((tokensCount-10000*tokenDecimals)*(firstColumn[3]-firstColumn[2]))/((50000-10000)*tokenDecimals))+firstColumn[2];B2=(((tokensCount-10000*tokenDecimals)*(secondColumn[3]-secondColumn[2]))/((50000-10000)*tokenDecimals))+secondColumn[2];}if(tokensCount>=uint(50000).mul(tokenDecimals)){B1=firstColumn[3];B2=secondColumn[3];}uintbonusPercent=B1.sub(((day-1).mul(B1-B2)).div(12));returncalculateBonusTokensAmount(tokensCount,bonusPercent);}functioncalculateBonusTokensAmount(uinttokensCount,uintbonusPercent)privateconstantreturns(uint){uintbonus=tokensCount.mul(bonusPercent);bonus=bonus.div(100);bonus=bonus.div(fiatValueMultiplier);returnbonus;}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 156,
+      "column": 4,
+      "content": "functionsetInvestorId(addressinvestorAddress,bytes32id)externalonlyOwner{require(investorAddress!=0x0&&id!=0);nativeInvestorsIds[investorAddress]=id;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 209,
+      "column": 4,
+      "content": "functionsetVerificationStatus(bytes32id,boolstatus)externalonlyOwner{require(id!=0&&investorsList[id].id!=0);investorsList[id].isVerified=status;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 214,
+      "column": 4,
+      "content": "functionsetWhiteListStatus(bytes32id,WhiteListStatusstatus)externalonlyOwner{require(id!=0&&investorsList[id].id!=0);investorsList[id].whiteListStatus=status;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 229,
+      "column": 4,
+      "content": "functionsetWalletForTokens(bytes32id,addresswallet)externalonlyOwner{require(id!=0&&investorsList[id].id!=0);investorsList[id].walletForTokens=wallet;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 244,
+      "column": 4,
+      "content": "functionsetWhiteListDuration(uintduration)externalonlyOwner{require(duration>0);whiteListPreSaleDuration=duration*1days;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 297,
+      "column": 4,
+      "content": "functionsetNewBeneficiary(addressnewBeneficiary)externalonlyOwner{require(newBeneficiary!=0x0);beneficiary=newBeneficiary;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 302,
+      "column": 4,
+      "content": "functionsetEthUsdRate(uintrate)externalonlyOwner{require(rate>0);ethUsdRate=rate;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 307,
+      "column": 4,
+      "content": "functionsetNewStartDate(uintnewStartDate)externalonlyOwner{require(newStartDate>0);startDate=newStartDate;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 312,
+      "column": 4,
+      "content": "functionsetNewEndDate(uintnewEndDate)externalonlyOwner{require(newEndDate>0);endDate=newEndDate;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 317,
+      "column": 4,
+      "content": "functionsetNewInvestorsList(addressinvestorsList)externalonlyOwner{require(investorsList!=0x0);investors=InvestorsList(investorsList);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 122,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 236,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 343,
+      "column": 23,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 51,
+      "column": 2,
+      "content": "functionOwnable(){owner=msg.sender;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 138,
+      "column": 4,
+      "content": "mapping(address=>bool)manipulators;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 254,
+      "column": 4,
+      "content": "addressbeneficiary;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 261,
+      "column": 4,
+      "content": "uint[]firstColumn;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 262,
+      "column": 4,
+      "content": "uint[]secondColumn;"
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol:
+/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol:250:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(_token.call(bytes4(keccak256("name()"))));
+                ^--------------------------------------^
+/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol:257:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(_token.call(bytes4(keccak256("symbol()"))));
+                ^----------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in ERC1003Token.approveAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#508-517):
+	External calls:
+	- require(bool)(caller_.makeCall.value(msg.value)(_to,_data)) (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#512-513)
+	State variables written after the call(s):
+	- sendersStack_ (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#513)
+Reentrancy in BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#645-656):
+	External calls:
+	- prevBalance = _token.balanceOf(this) (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#650)
+	- require(bool,string)(caller_.makeCall.value(msg.value)(_target,_data),lend: arbitrary call failed) (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#654-655)
+	External calls sending eth:
+	- require(bool,string)(caller_.makeCall.value(msg.value)(_target,_data),lend: arbitrary call failed) (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#654-655)
+	State variables written after the call(s):
+	- inLendingMode (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#655)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+CheckedERC20.isContract (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#168-175) is declared view but contains assembly code
+CheckedERC20.handleReturnBool (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#175-192) is declared view but contains assembly code
+CheckedERC20.handleReturnBytes32 (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#192-209) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+CheckedERC20.checkedTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#233-240) uses a dangerous strict equality:
+	- require(bool,string)(_token.balanceOf(this) == balance.sub(_value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#233-240) uses a dangerous strict equality:
+	- require(bool,string)(_token.balanceOf(this) == balance.sub(_value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#241-251) uses a dangerous strict equality:
+	- require(bool,string)(_token.balanceOf(_to) == toBalance.add(_value),checkedTransfer: Final balance didn't match)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#645-656) does not use the value returned by external calls:
+	-_token.asmTransfer(_to,_amount) (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#650-652)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+BasicMultiToken.unbundleSome.totalSupply (local variable @ /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#592) shadows:
+	- BasicToken.totalSupply (function @ /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#322-325)
+	- ERC20Basic.totalSupply (function @ /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#82-83)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#645-656):
+	External calls:
+	- prevBalance = _token.balanceOf(this) (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#650)
+	State variables written after the call(s):
+	- inLendingMode (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#654)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CheckedERC20.isContract uses assembly (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#168-175)
+	- /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#173-175
+CheckedERC20.handleReturnBool uses assembly (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#175-192)
+	- /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#180-192
+CheckedERC20.handleReturnBytes32 uses assembly (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#192-209)
+	- /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#196-209
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#43-49) should be declared external
+Ownable.transferOwnership (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#52-57) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#82-83) should be declared external
+BasicToken.totalSupply (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#322-325) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#83-84) should be declared external
+BasicToken.balanceOf (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#349-351) should be declared external
+ERC20.allowance (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#97-98) should be declared external
+StandardToken.allowance (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#417-420) should be declared external
+IBasicMultiToken.tokensCount (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#275-276) should be declared external
+BasicMultiToken.tokensCount (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#566-567) should be declared external
+IBasicMultiToken.bundleFirstTokens (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#276-279) should be declared external
+BasicMultiToken.bundleFirstTokens (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#567-574) should be declared external
+IBasicMultiToken.bundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#279-282) should be declared external
+BasicMultiToken.bundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#575-585) should be declared external
+BasicMultiToken.unbundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#585-589) should be declared external
+IBasicMultiToken.unbundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#282-285) should be declared external
+BasicMultiToken.disableBundling (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#614-617) should be declared external
+IBasicMultiToken.disableBundling (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#286) should be declared external
+BasicMultiToken.enableBundling (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#617-622) should be declared external
+IBasicMultiToken.enableBundling (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#287-288) should be declared external
+IMultiToken.disableChanges (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#305-307) should be declared external
+MultiToken.disableChanges (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#716-720) should be declared external
+StandardToken.increaseApproval (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#437-442) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#463-476) should be declared external
+ERC1003Token.approveAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#508-517) should be declared external
+ERC1003Token.transferAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#517-523) should be declared external
+MultiToken.init2 (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#676-681) should be declared external
+FeeMultiToken.setLendFee (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#731-734) should be declared external
+FeeMultiToken.setChangeFee (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#734-738) should be declared external
+FeeMultiToken.setRefferalFee (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#738-740) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in CheckedERC20.asmTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#209-215):
+	-require(bool)(_token.call(bytes4(keccak256()(transfer(address,uint256))),_to,_value)) /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#213-215
+Low level call in CheckedERC20.asmTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#216-223):
+	-require(bool)(_token.call(bytes4(keccak256()(transferFrom(address,address,uint256))),_from,_to,_value)) /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#220-222
+Low level call in CheckedERC20.asmApprove (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#223-233):
+	-require(bool)(_token.call(bytes4(keccak256()(approve(address,uint256))),_spender,_value)) /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#230-232
+Low level call in CheckedERC20.asmName (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#251-258):
+	-require(bool)(_token.call(bytes4(keccak256()(name())))) /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#256-257
+Low level call in CheckedERC20.asmSymbol (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#258-266):
+	-require(bool)(_token.call(bytes4(keccak256()(symbol())))) /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#265-266
+Low level call in ERC1003Caller.makeCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#499-505):
+	-_target.call.value(msg.value)(_data) /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#505
+Low level call in MultiTokenDeployer.deploy (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol):
+	-require(bool)(address(mtkn).call(data)) /unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#53) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#61-69) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#61-62) is not in mixedCase
+Parameter '_a' of SafeMath.mul (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#120) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#120) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#137) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#137) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#151) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#151-153) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#160-162) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#162) is not in mixedCase
+Parameter '_token' of CheckedERC20.asmTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#209) is not in mixedCase
+Parameter '_to' of CheckedERC20.asmTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#209) is not in mixedCase
+Parameter '_value' of CheckedERC20.asmTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#209) is not in mixedCase
+Parameter '_token' of CheckedERC20.asmTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#216) is not in mixedCase
+Parameter '_from' of CheckedERC20.asmTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#216) is not in mixedCase
+Parameter '_to' of CheckedERC20.asmTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#216) is not in mixedCase
+Parameter '_value' of CheckedERC20.asmTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#216) is not in mixedCase
+Parameter '_token' of CheckedERC20.asmApprove (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#223) is not in mixedCase
+Parameter '_spender' of CheckedERC20.asmApprove (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#223) is not in mixedCase
+Parameter '_value' of CheckedERC20.asmApprove (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#223) is not in mixedCase
+Parameter '_token' of CheckedERC20.checkedTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#233) is not in mixedCase
+Parameter '_to' of CheckedERC20.checkedTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#233) is not in mixedCase
+Parameter '_value' of CheckedERC20.checkedTransfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#233) is not in mixedCase
+Parameter '_token' of CheckedERC20.checkedTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#241) is not in mixedCase
+Parameter '_from' of CheckedERC20.checkedTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#241) is not in mixedCase
+Parameter '_to' of CheckedERC20.checkedTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#241) is not in mixedCase
+Parameter '_value' of CheckedERC20.checkedTransferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#241) is not in mixedCase
+Parameter '_token' of CheckedERC20.asmName (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#251-254) is not in mixedCase
+Parameter '_token' of CheckedERC20.asmSymbol (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#259-262) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#349) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#332) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#332) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#417-418) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#418-419) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#376) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#376-377) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#377) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#399-400) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#400) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#438) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#438) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#463) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#463-466) is not in mixedCase
+Parameter '_name' of DetailedERC20. (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#494) is not in mixedCase
+Parameter '_symbol' of DetailedERC20. (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#494) is not in mixedCase
+Parameter '_decimals' of DetailedERC20. (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#494-495) is not in mixedCase
+Parameter '_target' of ERC1003Caller.makeCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#499-500) is not in mixedCase
+Parameter '_data' of ERC1003Caller.makeCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#500) is not in mixedCase
+Parameter '_from' of ERC1003Token.transferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#524-525) is not in mixedCase
+Parameter '_to' of ERC1003Token.transferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#526) is not in mixedCase
+Parameter '_value' of ERC1003Token.transferFrom (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#526) is not in mixedCase
+Parameter '_to' of ERC1003Token.approveAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#510-511) is not in mixedCase
+Parameter '_value' of ERC1003Token.approveAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#511) is not in mixedCase
+Parameter '_data' of ERC1003Token.approveAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#511) is not in mixedCase
+Parameter '_to' of ERC1003Token.transferAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#519) is not in mixedCase
+Parameter '_value' of ERC1003Token.transferAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#519) is not in mixedCase
+Parameter '_data' of ERC1003Token.transferAndCall (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#519) is not in mixedCase
+Parameter '_beneficiary' of BasicMultiToken.bundleFirstTokens (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#568) is not in mixedCase
+Parameter '_amount' of BasicMultiToken.bundleFirstTokens (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#568) is not in mixedCase
+Parameter '_tokenAmounts' of BasicMultiToken.bundleFirstTokens (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#568-569) is not in mixedCase
+Parameter '_beneficiary' of BasicMultiToken.bundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#575) is not in mixedCase
+Parameter '_amount' of BasicMultiToken.bundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#575-576) is not in mixedCase
+Parameter '_beneficiary' of BasicMultiToken.unbundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#587) is not in mixedCase
+Parameter '_value' of BasicMultiToken.unbundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#587) is not in mixedCase
+Parameter '_beneficiary' of BasicMultiToken.unbundleSome (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#589) is not in mixedCase
+Parameter '_value' of BasicMultiToken.unbundleSome (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#589) is not in mixedCase
+Parameter '_tokens' of BasicMultiToken.unbundleSome (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#589-590) is not in mixedCase
+Parameter '_tokens' of BasicMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#552-553) is not in mixedCase
+Parameter '_name' of BasicMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#553-554) is not in mixedCase
+Parameter '_symbol' of BasicMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#554-556) is not in mixedCase
+Parameter '_decimals' of BasicMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#556) is not in mixedCase
+Function 'BasicMultiToken._bundle' (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#622-644) is not in mixedCase
+Parameter '_beneficiary' of BasicMultiToken._bundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#623) is not in mixedCase
+Parameter '_amount' of BasicMultiToken._bundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#623) is not in mixedCase
+Parameter '_tokenAmounts' of BasicMultiToken._bundle (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#623-624) is not in mixedCase
+Parameter '_to' of BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#645) is not in mixedCase
+Parameter '_token' of BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#645-647) is not in mixedCase
+Parameter '_amount' of BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#647) is not in mixedCase
+Parameter '_target' of BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#647-649) is not in mixedCase
+Parameter '_data' of BasicMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#649) is not in mixedCase
+Parameter '_fromToken' of MultiToken.getReturn (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#681) is not in mixedCase
+Parameter '_toToken' of MultiToken.getReturn (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#681) is not in mixedCase
+Parameter '_amount' of MultiToken.getReturn (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#681-682) is not in mixedCase
+Parameter '_fromToken' of MultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#695) is not in mixedCase
+Parameter '_toToken' of MultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#695) is not in mixedCase
+Parameter '_amount' of MultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#695) is not in mixedCase
+Parameter '_minReturn' of MultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#695-696) is not in mixedCase
+Parameter '_tokens' of MultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#664-666) is not in mixedCase
+Parameter '_weights' of MultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#667) is not in mixedCase
+Parameter '_name' of MultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#667) is not in mixedCase
+Parameter '_symbol' of MultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#667) is not in mixedCase
+Parameter '_decimals' of MultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#667) is not in mixedCase
+Parameter '_tokens' of MultiToken.init2 (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#676) is not in mixedCase
+Parameter '_weights' of MultiToken.init2 (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#676-677) is not in mixedCase
+Parameter '_name' of MultiToken.init2 (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#677-678) is not in mixedCase
+Parameter '_symbol' of MultiToken.init2 (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#678-681) is not in mixedCase
+Parameter '_decimals' of MultiToken.init2 (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#681) is not in mixedCase
+Parameter '_fromToken' of FeeMultiToken.getReturn (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#740-741) is not in mixedCase
+Parameter '_toToken' of FeeMultiToken.getReturn (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#741) is not in mixedCase
+Parameter '_amount' of FeeMultiToken.getReturn (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#741) is not in mixedCase
+Parameter '_fromToken' of FeeMultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#747) is not in mixedCase
+Parameter '_toToken' of FeeMultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#747) is not in mixedCase
+Parameter '_amount' of FeeMultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#747-748) is not in mixedCase
+Parameter '_minReturn' of FeeMultiToken.change (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#748) is not in mixedCase
+Parameter '_to' of FeeMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#760) is not in mixedCase
+Parameter '_token' of FeeMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#760) is not in mixedCase
+Parameter '_amount' of FeeMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#760) is not in mixedCase
+Parameter '_target' of FeeMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#760) is not in mixedCase
+Parameter '_data' of FeeMultiToken.lend (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#760) is not in mixedCase
+Parameter '_tokens' of FeeMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#726-727) is not in mixedCase
+Parameter '_weights' of FeeMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#727) is not in mixedCase
+Parameter '_name' of FeeMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#727-730) is not in mixedCase
+Parameter '_symbol' of FeeMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#730) is not in mixedCase
+Parameter '' of FeeMultiToken.init (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#730) is not in mixedCase
+Parameter '_lendFee' of FeeMultiToken.setLendFee (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#731) is not in mixedCase
+Parameter '_changeFee' of FeeMultiToken.setChangeFee (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#734) is not in mixedCase
+Parameter '_refferalFee' of FeeMultiToken.setRefferalFee (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#738) is not in mixedCase
+Parameter '_fromToken' of FeeMultiToken.changeWithRef (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#750) is not in mixedCase
+Parameter '_toToken' of FeeMultiToken.changeWithRef (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#750) is not in mixedCase
+Parameter '_amount' of FeeMultiToken.changeWithRef (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#750) is not in mixedCase
+Parameter '_minReturn' of FeeMultiToken.changeWithRef (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#750) is not in mixedCase
+Parameter '_ref' of FeeMultiToken.changeWithRef (/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol#750-751) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/43/0x9165e408cc615a545945d34a270e10e275cbc231.sol analyzed (17 contracts), 173 result(s) found

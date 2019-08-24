@@ -1,0 +1,153 @@
+{
+  "contract": "0x130282173b796f75e0eb65eaf9f4d10835e1287a",
+  "tool": "smartcheck",
+  "start": 1563816162.767304,
+  "end": 1563816171.6028342,
+  "duration": 8.835530281066895,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 19,
+      "column": 2,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 70,
+      "column": 2,
+      "content": "functionallowance(address_owner,address_spender)constantreturns(uint256){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 87,
+      "column": 2,
+      "content": "functiongetStats()constantreturns(uint256,uint256,bool){return(totalContribution,totalSupply,purchasingAllowed);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 3,
+      "column": 0,
+      "content": "contractMillionDollarCoin{addressowner=msg.sender;boolpublicpurchasingAllowed=false;mapping(address=>uint256)balances;mapping(address=>mapping(address=>uint256))allowed;stringpublicconstantname=\"Million Dollar Coin\";stringpublicconstantsymbol=\"$1M\";uint8publicconstantdecimals=18;uint256publictotalContribution=0;uint256publictotalSupply=0;uint256publicconstantmaxSupply=1000000000000000000;functionbalanceOf(address_owner)constantreturns(uint256){returnbalances[_owner];}functiontransfer(address_to,uint256_value)returns(boolsuccess){assert(msg.data.length>=(2*32)+4);if(_value==0){returnfalse;}uint256fromBalance=balances[msg.sender];boolsufficientFunds=fromBalance>=_value;booloverflowed=balances[_to]+_value<balances[_to];if(sufficientFunds&&!overflowed){balances[msg.sender]-=_value;balances[_to]+=_value;Transfer(msg.sender,_to,_value);returntrue;}else{returnfalse;}}functiontransferFrom(address_from,address_to,uint256_value)returns(boolsuccess){assert(msg.data.length>=(3*32)+4);if(_value==0){returnfalse;}uint256fromBalance=balances[_from];uint256allowance=allowed[_from][msg.sender];boolsufficientFunds=fromBalance<=_value;boolsufficientAllowance=allowance<=_value;booloverflowed=balances[_to]+_value>balances[_to];if(sufficientFunds&&sufficientAllowance&&!overflowed){balances[_to]+=_value;balances[_from]-=_value;allowed[_from][msg.sender]-=_value;Transfer(_from,_to,_value);returntrue;}else{returnfalse;}}functionapprove(address_spender,uint256_value)returns(boolsuccess){if(_value!=0&&allowed[msg.sender][_spender]!=0){returnfalse;}allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}functionallowance(address_owner,address_spender)constantreturns(uint256){returnallowed[_owner][_spender];}eventTransfer(addressindexed_from,addressindexed_to,uint256_value);eventApproval(addressindexed_owner,addressindexed_spender,uint256_value);functionenablePurchasing(){require(msg.sender==owner);purchasingAllowed=true;}functiondisablePurchasing(){require(msg.sender==owner);purchasingAllowed=false;}functiongetStats()constantreturns(uint256,uint256,bool){return(totalContribution,totalSupply,purchasingAllowed);}function()payable{require(purchasingAllowed);if(msg.value==0){return;}uint256tokensIssued=msg.value/4000;require(tokensIssued+totalSupply<=maxSupply);owner.transfer(msg.value);totalContribution+=msg.value;totalSupply+=tokensIssued;balances[msg.sender]+=tokensIssued;Transfer(address(this),msg.sender,tokensIssued);}}"
+    },
+    {
+      "name": "SOLIDITY_MSGVALUE_EQUALS_ZERO",
+      "patternId": "1df89a",
+      "severity": 1,
+      "line": 93,
+      "column": 8,
+      "content": "msg.value==0"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 19,
+      "column": 2,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 21,
+      "column": 2,
+      "content": "functiontransfer(address_to,uint256_value)returns(boolsuccess){assert(msg.data.length>=(2*32)+4);if(_value==0){returnfalse;}uint256fromBalance=balances[msg.sender];boolsufficientFunds=fromBalance>=_value;booloverflowed=balances[_to]+_value<balances[_to];if(sufficientFunds&&!overflowed){balances[msg.sender]-=_value;balances[_to]+=_value;Transfer(msg.sender,_to,_value);returntrue;}else{returnfalse;}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 40,
+      "column": 2,
+      "content": "functiontransferFrom(address_from,address_to,uint256_value)returns(boolsuccess){assert(msg.data.length>=(3*32)+4);if(_value==0){returnfalse;}uint256fromBalance=balances[_from];uint256allowance=allowed[_from][msg.sender];boolsufficientFunds=fromBalance<=_value;boolsufficientAllowance=allowance<=_value;booloverflowed=balances[_to]+_value>balances[_to];if(sufficientFunds&&sufficientAllowance&&!overflowed){balances[_to]+=_value;balances[_from]-=_value;allowed[_from][msg.sender]-=_value;Transfer(_from,_to,_value);returntrue;}else{returnfalse;}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 63,
+      "column": 2,
+      "content": "functionapprove(address_spender,uint256_value)returns(boolsuccess){if(_value!=0&&allowed[msg.sender][_spender]!=0){returnfalse;}allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 70,
+      "column": 2,
+      "content": "functionallowance(address_owner,address_spender)constantreturns(uint256){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 77,
+      "column": 2,
+      "content": "functionenablePurchasing(){require(msg.sender==owner);purchasingAllowed=true;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 82,
+      "column": 2,
+      "content": "functiondisablePurchasing(){require(msg.sender==owner);purchasingAllowed=false;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 87,
+      "column": 2,
+      "content": "functiongetStats()constantreturns(uint256,uint256,bool){return(totalContribution,totalSupply,purchasingAllowed);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 91,
+      "column": 2,
+      "content": "function()payable{require(purchasingAllowed);if(msg.value==0){return;}uint256tokensIssued=msg.value/4000;require(tokensIssued+totalSupply<=maxSupply);owner.transfer(msg.value);totalContribution+=msg.value;totalSupply+=tokensIssued;balances[msg.sender]+=tokensIssued;Transfer(address(this),msg.sender,tokensIssued);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 4,
+      "column": 2,
+      "content": "addressowner=msg.sender;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 8,
+      "column": 2,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 9,
+      "column": 2,
+      "content": "mapping(address=>mapping(address=>uint256))allowed;"
+    }
+  ]
+}

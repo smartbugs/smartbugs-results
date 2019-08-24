@@ -1,0 +1,137 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:24:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Controlled() public { 
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:101:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function WizzleGlobalToken(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:180:12: Warning: Use of the "var" keyword is deprecated.
+           var previousBalanceFrom = balanceOfAt(_from, block.number);
+           ^---------------------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:195:12: Warning: Use of the "var" keyword is deprecated.
+           var previousBalanceTo = balanceOfAt(_to, block.number);
+           ^-------------------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:169:16: Warning: Invoking events without "emit" prefix is deprecated.
+               Transfer(_from, _to, _amount);    // Follow the spec to louch the event when transfer 0
+               ^---------------------------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:200:12: Warning: Invoking events without "emit" prefix is deprecated.
+           Transfer(_from, _to, _amount);
+           ^---------------------------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:231:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _amount);
+        ^-------------------------------------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:365:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewCloneToken(address(cloneToken), _snapshotBlock);
+        ^------------------------------------------------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:385:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(0, _owner, _amount);
+        ^--------------------------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:483:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            controller.transfer(this.balance);
+                                ^----------^
+/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:490:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ClaimedTokens(_token, controller, balance);
+        ^----------------------------------------^
+
+INFO:Detectors:[91m
+WizzleGlobalToken.balances (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#72) is never initialized. It is used in:
+	- doTransfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#169-206)
+	- balanceOfAt (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#286-309)
+	- generateTokens (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#383-401)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+WizzleGlobalToken.isContract (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#465-469) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in WizzleGlobalToken.approve (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#220-238):
+	External calls:
+	- require(bool)(TokenController(controller).onApprove(msg.sender,_spender,_amount)) (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#235-236)
+	State variables written after the call(s):
+	- allowed (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#236-237)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+WizzleGlobalToken.claimTokens (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#496-511) does not use the value returned by external calls:
+	-token.transfer(controller,balance) (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#502-507)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+WizzleGlobalToken.getValueAt.min (local variable @ /unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#432) shadows:
+	- WizzleGlobalToken.min (function @ /unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#470-477)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+WizzleGlobalToken.isContract uses assembly (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#465-469)
+	- /unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#467-469
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+WizzleGlobalToken.version should be constant (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#42-44)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ApproveAndCallFallBack.receiveApproval (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#4-6) should be declared external
+TokenController.proxyPayment (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#8-10) should be declared external
+TokenController.onTransfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#10-12) should be declared external
+TokenController.onApprove (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#12-16) should be declared external
+Controlled.changeController (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#28-34) should be declared external
+WizzleGlobalToken.transfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#131-137) should be declared external
+WizzleGlobalToken.transferFrom (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#144-161) should be declared external
+WizzleGlobalToken.allowance (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#246-248) should be declared external
+WizzleGlobalToken.approveAndCall (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#258-274) should be declared external
+WizzleGlobalToken.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#353-377) should be declared external
+WizzleGlobalToken.generateTokens (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#383-401) should be declared external
+WizzleGlobalToken.enableTransfers (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#406-408) should be declared external
+WizzleGlobalToken.fallback (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#481-487) should be declared external
+WizzleGlobalToken.claimTokens (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#496-511) should be declared external
+WizzleGlobalTokenFactory.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#544-547) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Controlled.Controlled' (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#24-28) is not in mixedCase
+Parameter '_newController' of Controlled.changeController (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#28-29) is not in mixedCase
+Function 'WizzleGlobalToken.WizzleGlobalToken' (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#104-125) is not in mixedCase
+Parameter '_tokenFactory' of WizzleGlobalToken.WizzleGlobalToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#105-106) is not in mixedCase
+Parameter '_parentToken' of WizzleGlobalToken.WizzleGlobalToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#106-107) is not in mixedCase
+Parameter '_parentSnapShotBlock' of WizzleGlobalToken.WizzleGlobalToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#107-108) is not in mixedCase
+Parameter '_tokenName' of WizzleGlobalToken.WizzleGlobalToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#108-109) is not in mixedCase
+Parameter '_decimalUnits' of WizzleGlobalToken.WizzleGlobalToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#110) is not in mixedCase
+Parameter '_tokenSymbol' of WizzleGlobalToken.WizzleGlobalToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#110) is not in mixedCase
+Parameter '_transfersEnabled' of WizzleGlobalToken.WizzleGlobalToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#111) is not in mixedCase
+Parameter '_to' of WizzleGlobalToken.transfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#131) is not in mixedCase
+Parameter '_amount' of WizzleGlobalToken.transfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#131-132) is not in mixedCase
+Parameter '_from' of WizzleGlobalToken.transferFrom (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#144) is not in mixedCase
+Parameter '_to' of WizzleGlobalToken.transferFrom (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#144-145) is not in mixedCase
+Parameter '_amount' of WizzleGlobalToken.transferFrom (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#145) is not in mixedCase
+Parameter '_from' of WizzleGlobalToken.doTransfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#169) is not in mixedCase
+Parameter '_to' of WizzleGlobalToken.doTransfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#169) is not in mixedCase
+Parameter '_amount' of WizzleGlobalToken.doTransfer (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#169-170) is not in mixedCase
+Parameter '_owner' of WizzleGlobalToken.balanceOf (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#211) is not in mixedCase
+Parameter '_spender' of WizzleGlobalToken.approve (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#220) is not in mixedCase
+Parameter '_amount' of WizzleGlobalToken.approve (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#220) is not in mixedCase
+Parameter '_owner' of WizzleGlobalToken.allowance (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#246) is not in mixedCase
+Parameter '_spender' of WizzleGlobalToken.allowance (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#246) is not in mixedCase
+Parameter '_spender' of WizzleGlobalToken.approveAndCall (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#259-260) is not in mixedCase
+Parameter '_amount' of WizzleGlobalToken.approveAndCall (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#260-261) is not in mixedCase
+Parameter '_extraData' of WizzleGlobalToken.approveAndCall (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#261-263) is not in mixedCase
+Parameter '_owner' of WizzleGlobalToken.balanceOfAt (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#286) is not in mixedCase
+Parameter '_blockNumber' of WizzleGlobalToken.balanceOfAt (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#286-287) is not in mixedCase
+Parameter '_blockNumber' of WizzleGlobalToken.totalSupplyAt (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#312) is not in mixedCase
+Parameter '_cloneTokenName' of WizzleGlobalToken.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#354-355) is not in mixedCase
+Parameter '_cloneDecimalUnits' of WizzleGlobalToken.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#355-356) is not in mixedCase
+Parameter '_cloneTokenSymbol' of WizzleGlobalToken.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#356-357) is not in mixedCase
+Parameter '_snapshotBlock' of WizzleGlobalToken.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#358) is not in mixedCase
+Parameter '_transfersEnabled' of WizzleGlobalToken.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#359) is not in mixedCase
+Parameter '_owner' of WizzleGlobalToken.generateTokens (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#383) is not in mixedCase
+Parameter '_amount' of WizzleGlobalToken.generateTokens (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#383) is not in mixedCase
+Parameter '_transfersEnabled' of WizzleGlobalToken.enableTransfers (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#406) is not in mixedCase
+Parameter '_block' of WizzleGlobalToken.getValueAt (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#419) is not in mixedCase
+Parameter '_value' of WizzleGlobalToken.updateValueAtNow (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#443) is not in mixedCase
+Parameter '_addr' of WizzleGlobalToken.isContract (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#465-466) is not in mixedCase
+Parameter '_token' of WizzleGlobalToken.claimTokens (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#496-497) is not in mixedCase
+Parameter '_parentToken' of WizzleGlobalTokenFactory.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol#545-547) is not in mixedCase
+Parameter '_snapshotBlock' of WizzleGlobalTokenFactory.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol) is not in mixedCase
+Parameter '_tokenName' of WizzleGlobalTokenFactory.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol) is not in mixedCase
+Parameter '_decimalUnits' of WizzleGlobalTokenFactory.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol) is not in mixedCase
+Parameter '_tokenSymbol' of WizzleGlobalTokenFactory.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol) is not in mixedCase
+Parameter '_transfersEnabled' of WizzleGlobalTokenFactory.createCloneToken (/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/18/0xa46630a30a77d27607fc05b62da2ef291fc1460c.sol analyzed (5 contracts), 70 result(s) found

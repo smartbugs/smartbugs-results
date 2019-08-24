@@ -1,0 +1,263 @@
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:Address
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:ERC20
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:IERC20
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:MarketCollateralPool
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:MarketContract
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:MarketContractRegistryInterface
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:MathLib
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:Ownable
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:PositionToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:SafeERC20
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol:StringLib
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'MarketCollateralPool':
+    |/// This pool facilitates locking of collateral and minting / redemption of position tokens for that collateral.
+    |/// @author Phil Elsasser <phil@marketprotocol.io>
+  > |contract MarketCollateralPool is Ownable {
+    |    using MathLib for uint;
+    |    using MathLib for int;
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(926)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |
+    |        // solhint-disable-next-line avoid-low-level-calls
+  > |        (bool success, bytes memory returndata) = address(token).call(data);
+    |        require(success);
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(909)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |        // MKT fees are enabled (non zero).  (If both are zero, no fee exists)
+    |        bool isPayFeesInMKT = (isAttemptToPayInMKT &&
+  > |            marketContract.MKT_TOKEN_FEE_PER_UNIT() != 0) ||
+    |            (!isAttemptToPayInMKT &&
+    |            marketContract.MKT_TOKEN_FEE_PER_UNIT() != 0 &&
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(985)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |            marketContract.MKT_TOKEN_FEE_PER_UNIT() != 0) ||
+    |            (!isAttemptToPayInMKT &&
+  > |            marketContract.MKT_TOKEN_FEE_PER_UNIT() != 0 &&
+    |            marketContract.COLLATERAL_TOKEN_FEE_PER_UNIT() == 0);
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(987)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |            (!isAttemptToPayInMKT &&
+    |            marketContract.MKT_TOKEN_FEE_PER_UNIT() != 0 &&
+  > |            marketContract.COLLATERAL_TOKEN_FEE_PER_UNIT() == 0);
+    |
+    |        uint feeAmount;
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(988)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |        address feeToken;
+    |        if (isPayFeesInMKT) { // fees are able to be paid in MKT
+  > |            feeAmount = MathLib.multiply(qtyToMint, marketContract.MKT_TOKEN_FEE_PER_UNIT());
+    |            totalCollateralTokenTransferAmount = neededCollateral;
+    |            feeToken = mktToken;
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(994)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |            ERC20(mktToken).safeTransferFrom(msg.sender, address(this), feeAmount);
+    |        } else { // fee are either zero, or being paid in the collateral token
+  > |            feeAmount = MathLib.multiply(qtyToMint, marketContract.COLLATERAL_TOKEN_FEE_PER_UNIT());
+    |            totalCollateralTokenTransferAmount = neededCollateral.add(feeAmount);
+    |            feeToken = collateralTokenAddress;
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1002)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |        // EXTERNAL CALL - transferring ERC20 tokens from sender to this contract.  User must have called
+    |        // ERC20.approve in order for this call to succeed.
+  > |        ERC20(marketContract.COLLATERAL_TOKEN_ADDRESS()).safeTransferFrom(msg.sender, address(this), totalCollateralTokenTransferAmount);
+    |
+    |        if (feeAmount != 0) {
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1010)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |        // EXTERNAL CALL
+    |        // transfer collateral back to user
+  > |        ERC20(marketContract.COLLATERAL_TOKEN_ADDRESS()).safeTransfer(msg.sender, collateralToReturn);
+    |
+    |        emit TokensRedeemed(
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1057)
+
+[31mViolation[0m for RepeatedCall in contract 'MarketCollateralPool':
+    |
+    |        // return collateral tokens
+  > |        ERC20(marketContract.COLLATERAL_TOKEN_ADDRESS()).safeTransfer(msg.sender, collateralToReturn);
+    |
+    |        emit TokensRedeemed(
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1108)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |        if (feeAmount != 0) {
+    |            // update the fee's collected balance
+  > |            feesCollectedByTokenAddress[feeToken] = feesCollectedByTokenAddress[feeToken].add(feeAmount);
+    |        }
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1014)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |
+    |        // Update the collateral pool locked balance.
+  > |        contractAddressToCollateralPoolBalance[marketContractAddress] = contractAddressToCollateralPoolBalance[
+    |            marketContractAddress
+    |        ].add(neededCollateral);
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1018)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |        // calculate collateral to return and update pool balance
+    |        uint collateralToReturn = MathLib.multiply(qtyToRedeem, marketContract.COLLATERAL_PER_UNIT());
+  > |        contractAddressToCollateralPoolBalance[marketContractAddress] = contractAddressToCollateralPoolBalance[
+    |            marketContractAddress
+    |        ].subtract(collateralToReturn);
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1051)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |        );
+    |
+  > |        contractAddressToCollateralPoolBalance[marketContractAddress] = contractAddressToCollateralPoolBalance[
+    |            marketContractAddress
+    |        ].subtract(collateralToReturn);
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1103)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(307)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(325)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |        require(feesAvailableForWithdrawal != 0, "No fees available for withdrawal");
+    |        require(feeRecipient != address(0), "Cannot send fees to null address");
+  > |        feesCollectedByTokenAddress[feeTokenAddress] = 0;
+    |        // EXTERNAL CALL
+    |        ERC20(feeTokenAddress).safeTransfer(feeRecipient, feesAvailableForWithdrawal);
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1126)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |    function setMKTTokenAddress(address mktTokenAddress) public onlyOwner {
+    |        require(mktTokenAddress != address(0), "Cannot set MKT Token Address To Null");
+  > |        mktToken = mktTokenAddress;
+    |    }
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1135)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MarketCollateralPool':
+    |    function setMarketContractRegistryAddress(address marketContractRegistryAddress) public onlyOwner {
+    |        require(marketContractRegistryAddress != address(0), "Cannot set Market Contract Registry Address To Null");
+  > |        marketContractRegistry = marketContractRegistryAddress;
+    |    }
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(1142)
+
+[31mViolation[0m for LockedEther in contract 'MarketContract':
+    |/// implement different oracle solutions.
+    |/// @author Phil Elsasser <phil@marketprotocol.io>
+  > |contract MarketContract is Ownable {
+    |    using StringLib for *;
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(339)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MarketContract':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(307)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'MarketContract':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(325)
+
+[31mViolation[0m for LockedEther in contract 'PositionToken':
+    |/// every time a new market contract is deployed.
+    |/// @author Phil Elsasser <phil@marketprotocol.io>
+  > |contract PositionToken is ERC20, Ownable {
+    |
+    |    string public name;
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(747)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PositionToken':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(307)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PositionToken':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(325)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PositionToken':
+    |        require(account != address(0));
+    |
+  > |        _totalSupply = _totalSupply.add(value);
+    |        _balances[account] = _balances[account].add(value);
+    |        emit Transfer(address(0), account, value);
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(690)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PositionToken':
+    |        require(account != address(0));
+    |
+  > |        _totalSupply = _totalSupply.sub(value);
+    |        _balances[account] = _balances[account].sub(value);
+    |        emit Transfer(account, address(0), value);
+  at /unique_contracts/0x6217d5392f6b7b6b3a9b2512a2b0ec4cbb14c448.sol(704)

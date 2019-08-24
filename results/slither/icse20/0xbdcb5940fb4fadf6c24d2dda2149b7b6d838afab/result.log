@@ -1,0 +1,87 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:74:46: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x13F1b7FDFbE1fc66676D56483e21B1ecb40b58E2'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+  address constant public ACCELERATOR_ADDR = 0x13f1b7fdfbe1fc66676d56483e21b1ecb40b58e2; // Accelerator contract address
+                                             ^----------------------------------------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:57:26: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function withdrawToken(address token, uint amount) public {}
+                         ^-----------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:57:41: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function withdrawToken(address token, uint amount) public {}
+                                        ^---------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:18: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... address tokenGet ... 
+     ^--------------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:36: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... uint amountGet ... 
+     ^------------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:52: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... address tokenGive ... 
+     ^---------------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:71: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... uint amountGive ... 
+     ^-------------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:88: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... uint expires ... 
+     ^----------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:102: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... uint nonce ... 
+     ^--------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:114: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... address user ... 
+     ^----------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:128: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... uint8 v ... 
+     ^-----^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:137: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... bytes32 r ... 
+     ^-------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:148: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... bytes32 s ... 
+     ^-------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:159: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+ ... uint amount ... 
+     ^---------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:57:3: Warning: Function state mutability can be restricted to pure
+  function withdrawToken(address token, uint amount) public {}
+  ^----------------------------------------------------------^
+/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:58:3: Warning: Function state mutability can be restricted to pure
+  function trade(address tokenGet, ui ... , bytes32 s, uint amount) public {}
+  ^-------------------------------------------------------------------------^
+
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol:
+	Contract EtherDelta has payable functions:
+	 - deposit (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#57)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[92m
+Reentrancy in AcceleratorX.burn (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#88-126):
+	External calls:
+	- deposit(msg.value) (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#100-101)
+	- EtherDelta(ETHERDELTA_ADDR).trade(address(0),volume,ACCELERATOR_ADDR,volumeETH,expires,nonce,user,v,r,s,amount) (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#103-113)
+	- ACC = EtherDelta(ETHERDELTA_ADDR).balanceOf(ACCELERATOR_ADDR,address(this)) (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#114-116)
+	- withdrawToken(ACCELERATOR_ADDR,ACC) (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#116-117)
+	- require(bool)(Accelerator(ACCELERATOR_ADDR).transfer(address(0),ACC)) (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#118)
+	External calls sending eth:
+	- deposit(msg.value) (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#100-101)
+	State variables written after the call(s):
+	- balances (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#122-124)
+	- totalSupply (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#124-125)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+EtherDelta.deposit (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#57) should be declared external
+EtherDelta.withdrawToken (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#57-58) should be declared external
+EtherDelta.trade (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#58-59) should be declared external
+EtherDelta.balanceOf (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#59-63) should be declared external
+Accelerator.transfer (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#63-67) should be declared external
+AcceleratorX.burn (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#88-126) should be declared external
+AcceleratorX.balanceOf (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#141-143) should be declared external
+AcceleratorX.transfer (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#143-151) should be declared external
+AcceleratorX.approve (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#151-159) should be declared external
+AcceleratorX.allowance (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#159-161) should be declared external
+AcceleratorX.transferFrom (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#161-169) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Constant 'AcceleratorX.maxTotalSupply' (/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol#73) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/35/0xbdcb5940fb4fadf6c24d2dda2149b7b6d838afab.sol analyzed (4 contracts), 14 result(s) found

@@ -1,0 +1,46 @@
+{
+  "contract": "0x7f7b5fe07cbf3cda465af73559718ce940c3724a",
+  "tool": "mythril",
+  "start": 1563274974.9971616,
+  "end": 1563275016.1481488,
+  "duration": 41.15098714828491,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 136,
+        "code": "on multisend(ERC20 token, address[] recipients, uint256 value) public {\n    for (uint256 i = 0; i < recipients.length; i++) {\n      token.transfer(recipients[i], value * 100000);\n    }\n  }\n}",
+        "debug": "calldata_ERC20_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_ERC20_0: 0xccdd197900000000000000000000000000000000000000000000000000000000\ncalldatasize_ERC20: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xccdd1979`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x7f7b5fe07cbf3cda465af73559718ce940c3724a.sol",
+        "function": "_function_0xccdd1979",
+        "lineno": 7,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 423,
+        "code": "ansfer(recipients[i], value * 100000);\n    }\n",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_contracts/0x7f7b5fe07cbf3cda465af73559718ce940c3724a.sol",
+        "function": "_function_0xccdd1979",
+        "lineno": 9,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 423,
+        "code": "ansfer(recipients[i], value * 100000);\n    }\n",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 423\nCall at address: 423\n",
+        "filename": "/unique_contracts/0x7f7b5fe07cbf3cda465af73559718ce940c3724a.sol",
+        "function": "_function_0xccdd1979",
+        "lineno": 9,
+        "title": "Multiple Calls",
+        "type": "Information"
+      }
+    ],
+    "success": true
+  }
+}

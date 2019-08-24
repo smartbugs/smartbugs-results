@@ -1,0 +1,48 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol:
+/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol:13:43: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x66a9f1e53173dE33bec727eF76AfA84956aE1B25'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    Bankroll constant bankroll = Bankroll(0x66a9f1e53173de33bec727ef76afa84956ae1b25);
+                                          ^----------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in PremiumFactories.purchaseFactory (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#36-73):
+	External calls:
+	- unitsProduced = (now - factory.lastClaimTimestamp) / premiumUnit.unitProductionSeconds() (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#49-51)
+	- premiumUnit.mintUnit(factory.owner,unitsProduced) (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#54-55)
+	- bankroll.depositEth.value(currentFactoryPrice - previousOwnerProfit)(50,50) (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#58-61)
+	External calls sending eth:
+	- factory.owner.transfer(previousOwnerProfit) (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#58)
+	- bankroll.depositEth.value(currentFactoryPrice - previousOwnerProfit)(50,50) (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#58-61)
+	State variables written after the call(s):
+	- premiumFactories (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#67-68)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+PremiumFactories.addFactory (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#121-136) uses a dangerous strict equality:
+	- require(bool)(premiumFactories[id].owner == 0)
+PremiumFactories.addFactory (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#121-136) uses a dangerous strict equality:
+	- require(bool)(premiumFactories[id].owner == 0)
+PremiumFactories.purchaseFactory (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#36-73) uses a dangerous strict equality:
+	- unitsProduced == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in PremiumFactories.addFactory (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#121-136):
+	External calls:
+	- require(bool)(premiumUnits[unitId].unitId() == unitId) (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#126-127)
+	State variables written after the call(s):
+	- premiumFactories (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#136)
+Reentrancy in PremiumFactories.claimUnits (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#137-161):
+	External calls:
+	- unitProductionSeconds = premiumUnit.unitProductionSeconds() (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#142-143)
+	State variables written after the call(s):
+	- premiumFactories (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#147-149)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+newFactory in PremiumFactories.addFactory (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#128-129) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+PremiumUnit.unitId should be constant (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#189)
+PremiumUnit.unitProductionSeconds should be constant (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#189)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Constant 'PremiumFactories.bankroll' (/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol#13-14) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/6/0xc767b1cec507f1584469e8efe1a94ad4c75e02ed.sol analyzed (7 contracts), 8 result(s) found

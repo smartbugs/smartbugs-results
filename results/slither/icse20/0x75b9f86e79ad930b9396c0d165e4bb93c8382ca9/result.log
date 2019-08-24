@@ -1,0 +1,260 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol:
+/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol:585:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        uint _switch = uint136(keccak256(_seed, block.coinbase, block.timestamp)) % 5;
+                               ^-----------------------------------------------^
+
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#106-120) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#111-112)
+	-approve (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#113)
+ChibiFighters (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#158-1001) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#771-775)
+	-approve (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#779-789)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#404-423) uses a dangerous strict equality:
+	- assert(bool)(fcfBefore == fcfContract.balanceOf(address(this)) - 1 * 10 ** 18)
+ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#404-423) uses a dangerous strict equality:
+	- assert(bool)(fcfBefore == fcfContract.balanceOf(address(this)) - 1 * 10 ** 18)
+ChibiFighters.traits (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#596-619) uses a dangerous strict equality:
+	- _switch == 0
+	- _switch == 1
+	- _switch == 2
+	- _switch == 3
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#813-867):
+	External calls:
+	- dna = geneContract.createGenes(address(this),_seed,_founder,uniqueCounter,_specialId) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#824-827)
+	- dna = geneContract.createGenes(address(this),_seed,_founder,uniqueCounter,0) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#828-830)
+	State variables written after the call(s):
+	- uniqueCounter (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#867)
+Reentrancy in ChibiFighters.exhaustChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#583-593):
+	External calls:
+	- chibies[_tokenId1].exhausted = now.add(exhaustBattle(_tokenId1)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#588-589)
+	- chibies[_tokenId2].exhausted = now.add(exhaustBattle(_tokenId2)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#589-592)
+	State variables written after the call(s):
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#589-592)
+Reentrancy in ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#620-712):
+	External calls:
+	- chibies[_motherId].exhausted = now.add(exhaustFusion(_motherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#638-639)
+	- chibies[_fatherId].exhausted = now.add(exhaustFusion(_fatherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#639-640)
+	State variables written after the call(s):
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#639-640)
+Reentrancy in ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#620-712):
+	External calls:
+	- chibies[_motherId].exhausted = now.add(exhaustFusion(_motherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#638-639)
+	- chibies[_fatherId].exhausted = now.add(exhaustFusion(_fatherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#639-640)
+	- dna = traits(geneContract.splitGenes(address(this),_seed,uniqueCounter + 1),_seed,_fatherId,_motherId) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#648-654)
+	State variables written after the call(s):
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#661-662)
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#666-668)
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#671-683)
+	- tokenOwner (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#656-658)
+Reentrancy in ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#620-712):
+	External calls:
+	- chibies[_motherId].exhausted = now.add(exhaustFusion(_motherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#638-639)
+	- chibies[_fatherId].exhausted = now.add(exhaustFusion(_fatherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#639-640)
+	- dna = traits(geneContract.splitGenes(address(this),_seed,uniqueCounter + 1),_seed,_fatherId,_motherId) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#648-654)
+	- battleContract.addWarrior(address(this),uniqueCounter,_region,_battleRoar) == false (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#702-705)
+	State variables written after the call(s):
+	- uniqueCounter (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#705)
+Reentrancy in ChibiFighters.setChibiForFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#428-450):
+	External calls:
+	- require(bool)(battleContract.isDead(_tokenId) == false) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#438-439)
+	State variables written after the call(s):
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#439-441)
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#441-443)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+_fusions in ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#831) is a local variable never initialiazed
+_fusions in ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#669-670) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Reentrancy in ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#813-867):
+	External calls:
+	- dna = geneContract.createGenes(address(this),_seed,_founder,uniqueCounter,_specialId) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#824-827)
+	- dna = geneContract.createGenes(address(this),_seed,_founder,uniqueCounter,0) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#828-830)
+	State variables written after the call(s):
+	- chibies (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#831-845)
+Reentrancy in ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#404-423):
+	External calls:
+	- require(bool)(fcfContract.balanceOf(msg.sender) >= 1 * 10 ** 18) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#407-408)
+	- fcfBefore = fcfContract.balanceOf(address(this)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#411)
+	- fcfContract.transferFrom(msg.sender,this,1 * 10 ** 18) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#417-420)
+	- _mint(_name,_battleRoar,_region,_seed,true,0) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#419-420)
+	State variables written after the call(s):
+	- ownedTokensIndex (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#419-420)
+Reentrancy in ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#620-712):
+	External calls:
+	- chibies[_motherId].exhausted = now.add(exhaustFusion(_motherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#638-639)
+	- chibies[_fatherId].exhausted = now.add(exhaustFusion(_fatherId)) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#639-640)
+	- dna = traits(geneContract.splitGenes(address(this),_seed,uniqueCounter + 1),_seed,_fatherId,_motherId) (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#648-654)
+	State variables written after the call(s):
+	- ownedTokens (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#656-658)
+	- ownedTokensIndex (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#656-658)
+	- totalTokens (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#656-658)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ChibiFighters.traits (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#596-619) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _switch == 1 (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#611-612)
+	- _switch == 0 (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#604-611)
+	- _switch == 3 (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#615-618)
+	- _switch == 2 (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#612-615)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+ContractOwned.transferOwnership (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#22-26) should be declared external
+ContractOwned.acceptOwnership (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#26-37) should be declared external
+ERC721.transfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#111-112) should be declared external
+ChibiFighters.transfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#771-775) should be declared external
+ChibiFighters.approve (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#779-789) should be declared external
+ERC721.approve (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#113) should be declared external
+ChibiFighters.takeOwnership (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#792-797) should be declared external
+ERC721.takeOwnership (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#113-114) should be declared external
+ChibiFighters.tokenMetadata (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#994-997) should be declared external
+ERC721.tokenMetadata (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#114-119) should be declared external
+ChibiFighters.tokenURI (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#997-999) should be declared external
+ERC721.tokenURI (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#119-120) should be declared external
+GeneInterface.exhaustAfterFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#133-137) should be declared external
+GeneInterface.exhaustAfterBattle (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#138-140) should be declared external
+FcfInterface.balanceOf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#141-144) should be declared external
+FcfInterface.transferFrom (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#144-145) should be declared external
+BattleInterface.addWarrior (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#150-152) should be declared external
+BattleInterface.isDead (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#152-154) should be declared external
+ChibiFighters.setComission (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#278-284) should be declared external
+ChibiFighters.setMinimumPriceFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#287-290) should be declared external
+ChibiFighters.setAdultTime (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#296-302) should be declared external
+ChibiFighters.setExhaustionTime (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#303-307) should be declared external
+ChibiFighters.setGameState (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#313-318) should be declared external
+ChibiFighters.setGameStateFCF (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#325-331) should be declared external
+ChibiFighters.setGameStateFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#334-340) should be declared external
+ChibiFighters.getGameState (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#342-347) should be declared external
+ChibiFighters.renameChibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#387-396) should be declared external
+ChibiFighters.isNecromancer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#398-403) should be declared external
+ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#404-423) should be declared external
+ChibiFighters.setChibiForFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#428-450) should be declared external
+ChibiFighters.cancelChibiForFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#451-462) should be declared external
+ChibiFighters.queryFusionData (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#479-496) should be declared external
+ChibiFighters.queryFusionData_ext (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#500-510) should be declared external
+ChibiFighters.queryChibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#514-534) should be declared external
+ChibiFighters.queryChibiAdd (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#537-544) should be declared external
+ChibiFighters.exhaustChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#583-593) should be declared external
+ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#620-712) should be declared external
+ChibiFighters.totalSupply (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#724-729) should be declared external
+ChibiFighters.tokensOf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#741-744) should be declared external
+ChibiFighters.mintSpecial (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#797-807) should be declared external
+ChibiFighters.buyGEN0Chibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#868-876) should be declared external
+ChibiFighters.setChibiGEN0Price (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#878-880) should be declared external
+ChibiFighters.weiToOwner (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#983-990) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of ContractOwned.transferOwnership (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#22) is not in mixedCase
+Variable 'ContractOwned.contract_owner' (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#8-9) is not in mixedCase
+Variable 'ContractOwned.contract_newOwner' (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#9-11) is not in mixedCase
+Modifier 'ContractOwned.contract_onlyOwner' (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#17-22) is not in mixedCase
+Parameter '' of GeneInterface.createGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#126) is not in mixedCase
+Parameter '_scope_0' of GeneInterface.createGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#126) is not in mixedCase
+Parameter '_scope_1' of GeneInterface.createGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#126) is not in mixedCase
+Parameter '_scope_2' of GeneInterface.createGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#126) is not in mixedCase
+Parameter '_scope_3' of GeneInterface.createGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#126) is not in mixedCase
+Parameter '' of GeneInterface.splitGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#132) is not in mixedCase
+Parameter '_scope_0' of GeneInterface.splitGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#132) is not in mixedCase
+Parameter '_scope_1' of GeneInterface.splitGenes (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#132) is not in mixedCase
+Parameter '' of FcfInterface.balanceOf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#143) is not in mixedCase
+Parameter '' of FcfInterface.transferFrom (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#145) is not in mixedCase
+Parameter '_scope_0' of FcfInterface.transferFrom (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#145) is not in mixedCase
+Parameter '_scope_1' of FcfInterface.transferFrom (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#145) is not in mixedCase
+Parameter '' of BattleInterface.addWarrior (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#151-152) is not in mixedCase
+Parameter '_scope_0' of BattleInterface.addWarrior (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#152) is not in mixedCase
+Parameter '_scope_1' of BattleInterface.addWarrior (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#152) is not in mixedCase
+Parameter '_scope_2' of BattleInterface.addWarrior (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#152) is not in mixedCase
+Parameter '' of BattleInterface.isDead (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#152-153) is not in mixedCase
+Parameter '_owner' of ChibiFighters.balanceOf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#733) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.ownerOf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#750) is not in mixedCase
+Parameter '_to' of ChibiFighters.transfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#772) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.transfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#772) is not in mixedCase
+Parameter '_to' of ChibiFighters.approve (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#779) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.approve (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#779) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.takeOwnership (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#793) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.tokenMetadata (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#994) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.tokenURI (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#997-998) is not in mixedCase
+Parameter '_comission' of ChibiFighters.setComission (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#278) is not in mixedCase
+Parameter '_price' of ChibiFighters.setMinimumPriceFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#287) is not in mixedCase
+Parameter '_adultTimeSecs' of ChibiFighters.setAdultTime (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#296) is not in mixedCase
+Parameter '_exhaustionTime' of ChibiFighters.setExhaustionTime (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#305) is not in mixedCase
+Parameter '_setPaused' of ChibiFighters.setGameState (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#314) is not in mixedCase
+Parameter '_setPaused' of ChibiFighters.setGameStateFCF (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#325) is not in mixedCase
+Parameter '_setPaused' of ChibiFighters.setGameStateFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#338) is not in mixedCase
+Parameter '_address' of ChibiFighters.setFcfContractAddress (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#357-358) is not in mixedCase
+Parameter '_address' of ChibiFighters.setBattleContractAddress (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#365-366) is not in mixedCase
+Parameter '_address' of ChibiFighters.setBattleRemoveContractAddress (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#376) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.renameChibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#387) is not in mixedCase
+Parameter '_name' of ChibiFighters.renameChibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#388) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.isNecromancer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#398-399) is not in mixedCase
+Parameter '_name' of ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#404) is not in mixedCase
+Parameter '_battleRoar' of ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#404) is not in mixedCase
+Parameter '_region' of ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#404-405) is not in mixedCase
+Parameter '_seed' of ChibiFighters.buyChibiWithFcf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#405) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.setChibiForFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#429) is not in mixedCase
+Parameter '_price' of ChibiFighters.setChibiForFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#429) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.cancelChibiForFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#451) is not in mixedCase
+Parameter '_address' of ChibiFighters.setGeneContractAddress (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#467-469) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.queryFusionData (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#480-481) is not in mixedCase
+Function 'ChibiFighters.queryFusionData_ext' (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#500-510) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.queryFusionData_ext (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#501-502) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.queryChibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#517) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.queryChibiAdd (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#537-538) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.exhaustBattle (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#547) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.exhaustFusion (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#561-562) is not in mixedCase
+Parameter '_tokenId1' of ChibiFighters.exhaustChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#585) is not in mixedCase
+Parameter '_tokenId2' of ChibiFighters.exhaustChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#585) is not in mixedCase
+Parameter '_seed' of ChibiFighters.traits (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#597) is not in mixedCase
+Parameter '_fatherId' of ChibiFighters.traits (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#597-598) is not in mixedCase
+Parameter '_motherId' of ChibiFighters.traits (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#598-599) is not in mixedCase
+Parameter '_fatherId' of ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#621) is not in mixedCase
+Parameter '_motherId' of ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#621-622) is not in mixedCase
+Parameter '_seed' of ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#622) is not in mixedCase
+Parameter '_name' of ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#622) is not in mixedCase
+Parameter '_battleRoar' of ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#622-623) is not in mixedCase
+Parameter '_region' of ChibiFighters.fusionChibis (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#623) is not in mixedCase
+Parameter '_owner' of ChibiFighters.tokensOf (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#741-743) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.approvedFor (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#761) is not in mixedCase
+Parameter '_name' of ChibiFighters.mintSpecial (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#797-798) is not in mixedCase
+Parameter '_battleRoar' of ChibiFighters.mintSpecial (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#798-799) is not in mixedCase
+Parameter '_region' of ChibiFighters.mintSpecial (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#799) is not in mixedCase
+Parameter '_seed' of ChibiFighters.mintSpecial (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#799) is not in mixedCase
+Parameter '_specialId' of ChibiFighters.mintSpecial (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#799) is not in mixedCase
+Function 'ChibiFighters._mint' (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#813-867) is not in mixedCase
+Parameter '_name' of ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#814) is not in mixedCase
+Parameter '_battleRoar' of ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#814-815) is not in mixedCase
+Parameter '_region' of ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#815-816) is not in mixedCase
+Parameter '_seed' of ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#816) is not in mixedCase
+Parameter '_founder' of ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#816-817) is not in mixedCase
+Parameter '_specialId' of ChibiFighters._mint (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#817) is not in mixedCase
+Parameter '_name' of ChibiFighters.buyGEN0Chibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#868) is not in mixedCase
+Parameter '_battleRoar' of ChibiFighters.buyGEN0Chibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#868-869) is not in mixedCase
+Parameter '_region' of ChibiFighters.buyGEN0Chibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#869) is not in mixedCase
+Parameter '_seed' of ChibiFighters.buyGEN0Chibi (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#869) is not in mixedCase
+Parameter '_priceChibi' of ChibiFighters.setChibiGEN0Price (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#878) is not in mixedCase
+Parameter '_owner' of ChibiFighters.isApprovedFor (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#893-895) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.isApprovedFor (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#895) is not in mixedCase
+Parameter '_from' of ChibiFighters.clearApprovalAndTransfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#909) is not in mixedCase
+Parameter '_to' of ChibiFighters.clearApprovalAndTransfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#909) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.clearApprovalAndTransfer (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#909-910) is not in mixedCase
+Parameter '_owner' of ChibiFighters.clearApproval (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#924) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.clearApproval (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#924-925) is not in mixedCase
+Parameter '_to' of ChibiFighters.addToken (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#934-935) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.addToken (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#935) is not in mixedCase
+Parameter '_from' of ChibiFighters.removeToken (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#944) is not in mixedCase
+Parameter '_tokenId' of ChibiFighters.removeToken (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#944) is not in mixedCase
+Parameter '_address' of ChibiFighters.weiToOwner (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#984) is not in mixedCase
+Parameter '_a' of ChibiFighters.strConcat (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol) is not in mixedCase
+Parameter '_b' of ChibiFighters.strConcat (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol) is not in mixedCase
+Variable 'ChibiFighters._infoUrlPrefix' (/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol#238-239) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/13/0x75b9f86e79ad930b9396c0d165e4bb93c8382ca9.sol analyzed (8 contracts), 163 result(s) found

@@ -1,0 +1,90 @@
+/unique_contracts/0x7f4ca7139f9847dde009b4c6af1e173c1bf03d2d.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: adc165
+severity: 1
+line: 301
+column: 34
+content: 0xcB46219bA114245c3A18761E4f7891f9C4BeF8c0
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: adc165
+severity: 1
+line: 302
+column: 34
+content: 0xF2AFb5c2D205B36F22BE528A1300393B1C399E79
+
+ruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: adc165
+severity: 1
+line: 303
+column: 34
+content: 0x22FC59B3878F0Aa2e43F7f3388c1e20D83Cf8ba2
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 244
+column: 0
+content: contractMicroverseisHexBoard3,PullPayment,Ownable,TaxRules,JackpotRules{usingSafeMathforuint256;usingMathforuint256;enumStage{DutchAuction,GameRounds}Stagepublicstage=Stage.DutchAuction;modifieratStage(Stage_stage){require(stage==_stage,"Function cannot be called at this time.");_;}constructor(uintstartingStage)public{if(startingStage==uint(Stage.GameRounds)){stage=Stage.GameRounds;_startGameRound();}else{_startAuction();}}mapping(uint8=>address)publictileToOwner;mapping(uint8=>uint256)publictileToPrice;uint256publictotalTileValue;function_changeTilePrice(uint8tileId,uint256newPrice)private{uint256oldPrice=tileToPrice[tileId];tileToPrice[tileId]=newPrice;totalTileValue=(totalTileValue.sub(oldPrice)).add(newPrice);}eventTileOwnerChanged(uint8indexedtileId,addressindexedoldOwner,addressindexednewOwner,uint256oldPrice,uint256newPrice);addresspublicteamAddress1=0xcB46219bA114245c3A18761E4f7891f9C4BeF8c0;addresspublicteamAddress2=0xF2AFb5c2D205B36F22BE528A1300393B1C399E79;addresspublicteamAddress3=0x22FC59B3878F0Aa2e43F7f3388c1e20D83Cf8ba2;function_sendToTeam(uint256amount)private{uint256perTeamMemberFee=amount.div(3);asyncSend(teamAddress1,perTeamMemberFee);asyncSend(teamAddress2,perTeamMemberFee);asyncSend(teamAddress3,perTeamMemberFee);}functionwithdrawContractBalance()externalonlyOwner{uint256contractBalance=address(this).balance;uint256withdrawableBalance=contractBalance.sub(totalPayments);require(withdrawableBalance>0);asyncSend(msg.sender,withdrawableBalance);}eventAuctionStarted(uint256startingAuctionPrice,uint256endingAuctionPrice,uint256auctionDuration,uint256startTime);eventAuctionEnded(uint256endTime);uint256constantpublicstartingAuctionPrice=1ether;uint256constantpublicendingAuctionPrice=0.05ether;uint256constantpublicauctionDuration=5days;uint256publicnumBoughtTiles;uint256publicauctionStartTime;functionbuyTileAuction(uint8tileId,uint256newPrice,addressreferrer)publicpayableatStage(Stage.DutchAuction){require(tileToOwner[tileId]==address(0)&&tileToPrice[tileId]==0,"Can't buy a tile that's already been auctioned off");uint256tax=_priceToTax(newPrice);uint256price=getTilePriceAuction();require(msg.value>=tax.add(price),"Must pay the full price and tax for a tile on auction");_distributeAuctionTax(msg.value,referrer);tileToOwner[tileId]=msg.sender;_changeTilePrice(tileId,newPrice);numBoughtTiles=numBoughtTiles.add(1);emitTileOwnerChanged(tileId,address(0),msg.sender,price,newPrice);if(numBoughtTiles>=numTiles){endAuction();}}function_distributeAuctionTax(uint256tax,addressreferrer)private{_distributeLandholderTax(_totalLandholderTax(tax));uint256totalJackpotTax=_jackpotTax(tax).add(_nextPotTax(tax));nextJackpot=nextJackpot.add(totalJackpotTax);boolhasReferrer=referrer!=address(0);_sendToTeam(_teamTax(tax,hasReferrer));asyncSend(referrer,_referrerTax(tax,hasReferrer));}functiongetTilePriceAuction()publicviewatStage(Stage.DutchAuction)returns(uint256){uint256secondsPassed=0;if(now>auctionStartTime){secondsPassed=now.sub(auctionStartTime);}if(secondsPassed>=auctionDuration){returnendingAuctionPrice;}else{uint256maxPriceDelta=startingAuctionPrice.sub(endingAuctionPrice);uint256actualPriceDelta=(maxPriceDelta.mul(secondsPassed)).div(auctionDuration);returnstartingAuctionPrice.sub(actualPriceDelta);}}functionendAuction()private{require(numBoughtTiles>=numTiles,"Can't end auction if are unbought tiles");stage=Stage.GameRounds;_startGameRound();emitAuctionEnded(now);}function_startAuction()private{auctionStartTime=now;numBoughtTiles=0;emitAuctionStarted(startingAuctionPrice,endingAuctionPrice,auctionDuration,auctionStartTime);}uint256constantpublicstartingRoundExtension=12hours;uint256constantpublichalvingVolume=10ether;uint256constantpublicminRoundExtension=10seconds;uint256publicroundNumber=0;uint256publiccurExtensionVolume;uint256publiccurRoundExtension;uint256publicroundEndTime;uint256publicjackpot;uint256publicnextJackpot;eventTilePriceChanged(uint8indexedtileId,addressindexedowner,uint256oldPrice,uint256newPrice);eventGameRoundStarted(uint256initJackpot,uint256endTime,uint256roundNumber);eventGameRoundExtended(uint256endTime);eventGameRoundEnded(uint256jackpot);functionroundTimeRemaining()publicviewatStage(Stage.GameRounds)returns(uint256){if(_roundOver()){return0;}else{returnroundEndTime.sub(now);}}function_extendRound()private{roundEndTime=roundEndTime.max(now.add(curRoundExtension));emitGameRoundExtended(roundEndTime);}function_startGameRound()private{curExtensionVolume=0ether;curRoundExtension=startingRoundExtension;jackpot=nextJackpot;nextJackpot=0;roundNumber=roundNumber.add(1);_extendRound();emitGameRoundStarted(jackpot,roundEndTime,roundNumber);}function_roundOver()privateviewreturns(bool){returnnow>=roundEndTime;}modifierduringRound(){require(!_roundOver(),"Round can't be over!");_;}function_logRoundExtensionVolume(uint256amount)private{curExtensionVolume=curExtensionVolume.add(amount);if(curExtensionVolume>=halvingVolume){curRoundExtension=curRoundExtension.div(2).max(minRoundExtension);curExtensionVolume=0ether;}}functionendGameRound()publicatStage(Stage.GameRounds){require(_roundOver(),"Round must be over!");_distributeJackpot();emitGameRoundEnded(jackpot);_startGameRound();}functionsetTilePrice(uint8tileId,uint256newPrice,addressreferrer)publicpayableatStage(Stage.GameRounds)duringRound{require(tileToOwner[tileId]==msg.sender,"Can't set tile price for a tile you don't own!");uint256tax=_priceToTax(newPrice);require(msg.value>=tax,"Must pay tax on new tile price!");uint256oldPrice=tileToPrice[tileId];_distributeTax(msg.value,referrer);_changeTilePrice(tileId,newPrice);_extendRound();_logRoundExtensionVolume(msg.value);emitTilePriceChanged(tileId,tileToOwner[tileId],oldPrice,newPrice);}functionbuyTile(uint8tileId,uint256newPrice,addressreferrer)publicpayableatStage(Stage.GameRounds)duringRound{addressoldOwner=tileToOwner[tileId];require(oldOwner!=msg.sender,"Can't buy a tile you already own");uint256tax=_priceToTax(newPrice);uint256oldPrice=tileToPrice[tileId];require(msg.value>=tax.add(oldPrice),"Must pay full price and tax for tile");asyncSend(oldOwner,tileToPrice[tileId]);tileToOwner[tileId]=msg.sender;uint256actualTax=msg.value.sub(oldPrice);_distributeTax(actualTax,referrer);_changeTilePrice(tileId,newPrice);_extendRound();_logRoundExtensionVolume(msg.value);emitTileOwnerChanged(tileId,oldOwner,msg.sender,oldPrice,newPrice);}function_distributeJackpot()private{uint256winnerJackpot=_winnerJackpot(jackpot);uint256landholderJackpot=_landholderJackpot(jackpot);_distributeWinnerAndLandholderJackpot(winnerJackpot,landholderJackpot);_sendToTeam(_teamJackpot(jackpot));nextJackpot=nextJackpot.add(_nextPotJackpot(jackpot));}function_calculatePriceComplement(uint8tileId)privateviewreturns(uint256){returntotalTileValue.sub(tileToPrice[tileId]);}function_distributeWinnerAndLandholderJackpot(uint256winnerJackpot,uint256landholderJackpot)private{uint256[]memorycomplements=newuint256[](numTiles+1);uint256totalPriceComplement=0;uint256bestComplement=0;uint8lastWinningTileId=0;for(uint8i=minTileId;i<=maxTileId;i++){uint256priceComplement=_calculatePriceComplement(i);if(bestComplement==0||priceComplement>bestComplement){bestComplement=priceComplement;lastWinningTileId=i;}complements[i]=priceComplement;totalPriceComplement=totalPriceComplement.add(priceComplement);}uint256numWinners=0;for(i=minTileId;i<=maxTileId;i++){if(_calculatePriceComplement(i)==bestComplement){numWinners++;}}if(numWinners==1){asyncSend(tileToOwner[lastWinningTileId],winnerJackpot);}else{for(i=minTileId;i<=maxTileId;i++){if(_calculatePriceComplement(i)==bestComplement){asyncSend(tileToOwner[i],winnerJackpot.div(numWinners));}}}for(i=minTileId;i<=maxTileId;i++){uint256landholderAllocation=complements[i].mul(landholderJackpot).div(totalPriceComplement);asyncSend(tileToOwner[i],landholderAllocation);}}function_distributeTax(uint256tax,addressreferrer)private{jackpot=jackpot.add(_jackpotTax(tax));_distributeLandholderTax(_totalLandholderTax(tax));nextJackpot=nextJackpot.add(_nextPotTax(tax));boolhasReferrer=referrer!=address(0);_sendToTeam(_teamTax(tax,hasReferrer));asyncSend(referrer,_referrerTax(tax,hasReferrer));}function_distributeLandholderTax(uint256tax)private{for(uint8tile=minTileId;tile<=maxTileId;tile++){if(tileToOwner[tile]!=address(0)&&tileToPrice[tile]!=0){uint256tilePrice=tileToPrice[tile];uint256allocation=tax.mul(tilePrice).div(totalTileValue);asyncSend(tileToOwner[tile],allocation);}}}}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 20
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 106
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 199
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 250
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_UNCHECKED_CALL
+patternId: f39eed
+severity: 3
+line: 384
+column: 8
+content: _sendToTeam(_teamTax(tax,hasReferrer))
+
+ruleId: SOLIDITY_UNCHECKED_CALL
+patternId: f39eed
+severity: 3
+line: 610
+column: 8
+content: _sendToTeam(_teamJackpot(jackpot))
+
+ruleId: SOLIDITY_UNCHECKED_CALL
+patternId: f39eed
+severity: 3
+line: 672
+column: 8
+content: _sendToTeam(_teamTax(tax,hasReferrer))
+
+SOLIDITY_SAFEMATH :4
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_ADDRESS_HARDCODED :3
+SOLIDITY_UNCHECKED_CALL :3

@@ -1,0 +1,74 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol:
+/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol:204:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+       winningNumber = uint256(keccak256(block.timestamp, block.difficulty))%300;
+                               ^------------------------------------------^
+
+INFO:Detectors:[91m
+Lottery.payWinner (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#193-200) sends eth to arbitrary user
+	Dangerous calls:
+	- winner.transfer(balance) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#196-197)
+Lottery.payDev (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#201-210) sends eth to arbitrary user
+	Dangerous calls:
+	- dev.transfer(balance) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#206-210)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Lottery.deposit (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#80-120):
+	External calls:
+	- poohContract.buy.value(msg.value)(customerAddress) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#86-88)
+	- poohContract.exit() (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#106-107)
+	External calls sending eth:
+	- poohContract.buy.value(msg.value)(customerAddress) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#86-88)
+	- payDev(owner) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#109-110)
+	- payWinner(customerAddress) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#112-114)
+	State variables written after the call(s):
+	- ticketNumber (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#118)
+	- winningNumber (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#118)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Lottery.deposit (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#80-120) does not use the value returned by external calls:
+	-poohContract.buy.value(msg.value)(customerAddress) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#86-88)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Lottery.deposit (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#80-120):
+	External calls:
+	- poohContract.buy.value(msg.value)(customerAddress) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#86-88)
+	State variables written after the call(s):
+	- ticketNumber (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#98)
+	- ticketNumber (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#119)
+Reentrancy in Lottery.emergencyStop (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#157-167):
+	External calls:
+	- poohContract.exit() (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#162-164)
+	External calls sending eth:
+	- owner.transfer(balance) (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#166)
+	State variables written after the call(s):
+	- openToPublic (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#167)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Lottery.deposit (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#80-120) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ticketNumber >= winningNumber (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#100-119)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Lottery.fallback (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#77-79) should be declared external
+Lottery.deposit (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#80-120) should be declared external
+Lottery.myTokens (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#125-128) should be declared external
+Lottery.myDividends (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#131-135) should be declared external
+Lottery.ethBalance (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#138-140) should be declared external
+Lottery.openToThePublic (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#151-153) should be declared external
+Lottery.emergencyStop (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#157-167) should be declared external
+Lottery.returnAnyERC20Token (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#174-185) should be declared external
+ERC20Interface.transfer (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#219-221) should be declared external
+POOH.buy (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#225-228) should be declared external
+POOH.exit (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#228-229) should be declared external
+POOH.myTokens (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#230) should be declared external
+POOH.myDividends (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#230-233) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol:
+	- pragma solidity^0.4.20 (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '' of POOH.buy (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#228) is not in mixedCase
+Parameter '' of POOH.myDividends (/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol#232) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/22/0xed4fd2e53153b8bfd866e11fb015a1bc4a0e9655.sol analyzed (4 contracts), 23 result(s) found

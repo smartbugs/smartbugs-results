@@ -1,0 +1,119 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:95:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Sign();
+    ^----^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:119:5: Warning: Invoking events without "emit" prefix is deprecated.
+    CreateSwap(now);
+    ^-------------^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:133:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    require(swap.secretHash == ripemd160(_secret));
+                               ^----------------^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:133:32: Warning: The provided argument of type bytes32 is not implicitly convertible to expected type bytes memory.
+    require(swap.secretHash == ripemd160(_secret));
+                               ^----------------^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:143:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Withdraw();
+    ^--------^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:161:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Close();
+    ^-----^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:179:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Refund();
+    ^------^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:195:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Abort();
+    ^-----^
+/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:204:3: Warning: No visibility specified. Defaulting to "public". 
+  function withdr(uint amount) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Reentrancy in EthToSmthSwaps.refund (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#172-187):
+	External calls:
+	- Reputation(ratingContractAddress).change(_participantAddress,- 1) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#184-186)
+	External calls sending eth:
+	- msg.sender.transfer(swap.balance) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#176)
+	State variables written after the call(s):
+	- swaps (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#186-187)
+Reentrancy in EthToSmthSwaps.withdraw (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#133-148):
+	External calls:
+	- Reputation(ratingContractAddress).change(msg.sender,1) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#140-141)
+	External calls sending eth:
+	- msg.sender.transfer(swap.balance) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#141-146)
+	State variables written after the call(s):
+	- swaps (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#146-147)
+	- swaps (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#147-148)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in EthToSmthSwaps.abort (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#190-200):
+	External calls:
+	- Reputation(ratingContractAddress).change(_ownerAddress,- 1) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#198-199)
+	State variables written after the call(s):
+	- participantSigns (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#200)
+	- swaps (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#200)
+Reentrancy in EthToSmthSwaps.close (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#158-169):
+	External calls:
+	- Reputation(ratingContractAddress).change(msg.sender,1) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#166-168)
+	State variables written after the call(s):
+	- swaps (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#168-169)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in EthToSmthSwaps.close (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#158-169):
+	External calls:
+	- Reputation(ratingContractAddress).change(msg.sender,1) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#166-168)
+	State variables written after the call(s):
+	- participantSigns (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#168-169)
+Reentrancy in EthToSmthSwaps.refund (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#172-187):
+	External calls:
+	- Reputation(ratingContractAddress).change(_participantAddress,- 1) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#184-186)
+	External calls sending eth:
+	- msg.sender.transfer(swap.balance) (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#176)
+	State variables written after the call(s):
+	- participantSigns (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#186-187)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+EthToSmthSwaps.SafeTime should be constant (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#67-69)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Reputation.addToWhitelist (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#13-18) should be declared external
+Reputation.change (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#18-23) should be declared external
+Reputation.getMy (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#23-27) should be declared external
+Reputation.get (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#27-33) should be declared external
+EthToSmthSwaps.setReputationAddress (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#83-90) should be declared external
+EthToSmthSwaps.sign (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#92-99) should be declared external
+EthToSmthSwaps.checkSign (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#100-106) should be declared external
+EthToSmthSwaps.createSwap (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#108-123) should be declared external
+EthToSmthSwaps.getBalance (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#123-130) should be declared external
+EthToSmthSwaps.withdraw (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#133-148) should be declared external
+EthToSmthSwaps.getSecret (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#151-156) should be declared external
+EthToSmthSwaps.close (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#158-169) should be declared external
+EthToSmthSwaps.refund (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#172-187) should be declared external
+EthToSmthSwaps.abort (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#190-200) should be declared external
+EthToSmthSwaps.withdr (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_contractAddress' of Reputation.addToWhitelist (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#13-14) is not in mixedCase
+Parameter '_userAddress' of Reputation.change (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#18) is not in mixedCase
+Parameter '_delta' of Reputation.change (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#18-19) is not in mixedCase
+Parameter '_userAddress' of Reputation.get (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#27) is not in mixedCase
+Parameter '_ratingContractAddress' of EthToSmthSwaps.setReputationAddress (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#84) is not in mixedCase
+Parameter '_participantAddress' of EthToSmthSwaps.sign (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#92-93) is not in mixedCase
+Parameter '_ownerAddress' of EthToSmthSwaps.checkSign (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#100-103) is not in mixedCase
+Parameter '_secretHash' of EthToSmthSwaps.createSwap (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#109) is not in mixedCase
+Parameter '_participantAddress' of EthToSmthSwaps.createSwap (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#109) is not in mixedCase
+Parameter '_ownerAddress' of EthToSmthSwaps.getBalance (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#126-128) is not in mixedCase
+Parameter '_secret' of EthToSmthSwaps.withdraw (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#133) is not in mixedCase
+Parameter '_ownerAddress' of EthToSmthSwaps.withdraw (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#133-134) is not in mixedCase
+Parameter '_participantAddress' of EthToSmthSwaps.getSecret (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#153-154) is not in mixedCase
+Parameter '_participantAddress' of EthToSmthSwaps.close (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#158-159) is not in mixedCase
+Parameter '_participantAddress' of EthToSmthSwaps.refund (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#172-174) is not in mixedCase
+Parameter '_ownerAddress' of EthToSmthSwaps.abort (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#190) is not in mixedCase
+Parameter '_ownerAddress' of EthToSmthSwaps.clean (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#203) is not in mixedCase
+Parameter '_participantAddress' of EthToSmthSwaps.clean (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#203) is not in mixedCase
+Variable 'EthToSmthSwaps.SafeTime' (/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol#67-69) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/24/0x025dce2d39a46296766db7cac8c322e8f59cd5d9.sol analyzed (3 contracts), 42 result(s) found

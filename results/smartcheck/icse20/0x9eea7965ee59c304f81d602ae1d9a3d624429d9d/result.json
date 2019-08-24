@@ -1,0 +1,145 @@
+{
+  "contract": "0x9eea7965ee59c304f81d602ae1d9a3d624429d9d",
+  "tool": "smartcheck",
+  "start": 1563484065.8848155,
+  "end": 1563484078.595476,
+  "duration": 12.710660457611084,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 564,
+      "column": 12,
+      "content": "returnaddress(0)"
+    },
+    {
+      "name": "SOLIDITY_FUNCTIONS_RETURNS_TYPE_AND_NO_RETURN",
+      "patternId": "47acc2",
+      "severity": 1,
+      "line": 1361,
+      "column": 4,
+      "content": "functionregisterLottery(uint256_dogId)externalreturns(uint8){require(_owns(msg.sender,_dogId));require(lottery.registerLottery(_dogId)==0);_transfer(msg.sender,address(lottery),_dogId);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 58,
+      "column": 0,
+      "content": "contractLotteryInterface{functionisLottery()publicpurereturns(bool);functioncheckLottery(uint256genes)publicpurereturns(uint8lotclass);functionregisterLottery(uint256_dogId)publicpayablereturns(uint8);functiongetCLottery()publicviewreturns(uint8[7]luckyGenes1,uint256totalAmount1,uint256openBlock1,boolisReward1,uint256term1,uint8currentGenes1,uint256tSupply,uint256sPoolAmount1,uint256[]reward1);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 978,
+      "column": 0,
+      "content": "contractSiringClockAuctionisClockAuction{boolpublicisSiringClockAuction=true;functionSiringClockAuction(address_nftAddr,uint256_cut)publicClockAuction(_nftAddr,_cut){}functioncreateAuction(uint256_tokenId,uint256_startingPrice,uint256_endingPrice,uint256_duration,address_seller)external{require(_startingPrice==uint256(uint128(_startingPrice)));require(_endingPrice==uint256(uint128(_endingPrice)));require(_duration==uint256(uint64(_duration)));require(msg.sender==address(nonFungibleContract));_escrow(_seller,_tokenId);Auctionmemoryauction=Auction(_seller,uint128(_startingPrice),uint128(_endingPrice),uint64(_duration),uint64(now));_addAuction(_tokenId,auction);}functionbid(uint256_tokenId,address_to)externalpayable{require(msg.sender==address(nonFungibleContract));addressseller=tokenIdToAuction[_tokenId].seller;_bid(_tokenId,msg.value,_to);_transfer(seller,_tokenId);}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 1022,
+      "column": 0,
+      "content": "contractSaleClockAuctionisClockAuction{boolpublicisSaleClockAuction=true;uint256publicgen0SaleCount;uint256[5]publiclastGen0SalePrices;functionSaleClockAuction(address_nftAddr,uint256_cut)publicClockAuction(_nftAddr,_cut){}functioncreateAuction(uint256_tokenId,uint256_startingPrice,uint256_endingPrice,uint256_duration,address_seller)external{require(_startingPrice==uint256(uint128(_startingPrice)));require(_endingPrice==uint256(uint128(_endingPrice)));require(_duration==uint256(uint64(_duration)));require(msg.sender==address(nonFungibleContract));_escrow(_seller,_tokenId);Auctionmemoryauction=Auction(_seller,uint128(_startingPrice),uint128(_endingPrice),uint64(_duration),uint64(now));_addAuction(_tokenId,auction);}functionbid(uint256_tokenId,address_to)externalpayable{require(msg.sender==address(nonFungibleContract));addressseller=tokenIdToAuction[_tokenId].seller;require(seller!=_to);uint256price=_bid(_tokenId,msg.value,_to);_transfer(_to,_tokenId);if(seller==address(nonFungibleContract)){lastGen0SalePrices[gen0SaleCount%5]=price;gen0SaleCount++;}}functionaverageGen0SalePrice()externalviewreturns(uint256){uint256sum=0;for(uint256i=0;i<5;i++){sum+=lastGen0SalePrices[i];}returnsum/5;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 1271,
+      "column": 0,
+      "content": "contractDogCoreisDogMinting{addresspublicnewContractAddress;functionDogCore()public{paused=true;ceoAddress=msg.sender;cooAddress=msg.sender;_createDog(0,0,0,uint256(0),address(this),0,0,false);_approve(0,cooAddress);_createDog(0,0,0,uint256(0),address(this),0,0,false);_approve(1,cooAddress);}functionsetNewAddress(address_v2Address)externalonlyCEOwhenPaused{newContractAddress=_v2Address;ContractUpgrade(_v2Address);}function()externalpayable{require(msg.sender==address(saleAuction)||msg.sender==address(siringAuction)||msg.sender==ceoAddress);}functiongetDog(uint256_id)externalviewreturns(uint256cooldownIndex,uint256nextActionAt,uint256siringWithId,uint256birthTime,uint256matronId,uint256sireId,uint256generation,uint256genes,uint8variation,uint256gen0){Dogstoragedog=dogs[_id];cooldownIndex=uint256(dog.cooldownIndex);nextActionAt=uint256(dog.cooldownEndBlock);siringWithId=uint256(dog.siringWithId);birthTime=uint256(dog.birthTime);matronId=uint256(dog.matronId);sireId=uint256(dog.sireId);generation=uint256(dog.generation);genes=uint256(dog.genes);variation=uint8(dog.variation);gen0=uint256(dog.gen0);}functionunpause()publiconlyCEOwhenPaused{require(saleAuction!=address(0));require(siringAuction!=address(0));require(lottery!=address(0));require(variation!=address(0));require(newContractAddress==address(0));super.unpause();}functionsetLotteryAddress(address_address)externalonlyCEO{require(address(lottery)==address(0));LotteryInterfacecandidateContract=LotteryInterface(_address);require(candidateContract.isLottery());lottery=candidateContract;}functionsetVariationAddress(address_address)externalonlyCEO{require(address(variation)==address(0));VariationInterfacecandidateContract=VariationInterface(_address);require(candidateContract.isVariation());variation=candidateContract;}functionregisterLottery(uint256_dogId)externalreturns(uint8){require(_owns(msg.sender,_dogId));require(lottery.registerLottery(_dogId)==0);_transfer(msg.sender,address(lottery),_dogId);}functiongetAvailableBlance()externalviewreturns(uint256){returnaddress(this).balance-spendMoney;}}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_UNCHECKED_CALL",
+      "patternId": "f39eed",
+      "severity": 3,
+      "line": 233,
+      "column": 8,
+      "content": "_sendMoney(_to,_money)"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 78,
+      "column": 12,
+      "content": "uint256[]reward1"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 744,
+      "column": 43,
+      "content": "Auction_auction"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 199,
+      "column": 4,
+      "content": "Dog[]dogs;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 201,
+      "column": 4,
+      "content": "mapping(uint256=>address)dogIndexToOwner;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 203,
+      "column": 4,
+      "content": "mapping(address=>uint256)ownershipTokenCount;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 345,
+      "column": 4,
+      "content": "bytes4constantInterfaceSignature_ERC165=bytes4(keccak256(\"supportsInterface(bytes4)\"));"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 347,
+      "column": 4,
+      "content": "bytes4constantInterfaceSignature_ERC721=bytes4(keccak256(\"name()\"))^bytes4(keccak256(\"symbol()\"))^bytes4(keccak256(\"totalSupply()\"))^bytes4(keccak256(\"balanceOf(address)\"))^bytes4(keccak256(\"ownerOf(uint256)\"))^bytes4(keccak256(\"approve(address,uint256)\"))^bytes4(keccak256(\"transfer(address,uint256)\"))^bytes4(keccak256(\"transferFrom(address,address,uint256)\"));"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 726,
+      "column": 4,
+      "content": "mapping(uint256=>Auction)tokenIdToAuction;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 883,
+      "column": 4,
+      "content": "bytes4constantInterfaceSignature_ERC721=bytes4(keccak256(\"name()\"))^bytes4(keccak256(\"symbol()\"))^bytes4(keccak256(\"totalSupply()\"))^bytes4(keccak256(\"balanceOf(address)\"))^bytes4(keccak256(\"ownerOf(uint256)\"))^bytes4(keccak256(\"approve(address,uint256)\"))^bytes4(keccak256(\"transfer(address,uint256)\"))^bytes4(keccak256(\"transferFrom(address,address,uint256)\"));"
+    }
+  ]
+}

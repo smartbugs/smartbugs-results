@@ -1,0 +1,128 @@
+/unique_chucks/3/0xa94c2707e233e5d63f46011a4a158cd2452d1d86.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: c67a09
+severity: 1
+line: 687
+column: 33
+content: 0x0
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 622
+column: 4
+content: functionnotExceedingSaleLimit(uint256amount)internalconstantreturns(bool){returnhardCap>=amount.add(token.totalSupply());}
+
+ruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 802
+column: 4
+content: functionvalidPresalePurchase()internalconstantreturns(bool){boolwithinPeriod=now>=presaleStartTime&&now<=presaleEndTime;boolnonZeroPurchase=msg.value!=0;boolvalidPresaleLimit=msg.value>=presaleLimit;returnwithinPeriod&&nonZeroPurchase&&validPresaleLimit;}
+
+ruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 256
+column: 2
+content: functionapprove(address_spender,uint256_value)publicreturns(bool){allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}
+
+ruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 382
+column: 2
+content: functionapprove(address_spender,uint256_value)publicwhenNotPausedreturns(bool){returnsuper.approve(_spender,_value);}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 644
+column: 0
+content: contractRestartEnergyCrowdsaleisTimedCrowdsale,TokenCappedCrowdsale,Pausable{uint256publicpresaleLimit=10*1ether;uint16publicpresaleRate=120;uint256publicsoldTokens=0;uint16publicetherRate=130;addresspublictokensWallet;mapping(address=>uint256)publicpurchasedAmountOf;mapping(address=>uint256)publictokenAmountOf;functionRestartEnergyCrowdsale(uint256_presaleStartTime,uint256_presaleEndTime,uint256_startTime,uint256_endTime,address_wallet,address_tokensWallet)publicTokenCappedCrowdsale()Crowdsale(_startTime,_endTime,100,_wallet){presaleStartTime=_presaleStartTime;presaleEndTime=_presaleEndTime;tokensWallet=_tokensWallet;require(now<=presaleStartTime);require(presaleEndTime>presaleStartTime);require(presaleEndTime<startTime);}functioncreateTokenContract()internalreturns(MintableToken){returnRestartEnergyToken(0x0);}functionbuildTokenContract()publiconlyOwner{require(token==address(0x0));RestartEnergyToken_token=newRestartEnergyToken();_token.pause();token=_token;}functionbuy()publicwhenNotPausedpayable{buyTokens(msg.sender);}functionbuyTokens(addressbeneficiary)publicwhenNotPausedpayable{require(!isFinalized);require(beneficiary!=0x0);require(validPresalePurchase()||validPurchase());uint256weiAmount=msg.value;uint256tokens=weiAmount.mul(getRate());require(notExceedingSaleLimit(tokens));weiRaised=weiRaised.add(weiAmount);soldTokens=soldTokens.add(tokens);token.mint(beneficiary,tokens);purchasedAmountOf[msg.sender]=purchasedAmountOf[msg.sender].add(msg.value);tokenAmountOf[msg.sender]=tokenAmountOf[msg.sender].add(tokens);TokenPurchase(msg.sender,beneficiary,weiAmount,tokens);forwardFunds();}functionsendTokensToAddress(uint256amount,addressto)publiconlyOwner{require(!isFinalized);require(notExceedingSaleLimit(amount));tokenAmountOf[to]=tokenAmountOf[to].add(amount);soldTokens=soldTokens.add(amount);token.mint(to,amount);TokenPurchase(msg.sender,to,0,amount);}functionenableTokenTransfers()publiconlyOwner{require(isFinalized);require(now>endTime+15days);require(RestartEnergyToken(token).paused());RestartEnergyToken(token).unpause();}boolpublicfirstPartOfTeamTokensClaimed=false;boolpublicsecondPartOfTeamTokensClaimed=false;functionclaimTeamTokens()publiconlyOwner{require(isFinalized);require(!secondPartOfTeamTokensClaimed);require(now>endTime+182days);uint256tokensToMint=totalTokens.mul(3).div(100);if(!firstPartOfTeamTokensClaimed){token.mint(tokensWallet,tokensToMint);firstPartOfTeamTokensClaimed=true;}else{require(now>endTime+365days);token.mint(tokensWallet,tokensToMint);secondPartOfTeamTokensClaimed=true;token.finishMinting();}}functiongetRate()internalviewreturns(uint256){uint256calcRate=rate;if(validPresalePurchase()){calcRate=presaleRate;}else{uint256daysPassed=(now-startTime)/1days;if(daysPassed<15){calcRate=100+(15-daysPassed);}}calcRate=calcRate.mul(etherRate);returncalcRate;}functionsetEtherRate(uint16_etherRate)publiconlyOwner{etherRate=_etherRate;presaleLimit=uint256(1ether).mul(10000).div(etherRate).div(10);}functionvalidPresalePurchase()internalconstantreturns(bool){boolwithinPeriod=now>=presaleStartTime&&now<=presaleEndTime;boolnonZeroPurchase=msg.value!=0;boolvalidPresaleLimit=msg.value>=presaleLimit;returnwithinPeriod&&nonZeroPurchase&&validPresaleLimit;}functionfinalization()internal{super.finalization();uint256toMintNow=totalTokens.mul(14).div(100);token.mint(tokensWallet,toMintNow);}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 531
+column: 4
+content: functionsetEndTime(uinttime)publiconlyOwner{require(now<time);require(time>startTime);endTime=time;EndTimeChanged(endTime);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 539
+column: 4
+content: functionsetStartTime(uinttime)publiconlyOwner{require(now<time);require(time>presaleEndTime);startTime=time;StartTimeChanged(startTime);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 547
+column: 4
+content: functionsetPresaleStartTime(uinttime)publiconlyOwner{require(now<time);require(time<presaleEndTime);presaleStartTime=time;PresaleStartTimeChanged(presaleStartTime);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 555
+column: 4
+content: functionsetPresaleEndTime(uinttime)publiconlyOwner{require(now<time);require(time>presaleStartTime);presaleEndTime=time;PresaleEndTimeChanged(presaleEndTime);}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 794
+column: 4
+content: functionsetEtherRate(uint16_etherRate)publiconlyOwner{etherRate=_etherRate;presaleLimit=uint256(1ether).mul(10000).div(etherRate).div(10);}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 162
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 418
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 575
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 611
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 164
+column: 2
+content: mapping(address=>uint256)balances;
+
+SOLIDITY_VISIBILITY :1
+SOLIDITY_SAFEMATH :4
+SOLIDITY_OVERPOWERED_ROLE :5
+SOLIDITY_DEPRECATED_CONSTRUCTIONS :2
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_ADDRESS_HARDCODED :1
+SOLIDITY_ERC20_APPROVE :2

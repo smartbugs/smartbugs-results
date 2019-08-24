@@ -1,0 +1,81 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol:
+/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol:69:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function AuctusTokenSale(uint256 minimumCap, uint256 endSaleTime) public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Reentrancy in AuctusTokenSale.finish (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#162-177):
+	External calls:
+	- assert(bool)(address(0x0285d35508e1A1f833142EB5211adb858Bd3323A).call.value(vestedEthers)()) (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#168-171)
+	- token.setTokenSaleFinished() (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#176-177)
+	- token.burn(remainingTokens) (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#177)
+	External calls sending eth:
+	- address(0xd1B10607921C78D9a00529294C4b99f1bd250E1c).transfer(freeEthers) (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#166-168)
+	- assert(bool)(address(0x0285d35508e1A1f833142EB5211adb858Bd3323A).call.value(vestedEthers)()) (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#168-171)
+	State variables written after the call(s):
+	- remainingTokens (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#177)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in AuctusTokenSale.fallback (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#129-150):
+	External calls:
+	- (weiToInvest,weiRemaining) = getValueToInvest() (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#133-134)
+	State variables written after the call(s):
+	- invested (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#141)
+	- remainingTokens (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#136-138)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+empty in AuctusTokenSale.transferTokens (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#232) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+AuctusTokenSale.finish (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#162-177) does not use the value returned by external calls:
+	-token.burn(remainingTokens) (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#177)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in AuctusTokenSale.fallback (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#129-150):
+	External calls:
+	- (weiToInvest,weiRemaining) = getValueToInvest() (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#133-134)
+	State variables written after the call(s):
+	- weiRaised (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#139-140)
+Reentrancy in AuctusTokenSale.setTokenSaleDistribution (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#204-228):
+	External calls:
+	- transferTokens(auctusCoreTeam,bounty,reserveForFuture,preSale,partnershipsAdvisoryVested,partnershipsAdvisoryFree,privateSales) (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#216-220)
+	State variables written after the call(s):
+	- remainingTokens (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#221-226)
+	- saleWasSet (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#227)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+AuctusTokenSale.auctusTokenAddress should be constant (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#49-50)
+AuctusTokenSale.auctusWhiteListAddress should be constant (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#50-52)
+AuctusTokenSale.basicPricePerEth should be constant (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#57-59)
+AuctusTokenSale.startTime should be constant (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#52-55)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+AuctusTokenSale.tokenFallback (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#118-129) should be declared external
+ContractReceiver.tokenFallback (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#29-34) should be declared external
+AuctusToken.transfer (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#34-35) should be declared external
+AuctusToken.transfer (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#35-36) should be declared external
+AuctusToken.burn (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#36-37) should be declared external
+AuctusToken.setTokenSaleFinished (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#37-42) should be declared external
+AuctusWhitelist.getAllowedAmountToContribute (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#42-46) should be declared external
+AuctusTokenSale.transferOwnership (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#98-106) should be declared external
+AuctusTokenSale.setTokenSaleHalt (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#106-108) should be declared external
+AuctusTokenSale.setSoftCap (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#108-113) should be declared external
+AuctusTokenSale.setEndSaleTime (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#113-118) should be declared external
+AuctusTokenSale.fallback (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#129-150) should be declared external
+AuctusTokenSale.revoke (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#151-162) should be declared external
+AuctusTokenSale.finish (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#162-177) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol:
+	- pragma solidity^0.4.21 (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in AuctusTokenSale.finish (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#162-177):
+	-assert(bool)(address(0x0285d35508e1A1f833142EB5211adb858Bd3323A).call.value(vestedEthers)()) /unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#168-171
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '' of AuctusTokenSale.tokenFallback (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#119) is not in mixedCase
+Parameter '_scope_0' of AuctusTokenSale.tokenFallback (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#119-120) is not in mixedCase
+Function 'AuctusTokenSale.AuctusTokenSale' (/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol#69-82) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x29f01443384c39381040d6b10bba6631868c760a.sol analyzed (5 contracts), 26 result(s) found

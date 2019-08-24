@@ -1,0 +1,222 @@
+Processing contract: /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol:ERC20
+Processing contract: /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol:ERC20SafeTransfer
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol:Ownable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol:Partner
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol:PartnerRegistry
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol:Utils
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for UnrestrictedWrite in contract 'Ownable':
+    |    require(_newOwner != address(0));
+    |    emit OwnershipTransferred(owner, _newOwner);
+  > |    owner = _newOwner;
+    |  }
+    |}
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(65)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |  function renounceOwnership() public onlyOwner {
+    |    emit OwnershipRenounced(owner);
+  > |    owner = address(0);
+    |  }
+    |
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(47)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |    require(_newOwner != address(0));
+    |    emit OwnershipTransferred(owner, _newOwner);
+  > |    owner = _newOwner;
+    |  }
+    |}
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(65)
+
+[31mViolation[0m for RepeatedCall in contract 'Partner':
+    |library ERC20SafeTransfer {
+    |    function safeTransfer(address _tokenAddress, address _to, uint256 _value) internal returns (bool success) {
+  > |        (success,) = _tokenAddress.call(abi.encodeWithSignature("transfer(address,uint256)", _to, _value));
+    |        require(success, "Transfer failed");
+    |
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(170)
+
+[31mViolation[0m for RepeatedCall in contract 'Partner':
+    |        // Payout both the partner and the company at the same time
+    |        for(uint256 index = 0; index<tokens.length; index++){
+  > |            uint256 balance = tokens[index] == Utils.eth_address()? address(this).balance : ERC20(tokens[index]).balanceOf(address(this));
+    |            uint256 partnerAmount = SafeMath.div(SafeMath.mul(balance, partnerPercentage), getTotalFeePercentage());
+    |            uint256 companyAmount = balance - partnerAmount;
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(383)
+
+[31mViolation[0m for RepeatedCall in contract 'Partner':
+    |            uint256 companyAmount = balance - partnerAmount;
+    |            if(tokens[index] == Utils.eth_address()){
+  > |                partnerBeneficiary.transfer(partnerAmount);
+    |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(387)
+
+[31mViolation[0m for RepeatedCall in contract 'Partner':
+    |            if(tokens[index] == Utils.eth_address()){
+    |                partnerBeneficiary.transfer(partnerAmount);
+  > |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+    |                ERC20SafeTransfer.safeTransfer(tokens[index], partnerBeneficiary, partnerAmount);
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(388)
+
+[33mWarning[0m for TODAmount in contract 'Partner':
+    |            uint256 companyAmount = balance - partnerAmount;
+    |            if(tokens[index] == Utils.eth_address()){
+  > |                partnerBeneficiary.transfer(partnerAmount);
+    |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(387)
+
+[33mWarning[0m for TODAmount in contract 'Partner':
+    |            if(tokens[index] == Utils.eth_address()){
+    |                partnerBeneficiary.transfer(partnerAmount);
+  > |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+    |                ERC20SafeTransfer.safeTransfer(tokens[index], partnerBeneficiary, partnerAmount);
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(388)
+
+[31mViolation[0m for TODReceiver in contract 'Partner':
+    |            uint256 companyAmount = balance - partnerAmount;
+    |            if(tokens[index] == Utils.eth_address()){
+  > |                partnerBeneficiary.transfer(partnerAmount);
+    |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(387)
+
+[31mViolation[0m for TODReceiver in contract 'Partner':
+    |            if(tokens[index] == Utils.eth_address()){
+    |                partnerBeneficiary.transfer(partnerAmount);
+  > |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+    |                ERC20SafeTransfer.safeTransfer(tokens[index], partnerBeneficiary, partnerAmount);
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(388)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'Partner':
+    |            uint256 companyAmount = balance - partnerAmount;
+    |            if(tokens[index] == Utils.eth_address()){
+  > |                partnerBeneficiary.transfer(partnerAmount);
+    |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(387)
+
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'Partner':
+    |            if(tokens[index] == Utils.eth_address()){
+    |                partnerBeneficiary.transfer(partnerAmount);
+  > |                companyBeneficiary.transfer(companyAmount);
+    |            } else {
+    |                ERC20SafeTransfer.safeTransfer(tokens[index], partnerBeneficiary, partnerAmount);
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(388)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Partner':
+    |    ) public {
+    |        require(companyBeneficiary == address(0x0) && partnerBeneficiary == address(0x0));
+  > |        companyBeneficiary = _companyBeneficiary;
+    |        companyPercentage = _companyPercentage;
+    |        partnerBeneficiary = _partnerBeneficiary;
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(372)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Partner':
+    |        require(companyBeneficiary == address(0x0) && partnerBeneficiary == address(0x0));
+    |        companyBeneficiary = _companyBeneficiary;
+  > |        companyPercentage = _companyPercentage;
+    |        partnerBeneficiary = _partnerBeneficiary;
+    |        partnerPercentage = _partnerPercentage;
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(373)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Partner':
+    |        companyBeneficiary = _companyBeneficiary;
+    |        companyPercentage = _companyPercentage;
+  > |        partnerBeneficiary = _partnerBeneficiary;
+    |        partnerPercentage = _partnerPercentage;
+    |    }
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(374)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Partner':
+    |        companyPercentage = _companyPercentage;
+    |        partnerBeneficiary = _partnerBeneficiary;
+  > |        partnerPercentage = _partnerPercentage;
+    |    }
+    |
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(375)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PartnerRegistry':
+    |  function renounceOwnership() public onlyOwner {
+    |    emit OwnershipRenounced(owner);
+  > |    owner = address(0);
+    |  }
+    |
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(47)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PartnerRegistry':
+    |    require(_newOwner != address(0));
+    |    emit OwnershipTransferred(owner, _newOwner);
+  > |    owner = _newOwner;
+    |  }
+    |}
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(65)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PartnerRegistry':
+    |        Partner newPartner = Partner(createClone());
+    |        newPartner.init(companyBeneficiary, companyPercentage, partnerBeneficiary, partnerPercentage);
+  > |        partnerContracts[address(newPartner)] = true;
+    |        emit PartnerRegistered(address(msg.sender), partnerBeneficiary, address(newPartner));
+    |    }
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(424)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PartnerRegistry':
+    |        Partner newPartner = Partner(createClone());
+    |        newPartner.init(_companyBeneficiary, _companyPercentage, partnerBeneficiary, partnerPercentage);
+  > |        partnerContracts[address(newPartner)] = true;
+    |        emit PartnerRegistered(address(msg.sender), partnerBeneficiary, address(newPartner));
+    |    }
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(436)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PartnerRegistry':
+    |
+    |    function deletePartner(address _partnerAddress) public onlyOwner {
+  > |        partnerContracts[_partnerAddress] = false;
+    |    }
+    |
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(441)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PartnerRegistry':
+    |
+    |    function updateCompanyInfo(address payable newCompanyBeneficiary, uint256 newCompanyPercentage) public onlyOwner {
+  > |        companyBeneficiary = newCompanyBeneficiary;
+    |        companyPercentage = newCompanyPercentage;
+    |    }
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(460)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PartnerRegistry':
+    |    function updateCompanyInfo(address payable newCompanyBeneficiary, uint256 newCompanyPercentage) public onlyOwner {
+    |        companyBeneficiary = newCompanyBeneficiary;
+  > |        companyPercentage = newCompanyPercentage;
+    |    }
+    |}
+  at /unique_chucks/28/0xf3e5e76dabc9f4c479c258b4d7bb2f8250a8819c.sol(461)

@@ -1,0 +1,68 @@
+{
+  "contract": "0x99d804f479df333ed4d2287af2d4da3eda1b3cd1",
+  "tool": "mythril",
+  "start": 1563796175.5409155,
+  "end": 1563796188.24278,
+  "duration": 12.70186448097229,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 91,
+        "code": "split(address[] _to) public payable {\n        uint256 _val = msg.value / _to.length;\n        for (uint256 i=0; i < _to.length; i++) {\n            _to[i].send(_val);\n        }\n\n        if (address(this).balance > 0) {\n            msg.sender.transfer(address(this).balance);\n        }\n    }\n}",
+        "debug": "calldata_EthealSplit_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EthealSplit_0: 0x94e4a82200000000000000000000000000000000000000000000000000000000\ncalldatasize_EthealSplit: 0x4\n",
+        "description": "A possible integer overflow exists in the function `split(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/32/0x99d804f479df333ed4d2287af2d4da3eda1b3cd1.sol",
+        "function": "split(address[])",
+        "lineno": 10,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 173,
+        "code": "/ _to.length;\n        ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_EthealSplit_0: 0x94e4a82200000000000000000000000000000000000000000000000000000000\ncalldatasize_EthealSplit: 0x4\ncalldata_EthealSplit_4 + calldata_EthealSplit_4: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/32/0x99d804f479df333ed4d2287af2d4da3eda1b3cd1.sol",
+        "function": "split(address[])",
+        "lineno": 11,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 262,
+        "code": "_val);\n        }\n",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 384\nCall at address: 384\nCall at address: 384\nCall at address: 384\nCall at address: 384\n",
+        "filename": "/unique_chucks/32/0x99d804f479df333ed4d2287af2d4da3eda1b3cd1.sol",
+        "function": "split(address[])",
+        "lineno": 13,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 262,
+        "code": "_val);\n        }\n",
+        "debug": "",
+        "description": "The return value of an external call is not checked. Note that execution continue even if the called contract throws.",
+        "filename": "/unique_chucks/32/0x99d804f479df333ed4d2287af2d4da3eda1b3cd1.sol",
+        "function": "split(address[])",
+        "lineno": 13,
+        "title": "Unchecked CALL return value",
+        "type": "Informational"
+      },
+      {
+        "address": 384,
+        "code": "fer(address(this).balance);\n        }\n    ",
+        "debug": "SOLVER OUTPUT:\ncalldata_EthealSplit_4 + calldata_EthealSplit_4: 0x5\nbalance_at_1461501637330902918203684832716283019655932542975 & 0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_EthealSplit_0: 0x94e4a82200000000000000000000000000000000000000000000000000000000\ncalldatasize_EthealSplit: 0x4\n",
+        "description": "In the function `split(address[])` a non-zero amount of Ether is sent to msg.sender.\nIt seems that this function can be called without restrictions.",
+        "filename": "/unique_chucks/32/0x99d804f479df333ed4d2287af2d4da3eda1b3cd1.sol",
+        "function": "split(address[])",
+        "lineno": 17,
+        "title": "Ether send",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

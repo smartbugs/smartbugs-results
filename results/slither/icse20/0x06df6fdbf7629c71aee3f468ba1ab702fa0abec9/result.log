@@ -1,0 +1,189 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:235:5: Warning: Use of the "var" keyword is deprecated.
+    var manager = ManagerInterface(bbodServiceRegistry.registry(1));
+    ^---------^
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:328:5: Warning: Use of the "var" keyword is deprecated.
+    var manager = ManagerInterface(bbodServiceRegistry.registry(1));
+    ^---------^
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:555:1: Warning: Use of the "var" keyword is deprecated.
+var outboundFlow = uint(_flows[flowIndex]);
+^--------------^
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:615:1: Warning: Use of the "var" keyword is deprecated.
+var flowValue = ((uint(_flows[flowIndex]) * gweiBBDPriceInWei)/gwei);
+^-----------^
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:661:1: Warning: Use of the "var" keyword is deprecated.
+var bbdHoldingsInWei = ((bbdToken.balanceOf(_custody) * gweiBBDPriceInWei) / gwei);
+^------------------^
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:129:5: Warning: No visibility specified. Defaulting to "public". 
+    constructor(address _owner) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:380:1: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+address _serviceRegistryAddress) public {
+^-----------------------------^
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:581:1: Warning: Unused local variable.
+uint postBatchBalance = address(this).balance;
+^-------------------^
+/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:211:3: Warning: Function state mutability can be restricted to pure
+  function createCustody(address) external {}
+  ^-----------------------------------------^
+
+INFO:Detectors:[91m
+Manager.withdrawFromManager (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#490-496) sends eth to arbitrary user
+	Dangerous calls:
+	- _recipient.transfer(_amount) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#495)
+Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#548-601) sends eth to arbitrary user
+	Dangerous calls:
+	- _custodies[flowIndex].transfer(uint256(_flows[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#584-585)
+	- feeAccount.transfer(_fee) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#593-594)
+	- insuranceAccount.transfer(leftovers) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#599)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#548-601):
+	External calls:
+	- Insurance(insuranceAccount).useInsurance(_insurance) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#560)
+	- require(bool)(custodyStorage.custodiesMap(_custodies[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#571-575)
+	- require(bool)(getTotalBalanceFor(_custodies[flowIndex]) >= outboundFlow) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#581-584)
+	- custody.withdraw(uint256(- _flows[flowIndex]),address(this)) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#588-589)
+	External calls sending eth:
+	- _custodies[flowIndex].transfer(uint256(_flows[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#584-585)
+	State variables written after the call(s):
+	- custodiesServedETH (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#589-593)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in Manager.settleBBDBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#612-667):
+	External calls:
+	- preBatchBalance = bbdToken.balanceOf(address(this)) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#623)
+	- require(bool)(custodyStorage.custodiesMap(_custodies[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#634)
+	- require(bool)((getTotalBalanceFor(_custodies[flowIndex]) / 2) >= flowValue) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#641-644)
+	- bbdToken.transfer(_custodies[flowIndex],uint256(_flows[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#646-647)
+	- custody.transferToken(address(bbdToken),address(this),uint256(- (_flows[flowIndex]))) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#650-651)
+	State variables written after the call(s):
+	- custodiesServedBBD (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#652-654)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Custody.transferToken (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#265-275) does not use the value returned by external calls:
+	-token.transfer(_recipient,_amount) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#270-275)
+Manager.settleBBDBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#612-667) does not use the value returned by external calls:
+	-bbdToken.transfer(_custodies[flowIndex],uint256(_flows[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#646-647)
+	-bbdToken.transfer(feeAccount,_fee) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#654)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Manager.settleETHBatch has external calls inside a loop:
+	- require(bool)(custodyStorage.custodiesMap(_custodies[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#571-575)
+Manager.settleETHBatch has external calls inside a loop:
+	- _custodies[flowIndex].transfer(uint256(_flows[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#584-585)
+Manager.settleETHBatch has external calls inside a loop:
+	- custody.withdraw(uint256(- _flows[flowIndex]),address(this)) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#588-589)
+Manager.settleBBDBatch has external calls inside a loop:
+	- require(bool)(custodyStorage.custodiesMap(_custodies[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#634)
+Manager.settleBBDBatch has external calls inside a loop:
+	- bbdToken.transfer(_custodies[flowIndex],uint256(_flows[flowIndex])) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#646-647)
+Manager.settleBBDBatch has external calls inside a loop:
+	- custody.transferToken(address(bbdToken),address(this),uint256(- (_flows[flowIndex]))) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#650-651)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Manager.settleBBDBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#612-667):
+	External calls:
+	- preBatchBalance = bbdToken.balanceOf(address(this)) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#623)
+	- bbdToken.transfer(feeAccount,_fee) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#654)
+	State variables written after the call(s):
+	- totalFeeFlows (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#659)
+Reentrancy in Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#548-601):
+	External calls:
+	- Insurance(insuranceAccount).useInsurance(_insurance) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#560)
+	External calls sending eth:
+	- feeAccount.transfer(_fee) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#593-594)
+	State variables written after the call(s):
+	- totalFeeFlows (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#594)
+Reentrancy in Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#548-601):
+	External calls:
+	- Insurance(insuranceAccount).useInsurance(_insurance) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#560)
+	External calls sending eth:
+	- feeAccount.transfer(_fee) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#593-594)
+	- insuranceAccount.transfer(leftovers) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#599)
+	State variables written after the call(s):
+	- totalInsuranceFlows (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#599)
+Reentrancy in Manager.startSettlementPreparation (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#522-534):
+	External calls:
+	- startingFeeBalance = feeAccount.balance + ((bbdToken.balanceOf(feeAccount) * gweiBBDPriceInWei) / gwei) (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#532-534)
+	State variables written after the call(s):
+	- startingInsuranceBalance (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#534)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Manager.maxTimeIntervalHB should be constant (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#385-386)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#41-47) should be declared external
+Ownable.transferOwnership (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#50-55) should be declared external
+Pausable.pause (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#101-104) should be declared external
+Manager.pause (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#413-414) should be declared external
+Pausable.unpause (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#112-114) should be declared external
+Manager.unpause (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#414-418) should be declared external
+ERC20Basic.totalSupply (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#118-119) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#119-120) should be declared external
+ERC20Basic.transfer (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#120-123) should be declared external
+ERC20.allowance (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#147-150) should be declared external
+ERC20.transferFrom (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#150-153) should be declared external
+ERC20.approve (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#154-161) should be declared external
+ManagerInterface.isExchangeAlive (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#222-225) should be declared external
+ManagerInterface.isDailySettlementOnGoing (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#225-226) should be declared external
+Custody.fallback (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#239-241) should be declared external
+Custody.transferOwnership (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#275-286) should be declared external
+Manager.fallback (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#404-408) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol:
+	- pragma solidity^0.4.23 (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#51) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#58-68) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#59-60) is not in mixedCase
+Parameter '_owner' of BBODServiceRegistry. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#133-134) is not in mixedCase
+Parameter '' of ManagerInterface.createCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#222) is not in mixedCase
+Parameter '_serviceRegistryAddress' of Custody. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#234-235) is not in mixedCase
+Parameter '_owner' of Custody. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#235) is not in mixedCase
+Parameter '_amount' of Custody.withdraw (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#260) is not in mixedCase
+Parameter '_recipient' of Custody.withdraw (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#260) is not in mixedCase
+Parameter '_erc20Address' of Custody.transferToken (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#266) is not in mixedCase
+Parameter '_recipient' of Custody.transferToken (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#266) is not in mixedCase
+Parameter '_amount' of Custody.transferToken (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#266) is not in mixedCase
+Parameter '_serviceRegistryAddress' of CustodyStorage. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#298-299) is not in mixedCase
+Parameter '_custody' of CustodyStorage.addCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#306) is not in mixedCase
+Parameter '_custodyAddress' of CustodyStorage.removeCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#310-311) is not in mixedCase
+Parameter '_arrayIndex' of CustodyStorage.removeCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#311-314) is not in mixedCase
+Parameter '_amount' of Insurance.useInsurance (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#337-339) is not in mixedCase
+Parameter '_feeAccount' of Manager. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#389) is not in mixedCase
+Parameter '_insuranceAccount' of Manager. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#391) is not in mixedCase
+Parameter '_bbdTokenAddress' of Manager. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#391) is not in mixedCase
+Parameter '_custodyStorage' of Manager. (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#391-392) is not in mixedCase
+Parameter '_custodyFactory' of Manager.setCustodyFactory (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#409) is not in mixedCase
+Parameter '_exchangeAccount' of Manager.addOwnerAccount (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#448-449) is not in mixedCase
+Parameter '_exchangeAccount' of Manager.addExchangeAccount (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#452-453) is not in mixedCase
+Parameter '_exchangeAccount' of Manager.rmExchangeAccount (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#455-456) is not in mixedCase
+Parameter '_priceInWei' of Manager.setBBDPrice (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#458) is not in mixedCase
+Parameter '_custody' of Manager.createCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#479) is not in mixedCase
+Parameter '_custodyAddress' of Manager.removeCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#482) is not in mixedCase
+Parameter '_arrayIndex' of Manager.removeCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#482-483) is not in mixedCase
+Parameter '_amount' of Manager.withdrawFromManager (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#491) is not in mixedCase
+Parameter '_recipient' of Manager.withdrawFromManager (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#491) is not in mixedCase
+Parameter '_amount' of Manager.withdrawFromCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#499) is not in mixedCase
+Parameter '_custodyAddress' of Manager.withdrawFromCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#499) is not in mixedCase
+Parameter '_recipient' of Manager.withdrawFromCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#499) is not in mixedCase
+Parameter '_tokenAddress' of Manager.withdrawTokensFromCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#510) is not in mixedCase
+Parameter '_amount' of Manager.withdrawTokensFromCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#510) is not in mixedCase
+Parameter '_custodyAddress' of Manager.withdrawTokensFromCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#510-511) is not in mixedCase
+Parameter '_recipient' of Manager.withdrawTokensFromCustody (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#511) is not in mixedCase
+Parameter '_custodies' of Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#548-550) is not in mixedCase
+Parameter '_flows' of Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#550) is not in mixedCase
+Parameter '_fee' of Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#550-551) is not in mixedCase
+Parameter '_insurance' of Manager.settleETHBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#551) is not in mixedCase
+Parameter '_custodies' of Manager.settleBBDBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#614-615) is not in mixedCase
+Parameter '_flows' of Manager.settleBBDBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#615) is not in mixedCase
+Parameter '_fee' of Manager.settleBBDBatch (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#615) is not in mixedCase
+Parameter '_custody' of Manager.getTotalBalanceFor (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#677) is not in mixedCase
+Parameter '_custodies' of Manager.checkIfCustodiesServedETH (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol) is not in mixedCase
+Parameter '_custodies' of Manager.checkIfCustodiesServedBBD (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol) is not in mixedCase
+Constant 'Manager.gwei' (/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol#384-385) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x06df6fdbf7629c71aee3f468ba1ab702fa0abec9.sol analyzed (11 contracts), 84 result(s) found

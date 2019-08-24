@@ -1,0 +1,449 @@
+{
+  "contract": "0x517f5e4e7fda6792b338227d4f6eb34c83c5499d",
+  "tool": "smartcheck",
+  "start": 1563589319.0962777,
+  "end": 1563589329.155097,
+  "duration": 10.05881929397583,
+  "analysis": [
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 106,
+      "column": 0,
+      "content": "contractBaseSwapisSwapInterface{stringpublicVERSION;structSwap{uint256timelock;uint256value;uint256brokerFee;bytes32secretLock;bytes32secretKey;addresspayablefunder;addresspayablespender;addresspayablebroker;}enumStates{INVALID,OPEN,CLOSED,EXPIRED}eventLogOpen(bytes32_swapID,address_spender,bytes32_secretLock);eventLogExpire(bytes32_swapID);eventLogClose(bytes32_swapID,bytes32_secretKey);mapping(bytes32=>Swap)internalswaps;mapping(bytes32=>States)private_swapStates;mapping(address=>uint256)private_brokerFees;mapping(bytes32=>uint256)private_redeemedAt;modifieronlyInvalidSwaps(bytes32_swapID){require(_swapStates[_swapID]==States.INVALID,\"swap opened previously\");_;}modifieronlyOpenSwaps(bytes32_swapID){require(_swapStates[_swapID]==States.OPEN,\"swap not open\");_;}modifieronlyClosedSwaps(bytes32_swapID){require(_swapStates[_swapID]==States.CLOSED,\"swap not redeemed\");_;}modifieronlyExpirableSwaps(bytes32_swapID){require(now>=swaps[_swapID].timelock,\"swap not expirable\");_;}modifieronlyWithSecretKey(bytes32_swapID,bytes32_secretKey){require(swaps[_swapID].secretLock==sha256(abi.encodePacked(_secretKey)),\"invalid secret\");_;}modifieronlySpender(bytes32_swapID,address_spender){require(swaps[_swapID].spender==_spender,\"unauthorized spender\");_;}constructor(stringmemory_VERSION)public{VERSION=_VERSION;}functioninitiate(bytes32_swapID,address<missing ')'>payable_spender,bytes32_secretLock,uint256_timelock,uint256_value)publiconlyInvalidSwaps(_swapID)payable{Swapmemoryswap=Swap({timelock:_timelock,brokerFee:0,value:_value,funder:msg.sender,spender:_spender,broker:address(0x0),secretLock:_secretLock,secretKey:0x0});swaps[_swapID]=swap;_swapStates[_swapID]=States.OPEN;emitLogOpen(_swapID,_spender,_secretLock);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 561,
+      "column": 0,
+      "content": "contractERC20SwapisSwapInterface,BaseSwap{usingCompatibleERC20FunctionsforCompatibleERC20;addresspublicTOKEN_ADDRESS;constructor(stringmemory_VERSION,address_TOKEN_ADDRESS)BaseSwap(_VERSION)public{TOKEN_ADDRESS=_TOKEN_ADDRESS;}functioninitiate(bytes32_swapID,address<missing ')'>payable_spender,bytes32_secretLock,uint256_timelock,uint256_value)publicpayable{require(msg.value==0,\"eth value must be zero\");require(_spender!=address(0x0),\"spender must not be zero\");CompatibleERC20(TOKEN_ADDRESS).safeTransferFrom(msg.sender,address(this),_value);BaseSwap.initiate(_swapID,_spender,_secretLock,_timelock,_value);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 134,
+      "column": 32,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 135,
+      "column": 33,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 136,
+      "column": 33,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 481,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 514,
+      "column": 4,
+      "content": "functionpreviousReturnValue()privatepurereturns(bool){uint256returnData=0;assembly{switchreturndatasizecase0{returnData:=1}case32{returndatacopy(0,0,32)returnData:=mload(0)}default{}}returnreturnData!=0;}"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "83hf3l",
+      "severity": 1,
+      "line": 70,
+      "column": 28,
+      "content": "(uint256timelock,uint256value,addressto,uint256brokerFee,addressbroker,addressfrom,bytes32secretLock)"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 518,
+      "column": 8,
+      "content": "assembly{switchreturndatasizecase0{returnData:=1}case32{returndatacopy(0,0,32)returnData:=mload(0)}default{}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 15,
+      "column": 4,
+      "content": "functioninitiate(bytes32_swapID,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 32,
+      "column": 4,
+      "content": "functioninitiateWithFees(bytes32_swapID,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 47,
+      "column": 4,
+      "content": "functionredeem(bytes32_swapID,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 189,
+      "column": 4,
+      "content": "functioninitiate(bytes32_swapID,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 580,
+      "column": 4,
+      "content": "functioninitiate(bytes32_swapID,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 17,
+      "column": 24,
+      "content": "_spender,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 18,
+      "column": 8,
+      "content": "bytes32_secretLock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 19,
+      "column": 8,
+      "content": "uint256_timelock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 20,
+      "column": 8,
+      "content": "uint256_value)externalpayable;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 34,
+      "column": 24,
+      "content": "_spender,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 35,
+      "column": 8,
+      "content": "addresspayable_broker,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 36,
+      "column": 8,
+      "content": "uint256_brokerFee,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 37,
+      "column": 8,
+      "content": "bytes32_secretLock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 38,
+      "column": 8,
+      "content": "uint256_timelock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 39,
+      "column": 8,
+      "content": "uint256_value)externalpayable;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 47,
+      "column": 53,
+      "content": "_receiver,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 47,
+      "column": 64,
+      "content": "bytes32_secretKey)external;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 191,
+      "column": 24,
+      "content": "_spender,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 192,
+      "column": 8,
+      "content": "bytes32_secretLock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 193,
+      "column": 8,
+      "content": "uint256_timelock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 194,
+      "column": 8,
+      "content": "uint256_value)public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 195,
+      "column": 13,
+      "content": "onlyInvalidSwaps(_swapID)payable{"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 197,
+      "column": 8,
+      "content": "Swapmemoryswap=Swap({timelock:_timelock,brokerFee:0,value:_value,funder:msg.sender,spender:_spender,broker:address(0x0),secretLock:_secretLock,secretKey:0x0});"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 207,
+      "column": 8,
+      "content": "swaps[_swapID]=swap;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 208,
+      "column": 8,
+      "content": "_swapStates[_swapID]=States."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 208,
+      "column": 38,
+      "content": "OPEN;emit"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 211,
+      "column": 13,
+      "content": "LogOpen(_swapID,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 211,
+      "column": 30,
+      "content": "_spender,_secretLock);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 582,
+      "column": 24,
+      "content": "_spender,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 583,
+      "column": 8,
+      "content": "bytes32_secretLock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 584,
+      "column": 8,
+      "content": "uint256_timelock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 585,
+      "column": 8,
+      "content": "uint256_value)publicpayable{"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 589,
+      "column": 8,
+      "content": "require(msg."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 589,
+      "column": 20,
+      "content": "value==0,\"eth value must be zero\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 590,
+      "column": 8,
+      "content": "require(_spender!="
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 590,
+      "column": 28,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 590,
+      "column": 35,
+      "content": "(0x0),\"spender must not be zero\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 596,
+      "column": 8,
+      "content": "CompatibleERC20(TOKEN_ADDRESS)."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 596,
+      "column": 39,
+      "content": "safeTransferFrom(msg."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 596,
+      "column": 60,
+      "content": "sender,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 596,
+      "column": 68,
+      "content": "address(this),"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 596,
+      "column": 83,
+      "content": "_value);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 598,
+      "column": 8,
+      "content": "BaseSwap.initiate(_swapID,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 600,
+      "column": 12,
+      "content": "_spender,_secretLock,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 602,
+      "column": 12,
+      "content": "_timelock,_value);"
+    }
+  ]
+}

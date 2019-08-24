@@ -1,0 +1,154 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol:
+/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol:249:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(token.call(bytes4(keccak256("name()"))));
+                ^-------------------------------------^
+/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol:256:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(token.call(bytes4(keccak256("symbol()"))));
+                ^---------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in ERC1003Token.approveAndCall (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#552-560):
+	External calls:
+	- require(bool)(_caller.makeCall.value(msg.value)(to,data)) (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#554-556)
+	State variables written after the call(s):
+	- _sendersStack (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#558)
+Reentrancy in BasicMultiToken.lend (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#744-755):
+	External calls:
+	- prevBalance = token.balanceOf(this) (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#749)
+	- require(bool,string)(caller().makeCall.value(msg.value)(target,data),lend: arbitrary call failed) (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#753)
+	External calls sending eth:
+	- require(bool,string)(caller().makeCall.value(msg.value)(target,data),lend: arbitrary call failed) (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#753)
+	State variables written after the call(s):
+	- _inLendingMode (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#754)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+CheckedERC20.isContract (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#162-169) is declared view but contains assembly code
+CheckedERC20.handleReturnBool (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#169-186) is declared view but contains assembly code
+CheckedERC20.handleReturnBytes32 (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#186-208) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+CheckedERC20.checkedTransfer (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#232-240) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(this) == balance.sub(value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransfer (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#232-240) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(this) == balance.sub(value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransferFrom (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#240-250) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(to) == toBalance.add(value),checkedTransfer: Final balance didn't match)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+BasicMultiToken.lend (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#744-755) does not use the value returned by external calls:
+	-token.asmTransfer(to,amount) (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#749-750)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+BasicMultiToken.init.tokens (local variable @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#634) shadows:
+	- BasicMultiToken.tokens (function @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#658-659)
+	- IBasicMultiToken.tokens (function @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#578-579)
+BasicMultiToken._unbundle.totalSupply (local variable @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#726) shadows:
+	- BasicToken.totalSupply (function @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#286-288)
+	- ERC20Basic.totalSupply (function @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#76-77)
+AstraBasicMultiToken.init.tokens (local variable @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol) shadows:
+	- BasicMultiToken.tokens (function @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#658-659)
+	- IBasicMultiToken.tokens (function @ /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#578-579)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in BasicMultiToken.lend (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#744-755):
+	External calls:
+	- prevBalance = token.balanceOf(this) (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#749)
+	State variables written after the call(s):
+	- _inLendingMode (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#750-752)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CheckedERC20.isContract uses assembly (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#162-169)
+	- /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#167-169
+CheckedERC20.handleReturnBool uses assembly (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#169-186)
+	- /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#174-186
+CheckedERC20.handleReturnBytes32 uses assembly (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#186-208)
+	- /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#190-208
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#43-49) should be declared external
+Ownable.transferOwnership (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#52-57) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#76-77) should be declared external
+BasicToken.totalSupply (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#286-288) should be declared external
+BasicToken.balanceOf (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#313-314) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#77-78) should be declared external
+StandardToken.allowance (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#381-385) should be declared external
+ERC20.allowance (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#89-92) should be declared external
+StandardToken.increaseApproval (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#402-407) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#422-441) should be declared external
+ERC1003Token.approveAndCall (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#552-560) should be declared external
+ERC1003Token.transferAndCall (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#560-564) should be declared external
+IBasicMultiToken.tokensCount (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#576-578) should be declared external
+BasicMultiToken.tokensCount (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#655-658) should be declared external
+BasicMultiToken.tokens (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#658-659) should be declared external
+IBasicMultiToken.tokens (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#578-579) should be declared external
+BasicMultiToken.bundlingEnabled (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#660-662) should be declared external
+IBasicMultiToken.bundlingEnabled (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#580-581) should be declared external
+IBasicMultiToken.bundleFirstTokens (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#582-583) should be declared external
+BasicMultiToken.bundleFirstTokens (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#662-671) should be declared external
+BasicMultiToken.bundle (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#671-685) should be declared external
+IBasicMultiToken.bundle (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#584) should be declared external
+IBasicMultiToken.unbundle (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#584-586) should be declared external
+BasicMultiToken.unbundle (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#685-691) should be declared external
+IBasicMultiToken.disableBundling (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#587-588) should be declared external
+BasicMultiToken.disableBundling (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#693-697) should be declared external
+IBasicMultiToken.enableBundling (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#588-589) should be declared external
+BasicMultiToken.enableBundling (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#697-702) should be declared external
+BasicMultiToken.inLendingMode (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#659-660) should be declared external
+FeeBasicMultiToken.lendFee (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#762-763) should be declared external
+FeeBasicMultiToken.setLendFee (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#763-766) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in CheckedERC20.asmTransfer (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#208-214):
+	-require(bool)(token.call(bytes4(keccak256()(transfer(address,uint256))),to,value)) /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#212-214
+Low level call in CheckedERC20.asmTransferFrom (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#215-222):
+	-require(bool)(token.call(bytes4(keccak256()(transferFrom(address,address,uint256))),from,to,value)) /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#219-221
+Low level call in CheckedERC20.asmApprove (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#222-232):
+	-require(bool)(token.call(bytes4(keccak256()(approve(address,uint256))),spender,value)) /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#229-231
+Low level call in CheckedERC20.asmName (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#250-257):
+	-require(bool)(token.call(bytes4(keccak256()(name())))) /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#255-256
+Low level call in CheckedERC20.asmSymbol (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#257-270):
+	-require(bool)(token.call(bytes4(keccak256()(symbol())))) /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#266-268
+Low level call in ERC1003Caller.makeCall (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#538-546):
+	-target.call.value(msg.value)(data) /unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#542-546
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#53) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#61-67) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#61-62) is not in mixedCase
+Parameter '_a' of SafeMath.mul (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#114) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#114) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#130-131) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#131) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#145) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#145-146) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#154) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#154-156) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#314) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#293) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#293-297) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#381-382) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#382) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#341) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#341) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#341) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#364) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#364) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#402) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#402-403) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#428) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#428) is not in mixedCase
+Parameter '_name' of DetailedERC20. (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#458-459) is not in mixedCase
+Parameter '_symbol' of DetailedERC20. (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#459) is not in mixedCase
+Parameter '_decimals' of DetailedERC20. (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#459) is not in mixedCase
+Parameter '_interfaceId' of SupportsInterfaceWithLookup.supportsInterface (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#523-524) is not in mixedCase
+Function 'SupportsInterfaceWithLookup._registerInterface' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#531-538) is not in mixedCase
+Parameter '_interfaceId' of SupportsInterfaceWithLookup._registerInterface (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#531-532) is not in mixedCase
+Constant 'SupportsInterfaceWithLookup.InterfaceId_ERC165' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#499) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'ERC1003Token._sendersStack' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#547-548) is not in mixedCase
+Constant 'IBasicMultiToken.InterfaceId_IBasicMultiToken' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#589-593) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'BasicMultiToken._bundle' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#703-719) is not in mixedCase
+Function 'BasicMultiToken._unbundle' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#719-744) is not in mixedCase
+Variable 'FeeBasicMultiToken._lendFee' (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol#760-762) is not in mixedCase
+Parameter '' of AstraBasicMultiToken.init (/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/22/0x417866263b96ea8fb86e1f332018dda49820c85a.sol analyzed (16 contracts), 90 result(s) found

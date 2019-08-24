@@ -1,0 +1,201 @@
+{
+  "contract": "0x80056d8381e5eb1f9149c1cbdbc4d00183187de6",
+  "tool": "smartcheck",
+  "start": 1563540922.6821167,
+  "end": 1563540932.5566754,
+  "duration": 9.874558687210083,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 481,
+      "column": 54,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 543,
+      "column": 53,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 229,
+      "column": 8,
+      "content": "for(uint256i=0;i<_addresses.length;i++){allowedAddresses[_addresses[i]]=true;WhitelistUpdated(now,\"Added\",_addresses[i]);}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 236,
+      "column": 8,
+      "content": "for(uint256i=0;i<_addresses.length;i++){allowedAddresses[_addresses[i]]=false;WhitelistUpdated(now,\"Removed\",_addresses[i]);}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 229,
+      "column": 8,
+      "content": "for(uint256i=0;i<_addresses.length;i++){allowedAddresses[_addresses[i]]=true;WhitelistUpdated(now,\"Added\",_addresses[i]);}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 236,
+      "column": 8,
+      "content": "for(uint256i=0;i<_addresses.length;i++){allowedAddresses[_addresses[i]]=false;WhitelistUpdated(now,\"Removed\",_addresses[i]);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 386,
+      "column": 0,
+      "content": "contractTokenCrowdsaleisFinalizableCrowdsale,Pausable{uint256constantpublicREWARD_SHARE=4500000e18;uint256constantpublicNON_VESTED_TEAM_ADVISORS_SHARE=37500000e18;uint256constantpublicPRE_CROWDSALE_CAP=500000e18;uint256constantpublicPUBLIC_CROWDSALE_CAP=7500000e18;uint256constantpublicTOTAL_TOKENS_FOR_CROWDSALE=PRE_CROWDSALE_CAP+PUBLIC_CROWDSALE_CAP;uint256constantpublicTOTAL_TOKENS_SUPPLY=50000000e18;uint256constantpublicPERSONAL_CAP=2500000e18;addresspublicrewardWallet;addresspublicteamAndAdvisorsAllocation;addresspublicremainderPurchaser;uint256publicremainderAmount;mapping(address=>uint256)publictrackBuyersPurchases;Whitelistpublicwhitelist;eventPrivateInvestorTokenPurchase(addressindexedinvestor,uint256tokensPurchased);eventTokenRateChanged(uint256previousRate,uint256newRate);functionTokenCrowdsale(uint256_startTime,uint256_endTime,address_whitelist,uint256_rate,address_wallet,address_rewardWallet)publicFinalizableCrowdsale()Crowdsale(_startTime,_endTime,_rate,_wallet){require(_whitelist!=address(0)&&_wallet!=address(0)&&_rewardWallet!=address(0));whitelist=Whitelist(_whitelist);rewardWallet=_rewardWallet;}functionsetTokenContractAddress(address_token)onlyOwner{token=TokenToken(_token);}modifierwhitelisted(addressbeneficiary){require(whitelist.isWhitelisted(beneficiary));_;}functionsetRate(uint256newRate)externalonlyOwner{require(newRate!=0);TokenRateChanged(rate,newRate);rate=newRate;}functionmintTokenForPreCrowdsale(addressinvestorsAddress,uint256tokensPurchased)externalonlyOwner{require(now<startTime&&investorsAddress!=address(0));require(token.getTotalSupply().add(tokensPurchased)<=PRE_CROWDSALE_CAP);token.mint(investorsAddress,tokensPurchased);PrivateInvestorTokenPurchase(investorsAddress,tokensPurchased);}functionsetTeamWalletAddress(address_teamAndAdvisorsAllocation)publiconlyOwner{require(_teamAndAdvisorsAllocation!=address(0x0));teamAndAdvisorsAllocation=_teamAndAdvisorsAllocation;}functionbuyTokens(addressbeneficiary)publicwhenNotPausedwhitelisted(beneficiary)payable{require(beneficiary!=address(0));require(msg.sender==beneficiary);require(validPurchase()&&token.getTotalSupply()<TOTAL_TOKENS_FOR_CROWDSALE);uint256weiAmount=msg.value;uint256tokens=weiAmount.mul(rate);require(trackBuyersPurchases[msg.sender].add(tokens)<=PERSONAL_CAP);trackBuyersPurchases[beneficiary]=trackBuyersPurchases[beneficiary].add(tokens);if(token.getTotalSupply().add(tokens)>TOTAL_TOKENS_FOR_CROWDSALE){tokens=TOTAL_TOKENS_FOR_CROWDSALE.sub(token.getTotalSupply());weiAmount=tokens.div(rate);remainderPurchaser=msg.sender;remainderAmount=msg.value.sub(weiAmount);}weiRaised=weiRaised.add(weiAmount);token.mint(beneficiary,tokens);TokenPurchase(msg.sender,beneficiary,weiAmount,tokens);forwardFunds();}functionhasEnded()publicviewreturns(bool){if(token.getTotalSupply()==TOTAL_TOKENS_FOR_CROWDSALE){returntrue;}returnsuper.hasEnded();}functionfinalization()internal{require(teamAndAdvisorsAllocation!=address(0x0));token.mint(teamAndAdvisorsAllocation,NON_VESTED_TEAM_ADVISORS_SHARE);token.mint(rewardWallet,REWARD_SHARE);if(TOTAL_TOKENS_SUPPLY>token.getTotalSupply()){uint256remainingTokens=TOTAL_TOKENS_SUPPLY.sub(token.getTotalSupply());token.mint(wallet,remainingTokens);}token.finishMinting();TokenToken(token).unpause();super.finalization();}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 440,
+      "column": 4,
+      "content": "functionsetTokenContractAddress(address_token)onlyOwner{token=TokenToken(_token);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 453,
+      "column": 4,
+      "content": "functionsetRate(uint256newRate)externalonlyOwner{require(newRate!=0);TokenRateChanged(rate,newRate);rate=newRate;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 480,
+      "column": 4,
+      "content": "functionsetTeamWalletAddress(address_teamAndAdvisorsAllocation)publiconlyOwner{require(_teamAndAdvisorsAllocation!=address(0x0));teamAndAdvisorsAllocation=_teamAndAdvisorsAllocation;}"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 151,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 145,
+      "column": 4,
+      "content": "usingSafeMathforuint;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 258,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 351,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 228,
+      "column": 28,
+      "content": "address[]_addresses"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 235,
+      "column": 33,
+      "content": "address[]_addresses"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "23rt6g",
+      "severity": 1,
+      "line": 4,
+      "column": 21,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "23rt6g",
+      "severity": 1,
+      "line": 5,
+      "column": 23,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "23rt6g",
+      "severity": 1,
+      "line": 6,
+      "column": 48,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "23rt6g",
+      "severity": 1,
+      "line": 7,
+      "column": 36,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "23rt6g",
+      "severity": 1,
+      "line": 8,
+      "column": 49,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "23rt6g",
+      "severity": 1,
+      "line": 9,
+      "column": 30,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "23rt6g",
+      "severity": 1,
+      "line": 10,
+      "column": 29,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 440,
+      "column": 4,
+      "content": "functionsetTokenContractAddress(address_token)onlyOwner{token=TokenToken(_token);}"
+    }
+  ]
+}

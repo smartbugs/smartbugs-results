@@ -1,0 +1,117 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:44:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function SponsoredItemGooRaffle() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:11:19: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x57B116DA40F21f91AeC57329EcB763D29c1B2355'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    Goo goo = Goo(0x57b116da40f21f91aec57329ecb763d29c1b2355);
+                  ^----------------------------------------^
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:194:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address to, uint tokens) public returns (bool success);
+    ^-----------------------------------------------------------------------^
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:195:5: Warning: Functions in interfaces should be declared external.
+    function transferFrom(address from, address to, uint tokens) public returns (bool success);
+    ^-----------------------------------------------------------------------------------------^
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:200:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address to, uint tokenId) public payable;
+    ^---------------------------------------------------------^
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:201:5: Warning: Functions in interfaces should be declared external.
+    function transferFrom(address from, address to, uint tokenId) public;
+    ^-------------------------------------------------------------------^
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:202:5: Warning: Functions in interfaces should be declared external.
+    function ownerOf(uint tokenId) public view returns (address owner);
+    ^-----------------------------------------------------------------^
+/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:154:46: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+        raffleTicketThatWon = addmod(uint256(block.blockhash(block.number-1)), seed, (raffleTicketsBought + 1));
+                                             ^-------------^
+
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#202-215) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#202-209)
+	-transferFrom (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#209-211)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in SponsoredItemGooRaffle.awardRafflePrize (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#103-145):
+	External calls:
+	- require(bool)(erc.ownerOf(tokenId) == address(this)) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#108)
+	- assignRafflePrize(checkWinner) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#122-123)
+	State variables written after the call(s):
+	- raffleWinner (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#122-123)
+Reentrancy in SponsoredItemGooRaffle.awardRafflePrize (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#103-145):
+	External calls:
+	- require(bool)(erc.ownerOf(tokenId) == address(this)) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#108)
+	- assignRafflePrize(player) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#139-142)
+	State variables written after the call(s):
+	- raffleWinner (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#139-142)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+SponsoredItemGooRaffle.buyRaffleTicket (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#74-103) does not use the value returned by external calls:
+	-goo.transferFrom(msg.sender,this,ticketsCost) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#79-80)
+	-goo.transfer(address(0),(ticketsCost * 95) / 100) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#82-83)
+SponsoredItemGooRaffle.transferGoo (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#164-166) does not use the value returned by external calls:
+	-goo.transfer(recipient,amount) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#165-166)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in SponsoredItemGooRaffle.awardRafflePrize (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#103-145):
+	External calls:
+	- require(bool)(erc.ownerOf(tokenId) == address(this)) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#108)
+	State variables written after the call(s):
+	- raffleTicketThatWon (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#111)
+	- raffleWinningTicketSelected (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#111)
+Reentrancy in SponsoredItemGooRaffle.buyRaffleTicket (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#74-103):
+	External calls:
+	- goo.transferFrom(msg.sender,this,ticketsCost) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#79-80)
+	- goo.transfer(address(0),(ticketsCost * 95) / 100) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#82-83)
+	State variables written after the call(s):
+	- rafflePlayers (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#92-93)
+	- raffleTicketsBought (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#102-103)
+	- ticketsBoughtByPlayer (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#89)
+	- ticketsBoughtByPlayer (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#89-90)
+	- ticketsBoughtByPlayer (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#96)
+	- ticketsBoughtByPlayer (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#96-99)
+Reentrancy in SponsoredItemGooRaffle.startTokenRaffle (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#48-74):
+	External calls:
+	- erc.transferFrom(msg.sender,this,id) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#57)
+	State variables written after the call(s):
+	- raffleEndTime (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#73)
+	- raffleId (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#73)
+	- raffleTicketThatWon (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#65-66)
+	- raffleTicketsBought (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#67-68)
+	- raffleWinner (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#67)
+	- raffleWinningTicketSelected (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#63-65)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SponsoredItemGooRaffle.startTokenRaffle (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#48-74) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp < endTime) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#52-53)
+SponsoredItemGooRaffle.buyRaffleTicket (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#74-103) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(raffleEndTime >= block.timestamp) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#76-77)
+SponsoredItemGooRaffle.awardRafflePrize (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#103-145) uses timestamp for comparisons
+	Dangerous comparisons:
+	- raffleTicketThatWon >= playersTickets.ticketsBought[0].startId && raffleTicketThatWon <= playersTickets.ticketsBought[endIndex].endId (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#130-144)
+	- raffleTicketThatWon >= playerTicket.startId && raffleTicketThatWon <= playerTicket.endId (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#134-143)
+	- raffleTicketThatWon >= checkTicket.startId && raffleTicketThatWon <= checkTicket.endId (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#117-123)
+	- require(bool)(raffleEndTime < block.timestamp) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#105-106)
+SponsoredItemGooRaffle.drawRandomWinner (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#151-159) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(raffleEndTime < block.timestamp) (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#153-154)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#156-158:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Goo.transfer (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#200-201) should be declared external
+Goo.transferFrom (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#201-202) should be declared external
+ERC721.transfer (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#202-209) should be declared external
+ERC721.transferFrom (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#209-211) should be declared external
+ERC721.ownerOf (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#211-215) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol:
+	- pragma solidity^0.4.0 (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'SponsoredItemGooRaffle.SponsoredItemGooRaffle' (/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol#45-48) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/10/0x6a11dd91b4de3322d879d458a80606f6b69960cf.sol analyzed (4 contracts), 20 result(s) found

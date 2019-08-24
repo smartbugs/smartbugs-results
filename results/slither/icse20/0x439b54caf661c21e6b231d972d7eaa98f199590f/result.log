@@ -1,0 +1,226 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:12:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Controlled() public { controller = msg.sender;}
+    ^------------------------------------------------------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:149:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MiniMeToken(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:615:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function DTXToken(address _tokenFactory) public MiniMeToken (
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:793:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function TokenSale(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:246:12: Warning: Invoking events without "emit" prefix is deprecated.
+           Transfer(_from, _to, _amount);
+           ^---------------------------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:278:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _amount);
+        ^-------------------------------------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:409:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewCloneToken(address(cloneToken), _snapshotBlock);
+        ^------------------------------------------------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:429:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(0, _owner, _amount);
+        ^--------------------------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:446:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_owner, 0, _amount);
+        ^--------------------------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:544:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            controller.transfer(this.balance);
+                                ^----------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:551:9: Warning: Invoking events without "emit" prefix is deprecated.
+        ClaimedTokens(_token, controller, balance);
+        ^----------------------------------------^
+/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:994:66: Warning: Using "years" as a unit denomination is deprecated.
+    vestedAllowances[vaultAddress] = Vesting(lockedTokens, now + 3 years);
+                                                                 ^-----^
+
+INFO:Detectors:[91m
+MiniMeToken.balances (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#120-121) is never initialized. It is used in:
+	- doTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#218-254)
+	- balanceOfAt (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#334-356)
+	- generateTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#427-442)
+	- destroyTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#446-463)
+TokenSale.totalVested (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#798-799) is never initialized. It is used in:
+	- handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#924-948)
+	- doPayment (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#957-997)
+	- finalizeSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#1009-1028)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+MiniMeToken.isContract (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#527-531) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in MiniMeToken.approve (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#267-285):
+	External calls:
+	- require(bool)(TokenController(controller).onApprove(msg.sender,_spender,_amount)) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#282-283)
+	State variables written after the call(s):
+	- allowed (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#284)
+Reentrancy in TokenSale.finalizeSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#1009-1028):
+	External calls:
+	- require(bool)(tokenContract.generateTokens(vaultAddress,leftoverTokens)) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol)
+	- require(bool)(tokenContract.generateTokens(address(this),lockedTokens.add(totalVested))) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol)
+	State variables written after the call(s):
+	- finalized (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+MiniMeToken.claimTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#558-573) does not use the value returned by external calls:
+	-token.transfer(controller,balance) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#570-573)
+TokenSale.handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#924-948) does not use the value returned by external calls:
+	-totalVested.add(_locked[i]) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#943)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MiniMeToken.getValueAt.min (local variable @ /unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#494) shadows:
+	- MiniMeToken.min (function @ /unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#535-538)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+TokenSale.handleEarlySaleBuyers has external calls inside a loop:
+	- require(bool)(tokenContract.generateTokens(_recipients[i],tokensToIssue)) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#921-922)
+TokenSale.handleExternalBuyers has external calls inside a loop:
+	- require(bool)(tokenContract.generateTokens(_recipients[i],_free[i])) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#939-940)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in TokenSale.doPayment (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#957-997):
+	External calls:
+	- require(bool)(tokenContract.controller() == address(this)) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#963-964)
+	State variables written after the call(s):
+	- totalIssued (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#989-991)
+Reentrancy in TokenSale.handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#924-948):
+	External calls:
+	- require(bool)(tokenContract.generateTokens(_recipients[i],_free[i])) (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#939-940)
+	State variables written after the call(s):
+	- vestedAllowances (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#941-943)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+MiniMeToken.isContract uses assembly (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#527-531)
+	- /unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#529-531
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+MiniMeToken.version should be constant (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#92)
+TokenSale.totalVested should be constant (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#798-799)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Controlled.changeController (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#16-21) should be declared external
+TokenSale.proxyPayment (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#867-871) should be declared external
+TokenController.proxyPayment (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#28-30) should be declared external
+TokenSale.onTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#879-885) should be declared external
+TokenController.onTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#36-38) should be declared external
+TokenSale.onApprove (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#891-895) should be declared external
+TokenController.onApprove (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#44-48) should be declared external
+ApproveAndCallFallBack.receiveApproval (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#78-81) should be declared external
+MiniMeToken.transfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#182-184) should be declared external
+MiniMeToken.transferFrom (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#192-207) should be declared external
+MiniMeToken.allowance (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#293-295) should be declared external
+MiniMeToken.approveAndCall (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#307-323) should be declared external
+MiniMeToken.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#399-422) should be declared external
+MiniMeToken.generateTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#427-442) should be declared external
+MiniMeToken.destroyTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#446-463) should be declared external
+MiniMeToken.enableTransfers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#468-470) should be declared external
+MiniMeToken.fallback (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#543-549) should be declared external
+MiniMeToken.claimTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#558-573) should be declared external
+MiniMeTokenFactory.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#611-634) should be declared external
+ERC20Token.totalSupply (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#661-663) should be declared external
+ERC20Token.balanceOf (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#665-666) should be declared external
+ERC20Token.transfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#670-671) should be declared external
+ERC20Token.transferFrom (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#677-679) should be declared external
+ERC20Token.approve (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#687-692) should be declared external
+ERC20Token.allowance (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#704-706) should be declared external
+TokenSale.fallback (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#862-863) should be declared external
+TokenSale.makeTransferable (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#895-897) should be declared external
+TokenSale.updateDates (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#898-906) should be declared external
+TokenSale.handleEarlySaleBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#907-922) should be declared external
+TokenSale.handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#924-948) should be declared external
+TokenSale.changeTokenController (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#999-1001) should be declared external
+TokenSale.finalizeSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#1009-1028) should be declared external
+TokenSale.claimLockedTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol) should be declared external
+TokenSale.pauseContribution (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol) should be declared external
+TokenSale.resumeContribution (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Controlled.Controlled' (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#12-14) is not in mixedCase
+Parameter '_newController' of Controlled.changeController (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#16) is not in mixedCase
+Function 'MiniMeToken.MiniMeToken' (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#154-174) is not in mixedCase
+Parameter '_tokenFactory' of MiniMeToken.MiniMeToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#155) is not in mixedCase
+Parameter '_parentToken' of MiniMeToken.MiniMeToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#156) is not in mixedCase
+Parameter '_parentSnapShotBlock' of MiniMeToken.MiniMeToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#157-158) is not in mixedCase
+Parameter '_tokenName' of MiniMeToken.MiniMeToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#158) is not in mixedCase
+Parameter '_decimalUnits' of MiniMeToken.MiniMeToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#158-159) is not in mixedCase
+Parameter '_tokenSymbol' of MiniMeToken.MiniMeToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#159) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.MiniMeToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#159-160) is not in mixedCase
+Parameter '_to' of MiniMeToken.transfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#182) is not in mixedCase
+Parameter '_amount' of MiniMeToken.transfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#182) is not in mixedCase
+Parameter '_from' of MiniMeToken.transferFrom (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#192) is not in mixedCase
+Parameter '_to' of MiniMeToken.transferFrom (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#192) is not in mixedCase
+Parameter '_amount' of MiniMeToken.transferFrom (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#192-193) is not in mixedCase
+Parameter '_from' of MiniMeToken.doTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#220) is not in mixedCase
+Parameter '_to' of MiniMeToken.doTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#220) is not in mixedCase
+Parameter '_amount' of MiniMeToken.doTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#220) is not in mixedCase
+Parameter '_owner' of MiniMeToken.balanceOf (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#258) is not in mixedCase
+Parameter '_spender' of MiniMeToken.approve (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#268) is not in mixedCase
+Parameter '_amount' of MiniMeToken.approve (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#268) is not in mixedCase
+Parameter '_owner' of MiniMeToken.allowance (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#293-294) is not in mixedCase
+Parameter '_spender' of MiniMeToken.allowance (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#294) is not in mixedCase
+Parameter '_spender' of MiniMeToken.approveAndCall (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#310-311) is not in mixedCase
+Parameter '_amount' of MiniMeToken.approveAndCall (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#311-313) is not in mixedCase
+Parameter '_extraData' of MiniMeToken.approveAndCall (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#313) is not in mixedCase
+Parameter '_owner' of MiniMeToken.balanceOfAt (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#334) is not in mixedCase
+Parameter '_blockNumber' of MiniMeToken.balanceOfAt (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#334) is not in mixedCase
+Parameter '_blockNumber' of MiniMeToken.totalSupplyAt (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#359-360) is not in mixedCase
+Parameter '_cloneTokenName' of MiniMeToken.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#400-401) is not in mixedCase
+Parameter '_cloneDecimalUnits' of MiniMeToken.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#401-402) is not in mixedCase
+Parameter '_cloneTokenSymbol' of MiniMeToken.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#403) is not in mixedCase
+Parameter '_snapshotBlock' of MiniMeToken.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#404-406) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#406) is not in mixedCase
+Parameter '_owner' of MiniMeToken.generateTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#428) is not in mixedCase
+Parameter '_amount' of MiniMeToken.generateTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#428) is not in mixedCase
+Parameter '_owner' of MiniMeToken.destroyTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#446-447) is not in mixedCase
+Parameter '_amount' of MiniMeToken.destroyTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#447) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeToken.enableTransfers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#468-469) is not in mixedCase
+Parameter '_block' of MiniMeToken.getValueAt (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#481-482) is not in mixedCase
+Parameter '_value' of MiniMeToken.updateValueAtNow (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#505) is not in mixedCase
+Parameter '_addr' of MiniMeToken.isContract (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#527) is not in mixedCase
+Parameter '_token' of MiniMeToken.claimTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#558) is not in mixedCase
+Parameter '_parentToken' of MiniMeTokenFactory.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#613-615) is not in mixedCase
+Parameter '_snapshotBlock' of MiniMeTokenFactory.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#615) is not in mixedCase
+Parameter '_tokenName' of MiniMeTokenFactory.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#615-616) is not in mixedCase
+Parameter '_decimalUnits' of MiniMeTokenFactory.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#616-617) is not in mixedCase
+Parameter '_tokenSymbol' of MiniMeTokenFactory.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#617) is not in mixedCase
+Parameter '_transfersEnabled' of MiniMeTokenFactory.createCloneToken (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#618) is not in mixedCase
+Function 'DTXToken.DTXToken' (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#636-644) is not in mixedCase
+Parameter '_owner' of TokenSale.proxyPayment (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#867-870) is not in mixedCase
+Parameter '_from' of TokenSale.onTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#879-880) is not in mixedCase
+Parameter '' of TokenSale.onTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#880) is not in mixedCase
+Parameter '_scope_0' of TokenSale.onTransfer (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#880-881) is not in mixedCase
+Parameter '_owner' of TokenSale.onApprove (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#891) is not in mixedCase
+Parameter '' of TokenSale.onApprove (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#891-892) is not in mixedCase
+Parameter '_scope_0' of TokenSale.onApprove (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#892) is not in mixedCase
+Function 'TokenSale.TokenSale' (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#816-854) is not in mixedCase
+Parameter '_startPresaleTime' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#817) is not in mixedCase
+Parameter '_endPresaleTime' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#818) is not in mixedCase
+Parameter '_startDayOneTime' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#818-819) is not in mixedCase
+Parameter '_endDayOneTime' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#819-820) is not in mixedCase
+Parameter '_startTime' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#820) is not in mixedCase
+Parameter '_endTime' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#820-821) is not in mixedCase
+Parameter '_vaultAddress' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#821-822) is not in mixedCase
+Parameter '_tokenAddress' of TokenSale.TokenSale (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#822-823) is not in mixedCase
+Parameter '_startPresaleTime' of TokenSale.updateDates (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#898) is not in mixedCase
+Parameter '_endPresaleTime' of TokenSale.updateDates (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#898-899) is not in mixedCase
+Parameter '_startDayOneTime' of TokenSale.updateDates (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#899) is not in mixedCase
+Parameter '_endDayOneTime' of TokenSale.updateDates (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#899) is not in mixedCase
+Parameter '_startTime' of TokenSale.updateDates (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#899-900) is not in mixedCase
+Parameter '_endTime' of TokenSale.updateDates (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#900) is not in mixedCase
+Parameter '_recipients' of TokenSale.handleEarlySaleBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#908-909) is not in mixedCase
+Parameter '_ethAmounts' of TokenSale.handleEarlySaleBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#909-910) is not in mixedCase
+Parameter '_recipients' of TokenSale.handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#924) is not in mixedCase
+Parameter '_free' of TokenSale.handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#925-928) is not in mixedCase
+Parameter '_locked' of TokenSale.handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#928) is not in mixedCase
+Parameter '_cliffs' of TokenSale.handleExternalBuyers (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#928) is not in mixedCase
+Parameter '_owner' of TokenSale.doPayment (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#957) is not in mixedCase
+Parameter '_newController' of TokenSale.changeTokenController (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol#999-1000) is not in mixedCase
+Parameter '_owner' of TokenSale.claimLockedTokens (/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/8/0x439b54caf661c21e6b231d972d7eaa98f199590f.sol analyzed (9 contracts), 131 result(s) found

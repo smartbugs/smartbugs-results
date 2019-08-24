@@ -1,0 +1,154 @@
+Processing contract: /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol:Ownable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol:Token
+Processing contract: /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol:TrustlessOTC
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for UnrestrictedWrite in contract 'Ownable':
+    |    require(_newOwner != address(0));
+    |    emit OwnershipTransferred(owner, _newOwner);
+  > |    owner = _newOwner;
+    |  }
+    |}
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(58)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |  function renounceOwnership() public onlyOwner {
+    |    emit OwnershipRenounced(owner);
+  > |    owner = address(0);
+    |  }
+    |
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(40)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |    require(_newOwner != address(0));
+    |    emit OwnershipTransferred(owner, _newOwner);
+  > |    owner = _newOwner;
+    |  }
+    |}
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(58)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |}
+    |
+  > |contract TrustlessOTC is Ownable {
+    |    
+    |    mapping(address => uint256) public balanceTracker;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(75)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            offers.length++;
+    |            TradeOffer storage o = offers[newTradeID];
+  > |            balanceTracker[_tokenFrom] += _amountFrom;
+    |            o.tokenFrom = _tokenFrom;
+    |            o.tokenTo = _tokenTo;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(105)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            TradeOffer storage o = offers[newTradeID];
+    |            balanceTracker[_tokenFrom] += _amountFrom;
+  > |            o.tokenFrom = _tokenFrom;
+    |            o.tokenTo = _tokenTo;
+    |            o.amountFrom = _amountFrom;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(106)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            balanceTracker[_tokenFrom] += _amountFrom;
+    |            o.tokenFrom = _tokenFrom;
+  > |            o.tokenTo = _tokenTo;
+    |            o.amountFrom = _amountFrom;
+    |            o.amountTo = _amountTo;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(107)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            o.tokenFrom = _tokenFrom;
+    |            o.tokenTo = _tokenTo;
+  > |            o.amountFrom = _amountFrom;
+    |            o.amountTo = _amountTo;
+    |            o.creator = msg.sender;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(108)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            o.tokenTo = _tokenTo;
+    |            o.amountFrom = _amountFrom;
+  > |            o.amountTo = _amountTo;
+    |            o.creator = msg.sender;
+    |            o.active = true;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(109)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            o.amountFrom = _amountFrom;
+    |            o.amountTo = _amountTo;
+  > |            o.creator = msg.sender;
+    |            o.active = true;
+    |            o.tradeID = newTradeID;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(110)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            o.amountTo = _amountTo;
+    |            o.creator = msg.sender;
+  > |            o.active = true;
+    |            o.tradeID = newTradeID;
+    |            emit OfferCreated(newTradeID);
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(111)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |            o.creator = msg.sender;
+    |            o.active = true;
+  > |            o.tradeID = newTradeID;
+    |            emit OfferCreated(newTradeID);
+    |    }
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(112)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |        require(o.active == true);
+    |        require(Token(o.tokenFrom).transfer(msg.sender, o.amountFrom));
+  > |        balanceTracker[o.tokenFrom] -= o.amountFrom;
+    |        require(Token(o.tokenTo).transferFrom(msg.sender, o.creator, o.amountTo));
+    |        o.active = false;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(130)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |        balanceTracker[o.tokenFrom] -= o.amountFrom;
+    |        require(Token(o.tokenTo).transferFrom(msg.sender, o.creator, o.amountTo));
+  > |        o.active = false;
+    |        emit OfferTaken(tradeID);
+    |        return true;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(132)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |  function renounceOwnership() public onlyOwner {
+    |    emit OwnershipRenounced(owner);
+  > |    owner = address(0);
+    |  }
+    |
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(40)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |    require(_newOwner != address(0));
+    |    emit OwnershipTransferred(owner, _newOwner);
+  > |    owner = _newOwner;
+    |  }
+    |}
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(58)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |        require(msg.sender == o.creator);
+    |        require(Token(o.tokenFrom).transfer(o.creator, o.amountFrom));
+  > |        balanceTracker[o.tokenFrom] -= o.amountFrom;
+    |        o.active = false;
+    |        emit OfferCancelled(tradeID);
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(120)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TrustlessOTC':
+    |        require(Token(o.tokenFrom).transfer(o.creator, o.amountFrom));
+    |        balanceTracker[o.tokenFrom] -= o.amountFrom;
+  > |        o.active = false;
+    |        emit OfferCancelled(tradeID);
+    |        return true;
+  at /unique_chucks/23/0x62f49e904af170ea377f399aca76c13ff25a6f5e.sol(121)

@@ -1,0 +1,101 @@
+{
+  "contract": "0xaeee1670c25955748a11d41f1fc9397b29476582",
+  "tool": "mythril",
+  "start": 1563435305.1110334,
+  "end": 1563435448.5755506,
+  "duration": 143.46451711654663,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 244,
+        "code": "uint range, uint num) public returns (uint[]){\n        require(msg.sender == ownerAddr);\n        require(range >= num);\n\n        randoms = new uint[](num);\n        uint randNonce = 0;\n        for (uint i = 0; i < num; i++) {\n            randNonce++;\n            uint random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            while (!checkUnique(random)) {\n                randNonce++;\n                random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            }\n            randoms[i] = random;\n        }\n        return randoms;\n    }\n\n    function checkUnique(uint rand",
+        "debug": "mem_128 + 32 + 32*calldata_Random_32 + 4: 0x800000000000000000000000000000000000000000000000000000000000000\nstorage_1: 0x1\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Random_0: 0x65fc89b100000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncalldata_Random_32 + 4: 0x0\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRandoms(uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "getRandoms(uint256,uint256)",
+        "lineno": 21,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 641,
+        "code": " uint randNonce",
+        "debug": "calldata_Random_32 + 4: 0x2000000000000000000000000000000000000000000000000000000000000000\ncalldata_Random_4: 0x2000000000000000000000000000000000000000000000000000000000000000\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Random_0: 0x65fc89b100000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRandoms(uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "getRandoms(uint256,uint256)",
+        "lineno": 26,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 644,
+        "code": " uint randNonce",
+        "debug": "calldata_Random_32 + 4: 0x7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_Random_4: 0x7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Random_0: 0x65fc89b100000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRandoms(uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "getRandoms(uint256,uint256)",
+        "lineno": 26,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 646,
+        "code": " uint randNonce",
+        "debug": "calldata_Random_32 + 4: 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb\ncalldata_Random_4: 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Random_0: 0x65fc89b100000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRandoms(uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "getRandoms(uint256,uint256)",
+        "lineno": 26,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1218,
+        "code": " public randoms;\n\n   ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Random_4: 0x0\nstorage_1: 0x0\ncalldata_Random_0: 0xc0d0ed7c00000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "_function_0xc0d0ed7c",
+        "lineno": 7,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1344,
+        "code": "ntract Random {\n\n    address private ownerAddr;\n\n    uint[] public randoms;\n\n    constructor() public{\n        ownerAddr = msg.sender;\n    }\n\n    function getRandomOne(uint range) public returns (uint){\n        require(msg.sender == ownerAddr);\n        require(range > 0);\n\n        getRandoms(range, 1);\n        return randoms[0];\n    }\n\n    function getRandoms(uint range, uint num) public returns (uint[]){\n        require(msg.sender == ownerAddr);\n        require(range >= num);\n\n        randoms = new uint[](num);\n        uint randNonce = 0;\n        for (uint i = 0; i < num; i++) {\n            randNonce++;\n            uint random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            while (!checkUnique(random)) {\n                randNonce++;\n                random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            }\n            randoms[i] = random;\n        }\n        return randoms;\n    }\n\n    function checkUnique(uint random) private view returns (bool){\n        for (uint i = 0; i < randoms.length; i++) {\n            if (randoms[i] == random) {\n                return false;\n            }\n        }\n        return true;\n    }\n}",
+        "debug": "storage_1: 0x8e79cffffffffffffffffffffffffffdf7cfffffe7ffffffffffff9fffffff7c\ncalldata_Random_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_Random_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Random_0: 0x65fc89b100000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRandoms(uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "getRandoms(uint256,uint256)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1355,
+        "code": "ntract Random {\n\n    address private ownerAddr;\n\n    uint[] public randoms;\n\n    constructor() public{\n        ownerAddr = msg.sender;\n    }\n\n    function getRandomOne(uint range) public returns (uint){\n        require(msg.sender == ownerAddr);\n        require(range > 0);\n\n        getRandoms(range, 1);\n        return randoms[0];\n    }\n\n    function getRandoms(uint range, uint num) public returns (uint[]){\n        require(msg.sender == ownerAddr);\n        require(range >= num);\n\n        randoms = new uint[](num);\n        uint randNonce = 0;\n        for (uint i = 0; i < num; i++) {\n            randNonce++;\n            uint random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            while (!checkUnique(random)) {\n                randNonce++;\n                random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            }\n            randoms[i] = random;\n        }\n        return randoms;\n    }\n\n    function checkUnique(uint random) private view returns (bool){\n        for (uint i = 0; i < randoms.length; i++) {\n            if (randoms[i] == random) {\n                return false;\n            }\n        }\n        return true;\n    }\n}",
+        "debug": "calldata_Random_32 + 4: 0x842100f10841c1f100050105c4210842000000000374837c000042022f0001f\ncalldata_Random_4: 0x842100f10841c1f100050105c4210842000000000374837c000042022f0001f\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Random_0: 0x65fc89b100000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRandoms(uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "getRandoms(uint256,uint256)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1357,
+        "code": "ntract Random {\n\n    address private ownerAddr;\n\n    uint[] public randoms;\n\n    constructor() public{\n        ownerAddr = msg.sender;\n    }\n\n    function getRandomOne(uint range) public returns (uint){\n        require(msg.sender == ownerAddr);\n        require(range > 0);\n\n        getRandoms(range, 1);\n        return randoms[0];\n    }\n\n    function getRandoms(uint range, uint num) public returns (uint[]){\n        require(msg.sender == ownerAddr);\n        require(range >= num);\n\n        randoms = new uint[](num);\n        uint randNonce = 0;\n        for (uint i = 0; i < num; i++) {\n            randNonce++;\n            uint random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            while (!checkUnique(random)) {\n                randNonce++;\n                random = uint(keccak256(abi.encodePacked(now, randNonce))) % range + 1;\n            }\n            randoms[i] = random;\n        }\n        return randoms;\n    }\n\n    function checkUnique(uint random) private view returns (bool){\n        for (uint i = 0; i < randoms.length; i++) {\n            if (randoms[i] == random) {\n                return false;\n            }\n        }\n        return true;\n    }\n}",
+        "debug": "calldata_Random_32 + 4: 0x7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_Random_4: 0x7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Random_0: 0x65fc89b100000000000000000000000000000000000000000000000000000000\ncalldatasize_Random: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRandoms(uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xaeee1670c25955748a11d41f1fc9397b29476582.sol",
+        "function": "getRandoms(uint256,uint256)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

@@ -1,0 +1,227 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol:
+/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol:451:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function VeiagToken (address _ico) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol:639:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function LockedOutTokens(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol:779:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function VeiagTokenVesting(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol:814:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Whitelistable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol:892:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function VeiagCrowdsale(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol:458:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(address(0), _ico, INITIAL_TOTAL_SUPPLY);
+        ^----------------------------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114-1127):
+	External calls:
+	- token.transferFromIco(_address,_tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1122-1123)
+	State variables written after the call(s):
+	- tokensRemainingPreIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1123-1124)
+Reentrancy in VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114-1127):
+	External calls:
+	- token.transferFromIco(_address,_tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126)
+	State variables written after the call(s):
+	- tokensRemainingIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126-1127)
+Reentrancy in TokenVesting.release (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#741-754):
+	External calls:
+	- unreleased = releasableAmount(_token) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#743-747)
+	State variables written after the call(s):
+	- released (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#751)
+Reentrancy in TokenVesting.revoke (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#760-769):
+	External calls:
+	- balance = _token.balanceOf(address(this)) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#763)
+	- unreleased = releasableAmount(_token) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#764)
+	State variables written after the call(s):
+	- revoked (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#767-768)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+TokenTimelock.release (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#587-605) does not use the value returned by external calls:
+	-token.transfer(beneficiary,amount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#603-604)
+TokenVesting.release (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#741-754) does not use the value returned by external calls:
+	-_token.transfer(beneficiary,unreleased) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#751-752)
+TokenVesting.revoke (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#760-769) does not use the value returned by external calls:
+	-_token.transfer(owner,refund) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#768)
+VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#913-946) does not use the value returned by external calls:
+	-token.transferFromIco(lockedTokens,RESERVED_LOCKED_TOKENS) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#933-935)
+	-token.transferFromIco(teamsTokenVesting,RESERVED_TEAMS_TOKENS) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#935-937)
+	-token.transferFromIco(foundersTokenVesting,RESERVED_FOUNDERS_TOKENS) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#937-939)
+	-token.transferFromIco(_marketingWallet,RESERVED_MARKETING_TOKENS) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#939-940)
+VeiagCrowdsale.sellTokensPreIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1052-1082) does not use the value returned by external calls:
+	-token.transferFromIco(msg.sender,tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1076-1078)
+VeiagCrowdsale.sellTokensIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1086-1110) does not use the value returned by external calls:
+	-token.transferFromIco(msg.sender,tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1108)
+VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114-1127) does not use the value returned by external calls:
+	-token.transferFromIco(_address,_tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1122-1123)
+	-token.transferFromIco(_address,_tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114-1127):
+	External calls:
+	- token.transferFromIco(_address,_tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1122-1123)
+	State variables written after the call(s):
+	- tokensSoldPreIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1123-1124)
+	- tokensSoldTotal (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1123-1124)
+	- totalInvestedAmount (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1123-1124)
+	- weiRaisedPreIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1123-1124)
+	- weiRaisedTotal (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1123-1124)
+Reentrancy in VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114-1127):
+	External calls:
+	- token.transferFromIco(_address,_tokensAmount) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126)
+	State variables written after the call(s):
+	- tokensSoldIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126-1127)
+	- tokensSoldTotal (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126-1127)
+	- totalInvestedAmount (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126-1127)
+	- weiRaisedIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126-1127)
+	- weiRaisedTotal (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1126-1127)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+TokenTimelock.constructor (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#572-586) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_releaseTime > block.timestamp) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#583-584)
+TokenTimelock.release (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#587-605) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp >= releaseTime) (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#593-595)
+TokenVesting.vestedAmount (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#786-807) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < cliff (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#797-807)
+	- block.timestamp >= start.add(duration) || revoked[_token] (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#799-807)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#107-112) should be declared external
+Ownable.transferOwnership (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#119-120) should be declared external
+Whitelist.setApiAddress (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#158-160) should be declared external
+Whitelist.addWallet (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#165-173) should be declared external
+Whitelist.removeWallet (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#177-185) should be declared external
+Pausable.unpause (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#240-242) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#244-248) should be declared external
+BasicToken.totalSupply (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#270-271) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#249-251) should be declared external
+BasicToken.balanceOf (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#299-302) should be declared external
+ERC20.allowance (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#306-315) should be declared external
+StandardToken.allowance (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#386-390) should be declared external
+StandardToken.approve (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#369-374) should be declared external
+ERC20.approve (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#318-319) should be declared external
+StandardToken.increaseApproval (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#407-412) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#428-448) should be declared external
+VeiagToken.transferFromIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#504-512) should be declared external
+MintableToken.mint (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#638-653) should be declared external
+MintableToken.finishMinting (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#658-662) should be declared external
+TokenVesting.setStart (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#734-738) should be declared external
+TokenVesting.revoke (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#760-769) should be declared external
+VeiagTokenVesting.grant (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#825-826) should be declared external
+VeiagCrowdsale.SetStartVesting (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#946-962) should be declared external
+VeiagCrowdsale.SetStartTimeIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#963-990) should be declared external
+VeiagCrowdsale.fallback (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#993-1000) should be declared external
+VeiagCrowdsale.setExchangeRatePreIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1028-1031) should be declared external
+VeiagCrowdsale.setIcoFirstWeekRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1031-1034) should be declared external
+VeiagCrowdsale.setIcoSecondWeekRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1034-1038) should be declared external
+VeiagCrowdsale.setIcoThirdWeekRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1038-1043) should be declared external
+VeiagCrowdsale.setIcoRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1045-1047) should be declared external
+VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114-1127) should be declared external
+Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#119) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#124-136) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#125) is not in mixedCase
+Parameter '_api' of Whitelist.setApiAddress (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#159) is not in mixedCase
+Parameter '_wallet' of Whitelist.addWallet (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#165-166) is not in mixedCase
+Parameter '_wallet' of Whitelist.removeWallet (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#178-181) is not in mixedCase
+Parameter '_wallet' of Whitelist.isWhitelisted (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#193) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#299-301) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#276) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#276-277) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#387) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#387-388) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#346) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#346) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#346-347) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#369) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#369) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#407) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#407-408) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#433) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#433) is not in mixedCase
+Parameter '_to' of VeiagToken.transfer (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#478-479) is not in mixedCase
+Parameter '_value' of VeiagToken.transfer (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#479-480) is not in mixedCase
+Parameter '_from' of VeiagToken.transferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#496) is not in mixedCase
+Parameter '_to' of VeiagToken.transferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#496) is not in mixedCase
+Parameter '_value' of VeiagToken.transferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#496) is not in mixedCase
+Function 'VeiagToken.VeiagToken' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#465-474) is not in mixedCase
+Parameter '_ico' of VeiagToken.VeiagToken (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#465-466) is not in mixedCase
+Parameter '_to' of VeiagToken.transferFromIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#506-507) is not in mixedCase
+Parameter '_value' of VeiagToken.transferFromIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#508) is not in mixedCase
+Parameter '_token' of SafeERC20.safeTransfer (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#536) is not in mixedCase
+Parameter '_to' of SafeERC20.safeTransfer (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#536) is not in mixedCase
+Parameter '_value' of SafeERC20.safeTransfer (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#536) is not in mixedCase
+Parameter '_token' of SafeERC20.safeTransferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#540) is not in mixedCase
+Parameter '_from' of SafeERC20.safeTransferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#541-542) is not in mixedCase
+Parameter '_to' of SafeERC20.safeTransferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#542) is not in mixedCase
+Parameter '_value' of SafeERC20.safeTransferFrom (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#542-543) is not in mixedCase
+Parameter '_token' of SafeERC20.safeApprove (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#548) is not in mixedCase
+Parameter '_spender' of SafeERC20.safeApprove (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#548-549) is not in mixedCase
+Parameter '_value' of SafeERC20.safeApprove (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#549) is not in mixedCase
+Parameter '_token' of TokenTimelock. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#573-574) is not in mixedCase
+Parameter '_beneficiary' of TokenTimelock. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#575) is not in mixedCase
+Parameter '_releaseTime' of TokenTimelock. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#575-581) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#639) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#640) is not in mixedCase
+Function 'LockedOutTokens.LockedOutTokens' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#664-673) is not in mixedCase
+Parameter '_beneficiary' of TokenVesting. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#722) is not in mixedCase
+Parameter '_start' of TokenVesting. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#722-724) is not in mixedCase
+Parameter '_cliff' of TokenVesting. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#724) is not in mixedCase
+Parameter '_duration' of TokenVesting. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#724-726) is not in mixedCase
+Parameter '_revocable' of TokenVesting. (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#726) is not in mixedCase
+Parameter '_start' of TokenVesting.setStart (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#734-735) is not in mixedCase
+Parameter '_token' of TokenVesting.release (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#741-743) is not in mixedCase
+Parameter '_token' of TokenVesting.revoke (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#760-761) is not in mixedCase
+Parameter '_token' of TokenVesting.releasableAmount (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#777-779) is not in mixedCase
+Parameter '_token' of TokenVesting.vestedAmount (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#786-787) is not in mixedCase
+Parameter '_token' of VeiagTokenVesting.release (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#826-827) is not in mixedCase
+Function 'VeiagTokenVesting.VeiagTokenVesting' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#814-825) is not in mixedCase
+Parameter '_token' of VeiagTokenVesting.VeiagTokenVesting (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#815) is not in mixedCase
+Function 'Whitelistable.Whitelistable' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#835-838) is not in mixedCase
+Function 'VeiagCrowdsale.VeiagCrowdsale' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#913-946) is not in mixedCase
+Parameter '_startTimePreIco' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#913) is not in mixedCase
+Parameter '_endTimePreIco' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#913-914) is not in mixedCase
+Parameter '_startTimeIco' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#914) is not in mixedCase
+Parameter '_endTimeIco' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#914) is not in mixedCase
+Parameter '_lockedWallet' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#914-916) is not in mixedCase
+Parameter '_teamsWallet' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#916) is not in mixedCase
+Parameter '_foundersWallet' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#916-917) is not in mixedCase
+Parameter '_marketingWallet' of VeiagCrowdsale.VeiagCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#917) is not in mixedCase
+Function 'VeiagCrowdsale.SetStartVesting' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#946-962) is not in mixedCase
+Parameter '_startTimeVestingForFounders' of VeiagCrowdsale.SetStartVesting (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#946-947) is not in mixedCase
+Function 'VeiagCrowdsale.SetStartTimeIco' (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#963-990) is not in mixedCase
+Parameter '_startTimeIco' of VeiagCrowdsale.SetStartTimeIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#964-968) is not in mixedCase
+Parameter '_exchangeRatePreIco' of VeiagCrowdsale.setExchangeRatePreIco (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1028-1029) is not in mixedCase
+Parameter '_icoFirstWeekRate' of VeiagCrowdsale.setIcoFirstWeekRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1033) is not in mixedCase
+Parameter '_icoSecondWeekRate' of VeiagCrowdsale.setIcoSecondWeekRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1035) is not in mixedCase
+Parameter '_icoThirdWeekRate' of VeiagCrowdsale.setIcoThirdWeekRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1040-1041) is not in mixedCase
+Parameter '_icoRate' of VeiagCrowdsale.setIcoRate (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1045) is not in mixedCase
+Parameter '_address' of VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114) is not in mixedCase
+Parameter '_tokensAmount' of VeiagCrowdsale.manualSendTokens (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1114-1115) is not in mixedCase
+Parameter '_weiAmount' of VeiagCrowdsale.addPreIcoPurchaseInfo (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1134) is not in mixedCase
+Parameter '_tokensAmount' of VeiagCrowdsale.addPreIcoPurchaseInfo (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1134) is not in mixedCase
+Parameter '_weiAmount' of VeiagCrowdsale.addIcoPurchaseInfo (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1162-1163) is not in mixedCase
+Parameter '_tokensAmount' of VeiagCrowdsale.addIcoPurchaseInfo (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#1163) is not in mixedCase
+Parameter '_startTimePreIco' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Parameter '_endTimePreIco' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Parameter '_startTimeIco' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Parameter '_endTimeIco' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Parameter '_lockedWallet' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Parameter '_teamsWallet' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Parameter '_foundersWallet' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Parameter '_marketingWallet' of Factory.createCrowdsale (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+VeiagCrowdsale.DECIMALS (/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol#841-843) is never used in VeiagCrowdsale
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/24/0xb1998ca4a564d7d42d0468426bb5fc072bd16ee8.sol analyzed (18 contracts), 141 result(s) found

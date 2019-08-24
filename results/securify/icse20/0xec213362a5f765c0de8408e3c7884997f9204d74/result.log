@@ -1,0 +1,86 @@
+Processing contract: /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol:ERC223Interface
+Processing contract: /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol:ERC223ReceivingContract
+Processing contract: /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol:FOOToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol:IERC20
+Processing contract: /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol:Ownable
+Processing contract: /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol:Pausable
+Processing contract: /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'FOOToken':
+    |}
+    |
+  > |contract FOOToken is IERC20, ERC223Interface, Ownable, Pausable {
+    |    using SafeMath for uint;
+    |
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(175)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'FOOToken':
+    |        require(_to != address(0));
+    |        require(balances[_to] + _value > balances[_to]);
+  > |        balances[_from] = balances[_from].sub(_value);
+    |        _allowed[_from][msg.sender] = _allowed[_from][msg.sender].sub(_value);
+    |        balances[_to] = balances[_to].add(_value);
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(248)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'FOOToken':
+    |        balances[_from] = balances[_from].sub(_value);
+    |        _allowed[_from][msg.sender] = _allowed[_from][msg.sender].sub(_value);
+  > |        balances[_to] = balances[_to].add(_value);
+    |        uint codeLength;
+    |        bytes memory empty;
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(250)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'FOOToken':
+    |        require(balances[_to] + _value > balances[_to]);
+    |        balances[msg.sender] -= _value;
+  > |        balances[_to] += _value;
+    |        emit Transfer(msg.sender, _to, _value);
+    |        emit Transfer(msg.sender, _to, _value, _data);
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(279)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'FOOToken':
+    |        require(balances[_to] + _value > balances[_to]);
+    |        balances[msg.sender] -= _value;
+  > |        balances[_to] += _value;
+    |        ERC223ReceivingContract receiver = ERC223ReceivingContract(_to);
+    |        receiver.tokenFallback(msg.sender, _value, _data);
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(290)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'FOOToken':
+    |    function renounceOwnership() public onlyOwner {
+    |        emit OwnershipTransferred(_owner, address(0));
+  > |        _owner = address(0);
+    |    }
+    |
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(97)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'FOOToken':
+    |        require(newOwner != address(0));
+    |        emit OwnershipTransferred(_owner, newOwner);
+  > |        _owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(107)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'FOOToken':
+    |
+    |    function pause() public onlyOwner whenNotPaused {
+  > |        _paused = true;
+    |        emit Paused(msg.sender);
+    |    }
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(136)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'FOOToken':
+    |
+    |    function unpause() public onlyOwner whenPaused {
+  > |        _paused = false;
+    |        emit Unpaused(msg.sender);
+    |    }
+  at /unique_chucks/40/0xec213362a5f765c0de8408e3c7884997f9204d74.sol(141)

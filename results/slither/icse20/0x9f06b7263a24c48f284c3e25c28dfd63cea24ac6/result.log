@@ -1,0 +1,129 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:41:1: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+function Ownable() public {    owner = msg.sender;  }
+^---------------------------------------------------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:85:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+ function BasicToken()    public {   
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:149:1: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+function Hype(address _addres)  onlyOwner public {investors=_addres;    }
+^-----------------------------------------------------------------------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:177:1: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+function BigHype(address _addres)  onlyOwner public {investors=_addres;      }
+^----------------------------------------------------------------------------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:49:1: Warning: Invoking events without "emit" prefix is deprecated.
+OwnershipTransferred(owner, newOwner);
+^-----------------------------------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:77:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _toaddress, _value);
+    ^--------------------------------------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:99:1: Warning: Invoking events without "emit" prefix is deprecated.
+FrozenAccount_event(_address, _uint);
+^----------------------------------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:135:8: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+payout=this.balance; 
+       ^----------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:149:33: Warning: Modifier-style base constructor call without arguments.
+function Hype(address _addres)  onlyOwner public {investors=_addres;    }
+                                ^-------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:177:36: Warning: Modifier-style base constructor call without arguments.
+function BigHype(address _addres)  onlyOwner public {investors=_addres;      }
+                                   ^-------^
+/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:291:14: Warning: Using contract member "transfer" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).transfer" instead.
+      else { AEStoken.transfer(msg.value); }// \u041f\u043e\u0441\u043b\u0435 \u043e\u043a\u043e\u043d\u0447\u0430\u043d\u0438\u044f ICO \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u0435\u043c \u043f\u043e\u0436\u0435\u0440\u0442\u0432\u043e\u0432\u0430\u043d\u0438\u044f
+             ^---------------^
+
+INFO:Detectors:[91m
+Hype.fallback (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#163-187) sends eth to arbitrary user
+	Dangerous calls:
+	- level[step_pay].send(bonus) == true (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#177-180)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Reentrancy in Crowdsale.Take_share_team_AES (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#235-239):
+	External calls:
+	- AEStoken.transfer(multisig,500000) (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#237)
+	State variables written after the call(s):
+	- share_team_AES (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#237-239)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Crowdsale.Take_share_team_AES (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#235-239) does not use the value returned by external calls:
+	-AEStoken.transfer(multisig,500000) (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#237)
+Crowdsale.createTokens (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#255-295) does not use the value returned by external calls:
+	-AEStoken.transfer(msg.sender,Tokens) (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Hype.fallback has external calls inside a loop:
+	- level[step_pay].send(bonus) == true (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#177-180)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Crowdsale.Time_Start_Crowdsale should be constant (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#230-234)
+ERC20Basic.totalSupply should be constant (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#57)
+Hype.price should be constant (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#156-158)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#47-56) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#57-58) should be declared external
+BasicToken.balanceOf (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#82-86) should be declared external
+Freeze_contract.user_on_freeze (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#109) should be declared external
+Freeze_contract.user_off_freeze (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#110-114) should be declared external
+Freeze_contract.pay_Bounty (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#115-123) should be declared external
+Freeze_contract.offFreeze_Bounty (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#123-126) should be declared external
+AES_token_contract.Take_payout (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#133-151) should be declared external
+Crowdsale.Take_share_team_AES (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#235-239) should be declared external
+Crowdsale.For_admin (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#239-246) should be declared external
+Crowdsale.getTokensSale (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#247-248) should be declared external
+Crowdsale.getBalance_in_token (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#248-250) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#41-43) is not in mixedCase
+Event 'BasicToken.FrozenAccount_event' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#71) is not in CapWords
+Parameter '_owner' of BasicToken.balanceOf (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#82) is not in mixedCase
+Parameter '_toaddress' of BasicToken.transfer (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#72) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#72) is not in mixedCase
+Function 'BasicToken.BasicToken' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#86-90) is not in mixedCase
+Variable 'BasicToken.Account_balances' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#65-66) is not in mixedCase
+Variable 'BasicToken.Account_frozen' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#66-67) is not in mixedCase
+Variable 'BasicToken.Account_timePayout' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#68) is not in mixedCase
+Constant 'AESconstants.tagline' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#93-96) is not in UPPER_CASE_WITH_UNDERSCORES
+Contract 'Freeze_contract' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#97-127) is not in CapWords
+Function 'Freeze_contract.Freeze' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#99-105) is not in mixedCase
+Parameter '_address' of Freeze_contract.Freeze (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#99) is not in mixedCase
+Parameter '_uint' of Freeze_contract.Freeze (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#100-101) is not in mixedCase
+Function 'Freeze_contract.user_on_freeze' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#109) is not in mixedCase
+Function 'Freeze_contract.user_off_freeze' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#110-114) is not in mixedCase
+Function 'Freeze_contract.pay_Bounty' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#115-123) is not in mixedCase
+Parameter '_address' of Freeze_contract.pay_Bounty (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#118) is not in mixedCase
+Parameter '_sum_pay' of Freeze_contract.pay_Bounty (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#118) is not in mixedCase
+Function 'Freeze_contract.offFreeze_Bounty' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#123-126) is not in mixedCase
+Parameter '_address' of Freeze_contract.offFreeze_Bounty (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#123-124) is not in mixedCase
+Contract 'AES_token_contract' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#127-151) is not in CapWords
+Function 'AES_token_contract.Take_payout' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#133-151) is not in mixedCase
+Variable 'AES_token_contract.next_payout' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#130-131) is not in mixedCase
+Function 'Hype.Hype' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#154-155) is not in mixedCase
+Parameter '_addres' of Hype.Hype (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#154) is not in mixedCase
+Variable 'Hype.step_level' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#159-160) is not in mixedCase
+Variable 'Hype.step_pay' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#160) is not in mixedCase
+Constant 'Hype.percent_hype' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#160) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Hype.percent_investors' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#160-161) is not in UPPER_CASE_WITH_UNDERSCORES
+Struct 'BigHype.info' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#192-193) is not in CapWords
+Function 'BigHype.BigHype' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#190-192) is not in mixedCase
+Parameter '_addres' of BigHype.BigHype (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#191) is not in mixedCase
+Variable 'BigHype.step_level' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#194) is not in mixedCase
+Variable 'BigHype.step_pay' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#194-195) is not in mixedCase
+Constant 'BigHype.percent_hype' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#195-196) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'BigHype.percent_investors' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#196-197) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'Crowdsale.Take_share_team_AES' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#235-239) is not in mixedCase
+Function 'Crowdsale.For_admin' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#239-246) is not in mixedCase
+Function 'Crowdsale.getBalance_in_token' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#248-250) is not in mixedCase
+Variable 'Crowdsale.share_team_AES' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#221-222) is not in mixedCase
+Variable 'Crowdsale.AEStoken' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#223-228) is not in mixedCase
+Variable 'Crowdsale.Time_Start_Crowdsale' (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#230-234) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+Hype.percent_hype (/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol#160) is never used in Hype
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0x9f06b7263a24c48f284c3e25c28dfd63cea24ac6.sol analyzed (10 contracts), 63 result(s) found

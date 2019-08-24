@@ -1,0 +1,283 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:10:5: Warning: Function state mutability can be restricted to pure
+    function name() public view returns (string) {}
+    ^---------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:11:5: Warning: Function state mutability can be restricted to pure
+    function symbol() public view returns (string) {}
+    ^-----------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:12:5: Warning: Function state mutability can be restricted to pure
+    function decimals() public view returns (uint8) {}
+    ^------------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:13:5: Warning: Function state mutability can be restricted to pure
+    function totalSupply() public view returns (uint256) {}
+    ^-----------------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:14:5: Warning: Function state mutability can be restricted to pure
+    function balanceOf(address _owner) public view returns (uint256) { _owner; }
+    ^--------------------------------------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:15:5: Warning: Function state mutability can be restricted to pure
+    function allowance(address _owner, address _spender) public view returns (uint256) { _owner; _spender; }
+    ^------------------------------------------------------------------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:39:5: Warning: Function state mutability can be restricted to pure
+    function conversionWhitelist() public view returns (IWhitelist) {}
+    ^----------------------------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:40:5: Warning: Function state mutability can be restricted to pure
+    function conversionFee() public view returns (uint32) {}
+    ^------------------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:41:5: Warning: Function state mutability can be restricted to pure
+    function connectors(address _address) public view returns (uint256, uint32, bool, bool, bool) { _address; }
+    ^---------------------------------------------------------------------------------------------------------^
+/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:163:5: Warning: Function state mutability can be restricted to pure
+    function owner() public view returns (address) {}
+    ^-----------------------------------------------^
+
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol:
+	Contract IEtherToken has payable functions:
+	 - deposit (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#554)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in BancorConverter.buy (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1213-1239):
+	External calls:
+	- (amount,feeAmount) = getPurchaseReturn(_connectorToken,_depositAmount) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1220-1221)
+	State variables written after the call(s):
+	- connectors (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1227-1228)
+Reentrancy in BancorConverter.convertInternal (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1141-1192):
+	External calls:
+	- (amount,feeAmount) = getCrossConnectorReturn(_fromToken,_toToken,_amount) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1154-1155)
+	State variables written after the call(s):
+	- connectors (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1162-1163)
+	- connectors (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1164-1168)
+Reentrancy in BancorConverter.fund (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1397-1429):
+	External calls:
+	- supply = token.totalSupply() (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1402-1403)
+	- connectorBalance = getConnectorBalance(connectorToken) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1411-1413)
+	State variables written after the call(s):
+	- connectors (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1418-1420)
+Reentrancy in BancorConverter.liquidate (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1436-1461):
+	External calls:
+	- supply = token.totalSupply() (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1438-1440)
+	- token.destroy(msg.sender,_amount) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1441)
+	- connectorBalance = getConnectorBalance(connectorToken) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1451-1453)
+	State variables written after the call(s):
+	- connectors (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1455-1456)
+Reentrancy in BancorConverter.sell (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1246-1281):
+	External calls:
+	- require(bool)(_sellAmount <= token.balanceOf(msg.sender)) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1248)
+	- (amount,feeAmount) = getSaleReturn(_connectorToken,_sellAmount) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1251-1253)
+	- tokenSupply = token.totalSupply() (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1259)
+	- connectorBalance = getConnectorBalance(_connectorToken) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1259-1260)
+	State variables written after the call(s):
+	- connectors (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1264)
+Reentrancy in BancorConverter.updateRegistry (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#748-766):
+	External calls:
+	- newRegistry = registry.addressOf(ContractIds.CONTRACT_REGISTRY) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#755-756)
+	State variables written after the call(s):
+	- registry (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#765-766)
+Reentrancy in BancorConverter.upgrade (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#923-930):
+	External calls:
+	- converterUpgrader = IBancorConverterUpgrader(registry.addressOf(ContractIds.BANCOR_CONVERTER_UPGRADER)) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#925-926)
+	- converterUpgrader.upgrade(version) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#929)
+	State variables written after the call(s):
+	- owner (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#930)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+BancorConverter.fund has external calls inside a loop:
+	- assert(bool)(connectorToken.transferFrom(msg.sender,this,connectorAmount)) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1421-1423)
+BancorConverter.liquidate has external calls inside a loop:
+	- assert(bool)(connectorToken.transfer(msg.sender,connectorAmount)) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1459)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in BancorConverter.constructor (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#653-679):
+	External calls:
+	- features = IContractFeatures(registry.addressOf(ContractIds.CONTRACT_FEATURES)) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#665-667)
+	- features.enableFeatures(FeatureIds.CONVERTER_CONVERSION_WHITELIST,true) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#669-673)
+	State variables written after the call(s):
+	- maxConversionFee (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#673-674)
+Reentrancy in BancorConverter.updateRegistry (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#748-766):
+	External calls:
+	- newRegistry = registry.addressOf(ContractIds.CONTRACT_REGISTRY) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#755-756)
+	State variables written after the call(s):
+	- prevRegistry (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#764)
+Reentrancy in BancorConverter.upgrade (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#923-930):
+	External calls:
+	- converterUpgrader = IBancorConverterUpgrader(registry.addressOf(ContractIds.BANCOR_CONVERTER_UPGRADER)) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#925-926)
+	State variables written after the call(s):
+	- newOwner (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#928)
+Reentrancy in BancorConverter.upgrade (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#923-930):
+	External calls:
+	- converterUpgrader = IBancorConverterUpgrader(registry.addressOf(ContractIds.BANCOR_CONVERTER_UPGRADER)) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#925-926)
+	- converterUpgrader.upgrade(version) (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#929)
+	State variables written after the call(s):
+	- newOwner (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#930)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BancorConverter.converterType should be constant (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#594)
+BancorConverter.version should be constant (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#594)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+IERC20Token.name (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#10-11) should be declared external
+IERC20Token.symbol (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#11-12) should be declared external
+IERC20Token.decimals (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#12-13) should be declared external
+IERC20Token.totalSupply (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#13-14) should be declared external
+IERC20Token.balanceOf (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#14-15) should be declared external
+IERC20Token.allowance (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#15-17) should be declared external
+IERC20Token.transfer (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#17-18) should be declared external
+IERC20Token.transferFrom (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#18-19) should be declared external
+IERC20Token.approve (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#19-22) should be declared external
+IWhitelist.isWhitelisted (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#28-31) should be declared external
+BancorConverter.getReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1028-1038) should be declared external
+IBancorConverter.getReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#37-38) should be declared external
+BancorConverter.convert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1201-1205) should be declared external
+IBancorConverter.convert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#38-39) should be declared external
+IBancorConverter.conversionWhitelist (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#39-40) should be declared external
+IBancorConverter.conversionFee (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#40-41) should be declared external
+IBancorConverter.connectors (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#41-42) should be declared external
+IBancorConverter.claimTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#43-44) should be declared external
+BancorConverter.claimTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#905-916) should be declared external
+BancorConverter.change (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) should be declared external
+IBancorConverter.change (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#45-48) should be declared external
+IBancorConverterUpgrader.upgrade (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#55-58) should be declared external
+IBancorConverterUpgrader.upgrade (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#58) should be declared external
+IBancorFormula.calculatePurchaseReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#64-65) should be declared external
+IBancorFormula.calculateSaleReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#65-66) should be declared external
+IBancorFormula.calculateCrossConnectorReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#66-72) should be declared external
+IBancorNetwork.convert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#75-76) should be declared external
+IBancorNetwork.convertFor (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#76-80) should be declared external
+IBancorNetwork.convertForPrioritized3 (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#80-92) should be declared external
+IBancorNetwork.convertForPrioritized2 (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#94-104) should be declared external
+IBancorNetwork.convertForPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#106-121) should be declared external
+IOwned.owner (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#169-172) should be declared external
+Managed.transferManagement (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#262-266) should be declared external
+Managed.acceptManagement (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#273-283) should be declared external
+IContractRegistry.addressOf (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#387-388) should be declared external
+IContractRegistry.getAddress (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#391-395) should be declared external
+IContractFeatures.isSupported (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#398-402) should be declared external
+IContractFeatures.enableFeatures (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#402-405) should be declared external
+ISmartToken.disableTransfers (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#411-414) should be declared external
+ISmartToken.issue (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#414) should be declared external
+ISmartToken.destroy (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#414-417) should be declared external
+SmartTokenController.acceptTokenOwnership (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#520-523) should be declared external
+SmartTokenController.disableTokenTransfers (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#527-531) should be declared external
+SmartTokenController.withdrawFromToken (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#544-546) should be declared external
+IEtherToken.deposit (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#554) should be declared external
+IEtherToken.withdraw (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#554) should be declared external
+IEtherToken.withdrawTo (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#554-556) should be declared external
+IBancorX.xTransfer (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#556-557) should be declared external
+IBancorX.getXTransferAmount (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#557-559) should be declared external
+BancorConverter.updateRegistry (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#748-766) should be declared external
+BancorConverter.restoreRegistry (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#773-782) should be declared external
+BancorConverter.disableRegistryUpdate (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#790-791) should be declared external
+BancorConverter.enableClaimTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#797-804) should be declared external
+BancorConverter.connectorTokenCount (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#806-810) should be declared external
+BancorConverter.setConversionWhitelist (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#820-823) should be declared external
+BancorConverter.disableConversions (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#835-842) should be declared external
+BancorConverter.setConversionFee (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#861-867) should be declared external
+BancorConverter.upgrade (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#923-930) should be declared external
+BancorConverter.updateConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#966-986) should be declared external
+BancorConverter.disableConnectorPurchases (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#998-1003) should be declared external
+BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1366-1388) should be declared external
+BancorConverter.fund (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1397-1429) should be declared external
+BancorConverter.liquidate (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1436-1461) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Owned.transferOwnership (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#208) is not in mixedCase
+Parameter '_newManager' of Managed.transferManagement (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#262-263) is not in mixedCase
+Parameter '_x' of SafeMath.add (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#328-329) is not in mixedCase
+Parameter '_y' of SafeMath.add (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#329-330) is not in mixedCase
+Parameter '_x' of SafeMath.sub (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#343) is not in mixedCase
+Parameter '_y' of SafeMath.sub (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#343) is not in mixedCase
+Parameter '_x' of SafeMath.mul (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#356) is not in mixedCase
+Parameter '_y' of SafeMath.mul (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#357) is not in mixedCase
+Parameter '_x' of SafeMath.div (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#377) is not in mixedCase
+Parameter '_y' of SafeMath.div (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#377) is not in mixedCase
+Parameter '_token' of TokenHolder.withdrawTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#451) is not in mixedCase
+Parameter '_to' of TokenHolder.withdrawTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#451) is not in mixedCase
+Parameter '_amount' of TokenHolder.withdrawTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#451) is not in mixedCase
+Parameter '_token' of SmartTokenController. (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#491) is not in mixedCase
+Parameter '_newOwner' of SmartTokenController.transferTokenOwnership (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#512-514) is not in mixedCase
+Parameter '_disable' of SmartTokenController.disableTokenTransfers (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#527) is not in mixedCase
+Parameter '_token' of SmartTokenController.withdrawFromToken (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#545) is not in mixedCase
+Parameter '_to' of SmartTokenController.withdrawFromToken (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#545) is not in mixedCase
+Parameter '_amount' of SmartTokenController.withdrawFromToken (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#545) is not in mixedCase
+Parameter '_fromToken' of BancorConverter.getReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1028-1029) is not in mixedCase
+Parameter '_toToken' of BancorConverter.getReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1029-1030) is not in mixedCase
+Parameter '_amount' of BancorConverter.getReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1030-1031) is not in mixedCase
+Parameter '_fromToken' of BancorConverter.convert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1201-1202) is not in mixedCase
+Parameter '_toToken' of BancorConverter.convert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1202) is not in mixedCase
+Parameter '_amount' of BancorConverter.convert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1202) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.convert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1202) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter.getConnectorBalance (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1008-1009) is not in mixedCase
+Parameter '_from' of BancorConverter.claimTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#906) is not in mixedCase
+Parameter '_amount' of BancorConverter.claimTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#906-907) is not in mixedCase
+Parameter '_fromToken' of BancorConverter.change (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_toToken' of BancorConverter.change (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_amount' of BancorConverter.change (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.change (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_token' of BancorConverter.withdrawTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#887) is not in mixedCase
+Parameter '_to' of BancorConverter.withdrawTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#887) is not in mixedCase
+Parameter '_amount' of BancorConverter.withdrawTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#887-888) is not in mixedCase
+Parameter '_newOwner' of BancorConverter.transferTokenOwnership (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#854) is not in mixedCase
+Parameter '_registry' of BancorConverter. (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#655-657) is not in mixedCase
+Parameter '_maxConversionFee' of BancorConverter. (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#657) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter. (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#658) is not in mixedCase
+Parameter '_connectorWeight' of BancorConverter. (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#658) is not in mixedCase
+Parameter '_disable' of BancorConverter.disableRegistryUpdate (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#790) is not in mixedCase
+Parameter '_enable' of BancorConverter.enableClaimTokens (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#798-799) is not in mixedCase
+Parameter '_whitelist' of BancorConverter.setConversionWhitelist (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#821) is not in mixedCase
+Parameter '_disable' of BancorConverter.disableConversions (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#837) is not in mixedCase
+Parameter '_conversionFee' of BancorConverter.setConversionFee (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#862-863) is not in mixedCase
+Parameter '_amount' of BancorConverter.getFinalAmount (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#873) is not in mixedCase
+Parameter '_magnitude' of BancorConverter.getFinalAmount (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#873) is not in mixedCase
+Parameter '_token' of BancorConverter.addConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#942) is not in mixedCase
+Parameter '_weight' of BancorConverter.addConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#942) is not in mixedCase
+Parameter '_enableVirtualBalance' of BancorConverter.addConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#943) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter.updateConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#966-967) is not in mixedCase
+Parameter '_weight' of BancorConverter.updateConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#967) is not in mixedCase
+Parameter '_enableVirtualBalance' of BancorConverter.updateConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#967) is not in mixedCase
+Parameter '_virtualBalance' of BancorConverter.updateConnector (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#967-968) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter.disableConnectorPurchases (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#998-999) is not in mixedCase
+Parameter '_disable' of BancorConverter.disableConnectorPurchases (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#999) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter.getPurchaseReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1048) is not in mixedCase
+Parameter '_depositAmount' of BancorConverter.getPurchaseReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1048) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter.getSaleReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1074-1075) is not in mixedCase
+Parameter '_sellAmount' of BancorConverter.getSaleReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1075) is not in mixedCase
+Parameter '_fromConnectorToken' of BancorConverter.getCrossConnectorReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1101-1102) is not in mixedCase
+Parameter '_toConnectorToken' of BancorConverter.getCrossConnectorReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1102) is not in mixedCase
+Parameter '_sellAmount' of BancorConverter.getCrossConnectorReturn (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1102-1106) is not in mixedCase
+Parameter '_fromToken' of BancorConverter.convertInternal (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1141-1143) is not in mixedCase
+Parameter '_toToken' of BancorConverter.convertInternal (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1143) is not in mixedCase
+Parameter '_amount' of BancorConverter.convertInternal (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1143) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.convertInternal (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1143-1144) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter.buy (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1213-1214) is not in mixedCase
+Parameter '_depositAmount' of BancorConverter.buy (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1214-1218) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.buy (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1218) is not in mixedCase
+Parameter '_connectorToken' of BancorConverter.sell (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1247) is not in mixedCase
+Parameter '_sellAmount' of BancorConverter.sell (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1247) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.sell (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1247) is not in mixedCase
+Parameter '_path' of BancorConverter.quickConvert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1288) is not in mixedCase
+Parameter '_amount' of BancorConverter.quickConvert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1288-1289) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.quickConvert (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1289-1290) is not in mixedCase
+Parameter '_path' of BancorConverter.quickConvertPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1313) is not in mixedCase
+Parameter '_amount' of BancorConverter.quickConvertPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1313) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.quickConvertPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1313) is not in mixedCase
+Parameter '_block' of BancorConverter.quickConvertPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1313-1314) is not in mixedCase
+Parameter '_v' of BancorConverter.quickConvertPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1314) is not in mixedCase
+Parameter '_r' of BancorConverter.quickConvertPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1314) is not in mixedCase
+Parameter '_s' of BancorConverter.quickConvertPrioritized (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1314) is not in mixedCase
+Parameter '_path' of BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1366) is not in mixedCase
+Parameter '_minReturn' of BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1368) is not in mixedCase
+Parameter '_conversionId' of BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1368-1370) is not in mixedCase
+Parameter '_block' of BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1370-1371) is not in mixedCase
+Parameter '_v' of BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1371) is not in mixedCase
+Parameter '_r' of BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1372-1373) is not in mixedCase
+Parameter '_s' of BancorConverter.completeXConversion (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1373) is not in mixedCase
+Parameter '_amount' of BancorConverter.fund (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1397-1398) is not in mixedCase
+Parameter '_amount' of BancorConverter.liquidate (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol#1436) is not in mixedCase
+Parameter '_fromToken' of BancorConverter.dispatchConversionEvent (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_toToken' of BancorConverter.dispatchConversionEvent (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_amount' of BancorConverter.dispatchConversionEvent (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_returnAmount' of BancorConverter.dispatchConversionEvent (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Parameter '_feeAmount' of BancorConverter.dispatchConversionEvent (/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/30/0x83f21fc58b04af42c23b5c468ba395319c9a8f60.sol analyzed (22 contracts), 176 result(s) found

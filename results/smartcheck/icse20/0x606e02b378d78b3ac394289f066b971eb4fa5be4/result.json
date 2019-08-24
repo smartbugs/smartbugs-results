@@ -1,0 +1,785 @@
+{
+  "contract": "0x606e02b378d78b3ac394289f066b971eb4fa5be4",
+  "tool": "smartcheck",
+  "start": 1563772299.2684326,
+  "end": 1563772310.4502144,
+  "duration": 11.181781768798828,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "b140cd",
+      "severity": 1,
+      "line": 999,
+      "column": 48,
+      "content": "0x100000"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 521,
+      "column": 8,
+      "content": "_owner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 736,
+      "column": 8,
+      "content": "pendingOwner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 1161,
+      "column": 51,
+      "content": "(address(0),_value)"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 562,
+      "column": 27,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_ARRAY_LENGTH_MANIPULATION",
+      "patternId": "872bdd",
+      "severity": 1,
+      "line": 370,
+      "column": 8,
+      "content": "subscribers[_attribute].length=length-1"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 175,
+      "column": 4,
+      "content": "functionapprove(addressspender,uint256value)publicreturns(bool){_approve(msg.sender,spender,value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 845,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(bool){_approveAllArgs(_spender,_value,msg.sender);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "12cf32",
+      "severity": 2,
+      "line": 417,
+      "column": 12,
+      "content": "for(uint256i=_addresses.length;i-->0;){addresswho=_addresses[i];target.syncAttributeValue(who,_attribute,attributes[who][_attribute].value);}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "17f23a",
+      "severity": 1,
+      "line": 415,
+      "column": 15,
+      "content": "index-->_startIndex"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 304,
+      "column": 0,
+      "content": "contractRegistry{structAttributeData{uint256value;bytes32notes;addressadminAddr;uint256timestamp;}addresspublicowner;addresspublicpendingOwner;boolinitialized;mapping(address=>mapping(bytes32=>AttributeData))attributes;bytes32constantWRITE_PERMISSION=keccak256(\"canWriteTo-\");mapping(bytes32=>RegistryClone[])subscribers;eventOwnershipTransferred(addressindexedpreviousOwner,addressindexednewOwner);eventSetAttribute(addressindexedwho,bytes32attribute,uint256value,bytes32notes,addressindexedadminAddr);eventSetManager(addressindexedoldManager,addressindexednewManager);eventStartSubscription(bytes32indexedattribute,RegistryCloneindexedsubscriber);eventStopSubscription(bytes32indexedattribute,RegistryCloneindexedsubscriber);functionconfirmWrite(bytes32_attribute,address_admin)internalviewreturns(bool){bytes32attr=WRITE_PERMISSION^_attribute;bytes32kesres=bytes32(keccak256(abi.encodePacked(attr)));return(_admin==owner||hasAttribute(_admin,kesres));}functionsetAttribute(address_who,bytes32_attribute,uint256_value,bytes32_notes)public{require(confirmWrite(_attribute,msg.sender));attributes[_who][_attribute]=AttributeData(_value,_notes,msg.sender,block.timestamp);emitSetAttribute(_who,_attribute,_value,_notes,msg.sender);RegistryClone[]storagetargets=subscribers[_attribute];uint256index=targets.length;while(index-->0){targets[index].syncAttributeValue(_who,_attribute,_value);}}functionsubscribe(bytes32_attribute,RegistryClone_syncer)externalonlyOwner{subscribers[_attribute].push(_syncer);emitStartSubscription(_attribute,_syncer);}functionunsubscribe(bytes32_attribute,uint256_index)externalonlyOwner{uint256length=subscribers[_attribute].length;require(_index<length);emitStopSubscription(_attribute,subscribers[_attribute][_index]);subscribers[_attribute][_index]=subscribers[_attribute][length-1];subscribers[_attribute].length=length-1;}functionsubscriberCount(bytes32_attribute)publicviewreturns(uint256){returnsubscribers[_attribute].length;}functionsetAttributeValue(address_who,bytes32_attribute,uint256_value)public{require(confirmWrite(_attribute,msg.sender));attributes[_who][_attribute]=AttributeData(_value,\"\",msg.sender,block.timestamp);emitSetAttribute(_who,_attribute,_value,\"\",msg.sender);RegistryClone[]storagetargets=subscribers[_attribute];uint256index=targets.length;while(index-->0){targets[index].syncAttributeValue(_who,_attribute,_value);}}functionhasAttribute(address_who,bytes32_attribute)publicviewreturns(bool){returnattributes[_who][_attribute].value!=0;}functiongetAttribute(address_who,bytes32_attribute)publicviewreturns(uint256,bytes32,address,uint256){AttributeDatamemorydata=attributes[_who][_attribute];return(data.value,data.notes,data.adminAddr,data.timestamp);}functiongetAttributeValue(address_who,bytes32_attribute)publicviewreturns(uint256){returnattributes[_who][_attribute].value;}functiongetAttributeAdminAddr(address_who,bytes32_attribute)publicviewreturns(address){returnattributes[_who][_attribute].adminAddr;}functiongetAttributeTimestamp(address_who,bytes32_attribute)publicviewreturns(uint256){returnattributes[_who][_attribute].timestamp;}functionsyncAttribute(bytes32_attribute,uint256_startIndex,address[]calldata_addresses)external{RegistryClone[]storagetargets=subscribers[_attribute];uint256index=targets.length;while(index-->_startIndex){RegistryClonetarget=targets[index];for(uint256i=_addresses.length;i-->0;){addresswho=_addresses[i];target.syncAttributeValue(who,_attribute,attributes[who][_attribute].value);}}}functionreclaimEther(addresspayable_to)externalonlyOwner{_to.transfer(address<missing ';'>(this).balance);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 745,
+      "column": 0,
+      "content": "contractReclaimerTokenisHasOwner{functionreclaimEther(addresspayable_to)externalonlyOwner{_to.transfer(address<missing ';'>(this).balance);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 587,
+      "column": 4,
+      "content": "functionsetBalance(address_addr,uint256_value)publiconlyOwner{balanceOf[_addr]=_value;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 612,
+      "column": 4,
+      "content": "functionsetAllowance(address_tokenHolder,address_spender,uint256_value)publiconlyOwner{allowanceOf[_tokenHolder][_spender]=_value;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 978,
+      "column": 4,
+      "content": "functionsetBurnBounds(uint256_min,uint256_max)externalonlyOwner{require(_min<=_max,\"min > max\");burnMin=_min;burnMax=_max;emitSetBurnBounds(_min,_max);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 1006,
+      "column": 4,
+      "content": "functionsetTransferFee(uint256transferFee)publiconlyOwnerreturns(bool){_transferFee=transferFee;returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 1011,
+      "column": 4,
+      "content": "functionsetTransferFeeMode(uint8transferFeeMode)publiconlyOwnerreturns(bool){_transferFeeMode=transferFeeMode;returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 1173,
+      "column": 4,
+      "content": "functionsetRegistry(Registry_registry)publiconlyOwner{registry=_registry;emitSetRegistry(address(registry));}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 3,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 3,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 11,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 37,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 105,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 297,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 297,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 469,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 545,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 545,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 569,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 569,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 594,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 594,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 619,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 619,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 681,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 681,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 742,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 742,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 773,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 773,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 819,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 819,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 926,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 926,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 954,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 954,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 988,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 988,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1252,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1252,
+      "column": 25,
+      "content": "<"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 124,
+      "column": 33,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 126,
+      "column": 54,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 128,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 477,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 640,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 641,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 652,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 122,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 575,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 600,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 783,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 831,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "83hf3l",
+      "severity": 1,
+      "line": 395,
+      "column": 80,
+      "content": "(uint256,bytes32,address,uint256)"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "83hf3l",
+      "severity": 1,
+      "line": 1206,
+      "column": 83,
+      "content": "(address,bool)"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "83hf3l",
+      "severity": 1,
+      "line": 1216,
+      "column": 105,
+      "content": "(address,bool)"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "83hf3l",
+      "severity": 1,
+      "line": 1227,
+      "column": 64,
+      "content": "(address,bool)"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 424,
+      "column": 4,
+      "content": "functionreclaimEther(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 749,
+      "column": 4,
+      "content": "functionreclaimEther(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 315,
+      "column": 4,
+      "content": "boolinitialized;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 323,
+      "column": 4,
+      "content": "mapping(address=>mapping(bytes32=>AttributeData))attributes;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 326,
+      "column": 4,
+      "content": "bytes32constantWRITE_PERMISSION=keccak256(\"canWriteTo-\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 327,
+      "column": 4,
+      "content": "mapping(bytes32=>RegistryClone[])subscribers;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 425,
+      "column": 8,
+      "content": "_to.transfer"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 425,
+      "column": 20,
+      "content": "(address<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 425,
+      "column": 28,
+      "content": "(this).balance);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 633,
+      "column": 4,
+      "content": "boolinitialized;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 635,
+      "column": 4,
+      "content": "BalanceSheetbalances_Deprecated;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 636,
+      "column": 4,
+      "content": "AllowanceSheetallowances_Deprecated;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 638,
+      "column": 4,
+      "content": "uint256totalSupply_;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 648,
+      "column": 4,
+      "content": "stringname_Deprecated;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 649,
+      "column": 4,
+      "content": "stringsymbol_Deprecated;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 651,
+      "column": 4,
+      "content": "uint[]gasRefundPool_Deprecated;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 655,
+      "column": 4,
+      "content": "mapping(address=>uint256)_balanceOf;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 656,
+      "column": 4,
+      "content": "mapping(address=>mapping(address=>uint256))_allowance;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 657,
+      "column": 4,
+      "content": "mapping(bytes32=>mapping(address=>uint256))attributes;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 750,
+      "column": 8,
+      "content": "_to.transfer"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 750,
+      "column": 20,
+      "content": "(address<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 750,
+      "column": 28,
+      "content": "(this).balance);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 936,
+      "column": 4,
+      "content": "uint256constantCENT=10**6;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 997,
+      "column": 4,
+      "content": "bytes32constantIS_REGISTERED_CONTRACT=\"isRegisteredContract\";"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 998,
+      "column": 4,
+      "content": "bytes32constantIS_DEPOSIT_ADDRESS=\"isDepositAddress\";"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 999,
+      "column": 4,
+      "content": "uint256constantREDEMPTION_ADDRESS_COUNT=0x100000;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 1000,
+      "column": 4,
+      "content": "bytes32constantIS_BLACKLISTED=\"isBlacklisted\";"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 1001,
+      "column": 4,
+      "content": "uint256_transferFee=0;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 1002,
+      "column": 4,
+      "content": "uint8_transferFeeMode=0;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 1264,
+      "column": 4,
+      "content": "uint8constantDECIMALS=8;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 1265,
+      "column": 4,
+      "content": "uint8constantROUNDING=2;"
+    }
+  ]
+}

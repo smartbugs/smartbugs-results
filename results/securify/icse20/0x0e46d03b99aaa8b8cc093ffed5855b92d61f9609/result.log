@@ -1,0 +1,44 @@
+Processing contract: /unique_chucks/23/0x0e46d03b99aaa8b8cc093ffed5855b92d61f9609.sol:Registry
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'Registry':
+    |pragma solidity ^0.5.8;
+    |
+  > |contract Registry {
+    |    struct Entry {
+    |        uint64 lenData;
+  at /unique_chucks/23/0x0e46d03b99aaa8b8cc093ffed5855b92d61f9609.sol(3)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Registry':
+    |
+    |    function addEntry(uint64 lenData) public returns(uint256) {
+  > |        entries[numEntries] = Entry(lenData, msg.sender, false);
+    |        numEntries += 1;
+    |        return numEntries - 1;
+  at /unique_chucks/23/0x0e46d03b99aaa8b8cc093ffed5855b92d61f9609.sol(14)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'Registry':
+    |    function addEntry(uint64 lenData) public returns(uint256) {
+    |        entries[numEntries] = Entry(lenData, msg.sender, false);
+  > |        numEntries += 1;
+    |        return numEntries - 1;
+    |    }
+  at /unique_chucks/23/0x0e46d03b99aaa8b8cc093ffed5855b92d61f9609.sol(15)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Registry':
+    |    function finalize(uint256 entryId) public {
+    |        require(entries[entryId].owner == msg.sender);
+  > |        entries[entryId].uploaded = true;
+    |    }
+    |    
+  at /unique_chucks/23/0x0e46d03b99aaa8b8cc093ffed5855b92d61f9609.sol(21)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Registry':
+    |    function addChunk(uint256 entryId, uint32 chunkIndex, bytes memory chunkData) public {
+    |        require(entries[entryId].owner == msg.sender);
+  > |        entries[entryId].data[chunkIndex] = storeDataAsContract(chunkData);
+    |    }
+    |
+  at /unique_chucks/23/0x0e46d03b99aaa8b8cc093ffed5855b92d61f9609.sol(37)

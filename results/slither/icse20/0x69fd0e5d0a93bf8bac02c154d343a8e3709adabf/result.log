@@ -1,0 +1,198 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol:
+/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol:196:44: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0xF84C61bB982041c030B8580d1634f00Fffb89059'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+        miningWarContractAddress = address(0xf84c61bb982041c030b8580d1634f00fffb89059);
+                                           ^----------------------------------------^
+/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol:324:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        gameSponsor.send(repayPrice);
+        ^--------------------------^
+/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol:690:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        gameSponsor.send(_value);
+        ^----------------------^
+/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol:691:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        miningWarAdministrator.send(_value);
+        ^---------------------------------^
+/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol:240:5: Warning: Function state mutability can be restricted to pure
+    function setupMiniGame( uint256 /*_miningWarRoundNumber*/, uint256 /*_miningWarDeadline*/ ) public
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+CryptoEngineer.claimPrizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#389-398) sends eth to arbitrary user
+	Dangerous calls:
+	- MiniGame.fallback.value(_value)() (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#395-398)
+CryptoEngineer.distributedToOwner (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#702-706) sends eth to arbitrary user
+	Dangerous calls:
+	- gameSponsor.send(_value) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#704-706)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in CryptoEngineer.buyBooster (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#279-299):
+	External calls:
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#291-293)
+	External calls sending eth:
+	- distributedToOwner(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#290)
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#291-293)
+	State variables written after the call(s):
+	- boostData (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#298-299)
+Reentrancy in CryptoEngineer.buyEngineer (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#524-571):
+	External calls:
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#564-565)
+	- MiningWarContract.subCrystal(msg.sender,priceCrystals) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#568-569)
+	External calls sending eth:
+	- distributedToOwner(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#562-564)
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#564-565)
+	State variables written after the call(s):
+	- players (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#570)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol:
+	Contract CryptoMiningWarInterface has payable functions:
+	 - fallback (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#99)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in CryptoEngineer.attack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#428-475):
+	External calls:
+	- calCurrentCrystals(_defAddress) < 5000 (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#437)
+	State variables written after the call(s):
+	- players (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#465-467)
+	- players (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#467-470)
+	- players (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#471)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+winCrystals in CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#502) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Reentrancy in CryptoEngineer.attack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#428-475):
+	External calls:
+	- calCurrentCrystals(_defAddress) < 5000 (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#437)
+	State variables written after the call(s):
+	- randNonce (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#440-441)
+	- randNonce (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#441-443)
+Reentrancy in CryptoEngineer.buyBooster (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#279-299):
+	External calls:
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#291-293)
+	External calls sending eth:
+	- distributedToOwner(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#290)
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#291-293)
+	State variables written after the call(s):
+	- players (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#293-295)
+	- players (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#296)
+	- prizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#293)
+Reentrancy in CryptoEngineer.buyEngineer (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#524-571):
+	External calls:
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#564-565)
+	External calls sending eth:
+	- distributedToOwner(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#562-564)
+	- addMiningWarPrizePool(devFeePrize) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#564-565)
+	State variables written after the call(s):
+	- prizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#565-566)
+Reentrancy in CryptoEngineer.constructor (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#195-224):
+	External calls:
+	- miningWarAdministrator = MiningWarContract.administrator() (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#203-205)
+	State variables written after the call(s):
+	- boostData (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#223-224)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#208)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#209-210)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#210-211)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#211-212)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#212-213)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#213-214)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#215-220)
+	- engineers (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#220-223)
+	- numberOfBoosts (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#205-206)
+	- numberOfEngineer (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#205)
+	- virus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#206)
+Reentrancy in CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#497-520):
+	External calls:
+	- pDefCrystals = calCurrentCrystals(_defAddress) (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#505)
+	State variables written after the call(s):
+	- randNonce (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#506-507)
+Reentrancy in CryptoEngineer.setContractsMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#250-260):
+	External calls:
+	- MiniGame.isContractMiniGame() == false (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#257-258)
+	State variables written after the call(s):
+	- miniGames (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#258-260)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+CryptoEngineer.engineerRoundNumber should be constant (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#108-109)
+CryptoMiningWarInterface.administrator should be constant (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#84-85)
+CryptoMiningWarInterface.sponsor should be constant (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#83)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+PullPayment.withdrawPayments (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#58-71) should be declared external
+CryptoMiningWarInterface.getHashratePerDay (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#93-95) should be declared external
+CryptoMiningWarInterface.addCrystal (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#95-96) should be declared external
+CryptoMiningWarInterface.subCrystal (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#96-99) should be declared external
+CryptoMiningWarInterface.fallback (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#99) should be declared external
+CryptoEngineer.fallback (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#224-225) should be declared external
+CryptoEngineer.isContractMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#240-244) should be declared external
+CryptoEngineer.setupMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#246-247) should be declared external
+CryptoEngineer.setContractsMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#250-260) should be declared external
+CryptoEngineer.removeContractMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#265-270) should be declared external
+CryptoEngineer.upgrade (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#271-274) should be declared external
+CryptoEngineer.buyBooster (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#279-299) should be declared external
+CryptoEngineer.getBoosterData (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#299-307) should be declared external
+CryptoEngineer.becomeGameSponsor (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#323-341) should be declared external
+CryptoEngineer.addVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#345-352) should be declared external
+CryptoEngineer.subVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#355-366) should be declared external
+CryptoEngineer.setAtkNowForPlayer (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#369-373) should be declared external
+CryptoEngineer.addTimeUnequalledDefence (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#373-385) should be declared external
+CryptoEngineer.claimPrizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#389-398) should be declared external
+CryptoEngineer.setVirusInfo (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#404-409) should be declared external
+CryptoEngineer.addVirusDefence (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#410-424) should be declared external
+CryptoEngineer.attack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#428-475) should be declared external
+CryptoEngineer.buyEngineer (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#524-571) should be declared external
+CryptoEngineer.getPlayerData (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#642-669) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '' of CryptoMiningWarInterface.getHashratePerDay (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#94) is not in mixedCase
+Parameter '' of CryptoMiningWarInterface.addCrystal (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#95) is not in mixedCase
+Parameter '_scope_0' of CryptoMiningWarInterface.addCrystal (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#95) is not in mixedCase
+Parameter '' of CryptoMiningWarInterface.subCrystal (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#96-98) is not in mixedCase
+Parameter '_scope_0' of CryptoMiningWarInterface.subCrystal (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#98) is not in mixedCase
+Event 'CryptoEngineer.eventEndAttack' (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#166-180) is not in CapWords
+Parameter '' of CryptoEngineer.setupMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#246) is not in mixedCase
+Parameter '_scope_0' of CryptoEngineer.setupMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#246) is not in mixedCase
+Parameter '_contractMiniGameAddress' of CryptoEngineer.setContractsMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#252-254) is not in mixedCase
+Parameter '_contractMiniGameAddress' of CryptoEngineer.removeContractMiniGame (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#265-267) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.addVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#345-346) is not in mixedCase
+Parameter '_value' of CryptoEngineer.addVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#346) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.subVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#356-358) is not in mixedCase
+Parameter '_value' of CryptoEngineer.subVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#358) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.setAtkNowForPlayer (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#370) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.addTimeUnequalledDefence (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#376) is not in mixedCase
+Parameter '_value' of CryptoEngineer.addTimeUnequalledDefence (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#376) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.claimPrizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#390) is not in mixedCase
+Parameter '_value' of CryptoEngineer.claimPrizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#390) is not in mixedCase
+Parameter '_atk' of CryptoEngineer.setVirusInfo (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#404) is not in mixedCase
+Parameter '_def' of CryptoEngineer.setVirusInfo (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#404-405) is not in mixedCase
+Parameter '_value' of CryptoEngineer.addVirusDefence (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#413) is not in mixedCase
+Parameter '_defAddress' of CryptoEngineer.attack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#428) is not in mixedCase
+Parameter '_value' of CryptoEngineer.attack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#428) is not in mixedCase
+Parameter '_atkAddress' of CryptoEngineer.canAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#483-484) is not in mixedCase
+Parameter '_defAddress' of CryptoEngineer.canAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#484) is not in mixedCase
+Parameter '_atkAddress' of CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#498) is not in mixedCase
+Parameter '_defAddress' of CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#498) is not in mixedCase
+Parameter '_isWin' of CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#498) is not in mixedCase
+Parameter '_virusPlayerAtkDead' of CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#500-501) is not in mixedCase
+Parameter '_virusPlayerDefDead' of CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#501) is not in mixedCase
+Parameter '_atk' of CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#501) is not in mixedCase
+Parameter '_def' of CryptoEngineer.endAttack (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#501-502) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.updateVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#572-573) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.calculateCurrentVirus (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#583-584) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.resetPlayer (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#600) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.updateResearch (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#620) is not in mixedCase
+Parameter '_research' of CryptoEngineer.updateResearch (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#620-621) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.getResearchPerDay (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#628) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.getPlayerData (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#643) is not in mixedCase
+Parameter '_value' of CryptoEngineer.addPrizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#674) is not in mixedCase
+Parameter '_value' of CryptoEngineer.addMiningWarPrizePool (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#676-677) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.calCurrentCrystals (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#682) is not in mixedCase
+Parameter '_amount' of CryptoEngineer.devFee (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#698) is not in mixedCase
+Parameter '_value' of CryptoEngineer.distributedToOwner (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#704) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.randomNumber (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol) is not in mixedCase
+Parameter '_maxNumber' of CryptoEngineer.randomNumber (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.getMiningWarPlayerData (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol) is not in mixedCase
+Parameter '_addr' of CryptoEngineer.getHashratePerDay (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol) is not in mixedCase
+Variable 'CryptoEngineer.MiningWarContract' (/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol#125-126) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/4/0x69fd0e5d0a93bf8bac02c154d343a8e3709adabf.sol analyzed (5 contracts), 88 result(s) found

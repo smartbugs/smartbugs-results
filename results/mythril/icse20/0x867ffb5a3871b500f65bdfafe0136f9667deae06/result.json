@@ -1,0 +1,56 @@
+{
+  "contract": "0x867ffb5a3871b500f65bdfafe0136f9667deae06",
+  "tool": "mythril",
+  "start": 1563463599.3745892,
+  "end": 1563463966.329613,
+  "duration": 366.95502376556396,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1881,
+        "code": " ) public returns (bool[]) {\n        bool[] memory _results = new bool[](_tradeID.length);\n        uint128 _additionalGas = uint128(msg.sender == relayer ? GAS_batchRelayBaseCost / _tradeID.length : 0);\n        for (uint8 i=0; i<_tradeID.length; i++) {\n            _results[i] = relay(\n                _tradeID[i],\n                _seller[i],\n                _buyer[i],\n                _value[i],\n                _fee[i],\n                _maximumGasPrice[i],\n                _v[i],\n                _r[i],\n                _s[i],\n                _instructionByte[i],\n                _additionalGas\n            );\n        }\n        return _results;\n    }\n\n    /// @notice Withdraw fees collected by the contract. Only the owner can call this.\n    /// @param _to Address to withdraw fees in to\n    /// @param _amount Amount to withdraw\n    function withdrawFees(address _to, uint256 _amount) onlyOwner external {\n        // This check also prevents underflow\n        requi",
+        "debug": "calldata_Token_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Token_0: 0x8eb4e0ad00000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `batchRelay(bytes16[],address[],address[],uint256[],uint16[],uint128[],uint8[],bytes32[],bytes32[],uint8[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/1/0x867ffb5a3871b500f65bdfafe0136f9667deae06.sol",
+        "function": "batchRelay(bytes16[],address[],address[],uint256[],uint16[],uint128[],uint8[],bytes32[],bytes32[],uint8[])",
+        "lineno": 299,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 7012,
+        "code": "],\n                _v[i],\n              ",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_2: 0x0\ncaller: 0x0\ncalldata_Token_0: 0x8eb4e0ad00000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncalldata_Token_4 + calldata_Token_4: 0x0\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/1/0x867ffb5a3871b500f65bdfafe0136f9667deae06.sol",
+        "function": "batchRelay(bytes16[],address[],address[],uint256[],uint16[],uint128[],uint8[],bytes32[],bytes32[],uint8[])",
+        "lineno": 309,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 8458,
+        "code": "imum gas price permitted for the relayer",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/1/0x867ffb5a3871b500f65bdfafe0136f9667deae06.sol",
+        "function": "_function_0xda3e3397",
+        "lineno": 400,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 11553,
+        "debug": "",
+        "description": "The return value of an external call is not checked. Note that execution continue even if the called contract throws.",
+        "filename": "/unique_chucks/1/0x867ffb5a3871b500f65bdfafe0136f9667deae06.sol",
+        "function": "resolveDispute(bytes16,address,address,uint256,uint16,uint8,bytes32,bytes32,uint8)",
+        "lineno": 719,
+        "title": "Unchecked CALL return value",
+        "type": "Informational"
+      }
+    ],
+    "success": true
+  }
+}

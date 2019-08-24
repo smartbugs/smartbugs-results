@@ -1,0 +1,161 @@
+{
+  "contract": "0x445f51299ef3307dbd75036dd896565f5b4bf7a5",
+  "tool": "smartcheck",
+  "start": 1563466509.6210306,
+  "end": 1563466519.2311478,
+  "duration": 9.610117197036743,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 105,
+      "column": 1,
+      "content": "addresspublicvalidationWallet=address(0);"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 155,
+      "column": 1,
+      "content": "functionapprove(address_spender,uint256_value)publicwhenNotPausedreturns(boolsuccess){require((_value==0)||(allowed[msg.sender][_spender]==0),\"A1- Reset allowance to 0 first\");allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 288,
+      "column": 2,
+      "content": "for(uint256i=0;i<a.length;i++){if(a[i]!=b[i]){returnfalse;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 288,
+      "column": 2,
+      "content": "for(uint256i=0;i<a.length;i++){if(a[i]!=b[i]){returnfalse;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 85,
+      "column": 0,
+      "content": "contractVIDTokenisOwned,Pausable,ERC20{usingSafeMathforuint256;usingSafeERC20forERC20;mapping(address=>uint256)publicbalances;mapping(address=>mapping(address=>uint256))publicallowed;mapping(address=>bool)publicfrozenAccount;mapping(address=>bool)publicverifyPublisher;mapping(address=>bool)publicverifyWallet;structfStruct{uint256index;}mapping(string=>fStruct)privatefileHashes;string[]privatefileIndex;stringpublicconstantname=\"V-ID Token\";uint8publicconstantdecimals=18;stringpublicconstantsymbol=\"VIDT\";uint256publicconstantinitialSupply=100000000;uint256publicvalidationPrice=7*10**uint(decimals);addresspublicvalidationWallet=address(0);constructor()public{validationWallet=msg.sender;verifyWallet[msg.sender]=true;totalSupply=initialSupply*10**uint(decimals);balances[msg.sender]=totalSupply;emitTransfer(address(0),owner,initialSupply);}function()publicpayable{revert();}functiontransfer(address_to,uint256_value)publicwhenNotPausedreturns(boolsuccess){require(_to!=msg.sender,\"T1- Recipient can not be the same as sender\");require(_to!=address(0),\"T2- Please check the recipient address\");require(balances[msg.sender]>=_value,\"T3- The balance of sender is too low\");require(!frozenAccount[msg.sender],\"T4- The wallet of sender is frozen\");require(!frozenAccount[_to],\"T5- The wallet of recipient is frozen\");balances[msg.sender]=balances[msg.sender].sub(_value);balances[_to]=balances[_to].add(_value);emitTransfer(msg.sender,_to,_value);returntrue;}functiontransferFrom(address_from,address_to,uint256_value)publicwhenNotPausedreturns(boolsuccess){require(_to!=address(0),\"TF1- Please check the recipient address\");require(balances[_from]>=_value,\"TF2- The balance of sender is too low\");require(allowed[_from][msg.sender]>=_value,\"TF3- The allowance of sender is too low\");require(!frozenAccount[_from],\"TF4- The wallet of sender is frozen\");require(!frozenAccount[_to],\"TF5- The wallet of recipient is frozen\");balances[_from]=balances[_from].sub(_value);balances[_to]=balances[_to].add(_value);allowed[_from][msg.sender]=allowed[_from][msg.sender].sub(_value);emitTransfer(_from,_to,_value);returntrue;}functionbalanceOf(address_owner)publicviewreturns(uint256balance){returnbalances[_owner];}functionapprove(address_spender,uint256_value)publicwhenNotPausedreturns(boolsuccess){require((_value==0)||(allowed[msg.sender][_spender]==0),\"A1- Reset allowance to 0 first\");allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}functionincreaseApproval(address_spender,uint256_addedValue)publicwhenNotPausedreturns(bool){allowed[msg.sender][_spender]=allowed[msg.sender][_spender].add(_addedValue);emitApproval(msg.sender,_spender,allowed[msg.sender][_spender]);returntrue;}functiondecreaseApproval(address_spender,uint256_subtractedValue)publicwhenNotPausedreturns(bool){allowed[msg.sender][_spender]=allowed[msg.sender][_spender].sub(_subtractedValue);emitApproval(msg.sender,_spender,allowed[msg.sender][_spender]);returntrue;}functionallowance(address_owner,address_spender)publicviewreturns(uint256remaining){returnallowed[_owner][_spender];}structTKN{addresssender;uint256value;bytesdata;bytes4sig;}functiontokenFallback(address_from,uint256_value,bytes_data)publicpurereturns(bool){TKNmemorytkn;tkn.sender=_from;tkn.value=_value;tkn.data=_data;uint32u=uint32(_data[3])+(uint32(_data[2])<<8)+(uint32(_data[1])<<16)+(uint32(_data[0])<<24);tkn.sig=bytes4(u);returntrue;}functiontransferToken(addresstokenAddress,uint256tokens)publiconlyOwner{ERC20(tokenAddress).safeTransfer(owner,tokens);}functionburn(uint256_value)publiconlyOwnerreturns(bool){require(_value<=balances[msg.sender],\"B1- The balance of burner is too low\");balances[msg.sender]=balances[msg.sender].sub(_value);totalSupply=totalSupply.sub(_value);emitBurn(msg.sender,_value);emitTransfer(msg.sender,address(0),_value);returntrue;}functionfreeze(address_address,bool_state)publiconlyOwnerreturns(bool){frozenAccount[_address]=_state;emitFreeze(_address,_state);returntrue;}functionvalidatePublisher(addressAddress,boolState,stringPublisher)publiconlyOwnerreturns(bool){verifyPublisher[Address]=State;emitValidatePublisher(Address,State,Publisher);returntrue;}functionvalidateWallet(addressAddress,boolState,stringWallet)publiconlyOwnerreturns(bool){verifyWallet[Address]=State;emitValidateWallet(Address,State,Wallet);returntrue;}functionvalidateFile(addressTo,uint256Payment,bytesData,boolcStore,booleLog)publicwhenNotPausedreturns(bool){require(Payment>=validationPrice,\"V1- Insufficient payment provided\");require(verifyPublisher[msg.sender],\"V2- Unverified publisher address\");require(!frozenAccount[msg.sender],\"V3- The wallet of publisher is frozen\");require(Data.length==64,\"V4- Invalid hash provided\");if(!verifyWallet[To]||frozenAccount[To]){To=validationWallet;}uint256index=0;stringmemoryfileHash=string(Data);if(cStore){if(fileIndex.length>0){require(fileHashes[fileHash].index==0,\"V5- This hash was previously validated\");}fileHashes[fileHash].index=fileIndex.push(fileHash)-1;index=fileHashes[fileHash].index;}if(allowed[To][msg.sender]>=Payment){allowed[To][msg.sender]=allowed[To][msg.sender].sub(Payment);}else{balances[msg.sender]=balances[msg.sender].sub(Payment);balances[To]=balances[To].add(Payment);}emitTransfer(msg.sender,To,Payment);if(eLog){emitValidateFile(index,fileHash);}returntrue;}functionverifyFile(stringfileHash)publicviewreturns(bool){if(fileIndex.length==0){returnfalse;}bytesmemorya=bytes(fileIndex[fileHashes[fileHash].index]);bytesmemoryb=bytes(fileHash);if(a.length!=b.length){returnfalse;}for(uint256i=0;i<a.length;i++){if(a[i]!=b[i]){returnfalse;}}returntrue;}functionsetPrice(uint256newPrice)publiconlyOwner{validationPrice=newPrice;}functionsetWallet(addressnewWallet)publiconlyOwner{validationWallet=newWallet;}functionlistFiles(uint256startAt,uint256stopAt)onlyOwnerpublicreturns(bool){if(fileIndex.length==0){returnfalse;}require(startAt<=fileIndex.length-1,\"L1- Please select a valid start\");if(stopAt>0){require(stopAt>startAt&&stopAt<=fileIndex.length-1,\"L2- Please select a valid stop\");}else{stopAt=fileIndex.length-1;}for(uint256i=startAt;i<=stopAt;i++){emitLogEvent(i,fileIndex[i]);}returntrue;}eventBurn(addressindexedburner,uint256value);eventFreeze(addresstarget,boolfrozen);eventValidateFile(uint256index,stringdata);eventValidatePublisher(addressindexedpublisherAddress,boolstate,stringindexedpublisherName);eventValidateWallet(addressindexedwalletAddress,boolstate,stringindexedwalletName);eventLogEvent(uint256index,stringdata)anonymous;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 53,
+      "column": 1,
+      "content": "functionsetOwner(addressnewOwner)onlyOwnerpublic{owner=newOwner;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 297,
+      "column": 1,
+      "content": "functionsetPrice(uint256newPrice)publiconlyOwner{validationPrice=newPrice;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 301,
+      "column": 1,
+      "content": "functionsetWallet(addressnewWallet)publiconlyOwner{validationWallet=newWallet;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 96,
+      "column": 28,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 97,
+      "column": 10,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_REDUNDANT_FALLBACK_REJECT",
+      "patternId": "b85a32",
+      "severity": 1,
+      "line": 115,
+      "column": 28,
+      "content": "{revert();}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 86,
+      "column": 1,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 115,
+      "column": 13,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 187,
+      "column": 55,
+      "content": "bytes_data"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 222,
+      "column": 57,
+      "content": "stringPublisher"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 230,
+      "column": 54,
+      "content": "stringWallet"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 238,
+      "column": 52,
+      "content": "bytesData"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 276,
+      "column": 21,
+      "content": "stringfileHash"
+    }
+  ]
+}

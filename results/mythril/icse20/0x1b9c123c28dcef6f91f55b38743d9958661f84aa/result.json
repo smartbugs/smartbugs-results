@@ -1,0 +1,123 @@
+{
+  "contract": "0x1b9c123c28dcef6f91f55b38743d9958661f84aa",
+  "tool": "mythril",
+  "start": 1563249009.9118497,
+  "end": 1563249570.3569524,
+  "duration": 560.4451026916504,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 538,
+        "code": "56 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) externa",
+        "debug": "calldata_Emoz_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 19,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 544,
+        "code": "56 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) externa",
+        "debug": "calldata_Emoz_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdc\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 19,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1360,
+        "code": "\n  onr",
+        "debug": "storage_keccac_calldata_Emoz_4: 0x8000000000000000000000000000000000000000000000000000000000000000\ncallvalue: 0x8000000000000000000000000000000000000000000000000000000000000000\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 25,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1801,
+        "code": "  cO.transfer(this.balan",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 1929\n",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 33,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 2073,
+        "code": "ontract Emoz {\n uint256 constant private STARTING_PRICE = 0.005 ether;\n address private cO;\n mapping (uint256 => address) public onrs;\n mapping (uint256 => string ) public urls;\n mapping (uint256 => uint256) private prcs;\n mapping (uint256 => uint256) public tyms;\n event Upd(uint256 c, string url, address onr, uint256 prc, uint256 tym);\n function Emoz() public {\n  cO = msg.sender;\n }\n function() public payable {\n }\n function prc(uint256 c) constant external returns(uint256) {\n  uint256 p = prcs[c];\n  return p > 0 ? p : STARTING_PRICE;\n }\n function buy(uint256 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) external {\n  require (msg.sender == cO);\n  delete urls[c];\n  Upd(c, \"\", onrs[c], prcs[c], tyms[c]);\n }\n}",
+        "debug": "keccac_keccac_calldata_Emoz_4: 0xfedf99ff7ffff7ffcfffffffffefffbffe7fffffff5f3fffffc069feffffc800\nstorage_keccac_calldata_Emoz_4: 0xbe806f1fb9a91febe830a18c9b68af7fd7defe83d2ebeeebc7db7ebfffffffc1\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Emoz_0: 0x6b6ece2600000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `ban(uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "ban(uint256)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2127,
+        "code": "ontract Emoz {\n uint256 constant private STARTING_PRICE = 0.005 ether;\n address private cO;\n mapping (uint256 => address) public onrs;\n mapping (uint256 => string ) public urls;\n mapping (uint256 => uint256) private prcs;\n mapping (uint256 => uint256) public tyms;\n event Upd(uint256 c, string url, address onr, uint256 prc, uint256 tym);\n function Emoz() public {\n  cO = msg.sender;\n }\n function() public payable {\n }\n function prc(uint256 c) constant external returns(uint256) {\n  uint256 p = prcs[c];\n  return p > 0 ? p : STARTING_PRICE;\n }\n function buy(uint256 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) external {\n  require (msg.sender == cO);\n  delete urls[c];\n  Upd(c, \"\", onrs[c], prcs[c], tyms[c]);\n }\n}",
+        "debug": "keccac_keccac_calldata_Emoz_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\nstorage_keccac_calldata_Emoz_4: 0x62\ncallvalue: 0x62\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2156,
+        "code": "ontract Emoz {\n uint256 constant private STARTING_PRICE = 0.005 ether;\n address private cO;\n mapping (uint256 => address) public onrs;\n mapping (uint256 => string ) public urls;\n mapping (uint256 => uint256) private prcs;\n mapping (uint256 => uint256) public tyms;\n event Upd(uint256 c, string url, address onr, uint256 prc, uint256 tym);\n function Emoz() public {\n  cO = msg.sender;\n }\n function() public payable {\n }\n function prc(uint256 c) constant external returns(uint256) {\n  uint256 p = prcs[c];\n  return p > 0 ? p : STARTING_PRICE;\n }\n function buy(uint256 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) external {\n  require (msg.sender == cO);\n  delete urls[c];\n  Upd(c, \"\", onrs[c], prcs[c], tyms[c]);\n }\n}",
+        "debug": "calldata_Emoz_4 + calldata_Emoz_32 + 4: 0x8000000000000000000000000000000000000000000000000000000000000000\ncallvalue: 0x11c37937e08000\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\nstorage_keccac_calldata_Emoz_4: 0x0\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2170,
+        "code": "ontract Emoz {\n uint256 constant private STARTING_PRICE = 0.005 ether;\n address private cO;\n mapping (uint256 => address) public onrs;\n mapping (uint256 => string ) public urls;\n mapping (uint256 => uint256) private prcs;\n mapping (uint256 => uint256) public tyms;\n event Upd(uint256 c, string url, address onr, uint256 prc, uint256 tym);\n function Emoz() public {\n  cO = msg.sender;\n }\n function() public payable {\n }\n function prc(uint256 c) constant external returns(uint256) {\n  uint256 p = prcs[c];\n  return p > 0 ? p : STARTING_PRICE;\n }\n function buy(uint256 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) external {\n  require (msg.sender == cO);\n  delete urls[c];\n  Upd(c, \"\", onrs[c], prcs[c], tyms[c]);\n }\n}",
+        "debug": "calldata_Emoz_32 + 4: 0xda439b2041c8c00602000000000000000000000000000000000000000000001a\ncalldata_Emoz_4 + calldata_Emoz_32 + 4: 0x98b80124e0c0001a297fffffffffffffffffffffffffffffffffffffffffffc4\ncallvalue: 0x11c37937e08000\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\nstorage_keccac_calldata_Emoz_4: 0x0\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2187,
+        "code": "ontract Emoz {\n uint256 constant private STARTING_PRICE = 0.005 ether;\n address private cO;\n mapping (uint256 => address) public onrs;\n mapping (uint256 => string ) public urls;\n mapping (uint256 => uint256) private prcs;\n mapping (uint256 => uint256) public tyms;\n event Upd(uint256 c, string url, address onr, uint256 prc, uint256 tym);\n function Emoz() public {\n  cO = msg.sender;\n }\n function() public payable {\n }\n function prc(uint256 c) constant external returns(uint256) {\n  uint256 p = prcs[c];\n  return p > 0 ? p : STARTING_PRICE;\n }\n function buy(uint256 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) external {\n  require (msg.sender == cO);\n  delete urls[c];\n  Upd(c, \"\", onrs[c], prcs[c], tyms[c]);\n }\n}",
+        "debug": "calldata_Emoz_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9c\ncalldata_Emoz_4 + calldata_Emoz_32 + 4: 0x21\ncallvalue: 0x11c37937e08000\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\nstorage_keccac_calldata_Emoz_4: 0x0\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2192,
+        "code": "ontract Emoz {\n uint256 constant private STARTING_PRICE = 0.005 ether;\n address private cO;\n mapping (uint256 => address) public onrs;\n mapping (uint256 => string ) public urls;\n mapping (uint256 => uint256) private prcs;\n mapping (uint256 => uint256) public tyms;\n event Upd(uint256 c, string url, address onr, uint256 prc, uint256 tym);\n function Emoz() public {\n  cO = msg.sender;\n }\n function() public payable {\n }\n function prc(uint256 c) constant external returns(uint256) {\n  uint256 p = prcs[c];\n  return p > 0 ? p : STARTING_PRICE;\n }\n function buy(uint256 c, string url) external payable {\n  uint256 p = prcs[c];\n  if(p == 0) p = STARTING_PRICE;\n  require (msg.value >= p);\n  address pO = onrs[c];\n  uint256 nP = p << 1;\n  prcs[c] = nP;\n  onrs[c] = msg.sender;\n  urls[c] = url;\n  tyms[c] = now;\n  Upd(c, url, msg.sender, nP, now);\n  if(pO != address(0)) {\n   pO.transfer((3 * p) / 5);\n  }\n  cO.transfer(this.balance);\n }\n function ban(uint256 c) external {\n  require (msg.sender == cO);\n  delete urls[c];\n  Upd(c, \"\", onrs[c], prcs[c], tyms[c]);\n }\n}",
+        "debug": "calldata_Emoz_32 + 4: 0x8638cebc3ef479b69080227bf800000000000006ebdfb9c10e3eff4826476bf\nkeccac_keccac_calldata_Emoz_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_Emoz_4 + calldata_Emoz_32 + 4: 0x987c2551f8080d0a0016240787c0618800000000002903c3e006100b780cc80d\ncallvalue: 0x11c37937e08000\ncalldata_Emoz_0: 0xb7dc3b1800000000000000000000000000000000000000000000000000000000\ncalldatasize_Emoz: 0x4\nstorage_keccac_calldata_Emoz_4: 0x0\n",
+        "description": "A possible integer overflow exists in the function `buy(uint256,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x1b9c123c28dcef6f91f55b38743d9958661f84aa.sol",
+        "function": "buy(uint256,string)",
+        "lineno": 2,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

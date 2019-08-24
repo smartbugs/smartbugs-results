@@ -1,0 +1,101 @@
+Processing contract: /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol:ERC20Interface
+Processing contract: /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol:HorizonContractBase
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol:ICOToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol:RegD
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol:TokenInterface
+[31mViolation[0m for LockedEther in contract 'ICOToken':
+    |
+    |
+  > |contract ICOToken is ERC20Interface, HorizonContractBase {
+    |    using SafeMath for uint256;
+    |
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(56)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ICOToken':
+    |
+    |
+  > |contract ICOToken is ERC20Interface, HorizonContractBase {
+    |    using SafeMath for uint256;
+    |
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(56)
+
+[31mViolation[0m for RepeatedCall in contract 'RegD':
+    |        require(!isExistingHolding(who), "Cannot overwrite an existing holding, use a new wallet.");
+    |
+  > |        bool res = ERC20Interface(icoContract).transferFrom(who, address(this), quantity);
+    |        require(res, "Unable to complete Post-ICO Custody, token contract transfer failed.");
+    |        if(res) {
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(682)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RegD':
+    |     */
+    |    function setTokenContract(address tokenContract_) public onlyIssuer {
+  > |        tokenContract = tokenContract_;
+    |    }
+    |
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(632)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RegD':
+    |     */
+    |    function setTransferAgent(address who) public onlyIssuer {
+  > |        transferAgent = who;
+    |    }
+    |
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(641)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RegD':
+    |     */
+    |    function setExpiry(uint256 expiry_) public onlyIssuer {
+  > |        expiry = expiry_;
+    |    }
+    |
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(650)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RegD':
+    |        // Create the holding for the customer who will get these tokens once custody ends.
+    |        Holding memory holding = Holding(quantity, block.timestamp+expiry, false);
+  > |        heldTokens[who] = holding;
+    |        emit TokensHeld(who, holding.quantity, holding.releaseDate);
+    |    }
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(666)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RegD':
+    |        if(res) {
+    |            Holding memory holding = Holding(quantity, block.timestamp+addedTime, false);
+  > |            heldTokens[who] = holding;
+    |            emit TokensHeld(who, holding.quantity, holding.releaseDate);
+    |        }
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(686)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RegD':
+    |            bool res = TokenInterface(tokenContract).hold(who, holding.quantity);
+    |            if(res) {
+  > |                heldTokens[who] = Holding(0, 0, holding.isAffiliate);
+    |                emit TokensReleased(who, holding.quantity);
+    |                return true;
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(722)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'RegD':
+    |        require(holding.isAffiliate != isAffiliate, "Attempt to set the same affiliate status that is already set.");
+    |
+  > |        heldTokens[who] = Holding(holding.quantity, holding.releaseDate, isAffiliate);
+    |
+    |        emit AffiliateStatusChanged(who, isAffiliate);
+  at /unique_chucks/40/0xde3cd5af1c728c3a443130d1eaa4be0353d779f9.sol(818)

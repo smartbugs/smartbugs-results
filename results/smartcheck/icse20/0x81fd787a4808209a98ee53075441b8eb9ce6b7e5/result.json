@@ -1,0 +1,217 @@
+{
+  "contract": "0x81fd787a4808209a98ee53075441b8eb9ce6b7e5",
+  "tool": "smartcheck",
+  "start": 1563700335.6171749,
+  "end": 1563700344.4426763,
+  "duration": 8.825501441955566,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 137,
+      "column": 4,
+      "content": "_owner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 194,
+      "column": 0,
+      "content": "contractWhalePhalisCollectible,Ownable{stringconstantTOKEN_NAME=\"Whale Phal\";stringconstantTOKEN_SYMBOL=\"PHAL\";uint8constantTOKEN_DECIMALS=5;uint256timenow=now;uint256sandclock;uint256thefinalclock=0;uint256shifter=0;uint256TOTAL_SUPPLY=300000*(10**uint256(TOKEN_DECIMALS));mapping(address=>uint256)balances;mapping(address=>mapping(address=>uint))allowed;mapping(address=>uint256)timesheet;constructor()publicpayableCollectible(TOKEN_NAME,TOKEN_SYMBOL,TOKEN_DECIMALS)Ownable(){_mint(owner(),TOTAL_SUPPLY);}usingSafeMathforuint256;mapping(address=>uint256)private_balances;mapping(address=>uint256)private_timesheet;mapping(address=>mapping(address=>uint256))private_allowed;uint256private_totalSupply;functiontotalSupply()publicviewreturns(uint256){return_totalSupply;}functiontimeofcontract()publicviewreturns(uint256){returntimenow;}functionbalanceOf(addressowner)publicviewreturns(uint256){return_balances[owner];}functiontimesheetNumber(addressowner)publicviewreturns(uint256){return_timesheet[owner];}functiontimesheetCheck(addressowner)publicviewreturns(bool){if(now>=_timesheet[owner]+(1*180days)){returntrue;}elseif(_timesheet[owner]==0){returntrue;}else{returnfalse;}}functionallowance(addressowner,addressspender)publicviewreturns(uint256){return_allowed[owner][spender];}functioncalculatetimepercentage()publicreturns(uint256){if(now>=timenow+(1*365days)&&_totalSupply>=26000000000&&now<=timenow+(1*1460days)){sandclock=1;shifter=1;returnsandclock;}elseif(now>=timenow+(1*730days)&&_totalSupply>=22000000000&&shifter==1&&now<=timenow+(1*1825days)){sandclock=2;shifter=2;returnsandclock;}elseif(now>=timenow+(1*1095days)&&_totalSupply>=20000000000&&shifter==2){sandclock=0;thefinalclock=1;returnthefinalclock;}else{sandclock=0;returnsandclock;}}functionfindPercentage()publicreturns(uint256){uint256percentage;calculatetimepercentage();if(sandclock==1){percentage=7;returnpercentage;}elseif(sandclock==2){percentage=10;returnpercentage;}elseif(thefinalclock==1){percentage=0;returnpercentage;}elseif(now<=timenow+(1*365days)){percentage=4;returnpercentage;}elseif(now<=timenow+(1*730days)){percentage=5;returnpercentage;}elseif(now<=timenow+(1*1095days)){percentage=7;returnpercentage;}elseif(now<=timenow+(1*1460days)){percentage=8;returnpercentage;}elseif(now<=timenow+(1*1825days)){percentage=10;returnpercentage;}else{percentage=0;returnpercentage;}}functiontransfer(addressto,uint256value)publicreturns(bool){require(value<=_balances[msg.sender]);require(to!=address(0));require(value<=1000000||msg.sender==owner());require(balanceOf(to)<=(_totalSupply/10));_balances[msg.sender]=_balances[msg.sender].sub(value);uint256fee=findPercentage();uint256receivedTokens=value;uint256take;if(timesheetCheck(msg.sender)==true){take=0;}elseif(fee==0){take=0;}elseif(msg.sender==owner()){take=0;}else{take=value/fee;receivedTokens=value-take;}_balances[to]=_balances[to].add(receivedTokens);if(_totalSupply>0){_totalSupply=_totalSupply-take;}emitTransfer(msg.sender,to,receivedTokens);_timesheet[msg.sender]=now;returntrue;}functionapprove(addressspender,uint256value)publicreturns(bool){require(spender!=address(0));_allowed[msg.sender][spender]=value;emitApproval(msg.sender,spender,value);returntrue;}functiontransferFrom(addressfrom,addressto,uint256value)publicreturns(bool){require(value<=_balances[from]);require(value<=_allowed[from][msg.sender]);require(to!=address(0));require(value<=1000000||msg.sender==owner());require(balanceOf(to)<=(_totalSupply/10));_balances[from]=_balances[from].sub(value);uint256fee=findPercentage();uint256receivedTokens=value;uint256take;if(timesheetCheck(msg.sender)==true){take=0;}elseif(fee==0){take=0;}elseif(msg.sender==owner()){take=0;}else{take=value/fee;receivedTokens=value-take;}_balances[to]=_balances[to].add(receivedTokens);_totalSupply=_totalSupply-take;_allowed[from][msg.sender]=_allowed[from][msg.sender].sub(value);emitTransfer(from,to,receivedTokens);_timesheet[msg.sender]=now;returntrue;}functionincreaseAllowance(addressspender,uint256addedValue)publicreturns(bool){require(spender!=address(0));_allowed[msg.sender][spender]=(_allowed[msg.sender][spender].add(addedValue));emitApproval(msg.sender,spender,_allowed[msg.sender][spender]);returntrue;}functiondecreaseAllowance(addressspender,uint256subtractedValue)publicreturns(bool){require(spender!=address(0));_allowed[msg.sender][spender]=(_allowed[msg.sender][spender].sub(subtractedValue));emitApproval(msg.sender,spender,_allowed[msg.sender][spender]);returntrue;}function_mint(addressaccount,uint256amount)internal{require(account!=0);_totalSupply=_totalSupply.add(amount);_balances[account]=_balances[account].add(amount);emitTransfer(address(0),account,amount);}function_burn(addressaccount,uint256amount)internal{require(account!=0);require(amount<=_balances[account]);_totalSupply=_totalSupply.sub(amount);_balances[account]=_balances[account].sub(amount);emitTransfer(account,address(0),amount);}function_burnFrom(addressaccount,uint256amount)internal{require(amount<=_allowed[account][msg.sender]);_allowed[account][msg.sender]=_allowed[account][msg.sender].sub(amount);_burn(account,amount);}}"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 91,
+      "column": 10,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 161,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 162,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 163,
+      "column": 8,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 219,
+      "column": 31,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 221,
+      "column": 30,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 223,
+      "column": 52,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 225,
+      "column": 10,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 217,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 165,
+      "column": 14,
+      "content": "stringname"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 165,
+      "column": 27,
+      "content": "stringsymbol"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 174,
+      "column": 38,
+      "content": "string"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 181,
+      "column": 40,
+      "content": "string"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 196,
+      "column": 4,
+      "content": "stringconstantTOKEN_NAME=\"Whale Phal\";"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 197,
+      "column": 4,
+      "content": "stringconstantTOKEN_SYMBOL=\"PHAL\";"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 198,
+      "column": 4,
+      "content": "uint8constantTOKEN_DECIMALS=5;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 199,
+      "column": 4,
+      "content": "uint256timenow=now;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 200,
+      "column": 4,
+      "content": "uint256sandclock;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 201,
+      "column": 4,
+      "content": "uint256thefinalclock=0;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 202,
+      "column": 4,
+      "content": "uint256shifter=0;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 205,
+      "column": 4,
+      "content": "uint256TOTAL_SUPPLY=300000*(10**uint256(TOKEN_DECIMALS));"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 206,
+      "column": 4,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 207,
+      "column": 4,
+      "content": "mapping(address=>mapping(address=>uint))allowed;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 208,
+      "column": 4,
+      "content": "mapping(address=>uint256)timesheet;"
+    }
+  ]
+}

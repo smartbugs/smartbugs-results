@@ -1,0 +1,142 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol:
+/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol:37:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function SmartPool(uint _ticketPrice, uint _ticketCount, uint _duration) public
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol:262:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function PoolManager(address wal) public
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol:273:21: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+		randSeed += (uint(block.blockhash(block.number - 1)));
+		                  ^-------------^
+
+INFO:Detectors:[91m
+Reentrancy in PoolManager.buyTicket (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#332-379):
+	External calls:
+	- pool.checkEnd() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#338-339)
+	- require(bool)(! pool.isEnded()) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#339)
+	- availableCount = pool.getAvailableTicketCount() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#342-344)
+	- amountRequired = ticketCount * pool.getTicketPrice() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#348-350)
+	- pool.addPlayer(msg.sender,ticketCount,amountRequired - 2 * feeAmount) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#366-369)
+	External calls sending eth:
+	- amountLeft > 0 && ! msg.sender.send(amountLeft) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#371-377)
+	State variables written after the call(s):
+	- fees (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#376)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in PoolManager.checkPoolEnd (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#395-416):
+	External calls:
+	- ! pool.isEnded() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#399-401)
+	- pool.checkEnd() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#399-401)
+	- ! pool.isEnded() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#401-405)
+	- pools[i] = new SmartPool(pool.getTicketPrice(),pool.getTicketCount(),pool.getDurationS()) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#412-414)
+	State variables written after the call(s):
+	- pools (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#412-414)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+PoolManager.clearPoolsDone has external calls inside a loop:
+	- ! poolsDone[i].isMoneySent() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#473-475)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in PoolManager.buyTicket (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#332-379):
+	External calls:
+	- pool.checkEnd() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#338-339)
+	- require(bool)(! pool.isEnded()) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#339)
+	- availableCount = pool.getAvailableTicketCount() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#342-344)
+	- amountRequired = ticketCount * pool.getTicketPrice() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#348-350)
+	State variables written after the call(s):
+	- fees (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#360)
+	- fees (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#360-363)
+Reentrancy in PoolManager.buyTicket (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#332-379):
+	External calls:
+	- pool.checkEnd() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#338-339)
+	- require(bool)(! pool.isEnded()) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#339)
+	- availableCount = pool.getAvailableTicketCount() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#342-344)
+	- amountRequired = ticketCount * pool.getTicketPrice() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#348-350)
+	- pool.addPlayer(msg.sender,ticketCount,amountRequired - 2 * feeAmount) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#366-369)
+	External calls sending eth:
+	- amountLeft > 0 && ! msg.sender.send(amountLeft) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#371-377)
+	State variables written after the call(s):
+	- randSeed (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#377-379)
+Reentrancy in PoolManager.checkPoolDone (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#421-438):
+	External calls:
+	- ! pool.canTerminate() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#430-431)
+	State variables written after the call(s):
+	- randSeed (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#436)
+Reentrancy in PoolManager.checkPoolEnd (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#395-416):
+	External calls:
+	- ! pool.isEnded() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#399-401)
+	- pool.checkEnd() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#399-401)
+	- ! pool.isEnded() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#401-405)
+	State variables written after the call(s):
+	- poolsDone (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#410)
+	- randSeed (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#407)
+Reentrancy in PoolManager.sendPoolMoney (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#440-462):
+	External calls:
+	- require(bool)(pool.isTerminated()) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#447)
+	- require(bool)(! pool.isMoneySent()) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#447-448)
+	- amount = pool.getCurrAmount() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#450)
+	- winner = pool.getWinner() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#450-451)
+	- pool.onMoneySent() (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#451-452)
+	External calls sending eth:
+	- amount > 0 && ! winner.send(amount) (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#453-457)
+	State variables written after the call(s):
+	- fees (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#457)
+	- poolsHistory (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#461-462)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#280-282:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+SmartPool.getPlayers (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#75-80) should be declared external
+SmartPool.getStartDate (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#80-85) should be declared external
+SmartPool.getStartBlock (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#85-90) should be declared external
+SmartPool.getCurrAmount (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#91-97) should be declared external
+SmartPool.getTicketPrice (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#98-103) should be declared external
+SmartPool.getTicketCount (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#103-108) should be declared external
+SmartPool.getBoughtTicketCount (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#108-110) should be declared external
+SmartPool.getAvailableTicketCount (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#110-118) should be declared external
+SmartPool.getEndDate (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#118-123) should be declared external
+SmartPool.getEndBlock (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#123-128) should be declared external
+SmartPool.getDuration (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#128-132) should be declared external
+SmartPool.getDurationS (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#133-138) should be declared external
+SmartPool.isEnded (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#140-143) should be declared external
+SmartPool.isTerminated (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#143-148) should be declared external
+SmartPool.isMoneySent (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#150-156) should be declared external
+SmartPool.getWinner (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#156-157) should be declared external
+SmartPool.addPlayer (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#170-189) should be declared external
+SmartPool.canTerminate (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#189-190) should be declared external
+SmartPool.terminate (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#196-215) should be declared external
+SmartPool.onMoneySent (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#218-237) should be declared external
+WalletContract.payMe (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#240) should be declared external
+PoolManager.addPool (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#283-300) should be declared external
+PoolManager.getPoolCount (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#301-304) should be declared external
+PoolManager.getPool (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#304-311) should be declared external
+PoolManager.getPoolDoneCount (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#311-315) should be declared external
+PoolManager.getPoolDone (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#315-322) should be declared external
+PoolManager.getPoolHistoryCount (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#322-324) should be declared external
+PoolManager.getPoolHistory (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#324-331) should be declared external
+PoolManager.buyTicket (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#332-379) should be declared external
+PoolManager.checkPoolsEnd (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#383-393) should be declared external
+PoolManager.checkPoolsDone (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#417-421) should be declared external
+PoolManager.sendPoolMoney (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#440-462) should be declared external
+PoolManager.clearPoolsDone (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#466-482) should be declared external
+PoolManager.getFeeValue (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#483-488) should be declared external
+PoolManager.getMyFee (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#491-496) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol:
+	- pragma solidity^0.4.16 (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'SmartPool.SmartPool' (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#37-73) is not in mixedCase
+Parameter '_ticketPrice' of SmartPool.SmartPool (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#37) is not in mixedCase
+Parameter '_ticketCount' of SmartPool.SmartPool (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#37-39) is not in mixedCase
+Parameter '_duration' of SmartPool.SmartPool (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#39) is not in mixedCase
+Constant 'SmartPool.blockDuration' (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#24) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SmartPool.minWaitDuration' (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#25) is not in UPPER_CASE_WITH_UNDERSCORES
+Function 'PoolManager.PoolManager' (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#274-277) is not in mixedCase
+Constant 'PoolManager.feeDivider' (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#247) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PoolManager.ticketPriceMultiple' (/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol#249-252) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/19/0x00fc2e075bc935c7c4283d277b90e6b9c822a105.sol analyzed (3 contracts), 54 result(s) found

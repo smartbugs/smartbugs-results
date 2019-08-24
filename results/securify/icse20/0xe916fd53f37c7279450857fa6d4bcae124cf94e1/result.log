@@ -1,0 +1,41 @@
+Processing contract: /unique_chucks/35/0xe916fd53f37c7279450857fa6d4bcae124cf94e1.sol:DroneToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/35/0xe916fd53f37c7279450857fa6d4bcae124cf94e1.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'DroneToken':
+    |}
+    |
+  > |contract DroneToken {
+    |    using SafeMath for uint256;
+    |    string public name;
+  at /unique_chucks/35/0xe916fd53f37c7279450857fa6d4bcae124cf94e1.sol(94)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DroneToken':
+    |        require (balanceOf[_to] + _value >= balanceOf[_to], "Overflow" ); // Check for overflows
+    |        balanceOf[msg.sender] = SafeMath.safeSub(balanceOf[msg.sender], _value);                     // Subtract from the sender
+  > |        balanceOf[_to] = SafeMath.safeAdd(balanceOf[_to], _value);                            // Add the same to the recipient
+    |        emit Transfer(msg.sender, _to, _value);                   // Notify anyone listening that this transfer took place
+    |    }
+  at /unique_chucks/35/0xe916fd53f37c7279450857fa6d4bcae124cf94e1.sol(142)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DroneToken':
+    |        require( balanceOf[_to] + _value > balanceOf[_to], "Cannot overflows" );
+    |        require( _value <= allowance[_from][msg.sender], "Cannot over allowance" );
+  > |        balanceOf[_from] = SafeMath.safeSub(balanceOf[_from], _value);                           // Subtract from the sender
+    |        balanceOf[_to] = SafeMath.safeAdd(balanceOf[_to], _value);                             // Add the same to the recipient
+    |        allowance[_from][msg.sender] = SafeMath.safeSub(allowance[_from][msg.sender], _value);
+  at /unique_chucks/35/0xe916fd53f37c7279450857fa6d4bcae124cf94e1.sol(162)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DroneToken':
+    |        require( _value <= allowance[_from][msg.sender], "Cannot over allowance" );
+    |        balanceOf[_from] = SafeMath.safeSub(balanceOf[_from], _value);                           // Subtract from the sender
+  > |        balanceOf[_to] = SafeMath.safeAdd(balanceOf[_to], _value);                             // Add the same to the recipient
+    |        allowance[_from][msg.sender] = SafeMath.safeSub(allowance[_from][msg.sender], _value);
+    |        emit Transfer(_from, _to, _value);
+  at /unique_chucks/35/0xe916fd53f37c7279450857fa6d4bcae124cf94e1.sol(163)

@@ -1,0 +1,147 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol:
+/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol:2:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+
+INFO:Detectors:[91m
+LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#437-477) sends eth to arbitrary user
+	Dangerous calls:
+	- weth.deposit.value(_leverageSizeInAttoeth)() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#455-456)
+	- weth.deposit.value(_loanInAttoeth - _wethBoughtInAttoweth)() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+LiquidLong.constructor (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#371-397) does not use the value returned by external calls:
+	-dai.approve(address(_oasis),uint256(- 1)) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#383-386)
+	-dai.approve(address(_maker),uint256(- 1)) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#386-387)
+	-mkr.approve(address(_maker),uint256(- 1)) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#388-390)
+	-weth.approve(address(_maker),uint256(- 1)) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#390-392)
+	-peth.approve(address(_maker),uint256(- 1)) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#392-395)
+LiquidLong.transferTokens (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#413-414) does not use the value returned by external calls:
+	-_token.transfer(owner,_token.balanceOf(this)) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#414)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+LiquidLong.getPayPriceAndAmount has external calls inside a loop:
+	- (_buyAvailableInOffer,_payAvailableInOffer) = oasis.getOffer(_offerId) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#427-428)
+LiquidLong.getPayPriceAndAmount has external calls inside a loop:
+	- _offerId = oasis.getWorseOffer(_offerId) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#436)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in LiquidLong.constructor (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#371-397):
+	External calls:
+	- dai = maker.sai() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#375-377)
+	- weth = maker.gem() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#377-378)
+	State variables written after the call(s):
+	- weth (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#377-378)
+Reentrancy in LiquidLong.constructor (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#371-397):
+	External calls:
+	- dai = maker.sai() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#375-377)
+	- weth = maker.gem() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#377-378)
+	- peth = maker.skr() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#378-379)
+	State variables written after the call(s):
+	- peth (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#378-379)
+Reentrancy in LiquidLong.constructor (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#371-397):
+	External calls:
+	- dai = maker.sai() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#375-377)
+	- weth = maker.gem() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#377-378)
+	- peth = maker.skr() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#378-379)
+	- mkr = maker.gov() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#381-382)
+	State variables written after the call(s):
+	- mkr (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#381-382)
+Reentrancy in LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#437-477):
+	External calls:
+	- _drawInAttodai = _loanInAttoeth.mul18(uint256(maker.pip().read())) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#449-451)
+	- _pethLockedInCdp = _lockedInCdpInAttoeth.div27(maker.per()) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#453-454)
+	- weth.deposit.value(_leverageSizeInAttoeth)() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#455-456)
+	- _cdpId = maker.open() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#456)
+	- maker.join(_pethLockedInCdp) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#456-458)
+	- maker.lock(_cdpId,_pethLockedInCdp) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#458-459)
+	- maker.draw(_cdpId,_drawInAttodai) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#459-462)
+	- _wethBoughtInAttoweth = oasis.sellAllAmount(dai,_drawInAttodai,weth,0) (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#463-466)
+	- weth.deposit.value(_loanInAttoeth - _wethBoughtInAttoweth)() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol)
+	External calls sending eth:
+	- weth.deposit.value(_leverageSizeInAttoeth)() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#455-456)
+	- weth.deposit.value(_loanInAttoeth - _wethBoughtInAttoweth)() (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol)
+	State variables written after the call(s):
+	- payments (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol)
+	- payments (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol)
+	- totalPayments (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol)
+	- totalPayments (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Maker.cupi should be constant (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#332)
+Maker.gap should be constant (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#327)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol:
+	- Version used: ['0.4.25', 'ABIEncoderV2', 'v0.5.0']
+	- /unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#1 declares pragma solidity0.4.25
+	- /unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#2-3 declares pragma experimentalABIEncoderV2
+	- /unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#3-5 declares pragma experimentalv0.5.0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#87-88) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#88-89) should be declared external
+ERC20Basic.transfer (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#89-93) should be declared external
+ERC20.allowance (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#99-100) should be declared external
+ERC20.transferFrom (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#100-101) should be declared external
+ERC20.approve (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#101-105) should be declared external
+Claimable.transferOwnership (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#182-183) should be declared external
+Ownable.transferOwnership (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#141-149) should be declared external
+Ownable.renounceOwnership (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#156-157) should be declared external
+Claimable.claimOwnership (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#190-192) should be declared external
+Pausable.pause (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#229-236) should be declared external
+Pausable.unpause (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#237-238) should be declared external
+PullPayment.withdrawPayments (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#259-268) should be declared external
+Weth.deposit (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#292) should be declared external
+Weth.withdraw (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#292) should be declared external
+Oasis.getPayAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#295-296) should be declared external
+Oasis.getBestOffer (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#296) should be declared external
+Oasis.getWorseOffer (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#296-300) should be declared external
+Oasis.getOffer (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#300-305) should be declared external
+Oasis.sellAllAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#305-308) should be declared external
+Maker.lad (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#334-335) should be declared external
+Maker.per (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#335-336) should be declared external
+Maker.tab (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#336-337) should be declared external
+Maker.ink (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#338-339) should be declared external
+Maker.rap (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#339-342) should be declared external
+Maker.chi (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#342) should be declared external
+Maker.open (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#342-344) should be declared external
+Maker.give (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#344-346) should be declared external
+Maker.lock (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#346-349) should be declared external
+Maker.draw (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#349-352) should be declared external
+Maker.join (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#352-355) should be declared external
+Maker.wipe (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#355-357) should be declared external
+LiquidLong.wethDeposit (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#401) should be declared external
+LiquidLong.wethWithdraw (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#402-406) should be declared external
+LiquidLong.ethWithdraw (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#406-410) should be declared external
+LiquidLong.transferTokens (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#413-414) should be declared external
+LiquidLong.ethPriceInUsd (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#414-415) should be declared external
+LiquidLong.estimateDaiSaleProceeds (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#415-418) should be declared external
+LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#437-477) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#437-477):
+	-require(bool)(msg.sender.call.value(_refundDue)()) /unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter 'sell_gem' of Oasis.getBestOffer (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#296) is not in mixedCase
+Parameter 'buy_gem' of Oasis.getBestOffer (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#296) is not in mixedCase
+Parameter 'pay_gem' of Oasis.sellAllAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#306) is not in mixedCase
+Parameter 'pay_amt' of Oasis.sellAllAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#306) is not in mixedCase
+Parameter 'buy_gem' of Oasis.sellAllAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#306-307) is not in mixedCase
+Parameter 'min_fill_amount' of Oasis.sellAllAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#307) is not in mixedCase
+Parameter '_oasis' of LiquidLong. (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#371-372) is not in mixedCase
+Parameter '_maker' of LiquidLong. (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#372-373) is not in mixedCase
+Parameter '_amount' of LiquidLong.wethWithdraw (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#402) is not in mixedCase
+Parameter '_token' of LiquidLong.transferTokens (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#414) is not in mixedCase
+Parameter '_attodaiToSell' of LiquidLong.estimateDaiSaleProceeds (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#415) is not in mixedCase
+Parameter '_payGem' of LiquidLong.getPayPriceAndAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#420-421) is not in mixedCase
+Parameter '_buyGem' of LiquidLong.getPayPriceAndAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#421) is not in mixedCase
+Parameter '_payDesiredAmount' of LiquidLong.getPayPriceAndAmount (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#421) is not in mixedCase
+Parameter '_leverage' of LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#437) is not in mixedCase
+Parameter '_leverageSizeInAttoeth' of LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#437-438) is not in mixedCase
+Parameter '_allowedFeeInAttoeth' of LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#438) is not in mixedCase
+Parameter '_affiliateFeeInAttoeth' of LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#438-439) is not in mixedCase
+Parameter '_affiliateAddress' of LiquidLong.openCdp (/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol#439) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/17/0x3625fd10e2b4e6a81e57038756e39542fe4ca02f.sol analyzed (16 contracts), 70 result(s) found

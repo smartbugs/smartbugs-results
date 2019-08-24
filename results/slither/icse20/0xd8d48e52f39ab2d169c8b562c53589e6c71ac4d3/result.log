@@ -1,0 +1,184 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:67:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:153:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ETHERCExchange() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:85:9: Warning: Invoking events without "emit" prefix is deprecated.
+        OwnershipTransferred(owner, newOwner);
+        ^-----------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:177:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Deposit(address(0), msg.sender, msg.value, tokens[address(0)][msg.sender]);
+        ^------------------------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:185:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Deposit(_token, msg.sender, _amount, tokens[_token][msg.sender]);
+        ^--------------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:193:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Withdraw(address(0), msg.sender, _amount, tokens[address(0)][msg.sender]);
+        ^-----------------------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:202:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Withdraw(_token, msg.sender, _amount, tokens[_token][msg.sender]);
+        ^---------------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:217:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        if (ecrecover(keccak256("\x19Ethereum Signed Message:\n32", orderHash), _v, _r, _s) != _maker ||
+                      ^------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:229:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Trade(_tokenGet, _amountTrade, _tokenGive, amountTradeGive, _maker, msg.sender, orderHash);
+        ^----------------------------------------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:271:16: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return keccak256(this, _tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce, _maker);
+               ^---------------------------------------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:277:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        if (ecrecover(keccak256("\x19Ethereum Signed Message:\n32", orderHash), _v, _r, _s) != _maker ||
+                      ^------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:297:23: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        if (ecrecover(keccak256("\x19Ethereum Signed Message:\n32", orderHash), _v, _r, _s) != msg.sender) revert();
+                      ^------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:300:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Cancel(_tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce, msg.sender, _v, _r, _s, orderHash, orderFills[orderHash]);
+        ^--------------------------------------------------------------------------------------------------------------------------------^
+/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:214:37: Warning: "msg.gas" has been deprecated in favor of "gasleft()"
+        uint256 executionGasLimit = msg.gas;
+                                    ^-----^
+
+INFO:Detectors:[93m
+Reentrancy in ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#214-234):
+	External calls:
+	- tradeBalances(_tokenGet,_amountGet,_tokenGive,_amountGive,_maker,_amountTrade) (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#225-227)
+	State variables written after the call(s):
+	- orderFills (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#227)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in ETHERCExchange.depositToken (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#183-191):
+	External calls:
+	- ! Token(_token).transferFrom(msg.sender,this,_amount) (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#185-188)
+	State variables written after the call(s):
+	- tokens (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#188-189)
+Reentrancy in ETHERCExchange.tradeBalances (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#234-252):
+	External calls:
+	- (feeMakeDiscount,feeTakeDiscount,feeRebate) = FeeModifiersInterface(feeModifiers).tradingFeeModifiers(_maker,msg.sender) (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#240-241)
+	State variables written after the call(s):
+	- tokens (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#247-248)
+	- tokens (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#248-249)
+	- tokens (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#249-250)
+	- tokens (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#252)
+	- tokens (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#252)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#217:
+	- Usage of "msg.gas" should be replaced with "gasleft()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#84-94) should be declared external
+Token.totalSupply (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#98-99) should be declared external
+Token.balanceOf (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#99-100) should be declared external
+Token.transfer (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#100-101) should be declared external
+Token.transferFrom (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#101-102) should be declared external
+Token.approve (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#102-104) should be declared external
+Token.allowance (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#104-105) should be declared external
+FeeModifiersInterface.accountFeeModifiers (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#114) should be declared external
+FeeModifiersInterface.tradingFeeModifiers (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#114-122) should be declared external
+TradeTrackerInterface.tradeEventHandler (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#122-130) should be declared external
+ETHERCExchange.fallback (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#162-163) should be declared external
+ETHERCExchange.deposit (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#177-183) should be declared external
+ETHERCExchange.depositToken (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#183-191) should be declared external
+ETHERCExchange.withdraw (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#191-200) should be declared external
+ETHERCExchange.withdrawToken (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#200-209) should be declared external
+ETHERCExchange.balanceOf (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#209-213) should be declared external
+ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#214-234) should be declared external
+ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#252-264) should be declared external
+ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#291-296) should be declared external
+ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#296-308) should be declared external
+ETHERCExchange.changeFeeAccount (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#317-322) should be declared external
+ETHERCExchange.changeFeeMake (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#322-327) should be declared external
+ETHERCExchange.changeFeeTake (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#327-329) should be declared external
+ETHERCExchange.changeFeeModifiers (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#329-331) should be declared external
+ETHERCExchange.changeTradeTracker (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#71-72) is not in mixedCase
+Function 'ETHERCExchange.ETHERCExchange' (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#161-162) is not in mixedCase
+Parameter '_user' of ETHERCExchange.getAccountFeeModifiers (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#167) is not in mixedCase
+Parameter '_token' of ETHERCExchange.depositToken (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#184) is not in mixedCase
+Parameter '_amount' of ETHERCExchange.depositToken (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#184) is not in mixedCase
+Parameter '_amount' of ETHERCExchange.withdraw (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#192) is not in mixedCase
+Parameter '_token' of ETHERCExchange.withdrawToken (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#200) is not in mixedCase
+Parameter '_amount' of ETHERCExchange.withdrawToken (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#200-201) is not in mixedCase
+Parameter '_token' of ETHERCExchange.balanceOf (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#210-211) is not in mixedCase
+Parameter '_user' of ETHERCExchange.balanceOf (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#211) is not in mixedCase
+Parameter '_tokenGet' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#214) is not in mixedCase
+Parameter '_amountGet' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#214-215) is not in mixedCase
+Parameter '_tokenGive' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#215) is not in mixedCase
+Parameter '_amountGive' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#215) is not in mixedCase
+Parameter '_expires' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#215) is not in mixedCase
+Parameter '_nonce' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#215) is not in mixedCase
+Parameter '_maker' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#215) is not in mixedCase
+Parameter '_v' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#215) is not in mixedCase
+Parameter '_r' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#215-217) is not in mixedCase
+Parameter '_s' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#217) is not in mixedCase
+Parameter '_amountTrade' of ETHERCExchange.trade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#217) is not in mixedCase
+Parameter '_tokenGet' of ETHERCExchange.tradeBalances (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#234) is not in mixedCase
+Parameter '_amountGet' of ETHERCExchange.tradeBalances (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#234-235) is not in mixedCase
+Parameter '_tokenGive' of ETHERCExchange.tradeBalances (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#235) is not in mixedCase
+Parameter '_amountGive' of ETHERCExchange.tradeBalances (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#235-237) is not in mixedCase
+Parameter '_maker' of ETHERCExchange.tradeBalances (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#237) is not in mixedCase
+Parameter '_amountTrade' of ETHERCExchange.tradeBalances (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#237-238) is not in mixedCase
+Parameter '_tokenGet' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#253) is not in mixedCase
+Parameter '_amountGet' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#253) is not in mixedCase
+Parameter '_tokenGive' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#253-255) is not in mixedCase
+Parameter '_amountGive' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#255) is not in mixedCase
+Parameter '_expires' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#255) is not in mixedCase
+Parameter '_nonce' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#255) is not in mixedCase
+Parameter '_maker' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#255) is not in mixedCase
+Parameter '_v' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#255-256) is not in mixedCase
+Parameter '_r' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#256) is not in mixedCase
+Parameter '_s' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#256) is not in mixedCase
+Parameter '_amountTrade' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#256) is not in mixedCase
+Parameter '_taker' of ETHERCExchange.validateTrade (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#256) is not in mixedCase
+Parameter '_taker' of ETHERCExchange.calculateTakerFee (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#265) is not in mixedCase
+Parameter '_amountTrade' of ETHERCExchange.calculateTakerFee (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#265) is not in mixedCase
+Parameter '_tokenGet' of ETHERCExchange.getOrderHash (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#272-274) is not in mixedCase
+Parameter '_amountGet' of ETHERCExchange.getOrderHash (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#274) is not in mixedCase
+Parameter '_tokenGive' of ETHERCExchange.getOrderHash (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#274) is not in mixedCase
+Parameter '_amountGive' of ETHERCExchange.getOrderHash (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#274) is not in mixedCase
+Parameter '_expires' of ETHERCExchange.getOrderHash (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#274) is not in mixedCase
+Parameter '_nonce' of ETHERCExchange.getOrderHash (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#274) is not in mixedCase
+Parameter '_maker' of ETHERCExchange.getOrderHash (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#274) is not in mixedCase
+Parameter '_tokenGet' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#275) is not in mixedCase
+Parameter '_amountGet' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#275) is not in mixedCase
+Parameter '_tokenGive' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#276-277) is not in mixedCase
+Parameter '_amountGive' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#277) is not in mixedCase
+Parameter '_expires' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#277) is not in mixedCase
+Parameter '_nonce' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#277) is not in mixedCase
+Parameter '_maker' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#277) is not in mixedCase
+Parameter '_v' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#277) is not in mixedCase
+Parameter '_r' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#277-278) is not in mixedCase
+Parameter '_s' of ETHERCExchange.availableVolume (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#278) is not in mixedCase
+Parameter '_tokenGet' of ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#292) is not in mixedCase
+Parameter '_amountGet' of ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#292-295) is not in mixedCase
+Parameter '_tokenGive' of ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#295) is not in mixedCase
+Parameter '_amountGive' of ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#295) is not in mixedCase
+Parameter '_expires' of ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#295) is not in mixedCase
+Parameter '_nonce' of ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#295) is not in mixedCase
+Parameter '_maker' of ETHERCExchange.amountFilled (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#295) is not in mixedCase
+Parameter '_tokenGet' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#297) is not in mixedCase
+Parameter '_amountGet' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#297) is not in mixedCase
+Parameter '_tokenGive' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#297) is not in mixedCase
+Parameter '_amountGive' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#297) is not in mixedCase
+Parameter '_expires' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#297) is not in mixedCase
+Parameter '_nonce' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#297-299) is not in mixedCase
+Parameter '_v' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#299) is not in mixedCase
+Parameter '_r' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#299) is not in mixedCase
+Parameter '_s' of ETHERCExchange.cancelOrder (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#299-300) is not in mixedCase
+Parameter '_feeAccount' of ETHERCExchange.changeFeeAccount (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#317) is not in mixedCase
+Parameter '_feeMake' of ETHERCExchange.changeFeeMake (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#322-323) is not in mixedCase
+Parameter '_feeTake' of ETHERCExchange.changeFeeTake (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol#327) is not in mixedCase
+Parameter '_feeModifiers' of ETHERCExchange.changeFeeModifiers (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol) is not in mixedCase
+Parameter '_tradeTracker' of ETHERCExchange.changeTradeTracker (/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/1/0xd8d48e52f39ab2d169c8b562c53589e6c71ac4d3.sol analyzed (6 contracts), 109 result(s) found

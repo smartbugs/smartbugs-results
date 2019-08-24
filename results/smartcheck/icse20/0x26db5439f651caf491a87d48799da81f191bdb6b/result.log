@@ -1,0 +1,63 @@
+/unique_chucks/2/0x26db5439f651caf491a87d48799da81f191bdb6b.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 199
+column: 2
+content: functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){require((_value==0)||(users[msg.sender].authorized[_spender]==0));users[msg.sender].authorized[_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 94
+column: 0
+content: contractCashBetCoinisMigrationSource,ERC20{usingSafeMathforuint256;stringpublicconstantname="CashBetCoin";stringpublicconstantsymbol="CBC";uint8publicconstantdecimals=8;uintinternaltotalSupply_;addresspublicowner;mapping(bytes32=>bool)publicoperators;mapping(address=>User)publicusers;mapping(address=>mapping(bytes32=>bool))publicemployees;MigrationSourcepublicmigrateFrom;addresspublicmigrateTo;structUser{uint256balance;uint256lock_value;uint256lock_endTime;bytes32operatorId;bytes32playerId;mapping(address=>uint256)authorized;}modifieronly_owner(){require(msg.sender==owner);_;}modifieronly_employees(address_user){require(employees[msg.sender][users[_user].operatorId]);_;}modifierplayerid_iff_operatorid(bytes32_opId,bytes32_playerId){require(_opId!=bytes32(0)||_playerId==bytes32(0));_;}modifiervalue_less_than_unlocked_balance(address_user,uint256_value){Userstorageuser=users[_user];require(user.lock_endTime<block.timestamp||_value<=user.balance-user.lock_value);require(_value<=user.balance);_;}eventApproval(addressindexedowner,addressindexedspender,uint256value);eventTransfer(addressindexedfrom,addressindexedto,uint256value);eventLockIncrease(addressindexeduser,uint256amount,uint256time);eventLockDecrease(addressindexeduser,addressemployee,uint256amount,uint256time);eventAssociate(addressindexeduser,addressagent,bytes32indexedoperatorId,bytes32playerId);eventBurn(addressindexedowner,uint256value);eventOptIn(addressindexedowner,uint256value);eventVacate(addressindexedowner,uint256value);eventEmployee(addressindexedempl,bytes32indexedoperatorId,boolallowed);eventOperator(bytes32indexedoperatorId,boolallowed);functionCashBetCoin(uint_totalSupply)public{totalSupply_=_totalSupply;owner=msg.sender;Userstorageuser=users[owner];user.balance=totalSupply_;user.lock_value=0;user.lock_endTime=0;user.operatorId=bytes32(0);user.playerId=bytes32(0);Transfer(0,owner,_totalSupply);}functiontotalSupply()publicviewreturns(uint256){returntotalSupply_;}functionbalanceOf(address_addr)publicviewreturns(uint256balance){returnusers[_addr].balance;}functiontransfer(address_to,uint256_value)publicvalue_less_than_unlocked_balance(msg.sender,_value)returns(boolsuccess){Userstorageuser=users[msg.sender];user.balance=user.balance.sub(_value);users[_to].balance=users[_to].balance.add(_value);Transfer(msg.sender,_to,_value);returntrue;}functiontransferFrom(address_from,address_to,uint256_value)publicvalue_less_than_unlocked_balance(_from,_value)returns(boolsuccess){Userstorageuser=users[_from];user.balance=user.balance.sub(_value);users[_to].balance=users[_to].balance.add(_value);user.authorized[msg.sender]=user.authorized[msg.sender].sub(_value);Transfer(_from,_to,_value);returntrue;}functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){require((_value==0)||(users[msg.sender].authorized[_spender]==0));users[msg.sender].authorized[_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}functionallowance(address_user,address_spender)publicviewreturns(uint256){returnusers[_user].authorized[_spender];}functionlockedValueOf(address_addr)publicviewreturns(uint256value){Userstorageuser=users[_addr];if(user.lock_endTime<block.timestamp){return0;}else{returnuser.lock_value;}}functionlockedEndTimeOf(address_addr)publicviewreturns(uint256time){returnusers[_addr].lock_endTime;}functionincreaseLock(uint256_value,uint256_time)publicreturns(boolsuccess){Userstorageuser=users[msg.sender];if(block.timestamp<user.lock_endTime){require(_value>=user.lock_value);require(_time>=user.lock_endTime);require(_value>user.lock_value||_time>user.lock_endTime);}require(_value<=user.balance);require(_time>block.timestamp);user.lock_value=_value;user.lock_endTime=_time;LockIncrease(msg.sender,_value,_time);returntrue;}functiondecreaseLock(uint256_value,uint256_time,address_user)publiconly_employees(_user)returns(boolsuccess){Userstorageuser=users[_user];require(user.lock_endTime>block.timestamp);require(_value<=user.lock_value);require(_time<=user.lock_endTime);require(_value<user.lock_value||_time<user.lock_endTime);user.lock_value=_value;user.lock_endTime=_time;LockDecrease(_user,msg.sender,_value,_time);returntrue;}functionassociate(bytes32_opId,bytes32_playerId)publicplayerid_iff_operatorid(_opId,_playerId)returns(boolsuccess){Userstorageuser=users[msg.sender];require(user.lock_value==0||user.lock_endTime<block.timestamp||user.playerId==0);require(_opId==bytes32(0)||operators[_opId]);user.operatorId=_opId;user.playerId=_playerId;Associate(msg.sender,msg.sender,_opId,_playerId);returntrue;}functionassociationOf(address_addr)publicviewreturns(bytes32opId,bytes32playerId){return(users[_addr].operatorId,users[_addr].playerId);}functionsetAssociation(address_user,bytes32_opId,bytes32_playerId)publiconly_employees(_user)playerid_iff_operatorid(_opId,_playerId)returns(boolsuccess){Userstorageuser=users[_user];require(_opId==bytes32(0)||employees[msg.sender][_opId]);user.operatorId=_opId;user.playerId=_playerId;Associate(_user,msg.sender,_opId,_playerId);returntrue;}functionsetEmployee(address_addr,bytes32_opId,bool_allowed)publiconly_owner{employees[_addr][_opId]=_allowed;Employee(_addr,_opId,_allowed);}functionsetOperator(bytes32_opId,bool_allowed)publiconly_owner{operators[_opId]=_allowed;Operator(_opId,_allowed);}functionsetOwner(address_addr)publiconly_owner{owner=_addr;}functionburnTokens(uint256_value)publicvalue_less_than_unlocked_balance(msg.sender,_value)returns(boolsuccess){Userstorageuser=users[msg.sender];user.balance=user.balance.sub(_value);totalSupply_=totalSupply_.sub(_value);Burn(msg.sender,_value);returntrue;}functionsetMigrateFrom(address_addr)publiconly_owner{require(migrateFrom==MigrationSource(0));migrateFrom=MigrationSource(_addr);}functionsetMigrateTo(address_addr)publiconly_owner{migrateTo=_addr;}functionoptIn()publicreturns(boolsuccess){require(migrateFrom!=MigrationSource(0));Userstorageuser=users[msg.sender];uint256balance;uint256lock_value;uint256lock_endTime;bytes32opId;bytes32playerId;(balance,lock_value,lock_endTime,opId,playerId)=migrateFrom.vacate(msg.sender);OptIn(msg.sender,balance);user.balance=user.balance.add(balance);boollockTimeIncreased=false;user.lock_value=user.lock_value.add(lock_value);if(user.lock_endTime<lock_endTime){user.lock_endTime=lock_endTime;lockTimeIncreased=true;}if(lock_value>0||lockTimeIncreased){LockIncrease(msg.sender,user.lock_value,user.lock_endTime);}if(user.operatorId==bytes32(0)&&opId!=bytes32(0)){user.operatorId=opId;user.playerId=playerId;Associate(msg.sender,msg.sender,opId,playerId);}totalSupply_=totalSupply_.add(balance);returntrue;}functionvacate(address_addr)publicreturns(uint256o_balance,uint256o_lock_value,uint256o_lock_endTime,bytes32o_opId,bytes32o_playerId){require(msg.sender==migrateTo);Userstorageuser=users[_addr];require(user.balance>0);o_balance=user.balance;o_lock_value=user.lock_value;o_lock_endTime=user.lock_endTime;o_opId=user.operatorId;o_playerId=user.playerId;totalSupply_=totalSupply_.sub(user.balance);user.balance=0;user.lock_value=0;user.lock_endTime=0;user.operatorId=bytes32(0);user.playerId=bytes32(0);Vacate(_addr,o_balance);}function()publicpayable{revert();}}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 3
+column: 16
+content: ^
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 51
+column: 16
+content: ^
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 53
+column: 16
+content: ^
+
+ruleId: SOLIDITY_REDUNDANT_FALLBACK_REJECT
+patternId: b85a32
+severity: 1
+line: 436
+column: 29
+content: {revert();}
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 95
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 91h3sa
+severity: 1
+line: 436
+column: 14
+content: public
+
+SOLIDITY_SAFEMATH :1
+SOLIDITY_PRAGMAS_VERSION :3
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_UPGRADE_TO_050 :1
+SOLIDITY_REDUNDANT_FALLBACK_REJECT :1
+SOLIDITY_ERC20_APPROVE :1

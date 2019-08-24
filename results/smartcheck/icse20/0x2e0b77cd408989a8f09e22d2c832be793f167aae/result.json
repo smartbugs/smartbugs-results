@@ -1,0 +1,113 @@
+{
+  "contract": "0x2e0b77cd408989a8f09e22d2c832be793f167aae",
+  "tool": "smartcheck",
+  "start": 1563673359.7549398,
+  "end": 1563673369.0915997,
+  "duration": 9.336659908294678,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 89,
+      "column": 4,
+      "content": "owner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 723,
+      "column": 2,
+      "content": "functionisAnOwner(address_owner)publicconstantreturns(bool){if(_owner==owner){returntrue;}returnowners[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 233,
+      "column": 2,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(bool){allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 665,
+      "column": 0,
+      "content": "contractFrameworkInvestisMintedCrowdsale,CappedCrowdsale,Ownable{mapping(address=>bool)publicowners;uint8decimals=18;enumCrowdsaleStage{PS_R1,PS_R2,PS_R3,PS_R4,PS_R5,PS_R6,PS_R7,ICO}CrowdsaleStagepublicstage=CrowdsaleStage.PS_R1;uint256publicmaxTokens=100000000*(10**uint256(decimals));uint256publictokensForReserve=40000000*(10**uint256(decimals));uint256publictokensForBounty=1000000*(10**uint256(decimals));uint256publictotalTokensForSale=50000000*(10**uint256(decimals));uint256publictotalTokensForSaleDuringPreICO=20000000*(10**uint256(decimals));uint256publicDEFAULT_RATE=500;uint256publicROUND_1_PRESALE_BONUS=175;uint256publicROUND_2_PRESALE_BONUS=150;uint256publicROUND_3_PRESALE_BONUS=125;uint256publicROUND_4_PRESALE_BONUS=100;uint256publicROUND_5_PRESALE_BONUS=75;uint256publicROUND_6_PRESALE_BONUS=50;uint256publicROUND_7_PRESALE_BONUS=25;uint256publicICO_BONUS=0;uint256publictotalWeiRaisedDuringPreICO;boolpubliccrowdsaleStarted=true;boolpubliccrowdsalePaused=false;eventEthTransferred(stringtext);eventEthRefunded(stringtext);modifieronlyOwner(){require(isAnOwner(msg.sender));_;}functionaddNewOwner(address_owner)publiconlyOwner{require(_owner!=address(0));owners[_owner]=true;}functionremoveOwner(address_owner)publiconlyOwner{require(_owner!=address(0));require(_owner!=msg.sender);owners[_owner]=false;}functionisAnOwner(address_owner)publicconstantreturns(bool){if(_owner==owner){returntrue;}returnowners[_owner];}modifierhasMintPermission(){require(isAnOwner(msg.sender));_;}functionFrameworkInvest(uint256_rate,address_wallet,uint256_cap,CappedToken_token)CappedCrowdsale(_cap)Crowdsale(_rate,_wallet,_token)public{}functionsetCrowdsaleStage(uintvalue)publiconlyOwner{CrowdsaleStage_stage;if(uint(CrowdsaleStage.PS_R1)==value){_stage=CrowdsaleStage.PS_R1;calculateAndSetRate(ROUND_1_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R2)==value){_stage=CrowdsaleStage.PS_R2;calculateAndSetRate(ROUND_2_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R3)==value){_stage=CrowdsaleStage.PS_R3;calculateAndSetRate(ROUND_3_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R4)==value){_stage=CrowdsaleStage.PS_R4;calculateAndSetRate(ROUND_4_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R5)==value){_stage=CrowdsaleStage.PS_R5;calculateAndSetRate(ROUND_5_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R6)==value){_stage=CrowdsaleStage.PS_R6;calculateAndSetRate(ROUND_6_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R7)==value){_stage=CrowdsaleStage.PS_R7;calculateAndSetRate(ROUND_7_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.ICO)==value){_stage=CrowdsaleStage.ICO;calculateAndSetRate(ICO_BONUS);}stage=_stage;}functionsetCurrentRate(uint256_rate)private{rate=_rate;}functioncalculateAndSetRate(uint256_bonus)private{uint256calcRate=DEFAULT_RATE+_bonus;setCurrentRate(calcRate);}functionsetRate(uint256_rate)publiconlyOwner{setCurrentRate(_rate);}functionsetCrowdSale(bool_started)publiconlyOwner{crowdsaleStarted=_started;}function()externalpayable{require(!crowdsalePaused);uint256tokensThatWillBeMintedAfterPurchase=msg.value.mul(rate);if((stage!=CrowdsaleStage.ICO)&&(token.totalSupply()+tokensThatWillBeMintedAfterPurchase>totalTokensForSaleDuringPreICO)){msg.sender.transfer(msg.value);EthRefunded(\"Presale Limit Hit.\");return;}buyTokens(msg.sender);EthTransferred(\"Transferred funds to wallet.\");if(stage!=CrowdsaleStage.ICO){totalWeiRaisedDuringPreICO=totalWeiRaisedDuringPreICO.add(msg.value);}}functionpauseCrowdsale()publiconlyOwner{crowdsalePaused=true;}functionunPauseCrowdsale()publiconlyOwner{crowdsalePaused=false;}functionfinish(address_reserveFund,address_bountyFund)publiconlyOwner{if(crowdsaleStarted){uint256alreadyMinted=token.totalSupply();require(alreadyMinted<maxTokens);uint256unsoldTokens=totalTokensForSale-alreadyMinted;if(unsoldTokens>0){tokensForReserve=tokensForReserve+unsoldTokens;}MintableToken(token).mint(_reserveFund,tokensForReserve);MintableToken(token).mint(_bountyFund,tokensForBounty);crowdsaleStarted=false;}}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 743,
+      "column": 4,
+      "content": "functionsetCrowdsaleStage(uintvalue)publiconlyOwner{CrowdsaleStage_stage;if(uint(CrowdsaleStage.PS_R1)==value){_stage=CrowdsaleStage.PS_R1;calculateAndSetRate(ROUND_1_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R2)==value){_stage=CrowdsaleStage.PS_R2;calculateAndSetRate(ROUND_2_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R3)==value){_stage=CrowdsaleStage.PS_R3;calculateAndSetRate(ROUND_3_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R4)==value){_stage=CrowdsaleStage.PS_R4;calculateAndSetRate(ROUND_4_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R5)==value){_stage=CrowdsaleStage.PS_R5;calculateAndSetRate(ROUND_5_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R6)==value){_stage=CrowdsaleStage.PS_R6;calculateAndSetRate(ROUND_6_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.PS_R7)==value){_stage=CrowdsaleStage.PS_R7;calculateAndSetRate(ROUND_7_PRESALE_BONUS);}elseif(uint(CrowdsaleStage.ICO)==value){_stage=CrowdsaleStage.ICO;calculateAndSetRate(ICO_BONUS);}stage=_stage;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 787,
+      "column": 4,
+      "content": "functionsetRate(uint256_rate)publiconlyOwner{setCurrentRate(_rate);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 791,
+      "column": 4,
+      "content": "functionsetCrowdSale(bool_started)publiconlyOwner{crowdsaleStarted=_started;}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 147,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 321,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 506,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 149,
+      "column": 2,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 151,
+      "column": 2,
+      "content": "uint256totalSupply_;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 669,
+      "column": 2,
+      "content": "uint8decimals=18;"
+    }
+  ]
+}

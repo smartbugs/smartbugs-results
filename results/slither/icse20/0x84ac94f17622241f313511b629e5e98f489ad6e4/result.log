@@ -1,0 +1,283 @@
+INFO:Detectors:[91m
+AuctionBase.getFees (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#702-704) sends eth to arbitrary user
+	Dangerous calls:
+	- beneficiary.transfer(address(this).balance) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#704)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in CozyTimeAuction.buyCozy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#748-799):
+	External calls:
+	- affiliate = affiliateContract.userToAffiliate(_pepeReceiver) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#768-769)
+	- ! pepeContract.cozyTime(auction.pepeId,_cozyCandidate,_pepeReceiver) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#778-783)
+	- ! pepeContract.cozyTime(_cozyCandidate,auction.pepeId,_pepeReceiver) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#785-787)
+	- ! pepeContract.transfer(auction.seller,_pepeId) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#789-790)
+	External calls sending eth:
+	- auction.seller.transfer(price - totalFee) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#763-765)
+	- affiliate != address(0) && affiliate.send(totalFee / 2) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#769-776)
+	- _pepeReceiver.transfer(msg.value - price) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#791-792)
+	State variables written after the call(s):
+	- auctions (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#796-798)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Genetic.breed (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#16-299) is declared view but contains assembly code
+Genetic.randomDNA (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#300-351) is declared view but contains assembly code
+PepeBase.isContract (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#504-534) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#510-511)
+PepeBase (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#959-1506) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1421-1428)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1506) uses a dangerous strict equality:
+	- require(bool)(pepes[_tokenId].master == _from)
+PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1506) uses a dangerous strict equality:
+	- require(bool)(pepes[_tokenId].master == _from)
+PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1117-1177) uses a dangerous strict equality:
+	- require(bool)(pepes[_mother].master == msg.sender || approved[_mother] == msg.sender || approvedForAll[pepes[_mother].master][msg.sender])
+	- require(bool)(pepes[_father].master == msg.sender || approved[_father] == msg.sender || approvedForAll[pepes[_father].master][msg.sender])
+PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1506) uses a dangerous strict equality:
+	- require(bool)(pepes[_tokenId].master == _from)
+PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1117-1177) uses a dangerous strict equality:
+	- require(bool)(pepes[_mother].master == msg.sender || approved[_mother] == msg.sender || approvedForAll[pepes[_mother].master][msg.sender])
+	- require(bool)(pepes[_father].master == msg.sender || approved[_father] == msg.sender || approvedForAll[pepes[_father].master][msg.sender])
+Haltable.halt (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#847-857) uses a dangerous strict equality:
+	- require(bool)(haltTime == 0)
+PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1506) uses a dangerous strict equality:
+	- require(bool)(pepes[_tokenId].master == _from)
+PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1117-1177) uses a dangerous strict equality:
+	- require(bool)(pepes[_mother].master == msg.sender || approved[_mother] == msg.sender || approvedForAll[pepes[_mother].master][msg.sender])
+	- require(bool)(pepes[_father].master == msg.sender || approved[_father] == msg.sender || approvedForAll[pepes[_father].master][msg.sender])
+Haltable.halt (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#847-857) uses a dangerous strict equality:
+	- require(bool)(haltTime == 0)
+PepeBase.onlyAllowed (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1015-1020) uses a dangerous strict equality:
+	- require(bool)(msg.sender == pepes[_tokenId].master || msg.sender == approved[_tokenId] || approvedForAll[pepes[_tokenId].master][msg.sender])
+	- require(bool)(msg.sender == pepes[_tokenId].master || msg.sender == approved[_tokenId] || approvedForAll[pepes[_tokenId].master][msg.sender])
+PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1506) uses a dangerous strict equality:
+	- require(bool)(pepes[_tokenId].master == _from)
+PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1117-1177) uses a dangerous strict equality:
+	- require(bool)(pepes[_mother].master == msg.sender || approved[_mother] == msg.sender || approvedForAll[pepes[_mother].master][msg.sender])
+	- require(bool)(pepes[_father].master == msg.sender || approved[_father] == msg.sender || approvedForAll[pepes[_father].master][msg.sender])
+Haltable.halt (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#847-857) uses a dangerous strict equality:
+	- require(bool)(haltTime == 0)
+PepeBase.onlyAllowed (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1015-1020) uses a dangerous strict equality:
+	- require(bool)(msg.sender == pepes[_tokenId].master || msg.sender == approved[_tokenId] || approvedForAll[pepes[_tokenId].master][msg.sender])
+	- require(bool)(msg.sender == pepes[_tokenId].master || msg.sender == approved[_tokenId] || approvedForAll[pepes[_tokenId].master][msg.sender])
+PepeBase.onlyPepeMaster (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1013-1015) uses a dangerous strict equality:
+	- require(bool)(pepes[_pepeId].master == msg.sender)
+	- require(bool)(pepes[_pepeId].master == msg.sender)
+PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1506) uses a dangerous strict equality:
+	- require(bool)(pepes[_tokenId].master == _from)
+PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1117-1177) uses a dangerous strict equality:
+	- require(bool)(pepes[_mother].master == msg.sender || approved[_mother] == msg.sender || approvedForAll[pepes[_mother].master][msg.sender])
+	- require(bool)(pepes[_father].master == msg.sender || approved[_father] == msg.sender || approvedForAll[pepes[_father].master][msg.sender])
+Haltable.halt (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#847-857) uses a dangerous strict equality:
+	- require(bool)(haltTime == 0)
+PepeBase.onlyAllowed (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1015-1020) uses a dangerous strict equality:
+	- require(bool)(msg.sender == pepes[_tokenId].master || msg.sender == approved[_tokenId] || approvedForAll[pepes[_tokenId].master][msg.sender])
+	- require(bool)(msg.sender == pepes[_tokenId].master || msg.sender == approved[_tokenId] || approvedForAll[pepes[_tokenId].master][msg.sender])
+PepeBase.onlyPepeMaster (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1013-1015) uses a dangerous strict equality:
+	- require(bool)(pepes[_pepeId].master == msg.sender)
+	- require(bool)(pepes[_pepeId].master == msg.sender)
+PepeBase.transferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol) uses a dangerous strict equality:
+	- require(bool)(pepes[_tokenId].master == _from)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in AuctionBase.savePepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#575-587):
+	External calls:
+	- require(bool)(pepeContract.transfer(auctions[_pepeId].seller,_pepeId)) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#582-583)
+	State variables written after the call(s):
+	- auctions (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#585-587)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+auction in AuctionBase.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#642) is a local variable never initialiazed
+auction in AuctionBase.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#610-611) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Reentrancy in AuctionBase.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#598-619):
+	External calls:
+	- require(bool)(pepeContract.transferFrom(msg.sender,address(this),_pepeId)) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#600-602)
+	State variables written after the call(s):
+	- auctions (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#618-619)
+Reentrancy in CozyTimeAuction.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#733-738):
+	External calls:
+	- require(bool)(pepeContract.getCozyAgain(_pepeId) <= now) (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#734-736)
+	State variables written after the call(s):
+	- auctions (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#737-738)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Genetic.breed uses assembly (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#16-299)
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#28-299
+Genetic.randomDNA uses assembly (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#300-351)
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#302-351
+PepeBase.isContract uses assembly (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol)
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Haltable.maxHaltDuration should be constant (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#833)
+PepeBase.implementsERC721 should be constant (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#983-986)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol:
+	- Version used: ['^0.4.19', '^0.4.23', '^0.4.24', '^0.4.25']
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1 declares pragma solidity^0.4.24
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#6-9 declares pragma solidity^0.4.23
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#422 declares pragma solidity^0.4.19
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#462-464 declares pragma solidity^0.4.24
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#482 declares pragma solidity^0.4.25
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#543-544 declares pragma solidity^0.4.24
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#705-706 declares pragma solidity^0.4.24
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#825 declares pragma solidity^0.4.24
+	- /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#955-956 declares pragma solidity^0.4.24
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#393-395) should be declared external
+Ownable.transferOwnership (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#400-407) should be declared external
+Beneficiary.setBeneficiary (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#475-477) should be declared external
+Affiliate.setAffiliateSetter (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#490-498) should be declared external
+Affiliate.setAffiliate (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#500-503) should be declared external
+ERC721.implementsERC721 (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#504-505) should be declared external
+ERC721.totalSupply (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#505-506) should be declared external
+ERC721.balanceOf (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#506-508) should be declared external
+ERC721.ownerOf (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#508-510) should be declared external
+ERC721.approve (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#510-511) should be declared external
+ERC721.transferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#511) should be declared external
+ERC721.transfer (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#512) should be declared external
+PepeInterface.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#536-537) should be declared external
+PepeInterface.getCozyAgain (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#537-540) should be declared external
+AuctionBase.getFees (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#702-704) should be declared external
+CozyTimeAuction.buyCozyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#816-824) should be declared external
+Haltable.halt (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#847-857) should be declared external
+Haltable.unhalt (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#863-871) should be declared external
+PepeBase.setMiner (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1083-1086) should be declared external
+PepeBase.minePepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1092-1103) should be declared external
+PepeBase.pepePremine (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1105-1114) should be declared external
+PepeBase.setPepeName (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1191-1198) should be declared external
+PepeBase.transferAndAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1205-1213) should be declared external
+PepeBase.approveAndBuy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1216-1231) should be declared external
+PepeBase.approveAndBuyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1238-1255) should be declared external
+PepeBase.getPepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1264-1282) should be declared external
+PepeBase.getCozyAgain (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1286-1291) should be declared external
+PepeBase.totalSupply (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1300-1306) should be declared external
+PepeBase.tokenOfOwnerByIndex (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1330-1338) should be declared external
+PepeBase.transfer (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1411-1419) should be declared external
+PepeBase.transferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#6-9): it allows old versions
+	- pragma solidity^0.4.19 (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#422): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#404) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#415-421) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#415) is not in mixedCase
+Parameter '_username' of Usernames.claimUsername (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#431-432) is not in mixedCase
+Parameter '_beneficiary' of Beneficiary.setBeneficiary (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#475-476) is not in mixedCase
+Parameter '_setter' of Affiliate.setAffiliateSetter (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#495) is not in mixedCase
+Parameter '_user' of Affiliate.setAffiliate (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#501) is not in mixedCase
+Parameter '_affiliate' of Affiliate.setAffiliate (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#501) is not in mixedCase
+Parameter '_pepeContract' of AuctionBase. (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#564) is not in mixedCase
+Parameter '_affiliateContract' of AuctionBase. (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#564-566) is not in mixedCase
+Parameter '_pepeId' of AuctionBase.savePepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#575) is not in mixedCase
+Parameter '_fee' of AuctionBase.changeFee (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#589) is not in mixedCase
+Parameter '_pepeId' of AuctionBase.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#599) is not in mixedCase
+Parameter '_beginPrice' of AuctionBase.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#599) is not in mixedCase
+Parameter '_endPrice' of AuctionBase.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#599-600) is not in mixedCase
+Parameter '_duration' of AuctionBase.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#600) is not in mixedCase
+Parameter '_pepeId' of AuctionBase.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#630) is not in mixedCase
+Parameter '_beginPrice' of AuctionBase.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#630) is not in mixedCase
+Parameter '_endPrice' of AuctionBase.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#630-631) is not in mixedCase
+Parameter '_duration' of AuctionBase.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#631) is not in mixedCase
+Parameter '_seller' of AuctionBase.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#631) is not in mixedCase
+Parameter '_pepeId' of AuctionBase.calculateBid (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#658) is not in mixedCase
+Parameter '_pepeId' of CozyTimeAuction.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#718) is not in mixedCase
+Parameter '_beginPrice' of CozyTimeAuction.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#719) is not in mixedCase
+Parameter '_endPrice' of CozyTimeAuction.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#719) is not in mixedCase
+Parameter '_duration' of CozyTimeAuction.startAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#719) is not in mixedCase
+Parameter '_pepeId' of CozyTimeAuction.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#733) is not in mixedCase
+Parameter '_beginPrice' of CozyTimeAuction.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#733) is not in mixedCase
+Parameter '_endPrice' of CozyTimeAuction.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#733) is not in mixedCase
+Parameter '_duration' of CozyTimeAuction.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#733) is not in mixedCase
+Parameter '_seller' of CozyTimeAuction.startAuctionDirect (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#733-734) is not in mixedCase
+Parameter '_pepeId' of CozyTimeAuction.buyCozy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#748) is not in mixedCase
+Parameter '_cozyCandidate' of CozyTimeAuction.buyCozy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#748-750) is not in mixedCase
+Parameter '_candidateAsFather' of CozyTimeAuction.buyCozy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#750) is not in mixedCase
+Parameter '_pepeReceiver' of CozyTimeAuction.buyCozy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#750-751) is not in mixedCase
+Parameter '_pepeId' of CozyTimeAuction.buyCozyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#820) is not in mixedCase
+Parameter '_cozyCandidate' of CozyTimeAuction.buyCozyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#820) is not in mixedCase
+Parameter '_candidateAsFather' of CozyTimeAuction.buyCozyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#820) is not in mixedCase
+Parameter '_pepeReceiver' of CozyTimeAuction.buyCozyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#821) is not in mixedCase
+Parameter '_affiliate' of CozyTimeAuction.buyCozyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#821) is not in mixedCase
+Parameter '_duration' of Haltable.halt (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#847) is not in mixedCase
+Function 'PepeBase._newPepe' (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1047-1081) is not in mixedCase
+Parameter '_genoType' of PepeBase._newPepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1047-1049) is not in mixedCase
+Parameter '_mother' of PepeBase._newPepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1049) is not in mixedCase
+Parameter '_father' of PepeBase._newPepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1049) is not in mixedCase
+Parameter '_generation' of PepeBase._newPepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1049-1050) is not in mixedCase
+Parameter '_master' of PepeBase._newPepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1050) is not in mixedCase
+Parameter '_miner' of PepeBase.setMiner (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1084) is not in mixedCase
+Parameter '_seed' of PepeBase.minePepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1096-1097) is not in mixedCase
+Parameter '_receiver' of PepeBase.minePepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1097) is not in mixedCase
+Parameter '_amount' of PepeBase.pepePremine (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1106) is not in mixedCase
+Parameter '_mother' of PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1118) is not in mixedCase
+Parameter '_father' of PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1118) is not in mixedCase
+Parameter '_pepeReceiver' of PepeBase.cozyTime (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1118) is not in mixedCase
+Function 'PepeBase._handleCoolDown' (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1180-1185) is not in mixedCase
+Parameter '_pepeId' of PepeBase._handleCoolDown (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1180) is not in mixedCase
+Parameter '_pepeId' of PepeBase.setPepeName (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1192) is not in mixedCase
+Parameter '_name' of PepeBase.setPepeName (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1192) is not in mixedCase
+Parameter '_pepeId' of PepeBase.transferAndAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1205) is not in mixedCase
+Parameter '_auction' of PepeBase.transferAndAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1205-1206) is not in mixedCase
+Parameter '_beginPrice' of PepeBase.transferAndAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1206) is not in mixedCase
+Parameter '_endPrice' of PepeBase.transferAndAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1206-1207) is not in mixedCase
+Parameter '_duration' of PepeBase.transferAndAuction (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1207) is not in mixedCase
+Parameter '_pepeId' of PepeBase.approveAndBuy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1216) is not in mixedCase
+Parameter '_auction' of PepeBase.approveAndBuy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1216) is not in mixedCase
+Parameter '_cozyCandidate' of PepeBase.approveAndBuy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1216) is not in mixedCase
+Parameter '_candidateAsFather' of PepeBase.approveAndBuy (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1216-1219) is not in mixedCase
+Parameter '_pepeId' of PepeBase.approveAndBuyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1239) is not in mixedCase
+Parameter '_auction' of PepeBase.approveAndBuyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1239-1240) is not in mixedCase
+Parameter '_cozyCandidate' of PepeBase.approveAndBuyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1240) is not in mixedCase
+Parameter '_candidateAsFather' of PepeBase.approveAndBuyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1241) is not in mixedCase
+Parameter '_affiliate' of PepeBase.approveAndBuyAffiliated (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1241-1242) is not in mixedCase
+Parameter '_pepeId' of PepeBase.getPepe (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1264) is not in mixedCase
+Parameter '_pepeId' of PepeBase.getCozyAgain (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1287-1290) is not in mixedCase
+Parameter '_owner' of PepeBase.balanceOf (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1311) is not in mixedCase
+Parameter '_tokenId' of PepeBase.ownerOf (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1322) is not in mixedCase
+Parameter '_owner' of PepeBase.tokenOfOwnerByIndex (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1330-1331) is not in mixedCase
+Parameter '_index' of PepeBase.tokenOfOwnerByIndex (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1331) is not in mixedCase
+Parameter '_owner' of PepeBase.addToWallet (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1342) is not in mixedCase
+Parameter '_tokenId' of PepeBase.addToWallet (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1342-1343) is not in mixedCase
+Parameter '_owner' of PepeBase.removeFromWallet (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1361-1363) is not in mixedCase
+Parameter '_tokenId' of PepeBase.removeFromWallet (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1363) is not in mixedCase
+Function 'PepeBase._transfer' (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1393-1403) is not in mixedCase
+Parameter '_from' of PepeBase._transfer (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1393) is not in mixedCase
+Parameter '_to' of PepeBase._transfer (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1393) is not in mixedCase
+Parameter '_tokenId' of PepeBase._transfer (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1393-1394) is not in mixedCase
+Parameter '_to' of PepeBase.transfer (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1411) is not in mixedCase
+Parameter '_tokenId' of PepeBase.transfer (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1411) is not in mixedCase
+Parameter '_to' of PepeBase.approve (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1422) is not in mixedCase
+Parameter '_tokenId' of PepeBase.approve (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1422) is not in mixedCase
+Parameter '_operator' of PepeBase.setApprovalForAll (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1431-1432) is not in mixedCase
+Parameter '_approved' of PepeBase.setApprovalForAll (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1432) is not in mixedCase
+Parameter '_tokenId' of PepeBase.getApproved (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1449) is not in mixedCase
+Parameter '_owner' of PepeBase.isApprovedForAll (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1456) is not in mixedCase
+Parameter '_operator' of PepeBase.isApprovedForAll (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1456-1460) is not in mixedCase
+Parameter '_from' of PepeBase.safeTransferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1475) is not in mixedCase
+Parameter '_to' of PepeBase.safeTransferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1475) is not in mixedCase
+Parameter '_tokenId' of PepeBase.safeTransferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1475) is not in mixedCase
+Parameter '_from' of PepeBase.safeTransferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1487) is not in mixedCase
+Parameter '_to' of PepeBase.safeTransferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1487) is not in mixedCase
+Parameter '_tokenId' of PepeBase.safeTransferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1487) is not in mixedCase
+Parameter '_data' of PepeBase.safeTransferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1487) is not in mixedCase
+Function 'PepeBase._safeTransferFromInternal' (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1506) is not in mixedCase
+Parameter '_from' of PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1499-1500) is not in mixedCase
+Parameter '_to' of PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1500) is not in mixedCase
+Parameter '_tokenId' of PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1500-1501) is not in mixedCase
+Parameter '_data' of PepeBase._safeTransferFromInternal (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol#1501) is not in mixedCase
+Parameter '_from' of PepeBase.transferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol) is not in mixedCase
+Parameter '_to' of PepeBase.transferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol) is not in mixedCase
+Parameter '_tokenId' of PepeBase.transferFrom (/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/3/0x84ac94f17622241f313511b629e5e98f489ad6e4.sol analyzed (13 contracts), 165 result(s) found

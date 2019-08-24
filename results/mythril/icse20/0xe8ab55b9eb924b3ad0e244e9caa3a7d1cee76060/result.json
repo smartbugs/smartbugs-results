@@ -1,0 +1,46 @@
+{
+  "contract": "0xe8ab55b9eb924b3ad0e244e9caa3a7d1cee76060",
+  "tool": "mythril",
+  "start": 1563593119.6943302,
+  "end": 1563593133.9524758,
+  "duration": 14.258145570755005,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 136,
+        "code": "n disperseToken(address _tokenAddress, address[] _to, uint256[] _value) external {\n\t\trequire(_to.length == _value.length);\n\t\trequire(_to.length <= 255);\n\t\tERC20 token = ERC20(_tokenAddress);\n\t\tfor (uint8 i = 0; i < _to.length; i++) {\n\t\t\trequire(token.transferFrom(msg.sender, _to[i], _value[i]));\n\t\t}\n\t}\n}",
+        "debug": "calldata_ERC20_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_ERC20_0: 0xc73a2d6000000000000000000000000000000000000000000000000000000000\ncalldatasize_ERC20: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `disperseToken(address,address[],uint256[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/21/0xe8ab55b9eb924b3ad0e244e9caa3a7d1cee76060.sol",
+        "function": "disperseToken(address,address[],uint256[])",
+        "lineno": 8,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 535,
+        "code": "erFrom(msg.sender, _to[i], _value[i]));\n\t\t}\n\t}\n}",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/21/0xe8ab55b9eb924b3ad0e244e9caa3a7d1cee76060.sol",
+        "function": "disperseToken(address,address[],uint256[])",
+        "lineno": 13,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 535,
+        "code": "erFrom(msg.sender, _to[i], _value[i]));\n\t\t}\n\t}\n}",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 535\n",
+        "filename": "/unique_chucks/21/0xe8ab55b9eb924b3ad0e244e9caa3a7d1cee76060.sol",
+        "function": "disperseToken(address,address[],uint256[])",
+        "lineno": 13,
+        "title": "Multiple Calls",
+        "type": "Information"
+      }
+    ],
+    "success": true
+  }
+}

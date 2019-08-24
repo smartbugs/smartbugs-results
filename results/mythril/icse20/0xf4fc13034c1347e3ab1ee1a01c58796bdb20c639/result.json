@@ -1,0 +1,79 @@
+{
+  "contract": "0xf4fc13034c1347e3ab1ee1a01c58796bdb20c639",
+  "tool": "mythril",
+  "start": 1563628433.0592322,
+  "end": 1563628669.3238688,
+  "duration": 236.26463651657104,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1690,
+        "code": "      user: msg.sender,\n                    balance: msg.value,\n                    name: name\n                });\n                return true;\n           ",
+        "debug": "mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Leaderboard_4 + calldata_Leaderboard_4)) +\n64: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\ncallvalue: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncaller: 0x0\nstorage_0: 0x0\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_7: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\ncalldata_Leaderboard_0: 0x3219e73f00000000000000000000000000000000000000000000000000000000\ncalldatasize_Leaderboard: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addScore(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/26/0xf4fc13034c1347e3ab1ee1a01c58796bdb20c639.sol",
+        "function": "addScore(string)",
+        "lineno": 40,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2001,
+        "code": "derboard[index].na",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Leaderboard_4: 0x3\ncalldata_Leaderboard_0: 0xb0467deb00000000000000000000000000000000000000000000000000000000\ncalldatasize_Leaderboard: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/26/0xf4fc13034c1347e3ab1ee1a01c58796bdb20c639.sol",
+        "function": "getUser(uint256)",
+        "lineno": 57,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 2270,
+        "code": "ublic leaderboard;\n    \n  ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Leaderboard_4: 0x3\ncalldata_Leaderboard_0: 0xbf36839900000000000000000000000000000000000000000000000000000000\ncalldatasize_Leaderboard: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/26/0xf4fc13034c1347e3ab1ee1a01c58796bdb20c639.sol",
+        "function": "_function_0xbf368399",
+        "lineno": 10,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 2762,
+        "code": "ntract Leaderboard {\n    struct User {\n        address user;\n        uint balance;\n        string name;\n    }\n    \n    User[3] public leaderboard;\n    \n    address owner;\n    \n    function Leaderboard() public {\n        owner = msg.sender;\n    }\n    \n    function addScore(string name) public payable returns (bool) {\n        if (leaderboard[2].balance >= msg.value)\n            // user didn't make it into top 3\n            return false;\n        for (uint i=0; i<3; i++) {\n            if (leaderboard[i].balance < msg.value) {\n                // resort\n                if (leaderboard[i].user != msg.sender) {\n                    bool duplicate = false;\n                    for (uint j=i+1; j<3; j++) {\n                        if (leaderboard[j].user == msg.sender) {\n                            duplicate = true;\n                            delete leaderboard[j];\n                        }\n                        if (duplicate)\n                            leaderboard[j] = leaderboard[j+1];\n                        else\n                            leaderboard[j] = leaderboard[j-1];\n                    }\n                }\n                // add new highscore\n                leaderboard[i] = User({\n                    user: msg.sender,\n                    balance: msg.value,\n                    name: name\n                });\n                return true;\n            }\n            if (leaderboard[i].user == msg.sender)\n                // user is alrady in list with higher or equal score\n                return false;\n        }\n    }\n    \n    function withdrawBalance() public {\n        owner.transfer(this.balance);\n    }\n    \n    function getUser(uint index) public view returns(address, uint, string) {\n        return (leaderboard[index].user, leaderboard[index].balance, leaderboard[index].name);\n    }\n}",
+        "debug": "mem_mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Leaderboard_4 + calldata_Leaderboard_4)) +\n64: 0x8000000000000000000000000000000000000000000000000000000000000000\ncallvalue: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncaller: 0x0\nstorage_0: 0x0\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_7: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\ncalldata_Leaderboard_0: 0x3219e73f00000000000000000000000000000000000000000000000000000000\ncalldatasize_Leaderboard: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addScore(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/26/0xf4fc13034c1347e3ab1ee1a01c58796bdb20c639.sol",
+        "function": "addScore(string)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2776,
+        "code": "ntract Leaderboard {\n    struct User {\n        address user;\n        uint balance;\n        string name;\n    }\n    \n    User[3] public leaderboard;\n    \n    address owner;\n    \n    function Leaderboard() public {\n        owner = msg.sender;\n    }\n    \n    function addScore(string name) public payable returns (bool) {\n        if (leaderboard[2].balance >= msg.value)\n            // user didn't make it into top 3\n            return false;\n        for (uint i=0; i<3; i++) {\n            if (leaderboard[i].balance < msg.value) {\n                // resort\n                if (leaderboard[i].user != msg.sender) {\n                    bool duplicate = false;\n                    for (uint j=i+1; j<3; j++) {\n                        if (leaderboard[j].user == msg.sender) {\n                            duplicate = true;\n                            delete leaderboard[j];\n                        }\n                        if (duplicate)\n                            leaderboard[j] = leaderboard[j+1];\n                        else\n                            leaderboard[j] = leaderboard[j-1];\n                    }\n                }\n                // add new highscore\n                leaderboard[i] = User({\n                    user: msg.sender,\n                    balance: msg.value,\n                    name: name\n                });\n                return true;\n            }\n            if (leaderboard[i].user == msg.sender)\n                // user is alrady in list with higher or equal score\n                return false;\n        }\n    }\n    \n    function withdrawBalance() public {\n        owner.transfer(this.balance);\n    }\n    \n    function getUser(uint index) public view returns(address, uint, string) {\n        return (leaderboard[index].user, leaderboard[index].balance, leaderboard[index].name);\n    }\n}",
+        "debug": "mem_mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Leaderboard_4 + calldata_Leaderboard_4)) +\n64: 0xe9ed542651000003d76906f7c018193fbfffffffffffffffffffffffffffffcb\nmem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Leaderboard_4 + calldata_Leaderboard_4)) +\n64: 0xc48c04261444f7ce9c1a66f6c355debe3fffffffffffffffffffffffffffffed\ncallvalue: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncaller: 0x0\nstorage_0: 0x0\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_7: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\ncalldata_Leaderboard_0: 0x3219e73f00000000000000000000000000000000000000000000000000000000\ncalldatasize_Leaderboard: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addScore(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/26/0xf4fc13034c1347e3ab1ee1a01c58796bdb20c639.sol",
+        "function": "addScore(string)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2793,
+        "code": "ntract Leaderboard {\n    struct User {\n        address user;\n        uint balance;\n        string name;\n    }\n    \n    User[3] public leaderboard;\n    \n    address owner;\n    \n    function Leaderboard() public {\n        owner = msg.sender;\n    }\n    \n    function addScore(string name) public payable returns (bool) {\n        if (leaderboard[2].balance >= msg.value)\n            // user didn't make it into top 3\n            return false;\n        for (uint i=0; i<3; i++) {\n            if (leaderboard[i].balance < msg.value) {\n                // resort\n                if (leaderboard[i].user != msg.sender) {\n                    bool duplicate = false;\n                    for (uint j=i+1; j<3; j++) {\n                        if (leaderboard[j].user == msg.sender) {\n                            duplicate = true;\n                            delete leaderboard[j];\n                        }\n                        if (duplicate)\n                            leaderboard[j] = leaderboard[j+1];\n                        else\n                            leaderboard[j] = leaderboard[j-1];\n                    }\n                }\n                // add new highscore\n                leaderboard[i] = User({\n                    user: msg.sender,\n                    balance: msg.value,\n                    name: name\n                });\n                return true;\n            }\n            if (leaderboard[i].user == msg.sender)\n                // user is alrady in list with higher or equal score\n                return false;\n        }\n    }\n    \n    function withdrawBalance() public {\n        owner.transfer(this.balance);\n    }\n    \n    function getUser(uint index) public view returns(address, uint, string) {\n        return (leaderboard[index].user, leaderboard[index].balance, leaderboard[index].name);\n    }\n}",
+        "debug": "mem_mem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Leaderboard_4 + calldata_Leaderboard_4)) +\n64: 0x25\nmem_160 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 +\n               calldata_Leaderboard_4 + calldata_Leaderboard_4)) +\n64: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa0\ncallvalue: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncaller: 0x0\nstorage_0: 0x0\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_7: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\ncalldata_Leaderboard_0: 0x3219e73f00000000000000000000000000000000000000000000000000000000\ncalldatasize_Leaderboard: 0x4\n",
+        "description": "A possible integer overflow exists in the function `addScore(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/26/0xf4fc13034c1347e3ab1ee1a01c58796bdb20c639.sol",
+        "function": "addScore(string)",
+        "lineno": 3,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

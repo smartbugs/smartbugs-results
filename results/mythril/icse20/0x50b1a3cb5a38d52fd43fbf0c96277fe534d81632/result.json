@@ -1,0 +1,123 @@
+{
+  "contract": "0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632",
+  "tool": "mythril",
+  "start": 1563711315.0995479,
+  "end": 1563712632.8738103,
+  "duration": 1317.7742624282837,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 399,
+        "code": ".rules.maxTicketsPer)\n\t\t\treturn failPurchase(PurchaseError.TooManyTickets);\n\n\t\t// Some tickets may fail while others succeed, lets keep track of all of that so it\n\t\t// can be returned to the frontend user\n\t\tuint[] memory _successful = new uint[](_tickets.length);\n\t\tuint[] memory _failed = new uint[](_tickets.length);\n\t\tPurchaseError[] memory _errors = new PurchaseError[](_tickets.length);\n\t\tuint _successCount;\n\t\tuint _errorCount;\n\n\t\tfor(uint i = 0; i < _tickets.length; i++) {\n\t\t\tuint _ticket = _tickets[i];\n\n\t\t\t// Check that the ticket is a valid number\n\t\t\tif (_ticket <= 0 || _ticket > game.rules.slots) {\n\t\t\t\t_failed[_errorCount] = _ticket;\n\t\t\t\t_errors[_errorCount] = PurchaseError.InvalidTicket;\n\t\t\t\t_errorCount++;\n\t\t\t\tcontinue;\n\t\t\t}\n\n\t\t\t// Check that the ticket is available for purchase\n\t\t\tif (game.tickets[_ticket] != address(0)) {\n\t\t\t\t_failed[_errorCount] = _ticket;\n\t\t\t\t_errors[_errorCount] = PurchaseError.TicketUnavailable;\n\t\t\t\t_errorCount++;\n\t\t\t\tcontinue;\n\t\t\t}\n\n\t\t\t// Check that the user hasn't reached their max tickets\n\t\t\tif (_userTickets.length + _successCount >= game.rules.maxTicketsPer) {\n\t\t\t\t_failed[_errorCount] = _ticket;\n\t\t\t\t_errors[_errorCount] = PurchaseError.TooManyTickets;\n\t\t\t\t_errorCount++;\n\t\t\t\tcontinue;\n\t\t\t}\n\n\t\t\tgame.tickets[_ticket] = msg.sender;\n\t\t\tgame.ticketsSold++;\n\n\t\t\t_successful[_successCount] = _ticket;\n\t\t\t_successCount++;\n\t\t}\n\n\t\t// Refund for failed tickets\n\t\t// Cannot refund more than received, will send what was given if refunding the free ticket\n\t\tif (_errorCount > 0) refund(_errorCount * game.rules.ticketPrice);\n\t\t\n\t\t// Affiliates\n\t\tuint _userAffiliateCode = userAffiliate();\n\t\tif (_affiliateCode != 0 && _userAffiliateCode == 0)\n\t\t\t_userAffiliateCode = setUserAffiliate(_affiliateCode);\n\t\tif (_userAffiliateCode != 0) addAffiliate(_userAffiliateCode, _successCount);\n\n\t\t// TicketsPurchased(msg.sender, _normalizedSuccessful, _normalizedFailures, _normalizedErrors);\n\t\tTicketsPurchased(msg.sender, _successful, _failed, _errors);\n\n\t\t// If the last ticket was sold, signal to find a winner\n\t\tif (game.ticketsSold >= game.rules.slots) findWinner();\n\t}\n\n\t/*\n\t * PUBLIC\n\t * Get the tickets you have purchased for the current game\n\t */\n\tfunction getMyTickets() public view returns (uint[]) {\n\t\tuint _userTicketCount;\n\t\tfor(uint i = 0; i < game.rules.slots; i++)\n\t\t\tif (game.tickets[i + 1] == msg.sender) _userTicketCount += 1;\n\n\t\tuint[] memory _tickets = new uint[](_userTicketCount);\n\t\tuint _index;\n\t\tfor(uint b = 0; b < game.rules.slots; b++) {\n\t\t\tif (game.tickets[b + 1] == msg.sender) {\n\t\t\t\t_tickets[_index] = b + 1;\n\t\t\t\t_index++;\n\t\t\t}\n\t\t}\n\n\t\treturn _tickets;\n\t}\n\n\t// ---------------------------------------------------------------------\n\t// Game\n\n\tstruct GameRules {\n\t\tuint jackpot;\n\t\tuint ",
+        "debug": "calldata_SlotLottery_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_SlotLottery_0: 0x13e8111900000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\n",
+        "description": "A possible integer overflow exists in the function `_function_0x13e81119`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "_function_0x13e81119",
+        "lineno": 582,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 513,
+        "code": "t, _slots, _price, _max));\n\t}\n\n\t/*\n\t * RESTRICTED\n\t * When the current",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_6: 0x8000\ncalldata_SlotLottery_0: 0x1865c57d00000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "getState()",
+        "lineno": 441,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 555,
+        "code": "se(PurchaseError.NotEnoughFunds);\n\n\t\tuint[] memory _userTickets = getMyTickets();\n\n\t\t// Check max tickets (",
+        "debug": "calldata_SlotLottery_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_SlotLottery_0: 0x1ec8f9ba00000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\n",
+        "description": "A possible integer overflow exists in the function `_function_0x1ec8f9ba`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "_function_0x1ec8f9ba",
+        "lineno": 577,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 910,
+        "code": "ckets[] is an array of booleans, true = available and false = sold\n\t */\n\tfunction getLastGame() public view returns(uint, uint, uint, uint, address, uint) {\n\t\treturn (lastGame.id, lastGame.rules.jackpot, lastGame.rules.slots, \n\t\t\tlastGame.rules.ticketPrice, lastGame.winner, lastGame.finishedAt);\n\t}\n\n\t// ---------------------------------------------------------------------\n\t// Affiliates\n\n\tuint[] currentGameAffiliates;\n\tuint numAffiliates;\n\tuint affiliateCut = 2; // Example: 2 = 1/2 (50%), 3 = 1/3 (33%), etc.\n\n\tfunction addAffiliate(uint _affiliate, uin",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_6: 0x8000\ncalldata_SlotLottery_0: 0x968d901b00000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\nstorage_9: 0x0\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "getCurrentGame()",
+        "lineno": 721,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1946,
+        "code": "lets keep track of all",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_6: 0x8000\ncalldata_SlotLottery_0: 0x1ec8f9ba00000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "_function_0x1ec8f9ba",
+        "lineno": 585,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 4348,
+        "code": "\n\t// ----------",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_6: 0x8000\ncalldata_SlotLottery_0: 0x982657f300000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "startGame(uint256,uint256,uint256,uint256)",
+        "lineno": 431,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 4535,
+        "code": "\n\t// ----------",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_6: 0x8000\ncalldata_SlotLottery_0: 0xa293688b00000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "triggerFindWinner()",
+        "lineno": 431,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 5364,
+        "code": "ketNumber => buy",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_9: 0x1\nstorage_6: 0x100\ncaller: 0x0\nstorage_95949769290960679919915568476335582553435826563121580797397853711946803546972: 0x0\ncallvalue: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_10: 0x1\ncalldata_SlotLottery_4 + calldata_SlotLottery_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_SlotLottery_0: 0x1ec8f9ba00000000000000000000000000000000000000000000000000000000\ncalldatasize_SlotLottery: 0x4\nmem_128 +\n32 +\n32*calldata_SlotLottery_4 + calldata_SlotLottery_4: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "_function_0x1ec8f9ba",
+        "lineno": 684,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 6471,
+        "code": "ockhash(block.number-1)) % _max + 1;\n",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "_function_0x13e81119",
+        "lineno": 381,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 6471,
+        "code": "ockhash(block.number-1)) % _max + 1;\n",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function _function_0x13e81119. The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/38/0x50b1a3cb5a38d52fd43fbf0c96277fe534d81632.sol",
+        "function": "_function_0x13e81119",
+        "lineno": 381,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

@@ -1,0 +1,155 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:66:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:98:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Destructible() payable public { }
+  ^----------------------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:382:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MintableMasterToken() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:438:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function VanityToken(address _crowdsale) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:86:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:144:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Pause();
+    ^-----^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:152:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Unpause();
+    ^-------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:199:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:243:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:259:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:282:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:294:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:328:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Mint(_to, _amount);
+    ^----------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:329:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(0x0, _to, _amount);
+    ^-------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:339:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:388:9: Warning: Invoking events without "emit" prefix is deprecated.
+        MintMasterTransferred(mintMaster, newMaster);
+        ^------------------------------------------^
+/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:462:13: Warning: Invoking events without "emit" prefix is deprecated.
+            Distributed();
+            ^-----------^
+
+INFO:Detectors:[93m
+Reentrancy in VanityToken.distribute (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#450-466):
+	External calls:
+	- require(bool)(crowdsale.finalized() && ! distributed) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#451-452)
+	- require(bool)(count > 0 && distributedCount + count <= crowdsale.participantsCount()) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#452-456)
+	State variables written after the call(s):
+	- distributedCount (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+Reentrancy in VanityToken.distribute (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#450-466):
+	External calls:
+	- require(bool)(crowdsale.finalized() && ! distributed) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#451-452)
+	- require(bool)(count > 0 && distributedCount + count <= crowdsale.participantsCount()) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#452-456)
+	- distributedCount == crowdsale.participantsCount() (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+	State variables written after the call(s):
+	- distributed (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+VanityToken.distribute has external calls inside a loop:
+	- participant = crowdsale.participants(distributedCount + i) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#457)
+VanityToken.distribute has external calls inside a loop:
+	- bonus = crowdsale.participantBonus(participant) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#457-459)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in VanityToken.distribute (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#450-466):
+	External calls:
+	- require(bool)(crowdsale.finalized() && ! distributed) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#451-452)
+	- require(bool)(count > 0 && distributedCount + count <= crowdsale.participantsCount()) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#452-456)
+	- participant = crowdsale.participants(distributedCount + i) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#457)
+	- bonus = crowdsale.participantBonus(participant) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#457-459)
+	State variables written after the call(s):
+	- balances (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#464-466)
+	- distributedTokens (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+	- totalSupply (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#464-466)
+Reentrancy in VanityToken.distribute (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#450-466):
+	External calls:
+	- require(bool)(crowdsale.finalized() && ! distributed) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#451-452)
+	- require(bool)(count > 0 && distributedCount + count <= crowdsale.participantsCount()) (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#452-456)
+	- distributedCount == crowdsale.participantsCount() (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+	State variables written after the call(s):
+	- balances (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+	- mintingFinished (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+	- paused (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+	- totalSupply (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ICrowdsale.finalized should be constant (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#426)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#85-94) should be declared external
+Destructible.destroy (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#107-112) should be declared external
+Destructible.destroyAndSend (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#113-114) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#165-169) should be declared external
+BasicToken.balanceOf (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#218-219) should be declared external
+ERC20.allowance (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#174-176) should be declared external
+StandardToken.allowance (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#275-279) should be declared external
+MintableMasterToken.transferMintMaster (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#396-400) should be declared external
+ICrowdsale.participantsCount (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#428-429) should be declared external
+ICrowdsale.participantBonus (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#429-432) should be declared external
+VanityToken.distribute (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#450-466) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol:
+	- pragma solidity^0.4.11 (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#72) is not in mixedCase
+Function 'Destructible.Destructible' (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#101-103) is not in mixedCase
+Parameter '_recipient' of Destructible.destroyAndSend (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#114) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#218) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#197) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#197-198) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#275) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#276) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#237) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#237) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#237-238) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#264-265) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#265) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#286) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#286) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#292-294) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#294) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#335) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#335-336) is not in mixedCase
+Parameter '_to' of PausableToken.transfer (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#360) is not in mixedCase
+Parameter '_value' of PausableToken.transfer (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#360-361) is not in mixedCase
+Parameter '_from' of PausableToken.transferFrom (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#364) is not in mixedCase
+Parameter '_to' of PausableToken.transferFrom (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#364) is not in mixedCase
+Parameter '_value' of PausableToken.transferFrom (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#364-365) is not in mixedCase
+Parameter '_spender' of PausableToken.approve (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#368) is not in mixedCase
+Parameter '_value' of PausableToken.approve (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#368) is not in mixedCase
+Parameter '_spender' of PausableToken.increaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#373-374) is not in mixedCase
+Parameter '_addedValue' of PausableToken.increaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#374) is not in mixedCase
+Parameter '_spender' of PausableToken.decreaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#377-378) is not in mixedCase
+Parameter '_subtractedValue' of PausableToken.decreaseApproval (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#378) is not in mixedCase
+Parameter '_to' of MintableMasterToken.mint (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#415-416) is not in mixedCase
+Parameter '_amount' of MintableMasterToken.mint (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#416) is not in mixedCase
+Function 'MintableMasterToken.MintableMasterToken' (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#394-396) is not in mixedCase
+Function 'VanityToken.VanityToken' (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#448-450) is not in mixedCase
+Parameter '_crowdsale' of VanityToken.VanityToken (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#449) is not in mixedCase
+Constant 'VanityToken.version' (/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol#439-443) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x777777764382a3ae5e7631570583893bfdea7e05.sol analyzed (13 contracts), 55 result(s) found

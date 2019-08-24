@@ -1,0 +1,125 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol:
+/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol:1:1: Warning: Source file does not specify required compiler version!Consider adding "pragma solidity ^0.4.25;"
+contract PoolOwnersInterface {
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol:105:5: Warning: This declaration shadows an existing declaration.
+    struct itmap {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol:98:1: The shadowed declaration is here:
+library itmap {
+^ (Relevant source part starts here and spans across multiple lines).
+
+/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol:219:63: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function onTokenTransfer(address _sender, uint256 _value, bytes _data) public {
+                                                              ^---------^
+
+INFO:Detectors:[91m
+Reentrancy in OwnersExchange.fillBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#434-464):
+	External calls:
+	- poolOwners.sendOwnershipFrom(msg.sender,addressRegistry[(order << 2) >> 224],amount) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#456-458)
+	External calls sending eth:
+	- msg.sender.transfer(cost) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#453-456)
+	State variables written after the call(s):
+	- feeBalances (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#459-460)
+	- feeBalances (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#460)
+Reentrancy in OwnersExchange.fillSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#398-430):
+	External calls:
+	- poolOwners.sendOwnership(msg.sender,amount) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#422-423)
+	External calls sending eth:
+	- addressRegistry[(order << 2) >> 224].transfer(msg.value) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#418-422)
+	State variables written after the call(s):
+	- feeBalances (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#424-425)
+	- feeBalances (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#426-427)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+OwnersExchange.withdrawFeeToken (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#233-247) does not use the value returned by external calls:
+	-feeToken.transfer(msg.sender,_value) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#246)
+OwnersExchange.withdrawFeesToPoolOwners (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#468-478) does not use the value returned by external calls:
+	-feeToken.transfer(poolOwners,amount) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#477-478)
+OwnersExchange.withdrawDistributedToPoolOwners (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#481-491) does not use the value returned by external calls:
+	-feeToken.transfer(poolOwners,balance) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#487-491)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in OwnersExchange.addSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#281-307):
+	External calls:
+	- poolOwners.sendOwnershipFrom(msg.sender,this,_amount) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#299-300)
+	State variables written after the call(s):
+	- orderCount (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#305)
+Reentrancy in OwnersExchange.fillBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#434-464):
+	External calls:
+	- poolOwners.sendOwnershipFrom(msg.sender,addressRegistry[(order << 2) >> 224],amount) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#456-458)
+	External calls sending eth:
+	- msg.sender.transfer(cost) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#453-456)
+	State variables written after the call(s):
+	- lockedFees (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#461-462)
+Reentrancy in OwnersExchange.fillSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#398-430):
+	External calls:
+	- poolOwners.sendOwnership(msg.sender,amount) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#422-423)
+	External calls sending eth:
+	- addressRegistry[(order << 2) >> 224].transfer(msg.value) (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#418-422)
+	State variables written after the call(s):
+	- lockedFees (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#427-428)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#9-10)
+PoolOwnersInterface.distributionActive should be constant (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#2)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+PoolOwnersInterface.sendOwnership (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#3-4) should be declared external
+PoolOwnersInterface.sendOwnershipFrom (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#4-5) should be declared external
+PoolOwnersInterface.getOwnerTokens (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#5-8) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#10-11) should be declared external
+ERC20Basic.transfer (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#11-12) should be declared external
+ERC20.allowance (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#16-17) should be declared external
+ERC20.transferFrom (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#17-18) should be declared external
+ERC20.approve (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#18-19) should be declared external
+Ownable.transferOwnership (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#87-96) should be declared external
+OwnersExchange.onTokenTransfer (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#222-231) should be declared external
+OwnersExchange.withdrawFeeToken (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#233-247) should be declared external
+OwnersExchange.setFee (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#252-255) should be declared external
+OwnersExchange.costOfOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#275-278) should be declared external
+OwnersExchange.addSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#281-307) should be declared external
+OwnersExchange.addBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#313-342) should be declared external
+OwnersExchange.removeBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#344-368) should be declared external
+OwnersExchange.removeSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#372-394) should be declared external
+OwnersExchange.fillSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#398-430) should be declared external
+OwnersExchange.fillBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#434-464) should be declared external
+OwnersExchange.withdrawFeesToPoolOwners (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#468-478) should be declared external
+OwnersExchange.withdrawDistributedToPoolOwners (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#481-491) should be declared external
+OwnersExchange.getOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#492-502) should be declared external
+OwnersExchange.getOrders (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#509-534) should be declared external
+OwnersExchange.getOrderBookKey (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#537-546) should be declared external
+OwnersExchange.getOrderBookKeys (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#553-560) should be declared external
+OwnersExchange.getOrderBookSize (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Contract 'itmap' (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#100-163) is not in CapWords
+Struct 'itmap.entry' (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#101-110) is not in CapWords
+Struct 'itmap.itmap' (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#110-111) is not in CapWords
+Parameter '_poolOwners' of OwnersExchange. (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#193) is not in mixedCase
+Parameter '_feeToken' of OwnersExchange. (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#193-194) is not in mixedCase
+Parameter '_address' of OwnersExchange.addressRegister (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#206) is not in mixedCase
+Parameter '_sender' of OwnersExchange.onTokenTransfer (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#222) is not in mixedCase
+Parameter '_value' of OwnersExchange.onTokenTransfer (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#222-223) is not in mixedCase
+Parameter '_value' of OwnersExchange.withdrawFeeToken (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#234) is not in mixedCase
+Parameter '_fee' of OwnersExchange.setFee (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#253) is not in mixedCase
+Parameter '_price' of OwnersExchange.feeForOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#265) is not in mixedCase
+Parameter '_amount' of OwnersExchange.feeForOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#265) is not in mixedCase
+Parameter '_price' of OwnersExchange.costOfOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#275-276) is not in mixedCase
+Parameter '_amount' of OwnersExchange.costOfOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#276-277) is not in mixedCase
+Parameter '_price' of OwnersExchange.addSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#283) is not in mixedCase
+Parameter '_amount' of OwnersExchange.addSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#283) is not in mixedCase
+Parameter '_price' of OwnersExchange.addBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#313) is not in mixedCase
+Parameter '_amount' of OwnersExchange.addBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#313-314) is not in mixedCase
+Parameter '_key' of OwnersExchange.removeBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#346) is not in mixedCase
+Parameter '_key' of OwnersExchange.removeSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#372-373) is not in mixedCase
+Parameter '_key' of OwnersExchange.fillSellOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#399) is not in mixedCase
+Parameter '_key' of OwnersExchange.fillBuyOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#436) is not in mixedCase
+Parameter '_key' of OwnersExchange.getOrder (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#493) is not in mixedCase
+Parameter '_start' of OwnersExchange.getOrders (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#509-510) is not in mixedCase
+Parameter '_i' of OwnersExchange.getOrderBookKey (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#537) is not in mixedCase
+Parameter '_start' of OwnersExchange.getOrderBookKeys (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#553) is not in mixedCase
+Parameter '_val' of OwnersExchange.is111bit (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol) is not in mixedCase
+Enum 'OwnersExchange.ORDER_TYPE' (/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol#173-174) is not in CapWords
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/25/0x9248e5758c357a616a649623cb2c383220e50860.sol analyzed (7 contracts), 63 result(s) found

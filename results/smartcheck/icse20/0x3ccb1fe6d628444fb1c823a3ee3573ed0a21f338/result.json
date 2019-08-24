@@ -1,0 +1,105 @@
+{
+  "contract": "0x3ccb1fe6d628444fb1c823a3ee3573ed0a21f338",
+  "tool": "smartcheck",
+  "start": 1563508000.3061497,
+  "end": 1563508009.829938,
+  "duration": 9.523788213729858,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 98,
+      "column": 22,
+      "content": "0xDEe3a6b14ef8E21B9df09a059186292C9472045D"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 99,
+      "column": 23,
+      "content": "0xDEe3a6b14ef8E21B9df09a059186292C9472045D"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 121,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_amount)publiconlyFinishedICOreturns(boolsuccess){require(!lockstatus);require(_spender!=address(0));allowed[msg.sender][_spender]=_amount;emitApproval(msg.sender,_spender,_amount);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 45,
+      "column": 0,
+      "content": "contractBNTEisERC20{usingSafeMathforuint256;stringpublicconstantname=\"Bountie\";stringpublicconstantsymbol=\"BNTE\";uint8publicconstantdecimals=18;uint256publicconstantbasePrice=6500;uintpublicmaxCap=20000ether;uint256public_totalsupply;uint256publicmintedTokens;uint256publicETHcollected;addresspublicowner;addresspayablepublicethFundMain;addresspublicnovumAddress;uint256publicpresale1_startdate=1537675200;uint256publicpresale2_startdate=1538712000;uint256publicpresale3_startdate=1539662400;uint256publicico_startdate=1540612800;uint256publicico_enddate=1541563200;boolpubliclockstatus=true;boolpublicstopped=false;mapping(address=>uint256)balances;mapping(address=>mapping(address=>uint256))allowed;eventMint(addressindexedfrom,addressindexedto,uint256amount);eventBurn(addressindexedfrom,uint256amount);modifieronlyOwner(){require(msg.sender==owner);_;}modifieronlyICO(){require(now>=presale1_startdate&&now<ico_enddate);_;}modifieronlyFinishedICO(){require(now>=ico_enddate);_;}constructor()public{owner=msg.sender;ethFundMain=0xDEe3a6b14ef8E21B9df09a059186292C9472045D;novumAddress=0xDEe3a6b14ef8E21B9df09a059186292C9472045D;}functiontotalSupply()publicviewreturns(uint256total_Supply){total_Supply=_totalsupply;}functionbalanceOf(address_owner)publicviewreturns(uint256balance){returnbalances[_owner];}functiontransferFrom(address_from,address_to,uint256_amount)publiconlyFinishedICOreturns(boolsuccess){require(_to!=address(0));require(!lockstatus);require(balances[_from]>=_amount&&allowed[_from][msg.sender]>=_amount&&_amount>=0);balances[_from]=(balances[_from]).sub(_amount);allowed[_from][msg.sender]=(allowed[_from][msg.sender]).sub(_amount);balances[_to]=(balances[_to]).add(_amount);emitTransfer(_from,_to,_amount);returntrue;}functionapprove(address_spender,uint256_amount)publiconlyFinishedICOreturns(boolsuccess){require(!lockstatus);require(_spender!=address(0));allowed[msg.sender][_spender]=_amount;emitApproval(msg.sender,_spender,_amount);returntrue;}functionallowance(address_owner,address_spender)publicviewreturns(uint256remaining){require(_owner!=address(0)&&_spender!=address(0));returnallowed[_owner][_spender];}functiontransfer(address_to,uint256_amount)publiconlyFinishedICOreturns(boolsuccess){require(!lockstatus);require(_to!=address(0));require(balances[msg.sender]>=_amount&&_amount>=0);balances[msg.sender]=(balances[msg.sender]).sub(_amount);balances[_to]=(balances[_to]).add(_amount);emitTransfer(msg.sender,_to,_amount);returntrue;}functionburn(uint256value)publiconlyOwnerreturns(boolsuccess){uint256_value=value*10**18;require(balances[msg.sender]>=_value);balances[msg.sender]=(balances[msg.sender]).sub(_value);_totalsupply=_totalsupply.sub(_value);emitBurn(msg.sender,_value);returntrue;}functionstopTransferToken()externalonlyOwneronlyFinishedICO{require(!lockstatus);lockstatus=true;}functionstartTransferToken()externalonlyOwneronlyFinishedICO{require(lockstatus);lockstatus=false;}functionmanualMint(addressreceiver,uint256_tokenQuantity)externalonlyOwner{uint256tokenQuantity=_tokenQuantity*10**18;uint256tokenPrice=calculatePrice();uint256ethAmount=tokenQuantity.div(tokenPrice);ETHcollected=ETHcollected.add(ethAmount);require(ETHcollected<=maxCap);mintContract(owner,receiver,tokenQuantity);}function()externalpayableonlyICO{require(msg.value!=0&&msg.sender!=address(0));require(!stopped&&msg.sender!=owner);uint256tokenPrice=calculatePrice();uint256tokenQuantity=(msg.value).mul(tokenPrice);ETHcollected=ETHcollected.add(msg.value);require(ETHcollected<=maxCap);mintContract(address(this),msg.sender,tokenQuantity);}functionmintContract(addressfrom,addressreceiver,uint256tokenQuantity)private{require(tokenQuantity>0);mintedTokens=mintedTokens.add(tokenQuantity);uint256novumShare=tokenQuantity*4/65;uint256userManagement=tokenQuantity*31/65;balances[novumAddress]=balances[novumAddress].add(novumShare);balances[owner]=balances[owner].add(userManagement);_totalsupply=_totalsupply.add(tokenQuantity*100/65);balances[receiver]=balances[receiver].add(tokenQuantity);emitMint(from,receiver,tokenQuantity);emitTransfer(address(0),receiver,tokenQuantity);emitMint(from,novumAddress,novumShare);emitTransfer(address(0),novumAddress,novumShare);emitMint(from,owner,userManagement);emitTransfer(address(0),owner,userManagement);}functioncalculatePrice()privateviewreturns(uint256){uint256price_token=basePrice;if(now<presale1_startdate){require(ETHcollected<10000ether);price_token=basePrice*6/5;}elseif(now<presale2_startdate){require(ETHcollected<11739ether);price_token=basePrice*23/20;}elseif(now<presale3_startdate){require(ETHcollected<13557ether);price_token=basePrice*11/10;}elseif(now<ico_startdate){require(ETHcollected<15462ether);price_token=basePrice*21/20;}else{require(ETHcollected<maxCap);price_token=basePrice;}returnprice_token;}functionCrowdSale_Halt()externalonlyOwneronlyICO{require(!stopped);stopped=true;}functionCrowdSale_Resume()externalonlyOwneronlyICO{require(stopped);stopped=false;}functionCrowdSale_Change_ReceiveWallet(addresspayableNew_Wallet_Address)externalonlyOwner{require(New_Wallet_Address!=address(0));ethFundMain=New_Wallet_Address;}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 46,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 237,
+      "column": 4,
+      "content": "functionCrowdSale_Change_ReceiveWallet(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 75,
+      "column": 4,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 76,
+      "column": 4,
+      "content": "mapping(address=>mapping(address=>uint256))allowed;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 238,
+      "column": 8,
+      "content": "require(New_Wallet_Address!="
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 238,
+      "column": 38,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 238,
+      "column": 45,
+      "content": "(0));"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 239,
+      "column": 8,
+      "content": "ethFundMain=New_Wallet_Address;"
+    }
+  ]
+}

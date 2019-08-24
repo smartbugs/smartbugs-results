@@ -1,0 +1,224 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol:
+/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol:135:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function UnicornAccessControl(address _unicornManagementAddress) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol:255:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function UnicornBreeding(address _unicornManagementAddress) UnicornAccessControl(_unicornManagementAddress) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+UnicornBreeding._createUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#356-371) sends eth to arbitrary user
+	Dangerous calls:
+	- blackBox.createGen0.value(unicornManagement.oraclizeFee())(newUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#366-367)
+UnicornBreeding.buyUnicornWithEth (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#464-485) sends eth to arbitrary user
+	Dangerous calls:
+	- owner.transfer(price) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#484-485)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in UnicornBreeding._createUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#356-371):
+	External calls:
+	- newUnicornId = unicornToken.createUnicorn(_owner) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#359-362)
+	- blackBox.createGen0.value(unicornManagement.oraclizeFee())(newUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#366-367)
+	External calls sending eth:
+	- blackBox.createGen0.value(unicornManagement.oraclizeFee())(newUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#366-367)
+	State variables written after the call(s):
+	- gen0Count (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#370-371)
+Reentrancy in UnicornBreeding.acceptHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#285-313):
+	External calls:
+	- require(bool)(unicornToken.owns(msg.sender,_secondUnicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#287-288)
+	- require(bool)(unicornToken.isUnfreezed(_firstUnicornId) && unicornToken.isUnfreezed(_secondUnicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#289-290)
+	- require(bool)(msg.value == unicornManagement.oraclizeFee()) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#293-294)
+	- require(bool)(candyToken.transferFrom(msg.sender,this,getHybridizationPrice(_firstUnicornId))) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#295-296)
+	- plusFreezingTime(_firstUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#296)
+	- plusFreezingTime(_secondUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#296-297)
+	- newUnicornId = unicornToken.createUnicorn(msg.sender) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#297)
+	- blackBox.geneCore.value(unicornManagement.oraclizeFee())(newUnicornId,_firstUnicornId,_secondUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#299-301)
+	- candyToken.transfer(unicornToken.ownerOf(_firstUnicornId),hybridizations[_firstUnicornId].price) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#306-308)
+	External calls sending eth:
+	- blackBox.geneCore.value(unicornManagement.oraclizeFee())(newUnicornId,_firstUnicornId,_secondUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#299-301)
+	State variables written after the call(s):
+	- hybridizations (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#312)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+UnicornTokenInterface (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#100-135) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#103-104)
+	-approve (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#104-105)
+	-transferFrom (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#111-112)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in UnicornBreeding.createPresaleUnicorns (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#343-356):
+	External calls:
+	- newUnicornId = unicornToken.createUnicorn(owner) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#352-353)
+	- blackBox.createGen0(newUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#354)
+	State variables written after the call(s):
+	- gen0PresaleCount (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#355-356)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+UnicornBreeding.acceptHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#285-313) does not use the value returned by external calls:
+	-candyToken.transfer(unicornToken.ownerOf(_firstUnicornId),hybridizations[_firstUnicornId].price) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#306-308)
+UnicornBreeding.withdrawTokens (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#408-414) does not use the value returned by external calls:
+	-candyToken.transfer(unicornManagement.walletAddress(),candyToken.balanceOf(this)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#410-411)
+UnicornBreeding.buyUnicornWithCandy (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#485-512) does not use the value returned by external calls:
+	-candyToken.transfer(owner,price) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#508)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+UnicornBreeding.createPresaleUnicorns has external calls inside a loop:
+	- newUnicornId = unicornToken.createUnicorn(owner) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#352-353)
+UnicornBreeding.createPresaleUnicorns has external calls inside a loop:
+	- blackBox.createGen0(newUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#354)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in UnicornBreeding.acceptHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#285-313):
+	External calls:
+	- require(bool)(unicornToken.owns(msg.sender,_secondUnicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#287-288)
+	- require(bool)(unicornToken.isUnfreezed(_firstUnicornId) && unicornToken.isUnfreezed(_secondUnicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#289-290)
+	- require(bool)(msg.value == unicornManagement.oraclizeFee()) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#293-294)
+	- require(bool)(candyToken.transferFrom(msg.sender,this,getHybridizationPrice(_firstUnicornId))) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#295-296)
+	- plusFreezingTime(_firstUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#296)
+	- plusFreezingTime(_secondUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#296-297)
+	- newUnicornId = unicornToken.createUnicorn(msg.sender) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#297)
+	- blackBox.geneCore.value(unicornManagement.oraclizeFee())(newUnicornId,_firstUnicornId,_secondUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#299-301)
+	- candyToken.transfer(unicornToken.ownerOf(_firstUnicornId),hybridizations[_firstUnicornId].price) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#306-308)
+	External calls sending eth:
+	- blackBox.geneCore.value(unicornManagement.oraclizeFee())(newUnicornId,_firstUnicornId,_secondUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#299-301)
+	State variables written after the call(s):
+	- hybridizationList (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#312)
+	- hybridizationListSize (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#312)
+Reentrancy in UnicornBreeding.cancelHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#313-318):
+	External calls:
+	- require(bool)(unicornToken.owns(msg.sender,_unicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#316-317)
+	State variables written after the call(s):
+	- hybridizationList (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#318)
+	- hybridizationListSize (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#318)
+	- hybridizations (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#318)
+Reentrancy in UnicornBreeding.createPresaleUnicorns (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#343-356):
+	External calls:
+	- newUnicornId = unicornToken.createUnicorn(owner) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#352-353)
+	- blackBox.createGen0(newUnicornId) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#354)
+	State variables written after the call(s):
+	- gen0Count (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#355)
+Reentrancy in UnicornBreeding.init (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#263-271):
+	External calls:
+	- unicornToken = UnicornTokenInterface(unicornManagement.unicornTokenAddress()) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#266-267)
+	- blackBox = BlackBoxInterface(unicornManagement.blackBoxAddress()) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#267-268)
+	State variables written after the call(s):
+	- blackBox (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#267-268)
+Reentrancy in UnicornBreeding.init (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#263-271):
+	External calls:
+	- unicornToken = UnicornTokenInterface(unicornManagement.unicornTokenAddress()) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#266-267)
+	- blackBox = BlackBoxInterface(unicornManagement.blackBoxAddress()) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#267-268)
+	- megaCandyToken = megaCandyInterface(unicornManagement.candyPowerToken()) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#268-271)
+	State variables written after the call(s):
+	- megaCandyToken (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#268-271)
+Reentrancy in UnicornBreeding.makeHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#271-285):
+	External calls:
+	- require(bool)(unicornToken.owns(msg.sender,_unicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#273-275)
+	- require(bool)(unicornToken.isUnfreezed(_unicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#275-276)
+	State variables written after the call(s):
+	- hybridizationList (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#283-284)
+	- hybridizationListSize (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#283-284)
+	- hybridizations (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#278-283)
+Reentrancy in UnicornBreeding.revokeUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#512-518):
+	External calls:
+	- require(bool)(unicornToken.owns(msg.sender,_unicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#517)
+	State variables written after the call(s):
+	- market (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#518)
+	- marketSize (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#518)
+	- offers (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#518)
+Reentrancy in UnicornBreeding.sellUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#451-464):
+	External calls:
+	- require(bool)(unicornToken.owns(msg.sender,_unicornId)) (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#455-456)
+	State variables written after the call(s):
+	- market (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#461-462)
+	- marketSize (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#461-462)
+	- offers (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#457-460)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+UnicornBreeding.gen0PresaleLimit should be constant (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#242-245)
+UnicornBreeding.gen0Step should be constant (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#240-241)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20.balanceOf (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#76-77) should be declared external
+ERC20.transfer (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#77) should be declared external
+ERC20.allowance (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#77-78) should be declared external
+ERC20.transferFrom (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#78-80) should be declared external
+ERC20.approve (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#82-83) should be declared external
+megaCandyInterface.transferFromSystem (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#83-85) should be declared external
+megaCandyInterface.burn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#85-88) should be declared external
+megaCandyInterface.mint (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#88-89) should be declared external
+BlackBoxInterface.createGen0 (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#94) should be declared external
+BlackBoxInterface.geneCore (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#94-100) should be declared external
+UnicornTokenInterface.balanceOf (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#101-102) should be declared external
+UnicornTokenInterface.ownerOf (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#102-103) should be declared external
+UnicornTokenInterface.transfer (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#103-104) should be declared external
+UnicornTokenInterface.approve (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#104-105) should be declared external
+UnicornTokenInterface.takeOwnership (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#105-106) should be declared external
+UnicornTokenInterface.totalSupply (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#106-107) should be declared external
+UnicornTokenInterface.owns (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#107-108) should be declared external
+UnicornTokenInterface.allowance (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#108-111) should be declared external
+UnicornTokenInterface.transferFrom (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#111-112) should be declared external
+UnicornBreeding.fallback (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#260-261) should be declared external
+UnicornBreeding.makeHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#271-285) should be declared external
+UnicornBreeding.acceptHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#285-313) should be declared external
+UnicornBreeding.cancelHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#313-318) should be declared external
+UnicornBreeding.createUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#333-338) should be declared external
+UnicornBreeding.createUnicornForCandy (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#338-343) should be declared external
+UnicornBreeding.createPresaleUnicorns (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#343-356) should be declared external
+UnicornBreeding.plusTourFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#373-376) should be declared external
+UnicornBreeding.minusFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#377-382) should be declared external
+UnicornBreeding.minusTourFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#382-390) should be declared external
+UnicornBreeding.getEtherFeeForPriceInCandy (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#396-401) should be declared external
+UnicornBreeding.withdrawTokens (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#408-414) should be declared external
+UnicornBreeding.transferEthersToDividendManager (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#414-430) should be declared external
+UnicornBreeding.sellUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#451-464) should be declared external
+UnicornBreeding.buyUnicornWithEth (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#464-485) should be declared external
+UnicornBreeding.buyUnicornWithCandy (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#485-512) should be declared external
+UnicornBreeding.revokeUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#512-518) should be declared external
+UnicornBreeding.setSellDividendPercent (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'megaCandyInterface' (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#83-91) is not in CapWords
+Function 'UnicornAccessControl.UnicornAccessControl' (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#136-145) is not in mixedCase
+Parameter '_unicornManagementAddress' of UnicornAccessControl.UnicornAccessControl (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#137) is not in mixedCase
+Function 'UnicornBreeding.UnicornBreeding' (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#261-263) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.makeHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#272) is not in mixedCase
+Parameter '_price' of UnicornBreeding.makeHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#272-273) is not in mixedCase
+Parameter '_firstUnicornId' of UnicornBreeding.acceptHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#285) is not in mixedCase
+Parameter '_secondUnicornId' of UnicornBreeding.acceptHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#286) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.cancelHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#313-316) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.deleteHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#318-319) is not in mixedCase
+Function 'UnicornBreeding._deleteHybridization' (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#319-333) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding._deleteHybridization (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#320) is not in mixedCase
+Parameter '_count' of UnicornBreeding.createPresaleUnicorns (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#343) is not in mixedCase
+Parameter '_owner' of UnicornBreeding.createPresaleUnicorns (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#343-344) is not in mixedCase
+Function 'UnicornBreeding._createUnicorn' (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#356-371) is not in mixedCase
+Parameter '_owner' of UnicornBreeding._createUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#357) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.plusFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#372) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.plusTourFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#373) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.minusFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#377-378) is not in mixedCase
+Parameter '_count' of UnicornBreeding.minusFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#378) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.minusTourFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#383) is not in mixedCase
+Parameter '_count' of UnicornBreeding.minusTourFreezingTime (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#383) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.getHybridizationPrice (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#391) is not in mixedCase
+Parameter '_value' of UnicornBreeding.transferEthersToDividendManager (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#415) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.sellUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#451) is not in mixedCase
+Parameter '_priceEth' of UnicornBreeding.sellUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#451-455) is not in mixedCase
+Parameter '_priceCandy' of UnicornBreeding.sellUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#455) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.buyUnicornWithEth (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#466) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.buyUnicornWithCandy (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#488) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.revokeUnicorn (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#512-514) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.deleteOffer (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#518-519) is not in mixedCase
+Function 'UnicornBreeding._deleteOffer' (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#522-532) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding._deleteOffer (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#523) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.getOfferPriceEth (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#533) is not in mixedCase
+Parameter '_unicornId' of UnicornBreeding.getOfferPriceCandy (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol#539) is not in mixedCase
+Parameter '_percentCandy' of UnicornBreeding.setSellDividendPercent (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol) is not in mixedCase
+Parameter '_percentEth' of UnicornBreeding.setSellDividendPercent (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol) is not in mixedCase
+Parameter '_value' of UnicornBreeding.valueFromPercent (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol) is not in mixedCase
+Parameter '_percent' of UnicornBreeding.valueFromPercent (/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/2/0x93b7fa538913201066a262c03179c342262a7c76.sol analyzed (9 contracts), 97 result(s) found

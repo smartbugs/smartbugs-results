@@ -1,0 +1,64 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:
+/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:14:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:130:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function TokenVesting(address _beneficiary, uint256 _start, uint256 _cliff, uint256 _duration, bool _revocable) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:189:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function LinearVesting(address _beneficiary) TokenVesting(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:30:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:148:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Released(unreleased);
+    ^------------------^
+/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:163:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Revoked();
+    ^-------^
+/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:189:5: Warning: No visibility specified. Defaulting to "public". 
+    function LinearVesting(address _beneficiary) TokenVesting(
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in TokenVesting.release (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#146-153):
+	External calls:
+	- unreleased = releasableAmount(token) (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#147-148)
+	State variables written after the call(s):
+	- released (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#151)
+Reentrancy in TokenVesting.revoke (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#159-169):
+	External calls:
+	- balance = token.balanceOf(this) (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#161-162)
+	- unreleased = releasableAmount(token) (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#163-166)
+	State variables written after the call(s):
+	- revoked (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#166-167)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#41)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#28-36) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#41-42) should be declared external
+ERC20Basic.transfer (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#42-43) should be declared external
+ERC20.allowance (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#50-51) should be declared external
+ERC20.transferFrom (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#51-52) should be declared external
+ERC20.approve (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#52-53) should be declared external
+TokenVesting.release (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#146-153) should be declared external
+TokenVesting.revoke (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#159-169) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#14-18) is not in mixedCase
+Function 'TokenVesting.TokenVesting' (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#131-143) is not in mixedCase
+Parameter '_beneficiary' of TokenVesting.TokenVesting (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#131-132) is not in mixedCase
+Parameter '_start' of TokenVesting.TokenVesting (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#132) is not in mixedCase
+Parameter '_cliff' of TokenVesting.TokenVesting (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#132-133) is not in mixedCase
+Parameter '_duration' of TokenVesting.TokenVesting (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#133) is not in mixedCase
+Parameter '_revocable' of TokenVesting.TokenVesting (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol#133-134) is not in mixedCase
+Function 'LinearVesting.LinearVesting' (/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/32/0xbd3084e5ba67bbed7ecf95a516cf58c0250bc650.sol analyzed (7 contracts), 20 result(s) found

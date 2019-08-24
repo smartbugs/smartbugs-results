@@ -1,0 +1,125 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol:
+/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol:71:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol:153:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function RefundVault(address _wallet) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol:205:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function BitNauticWhitelist(uint256 _usdPerEth) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in NewBitNauticCrowdsale.buyTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#315-344):
+	External calls:
+	- require(bool)(SafeMath.add(weiInvestedBy[msg.sender],msg.value) <= whitelist.contributionCap(msg.sender)) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#320-323)
+	State variables written after the call(s):
+	- weiInvestedBy (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#338-339)
+Reentrancy in NewBitNauticCrowdsale.finalizeCrowdsale (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#433-440):
+	External calls:
+	- vault.enableRefunds() (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#437-440)
+	State variables written after the call(s):
+	- isFinalized (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#440)
+Reentrancy in NewBitNauticCrowdsale.grantAdvisorsTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#469-474):
+	External calls:
+	- token.mint(beneficiary,advisorSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+	State variables written after the call(s):
+	- advisorSupply (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+Reentrancy in NewBitNauticCrowdsale.grantBountyTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#454-461):
+	External calls:
+	- token.mint(beneficiary,bountySupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#458-461)
+	State variables written after the call(s):
+	- bountySupply (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#461)
+Reentrancy in NewBitNauticCrowdsale.grantContributorTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#374-383):
+	External calls:
+	- require(bool)(whitelist.AMLWhitelisted(contributor)) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#377-378)
+	- assert(bool)(token.mint(contributor,creditOf[contributor])) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#380-383)
+	State variables written after the call(s):
+	- creditOf (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#383)
+Reentrancy in NewBitNauticCrowdsale.grantFoundersTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol):
+	External calls:
+	- token.mint(beneficiary,founderSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+	State variables written after the call(s):
+	- founderSupply (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+Reentrancy in NewBitNauticCrowdsale.grantReserveTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#461-468):
+	External calls:
+	- token.mint(beneficiary,reserveSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#465-468)
+	State variables written after the call(s):
+	- reserveSupply (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#468)
+Reentrancy in NewBitNauticCrowdsale.grantTeamTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol):
+	External calls:
+	- token.mint(beneficiary,teamSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+	State variables written after the call(s):
+	- teamSupply (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+NewBitNauticCrowdsale.grantBountyTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#454-461) does not use the value returned by external calls:
+	-token.mint(beneficiary,bountySupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#458-461)
+NewBitNauticCrowdsale.grantReserveTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#461-468) does not use the value returned by external calls:
+	-token.mint(beneficiary,reserveSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#465-468)
+NewBitNauticCrowdsale.grantAdvisorsTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#469-474) does not use the value returned by external calls:
+	-token.mint(beneficiary,advisorSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+NewBitNauticCrowdsale.grantFoundersTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol) does not use the value returned by external calls:
+	-token.mint(beneficiary,founderSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+NewBitNauticCrowdsale.grantTeamTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol) does not use the value returned by external calls:
+	-token.mint(beneficiary,teamSupply) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in NewBitNauticCrowdsale.buyTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#315-344):
+	External calls:
+	- require(bool)(SafeMath.add(weiInvestedBy[msg.sender],msg.value) <= whitelist.contributionCap(msg.sender)) (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#320-323)
+	State variables written after the call(s):
+	- creditOf (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#337-338)
+	- tokensSold (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#332-334)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+NewBitNauticCrowdsale.ICOStartTime should be constant (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#275-277)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#88-100) should be declared external
+Pausable.pause (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#127-129) should be declared external
+Pausable.unpause (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#136-138) should be declared external
+RefundVault.deposit (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#161-169) should be declared external
+RefundVault.unlock (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#169-173) should be declared external
+RefundVault.withdraw (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#173-182) should be declared external
+RefundVault.enableRefunds (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#182-186) should be declared external
+RefundVault.refund (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#186-197) should be declared external
+NewBitNauticCrowdsale.fallback (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#314-315) should be declared external
+NewBitNauticCrowdsale.privateSale (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#346-353) should be declared external
+NewBitNauticCrowdsale.offchainSale (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#354-364) should be declared external
+NewBitNauticCrowdsale.claimBitNauticTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#366-368) should be declared external
+NewBitNauticCrowdsale.setManualBonus (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#396-401) should be declared external
+NewBitNauticCrowdsale.setICOEndTime (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#402-407) should be declared external
+NewBitNauticCrowdsale.hasEnded (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#417-419) should be declared external
+NewBitNauticCrowdsale.unlockVault (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#421-428) should be declared external
+NewBitNauticCrowdsale.withdraw (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#428-431) should be declared external
+NewBitNauticCrowdsale.finalizeCrowdsale (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#433-440) should be declared external
+NewBitNauticCrowdsale.claimRefund (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#443-448) should be declared external
+NewBitNauticCrowdsale.transferTokenOwnership (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#448-454) should be declared external
+NewBitNauticCrowdsale.grantBountyTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#454-461) should be declared external
+NewBitNauticCrowdsale.grantReserveTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#461-468) should be declared external
+NewBitNauticCrowdsale.grantAdvisorsTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#469-474) should be declared external
+NewBitNauticCrowdsale.grantFoundersTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol) should be declared external
+NewBitNauticCrowdsale.grantTeamTokens (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#75-76) is not in mixedCase
+Function 'RefundVault.RefundVault' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#159-161) is not in mixedCase
+Parameter '_wallet' of RefundVault.RefundVault (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#159) is not in mixedCase
+Function 'BitNauticWhitelist.BitNauticWhitelist' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#211-215) is not in mixedCase
+Parameter '_usdPerEth' of BitNauticWhitelist.BitNauticWhitelist (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#213) is not in mixedCase
+Variable 'BitNauticWhitelist.AMLWhitelisted' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#215-216) is not in mixedCase
+Parameter '_token' of NewBitNauticCrowdsale. (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#310) is not in mixedCase
+Parameter '_whitelist' of NewBitNauticCrowdsale. (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#310-311) is not in mixedCase
+Parameter '_beneficiary' of NewBitNauticCrowdsale. (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#311) is not in mixedCase
+Variable 'NewBitNauticCrowdsale.ICOStartTime' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#275-277) is not in mixedCase
+Variable 'NewBitNauticCrowdsale.ICOEndTime' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#277-278) is not in mixedCase
+Constant 'NewBitNauticCrowdsale.tokenBaseRate' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#280-282) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'NewBitNauticCrowdsale.crowdsaleSupply' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#283-284) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'NewBitNauticCrowdsale.softCap' (/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol#284-285) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/9/0xe9fc0c55f9f3a38c0e972d6444273ebdcc7aa46f.sol analyzed (8 contracts), 55 result(s) found

@@ -1,0 +1,74 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol:
+/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol:411:44: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        (perSupplierListedPairs[supplier])[keccak256(src, dest)] = add;
+                                           ^------------------^
+/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol:509:57: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+            if (!(perSupplierListedPairs[suppliers[i]])[keccak256(src, dest)]) continue;
+                                                        ^------------------^
+/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol:690:16: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+            if(keccak256(rate, sn, quoteKey) != code){
+               ^---------------------------^
+
+INFO:Detectors:[93m
+MartletInstantlyTrader.listPairForSupplier (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#418-440) does not use the value returned by external calls:
+	-src.approve(supplier,2 ** 255) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#430-431)
+	-src.approve(supplier,0) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#433-436)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MartletInstantlyTrader.findBestRate has external calls inside a loop:
+	- rates[i] = suppliers[i].getConversionRate(src,dest,srcQty,block.number) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#525-529)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in MartletInstantlyTrader.listPairForSupplier (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#418-440):
+	External calls:
+	- src.approve(supplier,2 ** 255) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#430-431)
+	- src.approve(supplier,0) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#433-436)
+	- setDecimals(src) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#438)
+	State variables written after the call(s):
+	- decimals (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#438)
+Reentrancy in MartletInstantlyTrader.listPairForSupplier (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#418-440):
+	External calls:
+	- src.approve(supplier,2 ** 255) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#430-431)
+	- src.approve(supplier,0) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#433-436)
+	- setDecimals(src) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#438)
+	- setDecimals(dest) (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#439)
+	State variables written after the call(s):
+	- decimals (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#439)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+PermissionGroups.transferAdmin (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#82-88) should be declared external
+PermissionGroups.transferAdminQuickly (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#92-101) should be declared external
+PermissionGroups.claimAdmin (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#105-112) should be declared external
+PermissionGroups.addOperator (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#113-123) should be declared external
+PermissionGroups.removeOperator (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#123-138) should be declared external
+PermissionGroups.addQuoter (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#139-150) should be declared external
+PermissionGroups.removeQuoter (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#150-165) should be declared external
+MartletInstantlyTrader.fallback (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#301-304) should be declared external
+MartletInstantlyTrader.trade (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#331-365) should be declared external
+MartletInstantlyTrader.addSupplier (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#391-410) should be declared external
+MartletInstantlyTrader.listPairForSupplier (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#418-440) should be declared external
+MartletInstantlyTrader.setParams (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#440-463) should be declared external
+MartletInstantlyTrader.setEnable (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#463-473) should be declared external
+MartletInstantlyTrader.setQuoteKey (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#473-478) should be declared external
+MartletInstantlyTrader.getQuoteKey (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#478-480) should be declared external
+MartletInstantlyTrader.setInfo (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#480-484) should be declared external
+MartletInstantlyTrader.getNumSuppliers (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#487-488) should be declared external
+MartletInstantlyTrader.getSuppliers (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#494-495) should be declared external
+MartletInstantlyTrader.getExpectedRate (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#560-573) should be declared external
+MartletInstantlyTrader.setValidateCodeTokens (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#684-691) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol:
+	- pragma solidity^0.4.22 (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_admin' of MartletInstantlyTrader. (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#296) is not in mixedCase
+Parameter '_whiteList' of MartletInstantlyTrader.setParams (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#441) is not in mixedCase
+Parameter '_expectedRate' of MartletInstantlyTrader.setParams (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#441-443) is not in mixedCase
+Parameter '_maxGasPrice' of MartletInstantlyTrader.setParams (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#443-444) is not in mixedCase
+Parameter '_negligibleRateDiff' of MartletInstantlyTrader.setParams (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#444-445) is not in mixedCase
+Parameter '_validBlkNum' of MartletInstantlyTrader.setParams (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#446) is not in mixedCase
+Parameter '_enable' of MartletInstantlyTrader.setEnable (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#464) is not in mixedCase
+Parameter '_quoteKey' of MartletInstantlyTrader.setQuoteKey (/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol#473) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/11/0x551d56781e0cd16ac2c61a03e6537844a41c7709.sol analyzed (8 contracts), 33 result(s) found

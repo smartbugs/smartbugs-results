@@ -1,0 +1,68 @@
+{
+  "contract": "0x076fbdeeb7d119edacd3c574a23f41c6e0757696",
+  "tool": "mythril",
+  "start": 1563639629.654102,
+  "end": 1563640051.8126209,
+  "duration": 422.15851879119873,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1672,
+        "code": "rations with",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_7: 0x0\ncalldata_TreasureHunt_4: 0x0\ncalldata_TreasureHunt_0: 0x147349af00000000000000000000000000000000000000000000000000000000\ncalldatasize_TreasureHunt: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/25/0x076fbdeeb7d119edacd3c574a23f41c6e0757696.sol",
+        "function": "getPrize(uint8)",
+        "lineno": 317,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 2444,
+        "code": "Number(bytes3",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_TreasureHunt_4: 0x65\ncalldata_TreasureHunt_0: 0x181be00d00000000000000000000000000000000000000000000000000000000\ncalldatasize_TreasureHunt: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/25/0x076fbdeeb7d119edacd3c574a23f41c6e0757696.sol",
+        "function": "getValue(uint8)",
+        "lineno": 302,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 2843,
+        "code": "public lastNumber;\n\n    ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_TreasureHunt_4: 0x0\nstorage_7: 0x0\ncalldata_TreasureHunt_0: 0x4bfb58ee00000000000000000000000000000000000000000000000000000000\ncalldatasize_TreasureHunt: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/25/0x076fbdeeb7d119edacd3c574a23f41c6e0757696.sol",
+        "function": "_function_0x4bfb58ee",
+        "lineno": 70,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 4119,
+        "code": " {\n        requir",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_7: 0x0\ncalldata_TreasureHunt_4: 0x0\ncalldata_TreasureHunt_0: 0xa23e519100000000000000000000000000000000000000000000000000000000\ncalldatasize_TreasureHunt: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/25/0x076fbdeeb7d119edacd3c574a23f41c6e0757696.sol",
+        "function": "prizeContains(uint8)",
+        "lineno": 290,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 5096,
+        "code": "th for uint;\n\n\n    event Winner(\n        address customerAddress,\n        uint256 amount\n    );\n\n    event Bet(\n        address customerAddress,\n        uint256 number\n    );\n\n     event Restart(\n        uint256 number\n    );\n    \n    mapping (uint8 => address[]) playersByNumber ;\n    mapping (bytes32 => bool) gameNumbers;\n    mapping (bytes32 => bool) prizeNumbers;\n    mapping (uint8 => bool) Prizes;\n    mapping (uint8 => bool) PrizeLocations;\n    mapping (uint8 => bool) usedNumbers;\n\n\n    uint8[] public numbers;\n    uint8[] public PrizeNums;\n    bytes32[] public prizeList;\n    uint public lastNumber;\n\n    bytes32[101] bytesArray;\n\n    uint public gameCount = 1;\n\n    uint public minBet = 0.1 ether;\n    uint public jackpot = 0;\n    uint8 public prizeCount = 0;\n\n    uint8 public prizeMax = 10;\n\n    uint public houseRate = 40;  //4%\n    uint public referralRate = 100; //10%\n\n    uint8 public numberCount = 0;\n    uint maxNum = 100;\n\n    uint8 maxPrizeNum = 5;\n\n    \n    address owner;\n    \n    constructor() public {\n        owner = msg.sender;\n\n        prizeCount = 0;\n        gameCount = gameCount + 1;\n        numberCount = 0;\n        for (uint8 i = 1; i<maxNum+1; i++) {\n            bytesArray[i] = 0x0;\n            usedNumbers[i] = false;\n        }\n       \n    }\n\n\n    function contains(uint8 number) public view returns (bool){\n        return usedNumbers[number];\n    }\n\n    function enterNumber(uint8 number, address _referrer) payable public {\n        //bytes32 bytesNumber = bytes32(number);\n\n        require(!contains(number));\n        require(msg.value >= minBet);\n        require(number <= maxNum+1);\n\n        numberCount += 1;\n        \n\n        uint betAmount = msg.value;\n\n        uint houseFee = SafeMath.div(SafeMath.mul(betAmount, houseRate),1000);\n\n        owner.transfer(houseFee);\n\n        betAmount = SafeMath.sub(betAmount,houseFee);\n\n\n        if(\n        // is this a referred purchase?\n            _referrer != 0x0000000000000000000000000000000000000000 &&\n            _referrer != msg.sender)\n            {\n                uint refFee = SafeMath.div(SafeMath.mul(betAmount, referralRate),1000);\n                \n                _referrer.transfer(refFee);\n                betAmount = SafeMath.sub(betAmount,refFee);\n            }\n\n        uint8 checkPrize = random();\n        jackpot = address(this).balance;\n        if (number == checkPrize||number == checkPrize+10||number == checkPrize+20||number == checkPrize+30||number == checkPrize+40||number == checkPrize+50||number == checkPrize+60||number == checkPrize+70||number == checkPrize+80||number == checkPrize+90) {\n        \n                prizeCount = prizeCount + 1;\n                payout(prizeCount);\n                bytesArray[number] = 0x2;\n  \n        } else {\n            bytesArray[number] = 0x1;\n        }\n\n        //playersByNumber[number].push(msg.sender);\n        numbers.push(number);\n        usedNumbers[number] = true;\n        //gameNumbers.push(number);\n\n        emit Bet(msg.sender, number);\n\n        if (numberCount >= maxNum-1) {\n            restartGame();\n        }\n        \n    }\n\n    function payout(uint8 prizeNum)  {\n\n        uint winAmount = 0;\n        jackpot = address(this).balance;\n        //msg.sender.transfer(jackpot);\n        // winAmount = SafeMath.div(SafeMath.mul(jackpot,100),10);\n        // msg.sender.transfer(winAmount);\n\n        uint prizelevel = randomPrize();\n        \n        if (prizelevel == 1){   //payout 10% of jackpot\n\n            winAmount = SafeMath.div(SafeMath.mul(jackpot,10),100);\n            msg.sender.transfer(winAmount);\n\n        } else if (prizelevel == 2) {\n\n            winAmount = SafeMath.div(SafeMath.mul(jackpot,20),100);\n            msg.sender.transfer(winAmount);\n\n        } else if (prizelevel == 3) {\n\n            winAmount = SafeMath.div(SafeMath.mul(jackpot,30),100);\n            msg.sender.transfer(winAmount);\n\n        } else if (prizelevel == 4) {\n\n            winAmount = SafeMath.div(SafeMath.mul(jackpot,40),100);\n            msg.sender.transfer(winAmount);\n\n        } else if (prizelevel >= 5) {\n\n            winAmount = SafeMath.div(SafeMath.mul(jackpot,70),100);\n            msg.sender.transfer(winAmount);\n            \n\n        }\n\n        // if (prizeCount >= maxPrizeNum){\n        //     restartGame();\n        // }\n\n        emit Winner(msg.sender,winAmount);\n        \n    }\n\n    function restartGame() internal {\n        //reset values\n        prizeCount = 0;\n        delete numbers;\n        delete PrizeNums;\n        delete bytesArray;\n        //delete usedNumbers;\n        gameCount = gameCount + 1;\n        numberCount = 0;\n        for (uint8 i = 0; i<101; i++) {\n            //bytesArray[i] = 0x0;\n            usedNumbers[i] = false;\n        }\n        emit Restart(gameCount);\n    }\n\n\n  function restartRemote() public {\n        //reset values\n        require(msg.sender == owner);\n        prizeCount = 0;\n        delete numbers;\n        delete PrizeNums;\n        delete bytesArray;\n        //delete usedNumbers;\n        gameCount = gameCount + 1;\n        numberCount = 0;\n        for (uint8 i = 0; i<101; i++) {\n            //bytesArray[i] = 0x0;\n            usedNumbers[i] = false;\n        }\n        emit Restart(gameCount);\n    }\n\n    function random() private view returns (uint8) {\n\n\n\n        uint8 prize = uint8(uint256(keccak256(block.timestamp, block.difficulty)) % prizeMax) + 1;\n\n        PrizeNums.push(prize);\n\n        return(prize);\n\n \n    }\n\n    function randomPrize() private view returns (uint8) {\n\n\n\n        uint8 prizeLevel = uint8(uint256(keccak256(block.timestamp, block.difficulty)) % 5) + 1;\n\n        return(prizeLevel);\n\n \n    }\n\n    function jackpotDeposit() public payable \n    {\n\n    }\n\n    function prizeContains(uint8 number) returns (uint8){\n        return PrizeNums[number];\n    }\n\n    function getArray() constant returns (bytes32[101])\n    {\n        return bytesArray;\n    }\n\n    function getValue(uint8 x) constant returns (bytes32)\n    {\n        return bytesArray[x];\n    }\n\n    function setMaxPrizeNum(uint8 maxNum) public\n    {\n        require(msg.sender == owner);\n        maxPrizeNum = maxNum;\n    }\n\n\n\n    function getPrize(uint8 x) constant returns (uint8)\n        {\n            return PrizeNums[x];\n        }\n\n    function getPrizeNumber(bytes32 x) constant returns (bool)\n        {\n            return prizeNumbers[x];\n        }\n\n    function getEthValue() public view returns (uint)\n    {\n        return address(this).balance;\n    } \n    \n}\n\n\n/**\n * @title SafeMath\n * @dev Math operations with safety checks that throw on error\n */\nlibrary SafeMath {\n  function mul(uint256 a, uint256 b) internal constant returns (uint256) {\n    uint256 c = a * b;\n    assert(a == 0 || c / a == b);\n    return c;\n  }\n \n  function div(uint256 a, uint256 b) internal c",
+        "debug": "storage_6: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8\nstorage_119: 0x0\ncaller: 0x0\ncalldata_TreasureHunt_0: 0x4a7bf7a300000000000000000000000000000000000000000000000000000000\ncalldatasize_TreasureHunt: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `restartRemote()`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0x076fbdeeb7d119edacd3c574a23f41c6e0757696.sol",
+        "function": "restartRemote()",
+        "lineno": 42,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

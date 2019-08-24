@@ -1,0 +1,92 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol:
+/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol:30:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Owned() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol:107:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function BankrollLending(address tokenAddr, address casinoAddr, address predecessorAdr) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol:323:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    address from = ecrecover(keccak256(to, value, cycle), v, r, s);
+                             ^-------------------------^
+/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol:425:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+    address signer = ecrecover(keccak256(to, value, cycle), v, r, s);
+                               ^-------------------------^
+
+INFO:Detectors:[93m
+Reentrancy in BankrollLending.addDeposit (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#220-238):
+	External calls:
+	- assert(bool)(token.transferFrom(to,address(this),value)) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#234)
+	State variables written after the call(s):
+	- stakes (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#237)
+Reentrancy in BankrollLending.batchAssignment (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#197-215):
+	External calls:
+	- assert(bool)(newTotalStakes < tokenBalance()) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#214)
+	State variables written after the call(s):
+	- totalStakes (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#215)
+Reentrancy in BankrollLending.deposit (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#182-189):
+	External calls:
+	- require(bool)(verifySignature(msg.sender,allowedMax,v,r,s)) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#184-185)
+	- addDeposit(msg.sender,value,numHolders,allowedMax) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#187-188)
+	State variables written after the call(s):
+	- numHolders (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#188)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+BankrollLending.withdrawExcess (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#375-382) does not use the value returned by external calls:
+	-token.transfer(owner,value) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#380-382)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in BankrollLending.addDeposit (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#220-238):
+	External calls:
+	- assert(bool)(token.transferFrom(to,address(this),value)) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#234)
+	State variables written after the call(s):
+	- stakeholders (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#235)
+Reentrancy in BankrollLending.closeCycle (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#263-265):
+	External calls:
+	- require(bool)(tokenBalance() >= value) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#264)
+	State variables written after the call(s):
+	- finalStakes (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#264-265)
+Reentrancy in BankrollLending.deposit (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#182-189):
+	External calls:
+	- require(bool)(verifySignature(msg.sender,allowedMax,v,r,s)) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#184-185)
+	- addDeposit(msg.sender,value,numHolders,allowedMax) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#187-188)
+	State variables written after the call(s):
+	- totalStakes (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#188-189)
+Reentrancy in BankrollLending.unlockWithdrawals (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#302-304):
+	External calls:
+	- require(bool)(value <= tokenBalance()) (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#302-303)
+	State variables written after the call(s):
+	- totalStakes (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#303-304)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Token.transfer (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#14-15) should be declared external
+Token.transferFrom (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#15-16) should be declared external
+Token.balanceOf (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#16-19) should be declared external
+Owned.changeOwner (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#34-41) should be declared external
+BankrollLending.setCasinoAddress (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#125-128) should be declared external
+BankrollLending.setDepositGasCost (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#133-136) should be declared external
+BankrollLending.setWithdrawGasCost (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#141-144) should be declared external
+BankrollLending.setUpdateGasCost (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#149-152) should be declared external
+BankrollLending.setMaxUpdates (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#158-160) should be declared external
+BankrollLending.setMinStakingAmount (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#165-168) should be declared external
+BankrollLending.setMaxBatchAssignment (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#173-174) should be declared external
+BankrollLending.deposit (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#182-189) should be declared external
+BankrollLending.batchAssignment (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#197-215) should be declared external
+BankrollLending.useAsBankroll (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#240-247) should be declared external
+BankrollLending.startNextCycle (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#253-255) should be declared external
+BankrollLending.closeCycle (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#263-265) should be declared external
+BankrollLending.updateUserShares (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#274-297) should be declared external
+BankrollLending.unlockWithdrawals (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#302-304) should be declared external
+BankrollLending.withdraw (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#314-317) should be declared external
+BankrollLending.withdrawFor (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#329-333) should be declared external
+BankrollLending.withdrawExcess (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#375-382) should be declared external
+BankrollLending.kill (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#388-391) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#11-13): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Owned.Owned' (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#31-34) is not in mixedCase
+Function 'BankrollLending.BankrollLending' (/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol#108-120) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/9/0x855835fb53183ff996aad98d356209c83b7b684a.sol analyzed (5 contracts), 33 result(s) found

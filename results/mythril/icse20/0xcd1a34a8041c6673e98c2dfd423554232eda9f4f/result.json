@@ -1,0 +1,134 @@
+{
+  "contract": "0xcd1a34a8041c6673e98c2dfd423554232eda9f4f",
+  "tool": "mythril",
+  "start": 1563826146.0288348,
+  "end": 1563826181.4686797,
+  "duration": 35.439844846725464,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 558,
+        "code": "ile: contracts/token/BridgeToken.sol\n\n/**\n * @title BridgeToken\n * @dev BridgeToken contract\n * @author Cyril Lapinte -",
+        "debug": "calldata_WithRules_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_WithRules_0: 0xcb1a1b0600000000000000000000000000000000000000000000000000000000\ncalldatasize_WithRules: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xcb1a1b06`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "_function_0xcb1a1b06",
+        "lineno": 1248,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1038,
+        "code": "\n * @dev TokenWithRules contract\n",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "validateAddress(address)",
+        "lineno": 1208,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 1038,
+        "code": "\n * @dev TokenWithRules contract\n",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 1038\nCall at address: 1038\n",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "validateAddress(address)",
+        "lineno": 1208,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 1038,
+        "code": "\n * @dev TokenWithRules contract\n",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function validateAddress(address). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "validateAddress(address)",
+        "lineno": 1208,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 1737,
+        "code": "contract TokenWithRules is StandardToken, Wit",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "validateTransfer(address,address,uint256)",
+        "lineno": 1219,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 1737,
+        "code": "contract TokenWithRules is StandardToken, Wit",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 1737\n",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "validateTransfer(address,address,uint256)",
+        "lineno": 1219,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 1737,
+        "code": "contract TokenWithRules is StandardToken, Wit",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function validateTransfer(address,address,uint256). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "validateTransfer(address,address,uint256)",
+        "lineno": 1219,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 2027,
+        "code": "ules to the to",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_WithRules_4: 0x0\nstorage_1: 0x0\ncalldata_WithRules_0: 0xdb18af6c00000000000000000000000000000000000000000000000000000000\ncalldatasize_WithRules: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "rule(uint256)",
+        "lineno": 1197,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 2449,
+        "code": " callable\n   * only when participants follow rules\n   */\n  modifier whenAddressRulesAreValid(address _address) {\n    require(validateAddress(_address), \"WR01\");\n    _;\n  }\n\n  /**\n   * @dev Modifier to make transfer functions callable\n   * only when participants follow rules\n   */\n  modifier whenTransferRulesAreValid(\n    address _from,\n    address _to,\n    uint256 _amount)\n  {\n    require(validateTransfer(_from, _to, _amount), \"WR02\");\n    _;\n  }\n\n  /**\n   * @dev Define rules to the token\n   */\n  function defineRules(IRule[] _rules) public onlyOwner {\n    rules = _rules;\n    emit RulesDefined(rules.length);\n  }\n}\n\n// File: contracts/token/component/TokenWithRules.sol\n\n/**\n * @title TokenWithRules\n * @dev TokenWithRules contract\n * TokenWithRules is a token that will apply\n * rules restricting transferability\n *\n * @author Cyril Lapinte - <cyril.lapinte@mtpelerin.com>\n *\n * @notice Copyright \u00a9 2016 - 2018 Mt Pelerin Group SA - All Rights Reserved\n * @notice Please refer to the top of this file for the license.\n *\n **/\ncontract TokenWithRules is StandardToken, WithRules {\n\n  /**\n   * @dev Constructor\n   */\n  constructor(IRule[] _rules) public WithRules(_rules) { }\n\n  /**\n   * @dev Overriden transfer function\n   */\n  function transfer(address _to, uint256 _value)\n    public whenTransferRulesAreValid(msg.sender, _to, _value)\n    returns (bool)\n  {\n    return super.transfer(_to, _value);\n  }\n\n  /**\n   * @dev Overriden transferFrom function\n   */\n  function transferFrom(address _from, address _to, uint256 _value)\n    public whenTransferRulesAreValid(_from, _to, _value)\n    whenAddressRulesAreValid(msg.sender)\n    returns (bool)\n  {\n    return super.transferFrom(_from, _to, _value);\n  }\n}\n\n// File: contracts/token/BridgeToken.sol\n\n/**\n * @title BridgeToken\n * @dev BridgeToken contract\n * @author Cyril Lapinte - <c",
+        "debug": "storage_1: 0x8e79cffffffffffffffffffffffffffdf7cfffffe7ffffffffffff9fffffff7c\nstorage_0: 0x0\ncaller: 0x0\ncalldata_WithRules_0: 0xcb1a1b0600000000000000000000000000000000000000000000000000000000\ncalldatasize_WithRules: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xcb1a1b06`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "_function_0xcb1a1b06",
+        "lineno": 1175,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2460,
+        "code": " callable\n   * only when participants follow rules\n   */\n  modifier whenAddressRulesAreValid(address _address) {\n    require(validateAddress(_address), \"WR01\");\n    _;\n  }\n\n  /**\n   * @dev Modifier to make transfer functions callable\n   * only when participants follow rules\n   */\n  modifier whenTransferRulesAreValid(\n    address _from,\n    address _to,\n    uint256 _amount)\n  {\n    require(validateTransfer(_from, _to, _amount), \"WR02\");\n    _;\n  }\n\n  /**\n   * @dev Define rules to the token\n   */\n  function defineRules(IRule[] _rules) public onlyOwner {\n    rules = _rules;\n    emit RulesDefined(rules.length);\n  }\n}\n\n// File: contracts/token/component/TokenWithRules.sol\n\n/**\n * @title TokenWithRules\n * @dev TokenWithRules contract\n * TokenWithRules is a token that will apply\n * rules restricting transferability\n *\n * @author Cyril Lapinte - <cyril.lapinte@mtpelerin.com>\n *\n * @notice Copyright \u00a9 2016 - 2018 Mt Pelerin Group SA - All Rights Reserved\n * @notice Please refer to the top of this file for the license.\n *\n **/\ncontract TokenWithRules is StandardToken, WithRules {\n\n  /**\n   * @dev Constructor\n   */\n  constructor(IRule[] _rules) public WithRules(_rules) { }\n\n  /**\n   * @dev Overriden transfer function\n   */\n  function transfer(address _to, uint256 _value)\n    public whenTransferRulesAreValid(msg.sender, _to, _value)\n    returns (bool)\n  {\n    return super.transfer(_to, _value);\n  }\n\n  /**\n   * @dev Overriden transferFrom function\n   */\n  function transferFrom(address _from, address _to, uint256 _value)\n    public whenTransferRulesAreValid(_from, _to, _value)\n    whenAddressRulesAreValid(msg.sender)\n    returns (bool)\n  {\n    return super.transferFrom(_from, _to, _value);\n  }\n}\n\n// File: contracts/token/BridgeToken.sol\n\n/**\n * @title BridgeToken\n * @dev BridgeToken contract\n * @author Cyril Lapinte - <c",
+        "debug": "calldata_WithRules_4 + calldata_WithRules_4: 0x8421003f084001f4210815cf88407c00000000000000037c1d000e8d178001f\nstorage_0: 0x0\ncaller: 0x0\ncalldata_WithRules_0: 0xcb1a1b0600000000000000000000000000000000000000000000000000000000\ncalldatasize_WithRules: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xcb1a1b06`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "_function_0xcb1a1b06",
+        "lineno": 1175,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2462,
+        "code": " callable\n   * only when participants follow rules\n   */\n  modifier whenAddressRulesAreValid(address _address) {\n    require(validateAddress(_address), \"WR01\");\n    _;\n  }\n\n  /**\n   * @dev Modifier to make transfer functions callable\n   * only when participants follow rules\n   */\n  modifier whenTransferRulesAreValid(\n    address _from,\n    address _to,\n    uint256 _amount)\n  {\n    require(validateTransfer(_from, _to, _amount), \"WR02\");\n    _;\n  }\n\n  /**\n   * @dev Define rules to the token\n   */\n  function defineRules(IRule[] _rules) public onlyOwner {\n    rules = _rules;\n    emit RulesDefined(rules.length);\n  }\n}\n\n// File: contracts/token/component/TokenWithRules.sol\n\n/**\n * @title TokenWithRules\n * @dev TokenWithRules contract\n * TokenWithRules is a token that will apply\n * rules restricting transferability\n *\n * @author Cyril Lapinte - <cyril.lapinte@mtpelerin.com>\n *\n * @notice Copyright \u00a9 2016 - 2018 Mt Pelerin Group SA - All Rights Reserved\n * @notice Please refer to the top of this file for the license.\n *\n **/\ncontract TokenWithRules is StandardToken, WithRules {\n\n  /**\n   * @dev Constructor\n   */\n  constructor(IRule[] _rules) public WithRules(_rules) { }\n\n  /**\n   * @dev Overriden transfer function\n   */\n  function transfer(address _to, uint256 _value)\n    public whenTransferRulesAreValid(msg.sender, _to, _value)\n    returns (bool)\n  {\n    return super.transfer(_to, _value);\n  }\n\n  /**\n   * @dev Overriden transferFrom function\n   */\n  function transferFrom(address _from, address _to, uint256 _value)\n    public whenTransferRulesAreValid(_from, _to, _value)\n    whenAddressRulesAreValid(msg.sender)\n    returns (bool)\n  {\n    return super.transferFrom(_from, _to, _value);\n  }\n}\n\n// File: contracts/token/BridgeToken.sol\n\n/**\n * @title BridgeToken\n * @dev BridgeToken contract\n * @author Cyril Lapinte - <c",
+        "debug": "calldata_WithRules_4 + calldata_WithRules_4: 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb\nstorage_0: 0x0\ncaller: 0x0\ncalldata_WithRules_0: 0xcb1a1b0600000000000000000000000000000000000000000000000000000000\ncalldatasize_WithRules: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xcb1a1b06`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xcd1a34a8041c6673e98c2dfd423554232eda9f4f.sol",
+        "function": "_function_0xcb1a1b06",
+        "lineno": 1175,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

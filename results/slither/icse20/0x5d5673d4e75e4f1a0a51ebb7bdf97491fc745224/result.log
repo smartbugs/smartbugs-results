@@ -1,0 +1,75 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol:
+/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol:198:5: Warning: No visibility specified. Defaulting to "public". 
+    function () payable {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol:221:5: Warning: No visibility specified. Defaulting to "public". 
+    function depositBBO() payable {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol:244:5: Warning: No visibility specified. Defaulting to "public". 
+    function withdrawBBO() payable {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol:279:5: Warning: No visibility specified. Defaulting to "public". 
+    function getBonus(uint _bboWithdrawalBase) constant returns (uint) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol:283:5: Warning: No visibility specified. Defaulting to "public". 
+    function internalCalculateBonus(uint _totalBonusRemaining, uint _bboDeposited, uint _bboWithdrawalBase) constant returns (uint) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol:294:5: Warning: Function state mutability can be restricted to pure
+    function sqrt(uint x) internal constant returns (uint) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+BBOHoldingContract.start (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#179-190) uses a dangerous strict equality:
+	- require(bool)(depositStartTime == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in BBOHoldingContract.withdrawBBO (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#250-283):
+	External calls:
+	- bboBonus = getBonus(bboWithdrawalBase) (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#263-265)
+	- balance = bboBalance() (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#265-266)
+	State variables written after the call(s):
+	- bboDeposited (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#269-271)
+	- records (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#271-273)
+	- records (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#275)
+	- records (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#279)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in BBOHoldingContract.depositBBO (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#226-249):
+	External calls:
+	- bboAmount = bboToken.balanceOf(msg.sender).min256(bboToken.allowance(msg.sender,address(this))) (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#232-234)
+	- require(bool)(bboToken.transferFrom(msg.sender,address(this),bboAmount)) (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#236-238)
+	State variables written after the call(s):
+	- bboDeposited (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#246-248)
+	- depositId (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#248-249)
+	- records (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#239-243)
+	- records (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#244)
+	- records (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#245)
+Reentrancy in BBOHoldingContract.withdrawBBO (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#250-283):
+	External calls:
+	- bboBonus = getBonus(bboWithdrawalBase) (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#263-265)
+	- balance = bboBalance() (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#265-266)
+	State variables written after the call(s):
+	- withdrawId (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#279-280)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#82-83) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#83-84) should be declared external
+ERC20Basic.transfer (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#84-87) should be declared external
+ERC20.allowance (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#95-96) should be declared external
+ERC20.transferFrom (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#98-100) should be declared external
+ERC20.approve (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#100-103) should be declared external
+BBOHoldingContract.start (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#179-190) should be declared external
+BBOHoldingContract.drain (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#191-203) should be declared external
+BBOHoldingContract.fallback (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#204-214) should be declared external
+BBOHoldingContract.holdBalance (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#218-223) should be declared external
+BBOHoldingContract.lastDeposit (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#223-226) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_bboTokenAddress' of BBOHoldingContract. (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#165-166) is not in mixedCase
+Parameter '_owner' of BBOHoldingContract. (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#166) is not in mixedCase
+Parameter '_bboWithdrawalBase' of BBOHoldingContract.getBonus (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#283-284) is not in mixedCase
+Parameter '_totalBonusRemaining' of BBOHoldingContract.internalCalculateBonus (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#288) is not in mixedCase
+Parameter '_bboDeposited' of BBOHoldingContract.internalCalculateBonus (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#288) is not in mixedCase
+Parameter '_bboWithdrawalBase' of BBOHoldingContract.internalCalculateBonus (/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol#288-289) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/12/0x5d5673d4e75e4f1a0a51ebb7bdf97491fc745224.sol analyzed (5 contracts), 21 result(s) found

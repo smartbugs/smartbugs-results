@@ -1,0 +1,103 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:31:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function MultiKeyDailyLimitWallet(address[] keys, uint[] limits) public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:34:4: Warning: Use of the "var" keyword is deprecated.
+			var limit = limits[i];
+			^-------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:53:3: Warning: Use of the "var" keyword is deprecated.
+		var _dailyCount = dailyCount[token];
+		^-------------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:62:3: Warning: Use of the "var" keyword is deprecated.
+		var pct = credentials[key];
+		^-----^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:66:3: Warning: Use of the "var" keyword is deprecated.
+		var _dailyCount = getAdjustedDailyCount(token);
+		^-------------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:67:3: Warning: Use of the "var" keyword is deprecated.
+		var balance = getBalance(token);
+		^---------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:68:3: Warning: Use of the "var" keyword is deprecated.
+		var amt = ((balance + _dailyCount) * pct) / LIMIT_PRECISION;
+		^-----^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:85:3: Warning: Use of the "var" keyword is deprecated.
+		var limit = getSignatureRemainingLimit(
+		^-------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:125:3: Warning: Use of the "var" keyword is deprecated.
+		var addr = extractSignatureAddress(signature, payload);
+		^------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:4:2: Warning: Functions in interfaces should be declared external.
+	function balanceOf(address tokenOwner)
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:6:3: Warning: Functions in interfaces should be declared external.
+ 	function transfer(address to, uint tokens)
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:8:2: Warning: Functions in interfaces should be declared external.
+	function symbol() public view returns (string);
+	^---------------------------------------------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:9:2: Warning: Functions in interfaces should be declared external.
+	function name() public view returns (string);
+	^-------------------------------------------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:10:2: Warning: Functions in interfaces should be declared external.
+	function decimals() public view returns (uint8);
+	^----------------------------------------------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:87:4: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+			keccak256(address(this), token, nonce, amount, to),
+			^------------------------------------------------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:97:3: Warning: Invoking events without "emit" prefix is deprecated.
+		OnWithdrawTo(token, msg.sender, to, amount, uint64(block.timestamp));
+		^------------------------------------------------------------------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:105:10: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+		return this.balance;
+		       ^----------^
+/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:132:13: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+		payload = keccak256("\x19Ethereum Signed Message:\n32", payload);
+		          ^----------------------------------------------------^
+
+INFO:Detectors:[91m
+MultiKeyDailyLimitWallet._transfer (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#112-123) sends eth to arbitrary user
+	Dangerous calls:
+	- to.transfer(amount) (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#122-123)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+MultiKeyDailyLimitWallet.extractSignatureAddress (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#132-148) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in MultiKeyDailyLimitWallet.withdrawTo (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#80-102):
+	External calls:
+	- limit = getSignatureRemainingLimit(signature,keccak256()(address(this),token,nonce,amount,to),token) (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#87-93)
+	- require(bool)(getBalance(token) >= amount) (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#93-94)
+	State variables written after the call(s):
+	- dailyCount (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#94-97)
+	- lastWithdrawalTime (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#97)
+	- nonce (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#97)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+MultiKeyDailyLimitWallet.getAdjustedDailyCount (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#51-59) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (block.timestamp - lastWithdrawalTime[token]) >= 86400 (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#54-59)
+MultiKeyDailyLimitWallet.withdrawTo (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#80-102) uses timestamp for comparisons
+	Dangerous comparisons:
+	- assert(bool)(block.timestamp >= lastWithdrawalTime[token]) (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#85-87)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+MultiKeyDailyLimitWallet.extractSignatureAddress uses assembly (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#132-148)
+	- /unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#141-148
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ERC20Token.balanceOf (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#4-6) should be declared external
+ERC20Token.transfer (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#6-8) should be declared external
+ERC20Token.symbol (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#8-9) should be declared external
+ERC20Token.name (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#9-10) should be declared external
+ERC20Token.decimals (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#10-13) should be declared external
+MultiKeyDailyLimitWallet.fallback (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol:
+	- pragma solidity^0.4.17 (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'MultiKeyDailyLimitWallet.MultiKeyDailyLimitWallet' (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#31-42) is not in mixedCase
+Function 'MultiKeyDailyLimitWallet._transfer' (/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol#112-123) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0xf248680d071820ebb747aea688b9eeff75ef9f27.sol analyzed (2 contracts), 15 result(s) found

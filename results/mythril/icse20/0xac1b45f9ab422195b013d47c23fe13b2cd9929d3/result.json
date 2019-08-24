@@ -1,0 +1,24 @@
+{
+  "contract": "0xac1b45f9ab422195b013d47c23fe13b2cd9929d3",
+  "tool": "mythril",
+  "start": 1563642478.030293,
+  "end": 1563642517.1932511,
+  "duration": 39.1629581451416,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 427,
+        "code": "nt _id, uint _value, bytes _sig) public {\n        bytes32 dataHash = keccak256(validator, _id, _value);\n        bytes32 prefixedHash = keccak256(\"\\x19Ethereum Signed Message:\\n32\", dataHash);\n        address recovered = getRecoveredAddress(_sig, prefixedHash);\n        require(validator == recovered);\n        require(used[_id] < _value);\n        \n        uint _transfer = (_value - used[_id]) * tipToEther;\n        \n        used[_id] = _value;\n        msg.sender.transfer(_transfer);\n        emit Withdraw(msg.sender, _transfer);\n    }\n\n    function getRecoveredAddre",
+        "debug": "calldata_EthertipGateway_32 + 36: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EthertipGateway_0: 0x744fb6ca00000000000000000000000000000000000000000000000000000000\ncalldatasize_EthertipGateway: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `withdraw(uint256,uint256,bytes)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0xac1b45f9ab422195b013d47c23fe13b2cd9929d3.sol",
+        "function": "withdraw(uint256,uint256,bytes)",
+        "lineno": 21,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

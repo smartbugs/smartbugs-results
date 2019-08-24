@@ -1,0 +1,137 @@
+{
+  "contract": "0x21ba33aa471aa8a4f4cb916048bf60a96990c256",
+  "tool": "smartcheck",
+  "start": 1563554489.18815,
+  "end": 1563554499.2835598,
+  "duration": 10.095409870147705,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 22,
+      "column": 34,
+      "content": "0x8462372F80b8f1230E2de9e29D173607b8EE6F99"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 23,
+      "column": 38,
+      "content": "0xefa08884C1e9f7A4A3F87F5134E9D8fe5309Fb59"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 46,
+      "column": 48,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 304,
+      "column": 37,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 402,
+      "column": 32,
+      "content": "totalSupply.div(100).mul(partOfNotReceived)"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 263,
+      "column": 0,
+      "content": "contractDPInsuranceFund{usingSafeMathforuint256;structInvestor{uint256deposit;uint256withdrawals;boolinsured;}mapping(address=>Investor)publicinvestors;uintpubliccountOfInvestors;boolpublicstartOfPayments=false;uint256publictotalSupply;uint256publictotalNotReceived;addresspublicDPAddress;DoubleProfitDPContract;eventPaid(addressinvestor,uint256amount,uint256notRecieve,uint256partOfNotReceived);eventSetInfo(addressinvestor,uint256notRecieve,uint256deposit,uint256withdrawals);modifieronlyDP(){require(msg.sender==DPAddress,\"access denied\");_;}functionsetDPAddress(address_DPAddress)public{require(DPAddress==address(0x0));DPAddress=_DPAddress;DPContract=DoubleProfit(DPAddress);}functionprivateSetInfo(address_address,uint256deposit,uint256withdrawals)private{if(!startOfPayments){Investorstorageinvestor=investors[_address];if(investor.deposit!=deposit){totalNotReceived=totalNotReceived.add(deposit.sub(investor.deposit));investor.deposit=deposit;}if(investor.withdrawals!=withdrawals){uint256different;if(investor.deposit<=withdrawals){different=investor.deposit.sub(investor.withdrawals);if(totalNotReceived>=different&&different!=0)totalNotReceived=totalNotReceived.sub(different);elsetotalNotReceived=0;withdrawals=investor.deposit;}else{different=withdrawals.sub(investor.withdrawals);if(totalNotReceived>=different)totalNotReceived=totalNotReceived.sub(different);elsetotalNotReceived=0;}}investor.withdrawals=withdrawals;emitSetInfo(_address,totalNotReceived,investor.deposit,investor.withdrawals);}}functionsetInfo(address_address,uint256deposit,uint256withdrawals)publiconlyDP{privateSetInfo(_address,deposit,withdrawals);}functiondeleteInsured(address_address)publiconlyDP{Investorstorageinvestor=investors[_address];investor.deposit=0;investor.withdrawals=0;investor.insured=false;countOfInvestors--;}functionbeginOfPayments()public{require(address(DPAddress).balance<0.1ether&&!startOfPayments);startOfPayments=true;totalSupply=address(this).balance;}function()externalpayable{Investorstorageinvestor=investors[msg.sender];if(msg.value>0){require(!startOfPayments);if(msg.sender!=DPAddress&&msg.value>=0.1ether){require(countOfInvestors.add(1)<=DPContract.countOfInvestors().mul(32).div(100));uint256deposit;uint256withdrawals;(deposit,withdrawals,investor.insured)=DPContract.setInsured(msg.sender);require(msg.value>=deposit.div(10)&&deposit>0);if(msg.value>deposit.div(10)){msg.sender.transfer(msg.value-deposit.div(10));}countOfInvestors++;privateSetInfo(msg.sender,deposit,withdrawals);}}elseif(msg.value==0){uint256notReceived=investor.deposit.sub(investor.withdrawals);uint256partOfNotReceived=notReceived.mul(100).div(totalNotReceived);uint256payAmount=totalSupply.div(100).mul(partOfNotReceived);require(startOfPayments&&investor.insured&&notReceived>0);investor.insured=false;msg.sender.transfer(payAmount);emitPaid(msg.sender,payAmount,notReceived,partOfNotReceived);}}}"
+    },
+    {
+      "name": "SOLIDITY_MSGVALUE_EQUALS_ZERO",
+      "patternId": "1df89a",
+      "severity": 1,
+      "line": 399,
+      "column": 19,
+      "content": "msg.value==0"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 5,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 264,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 16,
+      "column": 4,
+      "content": "uintstep=5minutes;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 17,
+      "column": 4,
+      "content": "uintownerPercent=2;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 18,
+      "column": 4,
+      "content": "uintpromotionPercent=8;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 19,
+      "column": 4,
+      "content": "uintinsurancePercent=2;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 26,
+      "column": 4,
+      "content": "DPInsuranceFundIFContract;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 286,
+      "column": 4,
+      "content": "DoubleProfitDPContract;"
+    }
+  ]
+}

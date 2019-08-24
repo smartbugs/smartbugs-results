@@ -1,0 +1,209 @@
+{
+  "contract": "0xe335936435d176e78d8b4d675bafbc575fb560ed",
+  "tool": "smartcheck",
+  "start": 1563647857.7164564,
+  "end": 1563647866.4241052,
+  "duration": 8.707648754119873,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 47,
+      "column": 49,
+      "content": "0x4Fd997Ed7c10DbD04e95d3730cd77D79513076F2"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "49bd2a",
+      "severity": 1,
+      "line": 79,
+      "column": 64,
+      "content": "throw"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "49bd2a",
+      "severity": 1,
+      "line": 146,
+      "column": 35,
+      "content": "throw"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "49bd2a",
+      "severity": 1,
+      "line": 151,
+      "column": 31,
+      "content": "throw"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 115,
+      "column": 4,
+      "content": "functionvotedPerCent(addressvoter)constantpublicreturns(uint){varrawVote=rawVotes[voter];if(rawVote<MAX_AMOUNT_EQU_0_PERCENT)return0;elseif(rawVote>=MIN_AMOUNT_EQU_100_PERCENT)return100;elsereturnrawVote*100/1ether;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 123,
+      "column": 4,
+      "content": "functionvotingEndsInHHMM()constantreturns(uint8,uint8){vartsec=VOTING_END_TIME-now;returnVOTING_END_TIME==0?(0,0):(uint8(tsec/1hours),uint8(tsec%1hours/1minutes));}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 128,
+      "column": 4,
+      "content": "functioncurrentState()internalconstantreturns(State){if(VOTING_START_BLOCKNR==0||block.number<VOTING_START_BLOCKNR){returnState.BEFORE_START;}elseif(now<=VOTING_END_TIME){returnState.VOTING_RUNNING;}else{returnState.CLOSED;}}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 139,
+      "column": 4,
+      "content": "functionstate()publicconstantreturns(string){returnstateNames[uint(currentState())];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 143,
+      "column": 4,
+      "content": "functionmax(uinta,uintb)internalconstantreturns(uintmaxValue){returna>b?a:b;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 36,
+      "column": 0,
+      "content": "contractPresalerVoting{stringpublicconstantVERSION=\"0.0.8\";uintpublicVOTING_START_BLOCKNR=0;uintpublicVOTING_END_TIME=0;TokenStoragePRESALE_CONTRACT=TokenStorage(0x4Fd997Ed7c10DbD04e95d3730cd77D79513076F2);string[3]privatestateNames=[\"BEFORE_START\",\"VOTING_RUNNING\",\"CLOSED\"];enumState{BEFORE_START,VOTING_RUNNING,CLOSED}mapping(address=>uint)publicrawVotes;uintprivateconstantMAX_AMOUNT_EQU_0_PERCENT=10finney;uintprivateconstantMIN_AMOUNT_EQU_100_PERCENT=1ether;uintpublicconstantTOTAL_BONUS_SUPPLY_ETH=12000;addresspublicowner;address[]publicvoters;uint16publicstakeVoted_Eth;uint16publicstakeRemainingToVote_Eth;uint16publicstakeWaived_Eth;uint16publicstakeConfirmed_Eth;functionPresalerVoting(){owner=msg.sender;}function()onlyState(State.VOTING_RUNNING)payable{uintbonusVoted;uintbonus=PRESALE_CONTRACT.balances(msg.sender);assert(bonus>0);if(msg.value>1ether||!msg.sender.send(msg.value))throw;if(rawVotes[msg.sender]==0){voters.push(msg.sender);stakeVoted_Eth+=uint16(bonus/1ether);}else{bonusVoted=votedPerCent(msg.sender)*bonus/100;stakeWaived_Eth-=uint16((bonus-bonusVoted)/1ether);stakeConfirmed_Eth-=uint16(bonusVoted/1ether);}rawVotes[msg.sender]=msg.value>0?msg.value:1wei;bonusVoted=votedPerCent(msg.sender)*bonus/100;stakeWaived_Eth+=uint16((bonus-bonusVoted)/1ether);stakeConfirmed_Eth+=uint16(bonusVoted/1ether);stakeRemainingToVote_Eth=uint16(TOTAL_BONUS_SUPPLY_ETH-stakeVoted_Eth);}functionvotersLen()externalreturns(uint){returnvoters.length;}functionstartVoting(uintstartBlockNr,uintdurationHrs)onlyOwner{VOTING_START_BLOCKNR=max(block.number,startBlockNr);VOTING_END_TIME=now+max(durationHrs,1)*1hours;}functionsetOwner(addressnewOwner)onlyOwner{owner=newOwner;}functionvotedPerCent(addressvoter)constantpublicreturns(uint){varrawVote=rawVotes[voter];if(rawVote<MAX_AMOUNT_EQU_0_PERCENT)return0;elseif(rawVote>=MIN_AMOUNT_EQU_100_PERCENT)return100;elsereturnrawVote*100/1ether;}functionvotingEndsInHHMM()constantreturns(uint8,uint8){vartsec=VOTING_END_TIME-now;returnVOTING_END_TIME==0?(0,0):(uint8(tsec/1hours),uint8(tsec%1hours/1minutes));}functioncurrentState()internalconstantreturns(State){if(VOTING_START_BLOCKNR==0||block.number<VOTING_START_BLOCKNR){returnState.BEFORE_START;}elseif(now<=VOTING_END_TIME){returnState.VOTING_RUNNING;}else{returnState.CLOSED;}}functionstate()publicconstantreturns(string){returnstateNames[uint(currentState())];}functionmax(uinta,uintb)internalconstantreturns(uintmaxValue){returna>b?a:b;}modifieronlyState(Statestate){if(currentState()!=state)throw;_;}modifieronlyOwner(){if(msg.sender!=owner)throw;_;}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 111,
+      "column": 4,
+      "content": "functionsetOwner(addressnewOwner)onlyOwner{owner=newOwner;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 49,
+      "column": 14,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 54,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 55,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 79,
+      "column": 8,
+      "content": "if(msg.value>1ether||!msg.sender.send(msg.value))throw;"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 146,
+      "column": 8,
+      "content": "if(currentState()!=state)throw;"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 151,
+      "column": 8,
+      "content": "if(msg.sender!=owner)throw;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 139,
+      "column": 45,
+      "content": "string"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 68,
+      "column": 4,
+      "content": "functionPresalerVoting(){owner=msg.sender;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 73,
+      "column": 4,
+      "content": "function()onlyState(State.VOTING_RUNNING)payable{uintbonusVoted;uintbonus=PRESALE_CONTRACT.balances(msg.sender);assert(bonus>0);if(msg.value>1ether||!msg.sender.send(msg.value))throw;if(rawVotes[msg.sender]==0){voters.push(msg.sender);stakeVoted_Eth+=uint16(bonus/1ether);}else{bonusVoted=votedPerCent(msg.sender)*bonus/100;stakeWaived_Eth-=uint16((bonus-bonusVoted)/1ether);stakeConfirmed_Eth-=uint16(bonusVoted/1ether);}rawVotes[msg.sender]=msg.value>0?msg.value:1wei;bonusVoted=votedPerCent(msg.sender)*bonus/100;stakeWaived_Eth+=uint16((bonus-bonusVoted)/1ether);stakeConfirmed_Eth+=uint16(bonusVoted/1ether);stakeRemainingToVote_Eth=uint16(TOTAL_BONUS_SUPPLY_ETH-stakeVoted_Eth);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 106,
+      "column": 4,
+      "content": "functionstartVoting(uintstartBlockNr,uintdurationHrs)onlyOwner{VOTING_START_BLOCKNR=max(block.number,startBlockNr);VOTING_END_TIME=now+max(durationHrs,1)*1hours;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 111,
+      "column": 4,
+      "content": "functionsetOwner(addressnewOwner)onlyOwner{owner=newOwner;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 123,
+      "column": 4,
+      "content": "functionvotingEndsInHHMM()constantreturns(uint8,uint8){vartsec=VOTING_END_TIME-now;returnVOTING_END_TIME==0?(0,0):(uint8(tsec/1hours),uint8(tsec%1hours/1minutes));}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 47,
+      "column": 4,
+      "content": "TokenStoragePRESALE_CONTRACT=TokenStorage(0x4Fd997Ed7c10DbD04e95d3730cd77D79513076F2);"
+    }
+  ]
+}

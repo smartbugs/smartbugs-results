@@ -1,0 +1,168 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:69:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:101:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Destructible() public payable { }
+    ^----------------------------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:288:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MonethaGateway(address _monethaVault, address _admin) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:435:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function MerchantWallet(address _merchantAccount, string _merchantId, address _fundAddress) public isEOA(_fundAddress) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:626:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function PrivatePaymentProcessor(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:210:9: Warning: Invoking events without "emit" prefix is deprecated.
+        MonethaAddressSet(_address, _isMonethaAddress);
+        ^--------------------------------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:310:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PaymentProcessedEther(_merchantWallet, merchantIncome, _monethaFee);
+        ^-----------------------------------------------------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:324:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PaymentProcessedToken(_tokenAddress, _merchantWallet, merchantIncome, _monethaFee);
+        ^--------------------------------------------------------------------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:343:9: Warning: Invoking events without "emit" prefix is deprecated.
+        MonethaAddressSet(_address, _isMonethaAddress);
+        ^--------------------------------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:365:17: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        require(this.balance == 0);
+                ^----------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:440:26: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        merchantIdHash = keccak256(_merchantId);
+                         ^--------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:440:26: Warning: The provided argument of type string memory is not implicitly convertible to expected type bytes memory.
+        merchantIdHash = keccak256(_merchantId);
+                         ^--------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:634:26: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        merchantIdHash = keccak256(_merchantId);
+                         ^--------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:634:26: Warning: The provided argument of type string memory is not implicitly convertible to expected type bytes memory.
+        merchantIdHash = keccak256(_merchantId);
+                         ^--------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:734:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PaymentRefunding(_orderId, _clientAddress, msg.value, _refundReason);
+        ^------------------------------------------------------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:771:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PaymentRefunding(_orderId, _clientAddress, _orderValue, _refundReason);
+        ^--------------------------------------------------------------------^
+/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:794:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PaymentWithdrawn(_orderId, clientAddress, amount);
+        ^-----------------------------------------------^
+
+INFO:Detectors:[91m
+MonethaGateway.acceptPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#304-317) sends eth to arbitrary user
+	Dangerous calls:
+	- monethaVault.transfer(_monethaFee) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#316)
+MerchantWallet.doWithdrawal (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#521-526) sends eth to arbitrary user
+	Dangerous calls:
+	- beneficiary.transfer(amount) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#526)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+SafeDestructible.destroy (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#379-381) uses a dangerous strict equality:
+	- require(bool)(this.balance == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in PrivatePaymentProcessor.refundTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#770-798):
+	External calls:
+	- ERC20(_tokenAddress).transferFrom(msg.sender,address(this),_orderValue) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#784-787)
+	State variables written after the call(s):
+	- withdrawals (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#788-794)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+MonethaGateway.acceptTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#317-336) does not use the value returned by external calls:
+	-ERC20(_tokenAddress).transfer(_merchantWallet,merchantIncome) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#329-331)
+	-ERC20(_tokenAddress).transfer(monethaVault,_monethaFee) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#331)
+PrivatePaymentProcessor.payForOrderInTokens (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#699-727) does not use the value returned by external calls:
+	-ERC20(_tokenAddress).transferFrom(msg.sender,address(this),_orderValue) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#710-711)
+	-ERC20(_tokenAddress).transfer(address(monethaGateway),_orderValue) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#711-713)
+PrivatePaymentProcessor.refundTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#770-798) does not use the value returned by external calls:
+	-ERC20(_tokenAddress).transferFrom(msg.sender,address(this),_orderValue) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#784-787)
+PrivatePaymentProcessor.withdrawTokenRefund (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#825-843) does not use the value returned by external calls:
+	-ERC20(_tokenAddress).transfer(clientAddress,amount) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#839-843)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in PrivatePaymentProcessor.setMerchantWallet (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol):
+	External calls:
+	- require(bool)(_newWallet.merchantIdHash() == merchantIdHash) (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol)
+	State variables written after the call(s):
+	- merchantWallet (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#86-96) should be declared external
+Destructible.destroy (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#110-112) should be declared external
+Destructible.destroyAndSend (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#115-119) should be declared external
+Pausable.pause (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#153-156) should be declared external
+Pausable.unpause (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#161-165) should be declared external
+Contactable.setContactInformation (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#184-189) should be declared external
+Restricted.setMonethaAddress (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#211-224) should be declared external
+MonethaGateway.setMonethaAddress (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#348-360) should be declared external
+ERC20.totalSupply (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#228-229) should be declared external
+ERC20.decimals (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#231) should be declared external
+ERC20.balanceOf (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#231-233) should be declared external
+ERC20.allowance (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#234-236) should be declared external
+ERC20.transfer (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#237-240) should be declared external
+ERC20.approve (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#240-246) should be declared external
+ERC20.transferFrom (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#246-252) should be declared external
+SafeDestructible.destroy (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#379-381) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#73-74) is not in mixedCase
+Function 'Destructible.Destructible' (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#104-106) is not in mixedCase
+Parameter '_recipient' of Destructible.destroyAndSend (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#115) is not in mixedCase
+Parameter '_address' of Restricted.setMonethaAddress (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#214-218) is not in mixedCase
+Parameter '_isMonethaAddress' of Restricted.setMonethaAddress (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#218-219) is not in mixedCase
+Parameter '_address' of MonethaGateway.setMonethaAddress (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#348-350) is not in mixedCase
+Parameter '_isMonethaAddress' of MonethaGateway.setMonethaAddress (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#350) is not in mixedCase
+Function 'MonethaGateway.MonethaGateway' (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#296-301) is not in mixedCase
+Parameter '_monethaVault' of MonethaGateway.MonethaGateway (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#297-298) is not in mixedCase
+Parameter '_admin' of MonethaGateway.MonethaGateway (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#298) is not in mixedCase
+Parameter '_merchantWallet' of MonethaGateway.acceptPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#305) is not in mixedCase
+Parameter '_monethaFee' of MonethaGateway.acceptPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#305-307) is not in mixedCase
+Parameter '_merchantWallet' of MonethaGateway.acceptTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#319) is not in mixedCase
+Parameter '_monethaFee' of MonethaGateway.acceptTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#319) is not in mixedCase
+Parameter '_tokenAddress' of MonethaGateway.acceptTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#319-321) is not in mixedCase
+Parameter '_value' of MonethaGateway.acceptTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#321) is not in mixedCase
+Parameter '_admin' of MonethaGateway.setAdmin (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#364) is not in mixedCase
+Function 'MerchantWallet.MerchantWallet' (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#448-462) is not in mixedCase
+Parameter '_merchantAccount' of MerchantWallet.MerchantWallet (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#451-452) is not in mixedCase
+Parameter '_merchantId' of MerchantWallet.MerchantWallet (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#452) is not in mixedCase
+Parameter '_fundAddress' of MerchantWallet.MerchantWallet (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#452-454) is not in mixedCase
+Parameter 'min_amount' of MerchantWallet.withdrawAllToExchange (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#550) is not in mixedCase
+Function 'PrivatePaymentProcessor.PrivatePaymentProcessor' (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#647-660) is not in mixedCase
+Parameter '_merchantId' of PrivatePaymentProcessor.PrivatePaymentProcessor (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#649) is not in mixedCase
+Parameter '_monethaGateway' of PrivatePaymentProcessor.PrivatePaymentProcessor (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#650) is not in mixedCase
+Parameter '_merchantWallet' of PrivatePaymentProcessor.PrivatePaymentProcessor (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#652-653) is not in mixedCase
+Parameter '_orderId' of PrivatePaymentProcessor.payForOrder (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#666-667) is not in mixedCase
+Parameter '_originAddress' of PrivatePaymentProcessor.payForOrder (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#669-670) is not in mixedCase
+Parameter '_monethaFee' of PrivatePaymentProcessor.payForOrder (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#670) is not in mixedCase
+Parameter '_orderId' of PrivatePaymentProcessor.payForOrderInTokens (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#699) is not in mixedCase
+Parameter '_originAddress' of PrivatePaymentProcessor.payForOrderInTokens (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#699-700) is not in mixedCase
+Parameter '_monethaFee' of PrivatePaymentProcessor.payForOrderInTokens (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#701) is not in mixedCase
+Parameter '_tokenAddress' of PrivatePaymentProcessor.payForOrderInTokens (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#701) is not in mixedCase
+Parameter '_orderValue' of PrivatePaymentProcessor.payForOrderInTokens (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#701) is not in mixedCase
+Parameter '_orderId' of PrivatePaymentProcessor.refundPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#738-739) is not in mixedCase
+Parameter '_clientAddress' of PrivatePaymentProcessor.refundPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#739) is not in mixedCase
+Parameter '_refundReason' of PrivatePaymentProcessor.refundPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#739) is not in mixedCase
+Parameter '_orderId' of PrivatePaymentProcessor.refundTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#771) is not in mixedCase
+Parameter '_clientAddress' of PrivatePaymentProcessor.refundTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#771) is not in mixedCase
+Parameter '_refundReason' of PrivatePaymentProcessor.refundTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#774-775) is not in mixedCase
+Parameter '_orderValue' of PrivatePaymentProcessor.refundTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#775) is not in mixedCase
+Parameter '_tokenAddress' of PrivatePaymentProcessor.refundTokenPayment (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#775-776) is not in mixedCase
+Parameter '_orderId' of PrivatePaymentProcessor.withdrawRefund (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#802) is not in mixedCase
+Parameter '_orderId' of PrivatePaymentProcessor.withdrawTokenRefund (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#827) is not in mixedCase
+Parameter '_tokenAddress' of PrivatePaymentProcessor.withdrawTokenRefund (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#827) is not in mixedCase
+Parameter '_newGateway' of PrivatePaymentProcessor.setMonethaGateway (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol) is not in mixedCase
+Parameter '_newWallet' of PrivatePaymentProcessor.setMerchantWallet (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+MonethaGateway.VERSION (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#274-275) is never used in MonethaGateway
+MerchantWallet.VERSION (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#393-395) is never used in MerchantWallet
+PrivatePaymentProcessor.VERSION (/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol#586) is never used in PrivatePaymentProcessor
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/35/0xee58ee0b1519bb47801812a3a9c83ab600c63d81.sol analyzed (11 contracts), 76 result(s) found

@@ -1,0 +1,359 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:286:9: Warning: Invoking events without "emit" prefix is deprecated.
+        DotTokenCreated(curves[endpoint]);
+        ^-------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:441:5: Warning: Functions in interfaces should be declared external.
+    function getProvider(uint256 id) public view returns (address);
+    ^-------------------------------------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:442:5: Warning: Functions in interfaces should be declared external.
+    function getSubscriber(uint256 id) public view returns (address);
+    ^---------------------------------------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:443:5: Warning: Functions in interfaces should be declared external.
+    function getEndpoint(uint256 id) public view returns (bytes32);
+    ^-------------------------------------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:444:5: Warning: Functions in interfaces should be declared external.
+    function getStatus(uint256 id) public view returns (uint256);
+    ^-----------------------------------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:445:5: Warning: Functions in interfaces should be declared external.
+    function getCancel(uint256 id) public view returns (uint256);
+    ^-----------------------------------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:446:5: Warning: Functions in interfaces should be declared external.
+    function getUserQuery(uint256 id) public view returns (string);
+    ^-------------------------------------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:447:5: Warning: Functions in interfaces should be declared external.
+    function getSubscriberOnchain(uint256 id) public view returns (bool);
+    ^-------------------------------------------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:187:5: Warning: No visibility specified. Defaulting to "public". 
+    constructor(
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:223:5: Warning: No visibility specified. Defaulting to "public". 
+    function judge(bytes32 endpoint) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:519:3: Warning: No visibility specified. Defaulting to "public". 
+  constructor(
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:534:5: Warning: Unused local variable.
+    BondageInterface bondage = BondageInterface(bondageAddress);
+    ^----------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:544:5: Warning: Unused local variable.
+    FactoryTokenInterface reserveToken = FactoryTokenInterface(coordinator.getContract("ZAP_TOKEN"));
+    ^--------------------------------^
+/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:558:21: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function callback(uint256 _id, int[] responses) external {
+                    ^---------^
+
+INFO:Detectors:[93m
+SampleContest.reset (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#260-277) uses a dangerous strict equality:
+	- require(bool,string)(reserveToken.balanceOf(address(this)) == 0,funds remain)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in SampleContest.initializeCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#277-295):
+	External calls:
+	- registry = RegistryInterface(coord.getContract(REGISTRY)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#284-286)
+	- registry.initiateProviderCurve(endpoint,curve,address(this)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#286-287)
+	- curves[endpoint] = newToken(bytes32ToString(endpoint),bytes32ToString(symbol)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#290-291)
+	State variables written after the call(s):
+	- curves (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#290-291)
+Reentrancy in SampleContest.reset (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#260-277):
+	External calls:
+	- require(bool,string)(reserveToken.balanceOf(address(this)) == 0,funds remain) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#271-274)
+	State variables written after the call(s):
+	- status (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#276)
+Reentrancy in SampleContest.settle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#237-259):
+	External calls:
+	- bondage = BondageInterface(coord.getContract(BONDAGE)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#240-241)
+	- numWin = bondage.getDotsIssued(address(this),winner) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#242)
+	- winValue = reserveToken.balanceOf(address(this)) / numWin (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#257-258)
+	State variables written after the call(s):
+	- status (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#258)
+Reentrancy in SampleContest.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#320-381):
+	External calls:
+	- bondage = BondageInterface(coord.getContract(BONDAGE)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#323-324)
+	- issued = bondage.getDotsIssued(address(this),endpoint) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#324-326)
+	- bondage.unbond(address(this),winner,numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#326-328)
+	- currentCost = CurrentCostInterface(coord.getContract(CURRENT_COST)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#328)
+	- reserveCost = currentCost._costOfNDots(address(this),endpoint,issued + 1 - numDots,numDots - 1) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#329-330)
+	State variables written after the call(s):
+	- status (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#340-342)
+Reentrancy in SampleContest.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#320-381):
+	External calls:
+	- bondage = BondageInterface(coord.getContract(BONDAGE)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#323-324)
+	- issued = bondage.getDotsIssued(address(this),endpoint) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#324-326)
+	- bondage.unbond(address(this),winner,numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#326-328)
+	- currentCost = CurrentCostInterface(coord.getContract(CURRENT_COST)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#328)
+	- reserveCost = currentCost._costOfNDots(address(this),endpoint,issued + 1 - numDots,numDots - 1) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#329-330)
+	- reward = (winValue * FactoryTokenInterface(getTokenAddress(winner)).balanceOf(msg.sender)) + reserveCost (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#361-367)
+	- curveToken.burnFrom(msg.sender,numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#373-375)
+	- reserveToken.transfer(msg.sender,reward) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#375-376)
+	State variables written after the call(s):
+	- redeemed (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#376-377)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+SampleContest.constructor (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#193-210) does not use the value returned by external calls:
+	-reserveToken.approve(coord.getContract(BONDAGE),~ uint256(0)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#199-200)
+	-registry.initiateProvider(providerPubKey,providerTitle) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#208-210)
+SampleContest.settle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#237-259) does not use the value returned by external calls:
+	-bondage.unbond(address(this),curves_list[i],dots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#253-255)
+SampleContest.initializeCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#277-295) does not use the value returned by external calls:
+	-registry.initiateProviderCurve(endpoint,curve,address(this)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#286-287)
+SampleContest.bond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#297-317) does not use the value returned by external calls:
+	-reserveToken.approve(address(bondage),numReserve) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#311-312)
+	-bondage.bond(address(this),endpoint,numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#312-314)
+	-FactoryTokenInterface(curves[endpoint]).mint(msg.sender,numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#314-316)
+SampleContest.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#320-381) does not use the value returned by external calls:
+	-bondage.unbond(address(this),winner,numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#326-328)
+	-reserveToken.transfer(msg.sender,reward) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#375-376)
+BTCcontest.constructor (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#533-551) does not use the value returned by external calls:
+	-reserveToken.approve(address(bondageAddress),~ uint256(0)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#550-551)
+BTCcontest.bondToCoincap (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#551-560) does not use the value returned by external calls:
+	-bondage.bond(_coincap,_endpoint,_numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#559)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+SampleContest.settle has external calls inside a loop:
+	- dots = bondage.getDotsIssued(address(this),curves_list[i]) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#248-250)
+SampleContest.settle has external calls inside a loop:
+	- bondage.unbond(address(this),curves_list[i],dots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#253-255)
+BTCcontest.callback has external calls inside a loop:
+	- contest.judge(endpoints[i]) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol)
+BTCcontest.callback has external calls inside a loop:
+	- contest.judge(endpoints[i]) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in SampleContest.constructor (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#193-210):
+	External calls:
+	- reserveToken = FactoryTokenInterface(coord.getContract(ZAP_TOKEN)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#196-199)
+	- reserveToken.approve(coord.getContract(BONDAGE),~ uint256(0)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#199-200)
+	State variables written after the call(s):
+	- tokenFactory (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#200-201)
+Reentrancy in SampleContest.constructor (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#193-210):
+	External calls:
+	- reserveToken = FactoryTokenInterface(coord.getContract(ZAP_TOKEN)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#196-199)
+	- reserveToken.approve(coord.getContract(BONDAGE),~ uint256(0)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#199-200)
+	- registry = RegistryInterface(coord.getContract(REGISTRY)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#204-207)
+	- registry.initiateProvider(providerPubKey,providerTitle) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#208-210)
+	State variables written after the call(s):
+	- status (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#210)
+Reentrancy in BTCcontest.constructor (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#533-551):
+	External calls:
+	- require(bool,string)(contest.isEndpointValid(_upEndpoint) && contest.isEndpointValid(_downEndpoint),Endpoints are not valid) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#541-542)
+	State variables written after the call(s):
+	- downEndpoint (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#543)
+	- upEndpoint (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#542)
+Reentrancy in SampleContest.initializeCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#277-295):
+	External calls:
+	- registry = RegistryInterface(coord.getContract(REGISTRY)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#284-286)
+	- registry.initiateProviderCurve(endpoint,curve,address(this)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#286-287)
+	- curves[endpoint] = newToken(bytes32ToString(endpoint),bytes32ToString(symbol)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#290-291)
+	State variables written after the call(s):
+	- curves_list (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#291)
+Reentrancy in SampleContest.reset (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#260-277):
+	External calls:
+	- require(bool,string)(reserveToken.balanceOf(address(this)) == 0,funds remain) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#271-274)
+	State variables written after the call(s):
+	- curves_list (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#276)
+	- redeemed_list (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#275)
+Reentrancy in SampleContest.settle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#237-259):
+	External calls:
+	- bondage = BondageInterface(coord.getContract(BONDAGE)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#240-241)
+	- numWin = bondage.getDotsIssued(address(this),winner) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#242)
+	- winValue = reserveToken.balanceOf(address(this)) / numWin (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#257-258)
+	State variables written after the call(s):
+	- winValue (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#257-258)
+Reentrancy in SampleContest.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#320-381):
+	External calls:
+	- bondage = BondageInterface(coord.getContract(BONDAGE)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#323-324)
+	- issued = bondage.getDotsIssued(address(this),endpoint) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#324-326)
+	- bondage.unbond(address(this),winner,numDots) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#326-328)
+	- currentCost = CurrentCostInterface(coord.getContract(CURRENT_COST)) (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#328)
+	State variables written after the call(s):
+	- currentCost (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#328)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BTCcontest.query_id should be constant (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#530-531)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol:
+	- Version used: ['^0.4.24', '^0.4.25']
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#3-5 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#32 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#47-48 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#56-57 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#69 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#88 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#98 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#437-438 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#464 declares pragma solidity^0.4.24
+	- /unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#527-528 declares pragma solidity^0.4.25
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#20-27) should be declared external
+FactoryTokenInterface.balanceOf (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#33-34) should be declared external
+FactoryTokenInterface.transfer (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#34-35) should be declared external
+FactoryTokenInterface.transferFrom (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#35-36) should be declared external
+FactoryTokenInterface.approve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#36-37) should be declared external
+FactoryTokenInterface.allowance (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#37-38) should be declared external
+FactoryTokenInterface.mint (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#38-39) should be declared external
+FactoryTokenInterface.burnFrom (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#39-42) should be declared external
+TokenFactoryInterface.create (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#48-51) should be declared external
+ZapCoordinatorInterface.getContractName (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#59-60) should be declared external
+ZapCoordinatorInterface.getContract (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#60-64) should be declared external
+BondageInterface.currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#76-77) should be declared external
+BondageInterface.getDotsIssued (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#78) should be declared external
+BondageInterface.getBoundDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#78-80) should be declared external
+BondageInterface.getZapBound (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#80-83) should be declared external
+BondageInterface.dotLimit (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#83-85) should be declared external
+CurrentCostInterface._currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#89-90) should be declared external
+CurrentCostInterface._dotLimit (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#90) should be declared external
+CurrentCostInterface._costOfNDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#91-96) should be declared external
+RegistryInterface.initiateProvider (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#99-100) should be declared external
+RegistryInterface.initiateProviderCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#100-101) should be declared external
+RegistryInterface.setEndpointParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#101-102) should be declared external
+RegistryInterface.getEndpointParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#102-103) should be declared external
+RegistryInterface.getProviderPublicKey (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#103-104) should be declared external
+RegistryInterface.getProviderTitle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#104-105) should be declared external
+RegistryInterface.setProviderParameter (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#106-107) should be declared external
+RegistryInterface.setProviderTitle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#107) should be declared external
+RegistryInterface.clearEndpoint (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#107-108) should be declared external
+RegistryInterface.getProviderParameter (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#108-109) should be declared external
+RegistryInterface.getAllProviderParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#109-110) should be declared external
+RegistryInterface.getProviderCurveLength (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#110-111) should be declared external
+RegistryInterface.getProviderCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#111-112) should be declared external
+RegistryInterface.isProviderInitiated (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#112-113) should be declared external
+RegistryInterface.getProviderEndpoints (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#114-117) should be declared external
+RegistryInterface.getEndpointBroker (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#117-120) should be declared external
+SampleContest.initializeContest (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#211-224) should be declared external
+SampleContest.judge (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#226-237) should be declared external
+SampleContest.settle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#237-259) should be declared external
+SampleContest.reset (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#260-277) should be declared external
+SampleContest.initializeCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#277-295) should be declared external
+SampleContest.bond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#297-317) should be declared external
+SampleContest.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#320-381) should be declared external
+SampleContest.getEndpoints (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#398-402) should be declared external
+SampleContest.getStatus (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#402-403) should be declared external
+SampleContest.isEndpointValid (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#403-410) should be declared external
+DispatchInterface.getProvider (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#447-450) should be declared external
+DispatchInterface.getSubscriber (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#450-455) should be declared external
+DispatchInterface.getEndpoint (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#455-456) should be declared external
+DispatchInterface.getStatus (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#456-457) should be declared external
+DispatchInterface.getCancel (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#457-458) should be declared external
+DispatchInterface.getUserQuery (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#458-461) should be declared external
+DispatchInterface.getSubscriberOnchain (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#461-463) should be declared external
+BTCcontest.bondToCoincap (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#551-560) should be declared external
+BTCcontest.queryToSettle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#560-566) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '' of BondageInterface.bond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#70) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.bond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#70) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.bond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#70) is not in mixedCase
+Parameter '' of BondageInterface.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#71) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#71) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.unbond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#71) is not in mixedCase
+Parameter '' of BondageInterface.delegateBond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#72) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.delegateBond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#72) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.delegateBond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#72) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.delegateBond (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#72) is not in mixedCase
+Parameter '' of BondageInterface.escrowDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#73) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.escrowDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#73) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.escrowDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#73) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.escrowDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#73) is not in mixedCase
+Parameter '' of BondageInterface.releaseDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#74) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.releaseDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#74) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.releaseDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#74) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.releaseDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#74) is not in mixedCase
+Parameter '' of BondageInterface.returnDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#75) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.returnDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#75) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.returnDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#75) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.returnDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#75) is not in mixedCase
+Parameter '' of BondageInterface.calcZapForDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#76) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.calcZapForDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#76) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.calcZapForDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#76) is not in mixedCase
+Parameter '' of BondageInterface.currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#77) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#77) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#77) is not in mixedCase
+Parameter '' of BondageInterface.getDotsIssued (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#78) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.getDotsIssued (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#78) is not in mixedCase
+Parameter '' of BondageInterface.getBoundDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#79) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.getBoundDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#79) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.getBoundDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#79) is not in mixedCase
+Parameter '' of BondageInterface.getZapBound (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#80) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.getZapBound (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#80) is not in mixedCase
+Parameter '' of BondageInterface.dotLimit (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#83) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.dotLimit (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#83) is not in mixedCase
+Function 'CurrentCostInterface._currentCostOfDot' (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#89-90) is not in mixedCase
+Parameter '' of CurrentCostInterface._currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#89) is not in mixedCase
+Parameter '_scope_0' of CurrentCostInterface._currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#89) is not in mixedCase
+Parameter '_scope_1' of CurrentCostInterface._currentCostOfDot (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#89) is not in mixedCase
+Function 'CurrentCostInterface._dotLimit' (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#90) is not in mixedCase
+Parameter '' of CurrentCostInterface._dotLimit (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#90) is not in mixedCase
+Parameter '_scope_0' of CurrentCostInterface._dotLimit (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#90) is not in mixedCase
+Function 'CurrentCostInterface._costOfNDots' (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#91-96) is not in mixedCase
+Parameter '' of CurrentCostInterface._costOfNDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#93) is not in mixedCase
+Parameter '_scope_0' of CurrentCostInterface._costOfNDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#93) is not in mixedCase
+Parameter '_scope_1' of CurrentCostInterface._costOfNDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#93) is not in mixedCase
+Parameter '_scope_2' of CurrentCostInterface._costOfNDots (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#93) is not in mixedCase
+Parameter '' of RegistryInterface.initiateProvider (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#99) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.initiateProvider (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#99) is not in mixedCase
+Parameter '' of RegistryInterface.initiateProviderCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#100) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.initiateProviderCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#100-101) is not in mixedCase
+Parameter '_scope_1' of RegistryInterface.initiateProviderCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#101) is not in mixedCase
+Parameter '' of RegistryInterface.setEndpointParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#101) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.setEndpointParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#101-102) is not in mixedCase
+Parameter '' of RegistryInterface.getEndpointParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#102) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getEndpointParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#102) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderPublicKey (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#103) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderTitle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#105) is not in mixedCase
+Parameter '' of RegistryInterface.setProviderParameter (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#106) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.setProviderParameter (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#106-107) is not in mixedCase
+Parameter '' of RegistryInterface.setProviderTitle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#107) is not in mixedCase
+Parameter '' of RegistryInterface.clearEndpoint (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#108) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderParameter (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#108) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getProviderParameter (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#108) is not in mixedCase
+Parameter '' of RegistryInterface.getAllProviderParams (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#109) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderCurveLength (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#110) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getProviderCurveLength (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#110) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#111) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getProviderCurve (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#112) is not in mixedCase
+Parameter '' of RegistryInterface.isProviderInitiated (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#113) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderEndpoints (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#114) is not in mixedCase
+Parameter '' of RegistryInterface.getEndpointBroker (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#120) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getEndpointBroker (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#120) is not in mixedCase
+Parameter '_ttl' of SampleContest.initializeContest (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#213) is not in mixedCase
+Parameter '_endpoint' of SampleContest.isEndpointValid (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#404-405) is not in mixedCase
+Variable 'SampleContest.curves_list' (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#175-177) is not in mixedCase
+Variable 'SampleContest.redeemed_list' (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#178-179) is not in mixedCase
+Parameter '' of DispatchInterface.query (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#438) is not in mixedCase
+Parameter '_scope_0' of DispatchInterface.query (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#438-439) is not in mixedCase
+Parameter '_scope_1' of DispatchInterface.query (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#439) is not in mixedCase
+Parameter '_scope_2' of DispatchInterface.query (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#439) is not in mixedCase
+Parameter '' of DispatchInterface.respond1 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#440) is not in mixedCase
+Parameter '_scope_0' of DispatchInterface.respond1 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#440) is not in mixedCase
+Parameter '' of DispatchInterface.respond2 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#441) is not in mixedCase
+Parameter '_scope_0' of DispatchInterface.respond2 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#441) is not in mixedCase
+Parameter '_scope_1' of DispatchInterface.respond2 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#441) is not in mixedCase
+Parameter '' of DispatchInterface.respond3 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#442) is not in mixedCase
+Parameter '_scope_0' of DispatchInterface.respond3 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#442) is not in mixedCase
+Parameter '_scope_1' of DispatchInterface.respond3 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#442) is not in mixedCase
+Parameter '_scope_2' of DispatchInterface.respond3 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#442) is not in mixedCase
+Parameter '' of DispatchInterface.respond4 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#443) is not in mixedCase
+Parameter '_scope_0' of DispatchInterface.respond4 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#443) is not in mixedCase
+Parameter '_scope_1' of DispatchInterface.respond4 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#443) is not in mixedCase
+Parameter '_scope_2' of DispatchInterface.respond4 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#443-444) is not in mixedCase
+Parameter '_scope_3' of DispatchInterface.respond4 (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#444) is not in mixedCase
+Parameter '' of DispatchInterface.respondBytes32Array (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#445) is not in mixedCase
+Parameter '_scope_0' of DispatchInterface.respondBytes32Array (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#445) is not in mixedCase
+Parameter '' of DispatchInterface.respondIntArray (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#446) is not in mixedCase
+Parameter '_scope_0' of DispatchInterface.respondIntArray (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#446) is not in mixedCase
+Parameter '' of DispatchInterface.cancelQuery (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#447) is not in mixedCase
+Parameter '_cord' of BTCcontest. (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#534) is not in mixedCase
+Parameter '_contest' of BTCcontest. (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#534) is not in mixedCase
+Parameter '_startPrice' of BTCcontest. (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#534-535) is not in mixedCase
+Parameter '_upEndpoint' of BTCcontest. (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#535) is not in mixedCase
+Parameter '_downEndpoint' of BTCcontest. (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#535) is not in mixedCase
+Parameter '_coincap' of BTCcontest.bondToCoincap (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#551) is not in mixedCase
+Parameter '_endpoint' of BTCcontest.bondToCoincap (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#551) is not in mixedCase
+Parameter '_numDots' of BTCcontest.bondToCoincap (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#552) is not in mixedCase
+Parameter '_coincap' of BTCcontest.queryToSettle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#560) is not in mixedCase
+Parameter '_endpoint' of BTCcontest.queryToSettle (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#560) is not in mixedCase
+Variable 'BTCcontest.query_id' (/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol#530-531) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/36/0x9acdd3bf968216720f1b9862aab009af63e31ad9.sol analyzed (16 contracts), 193 result(s) found

@@ -1,0 +1,68 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol:
+/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol:395:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            owner().send(adminFee);                                 // solium-disable-line security/no-send
+            ^--------------------^
+/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol:396:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            address(nextJackpot).send(jackpotFee);                  // solium-disable-line security/no-send
+            ^-----------------------------------^
+/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol:397:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            game.player.send(reward.sub(adminFee).sub(jackpotFee)); // solium-disable-line security/no-send
+            ^----------------------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in SX.play (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#331-380):
+	External calls:
+	- updateState() (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#350)
+	State variables written after the call(s):
+	- games (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#358-365)
+Reentrancy in SX.play (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#331-380):
+	External calls:
+	- updateState() (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#350)
+	- (begin,end) = nextJackpot.addRange(msg.sender,msg.value) (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#365-369)
+	External calls sending eth:
+	- updateState() (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#350)
+	State variables written after the call(s):
+	- totalWeisInGame (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#375-379)
+Reentrancy in SX.updateState (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#310-327):
+	External calls:
+	- nextJackpot.shouldSelectWinner() (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#314-327)
+	- nextJackpot.selectWinner() (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#316-317)
+	- JackpotWinnerSelected(prevJackpots.length,nextJackpot.winnerOffset()) (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#318-323)
+	External calls sending eth:
+	- finishAllGames() (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#314)
+	State variables written after the call(s):
+	- nextJackpot (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#324-327)
+	- prevJackpots (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#323-324)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+SX.finishJackpot (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#425-450) uses a dangerous strict equality:
+	- address(jackpot).balance == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+SX.updateState (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#310-327) does not use the value returned by external calls:
+	-nextJackpot.selectWinner() (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#316-317)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#143-144) should be declared external
+Ownable.transferOwnership (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#151-154) should be declared external
+Jackpot.fallback (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#184-187) should be declared external
+Jackpot.addRange (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#187-198) should be declared external
+Jackpot.selectWinner (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#209-216) should be declared external
+Jackpot.payJackpot (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#216-229) should be declared external
+SX.fallback (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#298-305) should be declared external
+SX.gamesLength (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#305-307) should be declared external
+SX.prevJackpotsLength (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#307-310) should be declared external
+SX.playAndFinishJackpot (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#327-331) should be declared external
+SX.setAdminFeePercent (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#450-458) should be declared external
+SX.setJackpotFeePercent (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#458-465) should be declared external
+SX.setMaxRewardPercent (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#465-470) should be declared external
+SX.setMinReward (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#470-472) should be declared external
+SX.setMaxReward (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#472-474) should be declared external
+SX.putToBank (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#474-477) should be declared external
+SX.getFromBank (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Ownable._transferOwnership' (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol#157-168) is not in mixedCase
+Function 'SX._countBits' (/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/25/0xd1ce888d8a16bf464cc6f332ec2e8914a7f6dce2.sol analyzed (4 contracts), 24 result(s) found

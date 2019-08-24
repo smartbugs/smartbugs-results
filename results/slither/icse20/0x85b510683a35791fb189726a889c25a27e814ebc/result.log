@@ -1,0 +1,72 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:14:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Exploit() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:3:1: Warning: Source file does not specify required compiler version!Consider adding "pragma solidity ^0.4.25;"
+contract Slotthereum {
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:19:9: Warning: This declaration shadows an existing declaration.
+        Slotthereum target = Slotthereum(a);
+        ^----------------^
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:10:5: The shadowed declaration is here:
+    Slotthereum target;
+    ^----------------^
+
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:32:29: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        msg.sender.transfer(this.balance);
+                            ^----------^
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:37:21: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return uint(keccak256(nonce, seed))%(min+max)-min;
+                    ^--------------------^
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:42:22: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        return uint8(keccak256(nonce, seed))%(min+max)-min;
+                     ^--------------------^
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:46:16: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        seed = keccak256(nonce, seed, random(0, 255));
+               ^------------------------------------^
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:4:23: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function placeBet(uint8 start, uint8 end) public payable returns (bool) {
+                      ^---------^
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:4:36: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function placeBet(uint8 start, uint8 end) public payable returns (bool) {
+                                   ^-------^
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:14:5: Warning: No visibility specified. Defaulting to "public". 
+    function Exploit() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:18:5: Warning: No visibility specified. Defaulting to "public". 
+    function attack(address a, bytes32 s, uint n) payable {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:26:5: Warning: No visibility specified. Defaulting to "public". 
+    function () payable {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:30:5: Warning: No visibility specified. Defaulting to "public". 
+    function withdraw() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol:
+	Contract Slotthereum has payable functions:
+	 - placeBet (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#4-8)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Exploit.attack (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#18-26) does not use the value returned by external calls:
+	-target.placeBet.value(msg.value)(win,win) (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#23-26)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Exploit.attack.target (local variable @ /unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#19-20) shadows:
+	- Exploit.target (state variable @ /unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#10-11)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Slotthereum.placeBet (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#4-8) should be declared external
+Exploit.attack (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#18-26) should be declared external
+Exploit.fallback (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#27-30) should be declared external
+Exploit.withdraw (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#31-35) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Exploit.Exploit' (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#14-18) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+Exploit.target (/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol#10-11) is never used in Exploit
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/37/0x85b510683a35791fb189726a889c25a27e814ebc.sol analyzed (2 contracts), 9 result(s) found

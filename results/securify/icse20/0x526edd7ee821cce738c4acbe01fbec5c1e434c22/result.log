@@ -1,0 +1,49 @@
+Processing contract: /unique_chucks/26/0x526edd7ee821cce738c4acbe01fbec5c1e434c22.sol:DepositContract
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/26/0x526edd7ee821cce738c4acbe01fbec5c1e434c22.sol:MainDepositContract
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for UnrestrictedEtherFlow in contract 'MainDepositContract':
+    |    function withdraw(uint256 amount, address payable withdraw_to) _onlyManager public {
+    |        require(address(this).balance >= amount, 'Not enough balance');
+  > |        withdraw_to.transfer(amount);
+    |        emit Withdraw(withdraw_to, amount);
+    |    }
+  at /unique_chucks/26/0x526edd7ee821cce738c4acbe01fbec5c1e434c22.sol(67)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MainDepositContract':
+    |    function add_owner(address owner_address) _onlyOwners public {
+    |        require(!_owners[owner_address], 'This address is already an owner');
+  > |        _owners[owner_address] = true;
+    |    }
+    |
+  at /unique_chucks/26/0x526edd7ee821cce738c4acbe01fbec5c1e434c22.sol(42)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MainDepositContract':
+    |    function remove_owner(address owner_address) _onlyOwners public {
+    |        require(_owners[owner_address], 'This address is not an owner');
+  > |        _owners[owner_address] = false;
+    |    }
+    |
+  at /unique_chucks/26/0x526edd7ee821cce738c4acbe01fbec5c1e434c22.sol(47)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MainDepositContract':
+    |
+    |    function set_management_address(address management_address) _onlyOwners public {
+  > |        _management_address = management_address;
+    |    }
+    |
+  at /unique_chucks/26/0x526edd7ee821cce738c4acbe01fbec5c1e434c22.sol(51)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'MainDepositContract':
+    |    function create_deposit_address(uint256 user_id) _onlyManager public returns (DepositContract created_contract) {
+    |        DepositContract c = new DepositContract(user_id);
+  > |        _deposit_contracts[user_id] = c;
+    |        return c;
+    |    }
+  at /unique_chucks/26/0x526edd7ee821cce738c4acbe01fbec5c1e434c22.sol(56)

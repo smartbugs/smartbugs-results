@@ -1,0 +1,79 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol:
+/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol:82:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol:163:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function IronHands(uint multiplierPercent, address powh) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+IronHands.payout (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#212-271) sends eth to arbitrary user
+	Dangerous calls:
+	- tokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender) (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#223-224)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in IronHands.payout (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#212-271):
+	External calls:
+	- tokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender) (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#223-224)
+	- participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)() (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#240-255)
+	State variables written after the call(s):
+	- payoutOrder (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#263-264)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[92m
+IronHands.payout has external calls inside a loop:
+	- participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)() (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#240-255)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in IronHands.payout (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#212-271):
+	External calls:
+	- tokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender) (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#223-224)
+	State variables written after the call(s):
+	- backlog (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#234-235)
+	- backlog (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#249)
+	- creditRemaining (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#236)
+	- creditRemaining (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#250-252)
+	- participants (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#237-238)
+	- participants (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#253-254)
+Reentrancy in IronHands.withdraw (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#295-304):
+	External calls:
+	- weak_hands.withdraw.gas(1000000)() (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#297-298)
+	State variables written after the call(s):
+	- dividends (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#302-303)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Interface.transfer (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#67-72) should be declared external
+POWH.buy (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#73-74) should be declared external
+POWH.withdraw (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#74-75) should be declared external
+POWH.myTokens (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#75-78) should be declared external
+POWH.myDividends (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#78-80) should be declared external
+Owned.changeOwner (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#92-96) should be declared external
+Owned.acceptOwnership (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#97-109) should be declared external
+IronHands.fallback (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#178) should be declared external
+IronHands.deposit (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#184-208) should be declared external
+IronHands.myTokens (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#272-278) should be declared external
+IronHands.totalDividends (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#288-290) should be declared external
+IronHands.donate (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#309-311) should be declared external
+IronHands.backlogLength (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#316-318) should be declared external
+IronHands.backlogAmount (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#323-325) should be declared external
+IronHands.totalParticipants (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#330-332) should be declared external
+IronHands.totalSpent (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#337-340) should be declared external
+IronHands.amountIAmOwed (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#346-347) should be declared external
+IronHands.transferAnyERC20Token (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in IronHands.payout (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#212-271):
+	-participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)() /unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#240-255
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '' of POWH.buy (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#73-74) is not in mixedCase
+Parameter '' of POWH.myDividends (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#79) is not in mixedCase
+Function 'Owned.Owned' (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#86-90) is not in mixedCase
+Parameter '_newOwner' of Owned.changeOwner (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#95) is not in mixedCase
+Function 'IronHands.IronHands' (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#169-171) is not in mixedCase
+Variable 'IronHands.weak_hands' (/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol#164-165) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/16/0x099764910a38190bbd317857e635e6f461b11119.sol analyzed (4 contracts), 31 result(s) found

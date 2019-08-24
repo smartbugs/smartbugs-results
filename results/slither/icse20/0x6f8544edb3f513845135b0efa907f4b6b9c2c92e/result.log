@@ -1,0 +1,255 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol:
+/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol:454:31: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        seed = uint(keccak256(keccak256(blockhash(block.number), seed), now));
+                              ^--------------------------------------^
+/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol:454:21: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        seed = uint(keccak256(keccak256(blockhash(block.number), seed), now));
+                    ^------------------------------------------------------^
+
+INFO:Detectors:[93m
+BWData.addBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#227-243) uses a dangerous strict equality:
+	- _tile.claimer == _attacker
+	- _tile.claimer == _defender
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+BWService.storeInitialClaim has external calls inside a loop:
+	- isNewTile = bwData.isNewTile(tileId) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#404-408)
+BWService.storeInitialClaim has external calls inside a loop:
+	- bwData.storeClaim(tileId,_msgSender,valuePerBlockInWei) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#413-414)
+BWService.fortifyClaims has external calls inside a loop:
+	- (claimer,blockValue) = bwData.getTileClaimerAndBlockValue(_claimedTileIds[i]) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#429-433)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in BWService.attackTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#468-538):
+	External calls:
+	- (claimer,blockValue) = bwData.getTileClaimerAndBlockValue(_tileId) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#474-475)
+	- (attackBoost,defendBoost) = bwData.calculateBattleBoost(_tileId,_msgSender,claimer) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#482-484)
+	State variables written after the call(s):
+	- seed (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#495-498)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BWData.addUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#131-137) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(user.creationTime == 0) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#135)
+BWData.hasUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#140-142) uses timestamp for comparisons
+	Dangerous comparisons:
+	- users[_user].creationTime != 0 (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#142)
+BWData.addBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#227-243) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(_boost.attackBoost + _tile.blockValue >= _tile.blockValue) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#230-231)
+	- require(bool)(_boost.defendBoost + _tile.blockValue >= _tile.blockValue) (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#237)
+	- _tile.claimer == _defender (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#234-243)
+	- _tile.claimer == _attacker (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#229-243)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+BWData.BASE_TILE_PRICE_WEI should be constant (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#55-57)
+BWService.WITHDRAW_FEE should be constant (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#343)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+BWUtility.ceil (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#9-13) should be declared external
+BWUtility.isAdjacent (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#19-26) should be declared external
+BWUtility.toTileId (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#27-31) should be declared external
+BWUtility.fromTileId (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#32-38) should be declared external
+BWUtility.getBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#38-48) should be declared external
+BWData.fallback (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#91-95) should be declared external
+BWData.kill (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#95-96) should be declared external
+BWData.setBwServiceValidCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#112-117) should be declared external
+BWData.setBwValidCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#117-120) should be declared external
+BWData.setBwMarketValidCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#121-123) should be declared external
+BWData.addUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#131-137) should be declared external
+BWData.hasUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#140-142) should be declared external
+BWData.getTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#143-148) should be declared external
+BWData.getTileClaimerAndBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#148-154) should be declared external
+BWData.isNewTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#154-158) should be declared external
+BWData.storeClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#158-165) should be declared external
+BWData.updateTileBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#165-169) should be declared external
+BWData.setClaimerForTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#169-173) should be declared external
+BWData.updateTileTimeStamp (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#173-175) should be declared external
+BWData.getCurrentClaimerForTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#175-183) should be declared external
+BWData.getCurrentBlockValueAndSellPriceForTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#183-193) should be declared external
+BWData.getBlockValueBalance (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#193-197) should be declared external
+BWData.setBlockValueBalance (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#197-202) should be declared external
+BWData.getFeeBalance (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#202-205) should be declared external
+BWData.setFeeBalance (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#205-209) should be declared external
+BWData.getUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#209-213) should be declared external
+BWData.setUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#213-215) should be declared external
+BWData.verifyAmount (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#217-227) should be declared external
+BWData.calculateBattleBoost (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#243-304) should be declared external
+BWData.censorUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#304-311) should be declared external
+BWData.deleteTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#311-312) should be declared external
+BWData.setSellPrice (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#312-318) should be declared external
+BWData.deleteOffer (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#318-326) should be declared external
+BWService.fallback (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#375-376) should be declared external
+BWService.kill (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#376-377) should be declared external
+BWService.setValidBwCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#377-378) should be declared external
+BWService.setValidBwMarketCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#378-379) should be declared external
+BWService.storeInitialClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#383-414) should be declared external
+BWService.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#414-439) should be declared external
+BWService.attackTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#468-538) should be declared external
+BWService.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#538-574) should be declared external
+BWService.withdrawBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#575-592) should be declared external
+BWService.transferTokens (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#633-641) should be declared external
+BW.fallback (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#672) should be declared external
+BW.claimTilesForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#672-678) should be declared external
+BW.claimTilesForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#680-685) should be declared external
+BW.updateUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#687-693) should be declared external
+BW.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#696-701) should be declared external
+BW.attackTileForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#702-707) should be declared external
+BW.attackTileForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#708-717) should be declared external
+BW.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#721-724) should be declared external
+BW.withdrawBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#727-730) should be declared external
+BW.createNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#735-744) should be declared external
+BW.censorUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#752-758) should be declared external
+BW.setPaused (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#759-761) should be declared external
+BW.kill (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#762-767) should be declared external
+BW.withdrawValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#767-780) should be declared external
+BW.depositBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#780-787) should be declared external
+BW.transferTileFromOwner (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#788-792) should be declared external
+BW.transferTokens (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol:
+	- pragma solidity^0.4.21 (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_amount' of BWUtility.ceil (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#9) is not in mixedCase
+Parameter '_multiple' of BWUtility.ceil (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#9) is not in mixedCase
+Parameter '_x1' of BWUtility.isAdjacent (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#19) is not in mixedCase
+Parameter '_y1' of BWUtility.isAdjacent (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#19) is not in mixedCase
+Parameter '_x2' of BWUtility.isAdjacent (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#19) is not in mixedCase
+Parameter '_y2' of BWUtility.isAdjacent (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#19) is not in mixedCase
+Parameter '_x' of BWUtility.toTileId (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#27) is not in mixedCase
+Parameter '_y' of BWUtility.toTileId (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#27) is not in mixedCase
+Parameter '_tileId' of BWUtility.fromTileId (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#32) is not in mixedCase
+Parameter '_claimer' of BWUtility.getBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#38) is not in mixedCase
+Parameter '_attacker' of BWUtility.getBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#38) is not in mixedCase
+Parameter '_defender' of BWUtility.getBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#38) is not in mixedCase
+Parameter '_blockValue' of BWUtility.getBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#38-39) is not in mixedCase
+Parameter '_bwService' of BWData.setBwServiceValidCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#113) is not in mixedCase
+Parameter '_bw' of BWData.setBwValidCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#117) is not in mixedCase
+Parameter '_bwMarket' of BWData.setBwMarketValidCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#121) is not in mixedCase
+Parameter '_msgSender' of BWData.addUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#131-132) is not in mixedCase
+Parameter '_user' of BWData.hasUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#140) is not in mixedCase
+Parameter '_tileId' of BWData.getTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#144) is not in mixedCase
+Parameter '_tileId' of BWData.getTileClaimerAndBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#149) is not in mixedCase
+Parameter '_tileId' of BWData.isNewTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#154-156) is not in mixedCase
+Parameter '_tileId' of BWData.storeClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#161) is not in mixedCase
+Parameter '_claimer' of BWData.storeClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#161) is not in mixedCase
+Parameter '_blockValue' of BWData.storeClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#161) is not in mixedCase
+Parameter '_tileId' of BWData.updateTileBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#165) is not in mixedCase
+Parameter '_blockValue' of BWData.updateTileBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#165) is not in mixedCase
+Parameter '_tileId' of BWData.setClaimerForTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#169) is not in mixedCase
+Parameter '_claimer' of BWData.setClaimerForTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#170) is not in mixedCase
+Parameter '_tileId' of BWData.updateTileTimeStamp (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#173) is not in mixedCase
+Parameter '_tileId' of BWData.getCurrentClaimerForTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#176-177) is not in mixedCase
+Parameter '_tileId' of BWData.getCurrentBlockValueAndSellPriceForTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#184-185) is not in mixedCase
+Parameter '_blockValueBalance' of BWData.setBlockValueBalance (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#198-201) is not in mixedCase
+Parameter '_feeBalance' of BWData.setFeeBalance (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#206) is not in mixedCase
+Parameter '_userId' of BWData.getUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#209-210) is not in mixedCase
+Parameter '_userId' of BWData.setUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#213) is not in mixedCase
+Parameter '_battleValue' of BWData.setUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#213) is not in mixedCase
+Parameter '_msgSender' of BWData.verifyAmount (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#217-218) is not in mixedCase
+Parameter '_msgValue' of BWData.verifyAmount (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#218) is not in mixedCase
+Parameter '_amount' of BWData.verifyAmount (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#218-219) is not in mixedCase
+Parameter '_useBattleValue' of BWData.verifyAmount (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#219) is not in mixedCase
+Parameter '_tile' of BWData.addBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#227-228) is not in mixedCase
+Parameter '_attacker' of BWData.addBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#228) is not in mixedCase
+Parameter '_defender' of BWData.addBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#228) is not in mixedCase
+Parameter '_boost' of BWData.addBoostFromTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#228-229) is not in mixedCase
+Parameter '_tileId' of BWData.calculateBattleBoost (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#244) is not in mixedCase
+Parameter '_attacker' of BWData.calculateBattleBoost (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#244) is not in mixedCase
+Parameter '_defender' of BWData.calculateBattleBoost (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#244) is not in mixedCase
+Parameter '_userAddress' of BWData.censorUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#305-307) is not in mixedCase
+Parameter '_censored' of BWData.censorUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#307) is not in mixedCase
+Parameter '_tileId' of BWData.deleteTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#311) is not in mixedCase
+Parameter '_tileId' of BWData.setSellPrice (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#312-313) is not in mixedCase
+Parameter '_sellPrice' of BWData.setSellPrice (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#314-316) is not in mixedCase
+Parameter '_tileId' of BWData.deleteOffer (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#318-321) is not in mixedCase
+Variable 'BWData.BASE_TILE_PRICE_WEI' (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#55-57) is not in mixedCase
+Parameter '_bwData' of BWService. (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#366) is not in mixedCase
+Parameter '_bw' of BWService.setValidBwCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#377) is not in mixedCase
+Parameter '_bwMarket' of BWService.setValidBwMarketCaller (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#378-379) is not in mixedCase
+Parameter '_msgSender' of BWService.storeInitialClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#383) is not in mixedCase
+Parameter '_claimedTileIds' of BWService.storeInitialClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#383-385) is not in mixedCase
+Parameter '_claimAmount' of BWService.storeInitialClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#385) is not in mixedCase
+Parameter '_useBattleValue' of BWService.storeInitialClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#385) is not in mixedCase
+Parameter '_msgSender' of BWService.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#414) is not in mixedCase
+Parameter '_claimedTileIds' of BWService.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#414-415) is not in mixedCase
+Parameter '_fortifyAmount' of BWService.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#415) is not in mixedCase
+Parameter '_useBattleValue' of BWService.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#415) is not in mixedCase
+Parameter '_msgSender' of BWService.fortifyClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#441) is not in mixedCase
+Parameter '_claimedTileId' of BWService.fortifyClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#441) is not in mixedCase
+Parameter '_fortifyAmount' of BWService.fortifyClaim (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#441) is not in mixedCase
+Parameter '_upper' of BWService.random (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#460) is not in mixedCase
+Parameter '_msgSender' of BWService.attackTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#468) is not in mixedCase
+Parameter '_tileId' of BWService.attackTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#468-469) is not in mixedCase
+Parameter '_attackAmount' of BWService.attackTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#469) is not in mixedCase
+Parameter '_useBattleValue' of BWService.attackTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#469) is not in mixedCase
+Parameter '_autoFortify' of BWService.attackTile (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#469) is not in mixedCase
+Parameter '_msgSender' of BWService.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#538) is not in mixedCase
+Parameter '_xSource' of BWService.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#538) is not in mixedCase
+Parameter '_ySource' of BWService.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#538) is not in mixedCase
+Parameter '_xDest' of BWService.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#538-540) is not in mixedCase
+Parameter '_yDest' of BWService.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#540) is not in mixedCase
+Parameter '_moveAmount' of BWService.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#540) is not in mixedCase
+Parameter '_battleValueInWei' of BWService.withdrawBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#576) is not in mixedCase
+Parameter '_userId' of BWService.addUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#592) is not in mixedCase
+Parameter '_amount' of BWService.addUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#592-593) is not in mixedCase
+Parameter '_userId' of BWService.subUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#600) is not in mixedCase
+Parameter '_amount' of BWService.subUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#600) is not in mixedCase
+Parameter '_isWithdraw' of BWService.subUserBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#600-601) is not in mixedCase
+Parameter '_amount' of BWService.addGlobalBlockValueBalance (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#614) is not in mixedCase
+Parameter '_tokenAddress' of BWService.transferTokens (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#634-635) is not in mixedCase
+Parameter '_recipient' of BWService.transferTokens (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#635-637) is not in mixedCase
+Variable 'BWService.WITHDRAW_FEE' (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#343) is not in mixedCase
+Parameter '_bwService' of BW. (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#667) is not in mixedCase
+Parameter '_bwData' of BW. (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#667) is not in mixedCase
+Parameter '_name' of BW.claimTilesForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#673) is not in mixedCase
+Parameter '_imageUrl' of BW.claimTilesForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#673) is not in mixedCase
+Parameter '_tag' of BW.claimTilesForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#673) is not in mixedCase
+Parameter '_homeUrl' of BW.claimTilesForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#673-674) is not in mixedCase
+Parameter '_claimedTileIds' of BW.claimTilesForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#674) is not in mixedCase
+Parameter '_invitedBy' of BW.claimTilesForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#674) is not in mixedCase
+Parameter '_claimedTileIds' of BW.claimTilesForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#680) is not in mixedCase
+Parameter '_claimAmount' of BW.claimTilesForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#681) is not in mixedCase
+Parameter '_useBattleValue' of BW.claimTilesForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#681) is not in mixedCase
+Parameter '_name' of BW.updateUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#687) is not in mixedCase
+Parameter '_imageUrl' of BW.updateUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#687-688) is not in mixedCase
+Parameter '_tag' of BW.updateUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#688) is not in mixedCase
+Parameter '_homeUrl' of BW.updateUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#688) is not in mixedCase
+Parameter '_claimedTileIds' of BW.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#696) is not in mixedCase
+Parameter '_fortifyAmount' of BW.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#696-697) is not in mixedCase
+Parameter '_useBattleValue' of BW.fortifyClaims (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#697) is not in mixedCase
+Parameter '_tileId' of BW.attackTileForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#702) is not in mixedCase
+Parameter '_name' of BW.attackTileForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#702) is not in mixedCase
+Parameter '_imageUrl' of BW.attackTileForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#702-703) is not in mixedCase
+Parameter '_tag' of BW.attackTileForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#703) is not in mixedCase
+Parameter '_homeUrl' of BW.attackTileForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#703) is not in mixedCase
+Parameter '_invitedBy' of BW.attackTileForNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#703) is not in mixedCase
+Parameter '_tileId' of BW.attackTileForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#709-711) is not in mixedCase
+Parameter '_attackAmount' of BW.attackTileForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#711) is not in mixedCase
+Parameter '_useBattleValue' of BW.attackTileForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#711-712) is not in mixedCase
+Parameter '_autoFortify' of BW.attackTileForExistingUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#712) is not in mixedCase
+Parameter '_xSource' of BW.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#721) is not in mixedCase
+Parameter '_ySource' of BW.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#721-722) is not in mixedCase
+Parameter '_xDest' of BW.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#722) is not in mixedCase
+Parameter '_yDest' of BW.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#722) is not in mixedCase
+Parameter '_moveAmount' of BW.moveBlockValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#722) is not in mixedCase
+Parameter '_battleValueInWei' of BW.withdrawBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#727-728) is not in mixedCase
+Parameter '_name' of BW.createNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#736) is not in mixedCase
+Parameter '_imageUrl' of BW.createNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#736) is not in mixedCase
+Parameter '_user' of BW.createNewUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#736) is not in mixedCase
+Parameter '_userAddress' of BW.censorUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#752) is not in mixedCase
+Parameter '_censored' of BW.censorUser (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#752-753) is not in mixedCase
+Parameter '_paused' of BW.setPaused (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#759-760) is not in mixedCase
+Parameter '_isFee' of BW.withdrawValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#767) is not in mixedCase
+Parameter '_user' of BW.depositBattleValue (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#781) is not in mixedCase
+Parameter '_tileId' of BW.transferTileFromOwner (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#789) is not in mixedCase
+Parameter '_newOwner' of BW.transferTileFromOwner (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#789) is not in mixedCase
+Parameter '_tokenAddress' of BW.transferTokens (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol) is not in mixedCase
+Parameter '_recipient' of BW.transferTokens (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+BWData.BASE_TILE_PRICE_WEI (/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol#55-57) is never used in BWData
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/28/0x6f8544edb3f513845135b0efa907f4b6b9c2c92e.sol analyzed (5 contracts), 207 result(s) found

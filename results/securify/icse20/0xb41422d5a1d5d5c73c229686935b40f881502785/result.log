@@ -1,0 +1,79 @@
+Processing contract: /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol:ERC20
+Processing contract: /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol:Ownable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol:PayFair
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[33mWarning[0m for UnrestrictedWrite in contract 'Ownable':
+    |  function transferOwnership(address newOwner) public onlyOwner {
+    |    if (newOwner != address(0)) {
+  > |      owner = newOwner;
+    |    }
+    |  }
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(18)
+
+[31mViolation[0m for LockedEther in contract 'PayFair':
+    |
+    |/// @title PayFair contract - standard ERC20 token with Short Hand Attack and approve() race condition mitigation.
+  > |contract PayFair is SafeMath, ERC20, Ownable {
+    | string public name = "PayFair Token";
+    | string public symbol = "PFR";
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(81)
+
+[31mViolation[0m for RepeatedCall in contract 'PayFair':
+    | function upgradeTokens(uint amountToUpgrade) public {  
+    |    require(amountToUpgrade <= convertToDecimal(oldToken.balanceOf(msg.sender)));
+  > |    require(amountToUpgrade <= convertToDecimal(oldToken.allowance(msg.sender, address(this))));   
+    |    
+    |    emit Transfer(address(0), msg.sender, amountToUpgrade);
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(117)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PayFair':
+    |    
+    |    emit Transfer(address(0), msg.sender, amountToUpgrade);
+  > |    totalSupply = safeAdd(totalSupply, amountToUpgrade);
+    |    balances[msg.sender] = safeAdd(balances[msg.sender], amountToUpgrade);
+    |    oldToken.transferFrom(msg.sender, address(0x0), amountToUpgrade);
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(120)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PayFair':
+    | function transfer(address _to, uint _value) public onlyPayloadSize(2 * 32) returns (bool success) {
+    |   balances[msg.sender] = safeSub(balances[msg.sender], _value);
+  > |   balances[_to] = safeAdd(balances[_to], _value);
+    |
+    |   emit Transfer(msg.sender, _to, _value);
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(137)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PayFair':
+    |    uint256 _allowance = allowed[_from][msg.sender];
+    |
+  > |    balances[_to] = safeAdd(balances[_to], _value);
+    |    balances[_from] = safeSub(balances[_from], _value);
+    |    allowed[_from][msg.sender] = safeSub(_allowance, _value);
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(151)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PayFair':
+    |
+    |    balances[_to] = safeAdd(balances[_to], _value);
+  > |    balances[_from] = safeSub(balances[_from], _value);
+    |    allowed[_from][msg.sender] = safeSub(_allowance, _value);
+    |    emit Transfer(_from, _to, _value);
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(152)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'PayFair':
+    |  function transferOwnership(address newOwner) public onlyOwner {
+    |    if (newOwner != address(0)) {
+  > |      owner = newOwner;
+    |    }
+    |  }
+  at /unique_chucks/7/0xb41422d5a1d5d5c73c229686935b40f881502785.sol(18)

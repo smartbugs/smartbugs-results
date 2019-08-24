@@ -1,0 +1,326 @@
+INFO:Detectors:[91m
+BasicToken.totalSupply_ (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#608) is never initialized. It is used in:
+	- totalSupply (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#613-615)
+RBAC.roles (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#341-345) is never initialized. It is used in:
+	- checkRole (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#359-365)
+	- hasRole (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#371-377)
+	- addRole (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#383-388)
+	- removeRole (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#395-399)
+QuantstampAuditPolice.assignedReports (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1325-1328) is never initialized. It is used in:
+	- assignPoliceToReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1378-1405)
+	- submitPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1485-1527)
+	- getNextPoliceAssignment (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1615-1643)
+	- isAssigned (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1751-1761)
+	- removeExpiredAssignments (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1776-1836)
+QuantstampAuditPolice.assignedPolice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1330-1333) is never initialized. It is used in:
+	- assignPoliceToReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1378-1405)
+	- getNextAssignedPolice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1653-1664)
+QuantstampAuditPolice.pendingPayments (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1335-1338) is never initialized. It is used in:
+	- addPendingPayment (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1464-1466)
+	- submitPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1485-1527)
+	- canClaimAuditReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1532-1548)
+	- getNextAvailableReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1557-1568)
+	- setRewardClaimed (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1578-1586)
+	- claimNextReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1591-1607)
+QuantstampAudit.auditsByPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1894-1895) is never initialized. It is used in:
+	- getNextAuditByPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2518-2526)
+	- queueAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2558-2573)
+	- dequeueAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2599-2629)
+	- removeQueueElement (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2632-2647)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+QuantstampAuditPolice.assignPoliceToReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1378-1405) uses a dangerous strict equality:
+	- require(bool)(policeTimeouts[requestId] == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in QuantstampAudit.getNextAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2372-2447):
+	External calls:
+	- allowanceBlockNumber = auditData.getAuditAssignBlockNumber(potentialExpiredRequestId) + auditData.auditTimeoutInBlocks() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2379-2383)
+	- updateAssignedAudits(potentialExpiredRequestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2385-2386)
+	- auditData.setAuditState(potentialExpiredRequestId,QuantstampAuditData.AuditState.Expired) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2386-2388)
+	- isRequestAvailable = anyRequestAvailable() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2393)
+	- minPrice = auditData.getMinAuditPrice(msg.sender) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2402-2403)
+	- requestId = dequeueAuditRequest(minPrice) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2415-2416)
+	- auditData.setAuditState(requestId,QuantstampAuditData.AuditState.Assigned) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2420-2421)
+	- auditData.setAuditAuditor(requestId,msg.sender) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2422-2426)
+	- auditData.setAuditAssignBlockNumber(requestId,block.number) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2426-2427)
+	State variables written after the call(s):
+	- assignedRequestCount (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2427)
+Reentrancy in TokenEscrow.withdraw (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1054-1064):
+	External calls:
+	- assert(bool)(token.balanceOf(address(this)) >= payment) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1059-1061)
+	State variables written after the call(s):
+	- deposits (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1061-1063)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+slashOccurred in QuantstampAuditPolice.submitPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1519) is a local variable never initialiazed
+loopExitedDueToGasLimit in QuantstampAudit.claimRewards (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2281) is a local variable never initialiazed
+max in QuantstampAuditView.findMinAuditPricesStats (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol) is a local variable never initialiazed
+slashAmount in QuantstampAuditPolice.submitPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1519-1520) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+QuantstampAuditData.approveWhitelisted (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#863-867) does not use the value returned by external calls:
+	-token.approve(msg.sender,amount) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#866)
+QuantstampAuditPolice.submitPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1485-1527) does not use the value returned by external calls:
+	-assignedReports[policeNode].remove(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1502-1503)
+	-pendingPayments[auditNode].remove(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1520-1521)
+QuantstampAuditPolice.setRewardClaimed (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1578-1586) does not use the value returned by external calls:
+	-pendingPayments[auditNode].remove(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1581-1583)
+QuantstampAuditPolice.removeExpiredAssignments (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1776-1836) does not use the value returned by external calls:
+	-assignedReports[policeNode].remove(potentialExpiredRequestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1824-1825)
+QuantstampAudit.stake (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1999-2010) does not use the value returned by external calls:
+	-auditData.token().approve(address(tokenEscrow),amount) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2003-2007)
+QuantstampAudit.claimReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2258-2265) does not use the value returned by external calls:
+	-police.setRewardClaimed(msg.sender,requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2261-2265)
+QuantstampAudit.getNextAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2372-2447) does not use the value returned by external calls:
+	-tokenEscrow.lockFunds(msg.sender,block.number.add(auditData.auditTimeoutInBlocks()).add(police.policeTimeoutInBlocks())) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2430-2435)
+QuantstampAudit.updateAssignedAudits (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2538-2546) does not use the value returned by external calls:
+	-assignedAudits.remove(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2540)
+QuantstampAudit.queueAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2558-2573) does not use the value returned by external calls:
+	-priceList.insert(priceList.getSortedSpot(priceHint,price,NEXT),price,PREV) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2571-2572)
+QuantstampAudit.dequeueAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2599-2629) does not use the value returned by external calls:
+	-auditsByPrice[price].remove(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2622)
+	-priceList.remove(price) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2625)
+QuantstampAudit.removeQueueElement (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2632-2647) does not use the value returned by external calls:
+	-auditsByPrice[price].remove(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2644-2646)
+	-priceList.remove(price) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2646-2647)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+QuantstampAuditPolice.splitPayment has external calls inside a loop:
+	- require(bool)(auditData.token().transfer(policeNode,largerAmount)) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1450-1452)
+QuantstampAuditPolice.splitPayment has external calls inside a loop:
+	- require(bool)(auditData.token().transfer(policeNode,amountPerNode)) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1454-1455)
+QuantstampAuditPolice.getNextPoliceAssignment has external calls inside a loop:
+	- price = auditData.getAuditPrice(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1632-1634)
+QuantstampAuditPolice.getNextPoliceAssignment has external calls inside a loop:
+	- uri = auditData.getAuditContractUri(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1634-1635)
+QuantstampAuditPolice.getNextPoliceAssignment has external calls inside a loop:
+	- policeAssignmentBlockNumber = auditData.getAuditReportBlockNumber(requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1635-1640)
+QuantstampAudit.claimRewards has external calls inside a loop:
+	- (exists,requestId) = police.claimNextReward(msg.sender,HEAD) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2290-2292)
+QuantstampAuditView.getQueueLength has external calls inside a loop:
+	- requestId = audit.getNextAuditByPrice(price,HEAD) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol)
+QuantstampAuditView.getQueueLength has external calls inside a loop:
+	- requestId = audit.getNextAuditByPrice(price,requestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol)
+QuantstampAuditView.findMinAuditPricesStats has external calls inside a loop:
+	- currentStakedAddress = tokenEscrow.getNextStakedNode(currentStakedAddress) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol)
+QuantstampAuditView.findMinAuditPricesStats has external calls inside a loop:
+	- minPrice = auditData.minAuditPrice(currentStakedAddress) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol)
+QuantstampAuditView.findMinAuditPricesStats has external calls inside a loop:
+	- currentStakedAddress = tokenEscrow.getNextStakedNode(currentStakedAddress) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in QuantstampAuditPolice.collectFee (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1415-1422):
+	External calls:
+	- policeFee = getPoliceFee(auditData.getAuditPrice(requestId)) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1416-1417)
+	State variables written after the call(s):
+	- collectedFees (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1419-1421)
+Reentrancy in QuantstampAuditTokenEscrow.deposit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1138-1145):
+	External calls:
+	- super.deposit(_payee,_amount) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1142)
+	State variables written after the call(s):
+	- stakedNodesCount (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1145)
+Reentrancy in QuantstampAudit.getNextAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2372-2447):
+	External calls:
+	- allowanceBlockNumber = auditData.getAuditAssignBlockNumber(potentialExpiredRequestId) + auditData.auditTimeoutInBlocks() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2379-2383)
+	- updateAssignedAudits(potentialExpiredRequestId) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2385-2386)
+	- auditData.setAuditState(potentialExpiredRequestId,QuantstampAuditData.AuditState.Expired) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2386-2388)
+	- isRequestAvailable = anyRequestAvailable() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2393)
+	- minPrice = auditData.getMinAuditPrice(msg.sender) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2402-2403)
+	- requestId = dequeueAuditRequest(minPrice) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2415-2416)
+	- auditData.setAuditState(requestId,QuantstampAuditData.AuditState.Assigned) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2420-2421)
+	- auditData.setAuditAuditor(requestId,msg.sender) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2422-2426)
+	- auditData.setAuditAssignBlockNumber(requestId,block.number) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2426-2427)
+	- tokenEscrow.lockFunds(msg.sender,block.number.add(auditData.auditTimeoutInBlocks()).add(police.policeTimeoutInBlocks())) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2430-2435)
+	State variables written after the call(s):
+	- mostRecentAssignedRequestIdsPerAuditor (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2436)
+Reentrancy in QuantstampAuditView.setQuantstampAudit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2704-2710):
+	External calls:
+	- auditData = audit.auditData() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2707)
+	- reportData = audit.reportData() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2707-2708)
+	State variables written after the call(s):
+	- reportData (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2707-2708)
+Reentrancy in QuantstampAuditView.setQuantstampAudit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2704-2710):
+	External calls:
+	- auditData = audit.auditData() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2707)
+	- reportData = audit.reportData() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2707-2708)
+	- tokenEscrow = audit.tokenEscrow() (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2710)
+	State variables written after the call(s):
+	- tokenEscrow (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2710)
+Reentrancy in QuantstampAuditTokenEscrow.withdraw (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1153-1155):
+	External calls:
+	- super.withdraw(_payee) (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1153-1154)
+	State variables written after the call(s):
+	- stakedNodesCount (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1154-1155)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+BasicToken.totalSupply_ should be constant (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#608)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Different versions of Solidity is used in /unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol:
+	- Version used: ['0.4.25', '^0.4.24']
+	- /unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1 declares pragma solidity0.4.25
+	- /unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1001 declares pragma solidity^0.4.24
+	- /unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1072-1073 declares pragma solidity^0.4.24
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+LinkedListLib.listExists (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#54-66) should be declared external
+LinkedListLib.getNode (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#100-110) should be declared external
+LinkedListLib.getSortedSpot (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#130-142) should be declared external
+Ownable.renounceOwnership (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#242-245) should be declared external
+Ownable.transferOwnership (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#252-254) should be declared external
+Whitelist.whitelist (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#475-482) should be declared external
+Whitelist.addAddressesToWhitelist (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#488-497) should be declared external
+Whitelist.removeAddressesFromWhitelist (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#523-525) should be declared external
+BasicToken.totalSupply (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#613-615) should be declared external
+ERC20Basic.totalSupply (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#591-593) should be declared external
+BasicToken.balanceOf (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#639-646) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#593-594) should be declared external
+ERC20Basic.transfer (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#594-599) should be declared external
+BasicToken.transfer (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#618-633) should be declared external
+StandardToken.allowance (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#731-735) should be declared external
+ERC20.allowance (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#651-653) should be declared external
+ERC20.transferFrom (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#653-657) should be declared external
+StandardToken.transferFrom (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#686-693) should be declared external
+ERC20.approve (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#658-660) should be declared external
+StandardToken.approve (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#717-720) should be declared external
+StandardToken.increaseApproval (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#747-760) should be declared external
+StandardToken.decreaseApproval (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#778-791) should be declared external
+QuantstampAuditData.addAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#846-858) should be declared external
+QuantstampAuditData.approveWhitelisted (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#863-867) should be declared external
+QuantstampAuditData.getAuditContractUri (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#867-871) should be declared external
+QuantstampAuditData.getAuditRequestor (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#871-875) should be declared external
+QuantstampAuditData.getAuditPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#875-878) should be declared external
+QuantstampAuditData.getAuditState (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#878-882) should be declared external
+QuantstampAuditData.getAuditRequestBlockNumber (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#882-886) should be declared external
+QuantstampAuditData.setAuditState (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#886-890) should be declared external
+QuantstampAuditData.getAuditAuditor (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#890-894) should be declared external
+QuantstampAuditData.getAuditRegistrar (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#894-895) should be declared external
+QuantstampAuditData.setAuditAuditor (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#895-899) should be declared external
+QuantstampAuditData.getAuditAssignBlockNumber (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#899-903) should be declared external
+QuantstampAuditData.getAuditReportBlockNumber (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#903-908) should be declared external
+QuantstampAuditData.setAuditAssignBlockNumber (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#908-914) should be declared external
+QuantstampAuditData.setAuditReportHash (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#914-919) should be declared external
+QuantstampAuditData.setAuditReportBlockNumber (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#919-922) should be declared external
+QuantstampAuditData.setAuditRegistrar (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#923-931) should be declared external
+QuantstampAuditData.setAuditTimeout (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#931-932) should be declared external
+QuantstampAuditData.setMaxAssignedRequests (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#936-942) should be declared external
+QuantstampAuditData.getMinAuditPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#942-951) should be declared external
+QuantstampAuditData.setMinAuditPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#956-959) should be declared external
+QuantstampAuditTokenEscrow.setMinAuditStake (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1161-1163) should be declared external
+QuantstampAuditTokenEscrow.lockFunds (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1182-1188) should be declared external
+QuantstampAuditTokenEscrow.slash (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1203-1223) should be declared external
+QuantstampAuditTokenEscrow.getNextStakedNode (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1239-1255) should be declared external
+QuantstampAuditPolice.assignPoliceToReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1378-1405) should be declared external
+QuantstampAuditPolice.clearExpiredAssignments (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1411-1413) should be declared external
+QuantstampAuditPolice.collectFee (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1415-1422) should be declared external
+QuantstampAuditPolice.splitPayment (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1429-1457) should be declared external
+QuantstampAuditPolice.addPendingPayment (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1464-1466) should be declared external
+QuantstampAuditPolice.submitPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1485-1527) should be declared external
+QuantstampAuditPolice.getNextAvailableReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1557-1568) should be declared external
+QuantstampAuditPolice.claimNextReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1591-1607) should be declared external
+QuantstampAuditPolice.getNextPoliceAssignment (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1615-1643) should be declared external
+QuantstampAuditPolice.getNextAssignedPolice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1653-1664) should be declared external
+QuantstampAuditPolice.setPoliceNodesPerReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1671-1674) should be declared external
+QuantstampAuditPolice.setPoliceTimeoutInBlocks (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1675-1679) should be declared external
+QuantstampAuditPolice.setSlashPercentage (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1683-1691) should be declared external
+QuantstampAuditPolice.setReportProcessingFeePercentage (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1693-1698) should be declared external
+QuantstampAuditPolice.isPoliceNode (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1703-1705) should be declared external
+QuantstampAuditPolice.addPoliceNode (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1708-1713) should be declared external
+QuantstampAuditPolice.removePoliceNode (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1720-1731) should be declared external
+QuantstampAuditPolice.getPoliceReportResult (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1742-1744) should be declared external
+QuantstampAuditPolice.getPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1744-1746) should be declared external
+Pausable.pause (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1864-1869) should be declared external
+Pausable.unpause (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1873-1878) should be declared external
+QuantstampAudit.requestAudit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2062-2068) should be declared external
+QuantstampAudit.submitReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2099-2161) should be declared external
+QuantstampAudit.getReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2164-2167) should be declared external
+QuantstampAudit.isPoliceNode (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2178-2179) should be declared external
+QuantstampAudit.submitPoliceReport (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2187-2213) should be declared external
+QuantstampAudit.getMinAuditPriceLowerCap (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2222-2224) should be declared external
+QuantstampAudit.getNextAvailableReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2235-2239) should be declared external
+QuantstampAudit.claimReward (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2258-2265) should be declared external
+QuantstampAudit.claimRewards (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2272-2308) should be declared external
+QuantstampAudit.getMinAuditStake (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2321-2323) should be declared external
+QuantstampAudit.getAuditTimeoutInBlocks (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2324-2325) should be declared external
+QuantstampAudit.getMinAuditPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2327-2328) should be declared external
+QuantstampAudit.getMaxAssignedRequests (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2332-2334) should be declared external
+QuantstampAudit.getNextPoliceAssignment (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2364-2369) should be declared external
+QuantstampAudit.getNextAuditRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2372-2447) should be declared external
+QuantstampAudit.setAuditNodePrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2449-2456) should be declared external
+QuantstampAudit.getNextPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2473-2476) should be declared external
+QuantstampAudit.getNextAssignedRequest (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2487-2491) should be declared external
+QuantstampAudit.myMostRecentAssignedAudit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2494-2506) should be declared external
+QuantstampAudit.findPrecedingPrice (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2532-2533) should be declared external
+QuantstampAuditView.setQuantstampAudit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2704-2710) should be declared external
+QuantstampAuditView.getReportHash (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2712-2714) should be declared external
+QuantstampAuditView.getMinAuditPriceLowerCap (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2718-2723) should be declared external
+QuantstampAuditView.getMinAuditPriceSum (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2726-2731) should be declared external
+QuantstampAuditView.getMinAuditPriceCount (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2734-2738) should be declared external
+QuantstampAuditView.getMinAuditPriceMax (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2742-2744) should be declared external
+QuantstampAuditView.getMinAuditPriceMin (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2746-2749) should be declared external
+QuantstampAuditView.getMinAuditPriceMedian (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2752-2757) should be declared external
+QuantstampAuditView.getQueueLength (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_node' of LinkedListLib.nodeExists (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#72) is not in mixedCase
+Parameter '_node' of LinkedListLib.getNode (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#102-103) is not in mixedCase
+Parameter '_node' of LinkedListLib.getAdjacent (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#116-117) is not in mixedCase
+Parameter '_direction' of LinkedListLib.getAdjacent (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#117) is not in mixedCase
+Parameter '_node' of LinkedListLib.getSortedSpot (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#132-133) is not in mixedCase
+Parameter '_value' of LinkedListLib.getSortedSpot (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#133) is not in mixedCase
+Parameter '_direction' of LinkedListLib.getSortedSpot (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#133) is not in mixedCase
+Parameter '_node' of LinkedListLib.createLink (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#147-149) is not in mixedCase
+Parameter '_link' of LinkedListLib.createLink (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#150) is not in mixedCase
+Parameter '_direction' of LinkedListLib.createLink (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#150) is not in mixedCase
+Parameter '_node' of LinkedListLib.insert (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#157) is not in mixedCase
+Parameter '_new' of LinkedListLib.insert (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#157) is not in mixedCase
+Parameter '_direction' of LinkedListLib.insert (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#157-158) is not in mixedCase
+Parameter '_node' of LinkedListLib.remove (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#171) is not in mixedCase
+Parameter '_node' of LinkedListLib.push (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#186) is not in mixedCase
+Parameter '_direction' of LinkedListLib.push (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#186-187) is not in mixedCase
+Parameter '_direction' of LinkedListLib.pop (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#195-198) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#252) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#262-268) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#263) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#640-644) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#619-623) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#623) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#733) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#733-734) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#687) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#687) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#687) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#717) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#717) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#749) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#749-750) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#778) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#778) is not in mixedCase
+Parameter '_token' of TokenEscrow. (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1023-1025) is not in mixedCase
+Parameter '_payee' of TokenEscrow.depositsOf (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1029-1032) is not in mixedCase
+Parameter '_payee' of TokenEscrow.deposit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1043-1045) is not in mixedCase
+Parameter '_amount' of TokenEscrow.deposit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1045) is not in mixedCase
+Parameter '_payee' of TokenEscrow.withdraw (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1054-1055) is not in mixedCase
+Parameter '_payee' of ConditionalTokenEscrow.withdraw (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1084) is not in mixedCase
+Parameter '_payee' of QuantstampAuditTokenEscrow.deposit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1139-1142) is not in mixedCase
+Parameter '_amount' of QuantstampAuditTokenEscrow.deposit (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1142) is not in mixedCase
+Parameter '_payee' of QuantstampAuditTokenEscrow.withdraw (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1153) is not in mixedCase
+Parameter '_payee' of QuantstampAuditTokenEscrow.withdrawalAllowed (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1172-1173) is not in mixedCase
+Parameter '_value' of QuantstampAuditTokenEscrow.setMinAuditStake (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1162) is not in mixedCase
+Parameter '_payee' of QuantstampAuditTokenEscrow.lockFunds (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1182) is not in mixedCase
+Parameter '_unlockBlockNumber' of QuantstampAuditTokenEscrow.lockFunds (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1182-1183) is not in mixedCase
+Event 'QuantstampAudit.LogReportSubmissionError_InvalidAuditor' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1921-1925) is not in CapWords
+Event 'QuantstampAudit.LogReportSubmissionError_InvalidState' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1925-1926) is not in CapWords
+Event 'QuantstampAudit.LogReportSubmissionError_InvalidResult' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1927-1928) is not in CapWords
+Event 'QuantstampAudit.LogReportSubmissionError_ExpiredAudit' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1928-1929) is not in CapWords
+Event 'QuantstampAudit.LogAuditAssignmentError_ExceededMaxAssignedRequests' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1929-1931) is not in CapWords
+Event 'QuantstampAudit.LogAuditAssignmentError_Understaked' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1931) is not in CapWords
+Event 'QuantstampAudit.LogAuditAssignmentUpdate_Expired' (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1931-1933) is not in CapWords
+Parameter '_to' of QuantstampAudit.safeTransferFromDataContract (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#2677) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+QuantstampAuditTokenEscrow.NULL (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1090-1091) is never used in QuantstampAuditTokenEscrow
+QuantstampAudit.NULL (/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol#1889-1890) is never used in QuantstampAudit
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_contracts/0xe5669a81e8301726b43d4da4e1b4030c638eb591.sol analyzed (20 contracts), 197 result(s) found

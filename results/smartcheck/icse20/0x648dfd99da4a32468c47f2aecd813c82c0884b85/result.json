@@ -1,0 +1,257 @@
+{
+  "contract": "0x648dfd99da4a32468c47f2aecd813c82c0884b85",
+  "tool": "smartcheck",
+  "start": 1563635001.048031,
+  "end": 1563635009.7043664,
+  "duration": 8.656335353851318,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 55,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256balance);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 68,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)constantreturns(uint256remaining);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 95,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256balance){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 131,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)constantreturns(uint256remaining){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 116,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)onlyPayloadSize(2*32)returns(boolsuccess){if((_value!=0)&&(allowed[msg.sender][_spender]!=0)){returnfalse;}allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 77,
+      "column": 0,
+      "content": "contractThankYouTokenisERC20{usingSafeMathforuint256;uint256publictotalSupply;mapping(address=>uint256)balances;mapping(address=>mapping(address=>uint256))allowed;modifieronlyPayloadSize(uint256size){assert(msg.data.length>=size+4);_;}functionbalanceOf(address_owner)constantreturns(uint256balance){returnbalances[_owner];}functiontransferFrom(address_from,address_to,uint256_value)returns(boolsuccess){if(balances[_from]>=_value&&allowed[_from][msg.sender]>=_value&&_value>0&&balances[_to]+_value>balances[_to]){balances[_to]=balances[_to].add(_value);balances[_from]=balances[_from].sub(_value);allowed[_from][msg.sender]=allowed[_from][msg.sender].sub(_value);Transfer(_from,_to,_value);returntrue;}else{returnfalse;}}functionapprove(address_spender,uint256_value)onlyPayloadSize(2*32)returns(boolsuccess){if((_value!=0)&&(allowed[msg.sender][_spender]!=0)){returnfalse;}allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}functionallowance(address_owner,address_spender)constantreturns(uint256remaining){returnallowed[_owner][_spender];}functiontransfer(address_to,uint256_value)onlyPayloadSize(2*32)returns(boolsuccess){if(balances[msg.sender]>=_value&&_value>0&&balances[_to]+_value>balances[_to]){balances[msg.sender]=balances[msg.sender].sub(_value);balances[_to]=balances[_to].add(_value);Transfer(msg.sender,_to,_value);returntrue;}else{returnfalse;}}stringpublicthankYou=\"ThankYou!\";stringpublicname;stringpublicsymbol;uint256publicdecimals=18;functionThankYouToken(uint256_initialSupply){name=\"ThankYou! Token\";symbol=\"TYT\";totalSupply=_initialSupply;balances[msg.sender]=_initialSupply;}mapping(address=>uint256)numPurchasesPerAddress;boolpubliccrowdsaleClosed=true;uint256bonusMultiplier=50*10**decimals;uint256publicbonusTokensIssued=0;uint256publicfreeTokensAvailable=10000*10**decimals;uint256publicfreeTokensIssued=0;uint256freeTokensPerAddress=2*10**decimals;uint256publiccontribution=0;uint256publictotalTokensIssued=0;mapping(address=>bool)addressBonusReceived;eventBonusTokens(address_from,address_to,uint256_bonusToken);eventFreeTokensIssued(address_from,address_to,uint256_value);functionopenCrowdsale()onlyOwner{crowdsaleClosed=false;}functionstopCrowdsale()onlyOwner{crowdsaleClosed=true;}function()payable{if(msg.value==0){assert(!addressBonusReceived[msg.sender]);assert(freeTokensAvailable>=freeTokensPerAddress);assert(balances[owner]>=freeTokensPerAddress);addressBonusReceived[msg.sender]=true;freeTokensAvailable=freeTokensAvailable.sub(freeTokensPerAddress);freeTokensIssued=freeTokensIssued.add(freeTokensPerAddress);balances[msg.sender]=balances[msg.sender].add(freeTokensPerAddress);balances[owner]=balances[owner].sub(freeTokensPerAddress);totalTokensIssued=totalTokensIssued.add(freeTokensPerAddress);Transfer(owner,msg.sender,freeTokensPerAddress);FreeTokensIssued(owner,msg.sender,freeTokensPerAddress);}else{assert(!crowdsaleClosed);uint256tokensSent=(msg.value*1000);assert(balances[owner]>=tokensSent);if(msg.value>=50finney){numPurchasesPerAddress[msg.sender]=numPurchasesPerAddress[msg.sender].add(1);uint256bonusTokens=numPurchasesPerAddress[msg.sender].mul(bonusMultiplier);tokensSent=tokensSent.add(bonusTokens);bonusTokensIssued=bonusTokensIssued.add(bonusTokens);assert(balances[owner]>=tokensSent);BonusTokens(owner,msg.sender,bonusTokens);}owner.transfer(msg.value);contribution=contribution.add(msg.value);balances[owner]=balances[owner].sub(tokensSent);totalTokensIssued=totalTokensIssued.add(tokensSent);balances[msg.sender]=balances[msg.sender].add(tokensSent);Transfer(owner,msg.sender,tokensSent);}}}"
+    },
+    {
+      "name": "SOLIDITY_MSGVALUE_EQUALS_ZERO",
+      "patternId": "1df89a",
+      "severity": 1,
+      "line": 190,
+      "column": 11,
+      "content": "msg.value==0"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 78,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 36,
+      "column": 4,
+      "content": "functionOwned(){owner=msg.sender;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 46,
+      "column": 4,
+      "content": "functiontransferOwnership(addressnewOwner)onlyOwner{OwnershipTransferred(owner,newOwner);owner=newOwner;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 55,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256balance);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 58,
+      "column": 4,
+      "content": "functiontransfer(address_to,uint256_value)returns(boolsuccess);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 61,
+      "column": 4,
+      "content": "functiontransferFrom(address_from,address_to,uint256_value)returns(boolsuccess);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 65,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)returns(boolsuccess);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 68,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)constantreturns(uint256remaining);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 95,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256balance){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 99,
+      "column": 4,
+      "content": "functiontransferFrom(address_from,address_to,uint256_value)returns(boolsuccess){if(balances[_from]>=_value&&allowed[_from][msg.sender]>=_value&&_value>0&&balances[_to]+_value>balances[_to]){balances[_to]=balances[_to].add(_value);balances[_from]=balances[_from].sub(_value);allowed[_from][msg.sender]=allowed[_from][msg.sender].sub(_value);Transfer(_from,_to,_value);returntrue;}else{returnfalse;}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 116,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)onlyPayloadSize(2*32)returns(boolsuccess){if((_value!=0)&&(allowed[msg.sender][_spender]!=0)){returnfalse;}allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 131,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)constantreturns(uint256remaining){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 136,
+      "column": 4,
+      "content": "functiontransfer(address_to,uint256_value)onlyPayloadSize(2*32)returns(boolsuccess){if(balances[msg.sender]>=_value&&_value>0&&balances[_to]+_value>balances[_to]){balances[msg.sender]=balances[msg.sender].sub(_value);balances[_to]=balances[_to].add(_value);Transfer(msg.sender,_to,_value);returntrue;}else{returnfalse;}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 155,
+      "column": 4,
+      "content": "functionThankYouToken(uint256_initialSupply){name=\"ThankYou! Token\";symbol=\"TYT\";totalSupply=_initialSupply;balances[msg.sender]=_initialSupply;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 180,
+      "column": 4,
+      "content": "functionopenCrowdsale()onlyOwner{crowdsaleClosed=false;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 184,
+      "column": 4,
+      "content": "functionstopCrowdsale()onlyOwner{crowdsaleClosed=true;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 189,
+      "column": 4,
+      "content": "function()payable{if(msg.value==0){assert(!addressBonusReceived[msg.sender]);assert(freeTokensAvailable>=freeTokensPerAddress);assert(balances[owner]>=freeTokensPerAddress);addressBonusReceived[msg.sender]=true;freeTokensAvailable=freeTokensAvailable.sub(freeTokensPerAddress);freeTokensIssued=freeTokensIssued.add(freeTokensPerAddress);balances[msg.sender]=balances[msg.sender].add(freeTokensPerAddress);balances[owner]=balances[owner].sub(freeTokensPerAddress);totalTokensIssued=totalTokensIssued.add(freeTokensPerAddress);Transfer(owner,msg.sender,freeTokensPerAddress);FreeTokensIssued(owner,msg.sender,freeTokensPerAddress);}else{assert(!crowdsaleClosed);uint256tokensSent=(msg.value*1000);assert(balances[owner]>=tokensSent);if(msg.value>=50finney){numPurchasesPerAddress[msg.sender]=numPurchasesPerAddress[msg.sender].add(1);uint256bonusTokens=numPurchasesPerAddress[msg.sender].mul(bonusMultiplier);tokensSent=tokensSent.add(bonusTokens);bonusTokensIssued=bonusTokensIssued.add(bonusTokens);assert(balances[owner]>=tokensSent);BonusTokens(owner,msg.sender,bonusTokens);}owner.transfer(msg.value);contribution=contribution.add(msg.value);balances[owner]=balances[owner].sub(tokensSent);totalTokensIssued=totalTokensIssued.add(tokensSent);balances[msg.sender]=balances[msg.sender].add(tokensSent);Transfer(owner,msg.sender,tokensSent);}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 84,
+      "column": 4,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 87,
+      "column": 4,
+      "content": "mapping(address=>mapping(address=>uint256))allowed;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 164,
+      "column": 4,
+      "content": "mapping(address=>uint256)numPurchasesPerAddress;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 167,
+      "column": 4,
+      "content": "uint256bonusMultiplier=50*10**decimals;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 171,
+      "column": 4,
+      "content": "uint256freeTokensPerAddress=2*10**decimals;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 175,
+      "column": 4,
+      "content": "mapping(address=>bool)addressBonusReceived;"
+    }
+  ]
+}

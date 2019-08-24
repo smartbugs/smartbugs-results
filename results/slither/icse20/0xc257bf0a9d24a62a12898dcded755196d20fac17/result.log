@@ -1,0 +1,148 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:36:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:75:5: Warning: Use of the "var" keyword is deprecated.
+    var _allowance = allowance[_from][msg.sender];
+    ^------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:97:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function LCBrixToken() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:52:3: Warning: Functions in interfaces should be declared external.
+  function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData) public; 
+  ^-----------------------------------------------------------------------------------------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:70:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:79:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:85:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:106:7: Warning: Invoking events without "emit" prefix is deprecated.
+      TransferWithRef(msg.sender, _to, _value, _ref);
+      ^--------------------------------------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:151:5: Warning: Invoking events without "emit" prefix is deprecated.
+    FundTransfer(msg.sender, amount, true);
+    ^------------------------------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:165:26: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    if (beneficiary.send(this.balance)) {
+                         ^----------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:166:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      FundTransfer(beneficiary, this.balance, false);
+                                ^----------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:166:7: Warning: Invoking events without "emit" prefix is deprecated.
+      FundTransfer(beneficiary, this.balance, false);
+      ^--------------------------------------------^
+/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:180:5: Warning: Invoking events without "emit" prefix is deprecated.
+    FundTransfer(_from, amount, false);
+    ^--------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#173-183):
+	External calls:
+	- require(bool)(token == _token && tokenAmount == _value && tokenAmount == token.balanceOf(_from) && amount > 0) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#177-183)
+	- token.transferFrom(_from,this,tokenAmount) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol)
+	External calls sending eth:
+	- _from.transfer(amount) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol)
+	State variables written after the call(s):
+	- balanceOf (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol)
+	- tokenBalanceOf (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#173-183) uses a dangerous strict equality:
+	- require(bool)(token == _token && tokenAmount == _value && tokenAmount == token.balanceOf(_from) && amount > 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in LCBrixTokenCrowdsale.fallback (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#146-159):
+	External calls:
+	- require(bool)(token.balanceOf(this) >= tokenAmount) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#149-150)
+	- token.transfer(msg.sender,tokenAmount) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#158-159)
+	- recalcTokenPrice() (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#159)
+	State variables written after the call(s):
+	- tokenPrice (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#159)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#173-183) does not use the value returned by external calls:
+	-token.transferFrom(_from,this,tokenAmount) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol)
+LCBrixTokenCrowdsale.fallback (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#146-159) does not use the value returned by external calls:
+	-token.transfer(msg.sender,tokenAmount) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#158-159)
+LCBrixTokenCrowdsale.transferRemainingTokens (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#159-166) does not use the value returned by external calls:
+	-token.transfer(beneficiary,token.balanceOf(this)) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#164-166)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in LCBrixTokenCrowdsale.fallback (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#146-159):
+	External calls:
+	- require(bool)(token.balanceOf(this) >= tokenAmount) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#149-150)
+	State variables written after the call(s):
+	- amountRaised (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#150-151)
+	- balanceOf (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#151-152)
+	- tokenBalanceOf (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#152-156)
+Reentrancy in LCBrixTokenCrowdsale.recalcFlags (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#129-136):
+	External calls:
+	- block.timestamp >= deadline || token.balanceOf(this) <= 0 (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#130-134)
+	State variables written after the call(s):
+	- crowdsaleClosed (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#134)
+	- goalReached (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#135-136)
+Reentrancy in LCBrixTokenCrowdsale.recalcTokenPrice (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#136-146):
+	External calls:
+	- tokensLeft = token.balanceOf(this) (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#138-139)
+	State variables written after the call(s):
+	- tokenPrice (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#142-143)
+	- tokenPrice (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#145)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+LCBrixTokenCrowdsale.recalcFlags (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#129-136) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= deadline || token.balanceOf(this) <= 0 (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#130-134)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+LCBrixToken.totalSupply should be constant (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#62)
+LCBrixTokenCrowdsale.beneficiary should be constant (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#114-115)
+LCBrixTokenCrowdsale.deadline should be constant (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#118-119)
+LCBrixTokenCrowdsale.goalInEthers should be constant (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#119-120)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20.transferFrom (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#6-7) should be declared external
+LCBrixToken.transferFrom (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#74-84) should be declared external
+ERC20.approveAndCall (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#8-9) should be declared external
+LCBrixToken.approveAndCall (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#89-101) should be declared external
+Ownable.transferOwnership (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#45-52) should be declared external
+LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#173-183) should be declared external
+tokenRecipient.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#52-56) should be declared external
+LCBrixToken.transferWithRef (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#104-113) should be declared external
+LCBrixTokenCrowdsale.recalcFlags (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#129-136) should be declared external
+LCBrixTokenCrowdsale.fallback (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#146-159) should be declared external
+LCBrixTokenCrowdsale.transferRemainingTokens (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#159-166) should be declared external
+LCBrixTokenCrowdsale.transferGainedEther (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#166-173) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol:
+	- pragma solidity^0.4.15 (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#37-41) is not in mixedCase
+Contract 'tokenRecipient' (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#52-56) is not in CapWords
+Parameter '_to' of LCBrixToken.transfer (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#68) is not in mixedCase
+Parameter '_value' of LCBrixToken.transfer (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#68) is not in mixedCase
+Parameter '_from' of LCBrixToken.transferFrom (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#75) is not in mixedCase
+Parameter '_to' of LCBrixToken.transferFrom (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#75) is not in mixedCase
+Parameter '_value' of LCBrixToken.transferFrom (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#75-76) is not in mixedCase
+Parameter '_spender' of LCBrixToken.approve (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#84) is not in mixedCase
+Parameter '_value' of LCBrixToken.approve (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#85) is not in mixedCase
+Parameter '_spender' of LCBrixToken.approveAndCall (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#90) is not in mixedCase
+Parameter '_value' of LCBrixToken.approveAndCall (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#90) is not in mixedCase
+Parameter '_extraData' of LCBrixToken.approveAndCall (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#90-91) is not in mixedCase
+Function 'LCBrixToken.LCBrixToken' (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#101) is not in mixedCase
+Parameter '_to' of LCBrixToken.transferWithRef (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#104-105) is not in mixedCase
+Parameter '_value' of LCBrixToken.transferWithRef (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#105-106) is not in mixedCase
+Parameter '_ref' of LCBrixToken.transferWithRef (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#106) is not in mixedCase
+Constant 'LCBrixToken.oferta' (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#62-63) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_from' of LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#173-174) is not in mixedCase
+Parameter '_value' of LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#174) is not in mixedCase
+Parameter '_token' of LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#174) is not in mixedCase
+Parameter '_extraData' of LCBrixTokenCrowdsale.receiveApproval (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#174-175) is not in mixedCase
+Constant 'LCBrixTokenCrowdsale.oferta' (/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol#123-127) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/35/0xc257bf0a9d24a62a12898dcded755196d20fac17.sol analyzed (6 contracts), 46 result(s) found

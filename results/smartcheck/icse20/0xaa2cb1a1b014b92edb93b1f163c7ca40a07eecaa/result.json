@@ -1,0 +1,425 @@
+{
+  "contract": "0xaa2cb1a1b014b92edb93b1f163c7ca40a07eecaa",
+  "tool": "smartcheck",
+  "start": 1563688250.142119,
+  "end": 1563688260.9832764,
+  "duration": 10.84115743637085,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "adc165",
+      "severity": 1,
+      "line": 946,
+      "column": 62,
+      "content": "0x846942953c3b2A898F10DF1e32763A823bf6b27f"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 400,
+      "column": 0,
+      "content": "contractManagedContract{CryptonomicaVerificationpubliccryptonomicaVerification;mapping(address=>bool)isAdmin;modifieronlyAdmin(){require(isAdmin[msg.sender],\"Only admin can do that\");_;}eventCryptonomicaVerificationContractAddressChanged(addressfrom,addressto,addressindexedby);functionchangeCryptonomicaVerificationContractAddress(address_newAddress)publiconlyAdminreturns(boolsuccess){emitCryptonomicaVerificationContractAddressChanged(address(cryptonomicaVerification),_newAddress,msg.sender);cryptonomicaVerification=CryptonomicaVerification(_newAddress);returntrue;}eventAdminAdded(addressindexedadded,addressindexedaddedBy);functionaddAdmin(address_newAdmin)publiconlyAdminreturns(boolsuccess){require(cryptonomicaVerification.keyCertificateValidUntil(_newAdmin)>now,\"New admin has to be verified on Cryptonomica.net\");require(cryptonomicaVerification.revokedOn(_newAdmin)==0,\"Verification for this address was revoked, can not add\");isAdmin[_newAdmin]=true;emitAdminAdded(_newAdmin,msg.sender);returntrue;}eventAdminRemoved(addressindexedremoved,addressindexedremovedBy);functionremoveAdmin(address_oldAdmin)externalonlyAdminreturns(bool){require(msg.sender!=_oldAdmin,\"Admin can not remove himself\");isAdmin[_oldAdmin]=false;emitAdminRemoved(_oldAdmin,msg.sender);returntrue;}addresspayablepublicwithdrawalAddress;boolpublicwithdrawalAddressFixed=false;eventWithdrawalAddressChanged(addressindexedfrom,addressindexedto,addressindexedchangedBy);functionsetWithdrawalAddress(addresspayable_withdrawalAddress)publiconlyAdminreturns(boolsuccess){require(!withdrawalAddressFixed,\"Withdrawal address already fixed\");require(_withdrawalAddress!=<missing ';'>address(0),\"Wrong address: 0x0\");require(_withdrawalAddress!=address(this),\"Wrong address: contract itself\");emitWithdrawalAddressChanged(withdrawalAddress,_withdrawalAddress,msg.sender);withdrawalAddress=_withdrawalAddress;returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 921,
+      "column": 0,
+      "content": "contractBillsOfExchangeFactoryisManagedContractWithPaidService{stringpublicdescription=\"Every token (ERC20) in this smart contract is a bill of exchange in blank - payable to bearer (bearer is the owner of the Ethereum address witch holds the tokens, or the person he/she represents), but not to order - that means no endorsement possible and the token holder can only transfer the token (bill of exchange in blank) itself.\";stringpublicorder=\"Pay to bearer (tokenholder), but not to order, the sum defined for every token in currency defined in 'currency' (according to ISO 4217 standard; or XAU for for one troy ounce of gold, XBT or BTC for Bitcoin, ETH for Ether, DASH for Dash, ZEC for Zcash, XRP for Ripple, XMR for Monero, xEUR for xEuro)\";stringpublicdisputeResolutionAgreement=\"Any dispute, controversy or claim arising out of or relating to this bill(s) of exchange, including invalidity thereof and payments based on this bill(s), shall be settled by arbitration in accordance with the Cryptonomica Arbitration Rules (https://github.com/Cryptonomica/arbitration-rules) in the version in effect at the time of the filing of the claim. In the case of the Ethereum blockchain fork, the blockchain that has the highest hashrate is considered valid, and all others are not considered a valid registry; bill payment settles bill even if valid blockchain (hashrate) changes after the payment. All Ethereum test networks are not valid registries.\";constructor()public{isAdmin[msg.sender]=true;changePrice(0.15ether);require(changeCryptonomicaVerificationContractAddress(0x846942953c3b2A898F10DF1e32763A823bf6b27f));require(setWithdrawalAddress(msg.sender));}uint256publicbillsOfExchangeContractsCounter;mapping(uint256=>address)publicbillsOfExchangeContractsLedger;functioncreateBillsOfExchange(stringmemory_name,stringmemory_symbol,uint256_totalSupply,stringmemory_currency,uint256_sumToBePaidForEveryToken,stringmemory_drawerName,stringmemory_linkToSignersAuthorityToRepresentTheDrawer,stringmemory_drawee,address_draweeSignerAddress,stringmemory_timeOfPayment,stringmemory_placeWhereTheBillIsIssued,stringmemory_placeWherePaymentIsToBeMade)publicpayablereturns(addressnewBillsOfExchangeContractAddress){require(msg.value>=price,\"Payment sent was lower than the price for creating Bills of Exchange\");BillsOfExchangebillsOfExchange=newBillsOfExchange();billsOfExchangeContractsCounter++;billsOfExchangeContractsLedger[billsOfExchangeContractsCounter]=address(billsOfExchange);billsOfExchange.initToken(_name,_symbol,_totalSupply,msg.sender);billsOfExchange.initBillsOfExchange(billsOfExchangeContractsCounter,_currency,_sumToBePaidForEveryToken,_drawerName,msg.sender,_linkToSignersAuthorityToRepresentTheDrawer,_drawee,_draweeSignerAddress);billsOfExchange.setPlacesAndTime(_timeOfPayment,_placeWhereTheBillIsIssued,_placeWherePaymentIsToBeMade);billsOfExchange.setLegal(description,order,disputeResolutionAgreement,address(cryptonomicaVerification));billsOfExchange.signDisputeResolutionAgreementFor(msg.sender,_drawerName);returnaddress(billsOfExchange);}functioncreateAndAcceptBillsOfExchange(stringmemory_name,stringmemory_symbol,uint256_totalSupply,stringmemory_currency,uint256_sumToBePaidForEveryToken,stringmemory_drawerName,stringmemory_linkToSignersAuthorityToRepresentTheDrawer,stringmemory_timeOfPayment,stringmemory_placeWhereTheBillIsIssued,stringmemory_placeWherePaymentIsToBeMade)publicpayablereturns(addressnewBillsOfExchangeContractAddress){require(msg.value>=price,\"Payment sent was lower than the price for creating Bills of Exchange\");BillsOfExchangebillsOfExchange=newBillsOfExchange();billsOfExchangeContractsCounter++;billsOfExchangeContractsLedger[billsOfExchangeContractsCounter]=address(billsOfExchange);billsOfExchange.initToken(_name,_symbol,_totalSupply,msg.sender);billsOfExchange.initBillsOfExchange(billsOfExchangeContractsCounter,_currency,_sumToBePaidForEveryToken,_drawerName,msg.sender,_linkToSignersAuthorityToRepresentTheDrawer,_drawerName,msg.sender);billsOfExchange.setPlacesAndTime(_timeOfPayment,_placeWhereTheBillIsIssued,_placeWherePaymentIsToBeMade);billsOfExchange.setLegal(description,order,disputeResolutionAgreement,address(cryptonomicaVerification));billsOfExchange.accept(_linkToSignersAuthorityToRepresentTheDrawer);returnaddress(billsOfExchange);}}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 140,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 182,
+      "column": 4,
+      "content": "functioninitToken(stringcalldata_name,stringcalldata<missing ')'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 513,
+      "column": 4,
+      "content": "functionsetWithdrawalAddress(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 783,
+      "column": 4,
+      "content": "functioninitBillsOfExchange(uint256_billsOfExchangeContractNumber,stringcalldata<missing ')'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 184,
+      "column": 24,
+      "content": "_symbol,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 185,
+      "column": 8,
+      "content": "uint256_totalSupply,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 186,
+      "column": 8,
+      "content": "addresstokenOwner)external{"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 190,
+      "column": 8,
+      "content": "require(msg."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 190,
+      "column": 20,
+      "content": "sender==creator,\"Only creator can initialize token contract\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 192,
+      "column": 8,
+      "content": "name=_name;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 193,
+      "column": 8,
+      "content": "symbol=_symbol;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 194,
+      "column": 8,
+      "content": "totalSupply=_totalSupply;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 195,
+      "column": 8,
+      "content": "balanceOf[tokenOwner]=totalSupply;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 197,
+      "column": 8,
+      "content": "emitTransfer"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 197,
+      "column": 21,
+      "content": "(address<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 197,
+      "column": 29,
+      "content": "(0),tokenOwner,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 197,
+      "column": 46,
+      "content": "totalSupply);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 410,
+      "column": 4,
+      "content": "mapping(address=>bool)isAdmin;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 513,
+      "column": 95,
+      "content": "(boolsuccess){require"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 515,
+      "column": 15,
+      "content": "(!withdrawalAddressFixed,\"Withdrawal address already fixed\");require"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 516,
+      "column": 15,
+      "content": "(_withdrawalAddress!=<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 516,
+      "column": 38,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 516,
+      "column": 45,
+      "content": "(0),\"Wrong address: 0x0\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 517,
+      "column": 8,
+      "content": "require(_withdrawalAddress!="
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 517,
+      "column": 38,
+      "content": "address(this),\"Wrong address: contract itself\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 519,
+      "column": 8,
+      "content": "emitWithdrawalAddressChanged"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 519,
+      "column": 37,
+      "content": "(withdrawalAddress,_withdrawalAddress,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 519,
+      "column": 77,
+      "content": "msg.sender);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 521,
+      "column": 8,
+      "content": "withdrawalAddress=_withdrawalAddress;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 785,
+      "column": 24,
+      "content": "_currency,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 786,
+      "column": 8,
+      "content": "uint256_sumToBePaidForEveryToken,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 787,
+      "column": 8,
+      "content": "stringcalldata"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 787,
+      "column": 24,
+      "content": "_drawerName,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 788,
+      "column": 8,
+      "content": "address_drawerRepresentedBy,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 789,
+      "column": 8,
+      "content": "stringcalldata"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 789,
+      "column": 24,
+      "content": "_linkToSignersAuthorityToRepresentTheDrawer,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 790,
+      "column": 8,
+      "content": "stringcalldata"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 790,
+      "column": 24,
+      "content": "_drawee,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 791,
+      "column": 8,
+      "content": "address_draweeSignerAddress)external{"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 794,
+      "column": 8,
+      "content": "require(msg."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 794,
+      "column": 20,
+      "content": "sender==creator,\"Only contract creator can call 'initBillsOfExchange' function\");"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 796,
+      "column": 8,
+      "content": "billsOfExchangeContractNumber=_billsOfExchangeContractNumber;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 800,
+      "column": 8,
+      "content": "currency=_currency;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 802,
+      "column": 8,
+      "content": "sumToBePaidForEveryToken=_sumToBePaidForEveryToken;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 805,
+      "column": 8,
+      "content": "drawerName=_drawerName;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 806,
+      "column": 8,
+      "content": "drawerRepresentedBy=_drawerRepresentedBy;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 807,
+      "column": 8,
+      "content": "linkToSignersAuthorityToRepresentTheDrawer=_linkToSignersAuthorityToRepresentTheDrawer;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 811,
+      "column": 8,
+      "content": "drawee=_drawee;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 812,
+      "column": 8,
+      "content": "draweeSignerAddress=_draweeSignerAddress;"
+    }
+  ]
+}

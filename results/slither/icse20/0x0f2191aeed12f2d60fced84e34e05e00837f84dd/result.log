@@ -1,0 +1,184 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:356:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function JustPriceProtocol (
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:444:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Delivery (investorAddress, toDeliver);
+        ^-----------------------------------^
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:482:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Refund (investorAddress, toRefund);
+        ^--------------------------------^
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:500:11: Warning: Invoking events without "emit" prefix is deprecated.
+          VoteRevocation (msg.sender, oldK1, votesCount);
+          ^--------------------------------------------^
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:507:11: Warning: Invoking events without "emit" prefix is deprecated.
+          Vote (msg.sender, _newK1, votesCount);
+          ^-----------------------------------^
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:514:13: Warning: Invoking events without "emit" prefix is deprecated.
+            K1Change (_newK1);
+            ^---------------^
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:543:7: Warning: Invoking events without "emit" prefix is deprecated.
+      FeeChange (_fee);
+      ^--------------^
+/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:780:7: Warning: Invoking events without "emit" prefix is deprecated.
+      Investment (msg.sender, etherInvested, toBuy);
+      ^-------------------------------------------^
+
+INFO:Detectors:[91m
+JustPriceProtocol.refund (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#477-503) sends eth to arbitrary user
+	Dangerous calls:
+	- investorAddress.transfer(toRefund) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#498-500)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Reentrancy in JustPriceProtocol.buyTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#393-404):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#395)
+	- buyTokensGrowthLife() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#401)
+	State variables written after the call(s):
+	- reserveAmount (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#401)
+	- stage (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#401)
+Reentrancy in JustPriceProtocol.buyTokensGrowthLife (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#824-869):
+	External calls:
+	- totalSupply = orgonToken.totalSupply() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#829-830)
+	- require(bool)(orgonToken.createTokens(toBuy)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#841-845)
+	- require(bool)(orgonToken.totalSupply() < TWO_128) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#845-847)
+	- require(bool)(orgonToken.transfer(msg.sender,safeSub(toBuy,feeAmount))) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#849-850)
+	- require(bool)(orgonToken.transfer(k1,feeAmount)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#852)
+	- totalSupply = orgonToken.totalSupply() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#854-856)
+	State variables written after the call(s):
+	- stage (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#858)
+Reentrancy in JustPriceProtocol.buyTokensReserve (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#648-821):
+	External calls:
+	- require(bool)(orgonToken.createTokens(toBuy)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#806-808)
+	- orisSpace.start(0) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#817)
+	State variables written after the call(s):
+	- stage (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#819)
+Reentrancy in JustPriceProtocol.deliver (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#437-470):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#440-441)
+	State variables written after the call(s):
+	- growthDeadline (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#467-468)
+	- stage (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#466-467)
+Reentrancy in JustPriceProtocol.sellTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#408-433):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#412)
+	- totalSupply = orgonToken.totalSupply() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#415)
+	- require(bool)(orgonToken.transferFrom(msg.sender,this,_value)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#426-428)
+	- require(bool)(orgonToken.burnTokens(_value)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#428-430)
+	State variables written after the call(s):
+	- reserveAmount (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#430-432)
+Reentrancy in JustPriceProtocol.updateStage (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#878-915):
+	External calls:
+	- orisSpace.start(tokensToBurn) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#906-907)
+	- require(bool)(orgonToken.burnTokens(tokensToBurn)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#910-913)
+	State variables written after the call(s):
+	- stage (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#913-914)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+JustPriceProtocol.deliver has external calls inside a loop:
+	- require(bool)(orgonToken.transfer(investorAddress,toDeliver)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#452-453)
+JustPriceProtocol.refund has external calls inside a loop:
+	- require(bool)(orgonToken.burnTokens(toBurn)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#497-498)
+JustPriceProtocol.refund has external calls inside a loop:
+	- investorAddress.transfer(toRefund) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#498-500)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in JustPriceProtocol.buyTokensGrowthLife (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#824-869):
+	External calls:
+	- totalSupply = orgonToken.totalSupply() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#829-830)
+	State variables written after the call(s):
+	- reserveAmount (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#838-839)
+Reentrancy in JustPriceProtocol.buyTokensGrowthLife (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#824-869):
+	External calls:
+	- totalSupply = orgonToken.totalSupply() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#829-830)
+	- require(bool)(orgonToken.createTokens(toBuy)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#841-845)
+	- require(bool)(orgonToken.totalSupply() < TWO_128) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#845-847)
+	- require(bool)(orgonToken.transfer(msg.sender,safeSub(toBuy,feeAmount))) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#849-850)
+	- require(bool)(orgonToken.transfer(k1,feeAmount)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#852)
+	- totalSupply = orgonToken.totalSupply() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#854-856)
+	State variables written after the call(s):
+	- totalVotesNumber (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#865-866)
+	- voteNumbers (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#862-865)
+Reentrancy in JustPriceProtocol.buyTokensReserve (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#648-821):
+	External calls:
+	- require(bool)(orgonToken.createTokens(toBuy)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#806-808)
+	State variables written after the call(s):
+	- totalVotesNumber (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#810-812)
+	- voteNumbers (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#809)
+Reentrancy in JustPriceProtocol.deliver (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#437-470):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#440-441)
+	State variables written after the call(s):
+	- feeChangeEnableTime (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#468-470)
+	- investors (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#450)
+	- investors (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#450-451)
+Reentrancy in JustPriceProtocol.deliver (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#437-470):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#440-441)
+	- require(bool)(orgonToken.transfer(investorAddress,toDeliver)) (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#452-453)
+	State variables written after the call(s):
+	- reserveTokensDelivered (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#453-458)
+Reentrancy in JustPriceProtocol.refund (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#477-503):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#479)
+	State variables written after the call(s):
+	- investors (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#495)
+	- investors (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#495-496)
+Reentrancy in JustPriceProtocol.setFee (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#549-563):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#553)
+	State variables written after the call(s):
+	- fee (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#561)
+Reentrancy in JustPriceProtocol.vote (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#503-547):
+	External calls:
+	- updateStage() (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#506)
+	State variables written after the call(s):
+	- k1 (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#538)
+	- k1Changed (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#538-540)
+	- voteResults (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#511-514)
+	- voteResults (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#526-529)
+	- votes (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#523-524)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Token.totalSupply (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#67-68) should be declared external
+Token.balanceOf (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#74-77) should be declared external
+Token.transfer (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#86-88) should be declared external
+Token.transferFrom (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#96-101) should be declared external
+Token.approve (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#110-112) should be declared external
+Token.allowance (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#124-126) should be declared external
+OrisSpace.start (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#156-157) should be declared external
+OrgonToken.createTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#166-168) should be declared external
+OrgonToken.burnTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#178-182) should be declared external
+JustPriceProtocol.fallback (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#385-391) should be declared external
+JustPriceProtocol.sellTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#408-433) should be declared external
+JustPriceProtocol.deliver (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#437-470) should be declared external
+JustPriceProtocol.refund (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#477-503) should be declared external
+JustPriceProtocol.vote (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#503-547) should be declared external
+JustPriceProtocol.setFee (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#549-563) should be declared external
+JustPriceProtocol.outstandingTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#572-577) should be declared external
+JustPriceProtocol.totalEligibleVotes (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#618-620) should be declared external
+JustPriceProtocol.eligibleVotes (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#632-636) should be declared external
+JustPriceProtocol.votesFor (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#643-647) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol:
+	- pragma solidity^0.4.20 (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#6-8): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'JustPriceProtocol.JustPriceProtocol' (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#374-383) is not in mixedCase
+Parameter '_orgonToken' of JustPriceProtocol.JustPriceProtocol (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#376) is not in mixedCase
+Parameter '_orisSpace' of JustPriceProtocol.JustPriceProtocol (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#377) is not in mixedCase
+Parameter '_k1' of JustPriceProtocol.JustPriceProtocol (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#377-379) is not in mixedCase
+Parameter '_value' of JustPriceProtocol.sellTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#410) is not in mixedCase
+Parameter '_investors' of JustPriceProtocol.deliver (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#438-439) is not in mixedCase
+Parameter '_investors' of JustPriceProtocol.refund (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#477) is not in mixedCase
+Parameter '_newK1' of JustPriceProtocol.vote (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#505) is not in mixedCase
+Parameter '_fee' of JustPriceProtocol.setFee (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#549-551) is not in mixedCase
+Parameter '_investor' of JustPriceProtocol.outstandingTokens (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#575) is not in mixedCase
+Parameter '_currentTime' of JustPriceProtocol.getStage (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#586) is not in mixedCase
+Parameter '_investor' of JustPriceProtocol.eligibleVotes (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#632-633) is not in mixedCase
+Parameter '_newK1' of JustPriceProtocol.votesFor (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#645) is not in mixedCase
+Function 'JustPriceProtocol.root_10' (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#936-967) is not in mixedCase
+Function 'JustPriceProtocol.pow_10' (/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol#970-975) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x0f2191aeed12f2d60fced84e34e05e00837f84dd.sol analyzed (5 contracts), 53 result(s) found

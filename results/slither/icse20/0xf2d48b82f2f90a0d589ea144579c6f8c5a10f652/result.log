@@ -1,0 +1,310 @@
+INFO:Detectors:[91m
+DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#764-803) sends eth to arbitrary user
+	Dangerous calls:
+	- _buyer.transfer((_value - _totalFees) * _buyerPercent / 100) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#787-789)
+	- _seller.transfer((_value - _totalFees) * (100 - _buyerPercent) / 100) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#790-793)
+DexC2C.transferMinusFees (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1029-1049) sends eth to arbitrary user
+	Dangerous calls:
+	- _to.transfer(_value - _totalFees) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1043-1045)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+params in DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#851) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#764-803) does not use the value returned by external calls:
+	-escrowData.removeEscrow(_tradeHash) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#783-784)
+DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#913-942) does not use the value returned by external calls:
+	-escrowData.removeEscrow(escrow.tradeHash) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#936-937)
+DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#994-1029) does not use the value returned by external calls:
+	-escrowData.removeEscrow(escrow.tradeHash) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1022-1023)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#764-803):
+	External calls:
+	- _totalFees += getTokenAmount(_token,GAS_doResolveDispute * uint256(tx.gasprice)) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#778-780)
+	State variables written after the call(s):
+	- feesAvailableForWithdraw (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#781-783)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+DexC2C.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#868-886) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp < params.expiry,Signature has expired) (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#878-880)
+DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#994-1029) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < escrow.sellerCanCancelAfter (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1006-1010)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+DSToken.decimals should be constant (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#375)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+DSAuthority.canCall (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#23-25) should be declared external
+DSAuth.setOwner (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#42-48) should be declared external
+DSAuth.setAuthority (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#50-56) should be declared external
+DSStop.stop (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#237-239) should be declared external
+DSStop.start (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#240-242) should be declared external
+DSTokenBase.totalSupply (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#307-309) should be declared external
+ERC20.totalSupply (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#263) should be declared external
+DSTokenBase.balanceOf (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#310-312) should be declared external
+ERC20.balanceOf (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#264) should be declared external
+DSTokenBase.allowance (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#313-315) should be declared external
+ERC20.allowance (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#265) should be declared external
+ERC20.transfer (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#268) should be declared external
+DSTokenBase.transfer (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#317-319) should be declared external
+DSToken.approve (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#384-386) should be declared external
+DSToken.push (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#411-413) should be declared external
+DSToken.pull (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#414-416) should be declared external
+DSToken.move (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#417-419) should be declared external
+DSToken.mint (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#421-423) should be declared external
+DSToken.burn (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#424-426) should be declared external
+DSToken.setName (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#447-449) should be declared external
+DSValue.read (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#511-516) should be declared external
+DSValue.poke (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#517-520) should be declared external
+DSValue.void (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#521-523) should be declared external
+DexC2C.setPriceFeed (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#648-651) should be declared external
+DexC2C.setRelayer (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#653-657) should be declared external
+DexC2C.setSigner (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#659-663) should be declared external
+DexC2C.setArbitrator (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#665-669) should be declared external
+DexC2C.setGateway (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#672-676) should be declared external
+DexC2C.setEscrowData (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#678-682) should be declared external
+DexC2C.setToken (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#684-689) should be declared external
+DexC2C.enabled (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#697-699) should be declared external
+DexC2C.setEnabled (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#701-705) should be declared external
+DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#805-837) should be declared external
+DexC2C.getFeesAvailableForWithdraw (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1049-1057) should be declared external
+DexC2C.fallback (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1098-1100) should be declared external
+DexC2CGateway.setDexC2C (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1167-1174) should be declared external
+DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1174-1189) should be declared external
+DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1189-1205) should be declared external
+DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1205-1226) should be declared external
+DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1226-1241) should be declared external
+DexC2CGateway.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1241-1252) should be declared external
+DexC2CGateway.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1252-1263) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Variable 'DSTokenBase._supply' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#298) is not in mixedCase
+Variable 'DSTokenBase._balances' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#299) is not in mixedCase
+Variable 'DSTokenBase._approvals' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#300) is not in mixedCase
+Function 'DSThing.S' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#477-479) is not in mixedCase
+Parameter '_escrowData' of DexC2C. (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#638) is not in mixedCase
+Parameter '_signer' of DexC2C. (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#638) is not in mixedCase
+Parameter '_token' of DexC2C.setPriceFeed (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#648) is not in mixedCase
+Parameter '_priceFeed' of DexC2C.setPriceFeed (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#648) is not in mixedCase
+Parameter '_relayer' of DexC2C.setRelayer (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#653) is not in mixedCase
+Parameter '_signer' of DexC2C.setSigner (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#659) is not in mixedCase
+Parameter '_arbitrator' of DexC2C.setArbitrator (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#665) is not in mixedCase
+Parameter '_gateway' of DexC2C.setGateway (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#672) is not in mixedCase
+Parameter '_escrowData' of DexC2C.setEscrowData (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#678) is not in mixedCase
+Parameter '_newRequestCancellationMinimumTime' of DexC2C.setRequestCancellationMinimumTime (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#692) is not in mixedCase
+Parameter '_enableMake' of DexC2C.setEnabled (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#701) is not in mixedCase
+Parameter '_token' of DexC2C.getTokenAmount (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#707) is not in mixedCase
+Parameter '_tradeId' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#714) is not in mixedCase
+Parameter '_token' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#715) is not in mixedCase
+Parameter '_buyer' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#716) is not in mixedCase
+Parameter '_seller' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#717) is not in mixedCase
+Parameter '_value' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#718) is not in mixedCase
+Parameter '_fee' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#719) is not in mixedCase
+Parameter '_v' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#720) is not in mixedCase
+Parameter '_r' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#721) is not in mixedCase
+Parameter '_s' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#722) is not in mixedCase
+Parameter '_buyerPercent' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#723) is not in mixedCase
+Parameter '_caller' of DexC2C.checkCanResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#724) is not in mixedCase
+Parameter '_tradeId' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#734) is not in mixedCase
+Parameter '_token' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#735) is not in mixedCase
+Parameter '_buyer' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#736) is not in mixedCase
+Parameter '_seller' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#737) is not in mixedCase
+Parameter '_value' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#738) is not in mixedCase
+Parameter '_fee' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#739) is not in mixedCase
+Parameter '_v' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#740) is not in mixedCase
+Parameter '_r' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#741) is not in mixedCase
+Parameter '_s' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#742) is not in mixedCase
+Parameter '_buyerPercent' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#743) is not in mixedCase
+Parameter '_caller' of DexC2C.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#744) is not in mixedCase
+Parameter '_tradeHash' of DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#765) is not in mixedCase
+Parameter '_token' of DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#766) is not in mixedCase
+Parameter '_buyer' of DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#767) is not in mixedCase
+Parameter '_seller' of DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#768) is not in mixedCase
+Parameter '_value' of DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#769) is not in mixedCase
+Parameter '_buyerPercent' of DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#770) is not in mixedCase
+Parameter '_totalGasFeesSpentByRelayer' of DexC2C.doResolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#771) is not in mixedCase
+Parameter '_tradeId' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#806-807) is not in mixedCase
+Parameter '_tradeToken' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#807-808) is not in mixedCase
+Parameter '_buyer' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#808-809) is not in mixedCase
+Parameter '_seller' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#809-810) is not in mixedCase
+Parameter '_value' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#810-811) is not in mixedCase
+Parameter '_fee' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#811-812) is not in mixedCase
+Parameter '_maxGasPrice' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#812-813) is not in mixedCase
+Parameter '_v' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#814) is not in mixedCase
+Parameter '_r' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#815) is not in mixedCase
+Parameter '_s' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#815-816) is not in mixedCase
+Parameter '_actionType' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#816-817) is not in mixedCase
+Parameter '_caller' of DexC2C.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#817) is not in mixedCase
+Parameter '_tradeId' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#838-839) is not in mixedCase
+Parameter '_tradeToken' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#839-840) is not in mixedCase
+Parameter '_buyer' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#840-841) is not in mixedCase
+Parameter '_seller' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#841-842) is not in mixedCase
+Parameter '_value' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#842-843) is not in mixedCase
+Parameter '_fee' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#843) is not in mixedCase
+Parameter '_paymentWindowInSeconds' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#844-845) is not in mixedCase
+Parameter '_expiry' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#846) is not in mixedCase
+Parameter '_v' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#847) is not in mixedCase
+Parameter '_r' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#848) is not in mixedCase
+Parameter '_s' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#848-849) is not in mixedCase
+Parameter '_caller' of DexC2C.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#849) is not in mixedCase
+Parameter '_tradeId' of DexC2C.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#887-888) is not in mixedCase
+Parameter '_token' of DexC2C.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#888-889) is not in mixedCase
+Parameter '_buyer' of DexC2C.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#889-890) is not in mixedCase
+Parameter '_seller' of DexC2C.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#890-891) is not in mixedCase
+Parameter '_value' of DexC2C.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#891-892) is not in mixedCase
+Parameter '_fee' of DexC2C.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#892-893) is not in mixedCase
+Parameter '_caller' of DexC2C.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#893) is not in mixedCase
+Parameter '_tradeId' of DexC2C.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#900-901) is not in mixedCase
+Parameter '_token' of DexC2C.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#901-902) is not in mixedCase
+Parameter '_buyer' of DexC2C.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#902-903) is not in mixedCase
+Parameter '_seller' of DexC2C.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#903-904) is not in mixedCase
+Parameter '_value' of DexC2C.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#904-905) is not in mixedCase
+Parameter '_fee' of DexC2C.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#905-906) is not in mixedCase
+Parameter '_caller' of DexC2C.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#906) is not in mixedCase
+Parameter '_tradeId' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#914-915) is not in mixedCase
+Parameter '_token' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#915-916) is not in mixedCase
+Parameter '_buyer' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#916-917) is not in mixedCase
+Parameter '_seller' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#917-918) is not in mixedCase
+Parameter '_value' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#918-919) is not in mixedCase
+Parameter '_fee' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#919-920) is not in mixedCase
+Parameter '_caller' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#920-921) is not in mixedCase
+Parameter '_additionalGas' of DexC2C.doRelease (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#921-922) is not in mixedCase
+Parameter '_tradeId' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#945-946) is not in mixedCase
+Parameter '_token' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#946-947) is not in mixedCase
+Parameter '_buyer' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#947-948) is not in mixedCase
+Parameter '_seller' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#948-949) is not in mixedCase
+Parameter '_value' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#949-950) is not in mixedCase
+Parameter '_fee' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#950-951) is not in mixedCase
+Parameter '_caller' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#951-952) is not in mixedCase
+Parameter '_additionalGas' of DexC2C.doBuyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#952-953) is not in mixedCase
+Parameter '_tradeId' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#974-975) is not in mixedCase
+Parameter '_token' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#975-976) is not in mixedCase
+Parameter '_buyer' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#976-977) is not in mixedCase
+Parameter '_seller' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#977-978) is not in mixedCase
+Parameter '_value' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#978-979) is not in mixedCase
+Parameter '_fee' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#979-980) is not in mixedCase
+Parameter '_expiry' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#981) is not in mixedCase
+Parameter '_v' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#982) is not in mixedCase
+Parameter '_r' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#983) is not in mixedCase
+Parameter '_s' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#983-984) is not in mixedCase
+Parameter '_caller' of DexC2C.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#984) is not in mixedCase
+Parameter '_tradeId' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#995-996) is not in mixedCase
+Parameter '_token' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#996-997) is not in mixedCase
+Parameter '_buyer' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#997-998) is not in mixedCase
+Parameter '_seller' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#998-999) is not in mixedCase
+Parameter '_value' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#999-1000) is not in mixedCase
+Parameter '_fee' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1000-1001) is not in mixedCase
+Parameter '_caller' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1001-1002) is not in mixedCase
+Parameter '_additionalGas' of DexC2C.doSellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1002-1003) is not in mixedCase
+Parameter '_token' of DexC2C.transferMinusFees (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1030-1031) is not in mixedCase
+Parameter '_to' of DexC2C.transferMinusFees (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1031-1032) is not in mixedCase
+Parameter '_value' of DexC2C.transferMinusFees (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1032) is not in mixedCase
+Parameter '_totalGasFeesSpentByRelayer' of DexC2C.transferMinusFees (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1032-1034) is not in mixedCase
+Parameter '_fee' of DexC2C.transferMinusFees (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1035) is not in mixedCase
+Parameter '_token' of DexC2C.getFeesAvailableForWithdraw (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1051) is not in mixedCase
+Parameter '_token' of DexC2C.withdraw (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1066) is not in mixedCase
+Parameter '_amnt' of DexC2C.withdraw (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1066) is not in mixedCase
+Parameter '_receiver' of DexC2C.withdraw (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1066-1067) is not in mixedCase
+Parameter '_tradeId' of DexC2C.getEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1081-1082) is not in mixedCase
+Parameter '_token' of DexC2C.getEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1082-1083) is not in mixedCase
+Parameter '_buyer' of DexC2C.getEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1083-1084) is not in mixedCase
+Parameter '_seller' of DexC2C.getEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1084-1085) is not in mixedCase
+Parameter '_value' of DexC2C.getEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1085-1086) is not in mixedCase
+Parameter '_fee' of DexC2C.getEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1086-1087) is not in mixedCase
+Parameter '_h' of DexC2C.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1102) is not in mixedCase
+Parameter '_v' of DexC2C.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1103) is not in mixedCase
+Parameter '_r' of DexC2C.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1104) is not in mixedCase
+Parameter '_s' of DexC2C.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1104) is not in mixedCase
+Parameter '_tradeId' of DexC2C.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1112-1113) is not in mixedCase
+Parameter '_actionType' of DexC2C.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1113-1114) is not in mixedCase
+Parameter '_maxGasPrice' of DexC2C.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1114-1115) is not in mixedCase
+Parameter '_v' of DexC2C.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1116) is not in mixedCase
+Parameter '_r' of DexC2C.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1117) is not in mixedCase
+Parameter '_s' of DexC2C.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1117) is not in mixedCase
+Constant 'DexC2C.GAS_doResolveDispute' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#763) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'DexC2C.GAS_relayBaseCost' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#803-805) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'DexC2C.GAS_doRelease' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#911-913) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'DexC2C.GAS_doBuyerPaid' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#942-944) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'DexC2C.GAS_doSellerCancel' (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#992-994) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_dexc2c' of DexC2CGateway.setDexC2C (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1168) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1175-1176) is not in mixedCase
+Parameter '_token' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1176-1177) is not in mixedCase
+Parameter '_buyer' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1177-1178) is not in mixedCase
+Parameter '_seller' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1178-1179) is not in mixedCase
+Parameter '_value' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1179-1180) is not in mixedCase
+Parameter '_fee' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1181) is not in mixedCase
+Parameter '_v' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1182) is not in mixedCase
+Parameter '_r' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1183) is not in mixedCase
+Parameter '_s' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1183-1184) is not in mixedCase
+Parameter '_buyerPercent' of DexC2CGateway.resolveDispute (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1185) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1190-1191) is not in mixedCase
+Parameter '_token' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1191-1192) is not in mixedCase
+Parameter '_buyer' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1192-1193) is not in mixedCase
+Parameter '_seller' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1193-1194) is not in mixedCase
+Parameter '_value' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1194-1195) is not in mixedCase
+Parameter '_fee' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1195-1196) is not in mixedCase
+Parameter '_maxGasPrice' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1196-1197) is not in mixedCase
+Parameter '_v' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1198) is not in mixedCase
+Parameter '_r' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1199) is not in mixedCase
+Parameter '_s' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1199-1200) is not in mixedCase
+Parameter '_actionType' of DexC2CGateway.relay (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1200-1201) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1206-1207) is not in mixedCase
+Parameter '_tradeToken' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1207-1208) is not in mixedCase
+Parameter '_buyer' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1208-1209) is not in mixedCase
+Parameter '_seller' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1209-1210) is not in mixedCase
+Parameter '_value' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1210-1211) is not in mixedCase
+Parameter '_fee' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1211) is not in mixedCase
+Parameter '_paymentWindowInSeconds' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1212-1213) is not in mixedCase
+Parameter '_expiry' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1214) is not in mixedCase
+Parameter '_v' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1215) is not in mixedCase
+Parameter '_r' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1216) is not in mixedCase
+Parameter '_s' of DexC2CGateway.createEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1216) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1227-1228) is not in mixedCase
+Parameter '_tradeToken' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1228-1229) is not in mixedCase
+Parameter '_buyer' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1229-1230) is not in mixedCase
+Parameter '_seller' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1230-1231) is not in mixedCase
+Parameter '_value' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1231-1232) is not in mixedCase
+Parameter '_fee' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1232-1233) is not in mixedCase
+Parameter '_expiry' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1234) is not in mixedCase
+Parameter '_v' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1235) is not in mixedCase
+Parameter '_r' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1236) is not in mixedCase
+Parameter '_s' of DexC2CGateway.sellerCancel (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1236-1237) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1242-1243) is not in mixedCase
+Parameter '_tradeToken' of DexC2CGateway.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1243-1244) is not in mixedCase
+Parameter '_buyer' of DexC2CGateway.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1244-1245) is not in mixedCase
+Parameter '_seller' of DexC2CGateway.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1245-1246) is not in mixedCase
+Parameter '_value' of DexC2CGateway.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1246-1247) is not in mixedCase
+Parameter '_fee' of DexC2CGateway.buyerPaid (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1247-1248) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1253-1254) is not in mixedCase
+Parameter '_tradeToken' of DexC2CGateway.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1254-1255) is not in mixedCase
+Parameter '_buyer' of DexC2CGateway.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1255-1256) is not in mixedCase
+Parameter '_seller' of DexC2CGateway.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1256-1257) is not in mixedCase
+Parameter '_value' of DexC2CGateway.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1257-1258) is not in mixedCase
+Parameter '_fee' of DexC2CGateway.release (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1258-1259) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1264-1265) is not in mixedCase
+Parameter '_tradeToken' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1265-1266) is not in mixedCase
+Parameter '_buyer' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1266-1267) is not in mixedCase
+Parameter '_seller' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1267-1268) is not in mixedCase
+Parameter '_value' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1268-1269) is not in mixedCase
+Parameter '_fee' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1269) is not in mixedCase
+Parameter '_paymentWindowInSeconds' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1270-1271) is not in mixedCase
+Parameter '_expiry' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1272) is not in mixedCase
+Parameter '_v' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1273) is not in mixedCase
+Parameter '_r' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1274) is not in mixedCase
+Parameter '_s' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1274-1275) is not in mixedCase
+Parameter '_caller' of DexC2CGateway.doCreateEscrow (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1275-1276) is not in mixedCase
+Parameter '_h' of DexC2CGateway.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1295) is not in mixedCase
+Parameter '_v' of DexC2CGateway.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1296) is not in mixedCase
+Parameter '_r' of DexC2CGateway.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1297) is not in mixedCase
+Parameter '_s' of DexC2CGateway.recoverAddress (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1297) is not in mixedCase
+Parameter '_tradeId' of DexC2CGateway.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1306-1307) is not in mixedCase
+Parameter '_actionType' of DexC2CGateway.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1307-1308) is not in mixedCase
+Parameter '_maxGasPrice' of DexC2CGateway.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1308-1309) is not in mixedCase
+Parameter '_v' of DexC2CGateway.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1310) is not in mixedCase
+Parameter '_r' of DexC2CGateway.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1311) is not in mixedCase
+Parameter '_s' of DexC2CGateway.getRelayedSender (/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol#1311) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0xf2d48b82f2f90a0d589ea144579c6f8c5a10f652.sol analyzed (15 contracts), 277 result(s) found

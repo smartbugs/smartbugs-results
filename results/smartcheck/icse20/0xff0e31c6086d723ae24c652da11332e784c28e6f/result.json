@@ -1,0 +1,65 @@
+{
+  "contract": "0xff0e31c6086d723ae24c652da11332e784c28e6f",
+  "tool": "smartcheck",
+  "start": 1563674075.2933438,
+  "end": 1563674083.0528662,
+  "duration": 7.759522438049316,
+  "analysis": [
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 35,
+      "column": 0,
+      "content": "contractUnrealInvest{uintpublicprizePercent=2;uintpublicsupportPercent=3;uintpublicrefPercent=5;uintpublicholdInterval=20;uintpublicprizeInterval=42;uintpublicpercentWithoutRef=120;uintpublicpercentWithRef=130;uintpublicminDeposit=0.01ether;addresssupport=msg.sender;uintpublicprizeFund;addresspubliclastInvestor;uintpubliclastInvestedAt;uintpublicactiveInvestors;uintpublictotalInvested;mapping(address=>bool)publicregistered;mapping(address=>uint)publicinvested;mapping(address=>uint)publicpaid;mapping(address=>uint)publicatBlock;mapping(address=>address)publicreferrers;functionbytesToAddress(bytessource)internalpurereturns(addressparsedAddress){assembly{parsedAddress:=mload(add(source,0x14))}returnparsedAddress;}function()externalpayable{require(registered[msg.sender]&&msg.value==0||msg.value>=minDeposit);boolfullyPaid;uinttransferAmount;if(!registered[msg.sender]&&msg.data.length==20){addressreferrerAddress=bytesToAddress(bytes(msg.data));require(referrerAddress!=msg.sender);if(registered[referrerAddress]){referrers[msg.sender]=referrerAddress;}}registered[msg.sender]=true;if(invested[msg.sender]>0&&block.number>=atBlock[msg.sender]+holdInterval){uintavailAmount=(address(this).balance-msg.value-prizeFund)/activeInvestors;uintpayAmount=invested[msg.sender]*(referrers[msg.sender]==0x0?percentWithoutRef:percentWithRef)/100-paid[msg.sender];if(payAmount>availAmount){payAmount=availAmount;}else{fullyPaid=true;}if(payAmount>0){paid[msg.sender]+=payAmount;transferAmount+=payAmount;atBlock[msg.sender]=block.number;}}if(msg.value>0){if(invested[msg.sender]==0){activeInvestors++;}invested[msg.sender]+=msg.value;atBlock[msg.sender]=block.number;totalInvested+=msg.value;lastInvestor=msg.sender;lastInvestedAt=block.number;prizeFund+=msg.value*prizePercent/100;support.transfer(msg.value*supportPercent/100);if(referrers[msg.sender]!=0x0){referrers[msg.sender].transfer(msg.value*refPercent/100);}}if(lastInvestor==msg.sender&&block.number>=lastInvestedAt+prizeInterval){transferAmount+=prizeFund;deleteprizeFund;deletelastInvestor;}if(transferAmount>0){msg.sender.transfer(transferAmount);}if(fullyPaid){deleteinvested[msg.sender];deletepaid[msg.sender];activeInvestors--;}}}"
+    },
+    {
+      "name": "SOLIDITY_MSGVALUE_EQUALS_ZERO",
+      "patternId": "1df89a",
+      "severity": 1,
+      "line": 72,
+      "column": 42,
+      "content": "msg.value==0"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_NOT_BE_PURE",
+      "patternId": "11314f",
+      "severity": 1,
+      "line": 64,
+      "column": 4,
+      "content": "functionbytesToAddress(bytessource)internalpurereturns(addressparsedAddress){assembly{parsedAddress:=mload(add(source,0x14))}returnparsedAddress;}"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 64,
+      "column": 28,
+      "content": "bytessource"
+    },
+    {
+      "name": "SOLIDITY_USING_INLINE_ASSEMBLY",
+      "patternId": "109cd5",
+      "severity": 1,
+      "line": 65,
+      "column": 8,
+      "content": "assembly{parsedAddress:=mload(add(source,0x14))}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 45,
+      "column": 4,
+      "content": "addresssupport=msg.sender;"
+    }
+  ]
+}

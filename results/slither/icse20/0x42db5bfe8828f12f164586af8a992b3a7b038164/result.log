@@ -1,0 +1,83 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:17:26: Warning: This declaration shadows an existing declaration.
+    function changeOwner(address adr){
+                         ^---------^
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:7:5: The shadowed declaration is here:
+    address adr;
+    ^---------^
+
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:6:22: Warning: This looks like an address but has an invalid checksum. If this is not used as an address, please prepend '00'. Correct checksummed address: '0x25dF6E3DA49F41EF5b99E139C87ABC12c3583D13'. For more information please see https://solidity.readthedocs.io/en/develop/types.html#address-literals
+    address emails = 0x25df6e3da49f41ef5b99e139c87abc12c3583d13;
+                     ^----------------------------------------^
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:37:40: Warning: "sha3" has been deprecated in favour of "keccak256"
+            emails.delegatecall(bytes4(sha3("logEvent()")));
+                                       ^----------------^
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:37:13: Warning: Return value of low-level calls not used.
+            emails.delegatecall(bytes4(sha3("logEvent()")));
+            ^---------------------------------------------^
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:38:22: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            adr.send(this.balance);
+                     ^----------^
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:38:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            adr.send(this.balance);
+            ^--------------------^
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:10:5: Warning: No visibility specified. Defaulting to "public". 
+    function Set(address dataBase, uint256 limit) 
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:17:5: Warning: No visibility specified. Defaulting to "public". 
+    function changeOwner(address adr){
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:17:26: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function changeOwner(address adr){
+                         ^---------^
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:21:5: Warning: No visibility specified. Defaulting to "public". 
+    function()payable{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:26:5: Warning: No visibility specified. Defaulting to "public". 
+    function kill() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:17:5: Warning: Function state mutability can be restricted to pure
+    function changeOwner(address adr){
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+firstTest.withdrawal (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#32-43) sends eth to arbitrary user
+	Dangerous calls:
+	- adr.send(this.balance) (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#40-43)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+firstTest.withdrawal (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#32-43) uses delegatecall to a input-controlled function id
+	emails.delegatecall(bytes4(sha3()(logEvent()))) (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#37-38)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#controlled-delegatecall[0m
+INFO:Detectors:[92m
+firstTest.changeOwner.adr (local variable @ /unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#18) shadows:
+	- firstTest.adr (state variable @ /unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#7-8)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+firstTest.Owner should be constant (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#5-6)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#37-38:
+	- Usage of "sha3()" should be replaced with "keccak256()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+firstTest.Set (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#10-17) should be declared external
+firstTest.changeOwner (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#17-21) should be declared external
+firstTest.fallback (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#22-26) should be declared external
+firstTest.kill (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#27-31) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol:
+	- pragma solidity^0.4.11 (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in firstTest.withdrawal (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#32-43):
+	-emails.delegatecall(bytes4(sha3()(logEvent()))) /unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#37-38
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Contract 'firstTest' (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#3-43) is not in CapWords
+Function 'firstTest.Set' (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#10-17) is not in mixedCase
+Variable 'firstTest.Owner' (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#5-6) is not in mixedCase
+Variable 'firstTest.Limit' (/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol#8-10) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/29/0x42db5bfe8828f12f164586af8a992b3a7b038164.sol analyzed (1 contracts), 15 result(s) found

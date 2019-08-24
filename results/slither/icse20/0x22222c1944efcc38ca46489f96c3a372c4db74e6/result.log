@@ -1,0 +1,97 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol:
+/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol:11:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol:131:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewSymbol(currency);
+        ^-----------------^
+/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol:292:29: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+            bytes32 _hash = keccak256(this, currency, rate, decimals, timestamp);
+                            ^--------------------------------------------------^
+/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol:293:40: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+            address signer = ecrecover(keccak256("\x19Ethereum Signed Message:\n32", _hash),v,r,s);
+                                       ^--------------------------------------------------^
+
+INFO:Detectors:[93m
+Oracle.encodeCurrency (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#142-150) is declared view but contains assembly code
+Oracle.decodeCurrency (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#152-168) is declared view but contains assembly code
+RipioOracle.readBytes32 (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#243-254) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Delegable.isDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#65-73) uses a dangerous strict equality:
+	- delegateLog.started != 0 && delegateLog.ended == 0
+Delegable.isDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#65-73) uses a dangerous strict equality:
+	- delegateLog.started != 0 && delegateLog.ended == 0
+Delegable.onlyDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#40-46) uses a dangerous strict equality:
+	- require(bool)(delegateLog.started != 0 && delegateLog.ended == 0)
+	- require(bool)(delegateLog.started != 0 && delegateLog.ended == 0)
+Delegable.isDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#65-73) uses a dangerous strict equality:
+	- delegateLog.started != 0 && delegateLog.ended == 0
+Delegable.onlyDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#40-46) uses a dangerous strict equality:
+	- require(bool)(delegateLog.started != 0 && delegateLog.ended == 0)
+	- require(bool)(delegateLog.started != 0 && delegateLog.ended == 0)
+Delegable.wasDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#53-61) uses a dangerous strict equality:
+	- timestamp >= delegateLog.started && delegateLog.started != 0 && (delegateLog.ended == 0 || timestamp < delegateLog.ended)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+Delegable.wasDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#53-61) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timestamp >= delegateLog.started && delegateLog.started != 0 && (delegateLog.ended == 0 || timestamp < delegateLog.ended) (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#55-59)
+Delegable.isDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#65-73) uses timestamp for comparisons
+	Dangerous comparisons:
+	- delegateLog.started != 0 && delegateLog.ended == 0 (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#70-73)
+Delegable.addDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#76-83) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(delegateLog.started == 0) (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#78-81)
+Delegable.removeDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#88-98) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(delegateLog.started != 0 && delegateLog.ended == 0) (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#90-96)
+RipioOracle.getRate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#278-302) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(timestamp <= block.timestamp) (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#284-285)
+	- cache[currency].timestamp >= timestamp && cache[currency].timestamp >= expirationTime (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#286-302)
+	- require(bool)(timestamp >= expirationTime) (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#289-290)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Oracle.encodeCurrency uses assembly (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#142-150)
+	- /unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#149-150
+Oracle.decodeCurrency uses assembly (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#152-168)
+	- /unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#157-168
+RipioOracle.readBytes32 uses assembly (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#243-254)
+	- /unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#250-252
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Ownable.transferTo (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#20-28) should be declared external
+Delegable.wasDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#53-61) should be declared external
+Delegable.addDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#76-83) should be declared external
+Delegable.removeDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#88-98) should be declared external
+RipioOracle.url (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#193-195) should be declared external
+Oracle.url (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#115-117) should be declared external
+RipioOracle.getRate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#278-302) should be declared external
+Oracle.getRate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#123-125) should be declared external
+Oracle.addCurrency (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#131-140) should be declared external
+Oracle.decodeCurrency (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#152-168) should be declared external
+RipioOracle.setExpirationTime (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#203-209) should be declared external
+RipioOracle.setUrl (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#215-218) should be declared external
+RipioOracle.setFallback (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#232-235) should be declared external
+RipioOracle.sendTransaction (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#262-265) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in RipioOracle.sendTransaction (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#262-265):
+	-to.call.value(value)(data) /unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#263-265
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#11-16) is not in mixedCase
+Parameter '_to' of Ownable.transferTo (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#20) is not in mixedCase
+Parameter '_address' of Delegable.wasDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#53-54) is not in mixedCase
+Parameter '_address' of Delegable.isDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#66) is not in mixedCase
+Parameter '_address' of Delegable.addDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#76) is not in mixedCase
+Parameter '_address' of Delegable.removeDelegate (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#88) is not in mixedCase
+Parameter '_url' of RipioOracle.setUrl (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#216) is not in mixedCase
+Parameter '_fallback' of RipioOracle.setFallback (/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol#233) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/23/0x22222c1944efcc38ca46489f96c3a372c4db74e6.sol analyzed (4 contracts), 38 result(s) found

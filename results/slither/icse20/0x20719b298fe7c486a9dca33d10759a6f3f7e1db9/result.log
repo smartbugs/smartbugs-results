@@ -1,0 +1,137 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:193:5: Warning: Functions in interfaces should be declared external.
+    function pay(uint index, uint256 _amount, address _from, bytes oracleData) public returns (bool);
+    ^-----------------------------------------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:194:5: Warning: Functions in interfaces should be declared external.
+    function rcn() public view returns (Token);
+    ^-----------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:195:5: Warning: Functions in interfaces should be declared external.
+    function getOracle(uint256 index) public view returns (Oracle);
+    ^-------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:196:5: Warning: Functions in interfaces should be declared external.
+    function getAmount(uint256 index) public view returns (uint256);
+    ^--------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:197:5: Warning: Functions in interfaces should be declared external.
+    function getCurrency(uint256 index) public view returns (bytes32);
+    ^----------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:198:5: Warning: Functions in interfaces should be declared external.
+    function convertRate(Oracle oracle, bytes32 currency, bytes data, uint256 amount) public view returns (uint256);
+    ^--------------------------------------------------------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:199:5: Warning: Functions in interfaces should be declared external.
+    function lend(uint index, bytes oracleData, Cosigner cosigner, bytes cosignerData) public returns (bool);
+    ^-------------------------------------------------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:200:5: Warning: Functions in interfaces should be declared external.
+    function transfer(address to, uint256 index) public returns (bool);
+    ^-----------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:201:5: Warning: Functions in interfaces should be declared external.
+    function getPendingAmount(uint256 index) public returns (uint256);
+    ^----------------------------------------------------------------^
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:319:16: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        return getOptimalSell(
+               ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol:336:16: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        return getOptimalSell(
+               ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+ConverterRamp.transfer (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#416-425) sends eth to arbitrary user
+	Dangerous calls:
+	- to.transfer(amount) (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#420-421)
+ConverterRamp.convertSafe (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#480-504) sends eth to arbitrary user
+	Dangerous calls:
+	- boughtAmount = converter.convert.value(sendEth)(fromToken,toToken,amount,1) (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#490-493)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Oracle.encodeCurrency (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#83-92) is declared view but contains assembly code
+Oracle.decodeCurrency (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#93-109) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+ConverterRamp.convertSafe (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#480-504) uses a dangerous strict equality:
+	- require(bool,string)(boughtAmount == (toToken.balanceOf(this)) - prevBalance,Bought amound does does not match)
+	- require(bool,string)(boughtAmount == (address(this).balance) - prevBalance,Bought amound does does not match)
+ConverterRamp.convertSafe (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#480-504) uses a dangerous strict equality:
+	- require(bool,string)(boughtAmount == (toToken.balanceOf(this)) - prevBalance,Bought amound does does not match)
+	- require(bool,string)(boughtAmount == (address(this).balance) - prevBalance,Bought amound does does not match)
+ConverterRamp.lend (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#354-396) uses a dangerous strict equality:
+	- require(bool,string)(rcn.balanceOf(this) == initialBalance,The contract balance should not change)
+ConverterRamp.convertSafe (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#480-504) uses a dangerous strict equality:
+	- require(bool,string)(boughtAmount == (toToken.balanceOf(this)) - prevBalance,Bought amound does does not match)
+	- require(bool,string)(boughtAmount == (address(this).balance) - prevBalance,Bought amound does does not match)
+ConverterRamp.lend (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#354-396) uses a dangerous strict equality:
+	- require(bool,string)(rcn.balanceOf(this) == initialBalance,The contract balance should not change)
+ConverterRamp.pay (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#272-318) uses a dangerous strict equality:
+	- require(bool,string)(rcn.balanceOf(this) == initialBalance,Converter balance has incremented)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+cl in ConverterRamp.getOptimalSell (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#467) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+ConverterRamp.getOptimalSell has external calls inside a loop:
+	- returnRebuy = converter.getReturn(fromToken,toToken,optimalSell) (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#471-473)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Oracle.encodeCurrency uses assembly (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#83-92)
+	- /unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#90-92
+Oracle.decodeCurrency uses assembly (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#93-109)
+	- /unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#98-109
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Engine.VERSION should be constant (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#109-110)
+Engine.VERSION_NAME should be constant (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#111-112)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Token.transfer (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#4-5) should be declared external
+Token.transferFrom (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#5-6) should be declared external
+Token.allowance (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#6-7) should be declared external
+Token.approve (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#7-8) should be declared external
+Token.increaseApproval (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#8-9) should be declared external
+Token.balanceOf (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#9-12) should be declared external
+Oracle.url (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#56-57) should be declared external
+Oracle.getRate (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#62-65) should be declared external
+Oracle.addCurrency (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#72-82) should be declared external
+Oracle.decodeCurrency (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#93-109) should be declared external
+Engine.getTotalLoans (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#117-118) should be declared external
+Engine.getOracle (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#118-119) should be declared external
+Engine.getBorrower (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#119-120) should be declared external
+Engine.getCosigner (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#120-121) should be declared external
+Engine.ownerOf (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#121-122) should be declared external
+Engine.getCreator (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#122-123) should be declared external
+Engine.getAmount (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#123-124) should be declared external
+Engine.getPaid (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#124-125) should be declared external
+Engine.getDueTime (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#125-126) should be declared external
+Engine.getApprobation (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#126-127) should be declared external
+Engine.getStatus (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#128) should be declared external
+Engine.isApproved (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#128-129) should be declared external
+Engine.getPendingAmount (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#129-130) should be declared external
+Engine.getCurrency (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#130-131) should be declared external
+Engine.approveLoan (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#133) should be declared external
+Engine.transfer (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#133-134) should be declared external
+Engine.takeOwnership (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#134-135) should be declared external
+Engine.withdrawal (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#135-140) should be declared external
+Engine.identifierToIndex (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#140-142) should be declared external
+Cosigner.url (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#163-165) should be declared external
+Cosigner.cost (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#168-169) should be declared external
+Cosigner.requestCosign (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#177-180) should be declared external
+Cosigner.claim (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#187-188) should be declared external
+NanoLoanEngine.pay (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#195-197) should be declared external
+NanoLoanEngine.rcn (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#197) should be declared external
+NanoLoanEngine.getOracle (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#197-198) should be declared external
+NanoLoanEngine.getAmount (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#198-199) should be declared external
+NanoLoanEngine.getCurrency (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#199) should be declared external
+NanoLoanEngine.convertRate (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#199-201) should be declared external
+NanoLoanEngine.lend (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#201-205) should be declared external
+NanoLoanEngine.transfer (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#205-206) should be declared external
+NanoLoanEngine.getPendingAmount (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#207-211) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_to' of Ownable.transferTo (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#29) is not in mixedCase
+Parameter '' of Engine.ownerOf (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#122) is not in mixedCase
+Variable 'Engine.VERSION' (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#109-110) is not in mixedCase
+Variable 'Engine.VERSION_NAME' (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol#111-112) is not in mixedCase
+Parameter '_token' of ConverterRamp.withdrawTokens (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol) is not in mixedCase
+Parameter '_to' of ConverterRamp.withdrawTokens (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol) is not in mixedCase
+Parameter '_amount' of ConverterRamp.withdrawTokens (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol) is not in mixedCase
+Parameter '_to' of ConverterRamp.withdrawEther (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol) is not in mixedCase
+Parameter '_amount' of ConverterRamp.withdrawEther (/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/29/0x20719b298fe7c486a9dca33d10759a6f3f7e1db9.sol analyzed (9 contracts), 63 result(s) found

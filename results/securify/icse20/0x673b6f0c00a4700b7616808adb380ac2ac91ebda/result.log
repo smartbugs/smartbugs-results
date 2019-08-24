@@ -1,0 +1,110 @@
+Processing contract: /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol:CustodianUpgradeable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol:LockRequestable
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol:ServiceRegistry
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for MissingInputValidation in contract 'CustodianUpgradeable':
+    |
+    |        /// @dev  The map of lock ids to pending custodian changes.
+  > |        mapping (bytes32 => CustodianChangeRequest) public custodianChangeReqs;
+    |
+    |        constructor(address _custodian) public LockRequestable() {
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(46)
+
+[31mViolation[0m for MissingInputValidation in contract 'CustodianUpgradeable':
+    |            * @param  _lockId  The identifier of a pending change request.
+    |            */
+  > |        function confirmCustodianChange(bytes32 _lockId) public onlyCustodian {
+    |                custodian = getCustodianChangeReq(_lockId);
+    |
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(87)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'CustodianUpgradeable':
+    |        function generateLockId() internal returns (bytes32 lockId) {
+    |                return keccak256(
+  > |                abi.encodePacked(blockhash(block.number - 1), address(this), ++lockRequestCount)
+    |                );
+    |        }
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(28)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'CustodianUpgradeable':
+    |                lockId = generateLockId();
+    |
+  > |                custodianChangeReqs[lockId] = CustodianChangeRequest({
+    |                        proposedNew: _proposedCustodian
+    |                });
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CustodianUpgradeable':
+    |            */
+    |        function confirmCustodianChange(bytes32 _lockId) public onlyCustodian {
+  > |                custodian = getCustodianChangeReq(_lockId);
+    |
+    |                delete custodianChangeReqs[_lockId];
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(88)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'CustodianUpgradeable':
+    |                custodian = getCustodianChangeReq(_lockId);
+    |
+  > |                delete custodianChangeReqs[_lockId];
+    |
+    |                emit CustodianChangeConfirmed(_lockId, custodian);
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(90)
+
+[31mViolation[0m for LockedEther in contract 'ServiceRegistry':
+    |}
+    |
+  > |contract ServiceRegistry is CustodianUpgradeable {
+    |    mapping (string => address) services;
+    |
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(117)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ServiceRegistry':
+    |        function generateLockId() internal returns (bytes32 lockId) {
+    |                return keccak256(
+  > |                abi.encodePacked(blockhash(block.number - 1), address(this), ++lockRequestCount)
+    |                );
+    |        }
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(28)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ServiceRegistry':
+    |                lockId = generateLockId();
+    |
+  > |                custodianChangeReqs[lockId] = CustodianChangeRequest({
+    |                        proposedNew: _proposedCustodian
+    |                });
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ServiceRegistry':
+    |            */
+    |        function confirmCustodianChange(bytes32 _lockId) public onlyCustodian {
+  > |                custodian = getCustodianChangeReq(_lockId);
+    |
+    |                delete custodianChangeReqs[_lockId];
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(88)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ServiceRegistry':
+    |                custodian = getCustodianChangeReq(_lockId);
+    |
+  > |                delete custodianChangeReqs[_lockId];
+    |
+    |                emit CustodianChangeConfirmed(_lockId, custodian);
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(90)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'ServiceRegistry':
+    |    function replaceService(string calldata _name, address _newAddr) external onlyCustodian withContract(_newAddr) {
+    |        address _prevAddr = services[_name];
+  > |        services[_name] = _newAddr;
+    |        emit ServiceReplaced(_name, _prevAddr, _newAddr);
+    |    }
+  at /unique_chucks/33/0x673b6f0c00a4700b7616808adb380ac2ac91ebda.sol(127)

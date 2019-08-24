@@ -1,0 +1,74 @@
+Processing contract: /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol:ContractTokenERC20
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol:TSPToken
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol:tokenRecipient
+[31mViolation[0m for LockedEther in contract 'ContractTokenERC20':
+    |interface tokenRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external; }
+    |
+  > |contract ContractTokenERC20 {
+    |    // Public variables of the token
+    |    string public name;
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(7)
+
+[31mViolation[0m for MissingInputValidation in contract 'ContractTokenERC20':
+    |
+    |    // This creates an array with all balances
+  > |    mapping (address => uint256) public balanceOf;
+    |
+    |    // This generates a public event on the blockchain that will notify clients
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(16)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ContractTokenERC20':
+    |        uint previousBalances = balanceOf[_from] + balanceOf[_to];
+    |        // Subtract from the sender
+  > |        balanceOf[_from] -= _value;
+    |        // Add the same to the recipient
+    |        balanceOf[_to] += _value;
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(50)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'ContractTokenERC20':
+    |        balanceOf[_from] -= _value;
+    |        // Add the same to the recipient
+  > |        balanceOf[_to] += _value;
+    |        emit Transfer(_from, _to, _value);
+    |        // Asserts are used to use static analysis to find bugs in your code. They should never fail
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(52)
+
+[31mViolation[0m for LockedEther in contract 'TSPToken':
+    |/******************************************/
+    |
+  > |contract TSPToken is ContractTokenERC20 {
+    |
+    |
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(80)
+
+[31mViolation[0m for MissingInputValidation in contract 'TSPToken':
+    |
+    |    // This creates an array with all balances
+  > |    mapping (address => uint256) public balanceOf;
+    |
+    |    // This generates a public event on the blockchain that will notify clients
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(16)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TSPToken':
+    |        require (balanceOf[_from] >= _value);                   // Check if the sender has enough
+    |        require (balanceOf[_to] + _value >= balanceOf[_to]);    // Check for overflows
+  > |        balanceOf[_from] -= _value;                             // Subtract from the sender
+    |        balanceOf[_to] += _value;                               // Add the same to the recipient
+    |        emit Transfer(_from, _to, _value);
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(96)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TSPToken':
+    |        require (balanceOf[_to] + _value >= balanceOf[_to]);    // Check for overflows
+    |        balanceOf[_from] -= _value;                             // Subtract from the sender
+  > |        balanceOf[_to] += _value;                               // Add the same to the recipient
+    |        emit Transfer(_from, _to, _value);
+    |    }
+  at /unique_chucks/4/0x0b5415f7c0cb8faa3dc6a2d148e6d2d324d15b9d.sol(97)

@@ -1,0 +1,142 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:27:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:67:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ManualMigration() public owned() {}
+    ^------------------------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:119:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Crowdsale(address _backend, uint _etherPrice) public ManualMigration() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:214:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ProofToken(address _backend, uint _etherPrice) public
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:82:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(original, _who, balance);
+        ^-------------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:162:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(this, _who, tokens);
+        ^--------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:179:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(this, _who, tokens);
+        ^--------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:180:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Mint(_who, tokens, _originalTxHash);
+        ^---------------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:184:52: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        require(msg.sender.call.gas(3000000).value(this.balance)());
+                                                   ^----------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:198:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(this, msg.sender, extraTokens);
+        ^-------------------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:223:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(msg.sender, _to, _value);
+        ^-------------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:233:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_from, _to, _value);
+        ^--------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:238:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _spender, _value);
+        ^------------------------------------^
+/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:249:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Burn(msg.sender, _value);
+        ^----------------------^
+
+INFO:Detectors:[93m
+BaseERC20 (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#52-58) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#55-58)
+ProofToken (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#210-251) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#221-229)
+	-transferFrom (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#229-241)
+	-approve (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#241-246)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+ManualMigration.migrateManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#69-85) uses a dangerous strict equality:
+	- require(bool)(balanceOf[_who] == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in ManualMigration.migrateManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#69-85):
+	External calls:
+	- balance = BaseERC20(original).balanceOf(_who) (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#73-75)
+	State variables written after the call(s):
+	- balanceOf (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#78-79)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+Reentrancy in ManualMigration.migrateManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#69-85):
+	External calls:
+	- balance = BaseERC20(original).balanceOf(_who) (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#73-75)
+	State variables written after the call(s):
+	- investors (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#82)
+	- numberOfInvestors (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#83-85)
+	- totalSupply (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#79-80)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Crowdsale.crowdsaleFinishTime should be constant (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#102-104)
+Crowdsale.crowdsaleStartTime should be constant (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#101)
+Crowdsale.cryptaurToken should be constant (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#100-101)
+ProofToken.decimals should be constant (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#212-214)
+ProofToken.name should be constant (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#211)
+ProofToken.standard should be constant (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#210-211)
+ProofToken.symbol should be constant (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#211-212)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+owned.changeOwner (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#36-40) should be declared external
+owned.confirmOwner (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#41-49) should be declared external
+BaseERC20.balanceOf (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#52-53) should be declared external
+BaseERC20.transfer (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#55-58) should be declared external
+ManualMigration.migrateListManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#86-93) should be declared external
+ManualMigration.sealManualMigration (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#96-99) should be declared external
+Crowdsale.changeBackend (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#128-130) should be declared external
+Crowdsale.setEtherPrice (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#130-135) should be declared external
+Crowdsale.fallback (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#135-140) should be declared external
+Crowdsale.depositUSD (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#141-148) should be declared external
+Crowdsale.depositCPT (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#168-186) should be declared external
+Crowdsale.withdraw (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#186-193) should be declared external
+Crowdsale.finishCrowdsale (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#193-210) should be declared external
+ProofToken.transfer (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#221-229) should be declared external
+ProofToken.transferFrom (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#229-241) should be declared external
+ProofToken.approve (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#241-246) should be declared external
+ProofToken.allowance (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#247-251) should be declared external
+ProofToken.burn (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol:
+	- pragma solidity^0.4.11 (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#20-23): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in Crowdsale.withdraw (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#186-193):
+	-require(bool)(msg.sender.call.gas(3000000).value(this.balance)()) /unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#186-189
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Contract 'owned' (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#24-49) is not in CapWords
+Parameter '_owner' of owned.changeOwner (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#37) is not in mixedCase
+Function 'ManualMigration.ManualMigration' (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#69) is not in mixedCase
+Parameter '_who' of ManualMigration.migrateManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#70-71) is not in mixedCase
+Parameter '_preico' of ManualMigration.migrateManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#71) is not in mixedCase
+Parameter '_who' of ManualMigration.migrateListManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#86-87) is not in mixedCase
+Parameter '_preico' of ManualMigration.migrateListManual (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#87) is not in mixedCase
+Function 'Crowdsale.Crowdsale' (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#121-128) is not in mixedCase
+Parameter '_backend' of Crowdsale.Crowdsale (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#121-124) is not in mixedCase
+Parameter '_etherPrice' of Crowdsale.Crowdsale (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#124) is not in mixedCase
+Parameter '_backend' of Crowdsale.changeBackend (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#128-129) is not in mixedCase
+Parameter '_etherPrice' of Crowdsale.setEtherPrice (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#131-133) is not in mixedCase
+Parameter '_who' of Crowdsale.depositUSD (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#141-142) is not in mixedCase
+Parameter '_valueUSD' of Crowdsale.depositUSD (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#142) is not in mixedCase
+Parameter '_who' of Crowdsale.mintTokens (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#149) is not in mixedCase
+Parameter '_valueUSD' of Crowdsale.mintTokens (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#149) is not in mixedCase
+Parameter '_who' of Crowdsale.depositCPT (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#168) is not in mixedCase
+Parameter '_valueCPT' of Crowdsale.depositCPT (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#168) is not in mixedCase
+Parameter '_originalTxHash' of Crowdsale.depositCPT (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#168-169) is not in mixedCase
+Function 'ProofToken.ProofToken' (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#219-221) is not in mixedCase
+Parameter '_to' of ProofToken.transfer (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#222) is not in mixedCase
+Parameter '_value' of ProofToken.transfer (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#222) is not in mixedCase
+Parameter '_from' of ProofToken.transferFrom (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#229) is not in mixedCase
+Parameter '_to' of ProofToken.transferFrom (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#229-230) is not in mixedCase
+Parameter '_value' of ProofToken.transferFrom (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#230) is not in mixedCase
+Parameter '_spender' of ProofToken.approve (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#241-242) is not in mixedCase
+Parameter '_value' of ProofToken.approve (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#242) is not in mixedCase
+Parameter '_owner' of ProofToken.allowance (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#247) is not in mixedCase
+Parameter '_spender' of ProofToken.allowance (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol#247-248) is not in mixedCase
+Parameter '_value' of ProofToken.burn (/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/3/0x6f3a995e904c9be5279e375e79f3c30105efa618.sol analyzed (5 contracts), 56 result(s) found

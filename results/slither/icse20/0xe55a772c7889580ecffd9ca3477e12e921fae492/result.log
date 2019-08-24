@@ -1,0 +1,153 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:
+/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:42:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function WhiteListAccess() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:68:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function CNT_Common() public { ETH_address = 0x1; }
+    ^-------------------------------------------------^
+/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:115:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function CNT_Crowdsale() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:182:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Sale(address(this), _eos_amount, msg.sender, cnt_amount, bgb_amount, vpe_amount, gvpe_amount);
+        ^-------------------------------------------------------------------------------------------^
+/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:211:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Sale(address(this), remaining, owner, cnt_amount, bgb_amount, vpe_amount, gvpe_amount);
+        ^------------------------------------------------------------------------------------^
+
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:
+	Contract CNT_Crowdsale has payable functions:
+	 - fallback (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#236-237)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in CNT_Crowdsale.buy (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#166-196):
+	External calls:
+	- PRE_SALE_Token(CNT_address).ico_distribution(msg.sender,cnt_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#178-179)
+	- PRE_SALE_Token(BGB_address).ico_distribution(msg.sender,bgb_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#179-181)
+	- PRE_SALE_Token(VPE_address).ico_distribution(msg.sender,vpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#181-182)
+	- PRE_SALE_Token(GVPE_address).ico_distribution(msg.sender,gvpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#182-183)
+	- ERC20Interface(EOS_address).transferFrom(msg.sender,owner,_eos_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#192-193)
+	State variables written after the call(s):
+	- remaining (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#193-196)
+Reentrancy in CNT_Crowdsale.finishPresale (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#202-221):
+	External calls:
+	- PRE_SALE_Token(CNT_address).ico_distribution(owner,cnt_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#207-208)
+	- PRE_SALE_Token(BGB_address).ico_distribution(owner,bgb_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#208-211)
+	- PRE_SALE_Token(VPE_address).ico_distribution(owner,vpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#211-212)
+	- PRE_SALE_Token(GVPE_address).ico_distribution(owner,gvpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#212-214)
+	State variables written after the call(s):
+	- remaining (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#221)
+Reentrancy in CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#126-144):
+	External calls:
+	- PRE_SALE_Token(CNT_address).init(address(this)) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#135-136)
+	- PRE_SALE_Token(BGB_address).init(address(this)) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#136-137)
+	- PRE_SALE_Token(VPE_address).init(address(this)) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#137-140)
+	- PRE_SALE_Token(GVPE_address).init(address(this)) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#140-144)
+	State variables written after the call(s):
+	- initialized (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#144)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+CNT_Crowdsale.buy (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#166-196) does not use the value returned by external calls:
+	-ERC20Interface(EOS_address).transferFrom(msg.sender,owner,_eos_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#192-193)
+CNT_Crowdsale.registerUserOnToken (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#196-202) does not use the value returned by external calls:
+	-NRB_Contract(CNT_address).registerUserOnToken(EOS_address,msg.sender,paid[msg.sender],0,_json) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#198-202)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in CNT_Crowdsale.buy (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#166-196):
+	External calls:
+	- PRE_SALE_Token(CNT_address).ico_distribution(msg.sender,cnt_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#178-179)
+	- PRE_SALE_Token(BGB_address).ico_distribution(msg.sender,bgb_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#179-181)
+	- PRE_SALE_Token(VPE_address).ico_distribution(msg.sender,vpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#181-182)
+	- PRE_SALE_Token(GVPE_address).ico_distribution(msg.sender,gvpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#182-183)
+	State variables written after the call(s):
+	- paid (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#188-189)
+Reentrancy in CNT_Crowdsale.buy (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#166-196):
+	External calls:
+	- PRE_SALE_Token(CNT_address).ico_distribution(msg.sender,cnt_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#178-179)
+	- PRE_SALE_Token(BGB_address).ico_distribution(msg.sender,bgb_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#179-181)
+	- PRE_SALE_Token(VPE_address).ico_distribution(msg.sender,vpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#181-182)
+	- PRE_SALE_Token(GVPE_address).ico_distribution(msg.sender,gvpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#182-183)
+	- ERC20Interface(EOS_address).transferFrom(msg.sender,owner,_eos_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#192-193)
+	State variables written after the call(s):
+	- raised (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#193)
+Reentrancy in CNT_Crowdsale.finishPresale (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#202-221):
+	External calls:
+	- PRE_SALE_Token(CNT_address).ico_distribution(owner,cnt_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#207-208)
+	- PRE_SALE_Token(BGB_address).ico_distribution(owner,bgb_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#208-211)
+	- PRE_SALE_Token(VPE_address).ico_distribution(owner,vpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#211-212)
+	- PRE_SALE_Token(GVPE_address).ico_distribution(owner,gvpe_amount) (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#212-214)
+	State variables written after the call(s):
+	- paid (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#218-220)
+	- raised (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#220-221)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Interface.totalSupply (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#9-10) should be declared external
+ERC20Interface.balanceOf (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#10-11) should be declared external
+ERC20Interface.allowance (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#11-12) should be declared external
+ERC20Interface.transfer (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#12-13) should be declared external
+ERC20Interface.approve (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#13-14) should be declared external
+ERC20Interface.transferFrom (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#14-16) should be declared external
+PRE_SALE_Token.ico_distribution (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#24-25) should be declared external
+PRE_SALE_Token.ico_promo_reward (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#25-26) should be declared external
+PRE_SALE_Token.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#26-29) should be declared external
+NRB_Contract.registerUserOnToken (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#33-37) should be declared external
+WhiteListAccess.addToWhiteList (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#54-58) should be declared external
+WhiteListAccess.removeFromWhiteList (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#58-63) should be declared external
+CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#126-144) should be declared external
+CNT_Crowdsale.isInit (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#144-145) should be declared external
+CNT_Crowdsale.buy (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#166-196) should be declared external
+CNT_Crowdsale.registerUserOnToken (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#196-202) should be declared external
+CNT_Crowdsale.finishPresale (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#202-221) should be declared external
+CNT_Crowdsale.reward (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#221-231) should be declared external
+CNT_Crowdsale.fallback (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#236-237) should be declared external
+CNT_Crowdsale.transferAnyERC20Token (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol:
+	- pragma solidity^0.4.16 (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Contract 'PRE_SALE_Token' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#23-29) is not in CapWords
+Function 'PRE_SALE_Token.ico_distribution' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#24-25) is not in mixedCase
+Function 'PRE_SALE_Token.ico_promo_reward' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#25-26) is not in mixedCase
+Contract 'NRB_Contract' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#33-37) is not in CapWords
+Function 'WhiteListAccess.WhiteListAccess' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#43-49) is not in mixedCase
+Contract 'CNT_Common' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#67-85) is not in CapWords
+Function 'CNT_Common.CNT_Common' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#70-72) is not in mixedCase
+Variable 'CNT_Common.ETH_address' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#72-73) is not in mixedCase
+Variable 'CNT_Common.EOS_address' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#74) is not in mixedCase
+Variable 'CNT_Common.NRB_address' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#76) is not in mixedCase
+Variable 'CNT_Common.CNT_address' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#77-78) is not in mixedCase
+Variable 'CNT_Common.BGB_address' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#78-79) is not in mixedCase
+Variable 'CNT_Common.VPE_address' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#79) is not in mixedCase
+Variable 'CNT_Common.GVPE_address' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#85) is not in mixedCase
+Contract 'CNT_Crowdsale' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#91-242) is not in CapWords
+Function 'CNT_Crowdsale.CNT_Crowdsale' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#118-126) is not in mixedCase
+Parameter '_eos' of CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#126-127) is not in mixedCase
+Parameter '_cnt' of CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#127) is not in mixedCase
+Parameter '_bgb' of CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#127-128) is not in mixedCase
+Parameter '_vpe' of CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#128) is not in mixedCase
+Parameter '_gvpe' of CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#128-129) is not in mixedCase
+Parameter '_nrb' of CNT_Crowdsale.init (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#129) is not in mixedCase
+Parameter '_Keos_amount' of CNT_Crowdsale.calculateTokens (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#146) is not in mixedCase
+Parameter '_Keos_amount' of CNT_Crowdsale.buy (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#166-168) is not in mixedCase
+Parameter '_json' of CNT_Crowdsale.registerUserOnToken (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#197) is not in mixedCase
+Parameter '_target' of CNT_Crowdsale.reward (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#221-223) is not in mixedCase
+Parameter '_cnt' of CNT_Crowdsale.reward (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#223) is not in mixedCase
+Parameter '_bgb' of CNT_Crowdsale.reward (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#223-224) is not in mixedCase
+Parameter '_concept' of CNT_Crowdsale.reward (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#224) is not in mixedCase
+Variable 'CNT_Crowdsale.cnt_per_Keos' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#95) is not in mixedCase
+Variable 'CNT_Crowdsale.bgb_per_Keos' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#96) is not in mixedCase
+Variable 'CNT_Crowdsale.vpe_per_Keos' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#96-98) is not in mixedCase
+Variable 'CNT_Crowdsale.gvpe_per_Keos' (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#98) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+ERC20Interface (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#8-20) does not mark important ERC20 parameters as 'indexed':
+	-Transfer (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#16-17) does not index parameter 'from'
+	-Transfer (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#16-17) does not index parameter 'to'
+	-Approval (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#17-20) does not index parameter 'tokenOwner'
+	-Approval (/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol#17-20) does not index parameter 'spender'
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unindexed-erc20-event-parameters[0m
+INFO:Slither:/unique_chucks/15/0xe55a772c7889580ecffd9ca3477e12e921fae492.sol analyzed (6 contracts), 64 result(s) found

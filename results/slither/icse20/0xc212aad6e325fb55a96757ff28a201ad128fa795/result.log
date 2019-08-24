@@ -1,0 +1,214 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:169:21: Warning: Use of the "var" keyword is deprecated.
+                    var actual = totalDividendsPerCoin[addr] - lastDividends[addr][account];
+                    ^--------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:170:21: Warning: Use of the "var" keyword is deprecated.
+                    var divs = (balances[account] * actual) / MULTIPLIER;
+                    ^------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:187:17: Warning: Use of the "var" keyword is deprecated.
+                var actual = divEthers - lastEthers[account];
+                ^--------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:188:17: Warning: Use of the "var" keyword is deprecated.
+                var divs = (balances[account] * actual) / MULTIPLIER;
+                ^------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:294:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function PDT(uint supply) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:318:13: Warning: Use of the "var" keyword is deprecated.
+            var fee = amount * transferFeeNum / transferFeeDenum;
+            ^-----^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:171:21: Warning: Invoking events without "emit" prefix is deprecated.
+                    Debug(divs, account, "divs");
+                    ^--------------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:189:17: Warning: Invoking events without "emit" prefix is deprecated.
+                Debug(divs, account, "divsEthers");
+                ^--------------------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:191:37: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+                require(divs > 0 && this.balance >= divs);
+                                    ^----------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:327:13: Warning: Invoking events without "emit" prefix is deprecated.
+            Transfer(addr, transferFeeOwner, fee);
+            ^-----------------------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:328:13: Warning: Invoking events without "emit" prefix is deprecated.
+            TransferFee(addr, fee);
+            ^--------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:345:21: Warning: Invoking events without "emit" prefix is deprecated.
+                    Transfer(msg.sender, to, amount);
+                    ^------------------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:368:21: Warning: Invoking events without "emit" prefix is deprecated.
+                    Transfer(from, to, amount);
+                    ^------------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:378:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, spender, amount);
+        ^-----------------------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:399:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(this, to, amount);
+        ^------------------------^
+/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:430:9: Warning: Invoking events without "emit" prefix is deprecated.
+        TokenPurchase(this, addr, weiAmount, tkns);
+        ^----------------------------------------^
+
+INFO:Detectors:[91m
+Reentrancy in PDT.activateDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#209-213):
+	External calls:
+	- activateDividends(account1) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#211-212)
+	- activateDividends(account2) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#212-213)
+	State variables written after the call(s):
+	- lastDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#212-213)
+	- lastEthers (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#212-213)
+Reentrancy in PDT.addInvestor (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#213-220):
+	External calls:
+	- activateDividends(investor) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#214-216)
+	State variables written after the call(s):
+	- investors (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#216)
+Reentrancy in PDT.buyTokens (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#427-447):
+	External calls:
+	- activateDividends(msg.sender) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#430-431)
+	State variables written after the call(s):
+	- balances (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#440-443)
+Reentrancy in PDT.chargeTransferFee (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#321-341):
+	External calls:
+	- activateDividends(addr) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#324)
+	State variables written after the call(s):
+	- balances (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#336-338)
+Reentrancy in PDT.removeInvestor (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#220-226):
+	External calls:
+	- activateDividends(investor) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#221-224)
+	State variables written after the call(s):
+	- investors (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#224)
+Reentrancy in PDT.sell (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#404-414):
+	External calls:
+	- activateDividends(to) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#406-408)
+	State variables written after the call(s):
+	- balances (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#413)
+Reentrancy in PDT.transfer (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#341-360):
+	External calls:
+	- activateDividends(msg.sender,to) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#342-344)
+	- amount = chargeTransferFee(msg.sender,amount) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#353-355)
+	State variables written after the call(s):
+	- balances (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#353-355)
+	- balances (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#356-357)
+	- investorsTotalSupply (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#356-357)
+	- lastDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#353-355)
+	- lastEthers (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#353-355)
+Reentrancy in PDT.transferFrom (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#361-386):
+	External calls:
+	- activateDividends(from,to) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#364-365)
+	- amount = chargeTransferFee(from,amount) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#377-378)
+	State variables written after the call(s):
+	- balances (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#377-378)
+	- balances (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#379-382)
+	- investorsTotalSupply (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#379-382)
+	- lastDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#377-378)
+	- lastEthers (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#377-378)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Reentrancy in PDT.activateDividendsCoins (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#167-186):
+	External calls:
+	- divs > 0 && token.balanceOf(this) >= divs (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#176-184)
+	- token.transfer(account,divs) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#179)
+	State variables written after the call(s):
+	- lastDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#179-184)
+	- lastDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#185-186)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+PDT.activateDividendsCoins (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#167-186) does not use the value returned by external calls:
+	-token.transfer(account,divs) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#179)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+PDT.activateDividendsCoins has external calls inside a loop:
+	- divs > 0 && token.balanceOf(this) >= divs (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#176-184)
+PDT.activateDividendsCoins has external calls inside a loop:
+	- token.transfer(account,divs) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#179)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in PDT.activateDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#204-209):
+	External calls:
+	- activateDividendsCoins(account) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#206)
+	External calls sending eth:
+	- activateDividendsEthers(account) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#209)
+	State variables written after the call(s):
+	- lastEthers (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#209)
+Reentrancy in PDT.addInvestor (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#213-220):
+	External calls:
+	- activateDividends(investor) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#214-216)
+	State variables written after the call(s):
+	- investorsTotalSupply (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#218-219)
+Reentrancy in PDT.buyTokens (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#427-447):
+	External calls:
+	- activateDividends(msg.sender) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#430-431)
+	State variables written after the call(s):
+	- investorsTotalSupply (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#440-443)
+	- weiRaised (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#439-440)
+Reentrancy in PDT.chargeTransferFee (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#321-341):
+	External calls:
+	- activateDividends(addr) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#324)
+	State variables written after the call(s):
+	- investorsTotalSupply (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#336-338)
+Reentrancy in PDT.removeInvestor (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#220-226):
+	External calls:
+	- activateDividends(investor) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#221-224)
+	State variables written after the call(s):
+	- investorsTotalSupply (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#225-226)
+Reentrancy in PDT.sell (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#404-414):
+	External calls:
+	- activateDividends(to) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#406-408)
+	State variables written after the call(s):
+	- investorsTotalSupply (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#413)
+Reentrancy in PDT.sendDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#226-248):
+	External calls:
+	- require(bool)(token.balanceOf(this) > amount) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#233-234)
+	State variables written after the call(s):
+	- tokens (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#248)
+	- tokens (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#248)
+	- totalDividendsPerCoin (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#234-237)
+Reentrancy in PDT.transferFrom (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#361-386):
+	External calls:
+	- activateDividends(from,to) (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#364-365)
+	State variables written after the call(s):
+	- allowed (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#376)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply should be constant (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#48)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+ERC20Basic.balanceOf (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#48-49) should be declared external
+ERC20Basic.transfer (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#49-50) should be declared external
+ERC20.allowance (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#54-55) should be declared external
+ERC20.transferFrom (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#55-56) should be declared external
+ERC20.approve (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#56-57) should be declared external
+PDT.addInvestor (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#213-220) should be declared external
+PDT.removeInvestor (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#220-226) should be declared external
+PDT.sendDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#226-248) should be declared external
+PDT.sendDividendsEthers (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#249-255) should be declared external
+PDT.getDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#256-261) should be declared external
+PDT.changeTransferFeeOwner (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#314-317) should be declared external
+PDT.balanceOf (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#317-319) should be declared external
+PDT.transfer (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#341-360) should be declared external
+PDT.transferFrom (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#361-386) should be declared external
+PDT.approve (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#386-392) should be declared external
+PDT.allowance (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#393-395) should be declared external
+PDT.setTransferFee (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#395-404) should be declared external
+PDT.sell (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#404-414) should be declared external
+PDT.issue (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#417-422) should be declared external
+PDT.changeRate (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#422-424) should be declared external
+PDT.changeMinimalWei (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#424-427) should be declared external
+PDT.destroy (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#450-452) should be declared external
+PDT.fallback (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol) should be declared external
+PDT.kill (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol:
+	- pragma solidity^0.4.11 (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#46-47): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter 'token_address' of PDT.sendDividends (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#226-227) is not in mixedCase
+Function 'PDT.PDT' (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#305-314) is not in mixedCase
+Parameter 'new_rate' of PDT.changeRate (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#422-423) is not in mixedCase
+Parameter 'new_wei' of PDT.changeMinimalWei (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#424) is not in mixedCase
+Constant 'PDT.totalSupplyDefault' (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#97) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PDT.minFee' (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#105-106) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PDT.minTransfer' (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#111-113) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PDT.investorMinimalBalance' (/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol#148-151) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/18/0xc212aad6e325fb55a96757ff28a201ad128fa795.sol analyzed (4 contracts), 54 result(s) found

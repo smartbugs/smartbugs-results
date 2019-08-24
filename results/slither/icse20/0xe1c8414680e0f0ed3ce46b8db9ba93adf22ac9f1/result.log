@@ -1,0 +1,231 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol:
+/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol:487:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            lastBuyer.send(sumOfBigJackpot);
+            ^-----------------------------^
+/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol:493:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            parent.send(sum); // send % to referrer
+            ^--------------^
+/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol:495:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            lastBuyer.send(sum);
+            ^-----------------^
+/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol:628:17: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+                referrerAddress.send(value);
+                ^-------------------------^
+/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol:636:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            parent.send(actualWeiAmount.mul(referrerPercent).div(1000));
+            ^---------------------------------------------------------^
+
+INFO:Detectors:[91m
+PlayInfinity.getPrize (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#561-564) sends eth to arbitrary user
+	Dangerous calls:
+	- sender.transfer(value) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#564)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in PlayInfinity.buyTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-624):
+	External calls:
+	- tokens = calcNumberOfTokens(weiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-568)
+	- availableTokens = getAvailableTokensAtCurrentPrice() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#568-569)
+	- payReferralRewards(actualWeiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#590-601)
+	- mapsStorage.setWinnerValue(sender,mapsStorage.winners(sender).add(sumOfSmallJackpot)) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#608-612)
+	External calls sending eth:
+	- payReferralRewards(actualWeiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#590-601)
+	- payFee(fee) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#601-602)
+	State variables written after the call(s):
+	- currentPrice (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#614)
+	- sumOfSmallJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#613-614)
+Reentrancy in PlayInfinity.payJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#494-527):
+	External calls:
+	- parent = mapsStorage.parents(lastBuyer) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#496-500)
+	External calls sending eth:
+	- lastBuyer.send(sumOfBigJackpot) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#504)
+	- parent.send(sum) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#514-517)
+	- lastBuyer.send(sum) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#520-521)
+	State variables written after the call(s):
+	- lastBuyer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#524-527)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+PlayInfinity.bytesToAddress (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+Reentrancy in PlayInfinity.buyTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-624):
+	External calls:
+	- tokens = calcNumberOfTokens(weiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-568)
+	- availableTokens = getAvailableTokensAtCurrentPrice() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#568-569)
+	State variables written after the call(s):
+	- counterOfSoldTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#578-580)
+Reentrancy in PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#429-487):
+	External calls:
+	- startPrice = _price / 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#454-456)
+	- priceStep = _priceStep * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#458-460)
+	- minNumberOfTokensToBuy = _minNumberOfTokensToBuy * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#462-466)
+	- maxNumberOfTokensToBuy = _maxNumberOfTokensToBuy * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#467-470)
+	State variables written after the call(s):
+	- gameActive (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#480-482)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+PlayInfinity.buyTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-624) does not use the value returned by external calls:
+	-token.transfer(sender,tokens) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#617-619)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+INFToken.constructor.connector (local variable @ /unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#329-331) shadows:
+	- BasicToken.connector (state variable @ /unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#163)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in PlayInfinity.buyTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-624):
+	External calls:
+	- tokens = calcNumberOfTokens(weiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-568)
+	- availableTokens = getAvailableTokensAtCurrentPrice() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#568-569)
+	State variables written after the call(s):
+	- sumOfBigJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#584-588)
+	- sumOfFund (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#588-590)
+	- sumOfSmallJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#581-584)
+Reentrancy in PlayInfinity.buyTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-624):
+	External calls:
+	- tokens = calcNumberOfTokens(weiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-568)
+	- availableTokens = getAvailableTokensAtCurrentPrice() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#568-569)
+	- payReferralRewards(actualWeiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#590-601)
+	External calls sending eth:
+	- payReferralRewards(actualWeiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#590-601)
+	- payFee(fee) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#601-602)
+	State variables written after the call(s):
+	- lastBuyer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#602-604)
+Reentrancy in PlayInfinity.buyTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-624):
+	External calls:
+	- tokens = calcNumberOfTokens(weiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#567-568)
+	- availableTokens = getAvailableTokensAtCurrentPrice() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#568-569)
+	- payReferralRewards(actualWeiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#590-601)
+	- mapsStorage.setWinnerValue(sender,mapsStorage.winners(sender).add(sumOfSmallJackpot)) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#608-612)
+	External calls sending eth:
+	- payReferralRewards(actualWeiAmount) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#590-601)
+	- payFee(fee) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#601-602)
+	State variables written after the call(s):
+	- timerTime (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#617)
+Reentrancy in PlayInfinity.payJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#494-527):
+	External calls:
+	- parent = mapsStorage.parents(lastBuyer) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#496-500)
+	External calls sending eth:
+	- lastBuyer.send(sumOfBigJackpot) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#504)
+	- parent.send(sum) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#514-517)
+	- lastBuyer.send(sum) (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#520-521)
+	State variables written after the call(s):
+	- sumOfBigJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#527)
+Reentrancy in PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#429-487):
+	External calls:
+	- startPrice = _price / 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#454-456)
+	State variables written after the call(s):
+	- currentPrice (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#456-457)
+Reentrancy in PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#429-487):
+	External calls:
+	- startPrice = _price / 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#454-456)
+	- priceStep = _priceStep * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#458-460)
+	State variables written after the call(s):
+	- pricePercentGrowth (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#460-462)
+	- priceStep (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#458-460)
+Reentrancy in PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#429-487):
+	External calls:
+	- startPrice = _price / 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#454-456)
+	- priceStep = _priceStep * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#458-460)
+	- minNumberOfTokensToBuy = _minNumberOfTokensToBuy * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#462-466)
+	State variables written after the call(s):
+	- minNumberOfTokensToBuy (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#462-466)
+Reentrancy in PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#429-487):
+	External calls:
+	- startPrice = _price / 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#454-456)
+	- priceStep = _priceStep * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#458-460)
+	- minNumberOfTokensToBuy = _minNumberOfTokensToBuy * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#462-466)
+	- maxNumberOfTokensToBuy = _maxNumberOfTokensToBuy * 10 ** token.decimals() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#467-470)
+	State variables written after the call(s):
+	- counterOfSoldTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#472)
+	- lastBuyer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#482)
+	- maxNumberOfTokensToBuy (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#467-470)
+	- sumOfBigJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#475)
+	- sumOfFund (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#477)
+	- sumOfSmallJackpot (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#473-474)
+	- timerTime (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#478-480)
+Reentrancy in INFToken.transfer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#344-361):
+	External calls:
+	- price = connector.getSellPrice() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#350-352)
+	State variables written after the call(s):
+	- balances (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#353-355)
+Reentrancy in INFToken.transferFrom (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#362-378):
+	External calls:
+	- price = connector.getSellPrice() (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#373)
+	State variables written after the call(s):
+	- allowed (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#374-375)
+	- balances (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#374-375)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+PlayInfinity.bytesToAddress uses assembly (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol)
+	- /unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+INFToken.decimals should be constant (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#328-329)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.owner (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#72-76) should be declared external
+Ownable.renounceOwnership (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#97-103) should be declared external
+Ownable.transferOwnership (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#107-111) should be declared external
+BasicToken.totalSupply (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#175-178) should be declared external
+ERC20Basic.totalSupply (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#128) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#128-129) should be declared external
+BasicToken.balanceOf (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#206-208) should be declared external
+StandardToken.allowance (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#263-265) should be declared external
+ERC20.allowance (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#138-139) should be declared external
+ERC20.approve (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#140-145) should be declared external
+StandardToken.approve (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#251-254) should be declared external
+PlayInfinity.getSellPrice (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#675-677) should be declared external
+IConnector.getSellPrice (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#150-151) should be declared external
+PlayInfinity.transfer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol) should be declared external
+IConnector.transfer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#151-154) should be declared external
+StandardToken.increaseApproval (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#276-281) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#291-309) should be declared external
+MapsStorage.setWinnerValue (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#318-321) should be declared external
+MapsStorage.setParentValue (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#321-325) should be declared external
+PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#429-487) should be declared external
+PlayInfinity.stopGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#487-492) should be declared external
+PlayInfinity.isGameEnd (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#527-532) should be declared external
+PlayInfinity.fallback (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#532-541) should be declared external
+PlayInfinity.getTotalAvailableTokens (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#541-547) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'Ownable._transferOwnership' (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#115-123) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#207) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#182) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#182-183) is not in mixedCase
+Parameter '_connector' of BasicToken. (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#169) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#263-264) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#264) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#226) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#226-227) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#227) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#251) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#251-252) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#277) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#277) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#293) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#293) is not in mixedCase
+Parameter '_to' of INFToken.transfer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#344) is not in mixedCase
+Parameter '_value' of INFToken.transfer (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#344-345) is not in mixedCase
+Parameter '_from' of INFToken.transferFrom (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#362) is not in mixedCase
+Parameter '_to' of INFToken.transferFrom (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#362) is not in mixedCase
+Parameter '_value' of INFToken.transferFrom (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#362-364) is not in mixedCase
+Parameter '_name' of INFToken. (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#332) is not in mixedCase
+Parameter '_symbol' of INFToken. (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#332) is not in mixedCase
+Parameter '_totalSupply' of INFToken. (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#332) is not in mixedCase
+Parameter '_name' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#429-431) is not in mixedCase
+Parameter '_symbol' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#432) is not in mixedCase
+Parameter '_totalSupply' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#433) is not in mixedCase
+Parameter '_price' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#434) is not in mixedCase
+Parameter '_priceStep' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#435-436) is not in mixedCase
+Parameter '_pricePercentGrowth' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#436-437) is not in mixedCase
+Parameter '_minNumberOfTokensToBuy' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#438) is not in mixedCase
+Parameter '_maxNumberOfTokensToBuy' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#439-440) is not in mixedCase
+Parameter '_timerTime' of PlayInfinity.startNewGame (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#440-441) is not in mixedCase
+Constant 'PlayInfinity.feePercent' (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#383-384) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PlayInfinity.smallJackpotPercent' (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#384-385) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PlayInfinity.bigJackpotPercent' (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#385-386) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PlayInfinity.referrerPercent' (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#388-389) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PlayInfinity.referrerJackpotPercent' (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#389-390) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'PlayInfinity.fundPercent' (/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol#390-391) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/13/0xe1c8414680e0f0ed3ce46b8db9ba93adf22ac9f1.sol analyzed (10 contracts), 83 result(s) found

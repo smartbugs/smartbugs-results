@@ -1,0 +1,120 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:52:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:189:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Crowdsale (ALT1Token _ALT1, ALT1Token _OldALT1, address _wallet) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:72:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:118:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Mint(_to, _amount);
+    ^----------------^
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:119:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(address(0), _to, _amount);
+    ^--------------------------------^
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:129:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:240:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
+    ^-------------------------------------------------------^
+/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:285:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Finalized();
+    ^---------^
+
+INFO:Detectors:[93m
+Crowdsale.convertAllOldTokens (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#279-291) uses a dangerous strict equality:
+	- oldHolders[oldToken.holders(i)] == 0
+Crowdsale.convertAllOldTokens (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#279-291) uses a dangerous strict equality:
+	- oldHolders[oldToken.holders(i)] == 0
+Crowdsale.oldTokenHolders (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol) uses a dangerous strict equality:
+	- require(bool)(oldHolders[beneficiary] == 0)
+	- require(bool)(oldHolders[beneficiary] == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Crowdsale.convertAllOldTokens (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#279-291):
+	External calls:
+	- oldHolders[oldToken.holders(i)] == 0 (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#285-291)
+	- convertOldToken(oldToken.holders(i)) (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#290-291)
+	State variables written after the call(s):
+	- oldHolders (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#290-291)
+Reentrancy in Crowdsale.finalize (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#293-297):
+	External calls:
+	- finalization() (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#296-297)
+	State variables written after the call(s):
+	- isFinalized (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#297)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Crowdsale.buyTokens (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#237-248) does not use the value returned by external calls:
+	-token.mint(beneficiary,tokens) (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#246)
+Crowdsale.convertOldToken (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#267-279) does not use the value returned by external calls:
+	-token.mint(beneficiary,amount) (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#273-279)
+Crowdsale.finalization (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#325-327) does not use the value returned by external calls:
+	-token.finishMinting() (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#326-327)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Crowdsale.convertAllOldTokens has external calls inside a loop:
+	- oldHolders[oldToken.holders(i)] == 0 (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#285-291)
+Crowdsale.convertAllOldTokens has external calls inside a loop:
+	- convertOldToken(oldToken.holders(i)) (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#290-291)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Crowdsale.buyTokens (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#237-248):
+	External calls:
+	- require(bool)(validPurchase()) (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#240)
+	State variables written after the call(s):
+	- weiRaised (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#246)
+Reentrancy in Crowdsale.convertOldToken (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#267-279):
+	External calls:
+	- amount = oldToken.balanceOf(beneficiary) (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#270-271)
+	State variables written after the call(s):
+	- oldHolders (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#272)
+	- weiRaised (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#272-273)
+Reentrancy in Crowdsale.finalization (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#325-327):
+	External calls:
+	- token.finishMinting() (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#326-327)
+	State variables written after the call(s):
+	- endTime (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#327)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Crowdsale.bonusDecreaseDay should be constant (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#173-174)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#71-81) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#86-87) should be declared external
+ALT1Token.balanceOf (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#152-161) should be declared external
+ALT1Token.transfer (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#143-145) should be declared external
+ERC20Basic.transfer (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#87-90) should be declared external
+ALT1Token.mint (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#112-127) should be declared external
+ALT1Token.finishMinting (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#130-136) should be declared external
+Crowdsale.fallback (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#234-237) should be declared external
+Crowdsale.convertAllOldTokens (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#279-291) should be declared external
+Crowdsale.finalize (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#293-297) should be declared external
+Crowdsale.hasEnded (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#328-333) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#53-58) is not in mixedCase
+Parameter '_owner' of ALT1Token.balanceOf (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#153-157) is not in mixedCase
+Parameter '' of ALT1Token.transfer (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#143-144) is not in mixedCase
+Parameter '_scope_0' of ALT1Token.transfer (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#144) is not in mixedCase
+Parameter '_to' of ALT1Token.mint (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#112-113) is not in mixedCase
+Parameter '_amount' of ALT1Token.mint (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#113) is not in mixedCase
+Function 'Crowdsale.Crowdsale' (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#192-234) is not in mixedCase
+Parameter '_ALT1' of Crowdsale.Crowdsale (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#193) is not in mixedCase
+Parameter '_OldALT1' of Crowdsale.Crowdsale (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#193-194) is not in mixedCase
+Parameter '_wallet' of Crowdsale.Crowdsale (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#194-195) is not in mixedCase
+Parameter '_tokens' of Crowdsale.getBonus (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#248) is not in mixedCase
+Parameter '_number' of Crowdsale.getBonusByDate (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#264) is not in mixedCase
+Parameter '_tokens' of Crowdsale.getBonusByDate (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#264) is not in mixedCase
+Constant 'Crowdsale.rate' (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#165-167) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Crowdsale.cap' (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#169) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Crowdsale.bonusByAmount' (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#186) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'Crowdsale.amountForBonus' (/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol#186) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/17/0x2029f1376726e9b1e59a9eb0c40656f1949e6684.sol analyzed (5 contracts), 42 result(s) found

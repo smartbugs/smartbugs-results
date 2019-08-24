@@ -1,0 +1,193 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:48:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:91:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function RC(address _tokenSaleContract, uint256 _oneTokenInUsdWei, uint256 _remainingTokens,  uint256 _startTime , uint256 _endTime ) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:159:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function CardSale(address _tokenSaleContract, uint256 _remainingTokens,  uint256 _startTime , uint256 _endTime ) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:248:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function TokenSale(address _tokenAddress, address _rateAddress, uint256 _startTime, uint256 _endTime) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:66:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:143:9: Warning: Invoking events without "emit" prefix is deprecated.
+        BuyRC( msg.sender, msg.data, msg.value, tokenAmount, oneTokenInUsdWei );
+        ^---------------------------------------------------------------------^
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:207:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewRC(msg.sender);
+        ^---------------^
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:304:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Buy(_buyer, tokenAmount, _ambassador);
+        ^-----------------------------------^
+/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:323:9: Warning: Invoking events without "emit" prefix is deprecated.
+        NewRC(msg.sender);
+        ^---------------^
+
+INFO:Detectors:[91m
+Reentrancy in CardSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#224-238):
+	External calls:
+	- tokenAmount = tokenSaleContract.buyFromRC.value(msg.value)(_buyer,_rcTokenValue,remainingTokens) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#227-233)
+	State variables written after the call(s):
+	- remainingTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#233-234)
+Reentrancy in RC.fallback (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#135-152):
+	External calls:
+	- tokenAmount = tokenSaleContract.buyFromRC.value(msg.value)(msg.sender,oneTokenInUsdWei,remainingTokens) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#140-143)
+	State variables written after the call(s):
+	- remainingTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#143)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+CardSale.addMeByRC uses tx.origin for authorization:
+	- require(bool)(tx.origin == owner()) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#211)
+TokenSale.addMeByRC uses tx.origin for authorization:
+	- require(bool)(tx.origin == owner) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#331)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-usage-of-txorigin[0m
+INFO:Detectors:[93m
+TokenSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#283-318) does not use the value returned by external calls:
+	-tokenContract.transfer(_buyer,tokenAmount) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#311-312)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in CardSale.CardSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#160-176):
+	External calls:
+	- tokenSaleContract.addMeByRC() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#171-173)
+	State variables written after the call(s):
+	- remainingTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#173-174)
+	- soldTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#173)
+Reentrancy in CardSale.CardSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#160-176):
+	External calls:
+	- tokenSaleContract.addMeByRC() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#171-173)
+	- setTimeRC(_startTime,_endTime) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#175)
+	State variables written after the call(s):
+	- endTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#175)
+	- startTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#175)
+Reentrancy in RC.RC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#91-108):
+	External calls:
+	- tokenSaleContract.addMeByRC() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#101-102)
+	State variables written after the call(s):
+	- oneTokenInUsdWei (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#107)
+	- remainingTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#104-105)
+	- soldTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#102-103)
+Reentrancy in RC.RC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#91-108):
+	External calls:
+	- tokenSaleContract.addMeByRC() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#101-102)
+	- setTimeRC(_startTime,_endTime) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#107-108)
+	State variables written after the call(s):
+	- endTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#107-108)
+	- startTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#107-108)
+Reentrancy in CardSale.addMeByRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#210-215):
+	External calls:
+	- require(bool)(tx.origin == owner()) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#211)
+	State variables written after the call(s):
+	- rc (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#211-214)
+Reentrancy in CardSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#224-238):
+	External calls:
+	- tokenAmount = tokenSaleContract.buyFromRC.value(msg.value)(_buyer,_rcTokenValue,remainingTokens) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#227-233)
+	State variables written after the call(s):
+	- soldTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#235-237)
+Reentrancy in RC.fallback (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#135-152):
+	External calls:
+	- tokenAmount = tokenSaleContract.buyFromRC.value(msg.value)(msg.sender,oneTokenInUsdWei,remainingTokens) (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#140-143)
+	State variables written after the call(s):
+	- soldTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#146-148)
+Reentrancy in RC.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#109-123):
+	External calls:
+	- startTime = tokenSaleContract.startTime() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#113-114)
+	- endTime = tokenSaleContract.endTime() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#120-121)
+	State variables written after the call(s):
+	- endTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#120-121)
+Reentrancy in RC.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#109-123):
+	External calls:
+	- startTime = tokenSaleContract.startTime() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#113-114)
+	State variables written after the call(s):
+	- endTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#121)
+Reentrancy in CardSale.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#176-191):
+	External calls:
+	- startTime = tokenSaleContract.startTime() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#180-182)
+	- endTime = tokenSaleContract.endTime() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#187-190)
+	State variables written after the call(s):
+	- endTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#187-190)
+Reentrancy in CardSale.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#176-191):
+	External calls:
+	- startTime = tokenSaleContract.startTime() (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#180-182)
+	State variables written after the call(s):
+	- endTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#191)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#64-72) should be declared external
+tokenInterface.balanceOf (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#72-73) should be declared external
+tokenInterface.transfer (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#75-77) should be declared external
+rateInterface.readRate (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#77-82) should be declared external
+RC.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#126-131) should be declared external
+RC.fallback (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#135-152) should be declared external
+CardSale.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#200-208) should be declared external
+CardSale.addMeByRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#210-215) should be declared external
+CardSale.newCard (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#217-223) should be declared external
+CardSale.fallback (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#223) should be declared external
+CardSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#224-238) should be declared external
+TokenSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#283-318) should be declared external
+TokenSale.addMeByRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#328-335) should be declared external
+TokenSale.withdraw (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#340-343) should be declared external
+TokenSale.withdrawTokens (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#343-348) should be declared external
+TokenSale.setTokenContract (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#349-355) should be declared external
+TokenSale.setWalletAddress (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#355-356) should be declared external
+TokenSale.setAdvisorAddress (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#357-363) should be declared external
+TokenSale.setAdvisorFee (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#363-364) should be declared external
+TokenSale.setRateContract (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol) should be declared external
+TokenSale.fallback (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol) should be declared external
+TokenSale.newRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#49-53) is not in mixedCase
+Contract 'tokenInterface' (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#72-77) is not in CapWords
+Contract 'rateInterface' (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#77-82) is not in CapWords
+Function 'RC.RC' (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#91-108) is not in mixedCase
+Parameter '_tokenSaleContract' of RC.RC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#91) is not in mixedCase
+Parameter '_oneTokenInUsdWei' of RC.RC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#91-92) is not in mixedCase
+Parameter '_remainingTokens' of RC.RC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#92) is not in mixedCase
+Parameter '_startTime' of RC.RC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#92-93) is not in mixedCase
+Parameter '_endTime' of RC.RC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#93) is not in mixedCase
+Parameter '_startTime' of RC.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#109) is not in mixedCase
+Parameter '_endTime' of RC.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#109-110) is not in mixedCase
+Parameter '_newStart' of RC.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#127) is not in mixedCase
+Parameter '_newEnd' of RC.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#127) is not in mixedCase
+Function 'CardSale.CardSale' (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#160-176) is not in mixedCase
+Parameter '_tokenSaleContract' of CardSale.CardSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#161) is not in mixedCase
+Parameter '_remainingTokens' of CardSale.CardSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#161-163) is not in mixedCase
+Parameter '_startTime' of CardSale.CardSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#163) is not in mixedCase
+Parameter '_endTime' of CardSale.CardSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#163) is not in mixedCase
+Parameter '_startTime' of CardSale.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#177-178) is not in mixedCase
+Parameter '_endTime' of CardSale.setTimeRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#178-179) is not in mixedCase
+Parameter '_newStart' of CardSale.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#200-201) is not in mixedCase
+Parameter '_newEnd' of CardSale.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#202) is not in mixedCase
+Parameter '_oneTokenInUsdWei' of CardSale.newCard (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#218-219) is not in mixedCase
+Parameter '_buyer' of CardSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#225) is not in mixedCase
+Parameter '_rcTokenValue' of CardSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#225) is not in mixedCase
+Parameter '' of CardSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#225-226) is not in mixedCase
+Function 'TokenSale.TokenSale' (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#251-260) is not in mixedCase
+Parameter '_tokenAddress' of TokenSale.TokenSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#252-253) is not in mixedCase
+Parameter '_rateAddress' of TokenSale.TokenSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#253) is not in mixedCase
+Parameter '_startTime' of TokenSale.TokenSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#253-254) is not in mixedCase
+Parameter '_endTime' of TokenSale.TokenSale (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#254) is not in mixedCase
+Parameter '_oneTokenInUsdWei' of TokenSale.tokenValueInEther (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#263-264) is not in mixedCase
+Parameter '_buyer' of TokenSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#283) is not in mixedCase
+Parameter '_rcTokenValue' of TokenSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#283-284) is not in mixedCase
+Parameter '_remainingTokens' of TokenSale.buyFromRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#284) is not in mixedCase
+Parameter '_amount' of TokenSale.forward (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#318-319) is not in mixedCase
+Parameter '_newStart' of TokenSale.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#335) is not in mixedCase
+Parameter '_newEnd' of TokenSale.setTime (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#335-336) is not in mixedCase
+Parameter '_tokenContract' of TokenSale.setTokenContract (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#351) is not in mixedCase
+Parameter '_wallet' of TokenSale.setWalletAddress (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#355) is not in mixedCase
+Parameter '_advisor' of TokenSale.setAdvisorAddress (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#359-360) is not in mixedCase
+Parameter '_advisorFee' of TokenSale.setAdvisorFee (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol#363) is not in mixedCase
+Parameter '_rateAddress' of TokenSale.setRateContract (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol) is not in mixedCase
+Parameter '_oneTokenInUsdWei' of TokenSale.newRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol) is not in mixedCase
+Parameter '_remainingTokens' of TokenSale.newRC (/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/7/0xf62afd17037be692a00b181e959e3c9931076138.sol analyzed (7 contracts), 84 result(s) found

@@ -1,0 +1,100 @@
+{
+  "contract": "0xe89bba1e91529267a5ed4e87a3e1464997f2f37c",
+  "tool": "mythril",
+  "start": 1563662508.6572342,
+  "end": 1563662911.5754232,
+  "duration": 402.9181890487671,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1329,
+        "code": "dress _token, string _name, uint _rate, uint _buyoffer) public {\n\t   if (msg.sender == owner) {\n\t     active[_token] = false;\n\t\t tkname[_token] = _name;\n\t\t rate[_token] = _rate; //with 9 decimal places\n\t\t buyoffer[_token] = _buyoffer;\t//with 18 decimal places\t \n\t   }\n\t}\n\t\n\tfunction enableToken(address",
+        "debug": "calldata_token_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_token_0: 0xfd3ead7600000000000000000000000000000000000000000000000000000000\ncalldatasize_token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `registerToken(address,string,uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "registerToken(address,string,uint256,uint256)",
+        "lineno": 26,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2077,
+        "code": " buyoffer[_t",
+        "debug": "calldata_token_32 + 4: 0x8042ebb594bde19267dc7fa15fba6f023fbb30f0d291048eb3cd5d0976b52302\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_token_4: 0xff00\ncalldata_token_0: 0x4ec0eb8b00000000000000000000000000000000000000000000000000000000\ncalldatasize_token: 0x4\n",
+        "description": "A possible integer overflow exists in the function `exchangeIt(address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "exchangeIt(address,uint256)",
+        "lineno": 50,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2546,
+        "code": "okenReward.transfer(msg.sender, amount);\n\t}\n\t",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "exchangeIt(address,uint256)",
+        "lineno": 54,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 2546,
+        "code": "okenReward.transfer(msg.sender, amount);\n\t}\n\t",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 2767\n",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "exchangeIt(address,uint256)",
+        "lineno": 54,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 2767,
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "exchangeIt(address,uint256)",
+        "lineno": 57,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 3926,
+        "code": " againstGraveyard {\n    mapping(address => bool) public active;\n    mapping(address => string) public tkname;\n\tmapping(address => uint) public rate; //9 decimal places\n\tmapping(address => uint) public buyoffer; //in AGAINST\n\ttoken tokenReward = token(0xF7Be133620a7D944595683cE2B14156591EFe609);\n\t\n\t\n    string public name = \"AGAINST GR\";\n    string public symbol = \"AGAINST\";\n    string public comment = \"AGAINST Graveyard Tokens\";\n    address internal owner;\n\t\n\tconstructor() public {\n       owner = address(msg.sender); \n    }\n\t\n\tfunction registerToken(address _token, string _name, uint _rate, uint _buyoffer) public {\n\t   if (msg.sender == owner) {\n\t     active[_token] = false;\n\t\t tkname[_token] = _name;\n\t\t rate[_token] = _rate; //with 9 decimal places\n\t\t buyoffer[_token] = _buyoffer;\t//with 18 decimal places\t \n\t   }\n\t}\n\t\n\tfunction enableToken(address _token) public {\n\t   if (msg.sender == owner) {\n\t      active[_token] = true;\n\t   }\n\t}\t\n\t\n\tfunction disableToken(address _token) public {\n\t   if (msg.sender == owner) {\n\t      active[_token] = false;\n\t   }\n\t}\n\t\n\tfunction exchangeIt(address _token, uint _qtd) public payable {\n\t   require(active[_token],'Token Disabled');\n\t   uint amount = _qtd*(10**9)*rate[_token];\n\t   require(amount <= buyoffer[_token]);\n\t   buyoffer[_token] = buyoffer[_token]-amount;\n\t   token deadToken = token(_token);\n\t   deadToken.transferFrom(msg.sender,owner,_qtd);\n\t   tokenReward.transfer(msg.sender, amount);\n\t}\n\t\n}",
+        "debug": "keccac_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_token_4: 0xfe9659011001f8793364331d4369f7b7ca9def0c2c95cd735dcb0b1c3e833003\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_token_4: 0xe65faf4feb7571ab161eefd68581d1e0648333cbb57b9dc36adcf7efaeef00c1\nstorage_8: 0x0\ncaller: 0x0\ncalldata_token_0: 0xfd3ead7600000000000000000000000000000000000000000000000000000000\ncalldatasize_token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `registerToken(address,string,uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "registerToken(address,string,uint256,uint256)",
+        "lineno": 9,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3955,
+        "code": " againstGraveyard {\n    mapping(address => bool) public active;\n    mapping(address => string) public tkname;\n\tmapping(address => uint) public rate; //9 decimal places\n\tmapping(address => uint) public buyoffer; //in AGAINST\n\ttoken tokenReward = token(0xF7Be133620a7D944595683cE2B14156591EFe609);\n\t\n\t\n    string public name = \"AGAINST GR\";\n    string public symbol = \"AGAINST\";\n    string public comment = \"AGAINST Graveyard Tokens\";\n    address internal owner;\n\t\n\tconstructor() public {\n       owner = address(msg.sender); \n    }\n\t\n\tfunction registerToken(address _token, string _name, uint _rate, uint _buyoffer) public {\n\t   if (msg.sender == owner) {\n\t     active[_token] = false;\n\t\t tkname[_token] = _name;\n\t\t rate[_token] = _rate; //with 9 decimal places\n\t\t buyoffer[_token] = _buyoffer;\t//with 18 decimal places\t \n\t   }\n\t}\n\t\n\tfunction enableToken(address _token) public {\n\t   if (msg.sender == owner) {\n\t      active[_token] = true;\n\t   }\n\t}\t\n\t\n\tfunction disableToken(address _token) public {\n\t   if (msg.sender == owner) {\n\t      active[_token] = false;\n\t   }\n\t}\n\t\n\tfunction exchangeIt(address _token, uint _qtd) public payable {\n\t   require(active[_token],'Token Disabled');\n\t   uint amount = _qtd*(10**9)*rate[_token];\n\t   require(amount <= buyoffer[_token]);\n\t   buyoffer[_token] = buyoffer[_token]-amount;\n\t   token deadToken = token(_token);\n\t   deadToken.transferFrom(msg.sender,owner,_qtd);\n\t   tokenReward.transfer(msg.sender, amount);\n\t}\n\t\n}",
+        "debug": "calldata_token_4 + calldata_token_32 + 4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_8: 0x0\ncaller: 0x0\ncalldata_token_0: 0xfd3ead7600000000000000000000000000000000000000000000000000000000\ncalldatasize_token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `registerToken(address,string,uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "registerToken(address,string,uint256,uint256)",
+        "lineno": 9,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3969,
+        "code": " againstGraveyard {\n    mapping(address => bool) public active;\n    mapping(address => string) public tkname;\n\tmapping(address => uint) public rate; //9 decimal places\n\tmapping(address => uint) public buyoffer; //in AGAINST\n\ttoken tokenReward = token(0xF7Be133620a7D944595683cE2B14156591EFe609);\n\t\n\t\n    string public name = \"AGAINST GR\";\n    string public symbol = \"AGAINST\";\n    string public comment = \"AGAINST Graveyard Tokens\";\n    address internal owner;\n\t\n\tconstructor() public {\n       owner = address(msg.sender); \n    }\n\t\n\tfunction registerToken(address _token, string _name, uint _rate, uint _buyoffer) public {\n\t   if (msg.sender == owner) {\n\t     active[_token] = false;\n\t\t tkname[_token] = _name;\n\t\t rate[_token] = _rate; //with 9 decimal places\n\t\t buyoffer[_token] = _buyoffer;\t//with 18 decimal places\t \n\t   }\n\t}\n\t\n\tfunction enableToken(address _token) public {\n\t   if (msg.sender == owner) {\n\t      active[_token] = true;\n\t   }\n\t}\t\n\t\n\tfunction disableToken(address _token) public {\n\t   if (msg.sender == owner) {\n\t      active[_token] = false;\n\t   }\n\t}\n\t\n\tfunction exchangeIt(address _token, uint _qtd) public payable {\n\t   require(active[_token],'Token Disabled');\n\t   uint amount = _qtd*(10**9)*rate[_token];\n\t   require(amount <= buyoffer[_token]);\n\t   buyoffer[_token] = buyoffer[_token]-amount;\n\t   token deadToken = token(_token);\n\t   deadToken.transferFrom(msg.sender,owner,_qtd);\n\t   tokenReward.transfer(msg.sender, amount);\n\t}\n\t\n}",
+        "debug": "calldata_token_4 + calldata_token_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_8: 0x0\ncaller: 0x0\ncalldata_token_0: 0xfd3ead7600000000000000000000000000000000000000000000000000000000\ncalldatasize_token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `registerToken(address,string,uint256,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/29/0xe89bba1e91529267a5ed4e87a3e1464997f2f37c.sol",
+        "function": "registerToken(address,string,uint256,uint256)",
+        "lineno": 9,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

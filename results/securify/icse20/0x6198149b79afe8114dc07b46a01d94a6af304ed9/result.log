@@ -1,0 +1,36 @@
+Processing contract: /unique_chucks/28/0x6198149b79afe8114dc07b46a01d94a6af304ed9.sol:Whitelist
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'Whitelist':
+    |/// @author The Calystral Team
+    |/// @title A subscriber contract
+  > |contract Whitelist {
+    |    /// This mapping contains the index and subscriber addresses.
+    |    mapping (uint => address) subscriberIndexToAddress;
+  at /unique_chucks/28/0x6198149b79afe8114dc07b46a01d94a6af304ed9.sol(5)
+
+[31mViolation[0m for MissingInputValidation in contract 'Whitelist':
+    |
+    |    /// Checks wheter the given address is in the subscriber list
+  > |    function isSubscriber(address subscriberAddress) public view returns (bool) {
+    |        return subscriberIndexToAddress[subscriberAddressToSubscribed[subscriberAddress]] != address(0);
+    |    }
+  at /unique_chucks/28/0x6198149b79afe8114dc07b46a01d94a6af304ed9.sol(101)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Whitelist':
+    |        // New subscriber
+    |        subscriberAddressToSubscribed[msg.sender] = subscriberIndex;
+  > |        subscriberIndexToAddress[subscriberIndex] = msg.sender;
+    |        subscriberIndex++;
+    |
+  at /unique_chucks/28/0x6198149b79afe8114dc07b46a01d94a6af304ed9.sol(79)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Whitelist':
+    |        subscriberAddressToSubscribed[msg.sender] = subscriberIndex;
+    |        subscriberIndexToAddress[subscriberIndex] = msg.sender;
+  > |        subscriberIndex++;
+    |
+    |        emit OnSubscribed(msg.sender);
+  at /unique_chucks/28/0x6198149b79afe8114dc07b46a01d94a6af304ed9.sol(80)

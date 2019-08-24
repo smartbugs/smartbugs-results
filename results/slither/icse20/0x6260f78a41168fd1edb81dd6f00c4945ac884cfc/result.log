@@ -1,0 +1,130 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:54:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:118:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ARBITRAGEToken(address wallet) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:310:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function ARBITRAGECrowdsale(address _walletOwner, address _partnerHandler) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:74:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:133:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:152:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:168:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:201:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:222:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:248:7: Warning: Invoking events without "emit" prefix is deprecated.
+      Transfer(wallet, buyer, tokenAmount); 
+      ^----------------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:255:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(buyer, wallet, tokenAmount);
+        ^----------------------------------^
+/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:357:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenPurchase(walletOwner, beneficiary, weiAmount, tokens);
+    ^--------------------------------------------------------^
+
+INFO:Detectors:[93m
+OldXRPCToken (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#98-105) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#98-99)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:
+	Contract ARBITRAGEToken has payable functions:
+	 - fallback (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#238-240)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in ARBITRAGECrowdsale.buyTokens (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#351-371):
+	External calls:
+	- token.mint(walletOwner,beneficiary,tokens) (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#364)
+	State variables written after the call(s):
+	- tokensSoldInThisRound (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#365)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+ARBITRAGECrowdsale.forwardFunds has external calls inside a loop:
+	- ownersList[i].stakeholderAddress.transfer(amountToBeSent) (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#380-381)
+ARBITRAGECrowdsale.forwardFunds has external calls inside a loop:
+	- token.mint(walletOwner,ownersList[i].stakeholderAddress,partnerTokenAmount) (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#385-387)
+ARBITRAGECrowdsale.airDropToOldTokenHolders has external calls inside a loop:
+	- prevXRPCToken.balanceOf(oldTokenHolders[i]) > 0 (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol)
+ARBITRAGECrowdsale.airDropToOldTokenHolders has external calls inside a loop:
+	- token.mint(walletOwner,oldTokenHolders[i],prevXRPCToken.balanceOf(oldTokenHolders[i])) (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in ARBITRAGECrowdsale.buyTokens (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#351-371):
+	External calls:
+	- token.mint(walletOwner,beneficiary,tokens) (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#364)
+	State variables written after the call(s):
+	- totalTokensSold (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#368-369)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#73-82) should be declared external
+ARBITRAGEToken.totalSupply (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#181-183) should be declared external
+ERC20Interface.totalSupply (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#87-88) should be declared external
+ERC20Interface.balanceOf (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#88) should be declared external
+ARBITRAGEToken.balanceOf (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#245-246) should be declared external
+ERC20Interface.allowance (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#88-90) should be declared external
+ARBITRAGEToken.allowance (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#190-193) should be declared external
+ERC20Interface.transfer (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#90-91) should be declared external
+ARBITRAGEToken.transfer (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#131-140) should be declared external
+ERC20Interface.approve (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#91) should be declared external
+ARBITRAGEToken.approve (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#169-174) should be declared external
+ERC20Interface.transferFrom (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#91-93) should be declared external
+ARBITRAGEToken.transferFrom (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#146-159) should be declared external
+ARBITRAGEToken.increaseApproval (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#201-209) should be declared external
+ARBITRAGEToken.decreaseApproval (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#218-230) should be declared external
+ARBITRAGEToken.fallback (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#238-240) should be declared external
+ARBITRAGEToken.mint (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#246-254) should be declared external
+ARBITRAGEToken.pullBack (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#254-267) should be declared external
+ARBITRAGEToken.showMyTokenBalance (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#267-273) should be declared external
+ARBITRAGECrowdsale.fallback (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#348-350) should be declared external
+ARBITRAGECrowdsale.updateOwnerShares (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#389-416) should be declared external
+ARBITRAGECrowdsale.showMyTokenBalance (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#422-429) should be declared external
+ARBITRAGECrowdsale.pullBack (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#432-440) should be declared external
+ARBITRAGECrowdsale.startNewICORound (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#463-472) should be declared external
+ARBITRAGECrowdsale.getCurrentICORoundInfo (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#478-482) should be declared external
+ARBITRAGECrowdsale.pauseCrowdsale (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#487-490) should be declared external
+ARBITRAGECrowdsale.resumeCrowdsale (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#496-499) should be declared external
+ARBITRAGECrowdsale.tokensRemainingForSale (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#503-508) should be declared external
+ARBITRAGECrowdsale.checkOwnerShare (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#515-525) should be declared external
+ARBITRAGECrowdsale.changePartnerCoinPercentage (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#528-534) should be declared external
+ARBITRAGECrowdsale.airDropToOldTokenHolders (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#536-537) should be declared external
+ARBITRAGECrowdsale.changeWalletOwner (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#5-7): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#56-60) is not in mixedCase
+Parameter '_owner' of ARBITRAGEToken.balanceOf (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#245) is not in mixedCase
+Parameter '_to' of ARBITRAGEToken.transfer (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#131) is not in mixedCase
+Parameter '_value' of ARBITRAGEToken.transfer (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#131) is not in mixedCase
+Parameter '_spender' of ARBITRAGEToken.approve (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#170-172) is not in mixedCase
+Parameter '_value' of ARBITRAGEToken.approve (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#172) is not in mixedCase
+Parameter '_from' of ARBITRAGEToken.transferFrom (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#146-147) is not in mixedCase
+Parameter '_to' of ARBITRAGEToken.transferFrom (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#147) is not in mixedCase
+Parameter '_value' of ARBITRAGEToken.transferFrom (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#147) is not in mixedCase
+Function 'ARBITRAGEToken.ARBITRAGEToken' (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#121-127) is not in mixedCase
+Parameter '_spender' of ARBITRAGEToken.increaseApproval (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#201-202) is not in mixedCase
+Parameter '_addedValue' of ARBITRAGEToken.increaseApproval (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#202-204) is not in mixedCase
+Parameter '_spender' of ARBITRAGEToken.decreaseApproval (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#220) is not in mixedCase
+Parameter '_subtractedValue' of ARBITRAGEToken.decreaseApproval (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#220) is not in mixedCase
+Function 'ARBITRAGECrowdsale.ARBITRAGECrowdsale' (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#319-342) is not in mixedCase
+Parameter '_walletOwner' of ARBITRAGECrowdsale.ARBITRAGECrowdsale (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#320) is not in mixedCase
+Parameter '_partnerHandler' of ARBITRAGECrowdsale.ARBITRAGECrowdsale (/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol#320-321) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/6/0x6260f78a41168fd1edb81dd6f00c4945ac884cfc.sol analyzed (6 contracts), 58 result(s) found

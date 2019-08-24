@@ -1,0 +1,185 @@
+{
+  "contract": "0xb7ca96345f44e8b6c5b18c94dedb742803a20809",
+  "tool": "smartcheck",
+  "start": 1563763430.5380452,
+  "end": 1563763439.7306895,
+  "duration": 9.192644357681274,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ARRAY_LENGTH_MANIPULATION",
+      "patternId": "43ba1c",
+      "severity": 1,
+      "line": 235,
+      "column": 63,
+      "content": "checkpoints.length++"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 124,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)publicconstantreturns(uint256balance){returnbalanceOfAt(_owner,block.number);}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 142,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)publicconstantreturns(uint256remaining){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 160,
+      "column": 4,
+      "content": "functiontotalSupply()publicconstantreturns(uint){returntotalSupplyAt(block.number);}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 164,
+      "column": 4,
+      "content": "functionbalanceOfAt(address_owner,uint_blockNumber)publicconstantreturns(uint){if((balances[_owner].length==0)||(balances[_owner][0].fromBlock>_blockNumber)){return0;}else{returngetValueAt(balances[_owner],_blockNumber);}}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 174,
+      "column": 4,
+      "content": "functiontotalSupplyAt(uint_blockNumber)publicconstantreturns(uint){if((totalSupplyHistory.length==0)||(totalSupplyHistory[0].fromBlock>_blockNumber)){return0;}else{returngetValueAt(totalSupplyHistory,_blockNumber);}}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 212,
+      "column": 4,
+      "content": "functiongetValueAt(Checkpoint[]storagecheckpoints,uint_block)constantinternalreturns(uint){if(checkpoints.length==0)return0;if(_block>=checkpoints[checkpoints.length-1].fromBlock)returncheckpoints[checkpoints.length-1].value;if(_block<checkpoints[0].fromBlock)return0;uintmin=0;uintmax=checkpoints.length-1;while(max>min){uintmid=(max+min+1)/2;if(checkpoints[mid].fromBlock<=_block){min=mid;}else{max=mid-1;}}returncheckpoints[min].value;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 244,
+      "column": 4,
+      "content": "functionisContract(address_addr)constantinternalreturns(bool){uintsize;if(_addr==0)returnfalse;assembly{size:=extcodesize(_addr)}returnsize>0;}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 128,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_amount)publicreturns(boolsuccess){require(transfersEnabled);require((_amount==0)||(allowed[msg.sender][_spender]==0));if(isContract(controller)){require(TokenController(controller).onApprove(msg.sender,_spender,_amount));}allowed[msg.sender][_spender]=_amount;emitApproval(msg.sender,_spender,_amount);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "17f23a",
+      "severity": 1,
+      "line": 221,
+      "column": 15,
+      "content": "max>min"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 19,
+      "column": 0,
+      "content": "contractTokenController{functionproxyPayment(address_owner)publicpayablereturns(bool);functiononTransfer(address_from,address_to,uint_amount)publicreturns(bool);functiononApprove(address_owner,address_spender,uint_amount)publicreturns(bool);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 42,
+      "column": 0,
+      "content": "contractTokenisControlled{stringpublicname=\"ShineCoin\";uint8publicdecimals=9;stringpublicsymbol=\"SHINE\";structCheckpoint{uint128fromBlock;uint128value;}uintpubliccreationBlock;mapping(address=>Checkpoint[])balances;mapping(address=>mapping(address=>uint256))allowed;Checkpoint[]totalSupplyHistory;boolpublictransfersEnabled=true;addresspublicfrozenReserveTeamWallet;uintpublicunfreezeTeamWalletBlock;functionToken(address_frozenReserveTeamWallet)public{creationBlock=block.number;frozenReserveTeamWallet=_frozenReserveTeamWallet;unfreezeTeamWalletBlock=block.number+((365*24*3600)/15);}functiontransfer(address_to,uint256_amount)publicreturns(boolsuccess){require(transfersEnabled);if(address(msg.sender)==frozenReserveTeamWallet){require(block.number>unfreezeTeamWalletBlock);}doTransfer(msg.sender,_to,_amount);returntrue;}functiontransferFrom(address_from,address_to,uint256_amount)publicreturns(boolsuccess){if(msg.sender!=controller){require(transfersEnabled);require(allowed[_from][msg.sender]>=_amount);allowed[_from][msg.sender]-=_amount;}doTransfer(_from,_to,_amount);returntrue;}functiondoTransfer(address_from,address_to,uint_amount)internal{if(_amount<=0){emitTransfer(_from,_to,_amount);return;}require((_to!=0)&&(_to!=address(this)));uint256previousBalanceFrom=balanceOfAt(_from,block.number);require(previousBalanceFrom>=_amount);updateValueAtNow(balances[_from],previousBalanceFrom-_amount);uint256previousBalanceTo=balanceOfAt(_to,block.number);require(previousBalanceTo+_amount>=previousBalanceTo);updateValueAtNow(balances[_to],previousBalanceTo+_amount);emitTransfer(_from,_to,_amount);}functionbalanceOf(address_owner)publicconstantreturns(uint256balance){returnbalanceOfAt(_owner,block.number);}functionapprove(address_spender,uint256_amount)publicreturns(boolsuccess){require(transfersEnabled);require((_amount==0)||(allowed[msg.sender][_spender]==0));if(isContract(controller)){require(TokenController(controller).onApprove(msg.sender,_spender,_amount));}allowed[msg.sender][_spender]=_amount;emitApproval(msg.sender,_spender,_amount);returntrue;}functionallowance(address_owner,address_spender)publicconstantreturns(uint256remaining){returnallowed[_owner][_spender];}functionapproveAndCall(address_spender,uint256_amount,bytes_extraData)publicreturns(boolsuccess){require(approve(_spender,_amount));ApproveAndCallFallBack(_spender).receiveApproval(msg.sender,_amount,this,_extraData);returntrue;}functiontotalSupply()publicconstantreturns(uint){returntotalSupplyAt(block.number);}functionbalanceOfAt(address_owner,uint_blockNumber)publicconstantreturns(uint){if((balances[_owner].length==0)||(balances[_owner][0].fromBlock>_blockNumber)){return0;}else{returngetValueAt(balances[_owner],_blockNumber);}}functiontotalSupplyAt(uint_blockNumber)publicconstantreturns(uint){if((totalSupplyHistory.length==0)||(totalSupplyHistory[0].fromBlock>_blockNumber)){return0;}else{returngetValueAt(totalSupplyHistory,_blockNumber);}}functiongenerateTokens(address_owner,uint_amount)publiconlyControllerreturns(bool){uintcurTotalSupply=totalSupply();require(curTotalSupply+_amount>=curTotalSupply);uintpreviousBalanceTo=balanceOf(_owner);require(previousBalanceTo+_amount>=previousBalanceTo);updateValueAtNow(totalSupplyHistory,curTotalSupply+_amount);updateValueAtNow(balances[_owner],previousBalanceTo+_amount);emitTransfer(0,_owner,_amount);returntrue;}functiondestroyTokens(address_owner,uint_amount)onlyControllerpublicreturns(bool){uintcurTotalSupply=totalSupply();require(curTotalSupply>=_amount);uintpreviousBalanceFrom=balanceOf(_owner);require(previousBalanceFrom>=_amount);updateValueAtNow(totalSupplyHistory,curTotalSupply-_amount);updateValueAtNow(balances[_owner],previousBalanceFrom-_amount);emitTransfer(_owner,0,_amount);returntrue;}functionenableTransfers(bool_transfersEnabled)publiconlyController{transfersEnabled=_transfersEnabled;}functiongetValueAt(Checkpoint[]storagecheckpoints,uint_block)constantinternalreturns(uint){if(checkpoints.length==0)return0;if(_block>=checkpoints[checkpoints.length-1].fromBlock)returncheckpoints[checkpoints.length-1].value;if(_block<checkpoints[0].fromBlock)return0;uintmin=0;uintmax=checkpoints.length-1;while(max>min){uintmid=(max+min+1)/2;if(checkpoints[mid].fromBlock<=_block){min=mid;}else{max=mid-1;}}returncheckpoints[min].value;}functionupdateValueAtNow(Checkpoint[]storagecheckpoints,uint_value)internal{if((checkpoints.length==0)||(checkpoints[checkpoints.length-1].fromBlock<block.number)){CheckpointstoragenewCheckPoint=checkpoints[checkpoints.length++];newCheckPoint.fromBlock=uint128(block.number);newCheckPoint.value=uint128(_value);}else{CheckpointstorageoldCheckPoint=checkpoints[checkpoints.length-1];oldCheckPoint.value=uint128(_value);}}functionisContract(address_addr)constantinternalreturns(bool){uintsize;if(_addr==0)returnfalse;assembly{size:=extcodesize(_addr)}returnsize>0;}functionmin(uinta,uintb)pureinternalreturns(uint){returna<b?a:b;}function()publicpayable{require(isContract(controller));require(TokenController(controller).proxyPayment.value(msg.value)(msg.sender));}eventTransfer(addressindexed_from,addressindexed_to,uint256_amount);eventApproval(addressindexed_owner,addressindexed_spender,uint256_amount);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 2,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 17,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 28,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 35,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 257,
+      "column": 16,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 31,
+      "column": 76,
+      "content": "bytes_data"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 146,
+      "column": 63,
+      "content": "bytes_extraData"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 55,
+      "column": 4,
+      "content": "mapping(address=>Checkpoint[])balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 57,
+      "column": 4,
+      "content": "mapping(address=>mapping(address=>uint256))allowed;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 59,
+      "column": 4,
+      "content": "Checkpoint[]totalSupplyHistory;"
+    }
+  ]
+}

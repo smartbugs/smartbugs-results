@@ -1,0 +1,503 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol:
+/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol:99:24: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   function __callback(bytes32 myid, string result, bytes proof) public {
+                       ^----------^
+/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol:99:38: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   function __callback(bytes32 myid, string result, bytes proof) public {
+                                     ^-----------^
+/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol:99:53: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   function __callback(bytes32 myid, string result, bytes proof) public {
+                                                    ^---------^
+/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol:99:4: Warning: Function state mutability can be restricted to pure
+   function __callback(bytes32 myid, string result, bytes proof) public {
+   ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Reentrancy in BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154):
+	External calls:
+	- require(bool)(_gameId == gameContractObject.gameId()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1113)
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.RandomReceived) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1114-1117)
+	- houseAddressOne = gameContractObject.getHouseAddressOne() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1121-1123)
+	- houseAddressTwo = gameContractObject.getHouseAddressTwo() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1123-1124)
+	- referralAddress = gameContractObject.getReferralAddress() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1124-1127)
+	- houseAddressShare = gameContractObject.getHouseAddressShare() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1137-1139)
+	- referralAmount = (totalBalance * gameContractObject.getReferralAddressShare()) / 100 (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1146-1148)
+	External calls sending eth:
+	- houseAddressOne.transfer((totalBalance * houseAddressShare * 70) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1139-1143)
+	- houseAddressTwo.transfer((totalBalance * houseAddressShare * 30) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1144-1146)
+	- referralAddress.transfer(referralAmount) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1148-1149)
+	State variables written after the call(s):
+	- totalBalance (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1149-1150)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[91m
+BucketContract.owner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1051) shadows:
+	- Mortal.owner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1027)
+GameContract.owner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1238) shadows:
+	- Mortal.owner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1027)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variable-shadowing[0m
+INFO:Detectors:[91m
+GameContract.typeOfWinnerContract (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1255-1256) is never initialized. It is used in:
+	- getWinnerType (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1391-1393)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+usingOraclize.getCodeSize (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#513-516) is declared view but contains assembly code
+usingOraclize.copyBytes (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#920-936) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154) uses a dangerous strict equality:
+	- totalBid == address(this).balance
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in GameContract.beginGame (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1395-1408):
+	External calls:
+	- bucketOneContractObject.setGameId(_gameId) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1404)
+	- bucketTwoContractObject.setGameId(_gameId) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1404-1405)
+	State variables written after the call(s):
+	- state (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1406-1407)
+Reentrancy in usingOraclize.oraclizeAPI (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#42-51):
+	External calls:
+	- address(oraclize) != OAR.getAddress() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#46-50)
+	- oraclize = OraclizeI(OAR.getAddress()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#48-50)
+	State variables written after the call(s):
+	- oraclize (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#48-50)
+Reentrancy in BucketContract.payout (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1155-1200):
+	External calls:
+	- batchsize = gameContractObject.getBatchSize() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1157-1158)
+	State variables written after the call(s):
+	- payoutComplete (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1192)
+Reentrancy in GameContract.reset (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol):
+	External calls:
+	- bucketOneContractObject.resetBucket() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	- bucketTwoContractObject.resetBucket() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	State variables written after the call(s):
+	- state (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+Reentrancy in GameContract.startSettlement (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1433-1450):
+	External calls:
+	- bucketTwoContractObject.transferToOtherBucketContract(address(bucketOneContractObject)) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1441-1445)
+	- bucketOneContractObject.setWinner(gameId) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1447-1450)
+	State variables written after the call(s):
+	- settlement (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	- state (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+Reentrancy in GameContract.startSettlement (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1433-1450):
+	External calls:
+	- bucketOneContractObject.transferToOtherBucketContract(address(bucketTwoContractObject)) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	- bucketTwoContractObject.setWinner(gameId) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	State variables written after the call(s):
+	- settlement (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	- state (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+i in BucketContract.payout (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1158) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+BucketContract.payout has external calls inside a loop:
+	- better.transfer(amount) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1173-1174)
+BucketContract.payout has external calls inside a loop:
+	- better2.transfer(amountToTransfer) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1184)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in GameContract.__callback (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1415-1432):
+	External calls:
+	- require(bool)(msg.sender == oraclize_cbAddress()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1418-1421)
+	State variables written after the call(s):
+	- oraclizeValueReceived (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1430)
+	- randomValue (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1426-1430)
+	- state (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1430-1432)
+Reentrancy in GameContract.beginGame (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1395-1408):
+	External calls:
+	- bucketOneContractObject.setGameId(_gameId) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1404)
+	- bucketTwoContractObject.setGameId(_gameId) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1404-1405)
+	State variables written after the call(s):
+	- startTime (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1405)
+Reentrancy in BucketContract.bet (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1100-1109):
+	External calls:
+	- require(bool,string)(msg.value >= gameContractObject.getPrice(),Too small bet) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1101-1103)
+	- assert(bool)(gameContractObject.canBet()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1103)
+	State variables written after the call(s):
+	- betAmount (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1106-1108)
+	- betters (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1105)
+	- hasBet (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1105-1106)
+	- totalBid (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1108)
+Reentrancy in GameContract.finalize (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1411-1415):
+	External calls:
+	- queryId = oraclize_newRandomDSQuery(0,7,callbackGas) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1412-1413)
+	State variables written after the call(s):
+	- oraclizeQueryData (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1413)
+	- state (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1414-1415)
+Reentrancy in usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#746-771):
+	External calls:
+	- sessionKeyHash_bytes32 = oraclize_randomDS_getSessionPubKeyHash() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#752-756)
+	- queryId = oraclize_query(_delay,random,args,_customGasLimit) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#767-768)
+	External calls sending eth:
+	- queryId = oraclize_query(_delay,random,args,_customGasLimit) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#767-768)
+	State variables written after the call(s):
+	- oraclize_network_name (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#767-768)
+	- oraclize_randomDS_args (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#768-771)
+Reentrancy in BucketContract.payout (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1155-1200):
+	External calls:
+	- batchsize = gameContractObject.getBatchSize() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1157-1158)
+	External calls sending eth:
+	- better.transfer(amount) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1173-1174)
+	State variables written after the call(s):
+	- amountWon (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1177)
+Reentrancy in BucketContract.payout (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1155-1200):
+	External calls:
+	- batchsize = gameContractObject.getBatchSize() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1157-1158)
+	External calls sending eth:
+	- better2.transfer(amountToTransfer) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1184)
+	State variables written after the call(s):
+	- amountBid (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1185-1186)
+	- amountWon (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1185)
+Reentrancy in BucketContract.payout (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1155-1200):
+	External calls:
+	- batchsize = gameContractObject.getBatchSize() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1157-1158)
+	State variables written after the call(s):
+	- processed (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1186)
+	- remaining (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1186-1187)
+Reentrancy in BucketContract.resetBucket (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1200-1219):
+	External calls:
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.Finishing) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1204-1207)
+	State variables written after the call(s):
+	- amountBid (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1212-1213)
+	- amountWon (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1212)
+	- betAmount (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1209-1210)
+	- betters (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1211-1212)
+	- gameId (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1215)
+	- hasBet (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1210-1211)
+	- isWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1214-1215)
+	- payoutComplete (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1213-1214)
+	- processed (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1215-1217)
+	- referralAmount (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1215)
+	- remaining (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1217)
+	- settlementType (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1215)
+	- totalBalance (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1219)
+	- totalBid (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1213)
+Reentrancy in BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154):
+	External calls:
+	- require(bool)(_gameId == gameContractObject.gameId()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1113)
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.RandomReceived) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1114-1117)
+	State variables written after the call(s):
+	- isWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1118-1121)
+Reentrancy in BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154):
+	External calls:
+	- require(bool)(_gameId == gameContractObject.gameId()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1113)
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.RandomReceived) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1114-1117)
+	- houseAddressOne = gameContractObject.getHouseAddressOne() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1121-1123)
+	- houseAddressTwo = gameContractObject.getHouseAddressTwo() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1123-1124)
+	- referralAddress = gameContractObject.getReferralAddress() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1124-1127)
+	External calls sending eth:
+	- houseAddressOne.transfer((address(this).balance * 70) / 100) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1129-1130)
+	- houseAddressTwo.transfer(address(this).balance) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1130-1131)
+	State variables written after the call(s):
+	- settlementType (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1132-1134)
+Reentrancy in BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154):
+	External calls:
+	- require(bool)(_gameId == gameContractObject.gameId()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1113)
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.RandomReceived) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1114-1117)
+	- houseAddressOne = gameContractObject.getHouseAddressOne() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1121-1123)
+	- houseAddressTwo = gameContractObject.getHouseAddressTwo() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1123-1124)
+	- referralAddress = gameContractObject.getReferralAddress() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1124-1127)
+	State variables written after the call(s):
+	- settlementType (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1135)
+	- totalBalance (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1135-1137)
+Reentrancy in BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154):
+	External calls:
+	- require(bool)(_gameId == gameContractObject.gameId()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1113)
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.RandomReceived) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1114-1117)
+	- houseAddressOne = gameContractObject.getHouseAddressOne() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1121-1123)
+	- houseAddressTwo = gameContractObject.getHouseAddressTwo() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1123-1124)
+	- referralAddress = gameContractObject.getReferralAddress() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1124-1127)
+	- houseAddressShare = gameContractObject.getHouseAddressShare() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1137-1139)
+	- referralAmount = (totalBalance * gameContractObject.getReferralAddressShare()) / 100 (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1146-1148)
+	External calls sending eth:
+	- houseAddressOne.transfer((totalBalance * houseAddressShare * 70) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1139-1143)
+	- houseAddressTwo.transfer((totalBalance * houseAddressShare * 30) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1144-1146)
+	State variables written after the call(s):
+	- referralAmount (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1146-1148)
+Reentrancy in BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154):
+	External calls:
+	- require(bool)(_gameId == gameContractObject.gameId()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1113)
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.RandomReceived) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1114-1117)
+	- houseAddressOne = gameContractObject.getHouseAddressOne() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1121-1123)
+	- houseAddressTwo = gameContractObject.getHouseAddressTwo() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1123-1124)
+	- referralAddress = gameContractObject.getReferralAddress() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1124-1127)
+	- houseAddressShare = gameContractObject.getHouseAddressShare() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1137-1139)
+	- referralAmount = (totalBalance * gameContractObject.getReferralAddressShare()) / 100 (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1146-1148)
+	External calls sending eth:
+	- houseAddressOne.transfer((totalBalance * houseAddressShare * 70) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1139-1143)
+	- houseAddressTwo.transfer((totalBalance * houseAddressShare * 30) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1144-1146)
+	- referralAddress.transfer(referralAmount) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1148-1149)
+	State variables written after the call(s):
+	- settlementType (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1150-1152)
+Reentrancy in BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154):
+	External calls:
+	- require(bool)(_gameId == gameContractObject.gameId()) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1113)
+	- assert(bool)(gameContractObject.state() == GameContract.GameState.RandomReceived) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1114-1117)
+	- houseAddressOne = gameContractObject.getHouseAddressOne() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1121-1123)
+	- houseAddressTwo = gameContractObject.getHouseAddressTwo() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1123-1124)
+	- referralAddress = gameContractObject.getReferralAddress() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1124-1127)
+	- houseAddressShare = gameContractObject.getHouseAddressShare() (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1137-1139)
+	- referralAmount = (totalBalance * gameContractObject.getReferralAddressShare()) / 100 (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1146-1148)
+	External calls sending eth:
+	- houseAddressOne.transfer((address(this).balance * 70) / 100) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1129-1130)
+	- houseAddressTwo.transfer(address(this).balance) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1130-1131)
+	- houseAddressOne.transfer((totalBalance * houseAddressShare * 70) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1139-1143)
+	- houseAddressTwo.transfer((totalBalance * houseAddressShare * 30) / 10000) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1144-1146)
+	- referralAddress.transfer(referralAmount) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1148-1149)
+	State variables written after the call(s):
+	- processed (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1153-1154)
+	- remaining (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1154)
+Reentrancy in GameContract.startSettlement (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1433-1450):
+	External calls:
+	- bucketTwoContractObject.transferToOtherBucketContract(address(bucketOneContractObject)) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1441-1445)
+	State variables written after the call(s):
+	- recentWinnerContract (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1445-1446)
+	- winningContract (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1446-1447)
+Reentrancy in GameContract.startSettlement (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1433-1450):
+	External calls:
+	- bucketOneContractObject.transferToOtherBucketContract(address(bucketTwoContractObject)) (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	State variables written after the call(s):
+	- recentWinnerContract (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+	- winningContract (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+usingOraclize.getCodeSize uses assembly (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#513-516)
+	- /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#515-516
+usingOraclize.oraclize_newRandomDSQuery uses assembly (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#746-771)
+	- /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#756-764
+usingOraclize.verifySig uses assembly (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#782-801)
+	- /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#792-795
+usingOraclize.copyBytes uses assembly (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#920-936)
+	- /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#929-934
+usingOraclize.safer_ecrecover uses assembly (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#941-970)
+	- /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#959-969
+usingOraclize.ecrecovery uses assembly (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#974-1024)
+	- /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#983-1020
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+OraclizeI.cbAddress should be constant (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#4-5)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+OraclizeI.query2 (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#7-8) should be declared external
+OraclizeI.queryN (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#9-10) should be declared external
+OraclizeI.getPrice (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#11-12) should be declared external
+OraclizeI.getPrice (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#12-13) should be declared external
+OraclizeAddrResolverI.getAddress (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#19-22) should be declared external
+usingOraclize.__callback (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#96-103) should be declared external
+GameContract.__callback (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1415-1432) should be declared external
+BucketContract.getBettersArrayLength (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1092-1093) should be declared external
+BucketContract.getBetter (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1093-1095) should be declared external
+BucketContract.getWinningAmount (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1095-1096) should be declared external
+BucketContract.getBidAmount (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1096-1098) should be declared external
+BucketContract.setGameId (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1098-1100) should be declared external
+BucketContract.bet (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1100-1109) should be declared external
+BucketContract.transferToOtherBucketContract (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1109-1110) should be declared external
+BucketContract.fallback (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1111) should be declared external
+BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112-1154) should be declared external
+BucketContract.payout (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1155-1200) should be declared external
+BucketContract.resetBucket (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1200-1219) should be declared external
+BucketContract.drain (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1219-1228) should be declared external
+GameContract.setHouseAddressShare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1312-1322) should be declared external
+GameContract.setReferralAddressShare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1322-1328) should be declared external
+GameContract.getHouseAddressShare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1328-1332) should be declared external
+GameContract.getReferralAddressShare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1332-1337) should be declared external
+GameContract.setPrice (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1337-1341) should be declared external
+GameContract.setHouseAddressOne (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1344-1348) should be declared external
+GameContract.setHouseAddressTwo (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1348-1353) should be declared external
+GameContract.setReferralAddress (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1354-1360) should be declared external
+GameContract.setCallbackGas (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1361-1366) should be declared external
+GameContract.setBatchSize (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1366-1367) should be declared external
+GameContract.setOwner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1367-1370) should be declared external
+GameContract.setOtherSettingOwner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1370-1373) should be declared external
+GameContract.getPrice (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1373-1377) should be declared external
+GameContract.getGameId (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1377-1381) should be declared external
+GameContract.getHouseAddressOne (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1381-1383) should be declared external
+GameContract.getHouseAddressTwo (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1383-1387) should be declared external
+GameContract.getReferralAddress (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1387-1389) should be declared external
+GameContract.getWinnerContractAddress (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1389-1391) should be declared external
+GameContract.getWinnerType (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1391-1393) should be declared external
+GameContract.getBatchSize (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1393-1395) should be declared external
+GameContract.beginGame (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1395-1408) should be declared external
+GameContract.fallback (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1408-1411) should be declared external
+GameContract.finalize (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1411-1415) should be declared external
+GameContract.startSettlement (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1433-1450) should be declared external
+GameContract.payout (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol) should be declared external
+GameContract.canBet (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol) should be declared external
+GameContract.finishGame (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol) should be declared external
+GameContract.reset (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol) should be declared external
+GameContract.drain (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'OraclizeI.query_withGasLimit' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#6-7) is not in mixedCase
+Function 'OraclizeI.query2_withGasLimit' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#8-9) is not in mixedCase
+Function 'OraclizeI.queryN_withGasLimit' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#10-11) is not in mixedCase
+Function 'OraclizeI.randomDS_getSessionPubKeyHash' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#15-18) is not in mixedCase
+Contract 'usingOraclize' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#22-1024) is not in CapWords
+Function 'usingOraclize.oraclize_setNetwork' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#55-59) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetwork' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#60-96) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#96-103) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#103-104) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#104-108) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#108-112) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#112-116) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#117-121) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#121-127) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#127-132) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#132-137) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#137-141) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#141-147) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#147-152) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#152-158) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#158-164) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#164-170) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#170-177) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#177-182) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#182-186) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#186-192) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#192-199) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#199-204) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#205-210) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#210-217) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#217-223) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#224-230) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#230-237) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#237-245) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#245-253) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#254-261) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#261-269) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#269-278) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#278-287) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#287-295) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#295-304) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#304-314) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#314-321) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#321-327) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#327-332) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#333-339) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#339-346) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#346-351) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#351-356) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#356-362) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#362-368) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#368-374) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#374-380) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#380-386) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#386-393) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#393-400) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#400-407) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#407-415) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#415-423) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#423-431) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#431-439) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#439-447) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#447-456) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#456-465) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#465-474) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#474-485) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#485-495) is not in mixedCase
+Function 'usingOraclize.oraclize_cbAddress' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#495-498) is not in mixedCase
+Function 'usingOraclize.oraclize_setProof' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#498-504) is not in mixedCase
+Function 'usingOraclize.oraclize_setCustomGasPrice' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#504-509) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_getSessionPubKeyHash' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#509-513) is not in mixedCase
+Parameter '_a' of usingOraclize.parseAddr (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#517) is not in mixedCase
+Parameter '_a' of usingOraclize.strCompare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#539-540) is not in mixedCase
+Parameter '_b' of usingOraclize.strCompare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#541-542) is not in mixedCase
+Parameter '_haystack' of usingOraclize.indexOf (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#557) is not in mixedCase
+Parameter '_needle' of usingOraclize.indexOf (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#557) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#579) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#580) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#580) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#580) is not in mixedCase
+Parameter '_e' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#580) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#604) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#604) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#604) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#604) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#608) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#608) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#608-609) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#611) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#612) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#616) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#622) is not in mixedCase
+Parameter '_b' of usingOraclize.parseInt (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#622) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetworkName' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#742-743) is not in mixedCase
+Parameter '_network_name' of usingOraclize.oraclize_setNetworkName (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#742) is not in mixedCase
+Function 'usingOraclize.oraclize_getNetworkName' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#743-746) is not in mixedCase
+Function 'usingOraclize.oraclize_newRandomDSQuery' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#746-771) is not in mixedCase
+Parameter '_delay' of usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#747) is not in mixedCase
+Parameter '_nbytes' of usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#747) is not in mixedCase
+Parameter '_customGasLimit' of usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#747) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_setCommitment' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#771-779) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__sessionKeyValidity' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#801-836) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__returnCode' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#853-859) is not in mixedCase
+Parameter '_queryId' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#853) is not in mixedCase
+Parameter '_result' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#853) is not in mixedCase
+Parameter '_proof' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#853-855) is not in mixedCase
+Parameter 'n_random_bytes' of usingOraclize.matchBytes32Prefix (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#861) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__main' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#865-918) is not in mixedCase
+Parameter 'context_name' of usingOraclize.oraclize_randomDS_proofVerify__main (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#865-867) is not in mixedCase
+Function 'usingOraclize.safer_ecrecover' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#941-970) is not in mixedCase
+Constant 'usingOraclize.day' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#23-24) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.week' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#24-25) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.month' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#25-26) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_NONE' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#26-27) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_TLSNotary' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#27-28) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Android' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#28-29) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Ledger' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#29-30) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Native' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#30-31) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofStorage_IPFS' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#31-32) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_auto' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#32-33) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_mainnet' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#33-34) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_testnet' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#34-35) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_morden' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#35-36) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_consensys' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#36-40) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'usingOraclize.OAR' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#40-41) is not in mixedCase
+Variable 'usingOraclize.oraclize_network_name' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#741-742) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_args' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#779-780) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_sessionKeysHashVerified' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#780-781) is not in mixedCase
+Modifier 'usingOraclize.oraclize_randomDS_proofVerify' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#836-853) is not in mixedCase
+Parameter '_gameId' of BucketContract.setGameId (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1099) is not in mixedCase
+Parameter '_bucketContract' of BucketContract.transferToOtherBucketContract (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1110) is not in mixedCase
+Parameter '_gameId' of BucketContract.setWinner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1112) is not in mixedCase
+Function 'GameContract.__callback' (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1415-1432) is not in mixedCase
+Parameter '_queryId' of GameContract.__callback (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1416) is not in mixedCase
+Parameter '_result' of GameContract.__callback (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1416) is not in mixedCase
+Parameter '_houseAddressOne' of GameContract. (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1279) is not in mixedCase
+Parameter '_houseAddressTwo' of GameContract. (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1279-1280) is not in mixedCase
+Parameter '_referralAddress' of GameContract. (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1280) is not in mixedCase
+Parameter '_otherSettingOwner' of GameContract. (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1280-1281) is not in mixedCase
+Parameter '_share' of GameContract.setHouseAddressShare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1313-1314) is not in mixedCase
+Parameter '_share' of GameContract.setReferralAddressShare (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1323) is not in mixedCase
+Parameter '_price' of GameContract.setPrice (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1340) is not in mixedCase
+Parameter '_houseAddress' of GameContract.setHouseAddressOne (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1344) is not in mixedCase
+Parameter '_houseAddress' of GameContract.setHouseAddressTwo (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1349-1352) is not in mixedCase
+Parameter '_referralAddress' of GameContract.setReferralAddress (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1356) is not in mixedCase
+Parameter '_value' of GameContract.setCallbackGas (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1364) is not in mixedCase
+Parameter '_size' of GameContract.setBatchSize (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1366) is not in mixedCase
+Parameter '_owner' of GameContract.setOwner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1367-1368) is not in mixedCase
+Parameter '_otherSettingOwner' of GameContract.setOtherSettingOwner (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1370-1371) is not in mixedCase
+Parameter '_gameId' of GameContract.getWinnerContractAddress (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1390) is not in mixedCase
+Parameter '_gameId' of GameContract.getWinnerType (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1392) is not in mixedCase
+Parameter '_gameId' of GameContract.beginGame (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#1398) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+usingOraclize.day (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#23-24) is never used in GameContract
+usingOraclize.week (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#24-25) is never used in GameContract
+usingOraclize.month (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#25-26) is never used in GameContract
+usingOraclize.proofType_NONE (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#26-27) is never used in GameContract
+usingOraclize.proofType_TLSNotary (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#27-28) is never used in GameContract
+usingOraclize.proofType_Android (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#28-29) is never used in GameContract
+usingOraclize.proofType_Ledger (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#29-30) is never used in GameContract
+usingOraclize.proofType_Native (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#30-31) is never used in GameContract
+usingOraclize.proofStorage_IPFS (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#31-32) is never used in GameContract
+usingOraclize.networkID_mainnet (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#33-34) is never used in GameContract
+usingOraclize.networkID_testnet (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#34-35) is never used in GameContract
+usingOraclize.networkID_morden (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#35-36) is never used in GameContract
+usingOraclize.networkID_consensys (/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol#36-40) is never used in GameContract
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/9/0x9b3ca77291bd84bbe8bc1f878e6fbd7d5671d5bd.sol analyzed (6 contracts), 242 result(s) found

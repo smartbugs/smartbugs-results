@@ -1,0 +1,48 @@
+/unique_chucks/27/0x107c351cab94b27f34845cc902351c2993bd64ed.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: a91b18
+severity: 1
+line: 173
+column: 8
+content: _owner=address(0)
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 201
+column: 0
+content: contractTokenVestingisOwnable{usingSafeMathforuint256;usingSafeERC20forICvnToken;eventReleased(uint256amount);eventRevoked();addresspublicbeneficiary;uint256publicperiod;uint256publicstart;uint256publicduration;boolpublicrevocable;mapping(address=>uint256)publicreleased;mapping(address=>bool)publicrevoked;constructor(address_beneficiary,uint256_start,uint256_duration,bool_revocable)public{require(_beneficiary!=address(0));require(_start>block.timestamp);beneficiary=_beneficiary;revocable=_revocable;duration=_duration;period=_duration.div(4);start=_start;}functionrelease(ICvnToken_token)public{uint256unreleased=releasableAmount(_token);require(unreleased>0);released[_token]=released[_token].add(unreleased);_token.safeTransfer(beneficiary,unreleased);emitReleased(unreleased);}functionrevoke(ICvnToken_token)publiconlyOwner{require(revocable);require(!revoked[_token]);uint256balance=_token.balanceOf(address(this));uint256unreleased=releasableAmount(_token);uint256refund=balance.sub(unreleased);revoked[_token]=true;_token.safeTransfer(_owner,refund);emitRevoked();}functionreleasableAmount(ICvnToken_token)publicviewreturns(uint256){returnvestedAmount(_token).sub(released[_token]);}functionvestedAmount(ICvnToken_token)publicviewreturns(uint256){uint256currentBalance=_token.balanceOf(this);uint256totalBalance=currentBalance.add(released[_token]);if(block.timestamp<start.add(period)){return0;}elseif(block.timestamp>=start.add(duration)||revoked[_token]){returntotalBalance;}elseif(block.timestamp<start.add(period.mul(2))){returntotalBalance.div(4);}elseif(block.timestamp<start.add(period.mul(3))){returntotalBalance.div(2);}elseif(block.timestamp<start.add(duration)){returntotalBalance.mul(3).div(4);}}function()payable{}}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 95
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 202
+column: 2
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: 910067
+severity: 1
+line: 314
+column: 2
+content: function()payable{}
+
+SOLIDITY_VISIBILITY :1
+SOLIDITY_SAFEMATH :2
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_ADDRESS_HARDCODED :1

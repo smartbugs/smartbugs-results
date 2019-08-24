@@ -1,0 +1,62 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:21:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function BalancedPonzi() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:32:13: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+            throw;
+            ^---^
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:1:1: Warning: Source file does not specify required compiler version!Consider adding "pragma solidity ^0.4.25;"
+contract BalancedPonzi {
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:56:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            currentNiceGuy.send(1 ether);
+            ^--------------------------^
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:59:16: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        while (this.balance > 10 ether) {
+               ^----------^
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:60:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            persons[payoutIdx].addr.send(10 ether);
+            ^------------------------------------^
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:67:19: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        beta.send(this.balance);
+                  ^----------^
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:67:9: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+        beta.send(this.balance);
+        ^---------------------^
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:21:5: Warning: No visibility specified. Defaulting to "public". 
+    function BalancedPonzi() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:27:5: Warning: No visibility specified. Defaulting to "public". 
+    function() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:31:13: Warning: "msg.value" used in non-payable function. Do you want to add the "payable" modifier to this function?
+        if (msg.value != 9 ether) {
+            ^-------^
+/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol:66:5: Warning: No visibility specified. Defaulting to "public". 
+    function funnel() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+BalancedPonzi.fallback (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#29-67) sends eth to arbitrary user
+	Dangerous calls:
+	- currentNiceGuy.send(1000000000000000000) (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#59)
+BalancedPonzi.funnel (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#70-71) sends eth to arbitrary user
+	Dangerous calls:
+	- beta.send(this.balance) (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[92m
+BalancedPonzi.fallback has external calls inside a loop:
+	- persons[payoutIdx].addr.send(10000000000000000000) (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#61-66)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#35:
+	- Usage of "throw" should be replaced with "revert()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+BalancedPonzi.fallback (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#29-67) should be declared external
+BalancedPonzi.funnel (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#70-71) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'BalancedPonzi.BalancedPonzi' (/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol#21-27) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/29/0x55d035ba1f4ae932cf98125b93d830d9858cd39f.sol analyzed (1 contracts), 7 result(s) found

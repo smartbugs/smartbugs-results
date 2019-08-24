@@ -1,0 +1,171 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:
+/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:321:34: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _postValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+                                 ^------------------^
+/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:321:56: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _postValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+                                                       ^----------------^
+/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:348:35: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _updatePurchasingState(address _beneficiary, uint256 _weiAmount) internal {
+                                  ^------------------^
+/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:348:57: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+  function _updatePurchasingState(address _beneficiary, uint256 _weiAmount) internal {
+                                                        ^----------------^
+/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:311:3: Warning: Function state mutability can be restricted to pure
+  function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:321:3: Warning: Function state mutability can be restricted to pure
+  function _postValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:348:3: Warning: Function state mutability can be restricted to pure
+  function _updatePurchasingState(address _beneficiary, uint256 _weiAmount) internal {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in HUMPresale.closeSale (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#759-764):
+	External calls:
+	- token.balanceOf(this) > 0 (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#760-764)
+	- withdrawToken() (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#763)
+	State variables written after the call(s):
+	- isOnSale (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#764)
+Reentrancy in HUMPresale.distributeBonusTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#770-785):
+	External calls:
+	- token.transferFrom(wallet,contributors[i],bonusTokens[contributors[i]]) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#777-779)
+	State variables written after the call(s):
+	- bonusTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#779-780)
+Reentrancy in HUMPresale.distributeBonusTokensByList (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol):
+	External calls:
+	- token.transferFrom(wallet,_bonusList[i],bonusTokens[_bonusList[i]]) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol)
+	State variables written after the call(s):
+	- bonusTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+Crowdsale._deliverTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#337-340) does not use the value returned by external calls:
+	-token.transfer(_beneficiary,_tokenAmount) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#339)
+HUMPresale.withdrawToken (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#764-770) does not use the value returned by external calls:
+	-token.transfer(wallet,balanceOfThis) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#766)
+HUMPresale.distributeBonusTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#770-785) does not use the value returned by external calls:
+	-token.transferFrom(wallet,contributors[i],bonusTokens[contributors[i]]) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#777-779)
+HUMPresale.distributeBonusTokensByList (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol) does not use the value returned by external calls:
+	-token.transferFrom(wallet,_bonusList[i],bonusTokens[_bonusList[i]]) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+HUMPresale.distributeBonusTokens has external calls inside a loop:
+	- token.transferFrom(wallet,contributors[i],bonusTokens[contributors[i]]) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#777-779)
+HUMPresale.distributeBonusTokensByList has external calls inside a loop:
+	- token.transferFrom(wallet,_bonusList[i],bonusTokens[_bonusList[i]]) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in HUMPresale._processPurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#725-746):
+	External calls:
+	- super._processPurchase(_beneficiary,_tokenAmount) (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#731-733)
+	State variables written after the call(s):
+	- bonusTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#741-743)
+	- contributors (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#740-741)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#56) should be declared external
+BasicToken.totalSupply (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#90-92) should be declared external
+BasicToken.balanceOf (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#114-120) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#56-57) should be declared external
+StandardToken.allowance (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#173-176) should be declared external
+ERC20.allowance (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#66-67) should be declared external
+ERC20.approve (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#68-69) should be declared external
+StandardToken.approve (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#158-165) should be declared external
+StandardToken.increaseApproval (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#184-192) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#201-215) should be declared external
+IndividuallyCappedCrowdsale.getUserCap (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#498-500) should be declared external
+IndividuallyCappedCrowdsale.getUserContribution (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#503-508) should be declared external
+MintableToken.mint (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#562-571) should be declared external
+MintableToken.finishMinting (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#577-580) should be declared external
+BurnableToken.burn (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#591-593) should be declared external
+HUMToken.unlockTransfer (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#691-695) should be declared external
+HUMToken.lockTransfer (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#695-696) should be declared external
+HUMPresale.modifyTokenPrice (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#721-725) should be declared external
+HUMPresale.openSale (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#752-759) should be declared external
+HUMPresale.closeSale (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#759-764) should be declared external
+HUMPresale.distributeBonusTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#770-785) should be declared external
+HUMPresale.getContributors (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#785-787) should be declared external
+HUMPresale.getBonusList (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#790-800) should be declared external
+HUMPresale.distributeBonusTokensByList (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#117) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#97) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#97) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#173) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#173-175) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#136-137) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#137) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#137) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#159-160) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#162-163) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#184) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#184) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#202-203) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#203) is not in mixedCase
+Parameter '_rate' of Crowdsale. (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#262-263) is not in mixedCase
+Parameter '_wallet' of Crowdsale. (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#263) is not in mixedCase
+Parameter '_token' of Crowdsale. (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#263) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale.buyTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#286-288) is not in mixedCase
+Function 'Crowdsale._preValidatePurchase' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#318-321) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#318) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#318-319) is not in mixedCase
+Function 'Crowdsale._postValidatePurchase' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#328-330) is not in mixedCase
+Function 'Crowdsale._deliverTokens' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#337-340) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._deliverTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#337-338) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._deliverTokens (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#339) is not in mixedCase
+Function 'Crowdsale._processPurchase' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#346-349) is not in mixedCase
+Parameter '_beneficiary' of Crowdsale._processPurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#346-348) is not in mixedCase
+Parameter '_tokenAmount' of Crowdsale._processPurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#348) is not in mixedCase
+Function 'Crowdsale._updatePurchasingState' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#356-358) is not in mixedCase
+Function 'Crowdsale._getTokenAmount' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#374-377) is not in mixedCase
+Parameter '_weiAmount' of Crowdsale._getTokenAmount (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#374) is not in mixedCase
+Function 'Crowdsale._forwardFunds' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#380-386) is not in mixedCase
+Parameter '_owner' of MultiOwnable.newOwner (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#413) is not in mixedCase
+Parameter '_owner' of MultiOwnable.deleteOwner (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#420-421) is not in mixedCase
+Function 'WhitelistedCrowdsale._preValidatePurchase' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#475-483) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#476) is not in mixedCase
+Parameter '_weiAmount' of WhitelistedCrowdsale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#476-480) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale.addToWhitelist (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#442-444) is not in mixedCase
+Parameter '_beneficiaries' of WhitelistedCrowdsale.addManyToWhitelist (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#455) is not in mixedCase
+Parameter '_beneficiary' of WhitelistedCrowdsale.removeFromWhitelist (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#466) is not in mixedCase
+Function 'IndividuallyCappedCrowdsale._preValidatePurchase' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#512-521) is not in mixedCase
+Parameter '_beneficiary' of IndividuallyCappedCrowdsale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#512-513) is not in mixedCase
+Parameter '_weiAmount' of IndividuallyCappedCrowdsale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#513) is not in mixedCase
+Function 'IndividuallyCappedCrowdsale._updatePurchasingState' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#522-532) is not in mixedCase
+Parameter '_beneficiary' of IndividuallyCappedCrowdsale._updatePurchasingState (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#524) is not in mixedCase
+Parameter '_weiAmount' of IndividuallyCappedCrowdsale._updatePurchasingState (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#524-525) is not in mixedCase
+Parameter '_individualCap' of IndividuallyCappedCrowdsale. (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#492) is not in mixedCase
+Parameter '_beneficiary' of IndividuallyCappedCrowdsale.getUserContribution (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#503-506) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#562-563) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#563) is not in mixedCase
+Parameter '_value' of BurnableToken.burn (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#591) is not in mixedCase
+Function 'BurnableToken._burn' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#595-614) is not in mixedCase
+Parameter '_who' of BurnableToken._burn (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#595) is not in mixedCase
+Parameter '_value' of BurnableToken._burn (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#595-597) is not in mixedCase
+Parameter '_villain' of Blacklisted.addToBlacklist (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#627-628) is not in mixedCase
+Parameter '_villains' of Blacklisted.addManyToBlacklist (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#637) is not in mixedCase
+Parameter '_villain' of Blacklisted.removeFromBlacklist (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#644) is not in mixedCase
+Parameter '_to' of HUMToken.transfer (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#685) is not in mixedCase
+Parameter '_value' of HUMToken.transfer (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#685) is not in mixedCase
+Parameter '_from' of HUMToken.transferFrom (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#680) is not in mixedCase
+Parameter '_to' of HUMToken.transferFrom (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#680) is not in mixedCase
+Parameter '_value' of HUMToken.transferFrom (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#680) is not in mixedCase
+Parameter '_wallet' of HUMToken. (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#666) is not in mixedCase
+Function 'HUMPresale._preValidatePurchase' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#746-752) is not in mixedCase
+Parameter '_beneficiary' of HUMPresale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#746-747) is not in mixedCase
+Parameter '_weiAmount' of HUMPresale._preValidatePurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#747-749) is not in mixedCase
+Function 'HUMPresale._processPurchase' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#725-746) is not in mixedCase
+Parameter '_beneficiary' of HUMPresale._processPurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#727-730) is not in mixedCase
+Parameter '_tokenAmount' of HUMPresale._processPurchase (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#730) is not in mixedCase
+Parameter '_bonusPercent' of HUMPresale. (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#712) is not in mixedCase
+Parameter '_rate' of HUMPresale.modifyTokenPrice (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#721-724) is not in mixedCase
+Parameter '_bonusList' of HUMPresale.distributeBonusTokensByList (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol) is not in mixedCase
+Constant 'HUMPresale.minimum' (/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol#701-705) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/12/0x33fe572b3faa875b760d3bb48fa0e9bada9008b6.sol analyzed (14 contracts), 108 result(s) found

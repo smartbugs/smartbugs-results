@@ -1,0 +1,265 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:377:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:393:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:535:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:578:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:661:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:678:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:700:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:764:9: Warning: Use of the "var" keyword is deprecated.
+        var ccNFT = CCNFTFactory(NFTAddress);
+        ^-------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:582:9: Warning: Invoking events without "emit" prefix is deprecated.
+        SaleCreated(
+        ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:721:39: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function setVendingAttachedState (uint256 _collectibleType, uint256 _state) external onlyManager {
+                                      ^----------------------^
+/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:686:5: Warning: Function state mutability can be restricted to pure
+    function _isOnSale(CollectibleSale memory _sale) internal view returns (bool) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+CCNFTFactory (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#140-248) has incorrect ERC20 function interface(s):
+	-approve (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#227)
+	-transferFrom (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#233-238)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#544-583) uses a dangerous strict equality:
+	- require(bool)(onSale.isActive == false)
+CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#544-583) uses a dangerous strict equality:
+	- require(bool)(onSale.isActive == false)
+CCTimeSaleManager._removeSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#712-736) uses a dangerous strict equality:
+	- assetTypeSalesTokenId[assetType][i] == _assetId
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#544-583):
+	External calls:
+	- require(bool)(ccNFT.isAssetIdOwnerOrApproved(this,_tokenId) == true) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#548-550)
+	- ccNFT.ownerOf(_tokenId) != address(this) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#569-573)
+	- require(bool)(ccNFT.isApprovedForAll(msg.sender,this) == true) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#570-571)
+	- ccNFT.safeTransferFrom(ccNFT.ownerOf(_tokenId),this,_tokenId) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#571-572)
+	- _addSale(_tokenId,sale) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#582-583)
+	State variables written after the call(s):
+	- tokenIdToSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#582-583)
+Reentrancy in CCTimeSaleManager.vendingCreateCollectible (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#772-801):
+	External calls:
+	- ccNFT.spawnAsset(_toAddress,_collectibleType,startingIndex,vendingAttachedState) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#788-789)
+	State variables written after the call(s):
+	- startingIndex (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#792)
+	- vendingPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#797-800)
+	- vendingTypeSold (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#792)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[92m
+CCTimeSaleManager.BatchCreateSaleAvgPrice has external calls inside a loop:
+	- assetType = ccNFT.getAssetIdItemType(_tokenId) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#410-411)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in CCTimeSaleManager._addSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#586-600):
+	External calls:
+	- assetType = ccNFT.getAssetIdItemType(_assetId) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#594)
+	State variables written after the call(s):
+	- assetTypeSalesTokenId (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#595)
+Reentrancy in CCTimeSaleManager._buy (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#663-690):
+	External calls:
+	- _removeSale(_assetId) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#678-680)
+	- assetType = ccNFT.getAssetIdItemType(_assetId) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#685-686)
+	External calls sending eth:
+	- _buyer.transfer(bidExcess) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#682)
+	State variables written after the call(s):
+	- assetTypeSaleCount (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#686)
+	- assetTypeSalePrices (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#686)
+Reentrancy in CCTimeSaleManager._removeSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#712-736):
+	External calls:
+	- assetType = ccNFT.getAssetIdItemType(_assetId) (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#721)
+	State variables written after the call(s):
+	- assetTypeSalesTokenId (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#731)
+	- assetTypeSalesTokenId (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#732-735)
+	- assetTypeSalesTokenId (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#736)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+OperationalControl.hasError (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#127-128) should be declared external
+OperationalControl.noError (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#137-140) should be declared external
+CCNFTFactory.getAssetDetails (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#142-153) should be declared external
+CCNFTFactory.getAssetDetailsURI (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#153-167) should be declared external
+CCNFTFactory.getAssetRawMeta (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#167-171) should be declared external
+CCNFTFactory.getAssetIdItemType (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#171-175) should be declared external
+CCNFTFactory.getAssetIdTypeSequenceId (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#175-180) should be declared external
+CCNFTFactory.getIsNFTAttached (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#180-183) should be declared external
+CCNFTFactory.getAssetIdCreator (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#184-187) should be declared external
+CCNFTFactory.getAssetIdOwnerAndOIndex (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#187-192) should be declared external
+CCNFTFactory.getAssetIdOwnerIndex (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#192-195) should be declared external
+CCNFTFactory.getAssetIdOwner (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#195-197) should be declared external
+CCNFTFactory.spawnAsset (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#197-200) should be declared external
+CCNFTFactory.isAssetIdOwnerOrApproved (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#201-202) should be declared external
+CCNFTFactory.getTypeName (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#215-216) should be declared external
+CCNFTFactory.RequestDetachment (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#217-218) should be declared external
+CCNFTFactory.AttachAsset (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#218-219) should be declared external
+CCNFTFactory.BatchAttachAssets (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#219-220) should be declared external
+CCNFTFactory.BatchDetachAssets (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#220-221) should be declared external
+CCNFTFactory.RequestDetachmentOnPause (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#221-222) should be declared external
+CCNFTFactory.burnAsset (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#222) should be declared external
+CCNFTFactory.balanceOf (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#222-224) should be declared external
+CCNFTFactory.ownerOf (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#224-225) should be declared external
+CCNFTFactory.exists (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#225-226) should be declared external
+CCNFTFactory.approve (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#227) should be declared external
+CCNFTFactory.getApproved (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#227-229) should be declared external
+CCNFTFactory.setApprovalForAll (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#229-230) should be declared external
+CCNFTFactory.isApprovedForAll (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#230-233) should be declared external
+CCNFTFactory.transferFrom (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#233-238) should be declared external
+CCNFTFactory.safeTransferFrom (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#241-243) should be declared external
+CCNFTFactory.safeTransferFrom (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#243-248) should be declared external
+ERC721Receiver.onERC721Received (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#275-282) should be declared external
+ERC721Holder.onERC721Received (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#283-286) should be declared external
+CCTimeSaleManager.setNFTAddress (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#364-365) should be declared external
+CCTimeSaleManager.setAvgSalesCount (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#365-368) should be declared external
+CCTimeSaleManager.CreateSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#368-373) should be declared external
+CCTimeSaleManager.BatchCreateSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#374-380) should be declared external
+CCTimeSaleManager.CreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#382-398) should be declared external
+CCTimeSaleManager.BatchCreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#399-427) should be declared external
+CCTimeSaleManager.BatchCancelSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#427-434) should be declared external
+CCTimeSaleManager.CancelSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#434-435) should be declared external
+CCTimeSaleManager.withdrawBalance (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#516-522) should be declared external
+CCTimeSaleManager.getVendingAmountLeft (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#802-805) should be declared external
+CCTimeSaleManager.getVendingAmountSold (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#805-807) should be declared external
+CCTimeSaleManager.getVendingPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#807-811) should be declared external
+CCTimeSaleManager.getVendingStepPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol) should be declared external
+CCTimeSaleManager.getVendingStepQty (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol) should be declared external
+CCTimeSaleManager.getVendingInfo (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_newOp' of OperationalControl.setOtherManager (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#62) is not in mixedCase
+Parameter '_state' of OperationalControl.setOtherManager (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#62) is not in mixedCase
+Parameter '_newGM' of OperationalControl.setPrimaryManager (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#69-71) is not in mixedCase
+Parameter '_newGM' of OperationalControl.setSecondaryManager (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#76-78) is not in mixedCase
+Parameter '_newBK' of OperationalControl.setBanker (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#85) is not in mixedCase
+Function 'CCNFTFactory.RequestDetachment' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#217-218) is not in mixedCase
+Function 'CCNFTFactory.AttachAsset' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#218-219) is not in mixedCase
+Function 'CCNFTFactory.BatchAttachAssets' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#219-220) is not in mixedCase
+Function 'CCNFTFactory.BatchDetachAssets' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#220-221) is not in mixedCase
+Function 'CCNFTFactory.RequestDetachmentOnPause' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#221-222) is not in mixedCase
+Parameter '' of ERC721Holder.onERC721Received (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#284-285) is not in mixedCase
+Parameter '_scope_0' of ERC721Holder.onERC721Received (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#285) is not in mixedCase
+Parameter '_scope_1' of ERC721Holder.onERC721Received (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#285) is not in mixedCase
+Parameter '_address' of CCTimeSaleManager.setNFTAddress (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#364) is not in mixedCase
+Parameter '_count' of CCTimeSaleManager.setAvgSalesCount (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#368) is not in mixedCase
+Function 'CCTimeSaleManager.CreateSale' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#368-373) is not in mixedCase
+Parameter '_tokenId' of CCTimeSaleManager.CreateSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#369) is not in mixedCase
+Parameter '_startingPrice' of CCTimeSaleManager.CreateSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#369-370) is not in mixedCase
+Parameter '_endingPrice' of CCTimeSaleManager.CreateSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#370) is not in mixedCase
+Parameter '_duration' of CCTimeSaleManager.CreateSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#370) is not in mixedCase
+Parameter '_seller' of CCTimeSaleManager.CreateSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#371) is not in mixedCase
+Function 'CCTimeSaleManager.BatchCreateSales' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#374-380) is not in mixedCase
+Parameter '_tokenIds' of CCTimeSaleManager.BatchCreateSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#376) is not in mixedCase
+Parameter '_startingPrice' of CCTimeSaleManager.BatchCreateSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#376) is not in mixedCase
+Parameter '_endingPrice' of CCTimeSaleManager.BatchCreateSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#376) is not in mixedCase
+Parameter '_duration' of CCTimeSaleManager.BatchCreateSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#376) is not in mixedCase
+Parameter '_seller' of CCTimeSaleManager.BatchCreateSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#376) is not in mixedCase
+Function 'CCTimeSaleManager.CreateSaleAvgPrice' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#382-398) is not in mixedCase
+Parameter '_tokenId' of CCTimeSaleManager.CreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#382) is not in mixedCase
+Parameter '_margin' of CCTimeSaleManager.CreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#382) is not in mixedCase
+Parameter '_minPrice' of CCTimeSaleManager.CreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#382-383) is not in mixedCase
+Parameter '_endingPrice' of CCTimeSaleManager.CreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#383) is not in mixedCase
+Parameter '_duration' of CCTimeSaleManager.CreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#383) is not in mixedCase
+Parameter '_seller' of CCTimeSaleManager.CreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#383-385) is not in mixedCase
+Function 'CCTimeSaleManager.BatchCreateSaleAvgPrice' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#399-427) is not in mixedCase
+Parameter '_tokenIds' of CCTimeSaleManager.BatchCreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#399) is not in mixedCase
+Parameter '_margin' of CCTimeSaleManager.BatchCreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#400) is not in mixedCase
+Parameter '_minPrice' of CCTimeSaleManager.BatchCreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#400) is not in mixedCase
+Parameter '_endingPrice' of CCTimeSaleManager.BatchCreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#400-401) is not in mixedCase
+Parameter '_duration' of CCTimeSaleManager.BatchCreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#401) is not in mixedCase
+Parameter '_seller' of CCTimeSaleManager.BatchCreateSaleAvgPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#401) is not in mixedCase
+Function 'CCTimeSaleManager.BatchCancelSales' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#427-434) is not in mixedCase
+Parameter '_tokenIds' of CCTimeSaleManager.BatchCancelSales (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#428) is not in mixedCase
+Function 'CCTimeSaleManager.CancelSale' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#434-435) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager.CancelSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#434) is not in mixedCase
+Function 'CCTimeSaleManager.GetCurrentSalePrice' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#435-440) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager.GetCurrentSalePrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#438) is not in mixedCase
+Function 'CCTimeSaleManager.GetCurrentTypeSalePrice' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#440-445) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager.GetCurrentTypeSalePrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#443) is not in mixedCase
+Function 'CCTimeSaleManager.GetCurrentTypeDuration' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#445-449) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager.GetCurrentTypeDuration (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#448) is not in mixedCase
+Function 'CCTimeSaleManager.GetCurrentTypeStartTime' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#449-455) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager.GetCurrentTypeStartTime (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#449) is not in mixedCase
+Function 'CCTimeSaleManager.GetCurrentTypeSaleItem' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#456-469) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager.GetCurrentTypeSaleItem (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#457-460) is not in mixedCase
+Function 'CCTimeSaleManager.GetCurrentTypeSaleCount' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#469-475) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager.GetCurrentTypeSaleCount (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#471) is not in mixedCase
+Function 'CCTimeSaleManager.BuyCurrentTypeOfAsset' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#475-484) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager.BuyCurrentTypeOfAsset (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#476) is not in mixedCase
+Function 'CCTimeSaleManager.BuyAsset' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#488-497) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager.BuyAsset (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#489) is not in mixedCase
+Function 'CCTimeSaleManager.GetAssetTypeAverageSalePrice' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#497-505) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager.GetAssetTypeAverageSalePrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#498) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager.getSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#527-529) is not in mixedCase
+Function 'CCTimeSaleManager._createSale' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#544-583) is not in mixedCase
+Parameter '_tokenId' of CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#544-545) is not in mixedCase
+Parameter '_startingPrice' of CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#545) is not in mixedCase
+Parameter '_endingPrice' of CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#545) is not in mixedCase
+Parameter '_duration' of CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#545-546) is not in mixedCase
+Parameter '_seller' of CCTimeSaleManager._createSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#546) is not in mixedCase
+Function 'CCTimeSaleManager._addSale' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#586-600) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager._addSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#586-587) is not in mixedCase
+Parameter '_sale' of CCTimeSaleManager._addSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#587-588) is not in mixedCase
+Function 'CCTimeSaleManager._currentPrice' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#613-620) is not in mixedCase
+Parameter '_sale' of CCTimeSaleManager._currentPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#613) is not in mixedCase
+Function 'CCTimeSaleManager._computeCurrentPrice' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#625-663) is not in mixedCase
+Parameter '_startingPrice' of CCTimeSaleManager._computeCurrentPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#626) is not in mixedCase
+Parameter '_endingPrice' of CCTimeSaleManager._computeCurrentPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#626-628) is not in mixedCase
+Parameter '_duration' of CCTimeSaleManager._computeCurrentPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#628) is not in mixedCase
+Parameter '_secondsPassed' of CCTimeSaleManager._computeCurrentPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#628) is not in mixedCase
+Function 'CCTimeSaleManager._buy' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#663-690) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager._buy (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#663-664) is not in mixedCase
+Parameter '_buyer' of CCTimeSaleManager._buy (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#664) is not in mixedCase
+Parameter '_price' of CCTimeSaleManager._buy (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#664) is not in mixedCase
+Function 'CCTimeSaleManager._cancelSale' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#690-700) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager._cancelSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#690-691) is not in mixedCase
+Function 'CCTimeSaleManager._isOnSale' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#701-705) is not in mixedCase
+Parameter '_sale' of CCTimeSaleManager._isOnSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#703-704) is not in mixedCase
+Function 'CCTimeSaleManager._updateSaleAvgHistory' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#705-710) is not in mixedCase
+Parameter '_assetType' of CCTimeSaleManager._updateSaleAvgHistory (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#705-706) is not in mixedCase
+Parameter '_price' of CCTimeSaleManager._updateSaleAvgHistory (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#706) is not in mixedCase
+Function 'CCTimeSaleManager._removeSale' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#712-736) is not in mixedCase
+Parameter '_assetId' of CCTimeSaleManager._removeSale (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#713-715) is not in mixedCase
+Parameter '_state' of CCTimeSaleManager.setVendingAttachedState (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#737) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.setVendingAmount (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#742) is not in mixedCase
+Parameter '_vendingQty' of CCTimeSaleManager.setVendingAmount (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#742) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.setVendingStartPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#745) is not in mixedCase
+Parameter '_startingPrice' of CCTimeSaleManager.setVendingStartPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#745) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.setVendingStepValues (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#750-751) is not in mixedCase
+Parameter '_stepAmount' of CCTimeSaleManager.setVendingStepValues (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#751) is not in mixedCase
+Parameter '_stepQty' of CCTimeSaleManager.setVendingStepValues (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#751) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.createVendingItem (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#756) is not in mixedCase
+Parameter '_vendingQty' of CCTimeSaleManager.createVendingItem (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#756) is not in mixedCase
+Parameter '_startingPrice' of CCTimeSaleManager.createVendingItem (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#756-758) is not in mixedCase
+Parameter '_stepAmount' of CCTimeSaleManager.createVendingItem (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#758) is not in mixedCase
+Parameter '_stepQty' of CCTimeSaleManager.createVendingItem (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#758-759) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.vendingCreateCollectible (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#772) is not in mixedCase
+Parameter '_toAddress' of CCTimeSaleManager.vendingCreateCollectible (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#772-774) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.getVendingAmountLeft (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#804) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.getVendingAmountSold (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#805) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.getVendingPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#808) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.getVendingStepPrice (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.getVendingStepQty (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol) is not in mixedCase
+Parameter '_collectibleType' of CCTimeSaleManager.getVendingInfo (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol) is not in mixedCase
+Variable 'CCTimeSaleManager.NFTAddress' (/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol#315) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/8/0xd70054fe7406d35a632d3ce52af75a3e59862660.sol analyzed (5 contracts), 173 result(s) found

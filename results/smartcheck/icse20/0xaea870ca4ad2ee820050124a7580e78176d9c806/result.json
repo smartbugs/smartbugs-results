@@ -1,0 +1,321 @@
+{
+  "contract": "0xaea870ca4ad2ee820050124a7580e78176d9c806",
+  "tool": "smartcheck",
+  "start": 1563828343.9579034,
+  "end": 1563828353.8664799,
+  "duration": 9.908576488494873,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ARRAY_LENGTH_MANIPULATION",
+      "patternId": "872bdd",
+      "severity": 1,
+      "line": 377,
+      "column": 4,
+      "content": "allLoanId.length--"
+    },
+    {
+      "name": "SOLIDITY_ARRAY_LENGTH_MANIPULATION",
+      "patternId": "872bdd",
+      "severity": 1,
+      "line": 397,
+      "column": 2,
+      "content": "borrower2LoanInfoId[_li.borrower].length--"
+    },
+    {
+      "name": "SOLIDITY_ARRAY_LENGTH_MANIPULATION",
+      "patternId": "872bdd",
+      "severity": 1,
+      "line": 407,
+      "column": 2,
+      "content": "lender2LoanInfoId[_li.lender].length--"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 127,
+      "column": 1,
+      "content": "functiongetLoanDataPart(uint256_id)publicconstantreturns(address,address,address,address){LoanInfomemory_li=id2LoanInfo[_id];return(_li.tokenPledge,_li.tokenBorrow,_li.borrower,_li.lender);}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 137,
+      "column": 1,
+      "content": "functiongetLoanDataFull(uint256_id)publicconstantreturns(address,address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256){LoanInfomemory_li=id2LoanInfo[_id];return(_li.tokenPledge,_li.tokenBorrow,_li.borrower,_li.lender,_li.amount,_li.amountPledge,_li.amountInterest,_li.periodDays,_li.timeLoan,_li.cerForceClose.num,_li.cerForceClose.denom);}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 147,
+      "column": 1,
+      "content": "functiongetTotalPledgeAmount(address_token,address_account)publicconstantreturns(uint256){uint256_amountPledge=0;for(uint256i=0;i<borrower2LoanInfoId[_account].length;i++){LoanInfomemory_li=id2LoanInfo[borrower2LoanInfoId[_account][i]];if(_li.borrower==_account&&_token==_li.tokenPledge){_amountPledge=_amountPledge.add(_li.amountPledge);_amountPledge=_amountPledge.add(_li.amountInterest);}}return_amountPledge;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 173,
+      "column": 1,
+      "content": "functiongetTotalBorrowAmount(address_token)publicconstantreturns(uint256){uint256_amountBorrow=0;for(uint256i=0;i<allLoanId.length;i++){LoanInfomemory_li=id2LoanInfo[allLoanId[i]];if(_token==_li.tokenBorrow){_amountBorrow=_amountBorrow.add(_li.amount);}}return_amountBorrow;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 197,
+      "column": 1,
+      "content": "functionhasUnpaidLoan(address_account)publicconstantreturns(bool){return(borrower2LoanInfoId[_account].length!=0||lender2LoanInfoId[_account].length!=0);}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 205,
+      "column": 1,
+      "content": "functiongetUnpaiedLoanInfo(address_tokenPledge,address_tokenBorrow,address_account,bool_borrowOrLend)publicconstantreturns(uint256[]){uint256[]memory_arrId=newuint256[]((_borrowOrLend?borrower2LoanInfoId[_account].length:lender2LoanInfoId[_account].length));uint256_count=0;if(_borrowOrLend){for(uint256i=0;i<borrower2LoanInfoId[_account].length;i++){if(id2LoanInfo[borrower2LoanInfoId[_account][i]].tokenBorrow==_tokenBorrow&&id2LoanInfo[borrower2LoanInfoId[_account][i]].tokenPledge==_tokenPledge)_arrId[_count++]=borrower2LoanInfoId[_account][i];}}else{for(i=0;i<lender2LoanInfoId[_account].length;i++){if(id2LoanInfo[lender2LoanInfoId[_account][i]].tokenBorrow==_tokenBorrow&&id2LoanInfo[lender2LoanInfoId[_account][i]].tokenPledge==_tokenPledge)_arrId[_count++]=lender2LoanInfoId[_account][i];}}return_arrId;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 245,
+      "column": 1,
+      "content": "functiongetPledgeAmount(address_tokenPledge,address_tokenBorrow,uint256_amount,uint16_ratioPledge)publicconstantreturns(uint256){(uint256_num,uint256_denom)=IMarketData(contractMarketData).getTokenExchangeRatio(_tokenPledge,_tokenBorrow);if(_num!=0)return_num.mul(_amount).mul(_ratioPledge).div(_denom).div(100);elsereturn0;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 429,
+      "column": 1,
+      "content": "functioncheckForceClose()publicconstantreturns(uint256[]){uint256[]memory_arrId=newuint256[](allLoanId.length);uint256_count=0;for(uint256i=0;i<allLoanId.length;i++){if(needForceClose(allLoanId[i]))_arrId[_count++]=allLoanId[i];}return_arrId;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 451,
+      "column": 1,
+      "content": "functionneedForceClose(uint256_id)publicconstantreturns(bool){LoanInfomemory_li=id2LoanInfo[_id];uint256_totalDays=(now.sub(_li.timeLoan))/(24*3600);if(_totalDays>=_li.periodDays){returntrue;}else{(uint256_num,uint256_denom)=IMarketData(contractMarketData).getTokenExchangeRatio(_li.tokenPledge,_li.tokenBorrow);if(_num*_li.cerForceClose.denom>_denom*_li.cerForceClose.num){returntrue;}}returnfalse;}"
+    },
+    {
+      "name": "SOLIDITY_DIV_MUL",
+      "patternId": "09hhh1",
+      "severity": 2,
+      "line": 303,
+      "column": 58,
+      "content": "_denom*((_ratioPledge-100)/4+100)"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 151,
+      "column": 2,
+      "content": "for(uint256i=0;i<borrower2LoanInfoId[_account].length;i++){LoanInfomemory_li=id2LoanInfo[borrower2LoanInfoId[_account][i]];if(_li.borrower==_account&&_token==_li.tokenPledge){_amountPledge=_amountPledge.add(_li.amountPledge);_amountPledge=_amountPledge.add(_li.amountInterest);}}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 177,
+      "column": 2,
+      "content": "for(uint256i=0;i<allLoanId.length;i++){LoanInfomemory_li=id2LoanInfo[allLoanId[i]];if(_token==_li.tokenBorrow){_amountBorrow=_amountBorrow.add(_li.amount);}}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 215,
+      "column": 6,
+      "content": "for(uint256i=0;i<borrower2LoanInfoId[_account].length;i++){if(id2LoanInfo[borrower2LoanInfoId[_account][i]].tokenBorrow==_tokenBorrow&&id2LoanInfo[borrower2LoanInfoId[_account][i]].tokenPledge==_tokenPledge)_arrId[_count++]=borrower2LoanInfoId[_account][i];}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 227,
+      "column": 6,
+      "content": "for(i=0;i<lender2LoanInfoId[_account].length;i++){if(id2LoanInfo[lender2LoanInfoId[_account][i]].tokenBorrow==_tokenBorrow&&id2LoanInfo[lender2LoanInfoId[_account][i]].tokenPledge==_tokenPledge)_arrId[_count++]=lender2LoanInfoId[_account][i];}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 341,
+      "column": 2,
+      "content": "for(_indexOne=0;_indexOne<borrower2LoanInfoId[_li.borrower].length;_indexOne++){if(borrower2LoanInfoId[_li.borrower][_indexOne]==_li.id){break;}}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 355,
+      "column": 2,
+      "content": "for(_indexTwo=0;_indexTwo<lender2LoanInfoId[_li.lender].length;_indexTwo++){if(lender2LoanInfoId[_li.lender][_indexTwo]==_li.id){break;}}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 367,
+      "column": 2,
+      "content": "for(uint256i=0;i<allLoanId.length;i++){if(allLoanId[i]==_li.id){if(i<allLoanId.length-1&&allLoanId.length>1)allLoanId[i]=allLoanId[allLoanId.length-1];deleteallLoanId[allLoanId.length-1];allLoanId.length--;break;}}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 435,
+      "column": 2,
+      "content": "for(uint256i=0;i<allLoanId.length;i++){if(needForceClose(allLoanId[i]))_arrId[_count++]=allLoanId[i];}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 151,
+      "column": 2,
+      "content": "for(uint256i=0;i<borrower2LoanInfoId[_account].length;i++){LoanInfomemory_li=id2LoanInfo[borrower2LoanInfoId[_account][i]];if(_li.borrower==_account&&_token==_li.tokenPledge){_amountPledge=_amountPledge.add(_li.amountPledge);_amountPledge=_amountPledge.add(_li.amountInterest);}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 177,
+      "column": 2,
+      "content": "for(uint256i=0;i<allLoanId.length;i++){LoanInfomemory_li=id2LoanInfo[allLoanId[i]];if(_token==_li.tokenBorrow){_amountBorrow=_amountBorrow.add(_li.amount);}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 215,
+      "column": 6,
+      "content": "for(uint256i=0;i<borrower2LoanInfoId[_account].length;i++){if(id2LoanInfo[borrower2LoanInfoId[_account][i]].tokenBorrow==_tokenBorrow&&id2LoanInfo[borrower2LoanInfoId[_account][i]].tokenPledge==_tokenPledge)_arrId[_count++]=borrower2LoanInfoId[_account][i];}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 227,
+      "column": 6,
+      "content": "for(i=0;i<lender2LoanInfoId[_account].length;i++){if(id2LoanInfo[lender2LoanInfoId[_account][i]].tokenBorrow==_tokenBorrow&&id2LoanInfo[lender2LoanInfoId[_account][i]].tokenPledge==_tokenPledge)_arrId[_count++]=lender2LoanInfoId[_account][i];}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 341,
+      "column": 2,
+      "content": "for(_indexOne=0;_indexOne<borrower2LoanInfoId[_li.borrower].length;_indexOne++){if(borrower2LoanInfoId[_li.borrower][_indexOne]==_li.id){break;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 355,
+      "column": 2,
+      "content": "for(_indexTwo=0;_indexTwo<lender2LoanInfoId[_li.lender].length;_indexTwo++){if(lender2LoanInfoId[_li.lender][_indexTwo]==_li.id){break;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 367,
+      "column": 2,
+      "content": "for(uint256i=0;i<allLoanId.length;i++){if(allLoanId[i]==_li.id){if(i<allLoanId.length-1&&allLoanId.length>1)allLoanId[i]=allLoanId[allLoanId.length-1];deleteallLoanId[allLoanId.length-1];allLoanId.length--;break;}}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 435,
+      "column": 2,
+      "content": "for(uint256i=0;i<allLoanId.length;i++){if(needForceClose(allLoanId[i]))_arrId[_count++]=allLoanId[i];}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 119,
+      "column": 1,
+      "content": "functionsetBiLinkLoanContract(address_contractBiLinkLoan)publiconlyOwner{contractBiLinkLoan=_contractBiLinkLoan;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 47,
+      "column": 1,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 205,
+      "column": 136,
+      "content": "uint256[]"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 297,
+      "column": 129,
+      "content": "CoinExchangeRatio_cerForceCloseLine"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 337,
+      "column": 22,
+      "content": "LoanInfo_li"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 413,
+      "column": 28,
+      "content": "LoanInfo_li"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 429,
+      "column": 52,
+      "content": "uint256[]"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 33,
+      "column": 2,
+      "content": "functiontransferOwnership(addressnewOwner)onlyOwner{require(newOwner!=address(0));owner=newOwner;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 99,
+      "column": 1,
+      "content": "uint256[]allLoanId;"
+    }
+  ]
+}

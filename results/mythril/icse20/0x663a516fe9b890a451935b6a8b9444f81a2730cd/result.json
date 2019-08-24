@@ -1,0 +1,79 @@
+{
+  "contract": "0x663a516fe9b890a451935b6a8b9444f81a2730cd",
+  "tool": "mythril",
+  "start": 1563702145.022601,
+  "end": 1563702312.8619127,
+  "duration": 167.83931183815002,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 231,
+        "code": "(address[] to) public payable returns(bool) {\n        require(msg.value >= to.length && to.length <= 254);\n        uint left = msg.value;\n        uint a = left % to.length;\n        uint i = 0;\n        if (a > 0) {\n            msg.sender.transfer(a);\n            left -= a;\n        }\n        uint part = left / to.length;\n        while (i < to.length) {\n            if (to[i] != address(0) && address(this) != to[i]) {\n                to[i].transfer(part);\n                left -= part;\n            }\n            i++;\n        }\n        require(left == 0);\n        return true;\n    }\n    function bulk(address[] to, ",
+        "debug": "calldata_Sender_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Sender_0: 0x94e4a82200000000000000000000000000000000000000000000000000000000\ncalldatasize_Sender: 0x4\n",
+        "description": "A possible integer overflow exists in the function `split(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/37/0x663a516fe9b890a451935b6a8b9444f81a2730cd.sol",
+        "function": "split(address[])",
+        "lineno": 15,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 344,
+        "code": " amount) public payable returns(bool) {\n        require(to.length == amount.length && msg.value >= amount[0] && to.length <= 254);\n        uint left = msg.value;\n        uint i = 0;\n        while (i < to.length) {\n            if (to[i] != address(0) && address(this) != to[i] && amount[i] > 0) {\n                if (amount[i] <= left) {\n                    to[i].transfer(amount[i]);\n                    left -= amount[i];\n                } else {\n                    break;\n                }\n            }\n            i++;\n        }\n        if (left > 0) {\n            msg.sender.transfer(left);\n            left = 0;\n        }\n        require(left == 0);\n        return true;\n    }\n}",
+        "debug": "calldata_Sender_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Sender_0: 0xbb9efd5e00000000000000000000000000000000000000000000000000000000\ncalldatasize_Sender: 0x4\n",
+        "description": "A possible integer overflow exists in the function `_function_0xbb9efd5e`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/37/0x663a516fe9b890a451935b6a8b9444f81a2730cd.sol",
+        "function": "_function_0xbb9efd5e",
+        "lineno": 35,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 651,
+        "code": "\n        uint i ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Sender_0: 0x94e4a82200000000000000000000000000000000000000000000000000000000\ncalldatasize_Sender: 0x4\ncalldata_Sender_4 + calldata_Sender_4: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/37/0x663a516fe9b890a451935b6a8b9444f81a2730cd.sol",
+        "function": "split(address[])",
+        "lineno": 18,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 716,
+        "code": "a);\n            left -",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 997\nCall at address: 997\n",
+        "filename": "/unique_chucks/37/0x663a516fe9b890a451935b6a8b9444f81a2730cd.sol",
+        "function": "split(address[])",
+        "lineno": 21,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 1098,
+        "code": "     uint",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_Sender_0: 0xbb9efd5e00000000000000000000000000000000000000000000000000000000\ncalldatasize_Sender: 0x4\nmem_128 + 32 + 32*calldata_Sender_4 + calldata_Sender_4: 0x0\ncalldata_Sender_4 + calldata_Sender_4: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/37/0x663a516fe9b890a451935b6a8b9444f81a2730cd.sol",
+        "function": "_function_0xbb9efd5e",
+        "lineno": 37,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 1472,
+        "code": "      left -= amount[i];\n",
+        "debug": "SOLVER OUTPUT:\ncalldata_Sender_4 + calldata_Sender_4: 0x80\nmem_0 + 192 + 32*calldata_Sender_4 + calldata_Sender_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_Sender_cpy: 0xffffffffffffffffffffffffffffffffffffffff\ncallvalue: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_Sender_0: 0xbb9efd5e00000000000000000000000000000000000000000000000000000000\ncalldatasize_Sender: 0x4\nmem_128 + 32 + 32*calldata_Sender_4 + calldata_Sender_4: 0x80\n",
+        "description": "In the function `_function_0xbb9efd5e` a non-zero amount of Ether is sent to an address taken from function arguments.\nIt seems that this function can be called without restrictions.",
+        "filename": "/unique_chucks/37/0x663a516fe9b890a451935b6a8b9444f81a2730cd.sol",
+        "function": "_function_0xbb9efd5e",
+        "lineno": 43,
+        "title": "Ether send",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

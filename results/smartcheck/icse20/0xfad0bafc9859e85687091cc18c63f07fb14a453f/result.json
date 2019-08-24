@@ -1,0 +1,153 @@
+{
+  "contract": "0xfad0bafc9859e85687091cc18c63f07fb14a453f",
+  "tool": "smartcheck",
+  "start": 1563484255.496076,
+  "end": 1563484265.4514945,
+  "duration": 9.955418348312378,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "a91b18",
+      "severity": 1,
+      "line": 109,
+      "column": 4,
+      "content": "_owner=address(0)"
+    },
+    {
+      "name": "SOLIDITY_BALANCE_EQUALITY",
+      "patternId": "5094ad",
+      "severity": 1,
+      "line": 527,
+      "column": 17,
+      "content": "accounts[msg.sender].balance!=0"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 410,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(bool){allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 130,
+      "column": 0,
+      "content": "contractFINPointRecordisOwnable{usingSafeMathforuint256;uint256publicclaimRate;mapping(address=>uint256)publicclaimableFIN;eventFINRecordCreate(addressindexed_recordAddress,uint256_finPointAmount,uint256_finERC20Amount);eventFINRecordUpdate(addressindexed_recordAddress,uint256_finPointAmount,uint256_finERC20Amount);eventFINRecordMove(addressindexed_oldAddress,addressindexed_newAddress,uint256_finERC20Amount);eventClaimRateSet(uint256_claimRate);modifiercanRecord(){require(claimRate>0);_;}functionsetClaimRate(uint256_claimRate)publiconlyOwner{require(_claimRate<=1000);require(_claimRate>=100);claimRate=_claimRate;emitClaimRateSet(claimRate);}functionrecordCreate(address_recordAddress,uint256_finPointAmount,bool_applyClaimRate)publiconlyOwnercanRecord{require(_finPointAmount>=100000);uint256finERC20Amount;if(_applyClaimRate==true){finERC20Amount=_finPointAmount.mul(claimRate).div(100);}else{finERC20Amount=_finPointAmount;}claimableFIN[_recordAddress]=claimableFIN[_recordAddress].add(finERC20Amount);emitFINRecordCreate(_recordAddress,_finPointAmount,claimableFIN[_recordAddress]);}functionrecordUpdate(address_recordAddress,uint256_finPointAmount,bool_applyClaimRate)publiconlyOwnercanRecord{require(_finPointAmount>=100000);uint256finERC20Amount;if(_applyClaimRate==true){finERC20Amount=_finPointAmount.mul(claimRate).div(100);}else{finERC20Amount=_finPointAmount;}claimableFIN[_recordAddress]=finERC20Amount;emitFINRecordUpdate(_recordAddress,_finPointAmount,claimableFIN[_recordAddress]);}functionrecordMove(address_oldAddress,address_newAddress)publiconlyOwnercanRecord{require(claimableFIN[_oldAddress]!=0);require(claimableFIN[_newAddress]==0);claimableFIN[_newAddress]=claimableFIN[_oldAddress];claimableFIN[_oldAddress]=0;emitFINRecordMove(_oldAddress,_newAddress,claimableFIN[_newAddress]);}functionrecordGet(address_recordAddress)publicviewreturns(uint256){returnclaimableFIN[_recordAddress];}function()publicpayable{revert();}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 593,
+      "column": 0,
+      "content": "contractMintableTokenisStandardToken,Claimable{eventMint(addressindexedto,uint256amount);eventMintFinished();eventSetMigrationAddress(address_finERC20MigrateAddress);eventSetTimeLockAddress(address_timeLockAddress);eventMigrationStarted();eventMigrated(addressindexedaccount,uint256amount);boolpublicmintingFinished=false;FINERC20MigratepublicfinERC20MigrationContract;modifiercanMint(){require(!mintingFinished);_;}modifieronlyMigrate{require(msg.sender==address(finERC20MigrationContract));_;}constructor(FINPointRecord_finPointRecordContract,string_name,string_symbol,uint8_decimals)publicClaimable(_finPointRecordContract)StandardToken(_name,_symbol,_decimals){}function()publicpayable{revert();}functionmintAllowance(address_ethAddress)publiconlyOwner{require(finPointRecordContract.recordGet(_ethAddress)!=0);require(isMinted[_ethAddress]==false);isMinted[_ethAddress]=true;mint(msg.sender,finPointRecordContract.recordGet(_ethAddress));approve(_ethAddress,finPointRecordContract.recordGet(_ethAddress));}functionmint(address_to,uint256_amount)privatecanMintreturns(bool){totalSupply_=totalSupply_.add(_amount);balances[_to]=balances[_to].add(_amount);emitMint(_to,_amount);emitTransfer(address(0),_to,_amount);returntrue;}functionfinishMinting()publiconlyOwnercanMintreturns(bool){mintingFinished=true;emitMintFinished();returntrue;}functionsetMigrationAddress(FINERC20Migrate_finERC20MigrationContract)publiconlyOwnerreturns(bool){require(_finERC20MigrationContract.getERC20()==address(this));finERC20MigrationContract=_finERC20MigrationContract;emitSetMigrationAddress(_finERC20MigrationContract);returntrue;}functionsetTimeLockAddress(TimeLock_timeLockContract)publiconlyOwnerreturns(bool){require(_timeLockContract.getERC20()==address(this));timeLockContract=_timeLockContract;emitSetTimeLockAddress(_timeLockContract);returntrue;}functionstartMigration()onlyOwnerpublicreturns(bool){require(migrationStart==false);require(finERC20MigrationContract!=address(0));require(timeLockContract!=address(0));migrationStart=true;emitMigrationStarted();returntrue;}functionmigrateTransfer(address_account,uint256_amount)onlyMigratepublicreturns(uint256){require(migrationStart==true);uint256userBalance=balanceOf(_account);require(userBalance>=_amount);emitMigrated(_account,_amount);balances[_account]=balances[_account].sub(_amount);return_amount;}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 173,
+      "column": 4,
+      "content": "functionsetClaimRate(uint256_claimRate)publiconlyOwner{require(_claimRate<=1000);require(_claimRate>=100);claimRate=_claimRate;emitClaimRateSet(claimRate);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 682,
+      "column": 4,
+      "content": "functionsetMigrationAddress(FINERC20Migrate_finERC20MigrationContract)publiconlyOwnerreturns(bool){require(_finERC20MigrationContract.getERC20()==address(this));finERC20MigrationContract=_finERC20MigrationContract;emitSetMigrationAddress(_finERC20MigrationContract);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 695,
+      "column": 4,
+      "content": "functionsetTimeLockAddress(TimeLock_timeLockContract)publiconlyOwnerreturns(bool){require(_timeLockContract.getERC20()==address(this));timeLockContract=_timeLockContract;emitSetTimeLockAddress(_timeLockContract);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 61,
+      "column": 10,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 131,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 312,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 544,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 253,
+      "column": 16,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 631,
+      "column": 16,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 338,
+      "column": 16,
+      "content": "string_name"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 338,
+      "column": 30,
+      "content": "string_symbol"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 622,
+      "column": 56,
+      "content": "string_name"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 622,
+      "column": 70,
+      "content": "string_symbol"
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "contract": "0xfc0555aca4a78be9668993b39739d1d2616c75b0",
+  "tool": "smartcheck",
+  "start": 1563465747.632752,
+  "end": 1563465755.5467873,
+  "duration": 7.914035320281982,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 5,
+      "column": 4,
+      "content": "functiontotalSupply()constantexternalreturns(uint256supply);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 7,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)constantexternalreturns(uint256balance);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 15,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)constantexternalreturns(uint256remaining);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 27,
+      "column": 4,
+      "content": "functionbalanceOf(address_owner)constantexternalreturns(uint256balance){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 62,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)constantexternalreturns(uint256remaining){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 66,
+      "column": 4,
+      "content": "functiontotalSupply()constantexternalreturns(uint256supply){returntotalSupply;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 223,
+      "column": 4,
+      "content": "functiongetStats()externalconstantreturns(uint256,uint256,bool,bool,bool){return(totalEthInWei,tokenFunded,paused,mintStage,icoStage);}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 54,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)externalreturns(boolsuccess){if(_value!=0&&allowed[msg.sender][_spender]!=0){returnfalse;}allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 71,
+      "column": 0,
+      "content": "contractPFATokenisToken{addressowner=msg.sender;addressadmin;boolprivatepaused;boolprivatemintStage;boolprivateicoStage;stringpublicname;stringpublicsymbol;uint8publicdecimals;uint256publicunitsOneEthCanBuy;uint256publictotalEthInWei;uint256publicminimumContribution;addresspublicfundsWallet;uint256publictokenFunded;uint256publiccoinMinted;eventMint(addressindexed_to,uint256_value);eventRateChanged(uint256_rate);eventContributionChanged(uint256_min);eventAdminChanged(address_address);modifieronlyOwner{require(msg.sender==owner||msg.sender==admin);_;}modifierwhenNotPause{require(!paused);_;}modifierisMintStage{require(mintStage);_;}modifierisICOStage{require(icoStage);_;}functionPFAToken(){paused=false;mintStage=true;icoStage=false;balances[msg.sender]=1000000000*1000000000000000000;totalSupply=1000000000*1000000000000000000;name=\"Price Fitch Asset\";decimals=18;symbol=\"PFA\";unitsOneEthCanBuy=100;minimumContribution=10finney;fundsWallet=msg.sender;tokenFunded=0;coinMinted=0;}functionmint(address_to,uint256_value)externalonlyOwnerisMintStage{balances[_to]=balances[_to]+_value;coinMinted=coinMinted+_value;Mint(_to,_value);}functionsend(address_to,uint256_value)externalonlyOwner{balances[fundsWallet]=balances[fundsWallet]-_value;balances[_to]=balances[_to]+_value;Transfer(fundsWallet,_to,_value);}function()payablewhenNotPauseisICOStage{if(msg.value>=minimumContribution){totalEthInWei=totalEthInWei+msg.value;uint256amount=msg.value*unitsOneEthCanBuy;if(balances[fundsWallet]<amount){return;}tokenFunded=tokenFunded+amount;balances[fundsWallet]=balances[fundsWallet]-amount;balances[msg.sender]=balances[msg.sender]+amount;Transfer(fundsWallet,msg.sender,amount);}fundsWallet.transfer(msg.value);}functionapproveAndCall(address_spender,uint256_value,bytes_extraData)returns(boolsuccess){allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);if(!_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))),msg.sender,_value,this,_extraData)){revert();}returntrue;}functionsetAdmin(address_address)externalonlyOwner{admin=_address;AdminChanged(_address);}functionchangeTokenRate(uint256_rate)externalonlyOwner{unitsOneEthCanBuy=_rate;RateChanged(_rate);}functionchangeMinimumContribution(uint256_min)externalonlyOwner{minimumContribution=_min;ContributionChanged(_min);}functionmintStart(bool)externalonlyOwner{mintStage=true;}functionmintEnd(bool)externalonlyOwner{mintStage=false;}functionicoStart(bool)externalonlyOwner{icoStage=true;}functionicoEnd(bool)externalonlyOwner{icoStage=false;}functionpauseContract(bool)externalonlyOwner{paused=true;}functionunpauseContract(bool)externalonlyOwner{paused=false;}functiongetStats()externalconstantreturns(uint256,uint256,bool,bool,bool){return(totalEthInWei,tokenFunded,paused,mintStage,icoStage);}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 181,
+      "column": 4,
+      "content": "functionsetAdmin(address_address)externalonlyOwner{admin=_address;AdminChanged(_address);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 76,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 77,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 78,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 32,
+      "column": 8,
+      "content": "if(msg.data.length<(2*32)+4){revert();}"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 43,
+      "column": 8,
+      "content": "if(msg.data.length<(3*32)+4){revert();}"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 173,
+      "column": 8,
+      "content": "if(!_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))),msg.sender,_value,this,_extraData)){revert();}"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "83k1no",
+      "severity": 1,
+      "line": 173,
+      "column": 21,
+      "content": "call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))),msg.sender,_value,this,_extraData)"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 119,
+      "column": 4,
+      "content": "functionPFAToken(){paused=false;mintStage=true;icoStage=false;balances[msg.sender]=1000000000*1000000000000000000;totalSupply=1000000000*1000000000000000000;name=\"Price Fitch Asset\";decimals=18;symbol=\"PFA\";unitsOneEthCanBuy=100;minimumContribution=10finney;fundsWallet=msg.sender;tokenFunded=0;coinMinted=0;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 150,
+      "column": 4,
+      "content": "function()payablewhenNotPauseisICOStage{if(msg.value>=minimumContribution){totalEthInWei=totalEthInWei+msg.value;uint256amount=msg.value*unitsOneEthCanBuy;if(balances[fundsWallet]<amount){return;}tokenFunded=tokenFunded+amount;balances[fundsWallet]=balances[fundsWallet]-amount;balances[msg.sender]=balances[msg.sender]+amount;Transfer(fundsWallet,msg.sender,amount);}fundsWallet.transfer(msg.value);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 169,
+      "column": 4,
+      "content": "functionapproveAndCall(address_spender,uint256_value,bytes_extraData)returns(boolsuccess){allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);if(!_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))),msg.sender,_value,this,_extraData)){revert();}returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 22,
+      "column": 4,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 23,
+      "column": 4,
+      "content": "mapping(address=>mapping(address=>uint256))allowed;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 72,
+      "column": 4,
+      "content": "addressowner=msg.sender;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 74,
+      "column": 4,
+      "content": "addressadmin;"
+    }
+  ]
+}

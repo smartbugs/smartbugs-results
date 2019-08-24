@@ -1,0 +1,77 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol:
+/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol:233:17: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        require(keccak256(msg.sender) == keccak256(tokenAddress), "Only for token");
+                ^-------------------^
+/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol:233:17: Warning: The provided argument of type address is not implicitly convertible to expected type bytes memory.
+        require(keccak256(msg.sender) == keccak256(tokenAddress), "Only for token");
+                ^-------------------^
+/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol:233:42: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        require(keccak256(msg.sender) == keccak256(tokenAddress), "Only for token");
+                                         ^---------------------^
+/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol:233:42: Warning: The provided argument of type address is not implicitly convertible to expected type bytes memory.
+        require(keccak256(msg.sender) == keccak256(tokenAddress), "Only for token");
+                                         ^---------------------^
+
+INFO:Detectors:[91m
+Trade.contractBuyTokens (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#221-234) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(valueETH) (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#233)
+Trade.contractBuyTokensFrom (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#234-253) sends eth to arbitrary user
+	Dangerous calls:
+	- from.transfer(valueETH) (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#248)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Trade.contractSellTokens (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#208-221) does not use the value returned by external calls:
+	-IERC20(tokenAddress).transfer(msg.sender,amount) (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#219-220)
+Trade.contractBuyTokens (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#221-234) does not use the value returned by external calls:
+	-IERC20(tokenAddress).transferTrade(msg.sender,this,amount) (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#232-233)
+Trade.contractBuyTokensFrom (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#234-253) does not use the value returned by external calls:
+	-IERC20(tokenAddress).transferTrade(from,this,amount) (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#247)
+Trade.withdrawTokens (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#258-269) does not use the value returned by external calls:
+	-IERC20(tokenAddress).transferTrade(this,to,value) (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#265-266)
+Trade.depositToken (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol) does not use the value returned by external calls:
+	-IERC20(tokenAddress).transferTrade(msg.sender,this,_value) (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Trade.DEC should be constant (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#126)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.addOwner (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#94-101) should be declared external
+Ownable.removeOwner (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#101-119) should be declared external
+Trade.updateCursETHtoUSD (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#153-159) should be declared external
+Trade.contractSalesAtUsd (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#159-164) should be declared external
+Trade.contractBuysAtUsd (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#164-169) should be declared external
+Trade.contractSalesAtEth (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#169-174) should be declared external
+Trade.contractBuysAtEth (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#175-185) should be declared external
+Trade.closeClientBuy (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#185-189) should be declared external
+Trade.openClientBuy (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#189-193) should be declared external
+Trade.closeClientSell (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#193-194) should be declared external
+Trade.openClientSell (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#194-198) should be declared external
+Trade.setClientBuyingTime (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#198-203) should be declared external
+Trade.setClientSellingTime (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#203-208) should be declared external
+Trade.contractBuyTokens (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#221-234) should be declared external
+Trade.contractBuyTokensFrom (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#234-253) should be declared external
+Trade.withdrawEth (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#253-258) should be declared external
+Trade.withdrawTokens (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#258-269) should be declared external
+Trade.depositEther (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#269-272) should be declared external
+Trade.depositToken (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol) should be declared external
+Trade.changeTokenAddress (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_owner' of Ownable.addOwner (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#95) is not in mixedCase
+Parameter '_owner' of Ownable.removeOwner (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#102) is not in mixedCase
+Event 'Trade.clientBuy' (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#134-135) is not in CapWords
+Event 'Trade.clientSell' (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#135-136) is not in CapWords
+Parameter '_value' of Trade.updateCursETHtoUSD (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#154) is not in mixedCase
+Parameter '_value' of Trade.contractSalesAtUsd (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#162) is not in mixedCase
+Parameter '_value' of Trade.contractBuysAtUsd (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#167) is not in mixedCase
+Parameter '_value' of Trade.contractSalesAtEth (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#172) is not in mixedCase
+Parameter '_value' of Trade.contractBuysAtEth (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#177) is not in mixedCase
+Parameter '_from' of Trade.setClientBuyingTime (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#198-199) is not in mixedCase
+Parameter '_time' of Trade.setClientBuyingTime (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#199) is not in mixedCase
+Parameter '_from' of Trade.setClientSellingTime (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#204) is not in mixedCase
+Parameter '_time' of Trade.setClientSellingTime (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#204) is not in mixedCase
+Parameter '_value' of Trade.depositToken (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol) is not in mixedCase
+Variable 'Trade.DEC' (/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol#126) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/11/0xc1759d97e0f1ca05fbfa4af0bbf55535c8a192dd.sol analyzed (4 contracts), 43 result(s) found

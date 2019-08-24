@@ -1,0 +1,146 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:36:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:367:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function MediaSifterSeedCrowdsale() {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:52:9: Warning: Invoking events without "emit" prefix is deprecated.
+        OwnerUpdate(owner, newOwner);
+        ^--------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:146:7: Warning: Invoking events without "emit" prefix is deprecated.
+      MaxCapReached(block.timestamp);                                           // Close the crowdsale
+      ^----------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:147:7: Warning: Invoking events without "emit" prefix is deprecated.
+      CrowdsaleEnded(block.timestamp);                                          // Raise event
+      ^-----------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:154:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PresaleStarted(block.timestamp);                                        // Raise event
+        ^-----------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:160:9: Warning: Invoking events without "emit" prefix is deprecated.
+        PresaleUnlimitedStarted(block.timestamp);                               // Raise event
+        ^--------------------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:166:9: Warning: Invoking events without "emit" prefix is deprecated.
+        CrowdsaleEnded(block.timestamp);                                        // Raise event
+        ^-----------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:222:7: Warning: Invoking events without "emit" prefix is deprecated.
+      MinCapReached(block.timestamp);
+      ^----------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:234:5: Warning: Invoking events without "emit" prefix is deprecated.
+    ContributionMade(msg.sender, contributionAmount);                           // Raise event about contribution
+    ^----------------------------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:257:13: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    require(this.balance != 0);
+            ^----------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:260:28: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    pendingEthWithdrawal = this.balance;
+                           ^----------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:301:11: Warning: Invoking events without "emit" prefix is deprecated.
+[91m          ErrorSendingETH(currentParticipantAddress, contribution);             // If there is an issue raise event for manual recovery[0m
+          ^------------------------------------------------------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:313:13: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    require(this.balance != 0);                                                 // Check if there are any eth to claim
+            ^----------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:316:30: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    multisigAddress.transfer(this.balance);                                     // Withdraw to multisig for manual processing
+                             ^----------^
+/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:367:3: Warning: No visibility specified. Defaulting to "public". 
+  function MediaSifterSeedCrowdsale() {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in SeedCrowdsaleContract.processTransaction (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#213-246):
+	External calls:
+	- maxContribution = calculateMaxContribution(_contributor) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#216)
+	State variables written after the call(s):
+	- contributorList (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#228-230)
+	- contributorList (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#232-234)
+	- ethRaised (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#236-237)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+SeedCrowdsaleContract.salvageTokensFromContract (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#254-260) does not use the value returned by external calls:
+	-ERC20TokenInterface(_tokenAddress).transfer(_to,_amount) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#258-260)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in SeedCrowdsaleContract.fallback (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#117-143):
+	External calls:
+	- priorityPassContract.getAccountActivity(msg.sender) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#124-129)
+	- processTransaction(msg.sender,msg.value) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#125-126)
+	External calls sending eth:
+	- processTransaction(msg.sender,msg.value) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#125-126)
+	State variables written after the call(s):
+	- contributorIndexes (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#125-126)
+Reentrancy in SeedCrowdsaleContract.fallback (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#117-143):
+	External calls:
+	- priorityPassContract.getAccountActivity(msg.sender) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#130-135)
+	- processTransaction(msg.sender,msg.value) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#132)
+	External calls sending eth:
+	- processTransaction(msg.sender,msg.value) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#132)
+	State variables written after the call(s):
+	- contributorIndexes (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#132)
+Reentrancy in SeedCrowdsaleContract.processTransaction (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#213-246):
+	External calls:
+	- maxContribution = calculateMaxContribution(_contributor) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#216)
+	State variables written after the call(s):
+	- contributorIndexes (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#230-232)
+	- nextContributorIndex (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#232)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+SeedCrowdsaleContract.checkCrowdsaleState (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#144-177) uses timestamp for comparisons
+	Dangerous comparisons:
+	- crowdsaleState != state.crowdsaleEnded && block.timestamp > crowdsaleEndedTime (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#165-175)
+	- block.timestamp > presaleStartTime && block.timestamp <= presaleUnlimitedStartTime (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#152-176)
+	- block.timestamp > presaleUnlimitedStartTime && block.timestamp <= crowdsaleEndedTime (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#158-176)
+SeedCrowdsaleContract.batchReturnEthIfFailed (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#289-313) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp > crowdsaleEndedTime && ethRaised < minCap) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#290-292)
+SeedCrowdsaleContract.withdrawRemainingBalanceForManualRecovery (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#315-330) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(block.timestamp > crowdsaleEndedTime) (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#316-319)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Owned.transferOwnership (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#45-51) should be declared external
+Owned.acceptOwnership (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#51-57) should be declared external
+PriorityPassInterface.getAccountLimit (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#60-61) should be declared external
+PriorityPassInterface.getAccountActivity (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#61-64) should be declared external
+ERC20TokenInterface.totalSupply (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#64-65) should be declared external
+ERC20TokenInterface.balanceOf (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#65-66) should be declared external
+ERC20TokenInterface.transfer (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#66-67) should be declared external
+ERC20TokenInterface.transferFrom (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#67-68) should be declared external
+ERC20TokenInterface.approve (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#68-69) should be declared external
+ERC20TokenInterface.allowance (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#69-71) should be declared external
+SeedCrowdsaleContract.fallback (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#117-143) should be declared external
+SeedCrowdsaleContract.salvageTokensFromContract (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#254-260) should be declared external
+SeedCrowdsaleContract.withdrawEth (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#266-271) should be declared external
+SeedCrowdsaleContract.pullBalance (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#280-284) should be declared external
+SeedCrowdsaleContract.batchReturnEthIfFailed (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#289-313) should be declared external
+SeedCrowdsaleContract.withdrawRemainingBalanceForManualRecovery (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#315-330) should be declared external
+SeedCrowdsaleContract.setMultisigAddress (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#334-339) should be declared external
+SeedCrowdsaleContract.setPriorityPassContract (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#342-347) should be declared external
+SeedCrowdsaleContract.priorityPassContractAddress (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#349-352) should be declared external
+SeedCrowdsaleContract.setCrowdsaleTimes (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#355-377) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol:
+	- pragma solidity^0.4.13 (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#19-21): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Owned.Owned' (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#37-41) is not in mixedCase
+Parameter '_newOwner' of Owned.transferOwnership (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#46) is not in mixedCase
+Parameter '_stateChanged' of SeedCrowdsaleContract.refundTransaction (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#186-187) is not in mixedCase
+Parameter '_contributor' of SeedCrowdsaleContract.calculateMaxContribution (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#192) is not in mixedCase
+Parameter '_contributor' of SeedCrowdsaleContract.processTransaction (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#214-216) is not in mixedCase
+Parameter '_amount' of SeedCrowdsaleContract.processTransaction (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#216) is not in mixedCase
+Parameter '_tokenAddress' of SeedCrowdsaleContract.salvageTokensFromContract (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#256) is not in mixedCase
+Parameter '_to' of SeedCrowdsaleContract.salvageTokensFromContract (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#256-257) is not in mixedCase
+Parameter '_amount' of SeedCrowdsaleContract.salvageTokensFromContract (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#257) is not in mixedCase
+Parameter '_numberOfReturns' of SeedCrowdsaleContract.batchReturnEthIfFailed (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#290) is not in mixedCase
+Parameter '_newAddress' of SeedCrowdsaleContract.setMultisigAddress (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#334-337) is not in mixedCase
+Parameter '_newAddress' of SeedCrowdsaleContract.setPriorityPassContract (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#346) is not in mixedCase
+Parameter '_presaleStartTime' of SeedCrowdsaleContract.setCrowdsaleTimes (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#355) is not in mixedCase
+Parameter '_presaleUnlimitedStartTime' of SeedCrowdsaleContract.setCrowdsaleTimes (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#355) is not in mixedCase
+Parameter '_crowdsaleEndedTime' of SeedCrowdsaleContract.setCrowdsaleTimes (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#355) is not in mixedCase
+Enum 'SeedCrowdsaleContract.state' (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol#88-90) is not in CapWords
+Function 'MediaSifterSeedCrowdsale.MediaSifterSeedCrowdsale' (/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/17/0x383670ae601bdc30f15eee3fab8b55abf997d097.sol analyzed (6 contracts), 46 result(s) found

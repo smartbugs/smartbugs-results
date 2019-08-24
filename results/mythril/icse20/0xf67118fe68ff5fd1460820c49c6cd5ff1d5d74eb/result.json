@@ -1,0 +1,79 @@
+{
+  "contract": "0xf67118fe68ff5fd1460820c49c6cd5ff1d5d74eb",
+  "tool": "mythril",
+  "start": 1563291946.3699994,
+  "end": 1563291991.9760194,
+  "duration": 45.60601997375488,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 193,
+        "code": "        address _token;\n        uint256 balance;\n        ERC20Token token;\n        for(uint256 i; i<tokens.length; i++){\n            _token = tokens[i];\n            if (_token == 0x0) {\n                balance = address(this).balance;\n                if(balance > 0){\n                    msg.sender.transfer(balance);\n                }\n            }else{\n                token = ERC20Token(_token);\n                balance = token.balanceOf(address(this));\n                token.transfer(msg.sender, balance);\n                emit ClaimedTokens(_token, msg.sender, balance);\n            }\n        }\n    }\n}\n\ncontract TokenController {\n    function proxyPayment(address _owner) payable ",
+        "debug": "calldata_TokenI_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_TokenI_0: 0xeef72a3c00000000000000000000000000000000000000000000000000000000\ncalldatasize_TokenI: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `claimTokens(address[])`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0xf67118fe68ff5fd1460820c49c6cd5ff1d5d74eb.sol",
+        "function": "claimTokens(address[])",
+        "lineno": 65,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 753,
+        "code": "           token = ERC20Toke",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 753\n",
+        "filename": "/unique_contracts/0xf67118fe68ff5fd1460820c49c6cd5ff1d5d74eb.sol",
+        "function": "claimTokens(address[])",
+        "lineno": 76,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 943,
+        "code": "alance);\n                emit ",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_contracts/0xf67118fe68ff5fd1460820c49c6cd5ff1d5d74eb.sol",
+        "function": "claimTokens(address[])",
+        "lineno": 78,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 943,
+        "code": "alance);\n                emit ",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 753\nCall at address: 1167\n",
+        "filename": "/unique_contracts/0xf67118fe68ff5fd1460820c49c6cd5ff1d5d74eb.sol",
+        "function": "claimTokens(address[])",
+        "lineno": 78,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 1167,
+        "code": "n, msg.sender, balance);\n          ",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_contracts/0xf67118fe68ff5fd1460820c49c6cd5ff1d5d74eb.sol",
+        "function": "claimTokens(address[])",
+        "lineno": 79,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 1167,
+        "code": "n, msg.sender, balance);\n          ",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 753\n",
+        "filename": "/unique_contracts/0xf67118fe68ff5fd1460820c49c6cd5ff1d5d74eb.sol",
+        "function": "claimTokens(address[])",
+        "lineno": 79,
+        "title": "Multiple Calls",
+        "type": "Information"
+      }
+    ],
+    "success": true
+  }
+}

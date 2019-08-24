@@ -1,0 +1,114 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:53:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:99:3: Warning: Modifiers of functions without implementation are ignored.
+  function mint(address _to, uint256 _amount) onlyOwner canMint public returns (bool);
+  ^----------------------------------------------------------------------------------^
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:101:3: Warning: Modifiers of functions without implementation are ignored.
+  function pause() onlyOwner whenNotPaused public;
+  ^----------------------------------------------^
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:73:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:244:9: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    if (this.balance > 0) {
+        ^----------^
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:245:24: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      project.transfer(this.balance);
+                       ^----------^
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:53:3: Warning: No visibility specified. Defaulting to "public". 
+  function Ownable() {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:10:3: Warning: Function state mutability can be restricted to pure
+  function mul(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:16:3: Warning: Function state mutability can be restricted to pure
+  function div(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:23:3: Warning: Function state mutability can be restricted to pure
+  function sub(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:28:3: Warning: Function state mutability can be restricted to pure
+  function add(uint256 a, uint256 b) internal constant returns (uint256) {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+NILTokenInterface.paused (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#87) is never initialized. It is used in:
+NILTokenInterface.mintingFinished (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#88) is never initialized. It is used in:
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+IFOFirstRound._getTokens (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#188-215) uses a dangerous strict equality:
+	- balance == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in IFOFirstRound.reserveTokensProjectAndFounders (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#239-255):
+	External calls:
+	- tokenSupply = 2 * token.totalSupply() (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#242-244)
+	- token.mint(project,amount) (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#249)
+	- token.mint(founders,amount) (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#250-251)
+	State variables written after the call(s):
+	- projectFoundersReserved (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#251-254)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+IFOFirstRound._getTokens (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#188-215) does not use the value returned by external calls:
+	-token.mint(msg.sender,tokensToBeMinted) (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#211-215)
+IFOFirstRound.reserveTokensProjectAndFounders (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#239-255) does not use the value returned by external calls:
+	-token.mint(project,amount) (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#249)
+	-token.mint(founders,amount) (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#250-251)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in IFOFirstRound._getTokens (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#188-215):
+	External calls:
+	- balance = token.balanceOf(msg.sender) (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#197)
+	State variables written after the call(s):
+	- totalParticipants (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#199)
+Reentrancy in IFOFirstRound.startPreDistribution (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#217-238):
+	External calls:
+	- token.pause() (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#233)
+	- require(bool)(token.paused()) (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#233)
+	State variables written after the call(s):
+	- founders (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#234)
+	- preDuration (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#234-236)
+	- preEndBlock (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#238)
+	- preStartBlock (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#236-238)
+	- project (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#233-234)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+IFOFirstRound.baseAmount should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#125-127)
+IFOFirstRound.foundersReserve should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#142-146)
+IFOFirstRound.maxPerWallet should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#117-121)
+IFOFirstRound.projectReserve should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#142)
+NILTokenInterface.decimals should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#85)
+NILTokenInterface.mintingFinished should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#88)
+NILTokenInterface.paused should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#87)
+NILTokenInterface.totalSupply should be constant (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#89-92)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#72-81) should be declared external
+NILTokenInterface.balanceOf (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#99-101) should be declared external
+NILTokenInterface.mint (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#101-106) should be declared external
+NILTokenInterface.pause (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#106-109) should be declared external
+IFOFirstRound.giveMeNILs (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#186-188) should be declared external
+IFOFirstRound.startPreDistribution (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#217-238) should be declared external
+IFOFirstRound.reserveTokensProjectAndFounders (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#239-255) should be declared external
+IFOFirstRound.totalSupply (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#255-259) should be declared external
+IFOFirstRound.transferTokenOwnership (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#58-59) is not in mixedCase
+Function 'IFOFirstRound._toNanoNIL' (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#169-175) is not in mixedCase
+Function 'IFOFirstRound._fromNanoNIL' (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#175-184) is not in mixedCase
+Function 'IFOFirstRound._getTokens' (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#188-215) is not in mixedCase
+Parameter '_startBlock' of IFOFirstRound.startPreDistribution (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#217-218) is not in mixedCase
+Parameter '_duration' of IFOFirstRound.startPreDistribution (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#218) is not in mixedCase
+Parameter '_project' of IFOFirstRound.startPreDistribution (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#218-219) is not in mixedCase
+Parameter '_founders' of IFOFirstRound.startPreDistribution (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#219) is not in mixedCase
+Parameter '_token' of IFOFirstRound.startPreDistribution (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol#219-220) is not in mixedCase
+Parameter '_newOwner' of IFOFirstRound.transferTokenOwnership (/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x2b80455f56ca8b84e73460ac9b4db2a5e7c6030c.sol analyzed (4 contracts), 29 result(s) found

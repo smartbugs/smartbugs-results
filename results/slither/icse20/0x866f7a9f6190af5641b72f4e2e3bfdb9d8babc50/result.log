@@ -1,0 +1,316 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol:
+/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol:1417:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            owner.send(bank - bank_use);
+            ^-------------------------^
+/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol:1463:13: Warning: Failure condition of 'send' ignored. Consider using 'transfer' instead.
+            game.players[i].send(game.bet);
+            ^----------------------------^
+
+INFO:Detectors:[91m
+UBets._finishGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1404-1462) sends eth to arbitrary user
+	Dangerous calls:
+	- owner.send(bank - bank_use) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1456-1458)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in UBets.__callback (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1330-1357):
+	External calls:
+	- require(bool,string)(msg.sender == oraclize_cbAddress(),Permission denied) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1331-1332)
+	- _finishGame(await_finish[id],numbers) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1350-1352)
+	External calls sending eth:
+	- _finishGame(await_finish[id],numbers) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1350-1352)
+	State variables written after the call(s):
+	- await_finish (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1354-1357)
+	- await_finish_block (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1352-1353)
+Reentrancy in UBets._finishGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1404-1462):
+	External calls:
+	- bank_use = oraclize_getPrice(random) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1420-1423)
+	External calls sending eth:
+	- owner.send(bank - bank_use) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1456-1458)
+	State variables written after the call(s):
+	- games (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1458-1460)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Buffer.init (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#91-104) is declared view but contains assembly code
+Buffer.append (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#124-166) is declared view but contains assembly code
+Buffer.append (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#173-191) is declared view but contains assembly code
+Buffer.appendInt (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#197-221) is declared view but contains assembly code
+usingOraclize.getCodeSize (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#788-792) is declared view but contains assembly code
+usingOraclize.copyBytes (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1163-1181) is declared view but contains assembly code
+usingOraclize.safeMemoryCleaner (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1269-1271) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+UBets.refundGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol) uses a dangerous strict equality:
+	- require(bool,string)(await_finish_block[game_id] == 0 || await_finish_block[game_id] < block.number - 1000,Game not found)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in usingOraclize.oraclizeAPI (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#316-324):
+	External calls:
+	- address(oraclize) != OAR.getAddress() (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#321-323)
+	- oraclize = OraclizeI(OAR.getAddress()) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#323)
+	State variables written after the call(s):
+	- oraclize (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#323)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+uniq_numbers in UBets.newGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1478) is a local variable never initialiazed
+numbers_arr in UBets.newGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1477) is a local variable never initialiazed
+buf in usingOraclize.stra2cbor (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#941) is a local variable never initialiazed
+players_arr in UBets.newGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1475-1477) is a local variable never initialiazed
+buf in usingOraclize.ba2cbor (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#950) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[93m
+CBOR.encodeType (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#231-249) does not use the value returned by external calls:
+	-buf.appendInt(value,1) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#237)
+	-buf.appendInt(value,2) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#240)
+	-buf.appendInt(value,4) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#245)
+	-buf.appendInt(value,8) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#249)
+CBOR.encodeBytes (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#266-271) does not use the value returned by external calls:
+	-buf.append(value) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#271)
+CBOR.encodeString (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#271-276) does not use the value returned by external calls:
+	-buf.append(bytes(value)) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#276)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+UBets._finishGame has external calls inside a loop:
+	- game.players[p].send(payout) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1436-1439)
+UBets._finishGame has external calls inside a loop:
+	- referers[game.players[p]].send(referer_payout) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1448-1452)
+UBets.refundGame has external calls inside a loop:
+	- game.players[i].send(game.bet) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in UBets.__callback (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1330-1357):
+	External calls:
+	- require(bool,string)(msg.sender == oraclize_cbAddress(),Permission denied) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1331-1332)
+	State variables written after the call(s):
+	- oraclize_randomDS_args (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1332-1333)
+	- oraclize_randomDS_sessionKeysHashVerified (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1332-1333)
+Reentrancy in UBets._playGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1388-1404):
+	External calls:
+	- require(bool,string)(oraclize_getPrice(random) <= address(this).balance,Insufficient funds) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1397-1399)
+	- id = oraclize_newRandomDSQuery(0,32,oraclize_gas_limit) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1399-1401)
+	External calls sending eth:
+	- id = oraclize_newRandomDSQuery(0,32,oraclize_gas_limit) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1399-1401)
+	State variables written after the call(s):
+	- await_finish (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1403)
+	- await_finish_block (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1403)
+	- oraclize_network_name (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1399-1401)
+	- oraclize_randomDS_args (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1399-1401)
+Reentrancy in usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#959-1019):
+	External calls:
+	- sessionKeyHash_bytes32 = oraclize_randomDS_getSessionPubKeyHash() (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#971-973)
+	- queryId = oraclize_query(random,args,_customGasLimit) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#983)
+	External calls sending eth:
+	- queryId = oraclize_query(random,args,_customGasLimit) (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#983)
+	State variables written after the call(s):
+	- oraclize_network_name (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#983)
+	- oraclize_randomDS_args (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1011-1015)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Buffer.init uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#91-104)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#98-104
+Buffer.append uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#124-166)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#134-148
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#152-154
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#157-166
+Buffer.append uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#173-191)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#179-191
+Buffer.appendInt uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#197-221)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#206-221
+usingOraclize.getCodeSize uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#788-792)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#789-792
+usingOraclize.oraclize_newRandomDSQuery uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#959-1019)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#973-980
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#980-981
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#984-1013
+usingOraclize.verifySig uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1027-1047)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1037-1040
+usingOraclize.copyBytes uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1163-1181)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1176-1179
+usingOraclize.safer_ecrecover uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1188-1215)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1204-1215
+usingOraclize.ecrecovery uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1218-1269)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1231-1267
+usingOraclize.safeMemoryCleaner uses assembly (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1269-1271)
+	- /unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1270-1271
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+OraclizeI.cbAddress should be constant (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#39)
+UBets.commision should be constant (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1293-1294)
+UBets.max_players should be constant (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1288-1289)
+UBets.min_bet should be constant (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1282-1284)
+UBets.referer_commision should be constant (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1294-1297)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+OraclizeI.query2 (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#41-42) should be declared external
+OraclizeI.queryN (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#43-44) should be declared external
+OraclizeI.getPrice (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#45-46) should be declared external
+OraclizeI.getPrice (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#46-47) should be declared external
+OraclizeAddrResolverI.getAddress (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#53-59) should be declared external
+usingOraclize.__callback (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#367-370) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'OraclizeI.query_withGasLimit' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#40-41) is not in mixedCase
+Function 'OraclizeI.query2_withGasLimit' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#42-43) is not in mixedCase
+Function 'OraclizeI.queryN_withGasLimit' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#44-45) is not in mixedCase
+Function 'OraclizeI.randomDS_getSessionPubKeyHash' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#49-53) is not in mixedCase
+Struct 'Buffer.buffer' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#90-91) is not in CapWords
+Parameter '_capacity' of Buffer.init (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#92) is not in mixedCase
+Contract 'usingOraclize' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#294-1272) is not in CapWords
+Function 'usingOraclize.oraclize_setNetwork' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#326-329) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetwork' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#330-367) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#367-370) is not in mixedCase
+Function 'usingOraclize.__callback' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#370-382) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#382-384) is not in mixedCase
+Function 'usingOraclize.oraclize_getPrice' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#384-387) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#387-392) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#392-395) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#396-402) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#402-407) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#407-412) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#412-415) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#416-422) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#422-428) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#428-434) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#434-438) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#438-446) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#446-452) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#453-457) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#457-462) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#462-469) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#469-474) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#474-480) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#480-485) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#486-492) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#493-499) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#499-505) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#506-512) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#513-521) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#521-529) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#529-536) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#536-544) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#544-553) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#553-562) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#562-570) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#570-579) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#579-589) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#589-596) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#596-601) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#601-607) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#607-614) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#614-622) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#622-627) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#627-633) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#633-639) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#639-645) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#645-649) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#649-655) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#655-663) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#664-669) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#669-676) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#676-683) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#683-692) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#692-700) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#700-707) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#707-715) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#715-724) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#724-733) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#733-741) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#741-750) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#750-761) is not in mixedCase
+Function 'usingOraclize.oraclize_query' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#761-773) is not in mixedCase
+Function 'usingOraclize.oraclize_cbAddress' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#775-777) is not in mixedCase
+Function 'usingOraclize.oraclize_setProof' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#777-782) is not in mixedCase
+Function 'usingOraclize.oraclize_setCustomGasPrice' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#782-785) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_getSessionPubKeyHash' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#785-788) is not in mixedCase
+Parameter '_a' of usingOraclize.parseAddr (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#795) is not in mixedCase
+Parameter '_a' of usingOraclize.strCompare (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#816) is not in mixedCase
+Parameter '_b' of usingOraclize.strCompare (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#816) is not in mixedCase
+Parameter '_haystack' of usingOraclize.indexOf (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#832-833) is not in mixedCase
+Parameter '_needle' of usingOraclize.indexOf (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#833) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#854) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#854-855) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#855-857) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#857) is not in mixedCase
+Parameter '_e' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#857) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#880) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#880) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#880) is not in mixedCase
+Parameter '_d' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#880) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#884) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#884-885) is not in mixedCase
+Parameter '_c' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#885) is not in mixedCase
+Parameter '_a' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#888) is not in mixedCase
+Parameter '_b' of usingOraclize.strConcat (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#888-889) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#894) is not in mixedCase
+Parameter '_a' of usingOraclize.parseInt (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#900-901) is not in mixedCase
+Parameter '_b' of usingOraclize.parseInt (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#901) is not in mixedCase
+Function 'usingOraclize.oraclize_setNetworkName' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#956-957) is not in mixedCase
+Parameter '_network_name' of usingOraclize.oraclize_setNetworkName (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#956) is not in mixedCase
+Function 'usingOraclize.oraclize_getNetworkName' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#958-959) is not in mixedCase
+Function 'usingOraclize.oraclize_newRandomDSQuery' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#959-1019) is not in mixedCase
+Parameter '_delay' of usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#960) is not in mixedCase
+Parameter '_nbytes' of usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#960) is not in mixedCase
+Parameter '_customGasLimit' of usingOraclize.oraclize_newRandomDSQuery (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#960-961) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_setCommitment' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1019-1022) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__sessionKeyValidity' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1047-1082) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__returnCode' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1096-1103) is not in mixedCase
+Parameter '_queryId' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1096-1097) is not in mixedCase
+Parameter '_result' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1097) is not in mixedCase
+Parameter '_proof' of usingOraclize.oraclize_randomDS_proofVerify__returnCode (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1097) is not in mixedCase
+Parameter 'n_random_bytes' of usingOraclize.matchBytes32Prefix (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1105) is not in mixedCase
+Function 'usingOraclize.oraclize_randomDS_proofVerify__main' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1108-1161) is not in mixedCase
+Parameter 'context_name' of usingOraclize.oraclize_randomDS_proofVerify__main (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1109) is not in mixedCase
+Function 'usingOraclize.safer_ecrecover' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1188-1215) is not in mixedCase
+Constant 'usingOraclize.day' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#295-296) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.week' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#296-297) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.month' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#297-298) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_NONE' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#298-299) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_TLSNotary' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#299-300) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Ledger' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#300-301) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Android' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#301-302) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofType_Native' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#302-304) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.proofStorage_IPFS' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#304-306) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_auto' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#307-308) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_mainnet' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#308) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_testnet' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#309) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_morden' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#309-311) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'usingOraclize.networkID_consensys' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#311-312) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'usingOraclize.OAR' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#312-314) is not in mixedCase
+Variable 'usingOraclize.oraclize_network_name' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#955-956) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_args' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1022-1023) is not in mixedCase
+Variable 'usingOraclize.oraclize_randomDS_sessionKeysHashVerified' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1023-1027) is not in mixedCase
+Modifier 'usingOraclize.oraclize_randomDS_proofVerify' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1082-1096) is not in mixedCase
+Function 'UBets.__callback' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1330-1357) is not in mixedCase
+Function 'UBets._joinGame' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1357-1388) is not in mixedCase
+Parameter 'game_id' of UBets._joinGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1358) is not in mixedCase
+Function 'UBets._playGame' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1388-1404) is not in mixedCase
+Parameter 'game_id' of UBets._playGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1388) is not in mixedCase
+Function 'UBets._finishGame' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1404-1462) is not in mixedCase
+Parameter 'game_id' of UBets._finishGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1404) is not in mixedCase
+Parameter 'game_id' of UBets.joinGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol) is not in mixedCase
+Parameter 'game_id' of UBets.refundGame (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol) is not in mixedCase
+Variable 'UBets.min_bet' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1282-1284) is not in mixedCase
+Constant 'UBets.min_players' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1285-1288) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'UBets.max_players' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1288-1289) is not in mixedCase
+Constant 'UBets.min_number' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1290-1292) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'UBets.max_number' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1292) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'UBets.oraclize_gas_limit' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1292-1293) is not in mixedCase
+Variable 'UBets.referer_commision' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1294-1297) is not in mixedCase
+Variable 'UBets.await_finish' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1300) is not in mixedCase
+Variable 'UBets.await_finish_block' (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#1300-1301) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Detectors:[92m
+usingOraclize.day (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#295-296) is never used in UBets
+usingOraclize.week (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#296-297) is never used in UBets
+usingOraclize.month (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#297-298) is never used in UBets
+usingOraclize.proofType_NONE (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#298-299) is never used in UBets
+usingOraclize.proofType_TLSNotary (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#299-300) is never used in UBets
+usingOraclize.proofType_Ledger (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#300-301) is never used in UBets
+usingOraclize.proofType_Android (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#301-302) is never used in UBets
+usingOraclize.proofType_Native (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#302-304) is never used in UBets
+usingOraclize.proofStorage_IPFS (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#304-306) is never used in UBets
+usingOraclize.networkID_mainnet (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#308) is never used in UBets
+usingOraclize.networkID_testnet (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#309) is never used in UBets
+usingOraclize.networkID_morden (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#309-311) is never used in UBets
+usingOraclize.networkID_consensys (/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol#311-312) is never used in UBets
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-state-variables[0m
+INFO:Slither:/unique_chucks/27/0x866f7a9f6190af5641b72f4e2e3bfdb9d8babc50.sol analyzed (6 contracts), 194 result(s) found

@@ -1,0 +1,101 @@
+{
+  "contract": "0x33332025ad35a821eec5f1e10459222c8e4c62c3",
+  "tool": "mythril",
+  "start": 1563637650.7018158,
+  "end": 1563637808.8274953,
+  "duration": 158.12567949295044,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 709,
+        "code": "d to this new oracle\n\n        @param _fallback New oracle\n    */\n    function setFallback(Oracle _fallback) public o",
+        "debug": "calldata_Token_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Token_0: 0x252498a200000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setUrl(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "setUrl(string)",
+        "lineno": 242,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1044,
+        "code": "ytes32(data, INDEX_TIMESTAMP));\n        RateCache memory rateCache = cache[currency];\n        if (rateCache.timestamp >= timestamp && !isExpired(rateCache.timestamp)) {\n            emit CacheHit(msg.sender, currency, timestamp, rateCache.timestamp, rateCache.rate, rateCache.decimals);\n            return (rateCache.rate, rateCache.decimals);\n        } else {\n            require(!isExpired(timestamp), \"The rate provided is expired\");\n            uint256 rate = uint256(readBytes32(data, INDEX_RATE));\n            uint256 decimals = uint256(readBytes32(data, INDEX_DECIMALS));\n            uint8 v = uint8(readBytes32(data, INDEX_V));\n            bytes32 r = readBytes32(data, INDEX_R);\n            bytes32 s = readBytes32(data, INDEX_S);\n            \n            bytes32 _hash = keccak256(abi.encodePacked(this, currency, rate, decimals, timestamp));\n            address signer = ecrecover(keccak256(abi.encodePacked(\"\\x19Ethereum Signed Message:\\n32\", _hash)),v,r,s);\n\n            if(!isDelegate(signer)) {\n                _hash = keccak256(abi.encodePacked(prevOracle, currency, rate, decimals, timestamp));\n                signer = ecrecover(keccak256(abi.encodePacked(\"\\x19Ethereum Signed Message:\\n32\", _hash)),v,r,s);\n                if(!isDelegate(signer)) {\n                    revert('Signature not valid');\n                }\n            }\n\n            cache[currency] = RateCache(timestamp, rate, decimals);\n\n            emit DeliveredRate(msg.sender, currency, signer, timestamp, rate, decimals);\n            return (rate, decimals);\n        }\n    }\n}",
+        "debug": "calldata_Token_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Token_0: 0x3ae26afa00000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `getRate(bytes32,bytes)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "getRate(bytes32,bytes)",
+        "lineno": 287,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3044,
+        "code": "(0x1f))",
+        "debug": "calldata_Token_4: 0x100000000000000000000000000000000000000000000000000000000000000\ncalldata_Token_0: 0x1b962c6500000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `decodeCurrency(bytes32)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "decodeCurrency(bytes32)",
+        "lineno": 180,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 4136,
+        "code": "g.sender, currency, timestamp, r",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "getRate(bytes32,bytes)",
+        "lineno": 290,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 4136,
+        "code": "g.sender, currency, timestamp, r",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function getRate(bytes32,bytes). The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "getRate(bytes32,bytes)",
+        "lineno": 290,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 8086,
+        "code": "  If the data co",
+        "debug": "timestamp: 0x0\nmem_0 +\n256 +\n32*\nConcat(0,\n       Extract(255,\n               5,\n               31 + calldata_Token_4 + calldata_Token_32 + 4)): 0x0\nstorage_4: 0x1\ncalldata_Token_cpy: 0x0\ncalldata_Token_4 + calldata_Token_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_7: 0x0\ncalldata_Token_0: 0x3ae26afa00000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer underflow exists in the function `getRate(bytes32,bytes)`.\nThe subtraction may result in a value < 0.",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "getRate(bytes32,bytes)",
+        "lineno": 274,
+        "title": "Integer Underflow",
+        "type": "Warning"
+      },
+      {
+        "address": 8190,
+        "code": "stamp, uint256 deliverTimestamp, uint256 rate, uint256 decimals);\n    event DeliveredRate(address requester, bytes32 currency, address signer, uint256 requestTimestamp, uint256 rate, uint256 decimals);\n\n    uint256 public expiration = 6 hours;\n\n    uint constant private INDEX_TIMESTAMP = 0;\n    uint constant private INDEX_RATE = 1;\n    uint constant private INDEX_DECIMALS = 2;\n    uint constant private INDEX_V = 3;\n    uint constant private INDEX_R = 4;\n    uint constant private INDEX_S = 5;\n\n    string private infoUrl;\n    \n    address public prevOracle;\n    Oracle public fallback;\n    mapping(bytes32 => RateCache) public cache;\n\n    struct RateCache {\n        uint256 timestamp;\n        uint256 rate;\n        uint256 decimals;\n    }\n\n    function url() public view returns (string) {\n        return infoUrl;\n    }\n\n    /**\n        @dev Sets the time window of the validity of the rates signed.\n\n        @param time Duration of the window\n\n        @return true is the time was set correctly\n    */\n    function setExpirationTime(uint256 time) public onlyOwner returns (bool) {\n        expiration = time;\n        return true;\n    }\n\n    /**\n        @dev Sets the url to retrieve the data for 'getRate'\n\n        @param _url New url\n    */\n    function setUrl(string _url) public onlyOwner returns (bool) {\n        infoUrl = _url;\n        return true;\n    }\n\n    /**\n        @dev Sets another oracle as the replacement to this oracle\n        All 'getRate' calls will be forwarded to this new oracle\n\n        @param _fallback New oracle\n    */\n    function setFallback(Oracle _fallback) public onlyOwner returns (bool) {\n        fallback = _fallback;\n        return true;\n    }\n\n    /**\n        @dev Invalidates the cache of a given currency\n\n        @param currency Currency to invalidate the cache\n    */\n    function invalidateCache(bytes32 currency) public onlyOwner returns (bool) {\n        delete cache[currency].timestamp;\n        return true;\n    }\n    \n    function setPrevOracle(address oracle) public onlyOwner returns (bool) {\n        prevOracle = oracle;\n        return true;\n    }\n\n    function isExpired(uint256 timestamp) internal view returns (bool) {\n        return timestamp <= now - expiration;\n    }\n\n    /**\n        @dev Retrieves the convertion rate of a given currency, the information of the rate is carried over the \n        data field. If there is a newer rate on the cache, that rate is delivered and the data field is ignored.\n\n        If the data contains a more recent rate than the cache, the cache is updated.\n\n        @param currency Hash of the currency\n        @param data Data with the rate signed by a delegate\n\n        @return the rate and decimals of the currency convertion\n    */\n    function getRate(bytes32 currency, bytes data) public returns (uint256, uint256) {\n        if (fallback != address(0)) {\n            emit DelegatedCall(msg.sender, fallback);\n            return fallback.getRate(currency, data);\n        }\n\n        uint256 timestamp = uint256(readBytes32(data, INDEX_TIMESTAMP));\n        RateCache memory rateCache = cache[currency];\n        if (rateCache.timestamp >= timestamp && !isExpired(rateCache.timestamp)) {\n            emit CacheHit(msg.sender, currency, timestamp, rateCache.timestamp, rateCache.rate, rateCache.decimals);\n            return (rateCache.rate, rateCache.decimals);\n        } else {\n            require(!isExpired(timestamp), \"The rate provided is expired\");\n            uint256 rate = uint256(readBytes32(data, INDEX_RATE));\n            uint256 decimals = uint256(readBytes32(data, INDEX_DECIMALS));\n            uint8 v = uint8(readBytes32(data, INDEX_V));\n            bytes32 r = readBytes32(data, INDEX_R);\n            bytes32 s = readBytes32(data, INDEX_S);\n            \n            bytes32 _hash = keccak256(abi.encodePacked(this, currency, rate, decimals, timestamp));\n            address signer = ecrecover(keccak256(abi.encodePacked(\"\\x19Ethereum Signed Message:\\n32\", _hash)),v,r,s);\n\n            if(!isDelegate(signer)) {\n                _hash = keccak256(abi.encodePacked(prevOracle, currency, rate, decimals, timestamp));\n                signer = ecrecover(keccak256(abi.encodePacked(\"\\x19Ethereum Signed Message:\\n32\", _hash)),v,r,s);\n                if(!isDelegate(signer)) {\n                    revert('Signature not valid');\n                }\n            }\n\n            cache[currency] = RateCache(timestamp, rate, decimals);\n\n            emit DeliveredRate(msg.sender, currency, signer, timestamp, rate, decimals);\n            return (rate, decimals);\n        }\n    }\n}",
+        "debug": "calldata_Token_4 + calldata_Token_4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Token_0: 0x252498a200000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setUrl(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "setUrl(string)",
+        "lineno": 190,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 8204,
+        "code": "stamp, uint256 deliverTimestamp, uint256 rate, uint256 decimals);\n    event DeliveredRate(address requester, bytes32 currency, address signer, uint256 requestTimestamp, uint256 rate, uint256 decimals);\n\n    uint256 public expiration = 6 hours;\n\n    uint constant private INDEX_TIMESTAMP = 0;\n    uint constant private INDEX_RATE = 1;\n    uint constant private INDEX_DECIMALS = 2;\n    uint constant private INDEX_V = 3;\n    uint constant private INDEX_R = 4;\n    uint constant private INDEX_S = 5;\n\n    string private infoUrl;\n    \n    address public prevOracle;\n    Oracle public fallback;\n    mapping(bytes32 => RateCache) public cache;\n\n    struct RateCache {\n        uint256 timestamp;\n        uint256 rate;\n        uint256 decimals;\n    }\n\n    function url() public view returns (string) {\n        return infoUrl;\n    }\n\n    /**\n        @dev Sets the time window of the validity of the rates signed.\n\n        @param time Duration of the window\n\n        @return true is the time was set correctly\n    */\n    function setExpirationTime(uint256 time) public onlyOwner returns (bool) {\n        expiration = time;\n        return true;\n    }\n\n    /**\n        @dev Sets the url to retrieve the data for 'getRate'\n\n        @param _url New url\n    */\n    function setUrl(string _url) public onlyOwner returns (bool) {\n        infoUrl = _url;\n        return true;\n    }\n\n    /**\n        @dev Sets another oracle as the replacement to this oracle\n        All 'getRate' calls will be forwarded to this new oracle\n\n        @param _fallback New oracle\n    */\n    function setFallback(Oracle _fallback) public onlyOwner returns (bool) {\n        fallback = _fallback;\n        return true;\n    }\n\n    /**\n        @dev Invalidates the cache of a given currency\n\n        @param currency Currency to invalidate the cache\n    */\n    function invalidateCache(bytes32 currency) public onlyOwner returns (bool) {\n        delete cache[currency].timestamp;\n        return true;\n    }\n    \n    function setPrevOracle(address oracle) public onlyOwner returns (bool) {\n        prevOracle = oracle;\n        return true;\n    }\n\n    function isExpired(uint256 timestamp) internal view returns (bool) {\n        return timestamp <= now - expiration;\n    }\n\n    /**\n        @dev Retrieves the convertion rate of a given currency, the information of the rate is carried over the \n        data field. If there is a newer rate on the cache, that rate is delivered and the data field is ignored.\n\n        If the data contains a more recent rate than the cache, the cache is updated.\n\n        @param currency Hash of the currency\n        @param data Data with the rate signed by a delegate\n\n        @return the rate and decimals of the currency convertion\n    */\n    function getRate(bytes32 currency, bytes data) public returns (uint256, uint256) {\n        if (fallback != address(0)) {\n            emit DelegatedCall(msg.sender, fallback);\n            return fallback.getRate(currency, data);\n        }\n\n        uint256 timestamp = uint256(readBytes32(data, INDEX_TIMESTAMP));\n        RateCache memory rateCache = cache[currency];\n        if (rateCache.timestamp >= timestamp && !isExpired(rateCache.timestamp)) {\n            emit CacheHit(msg.sender, currency, timestamp, rateCache.timestamp, rateCache.rate, rateCache.decimals);\n            return (rateCache.rate, rateCache.decimals);\n        } else {\n            require(!isExpired(timestamp), \"The rate provided is expired\");\n            uint256 rate = uint256(readBytes32(data, INDEX_RATE));\n            uint256 decimals = uint256(readBytes32(data, INDEX_DECIMALS));\n            uint8 v = uint8(readBytes32(data, INDEX_V));\n            bytes32 r = readBytes32(data, INDEX_R);\n            bytes32 s = readBytes32(data, INDEX_S);\n            \n            bytes32 _hash = keccak256(abi.encodePacked(this, currency, rate, decimals, timestamp));\n            address signer = ecrecover(keccak256(abi.encodePacked(\"\\x19Ethereum Signed Message:\\n32\", _hash)),v,r,s);\n\n            if(!isDelegate(signer)) {\n                _hash = keccak256(abi.encodePacked(prevOracle, currency, rate, decimals, timestamp));\n                signer = ecrecover(keccak256(abi.encodePacked(\"\\x19Ethereum Signed Message:\\n32\", _hash)),v,r,s);\n                if(!isDelegate(signer)) {\n                    revert('Signature not valid');\n                }\n            }\n\n            cache[currency] = RateCache(timestamp, rate, decimals);\n\n            emit DeliveredRate(msg.sender, currency, signer, timestamp, rate, decimals);\n            return (rate, decimals);\n        }\n    }\n}",
+        "debug": "calldata_Token_4 + calldata_Token_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_0: 0x0\ncaller: 0x0\ncalldata_Token_0: 0x252498a200000000000000000000000000000000000000000000000000000000\ncalldatasize_Token: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setUrl(string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/25/0x33332025ad35a821eec5f1e10459222c8e4c62c3.sol",
+        "function": "setUrl(string)",
+        "lineno": 190,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

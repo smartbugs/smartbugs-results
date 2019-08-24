@@ -1,0 +1,214 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:606:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes4 _sig = bytes4(keccak256(_callbackFn));
+                             ^--------------------^
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:606:30: Warning: The provided argument of type string memory is not implicitly convertible to expected type bytes memory.
+        bytes4 _sig = bytes4(keccak256(_callbackFn));
+                             ^--------------------^
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:729:1: Warning: Base constructor arguments given twice.
+contract MonarchyController is
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:67:9: First constructor call is here: 
+        UsingRegistry(_registry)
+        ^----------------------^
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:102:9: Second constructor call is here: 
+        UsingRegistry(_registry)
+        ^----------------------^
+
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:729:1: Warning: Base constructor arguments given twice.
+contract MonarchyController is
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:138:9: First constructor call is here: 
+        UsingRegistry(_registry)
+        ^----------------------^
+/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:102:9: Second constructor call is here: 
+        UsingRegistry(_registry)
+        ^----------------------^
+
+
+INFO:Detectors:[91m
+Bankrollable.removeBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#603-632) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool)(_bankroller.call.value(_amount)(_sig)) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#628-629)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in MonarchyController.startDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#884-942):
+	External calls:
+	- _mf = getMonarchyFactory() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#908-909)
+	- _success = address(_mf).call.value(dGame.initialPrize)(bytes4(keccak256()(createGame(uint256,uint256,int256,uint256,uint256))),dGame.initialPrize,dGame.fee,dGame.prizeIncr,dGame.reignBlocks,dGame.initialBlocks) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#915-927)
+	External calls sending eth:
+	- _success = address(_mf).call.value(dGame.initialPrize)(bytes4(keccak256()(createGame(uint256,uint256,int256,uint256,uint256))),dGame.initialPrize,dGame.fee,dGame.prizeIncr,dGame.reignBlocks,dGame.initialBlocks) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#915-927)
+	State variables written after the call(s):
+	- vars (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#935-936)
+Reentrancy in MonarchyController.startDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#884-942):
+	External calls:
+	- _mf = getMonarchyFactory() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#908-909)
+	- _success = address(_mf).call.value(dGame.initialPrize)(bytes4(keccak256()(createGame(uint256,uint256,int256,uint256,uint256))),dGame.initialPrize,dGame.fee,dGame.prizeIncr,dGame.reignBlocks,dGame.initialBlocks) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#915-927)
+	- _game = _mf.lastCreatedGame() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#936)
+	External calls sending eth:
+	- _success = address(_mf).call.value(dGame.initialPrize)(bytes4(keccak256()(createGame(uint256,uint256,int256,uint256,uint256))),dGame.initialPrize,dGame.fee,dGame.prizeIncr,dGame.reignBlocks,dGame.initialBlocks) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#915-927)
+	State variables written after the call(s):
+	- definedGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#937-940)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+Bankrollable.removeBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#603-632) uses a dangerous strict equality:
+	- _amount == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in MonarchyController.refreshGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#966-1009):
+	External calls:
+	- _fees = _game.sendFees() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#974-978)
+	- _game.isEnded() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#979-1005)
+	- ! _game.isPaid() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#983)
+	- _game.sendPrize(2300) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#983)
+	- totalPrizes += _game.prize() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#986-988)
+	- totalOverthrows += _game.numOverthrows() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#989-991)
+	State variables written after the call(s):
+	- definedGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#996-998)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+MonarchyController.refreshGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#966-1009) does not use the value returned by external calls:
+	-_game.sendPrize(2300) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#983)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MonarchyController.refreshGames has external calls inside a loop:
+	- _fees = _game.sendFees() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#974-978)
+MonarchyController.refreshGames has external calls inside a loop:
+	- _game.isEnded() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#979-1005)
+MonarchyController.refreshGames has external calls inside a loop:
+	- ! _game.isPaid() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#983)
+MonarchyController.refreshGames has external calls inside a loop:
+	- _game.sendPrize(2300) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#983)
+MonarchyController.refreshGames has external calls inside a loop:
+	- totalPrizes += _game.prize() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#986-988)
+MonarchyController.refreshGames has external calls inside a loop:
+	- totalOverthrows += _game.numOverthrows() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#989-991)
+MonarchyController.refreshGames has external calls inside a loop:
+	- GameEnded(now,_i,address(_game),_game.monarch()) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1000-1004)
+MonarchyController.getNumEndableGames has external calls inside a loop:
+	- _game.isEnded() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1048-1049)
+MonarchyController.getAvailableFees has external calls inside a loop:
+	- _feesAvailable += definedGames[_i].game.fees() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1076-1079)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Bankrollable.addBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#595-601):
+	External calls:
+	- require(bool)(whitelist.size() == 0 || whitelist.has(msg.sender)) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#597-598)
+	- ledger.add(msg.sender,msg.value) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#598)
+	- bankroll = ledger.total() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#599)
+	State variables written after the call(s):
+	- bankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#599)
+Reentrancy in MonarchyController.refreshGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#966-1009):
+	External calls:
+	- _fees = _game.sendFees() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#974-978)
+	- _game.isEnded() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#979-1005)
+	- ! _game.isPaid() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#983)
+	- _game.sendPrize(2300) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#983)
+	- totalPrizes += _game.prize() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#986-988)
+	- totalOverthrows += _game.numOverthrows() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#989-991)
+	State variables written after the call(s):
+	- endedGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#998-999)
+Reentrancy in Bankrollable.removeBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#603-632):
+	External calls:
+	- _amount = ledger.subtract(_bankroller,_amount) (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#621-623)
+	- bankroll = ledger.total() (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#623)
+	State variables written after the call(s):
+	- bankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#623)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+UsingRegistry.getRegistry (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#49-58) should be declared external
+HasDailyLimit.getDailyLimit (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#220-223) should be declared external
+Ledger.add (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#281-300) should be declared external
+Ledger.subtract (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#300-327) should be declared external
+Ledger.balanceOf (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#350-355) should be declared external
+Ledger.balances (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#355-380) should be declared external
+AddressSet.add (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#414-437) should be declared external
+AddressSet.remove (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#437-459) should be declared external
+AddressSet.has (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#483-486) should be declared external
+AddressSet.addresses (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#487-506) should be declared external
+Bankrollable.addToWhitelist (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#572-578) should be declared external
+Bankrollable.removeFromWhitelist (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#579-586) should be declared external
+MonarchyController.fallback (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#871-872) should be declared external
+Bankrollable.fallback (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#594) should be declared external
+Bankrollable.addBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#595-601) should be declared external
+Bankrollable.removeBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#603-632) should be declared external
+Bankrollable.sendProfits (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#632-646) should be declared external
+Bankrollable.profitsTotal (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#678-680) should be declared external
+Bankrollable.bankrollAvailable (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#690-708) should be declared external
+Bankrollable.bankrolledBy (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#708-710) should be declared external
+Bankrollable.bankrollerTable (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#710-717) should be declared external
+MonarchyController.setDailyLimit (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#811-816) should be declared external
+MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#822-853) should be declared external
+MonarchyController.enableDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#853-863) should be declared external
+MonarchyController.startDefinedGameManually (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#947-962) should be declared external
+MonarchyController.refreshGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#966-1009) should be declared external
+MonarchyController.numEndedGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1026-1031) should be declared external
+MonarchyController.numActiveGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1032-1039) should be declared external
+MonarchyController.getNumEndableGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1039-1050) should be declared external
+MonarchyController.getFirstStartableIndex (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1050-1058) should be declared external
+MonarchyController.getAvailableFees (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1063-1082) should be declared external
+MonarchyController.recentlyEndedGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1082-1095) should be declared external
+MonarchyController.getGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol) should be declared external
+MonarchyController.getIsEnabled (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol) should be declared external
+MonarchyController.getInitialPrize (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol:
+	- pragma solidity^0.4.23 (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in Bankrollable.removeBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#603-632):
+	-require(bool)(_bankroller.call.value(_amount)(_sig)) /unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#628-629
+Low level call in Bankrollable.sendProfits (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#632-646):
+	-require(bool)(_tr.call.value(_profits)()) /unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#644
+Low level call in MonarchyController.startDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#884-942):
+	-_success = address(_mf).call.value(dGame.initialPrize)(bytes4(keccak256()(createGame(uint256,uint256,int256,uint256,uint256))),dGame.initialPrize,dGame.fee,dGame.prizeIncr,dGame.reignBlocks,dGame.initialBlocks) /unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#915-927
+Low level call in MonarchyController.startDefinedGameManually (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#947-962):
+	-require(bool)(msg.sender.call.value(msg.value)()) /unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#956-957
+	-require(bool)(msg.sender.call.value(msg.value)()) /unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#959-961
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Parameter '_registry' of UsingRegistry. (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#25-27) is not in mixedCase
+Parameter '_name' of UsingRegistry.addressOf (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#32-33) is not in mixedCase
+Parameter '_limit' of HasDailyLimit. (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#181-182) is not in mixedCase
+Function 'HasDailyLimit._setDailyLimit' (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#185-187) is not in mixedCase
+Parameter '_limit' of HasDailyLimit._setDailyLimit (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#186) is not in mixedCase
+Function 'HasDailyLimit._useFromDailyLimit' (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#190-196) is not in mixedCase
+Parameter '_amount' of HasDailyLimit._useFromDailyLimit (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#193) is not in mixedCase
+Parameter '_owner' of Ledger. (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#273) is not in mixedCase
+Parameter '_address' of Ledger.add (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#282) is not in mixedCase
+Parameter '_amt' of Ledger.add (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#282) is not in mixedCase
+Parameter '_address' of Ledger.subtract (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#301-302) is not in mixedCase
+Parameter '_amt' of Ledger.subtract (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#302) is not in mixedCase
+Parameter '_address' of Ledger.balanceOf (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#351) is not in mixedCase
+Parameter '_owner' of AddressSet. (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#407) is not in mixedCase
+Parameter '_address' of AddressSet.add (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#414-415) is not in mixedCase
+Parameter '_address' of AddressSet.remove (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#438) is not in mixedCase
+Parameter '_address' of AddressSet.has (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#483-484) is not in mixedCase
+Parameter '_addr' of Bankrollable.addToWhitelist (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#573) is not in mixedCase
+Parameter '_addr' of Bankrollable.removeFromWhitelist (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#580-581) is not in mixedCase
+Parameter '_amount' of Bankrollable.removeBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#603-604) is not in mixedCase
+Parameter '_callbackFn' of Bankrollable.removeBankroll (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#604) is not in mixedCase
+Parameter '_addr' of Bankrollable.bankrolledBy (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#708) is not in mixedCase
+Parameter '_amount' of MonarchyController.setDailyLimit (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#811) is not in mixedCase
+Parameter '_index' of MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#822-823) is not in mixedCase
+Parameter '_summary' of MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#823-825) is not in mixedCase
+Parameter '_initialPrize' of MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#826) is not in mixedCase
+Parameter '_fee' of MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#826) is not in mixedCase
+Parameter '_prizeIncr' of MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#827-828) is not in mixedCase
+Parameter '_reignBlocks' of MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#828-829) is not in mixedCase
+Parameter '_initialBlocks' of MonarchyController.editDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#829-831) is not in mixedCase
+Parameter '_index' of MonarchyController.enableDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#853-854) is not in mixedCase
+Parameter '_bool' of MonarchyController.enableDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#854) is not in mixedCase
+Parameter '_index' of MonarchyController.startDefinedGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#884) is not in mixedCase
+Function 'MonarchyController._error' (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#944-947) is not in mixedCase
+Parameter '_msg' of MonarchyController._error (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#945) is not in mixedCase
+Parameter '_index' of MonarchyController.startDefinedGameManually (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#948) is not in mixedCase
+Parameter '_num' of MonarchyController.recentlyEndedGames (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#1082-1083) is not in mixedCase
+Parameter '_index' of MonarchyController.getGame (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol) is not in mixedCase
+Parameter '_index' of MonarchyController.getIsEnabled (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol) is not in mixedCase
+Parameter '_index' of MonarchyController.getInitialPrize (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol) is not in mixedCase
+Parameter '_index' of MonarchyController.getIsStartable (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol) is not in mixedCase
+Constant 'MonarchyController.version' (/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol#752-753) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/24/0xd70c07759c86212d1558796d7c15480c00524b2a.sol analyzed (13 contracts), 100 result(s) found

@@ -1,0 +1,208 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol:
+/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol:247:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(token.call(bytes4(keccak256("name()"))));
+                ^-------------------------------------^
+/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol:254:17: Warning: Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+        require(token.call(bytes4(keccak256("symbol()"))));
+                ^---------------------------------------^
+
+INFO:Detectors:[91m
+MultiChanger.sendEthValue (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#472-476) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool)(target.call.value(value)(data)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#475-476)
+MultiChanger.sendEthProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#476-483) sends eth to arbitrary user
+	Dangerous calls:
+	- require(bool)(target.call.value(value)(data)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#483)
+MultiChanger.bancorSendEthValue (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#547-553) sends eth to arbitrary user
+	Dangerous calls:
+	- bancor.convert.value(value)(path,value,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#550-553)
+MultiChanger.bancorSendEthProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#553-556) sends eth to arbitrary user
+	Dangerous calls:
+	- bancor.convert.value(value)(path,value,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#555)
+MultiChanger.kyberSendEthProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#598-612) sends eth to arbitrary user
+	Dangerous calls:
+	- kyber.trade.value(value)(fromToken,value,toToken,this,1 << 255,0,0) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#609-612)
+MultiBuyer.buy (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#641-682) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(address(this).balance) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#673-674)
+MultiBuyer.buyFirstTokens (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#682-693) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(address(this).balance) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+CheckedERC20.isContract (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#160-167) is declared view but contains assembly code
+CheckedERC20.handleReturnBool (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#167-184) is declared view but contains assembly code
+CheckedERC20.handleReturnBytes32 (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#184-206) is declared view but contains assembly code
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#constant-functions-changing-the-state[0m
+INFO:Detectors:[93m
+CheckedERC20.checkedTransfer (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#230-238) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(this) == balance.sub(value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransfer (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#230-238) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(this) == balance.sub(value),checkedTransfer: Final balance didn't match)
+CheckedERC20.checkedTransferFrom (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#238-248) uses a dangerous strict equality:
+	- require(bool,string)(token.balanceOf(to) == toBalance.add(value),checkedTransfer: Final balance didn't match)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+MultiChanger.approveTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#483-493) does not use the value returned by external calls:
+	-fromToken.asmApprove(target,0) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#486-488)
+	-fromToken.asmApprove(target,amount) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#488-489)
+MultiChanger.approveTokenProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#493-502) does not use the value returned by external calls:
+	-fromToken.asmApprove(target,0) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#497-501)
+	-fromToken.asmApprove(target,amount) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#501)
+MultiChanger.transferTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#502-512) does not use the value returned by external calls:
+	-fromToken.asmTransfer(target,amount) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#505)
+MultiChanger.transferTokenProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#512-520) does not use the value returned by external calls:
+	-fromToken.asmTransfer(target,amount) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#516-519)
+MultiChanger.multitokenChangeAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#520-530) does not use the value returned by external calls:
+	-fromToken.asmApprove(mtkn,uint256(- 1)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#526-527)
+	-mtkn.change(fromToken,toToken,amount,minReturn) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#528-530)
+MultiChanger.bancorSendEthValue (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#547-553) does not use the value returned by external calls:
+	-bancor.convert.value(value)(path,value,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#550-553)
+MultiChanger.bancorSendEthProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#553-556) does not use the value returned by external calls:
+	-bancor.convert.value(value)(path,value,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#555)
+MultiChanger.bancorApproveTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#556-563) does not use the value returned by external calls:
+	-ERC20(path[0]).asmApprove(bancor,uint256(- 1)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#561)
+	-bancor.claimAndConvert(path,amount,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#562-563)
+MultiChanger.bancorApproveTokenProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#563-572) does not use the value returned by external calls:
+	-ERC20(path[0]).asmApprove(bancor,uint256(- 1)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#568-569)
+	-bancor.claimAndConvert(path,amount,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#572)
+MultiChanger.bancorTransferTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#572-576) does not use the value returned by external calls:
+	-ERC20(path[0]).asmTransfer(bancor,amount) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#576)
+	-bancor.convert(path,amount,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#576)
+MultiChanger.bancorTransferTokenProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#576-583) does not use the value returned by external calls:
+	-ERC20(path[0]).asmTransfer(bancor,amount) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#583)
+	-bancor.convert(path,amount,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#583)
+MultiChanger.bancorAlreadyTransferedTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#584-589) does not use the value returned by external calls:
+	-bancor.convert(path,amount,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#587-588)
+MultiChanger.bancorAlreadyTransferedTokenProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#589-597) does not use the value returned by external calls:
+	-bancor.convert(path,amount,1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#597)
+MultiChanger.kyberSendEthProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#598-612) does not use the value returned by external calls:
+	-kyber.trade.value(value)(fromToken,value,toToken,this,1 << 255,0,0) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#609-612)
+MultiChanger.kyberApproveTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#612-631) does not use the value returned by external calls:
+	-fromToken.asmApprove(kyber,uint256(- 1)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#620-622)
+	-kyber.trade(fromToken,amount,toToken,this,1 << 255,0,0) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#623-630)
+MultiBuyer.buy (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#641-682) does not use the value returned by external calls:
+	-token.asmApprove(mtkn,uint256(- 1)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#655)
+	-token.asmTransfer(msg.sender,token.balanceOf(this)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#678-679)
+MultiBuyer.buyFirstTokens (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#682-693) does not use the value returned by external calls:
+	-token.asmApprove(mtkn,uint256(- 1)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+	-token.asmTransfer(msg.sender,token.balanceOf(this)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+MultiBuyer.buy has external calls inside a loop:
+	- token = mtkn.tokens(i - 1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#676)
+MultiBuyer.buy has external calls inside a loop:
+	- token.balanceOf(this) > 0 (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#677-680)
+MultiBuyer.buy has external calls inside a loop:
+	- token.asmTransfer(msg.sender,token.balanceOf(this)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#678-679)
+MultiBuyer.buy has external calls inside a loop:
+	- token = mtkn.tokens(i - 1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#652-653)
+MultiBuyer.buy has external calls inside a loop:
+	- token.allowance(this,mtkn) == 0 (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#654-655)
+MultiBuyer.buy has external calls inside a loop:
+	- amount = mtknTotalSupply.mul(token.balanceOf(this)).div(token.balanceOf(mtkn)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#657-662)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token = mtkn.tokens(i - 1) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token.balanceOf(this) > 0 (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token.asmTransfer(msg.sender,token.balanceOf(this)) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token = mtkn.tokens(i) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- amounts[i] = token.balanceOf(this) (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+MultiBuyer.buyFirstTokens has external calls inside a loop:
+	- token.allowance(this,mtkn) == 0 (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+CheckedERC20.isContract uses assembly (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#160-167)
+	- /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#165-167
+CheckedERC20.handleReturnBool uses assembly (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#167-184)
+	- /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#172-184
+CheckedERC20.handleReturnBytes32 uses assembly (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#184-206)
+	- /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#188-206
+MultiChanger.externalCall uses assembly (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#442-465)
+	- /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#445-465
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+ERC20Basic.totalSupply (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#11-12) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#12-13) should be declared external
+ERC20Basic.transfer (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#13-14) should be declared external
+ERC20.allowance (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#24-27) should be declared external
+ERC20.transferFrom (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#27-30) should be declared external
+ERC20.approve (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#30-32) should be declared external
+IBasicMultiToken.tokensCount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#44-45) should be declared external
+IBasicMultiToken.tokens (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#45-46) should be declared external
+IBasicMultiToken.bundlingEnabled (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#46-48) should be declared external
+IBasicMultiToken.bundleFirstTokens (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#48-49) should be declared external
+IBasicMultiToken.bundle (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#49-51) should be declared external
+IBasicMultiToken.unbundle (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#51-52) should be declared external
+IBasicMultiToken.unbundleSome (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#52-55) should be declared external
+IBasicMultiToken.disableBundling (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#56-58) should be declared external
+IBasicMultiToken.enableBundling (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#58) should be declared external
+IMultiToken.weights (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#80-82) should be declared external
+IMultiToken.changesEnabled (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#82) should be declared external
+IMultiToken.getReturn (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#82-83) should be declared external
+IMultiToken.change (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#83-88) should be declared external
+IMultiToken.disableChanges (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#88-90) should be declared external
+Ownable.renounceOwnership (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#308-313) should be declared external
+Ownable.transferOwnership (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#317-322) should be declared external
+IEtherToken.deposit (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#409-411) should be declared external
+IEtherToken.withdraw (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#411-415) should be declared external
+IBancorNetwork.convert (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#417-423) should be declared external
+IBancorNetwork.claimAndConvert (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#424-435) should be declared external
+IKyberNetworkProxy.trade (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#435-438) should be declared external
+MultiBuyer.buy (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#641-682) should be declared external
+MultiBuyer.buyFirstTokens (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#682-693) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Low level call in CheckedERC20.asmTransfer (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#206-212):
+	-require(bool)(token.call(bytes4(keccak256()(transfer(address,uint256))),to,value)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#210-212
+Low level call in CheckedERC20.asmTransferFrom (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#213-220):
+	-require(bool)(token.call(bytes4(keccak256()(transferFrom(address,address,uint256))),from,to,value)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#217-219
+Low level call in CheckedERC20.asmApprove (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#220-230):
+	-require(bool)(token.call(bytes4(keccak256()(approve(address,uint256))),spender,value)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#227-229
+Low level call in CheckedERC20.asmName (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#248-255):
+	-require(bool)(token.call(bytes4(keccak256()(name())))) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#253-254
+Low level call in CheckedERC20.asmSymbol (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#255-265):
+	-require(bool)(token.call(bytes4(keccak256()(symbol())))) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#263-264
+Low level call in MultiChanger.sendEthValue (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#472-476):
+	-require(bool)(target.call.value(value)(data)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#475-476
+Low level call in MultiChanger.sendEthProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#476-483):
+	-require(bool)(target.call.value(value)(data)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#483
+Low level call in MultiChanger.approveTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#483-493):
+	-require(bool)(target.call(data)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#491-493
+Low level call in MultiChanger.approveTokenProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#493-502):
+	-require(bool)(target.call(data)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#502
+Low level call in MultiChanger.transferTokenAmount (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#502-512):
+	-require(bool)(target.call(data)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#512
+Low level call in MultiChanger.transferTokenProportion (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#512-520):
+	-require(bool)(target.call(data)) /unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#519-520
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Constant 'IBasicMultiToken.InterfaceId_IBasicMultiToken' (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#58-61) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'IMultiToken.InterfaceId_IMultiToken' (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#90-92) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_a' of SafeMath.mul (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#112) is not in mixedCase
+Parameter '_b' of SafeMath.mul (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#112) is not in mixedCase
+Parameter '_a' of SafeMath.div (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#128-129) is not in mixedCase
+Parameter '_b' of SafeMath.div (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#129) is not in mixedCase
+Parameter '_a' of SafeMath.sub (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#143) is not in mixedCase
+Parameter '_b' of SafeMath.sub (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#143-144) is not in mixedCase
+Parameter '_a' of SafeMath.add (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#152) is not in mixedCase
+Parameter '_b' of SafeMath.add (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#152-154) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#318) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#327-329) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#328) is not in mixedCase
+Parameter '_token' of SafeERC20.safeTransfer (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#354-355) is not in mixedCase
+Parameter '_to' of SafeERC20.safeTransfer (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#355) is not in mixedCase
+Parameter '_value' of SafeERC20.safeTransfer (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#356) is not in mixedCase
+Parameter '_token' of SafeERC20.safeTransferFrom (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#364) is not in mixedCase
+Parameter '_from' of SafeERC20.safeTransferFrom (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#364) is not in mixedCase
+Parameter '_to' of SafeERC20.safeTransferFrom (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#366-367) is not in mixedCase
+Parameter '_value' of SafeERC20.safeTransferFrom (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#367) is not in mixedCase
+Parameter '_token' of SafeERC20.safeApprove (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#369) is not in mixedCase
+Parameter '_spender' of SafeERC20.safeApprove (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#369) is not in mixedCase
+Parameter '_value' of SafeERC20.safeApprove (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#369) is not in mixedCase
+Parameter '_token' of CanReclaimToken.reclaimToken (/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol#397) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/25/0xffa5d49dc77dec17aeaaa3580c7c1060f4709f0c.sol analyzed (14 contracts), 109 result(s) found

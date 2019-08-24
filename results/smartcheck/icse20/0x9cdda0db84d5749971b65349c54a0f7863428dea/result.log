@@ -1,0 +1,63 @@
+/unique_contracts/0x9cdda0db84d5749971b65349c54a0f7863428dea.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_DEPRECATED_CONSTRUCTIONS
+patternId: 28fa69
+severity: 1
+line: 235
+column: 4
+content: functionallowance(addresstokenOwner,addressspender)publicconstantreturns(uintremaining){returnallowed[tokenOwner][spender];}
+
+ruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 206
+column: 4
+content: functionapprove(addressspender,uinttokens)publicreturns(boolsuccess){allowed[msg.sender][spender]=tokens;emitApproval(msg.sender,spender,tokens);returntrue;}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 70
+column: 0
+content: contractVitaTokenisERC20Interface,SafeMath{stringpublicsymbol;stringpublicname;uint8publicdecimals;addresspublicmanager;addresspublicreward_contract;uintpubliccrowd_start_date;uintpubliccrowd_end_date;uintpublicfirst_bonus_duration;uintpublicsecond_bonus_duration;uintpublicextra_bonus_duration;uintpublicfirst_bonus_amount;uintpublicsecond_bonus_amount;uintpublicthird_bonus_amount;uintpublicextra_bonus_amount;uintpublicETH_VTA;uintpublictotal_reward_amount;uintpublicmax_crowd_vitas;uintpubliccollected_crowd_vitas;uintpubliccollected_crowd_wei;mapping(address=>uint)balances;mapping(address=>uint)rewards;mapping(address=>mapping(address=>uint))allowed;functionVitaToken()public{symbol="VTA";name="Vita Token";decimals=18;ETH_VTA=100000;collected_crowd_wei=0;max_crowd_vitas=3*10**27;collected_crowd_vitas=0;totalSupply=10**28;manager=msg.sender;total_reward_amount=totalSupply/2;balances[manager]=totalSupply/2;crowd_start_date=now;extra_bonus_duration=4days;crowd_end_date=crowd_start_date+extra_bonus_duration+122days;first_bonus_duration=47days;second_bonus_duration=30days;extra_bonus_amount=40000;first_bonus_amount=35000;second_bonus_amount=20000;third_bonus_amount=10000;}modifierrestricted(){require(msg.sender==manager);_;}modifieronlyVitaReward(){require(msg.sender==reward_contract);_;}functiontransferOwnership(addressnew_manager)publicrestricted{emitOwnershipTransferred(manager,new_manager);manager=new_manager;}functionnewVitaReward(addressnew_reward_contract)publicrestricted{uintamount_to_transfer;if(reward_contract==address(0)){amount_to_transfer=total_reward_amount;}else{amount_to_transfer=balances[reward_contract];}balances[new_reward_contract]=amount_to_transfer;balances[reward_contract]=0;reward_contract=new_reward_contract;}functionbalanceOf(address_owner)publicviewreturns(uintbalance){returnbalances[_owner];}functionrewardsOf(address_owner)publicviewreturns(uintbalance){returnrewards[_owner];}functiontransfer(addressto,uinttokens)publicreturns(boolsuccess){balances[msg.sender]=safeSub(balances[msg.sender],tokens);balances[to]=safeAdd(balances[to],tokens);emitTransfer(msg.sender,to,tokens);returntrue;}functionreward(addresspatient,addresscompany,uinttokens_patient,uinttokens_company,uinttokens_vita_team)publiconlyVitaRewardreturns(boolsuccess){balances[reward_contract]=safeSub(balances[reward_contract],(tokens_patient+tokens_company+tokens_vita_team));balances[patient]=safeAdd(balances[patient],tokens_patient);balances[company]=safeAdd(balances[company],tokens_company);balances[manager]=safeAdd(balances[manager],tokens_vita_team);rewards[patient]=safeAdd(rewards[patient],1);emitTransfer(reward_contract,patient,tokens_patient);emitTransfer(reward_contract,company,tokens_company);emitTransfer(reward_contract,manager,tokens_vita_team);returntrue;}functionapprove(addressspender,uinttokens)publicreturns(boolsuccess){allowed[msg.sender][spender]=tokens;emitApproval(msg.sender,spender,tokens);returntrue;}functiontransferFrom(addressfrom,addressto,uinttokens)publicreturns(boolsuccess){require(balances[from]>=tokens&&allowed[from][msg.sender]>=tokens);allowed[from][msg.sender]=safeSub(allowed[from][msg.sender],tokens);balances[from]=safeSub(balances[from],tokens);balances[to]=safeAdd(balances[to],tokens);emitTransfer(from,to,tokens);returntrue;}functionallowance(addresstokenOwner,addressspender)publicconstantreturns(uintremaining){returnallowed[tokenOwner][spender];}function()publicpayable{require(now>=crowd_start_date&&now<=crowd_end_date);require(collected_crowd_vitas<max_crowd_vitas);uinttokens;if(now<=crowd_start_date+extra_bonus_duration){tokens=msg.value*(ETH_VTA+extra_bonus_amount);}elseif(now<=crowd_start_date+extra_bonus_duration+first_bonus_duration){tokens=msg.value*(ETH_VTA+first_bonus_amount);}elseif(now<=crowd_start_date+extra_bonus_duration+first_bonus_duration+second_bonus_duration){tokens=msg.value*(ETH_VTA+second_bonus_amount);}else{tokens=msg.value*(ETH_VTA+third_bonus_amount);}balances[manager]=safeSub(balances[manager],tokens);balances[msg.sender]=safeAdd(balances[msg.sender],tokens);emitTransfer(manager,msg.sender,tokens);collected_crowd_wei+=msg.value;collected_crowd_vitas+=tokens;manager.transfer(msg.value);}eventOwnershipTransferred(addressindexedpreviousOwner,addressindexednewOwner);}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 91h3sa
+severity: 1
+line: 239
+column: 16
+content: public
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 93
+column: 4
+content: mapping(address=>uint)balances;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 94
+column: 4
+content: mapping(address=>uint)rewards;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 95
+column: 4
+content: mapping(address=>mapping(address=>uint))allowed;
+
+SOLIDITY_VISIBILITY :3
+SOLIDITY_DEPRECATED_CONSTRUCTIONS :1
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_UPGRADE_TO_050 :1
+SOLIDITY_ERC20_APPROVE :1

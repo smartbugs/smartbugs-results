@@ -1,0 +1,165 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol:
+/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol:150:9: Warning: Invoking events without "emit" prefix is deprecated.
+        DotTokenCreated(curves[specifier]);
+        ^--------------------------------^
+/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol:118:5: Warning: No visibility specified. Defaulting to "public". 
+    constructor(
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[93m
+Reentrancy in TokenDotFactory.initializeCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#138-157):
+	External calls:
+	- registry = RegistryInterface(coord.getContract(REGISTRY)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#143-145)
+	- require(bool,string)(registry.isProviderInitiated(address(this)),Provider not intiialized) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#145-146)
+	- registry.initiateProviderCurve(specifier,curve,address(this)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#146-148)
+	- curves[specifier] = newToken(bytes32ToString(specifier),bytes32ToString(symbol)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#148-151)
+	State variables written after the call(s):
+	- curves (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#148-151)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+TokenDotFactory.constructor (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#122-138) does not use the value returned by external calls:
+	-reserveToken.approve(coord.getContract(BONDAGE),~ uint256(0)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#130)
+	-registry.initiateProvider(providerPubKey,providerTitle) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#136-138)
+TokenDotFactory.initializeCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#138-157) does not use the value returned by external calls:
+	-registry.initiateProviderCurve(specifier,curve,address(this)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#146-148)
+TokenDotFactory.bond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#158-177) does not use the value returned by external calls:
+	-reserveToken.approve(address(bondage),numReserve) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#170-174)
+	-bondage.bond(address(this),specifier,numDots) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#174-175)
+	-FactoryTokenInterface(curves[specifier]).mint(msg.sender,numDots) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#175-177)
+TokenDotFactory.unbond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#178-199) does not use the value returned by external calls:
+	-bondage.unbond(address(this),specifier,numDots) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#187-189)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in TokenDotFactory.constructor (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#122-138):
+	External calls:
+	- reserveToken = FactoryTokenInterface(coord.getContract(ZAP_TOKEN)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#126-127)
+	- reserveToken.approve(coord.getContract(BONDAGE),~ uint256(0)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#130)
+	State variables written after the call(s):
+	- tokenFactory (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#130-131)
+Reentrancy in TokenDotFactory.unbond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#178-199):
+	External calls:
+	- bondage = BondageInterface(coord.getContract(BONDAGE)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#180-181)
+	- issued = bondage.getDotsIssued(address(this),specifier) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#181)
+	- currentCost = CurrentCostInterface(coord.getContract(CURRENT_COST)) (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#181-184)
+	State variables written after the call(s):
+	- currentCost (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#181-184)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#20-27) should be declared external
+FactoryTokenInterface.balanceOf (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#30-31) should be declared external
+FactoryTokenInterface.transfer (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#31-32) should be declared external
+FactoryTokenInterface.transferFrom (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#32-33) should be declared external
+FactoryTokenInterface.approve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#33-34) should be declared external
+FactoryTokenInterface.allowance (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#34-35) should be declared external
+FactoryTokenInterface.mint (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#35-36) should be declared external
+FactoryTokenInterface.burnFrom (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#36-39) should be declared external
+TokenFactoryInterface.create (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#42-45) should be declared external
+ZapCoordinatorInterface.getContractName (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#50-51) should be declared external
+ZapCoordinatorInterface.getContract (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#51-55) should be declared external
+BondageInterface.currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#65-66) should be declared external
+BondageInterface.getDotsIssued (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#66-67) should be declared external
+BondageInterface.getBoundDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#67-68) should be declared external
+BondageInterface.getZapBound (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#68-69) should be declared external
+BondageInterface.dotLimit (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#70-72) should be declared external
+CurrentCostInterface._currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#75-77) should be declared external
+CurrentCostInterface._dotLimit (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#77) should be declared external
+CurrentCostInterface._costOfNDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#77-82) should be declared external
+RegistryInterface.initiateProvider (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#86) should be declared external
+RegistryInterface.initiateProviderCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#87-88) should be declared external
+RegistryInterface.setEndpointParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#88-89) should be declared external
+RegistryInterface.getEndpointParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#89-90) should be declared external
+RegistryInterface.getProviderPublicKey (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#90-91) should be declared external
+RegistryInterface.getProviderTitle (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#91-92) should be declared external
+RegistryInterface.setProviderParameter (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#92-93) should be declared external
+RegistryInterface.setProviderTitle (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#94) should be declared external
+RegistryInterface.clearEndpoint (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#94-95) should be declared external
+RegistryInterface.getProviderParameter (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#95-96) should be declared external
+RegistryInterface.getAllProviderParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#96-97) should be declared external
+RegistryInterface.getProviderCurveLength (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#97-98) should be declared external
+RegistryInterface.getProviderCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#98-99) should be declared external
+RegistryInterface.isProviderInitiated (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#99-100) should be declared external
+RegistryInterface.getProviderEndpoints (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#101-104) should be declared external
+RegistryInterface.getEndpointBroker (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#104-108) should be declared external
+TokenDotFactory.initializeCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#138-157) should be declared external
+TokenDotFactory.bond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#158-177) should be declared external
+TokenDotFactory.unbond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#178-199) should be declared external
+TokenDotFactory.getTokenAddress (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#206-212) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '' of BondageInterface.bond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#59) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.bond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#59) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.bond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#59) is not in mixedCase
+Parameter '' of BondageInterface.unbond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#60) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.unbond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#60) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.unbond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#60) is not in mixedCase
+Parameter '' of BondageInterface.delegateBond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#60-61) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.delegateBond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#61) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.delegateBond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#61) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.delegateBond (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#61) is not in mixedCase
+Parameter '' of BondageInterface.escrowDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#61-62) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.escrowDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#62) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.escrowDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#62) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.escrowDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#62) is not in mixedCase
+Parameter '' of BondageInterface.releaseDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#63) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.releaseDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#63) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.releaseDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#63) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.releaseDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#63) is not in mixedCase
+Parameter '' of BondageInterface.returnDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#63-64) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.returnDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#64) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.returnDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#64) is not in mixedCase
+Parameter '_scope_2' of BondageInterface.returnDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#64) is not in mixedCase
+Parameter '' of BondageInterface.calcZapForDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#65) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.calcZapForDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#65) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.calcZapForDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#65) is not in mixedCase
+Parameter '' of BondageInterface.currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#66) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#66) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#66) is not in mixedCase
+Parameter '' of BondageInterface.getDotsIssued (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#67) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.getDotsIssued (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#67) is not in mixedCase
+Parameter '' of BondageInterface.getBoundDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#68) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.getBoundDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#68) is not in mixedCase
+Parameter '_scope_1' of BondageInterface.getBoundDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#68) is not in mixedCase
+Parameter '' of BondageInterface.getZapBound (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#69) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.getZapBound (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#69) is not in mixedCase
+Parameter '' of BondageInterface.dotLimit (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#72) is not in mixedCase
+Parameter '_scope_0' of BondageInterface.dotLimit (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#72) is not in mixedCase
+Function 'CurrentCostInterface._currentCostOfDot' (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#75-77) is not in mixedCase
+Parameter '' of CurrentCostInterface._currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#76) is not in mixedCase
+Parameter '_scope_0' of CurrentCostInterface._currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#76) is not in mixedCase
+Parameter '_scope_1' of CurrentCostInterface._currentCostOfDot (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#76) is not in mixedCase
+Function 'CurrentCostInterface._dotLimit' (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#77) is not in mixedCase
+Parameter '' of CurrentCostInterface._dotLimit (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#77) is not in mixedCase
+Parameter '_scope_0' of CurrentCostInterface._dotLimit (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#77) is not in mixedCase
+Function 'CurrentCostInterface._costOfNDots' (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#77-82) is not in mixedCase
+Parameter '' of CurrentCostInterface._costOfNDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#80) is not in mixedCase
+Parameter '_scope_0' of CurrentCostInterface._costOfNDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#80) is not in mixedCase
+Parameter '_scope_1' of CurrentCostInterface._costOfNDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#80) is not in mixedCase
+Parameter '_scope_2' of CurrentCostInterface._costOfNDots (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#80) is not in mixedCase
+Parameter '' of RegistryInterface.initiateProvider (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#86) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.initiateProvider (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#86) is not in mixedCase
+Parameter '' of RegistryInterface.initiateProviderCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#87) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.initiateProviderCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#87) is not in mixedCase
+Parameter '_scope_1' of RegistryInterface.initiateProviderCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#87-88) is not in mixedCase
+Parameter '' of RegistryInterface.setEndpointParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#88) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.setEndpointParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#88) is not in mixedCase
+Parameter '' of RegistryInterface.getEndpointParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#89) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getEndpointParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#89) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderPublicKey (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#90) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderTitle (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#91) is not in mixedCase
+Parameter '' of RegistryInterface.setProviderParameter (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#93) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.setProviderParameter (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#93) is not in mixedCase
+Parameter '' of RegistryInterface.setProviderTitle (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#94) is not in mixedCase
+Parameter '' of RegistryInterface.clearEndpoint (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#94-95) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderParameter (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#95) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getProviderParameter (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#95) is not in mixedCase
+Parameter '' of RegistryInterface.getAllProviderParams (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#96) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderCurveLength (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#97) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getProviderCurveLength (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#97) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#98) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getProviderCurve (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#98) is not in mixedCase
+Parameter '' of RegistryInterface.isProviderInitiated (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#99-100) is not in mixedCase
+Parameter '' of RegistryInterface.getProviderEndpoints (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#101) is not in mixedCase
+Parameter '' of RegistryInterface.getEndpointBroker (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#104-106) is not in mixedCase
+Parameter '_scope_0' of RegistryInterface.getEndpointBroker (/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol#106) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/21/0x2416002d127175bc2d627faefdaa4186c7c49833.sol analyzed (8 contracts), 121 result(s) found

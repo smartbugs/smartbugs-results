@@ -1,0 +1,56 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol:
+/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol:63:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ChiTrader() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol:73:58: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        return (now - cooldown_start_time > 1 hours) && (this.balance==0) && (Chi.balanceOf(this) == 0);
+                                                         ^----------^
+/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol:92:31: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        uint256 eth_balance = this.balance;
+                              ^----------^
+
+INFO:Detectors:[93m
+ChiTrader.is_empty (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#73-76) uses a dangerous strict equality:
+	- (now - cooldown_start_time > 3600) && (this.balance == 0) && (Chi.balanceOf(this) == 0)
+	- (now - cooldown_start_time > 3600) && (this.balance == 0) && (Chi.balanceOf(this) == 0)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+Reentrancy in ChiTrader.fallback (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#93-114):
+	External calls:
+	- chi_balance = Chi.balanceOf(this) (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#95-96)
+	State variables written after the call(s):
+	- Amount_of_Chi_for_One_ETH (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#99-101)
+	- Chi_available (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#98-99)
+	- Chi_available (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#111)
+	- cooldown_start_time (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#101)
+	- price (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#98)
+	- seller (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#97)
+Reentrancy in ChiTrader.setup (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#79-93):
+	External calls:
+	- require(bool)(is_empty()) (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#80)
+	- require(bool)(Chi.allowance(msg.sender,this) >= chi_amount) (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#80-81)
+	State variables written after the call(s):
+	- Amount_of_Chi_for_One_ETH (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#88)
+	- Chi_available (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#85-86)
+	- price (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#85)
+	- seller (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#88)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+ChiTrader.setup (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#79-93) should be declared external
+ChiTrader.fallback (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#93-114) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'ChiTrader.ChiTrader' (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#65-71) is not in mixedCase
+Function 'ChiTrader.is_empty' (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#73-76) is not in mixedCase
+Parameter 'chi_amount' of ChiTrader.setup (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#79) is not in mixedCase
+Parameter 'price_in_wei' of ChiTrader.setup (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#79-80) is not in mixedCase
+Variable 'ChiTrader.Chi' (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#56-57) is not in mixedCase
+Variable 'ChiTrader.Chi_available' (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#59) is not in mixedCase
+Variable 'ChiTrader.Amount_of_Chi_for_One_ETH' (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#60) is not in mixedCase
+Variable 'ChiTrader.cooldown_start_time' (/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol#63-65) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/27/0xa17473649eba280d5686bde1f2c468def29c1f99.sol analyzed (2 contracts), 14 result(s) found

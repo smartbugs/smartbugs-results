@@ -1,0 +1,164 @@
+Processing contract: /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol:IUToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol:TokenERC20
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol:owned
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol:tokenRecipient
+[33mWarning[0m for TODAmount in contract 'IUToken':
+    |        require(myAddress.balance >= amount * sellPrice);   // checks if the contract has enough ether to buy
+    |        _transfer(msg.sender, address(this), amount);       // makes the transfers
+  > |        msg.sender.transfer(amount * sellPrice);            // sends ether to the seller. It's important to do this last to avoid recursion attacks
+    |    }
+    |}
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(365)
+
+[33mWarning[0m for UnrestrictedEtherFlow in contract 'IUToken':
+    |        require(myAddress.balance >= amount * sellPrice);   // checks if the contract has enough ether to buy
+    |        _transfer(msg.sender, address(this), amount);       // makes the transfers
+  > |        msg.sender.transfer(amount * sellPrice);            // sends ether to the seller. It's important to do this last to avoid recursion attacks
+    |    }
+    |}
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(365)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'IUToken':
+    |        require(balanceOf[msg.sender] >= _value);   // Check if the sender has enough
+    |        balanceOf[msg.sender] -= _value;            // Subtract from the sender
+  > |        totalSupply -= _value;                      // Updates totalSupply
+    |        emit Burn(msg.sender, _value);
+    |        return true;
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(268)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'IUToken':
+    |        require(balanceOf[_from] >= _value);                // Check if the targeted balance is enough
+    |        require(_value <= allowance[_from][msg.sender]);    // Check allowance
+  > |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+    |        totalSupply -= _value;                              // Update totalSupply
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(284)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'IUToken':
+    |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+  > |        totalSupply -= _value;                              // Update totalSupply
+    |        emit Burn(_from, _value);
+    |        return true;
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(286)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'IUToken':
+    |
+    |    function transferOwnership(address newOwner) onlyOwner public {
+  > |        owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(133)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'IUToken':
+    |    /// @param mintedAmount the amount of tokens it will receive
+    |    function mintToken(address target, uint256 mintedAmount) onlyOwner public {
+  > |        balanceOf[target] += mintedAmount;
+    |        totalSupply += mintedAmount;
+    |        emit Transfer(address(0), address(this), mintedAmount);
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(331)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'IUToken':
+    |    function mintToken(address target, uint256 mintedAmount) onlyOwner public {
+    |        balanceOf[target] += mintedAmount;
+  > |        totalSupply += mintedAmount;
+    |        emit Transfer(address(0), address(this), mintedAmount);
+    |        emit Transfer(address(this), target, mintedAmount);
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(332)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'IUToken':
+    |    /// @param freeze either to freeze it or not
+    |    function freezeAccount(address target, bool freeze) onlyOwner public {
+  > |        frozenAccount[target] = freeze;
+    |        emit FrozenFunds(target, freeze);
+    |    }
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(341)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'IUToken':
+    |    /// @param newBuyPrice Price users can buy from the contract
+    |    function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner public {
+  > |        sellPrice = newSellPrice;
+    |        buyPrice = newBuyPrice;
+    |    }
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(349)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'IUToken':
+    |    function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner public {
+    |        sellPrice = newSellPrice;
+  > |        buyPrice = newBuyPrice;
+    |    }
+    |
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(350)
+
+[31mViolation[0m for LockedEther in contract 'TokenERC20':
+    |interface tokenRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external; }
+    |
+  > |contract TokenERC20 {
+    |    using SafeMath for uint256;
+    |    
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(139)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        balanceOf[_from] -= _value;
+    |        // Add the same to the recipient
+  > |        balanceOf[_to] += _value;
+    |        emit Transfer(_from, _to, _value);
+    |    }
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(191)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        require(balanceOf[msg.sender] >= _value);   // Check if the sender has enough
+    |        balanceOf[msg.sender] -= _value;            // Subtract from the sender
+  > |        totalSupply -= _value;                      // Updates totalSupply
+    |        emit Burn(msg.sender, _value);
+    |        return true;
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(268)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        require(balanceOf[_from] >= _value);                // Check if the targeted balance is enough
+    |        require(_value <= allowance[_from][msg.sender]);    // Check allowance
+  > |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+    |        totalSupply -= _value;                              // Update totalSupply
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(284)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'TokenERC20':
+    |        balanceOf[_from] -= _value;                         // Subtract from the targeted balance
+    |        allowance[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
+  > |        totalSupply -= _value;                              // Update totalSupply
+    |        emit Burn(_from, _value);
+    |        return true;
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(286)
+
+[31mViolation[0m for MissingInputValidation in contract 'owned':
+    |    }
+    |
+  > |    function transferOwnership(address newOwner) onlyOwner public {
+    |        owner = newOwner;
+    |    }
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(132)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'owned':
+    |
+    |    function transferOwnership(address newOwner) onlyOwner public {
+  > |        owner = newOwner;
+    |    }
+    |}
+  at /unique_chucks/26/0x66bedabee1dc913ee665dbd6eaa1e209e1692363.sol(133)

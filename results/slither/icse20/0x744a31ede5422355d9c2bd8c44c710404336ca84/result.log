@@ -1,0 +1,153 @@
+INFO:Detectors:[91m
+Reentrancy in NFTsCrowdsaleBase._payByEth (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#824-861):
+	External calls:
+	- _transfer(buyer,_tokenId) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#851-852)
+	External calls sending eth:
+	- _auction.seller.transfer(price) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#848)
+	- buyer.transfer(payExcess) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#850)
+	State variables written after the call(s):
+	- tokenIdToAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#861)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[91m
+RBAC.roles (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#140-142) is never initialized. It is used in:
+	- checkRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#153-161)
+	- hasRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#165-167)
+	- addRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#170-177)
+	- removeRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#186-188)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-state-variables[0m
+INFO:Detectors:[93m
+ERC721Basic (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#405-493) has incorrect ERC20 function interface(s):
+	-approve (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#471)
+	-transferFrom (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#480-485)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Reentrancy in NFTsCrowdsaleBase._cancelAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#808-824):
+	External calls:
+	- _cancelEscrow(_auction.seller,_tokenId) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#822)
+	State variables written after the call(s):
+	- tokenIdToAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#822-824)
+Reentrancy in NFTsCrowdsaleBase._payByErc20 (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#861-887):
+	External calls:
+	- balance = erc20Contract.balanceOf(msg.sender) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#871-875)
+	- erc20Contract.transferFrom(msg.sender,_auction.seller,computedErc20Price) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#878-879)
+	- _transfer(msg.sender,_tokenId) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#882-883)
+	State variables written after the call(s):
+	- tokenIdToAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#887)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+NFTsCrowdsaleBase._payByErc20 (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#861-887) does not use the value returned by external calls:
+	-erc20Contract.transferFrom(msg.sender,_auction.seller,computedErc20Price) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#878-879)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+NFTsCrowdsale.constructor.eth2erc20 (local variable @ /unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol) shadows:
+	- NFTsCrowdsaleBase.eth2erc20 (state variable @ /unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#720)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Reentrancy in NFTsCrowdsaleBase._newAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#787-808):
+	External calls:
+	- require(bool)(_isTokenOwner(_seller,_tokenId)) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#791-792)
+	- _escrow(_seller,_tokenId) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#792)
+	State variables written after the call(s):
+	- tokenIdToAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#799-804)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+NFTsCrowdsaleBase.isOnAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#748-759) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (time < _auction.endAt && time > _auction.startAt) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#756-758)
+NFTsCrowdsaleBase.isOnPreAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#759-762) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (block.timestamp < _auction.startAt) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#761-762)
+NFTsCrowdsaleBase._isOnAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#767-775) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (time < _auction.endAt && time > _auction.startAt) (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#771-775)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+Ownable.renounceOwnership (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#263-266) should be declared external
+Superuser.transferOwnership (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#343-349) should be declared external
+Ownable.transferOwnership (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#276-281) should be declared external
+Superuser.transferSuperuser (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#327-333) should be declared external
+ERC20Basic.totalSupply (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#354-356) should be declared external
+ERC20Basic.balanceOf (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#356-360) should be declared external
+ERC20Basic.transfer (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#360-363) should be declared external
+ERC20.allowance (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#372-373) should be declared external
+ERC20.transferFrom (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#373-375) should be declared external
+ERC20.approve (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#375-376) should be declared external
+ERC721Basic.balanceOf (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#466-467) should be declared external
+ERC721Basic.ownerOf (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#467-469) should be declared external
+ERC721Basic.exists (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#469-470) should be declared external
+ERC721Basic.approve (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#471) should be declared external
+ERC721Basic.getApproved (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#472-477) should be declared external
+ERC721Basic.setApprovalForAll (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#477-478) should be declared external
+ERC721Basic.isApprovedForAll (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#478-480) should be declared external
+ERC721Basic.transferFrom (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#480-485) should be declared external
+ERC721Basic.safeTransferFrom (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#486-490) should be declared external
+ERC721Basic.safeTransferFrom (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#490-493) should be declared external
+ERC721Enumerable.totalSupply (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#503-507) should be declared external
+ERC721Enumerable.tokenOfOwnerByIndex (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#507-516) should be declared external
+ERC721Enumerable.tokenByIndex (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#516) should be declared external
+ERC721Metadata.tokenURI (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#535-537) should be declared external
+Pausable.pause (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#919-922) should be declared external
+Pausable.pause2 (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#922-929) should be declared external
+Pausable.unpause (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#933-937) should be declared external
+Pausable.unpause2 (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#937-940) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Parameter '_role' of Roles.add (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#87) is not in mixedCase
+Parameter '_addr' of Roles.add (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#87) is not in mixedCase
+Parameter '_role' of Roles.remove (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#91-93) is not in mixedCase
+Parameter '_addr' of Roles.remove (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#93) is not in mixedCase
+Parameter '_role' of Roles.check (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#98-99) is not in mixedCase
+Parameter '_addr' of Roles.check (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#99) is not in mixedCase
+Parameter '_role' of Roles.has (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#105-107) is not in mixedCase
+Parameter '_addr' of Roles.has (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#108) is not in mixedCase
+Parameter '_operator' of RBAC.checkRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#154) is not in mixedCase
+Parameter '_role' of RBAC.checkRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#155-156) is not in mixedCase
+Parameter '_operator' of RBAC.hasRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#165) is not in mixedCase
+Parameter '_role' of RBAC.hasRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#165) is not in mixedCase
+Parameter '_operator' of RBAC.addRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#171) is not in mixedCase
+Parameter '_role' of RBAC.addRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#171) is not in mixedCase
+Parameter '_operator' of RBAC.removeRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#187) is not in mixedCase
+Parameter '_role' of RBAC.removeRole (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#187) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferOwnership (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#276-278) is not in mixedCase
+Function 'Ownable._transferOwnership' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#287-291) is not in mixedCase
+Parameter '_newOwner' of Ownable._transferOwnership (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#288) is not in mixedCase
+Parameter '_newOwner' of Superuser.transferOwnership (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#344) is not in mixedCase
+Parameter '_addr' of Superuser.isSuperuser (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#316-318) is not in mixedCase
+Parameter '_newSuperuser' of Superuser.transferSuperuser (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#329) is not in mixedCase
+Constant 'ERC721Basic.InterfaceId_ERC721' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#407-410) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ERC721Basic.InterfaceId_ERC721Exists' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#428-429) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ERC721Basic.InterfaceId_ERC721Enumerable' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#432) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'ERC721Basic.InterfaceId_ERC721Metadata' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#442-445) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_tokenId' of NFTsCrowdsaleBase.getAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#736) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase.isOnAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#750-751) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase.isOnPreAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#759) is not in mixedCase
+Parameter '_erc721Address' of NFTsCrowdsaleBase. (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#731) is not in mixedCase
+Parameter '_erc20Address' of NFTsCrowdsaleBase. (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#731) is not in mixedCase
+Parameter '_eth2erc20' of NFTsCrowdsaleBase. (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#731) is not in mixedCase
+Function 'NFTsCrowdsaleBase._isTokenOwner' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#762-767) is not in mixedCase
+Parameter '_seller' of NFTsCrowdsaleBase._isTokenOwner (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#762-763) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._isTokenOwner (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#763) is not in mixedCase
+Function 'NFTsCrowdsaleBase._isOnAuction' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#767-775) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._isOnAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#768) is not in mixedCase
+Function 'NFTsCrowdsaleBase._escrow' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#775-780) is not in mixedCase
+Parameter '_owner' of NFTsCrowdsaleBase._escrow (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#776) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._escrow (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#776) is not in mixedCase
+Function 'NFTsCrowdsaleBase._cancelEscrow' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#780-781) is not in mixedCase
+Parameter '_owner' of NFTsCrowdsaleBase._cancelEscrow (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#781) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._cancelEscrow (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#781) is not in mixedCase
+Function 'NFTsCrowdsaleBase._transfer' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#782-787) is not in mixedCase
+Parameter '_receiver' of NFTsCrowdsaleBase._transfer (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#782-783) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._transfer (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#783-785) is not in mixedCase
+Function 'NFTsCrowdsaleBase._newAuction' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#787-808) is not in mixedCase
+Parameter '_price' of NFTsCrowdsaleBase._newAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#788) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._newAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#788) is not in mixedCase
+Parameter '_startAt' of NFTsCrowdsaleBase._newAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#789) is not in mixedCase
+Parameter '_endAt' of NFTsCrowdsaleBase._newAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#789) is not in mixedCase
+Function 'NFTsCrowdsaleBase._cancelAuction' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#808-824) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._cancelAuction (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#808) is not in mixedCase
+Function 'NFTsCrowdsaleBase._payByEth' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#824-861) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._payByEth (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#825) is not in mixedCase
+Function 'NFTsCrowdsaleBase._payByErc20' (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#861-887) is not in mixedCase
+Parameter '_tokenId' of NFTsCrowdsaleBase._payByErc20 (/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol#862-863) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x744a31ede5422355d9c2bd8c44c710404336ca84.sol analyzed (16 contracts), 96 result(s) found

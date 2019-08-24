@@ -1,0 +1,105 @@
+{
+  "contract": "0xa2013d1688dafed6830220d73d66728be31d4c31",
+  "tool": "smartcheck",
+  "start": 1563467460.6053095,
+  "end": 1563467477.9352374,
+  "duration": 17.329927921295166,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 135,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 52,
+      "column": 0,
+      "content": "contractNetkillerAdvancedTokenisOwnable{usingSafeMathforuint256;stringpublicname;stringpublicsymbol;uintpublicdecimals;uint256publictotalSupply;mapping(address=>uint256)internalbalances;mapping(address=>mapping(address=>uint256))internalallowed;eventTransfer(addressindexedfrom,addressindexedto,uint256value);eventApproval(addressindexedowner,addressindexedspender,uint256value);eventBurn(addressindexedfrom,uint256value);mapping(address=>bool)publicfrozenAccount;eventFrozenFunds(addressindexedtarget,boolfrozen);boolpubliclock=false;constructor(uint256initialSupply,stringtokenName,stringtokenSymbol,uintdecimalUnits)public{owner=msg.sender;name=tokenName;symbol=tokenSymbol;decimals=decimalUnits;totalSupply=initialSupply*10**uint256(decimals);balances[msg.sender]=totalSupply;}modifierisLock{require(!lock);_;}functionsetLock(bool_lock)onlyOwnerpublicreturns(boolstatus){lock=_lock;returnlock;}functionbalanceOf(address_address)viewpublicreturns(uint256balance){returnbalances[_address];}function_transfer(address_from,address_to,uint256_value)isLockinternal{require(_to!=address(0));require(balances[_from]>=_value);require(balances[_to]+_value>balances[_to]);require(!frozenAccount[_from]);balances[_from]=balances[_from].sub(_value);balances[_to]=balances[_to].add(_value);emitTransfer(_from,_to,_value);}functiontransfer(address_to,uint256_value)publicreturns(boolsuccess){_transfer(msg.sender,_to,_value);returntrue;}functiontransferFrom(address_from,address_to,uint256_value)publicreturns(boolsuccess){require(_value<=balances[_from]);require(_value<=allowed[_from][msg.sender]);allowed[_from][msg.sender]=allowed[_from][msg.sender].sub(_value);_transfer(_from,_to,_value);returntrue;}functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}functionallowance(address_owner,address_spender)viewpublicreturns(uint256remaining){returnallowed[_owner][_spender];}functionincreaseApproval(address_spender,uint_addedValue)publicreturns(bool){allowed[msg.sender][_spender]=(allowed[msg.sender][_spender].add(_addedValue));emitApproval(msg.sender,_spender,allowed[msg.sender][_spender]);returntrue;}functiondecreaseApproval(address_spender,uint_subtractedValue)publicreturns(bool){uintoldValue=allowed[msg.sender][_spender];if(_subtractedValue>oldValue){allowed[msg.sender][_spender]=0;}else{allowed[msg.sender][_spender]=oldValue.sub(_subtractedValue);}emitApproval(msg.sender,_spender,allowed[msg.sender][_spender]);returntrue;}functionburn(uint256_value)onlyOwnerpublicreturns(boolsuccess){require(balances[msg.sender]>=_value);balances[msg.sender]=balances[msg.sender].sub(_value);totalSupply=totalSupply.sub(_value);emitBurn(msg.sender,_value);returntrue;}functionburnFrom(address_from,uint256_value)onlyOwnerpublicreturns(boolsuccess){require(balances[_from]>=_value);require(_value<=allowed[_from][msg.sender]);balances[_from]=balances[_from].sub(_value);allowed[_from][msg.sender]=allowed[_from][msg.sender].sub(_value);totalSupply=totalSupply.sub(_value);emitBurn(_from,_value);returntrue;}functionmintToken(address_to,uint256_amount)onlyOwnerpublic{uint256amount=_amount*10**uint256(decimals);totalSupply=totalSupply.add(amount);balances[_to]=balances[_to].add(amount);emitTransfer(this,_to,amount);}functionfreezeAccount(addresstarget,boolfreeze)onlyOwnerpublic{frozenAccount[target]=freeze;emitFrozenFunds(target,freeze);}uint256publicbuyPrice;functionsetPrices(uint256_buyPrice)onlyOwnerpublic{buyPrice=_buyPrice;}uint256publicairdropTotalSupply;uint256publicairdropCurrentTotal;uint256publicairdropAmount;mapping(address=>bool)publictouched;eventAirdrop(addressindexed_address,uint256indexed_value);functionsetAirdropTotalSupply(uint256_amount)onlyOwnerpublic{airdropTotalSupply=_amount*10**uint256(decimals);}functionsetAirdropAmount(uint256_amount)onlyOwnerpublic{airdropAmount=_amount*10**uint256(decimals);}function()publicpayable{if(msg.value==0&&!touched[msg.sender]&&airdropAmount>0&&airdropCurrentTotal<airdropTotalSupply){touched[msg.sender]=true;airdropCurrentTotal=airdropCurrentTotal.add(airdropAmount);_transfer(owner,msg.sender,airdropAmount);emitAirdrop(msg.sender,airdropAmount);}else{owner.transfer(msg.value);_transfer(owner,msg.sender,msg.value*buyPrice);}}}"
+    },
+    {
+      "name": "SOLIDITY_MSGVALUE_EQUALS_ZERO",
+      "patternId": "1df89a",
+      "severity": 1,
+      "line": 212,
+      "column": 12,
+      "content": "msg.value==0"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 101,
+      "column": 4,
+      "content": "functionsetLock(bool_lock)onlyOwnerpublicreturns(boolstatus){lock=_lock;returnlock;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 192,
+      "column": 4,
+      "content": "functionsetPrices(uint256_buyPrice)onlyOwnerpublic{buyPrice=_buyPrice;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 203,
+      "column": 4,
+      "content": "functionsetAirdropTotalSupply(uint256_amount)onlyOwnerpublic{airdropTotalSupply=_amount*10**uint256(decimals);}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 207,
+      "column": 4,
+      "content": "functionsetAirdropAmount(uint256_amount)onlyOwnerpublic{airdropAmount=_amount*10**uint256(decimals);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 54,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 211,
+      "column": 16,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 84,
+      "column": 8,
+      "content": "stringtokenName"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 85,
+      "column": 8,
+      "content": "stringtokenSymbol"
+    }
+  ]
+}

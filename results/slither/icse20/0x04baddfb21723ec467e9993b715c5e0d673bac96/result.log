@@ -1,0 +1,60 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:21:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function EthRoulette() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:8:1: Warning: Source file does not specify required compiler version!Consider adding "pragma solidity ^0.4.25;"
+contract EthRoulette {
+^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:34:9: Warning: Variable is declared as a storage pointer. Use an explicit "storage" keyword to silence this warning.
+        Game game;
+        ^-------^
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:28:30: Warning: "sha3" has been deprecated in favour of "keccak256"
+        secretNumber = uint8(sha3(now, block.blockhash(block.number-1))) % 20 + 1;
+                             ^----------------------------------------^
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:28:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        secretNumber = uint8(sha3(now, block.blockhash(block.number-1))) % 20 + 1;
+                             ^----------------------------------------^
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:34:9: Warning: Uninitialized storage pointer. Did you mean '<type> memory game'?
+        Game game;
+        ^-------^
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:41:33: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+            msg.sender.transfer(this.balance);
+                                ^----------^
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:50:13: Warning: "suicide" has been deprecated in favour of "selfdestruct"
+            suicide(msg.sender);
+            ^-----------------^
+/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol:28:40: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+        secretNumber = uint8(sha3(now, block.blockhash(block.number-1))) % 20 + 1;
+                                       ^-------------^
+
+INFO:Detectors:[91m
+EthRoulette.play (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#31-49) sends eth to arbitrary user
+	Dangerous calls:
+	- msg.sender.transfer(this.balance) (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#42-45)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+game in EthRoulette.play (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#35) is a storage variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-storage-variables[0m
+INFO:Detectors:[93m
+EthRoulette.play (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#31-49) uses a dangerous strict equality:
+	- number == secretNumber
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+EthRoulette.betPrice should be constant (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#12-13)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#28-31:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+	- Usage of "sha3()" should be replaced with "keccak256()"
+Deprecated standard detected @ /unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#54:
+	- Usage of "suicide()" should be replaced with "selfdestruct()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+EthRoulette.play (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#31-49) should be declared external
+EthRoulette.kill (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#49-55) should be declared external
+EthRoulette.fallback (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Function 'EthRoulette.EthRoulette' (/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol#21-26) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/27/0x04baddfb21723ec467e9993b715c5e0d673bac96.sol analyzed (1 contracts), 10 result(s) found

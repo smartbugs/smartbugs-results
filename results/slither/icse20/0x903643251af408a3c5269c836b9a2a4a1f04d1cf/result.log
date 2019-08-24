@@ -1,0 +1,105 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:35:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function SysEscrow() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:105:13: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+            throw;
+            ^---^
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:151:13: Warning: "throw" is deprecated in favour of "revert()", "require()" and "assert()".
+            throw;
+            ^---^
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:55:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 _tradeHash = keccak256(_tradeID, _seller, _buyer, _value);
+                             ^------------------------------------------^
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:91:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 _tradeHash = keccak256(_tradeID, _seller, _buyer, _value);
+                             ^------------------------------------------^
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:119:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 _tradeHash = keccak256(_tradeID, _seller, _buyer, _value);
+                             ^------------------------------------------^
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:136:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 _tradeHash = keccak256(_tradeID, _seller, _buyer, _value);
+                             ^------------------------------------------^
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:164:30: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 _tradeHash = keccak256(_tradeID, _seller, _buyer, _value);
+                             ^------------------------------------------^
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:35:5: Warning: No visibility specified. Defaulting to "public". 
+    function SysEscrow() {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:64:5: Warning: No visibility specified. Defaulting to "public". 
+    function setArbitrator( address _newArbitrator ) onlyOwner {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:158:5: Warning: No visibility specified. Defaulting to "public". 
+    function isExistsEscrow(
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Reentrancy in SysEscrow.cancelEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#84-114):
+	External calls:
+	- buyerReceivedMoney = escrows[_tradeHash].buyer.call.value(buyerValue)() (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#99-101)
+	- arbitratorReceivedMoney = arbitrator.call.value(arbitratorValue)() (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#101-103)
+	State variables written after the call(s):
+	- escrows (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#110-112)
+Reentrancy in SysEscrow.releaseEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#130-160):
+	External calls:
+	- sellerReceivedMoney = escrows[_tradeHash].seller.call.value(buyerValue)() (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#145-147)
+	- arbitratorReceivedMoney = arbitrator.call.value(arbitratorValue)() (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#148-151)
+	State variables written after the call(s):
+	- escrows (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#159)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+SysEscrow.approveEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#114-130) uses a dangerous strict equality:
+	- require(bool)(escrows[_tradeHash].buyer == msg.sender)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+SysEscrow.MinDeposit should be constant (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#9)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#114:
+	- Usage of "throw" should be replaced with "revert()"
+Deprecated standard detected @ /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#160:
+	- Usage of "throw" should be replaced with "revert()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+SysEscrow.setArbitrator (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#65-73) should be declared external
+SysEscrow.isExistsEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#161-168) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in SysEscrow.cancelEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#84-114):
+	-buyerReceivedMoney = escrows[_tradeHash].buyer.call.value(buyerValue)() /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#99-101
+	-arbitratorReceivedMoney = arbitrator.call.value(arbitratorValue)() /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#101-103
+Low level call in SysEscrow.releaseEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#130-160):
+	-sellerReceivedMoney = escrows[_tradeHash].seller.call.value(buyerValue)() /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#145-147
+	-arbitratorReceivedMoney = arbitrator.call.value(arbitratorValue)() /unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#148-151
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+Function 'SysEscrow.SysEscrow' (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#36-43) is not in mixedCase
+Parameter '_tradeID' of SysEscrow.createEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#47-48) is not in mixedCase
+Parameter '_seller' of SysEscrow.createEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#48-49) is not in mixedCase
+Parameter '_buyer' of SysEscrow.createEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#49-51) is not in mixedCase
+Parameter '_paymentWindowInSeconds' of SysEscrow.createEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#51) is not in mixedCase
+Parameter '_newArbitrator' of SysEscrow.setArbitrator (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#66) is not in mixedCase
+Parameter '_newOwner' of SysEscrow.setOwner (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#74) is not in mixedCase
+Parameter '_tradeID' of SysEscrow.cancelEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#86) is not in mixedCase
+Parameter '_seller' of SysEscrow.cancelEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#87) is not in mixedCase
+Parameter '_buyer' of SysEscrow.cancelEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#89-90) is not in mixedCase
+Parameter '_value' of SysEscrow.cancelEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#91) is not in mixedCase
+Parameter '_tradeID' of SysEscrow.approveEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#116) is not in mixedCase
+Parameter '_seller' of SysEscrow.approveEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#117) is not in mixedCase
+Parameter '_buyer' of SysEscrow.approveEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#119) is not in mixedCase
+Parameter '_value' of SysEscrow.approveEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#119-120) is not in mixedCase
+Parameter '_tradeID' of SysEscrow.releaseEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#132) is not in mixedCase
+Parameter '_seller' of SysEscrow.releaseEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#133-134) is not in mixedCase
+Parameter '_buyer' of SysEscrow.releaseEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#136) is not in mixedCase
+Parameter '_value' of SysEscrow.releaseEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#137) is not in mixedCase
+Parameter '_tradeID' of SysEscrow.isExistsEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#161-162) is not in mixedCase
+Parameter '_seller' of SysEscrow.isExistsEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#163) is not in mixedCase
+Parameter '_buyer' of SysEscrow.isExistsEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#164) is not in mixedCase
+Parameter '_value' of SysEscrow.isExistsEscrow (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#165) is not in mixedCase
+Variable 'SysEscrow.MinDeposit' (/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol#9) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/33/0x903643251af408a3c5269c836b9a2a4a1f04d1cf.sol analyzed (1 contracts), 35 result(s) found

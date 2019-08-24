@@ -1,0 +1,190 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol:
+/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol:72:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function OwnableToken() public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol:156:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function VernamCrowdSaleToken() public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol:711:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Controller(address _crowdsaleAddress, address _vernamCrowdSaleToken) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol:783:2: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+	function VernamToken(uint256 _totalSupply_) public {
+ ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Reentrancy in VernamCrowdSale.buyTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#351-403):
+	External calls:
+	- vernamCrowdsaleToken.mintToken(_participant,nextLevelTokens) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#393-398)
+	- vernamCrowdsaleToken.mintToken(_participant,tokensAmount) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#398-399)
+	External calls sending eth:
+	- benecifiary.transfer(_weiAmount) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#376)
+	State variables written after the call(s):
+	- totalContributedWei (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#400-401)
+	- totalSoldTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#399-400)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+VernamCrowdSale.buyTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#351-403) does not use the value returned by external calls:
+	-vernamCrowdsaleToken.mintToken(_participant,nextLevelTokens) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#393-398)
+	-vernamCrowdsaleToken.mintToken(_participant,tokensAmount) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#398-399)
+VernamCrowdSale.releaseThreeHotHourTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#461-484) does not use the value returned by external calls:
+	-vernamCrowdsaleToken.mintToken(_participant,_amount) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#482-483)
+Controller.releaseThreeHotHourTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#737-742) does not use the value returned by external calls:
+	-vernamCrowdSale.releaseThreeHotHourTokens(msg.sender) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#739-742)
+Controller.convertTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#743-758) does not use the value returned by external calls:
+	-vernamCrowdsaleToken.burn(_participant,tokens) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#756-757)
+	-vernamToken.transfer(_participant,tokens) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#757)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in Controller.approveKYC (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#758-764):
+	External calls:
+	- vernamCrowdsaleToken.approveKYC(_participant) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#759-760)
+	- isParticipantApproved[_participant] = vernamCrowdsaleToken.isKYCApproved(_participant) (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#760-761)
+	State variables written after the call(s):
+	- isParticipantApproved (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#760-761)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+VernamCrowdSale.buyTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#351-403) uses timestamp for comparisons
+	Dangerous comparisons:
+	- threeHotHoursEnd > block.timestamp (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#381-399)
+VernamCrowdSale.calculateAndCreateTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#407-452) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < thirdStageEnd (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#447-452)
+	- block.timestamp < firstStageEnd (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#419-426)
+	- block.timestamp < thirdStageEnd && weiAmount >= TEN_ETHERS (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#433-447)
+	- block.timestamp < secondStageEnd (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#426-433)
+	- block.timestamp < threeHotHoursEnd && totalSoldTokens < threeHotHoursTokensCap (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#411-419)
+VernamCrowdSale.unlockTokensAmount (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#551-598) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < firstMonthEnd && isTokensTaken[_participant][FIRST_MONTH] == false (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#557-561)
+	- ((block.timestamp >= thirdMonthEnd) && (block.timestamp < fourthMonthEnd)) && isTokensTaken[_participant][FORTH_MONTH] == false (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#577-582)
+	- ((block.timestamp >= fourthMonthEnd) && (block.timestamp < fifthMonthEnd)) && isTokensTaken[_participant][FIFTH_MONTH] == false (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#585-592)
+	- ((block.timestamp >= firstMonthEnd) && (block.timestamp < secondMonthEnd)) && isTokensTaken[_participant][SECOND_MONTH] == false (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#563-568)
+	- ((block.timestamp >= secondMonthEnd) && (block.timestamp < thirdMonthEnd)) && isTokensTaken[_participant][THIRD_MONTH] == false (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#570-575)
+	- (block.timestamp >= fifthMonthEnd) && isTokensTaken[_participant][SIXTH_MONTH] == false (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#595-598)
+VernamCrowdSale.getPrice (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#667-696) uses timestamp for comparisons
+	Dangerous comparisons:
+	- time < thirdStageEnd (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#694-696)
+	- time < firstStageEnd (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#676-681)
+	- time < secondStageEnd (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#681-688)
+	- time < threeHotHoursEnd && totalSoldTokens < threeHotHoursTokensCap (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#672-676)
+	- time < thirdStageEnd && weiAmount > TEN_ETHERS (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#690-694)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+VernamCrowdSale.firstStageDuration should be constant (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#248-249)
+VernamCrowdSale.firstStagePriceOfTokenInWei should be constant (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#249)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#53-59) should be declared external
+Ownable.setControler (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#59-66) should be declared external
+OwnableToken.transferOwnership (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#102-110) should be declared external
+OwnableToken.setMinter (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#110-114) should be declared external
+OwnableToken.setBurner (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#114-119) should be declared external
+OwnableToken.setControler (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#119-121) should be declared external
+KYCControl.approveKYC (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#129-136) should be declared external
+VernamCrowdSaleToken.mintToken (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#166-181) should be declared external
+VernamCrowdSaleToken.burn (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#181-200) should be declared external
+VernamCrowdSaleToken.totalSupply (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#200-201) should be declared external
+VernamCrowdSaleToken.circulatingSupply (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#201-208) should be declared external
+VernamCrowdSaleToken.balanceOf (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#208-210) should be declared external
+VernamCrowdSale.activateCrowdSale (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#329-342) should be declared external
+VernamCrowdSale.fallback (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#343-345) should be declared external
+VernamCrowdSale.release (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#452-454) should be declared external
+VernamCrowdSale.getContributedAmountInWei (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#486-487) should be declared external
+VernamCrowdSale.getPrice (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#667-696) should be declared external
+VernamCrowdSale.setBenecifiary (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#696-702) should be declared external
+OwnableController.setKYCTeam (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#711-713) should be declared external
+OwnableController.transferOwnership (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#713-717) should be declared external
+Controller.releaseThreeHotHourTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#737-742) should be declared external
+Controller.convertYourTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#742-743) should be declared external
+Controller.approveKYC (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#758-764) should be declared external
+Controller.setVernamOriginalToken (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#764-769) should be declared external
+VernamToken.totalSupply (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) should be declared external
+ERC20.totalSupply (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#770-773) should be declared external
+ERC20.balanceOf (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#773) should be declared external
+VernamToken.balanceOf (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) should be declared external
+ERC20.transfer (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#773) should be declared external
+VernamToken.transfer (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#808-811) should be declared external
+ERC20.allowance (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#773-778) should be declared external
+VernamToken.allowance (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) should be declared external
+VernamToken.transferFrom (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#811-816) should be declared external
+ERC20.transferFrom (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#778-779) should be declared external
+VernamToken.approve (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) should be declared external
+ERC20.approve (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#780) should be declared external
+VernamToken.increaseApproval (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#848-862) should be declared external
+VernamToken.decreaseApproval (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#862-869) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol:
+	- pragma solidity^0.4.20 (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_controller' of Ownable.setControler (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#60-64) is not in mixedCase
+Function 'OwnableToken.OwnableToken' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#76-81) is not in mixedCase
+Parameter '_minterAddress' of OwnableToken.setMinter (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#110) is not in mixedCase
+Parameter '_burnerAddress' of OwnableToken.setBurner (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#114) is not in mixedCase
+Parameter '_controller' of OwnableToken.setControler (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#120) is not in mixedCase
+Parameter '_who' of KYCControl.isKYCApproved (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#127) is not in mixedCase
+Parameter '_userAddress' of KYCControl.approveKYC (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#130-133) is not in mixedCase
+Variable 'KYCControl.KYCParticipants' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#123-127) is not in mixedCase
+Function 'VernamCrowdSaleToken.VernamCrowdSaleToken' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#158-166) is not in mixedCase
+Parameter '_participant' of VernamCrowdSaleToken.mintToken (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#166) is not in mixedCase
+Parameter '_mintedAmount' of VernamCrowdSaleToken.mintToken (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#167) is not in mixedCase
+Parameter '_participant' of VernamCrowdSaleToken.burn (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#181) is not in mixedCase
+Parameter '_value' of VernamCrowdSaleToken.burn (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#182) is not in mixedCase
+Parameter '_owner' of VernamCrowdSaleToken.balanceOf (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#208) is not in mixedCase
+Variable 'VernamCrowdSaleToken._totalSupply' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#148-149) is not in mixedCase
+Variable 'VernamCrowdSaleToken._circulatingSupply' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#151) is not in mixedCase
+Parameter '_benecifiary' of VernamCrowdSale. (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#312-313) is not in mixedCase
+Parameter '_vernamCrowdSaleTokenAddress' of VernamCrowdSale. (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#313) is not in mixedCase
+Parameter '_participant' of VernamCrowdSale.buyTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#352-353) is not in mixedCase
+Parameter '_weiAmount' of VernamCrowdSale.buyTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#353) is not in mixedCase
+Parameter '_participant' of VernamCrowdSale.releaseThreeHotHourTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#461-463) is not in mixedCase
+Parameter '_participant' of VernamCrowdSale.getContributedAmountInWei (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#486) is not in mixedCase
+Parameter '_participant' of VernamCrowdSale.calculateTokensForMonth (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#527-528) is not in mixedCase
+Parameter '_participant' of VernamCrowdSale.unlockTokensAmount (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#553-554) is not in mixedCase
+Parameter '_participant' of VernamCrowdSale.getTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#605-606) is not in mixedCase
+Parameter '_period' of VernamCrowdSale.getTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#606) is not in mixedCase
+Parameter '_participant' of VernamCrowdSale.validatePurchase (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#633) is not in mixedCase
+Parameter '_weiAmount' of VernamCrowdSale.validatePurchase (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#633) is not in mixedCase
+Parameter '_newBenecifiary' of VernamCrowdSale.setBenecifiary (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#697-700) is not in mixedCase
+Constant 'VernamCrowdSale.minimumContribution' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#218-219) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.maximumContribution' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#219-222) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.threeHotHoursDuration' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#240-241) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.threeHotHoursPriceOfTokenInWei' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#241-244) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.secondStageDuration' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#253-254) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.secondStagePriceOfTokenInWei' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#254) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.thirdStageDuration' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#256) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.thirdStagePriceOfTokenInWei' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#256-260) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'VernamCrowdSale.thirdStageDiscountPriceOfTokenInWei' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#260-265) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_KYCTeam' of OwnableController.setKYCTeam (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#712) is not in mixedCase
+Variable 'OwnableController.KYCTeam' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#703) is not in mixedCase
+Function 'Controller.Controller' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#728-737) is not in mixedCase
+Parameter '_crowdsaleAddress' of Controller.Controller (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#728-731) is not in mixedCase
+Parameter '_vernamCrowdSaleToken' of Controller.Controller (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#731-732) is not in mixedCase
+Parameter '_participant' of Controller.convertTokens (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#744) is not in mixedCase
+Parameter '_participant' of Controller.approveKYC (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#758) is not in mixedCase
+Parameter '_vernamToken' of Controller.setVernamOriginalToken (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#765-767) is not in mixedCase
+Parameter '_owner' of VernamToken.balanceOf (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) is not in mixedCase
+Parameter '_to' of VernamToken.transfer (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#808) is not in mixedCase
+Parameter '_value' of VernamToken.transfer (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#808) is not in mixedCase
+Parameter '_owner' of VernamToken.allowance (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) is not in mixedCase
+Parameter '_spender' of VernamToken.allowance (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) is not in mixedCase
+Parameter '_from' of VernamToken.transferFrom (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#811) is not in mixedCase
+Parameter '_to' of VernamToken.transferFrom (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#811) is not in mixedCase
+Parameter '_value' of VernamToken.transferFrom (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#811) is not in mixedCase
+Parameter '_spender' of VernamToken.approve (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) is not in mixedCase
+Parameter '_value' of VernamToken.approve (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol) is not in mixedCase
+Function 'VernamToken.VernamToken' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#796-808) is not in mixedCase
+Parameter '_totalSupply_' of VernamToken.VernamToken (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#798) is not in mixedCase
+Function 'VernamToken._transfer' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#818-848) is not in mixedCase
+Parameter '_from' of VernamToken._transfer (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#818) is not in mixedCase
+Parameter '_to' of VernamToken._transfer (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#818-819) is not in mixedCase
+Parameter '_value' of VernamToken._transfer (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#819) is not in mixedCase
+Parameter '_spender' of VernamToken.increaseApproval (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#848) is not in mixedCase
+Parameter '_addedValue' of VernamToken.increaseApproval (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#848) is not in mixedCase
+Parameter '_spender' of VernamToken.decreaseApproval (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#863) is not in mixedCase
+Parameter '_subtractedValue' of VernamToken.decreaseApproval (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#863-866) is not in mixedCase
+Variable 'VernamToken._totalSupply' (/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol#786) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/18/0xbacc0ead4044508b6ebfb4eb06533d9512d303a3.sol analyzed (10 contracts), 117 result(s) found

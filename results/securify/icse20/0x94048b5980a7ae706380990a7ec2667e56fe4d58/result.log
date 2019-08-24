@@ -1,0 +1,102 @@
+Processing contract: /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol:AuctioneerManaged
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol:FixedPriceOracle
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol:TokenWhitelist
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[33mWarning[0m for UnrestrictedWrite in contract 'AuctioneerManaged':
+    |    function updateAuctioneer(address _auctioneer) public onlyAuctioneer {
+    |        require(_auctioneer != address(0), "The auctioneer must be a valid address");
+  > |        auctioneer = _auctioneer;
+    |    }
+    |
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(11)
+
+[31mViolation[0m for LockedEther in contract 'FixedPriceOracle':
+    | */
+    |
+  > |contract FixedPriceOracle {
+    |    mapping(address => Price) public prices;
+    |    bool public frozen;
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(66)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'FixedPriceOracle':
+    |            uint denominator = denominators[i];
+    |
+  > |            prices[token] = Price(numerator, denominator);
+    |            emit PriceSet(token, numerator, denominator);
+    |        }
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(126)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'FixedPriceOracle':
+    |
+    |    function setPrice(address token, uint numerator, uint denominator) public onlyOwner notFrozen {
+  > |        prices[token] = Price(numerator, denominator);
+    |        emit PriceSet(token, numerator, denominator);
+    |    }
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(132)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'FixedPriceOracle':
+    |
+    |    function freeze() public onlyOwner {
+  > |        frozen = true;
+    |        emit Freeze();
+    |    }
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(137)
+
+[31mViolation[0m for LockedEther in contract 'TokenWhitelist':
+    |// File: @gnosis.pm/dx-contracts/contracts/base/TokenWhitelist.sol
+    |
+  > |contract TokenWhitelist is AuctioneerManaged {
+    |    // Mapping that stores the tokens, which are approved
+    |    // Only tokens approved by auctioneer generate frtToken tokens
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(26)
+
+[31mViolation[0m for MissingInputValidation in contract 'TokenWhitelist':
+    |    // Only tokens approved by auctioneer generate frtToken tokens
+    |    // addressToken => boolApproved
+  > |    mapping(address => bool) public approvedTokens;
+    |
+    |    event Approval(address indexed token, bool approved);
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(30)
+
+[31mViolation[0m for MissingInputValidation in contract 'TokenWhitelist':
+    |    /// @dev for quick overview of approved Tokens
+    |    /// @param addressesToCheck are the ERC-20 token addresses to be checked whether they are approved
+  > |    function getApprovedAddressesOfList(address[] calldata addressesToCheck) external view returns (bool[] memory) {
+    |        uint length = addressesToCheck.length;
+    |
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(36)
+
+[33mWarning[0m for MissingInputValidation in contract 'TokenWhitelist':
+    |    }
+    |    
+  > |    function updateApprovalOfToken(address[] memory token, bool approved) public onlyAuctioneer {
+    |        for (uint i = 0; i < token.length; i++) {
+    |            approvedTokens[token[i]] = approved;
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(48)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TokenWhitelist':
+    |    function updateApprovalOfToken(address[] memory token, bool approved) public onlyAuctioneer {
+    |        for (uint i = 0; i < token.length; i++) {
+  > |            approvedTokens[token[i]] = approved;
+    |            emit Approval(token[i], approved);
+    |        }
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(50)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'TokenWhitelist':
+    |    function updateAuctioneer(address _auctioneer) public onlyAuctioneer {
+    |        require(_auctioneer != address(0), "The auctioneer must be a valid address");
+  > |        auctioneer = _auctioneer;
+    |    }
+    |
+  at /unique_contracts/0x94048b5980a7ae706380990a7ec2667e56fe4d58.sol(11)

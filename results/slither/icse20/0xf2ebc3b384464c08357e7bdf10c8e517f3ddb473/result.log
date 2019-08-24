@@ -1,0 +1,150 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:21:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:41:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:119:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(msg.sender, _to, _value);
+    ^-------------------------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:175:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _value);
+    ^--------------------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:191:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, _value);
+    ^------------------------------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:217:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:238:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    ^-----------------------------------------------------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:271:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Mint(_to, _amount);
+    ^----------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:282:5: Warning: Invoking events without "emit" prefix is deprecated.
+    MintFinished();
+    ^------------^
+/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:638:21: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    wallet.transfer(this.balance);
+                    ^----------^
+
+INFO:Detectors:[93m
+Contract locking ether found in /unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:
+	Contract ICO has payable functions:
+	 - fallback (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#499-500)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[93m
+Reentrancy in PreICO.mintExtraTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#729-744):
+	External calls:
+	- mintTokens(bountyTokensWallet,bountyTokens) (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#731-736)
+	- mintTokens(advisorsTokensWallet,advisorsTokens) (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#736-738)
+	- mintTokens(developersTokensWallet,developersTokens) (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#738-742)
+	State variables written after the call(s):
+	- extraMinted (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#742-744)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+RetrieveTokensFeature.retrieveTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#380-391) does not use the value returned by external calls:
+	-alienToken.transfer(to,alienToken.balanceOf(this)) (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#387-389)
+CommonSale.mintTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#460-466) does not use the value returned by external calls:
+	-token.mint(this,tokens) (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#461-462)
+	-token.transfer(to,tokens) (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#462-464)
+ICO.finish (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#626-628) does not use the value returned by external calls:
+	-token.finishMinting() (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#628)
+PreICO.finish (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#754-760) does not use the value returned by external calls:
+	-token.finishMinting() (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#756-757)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+Reentrancy in PreICO.mintTokensByETH (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#746-754):
+	External calls:
+	- _tokens = super.mintTokensByETH(to,_invested) (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#748-750)
+	State variables written after the call(s):
+	- balances (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#751-752)
+	- softcapAchieved (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#751-752)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#39-48) should be declared external
+BasicToken.balanceOf (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#134-139) should be declared external
+ERC20Basic.balanceOf (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#92-93) should be declared external
+StandardToken.allowance (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#206-209) should be declared external
+ERC20.allowance (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#142-143) should be declared external
+StandardToken.approve (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#195-198) should be declared external
+ERC20.approve (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#144-150) should be declared external
+StandardToken.increaseApproval (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#217-225) should be declared external
+StandardToken.decreaseApproval (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#235-255) should be declared external
+MintableToken.setSaleAgent (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#267-271) should be declared external
+MintableToken.mint (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#271-281) should be declared external
+MintableToken.finishMinting (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#286-294) should be declared external
+ReceivingContractCallback.tokenFallback (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#314-316) should be declared external
+BuyAndSellToken.registerCallback (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#332-334) should be declared external
+BuyAndSellToken.deregisterCallback (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#334-342) should be declared external
+PercentRateProvider.setPercentRate (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#368-375) should be declared external
+RetrieveTokensFeature.retrieveTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#380-391) should be declared external
+WalletProvider.setWallet (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#399-404) should be declared external
+CommonSale.setHardcap (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#426-427) should be declared external
+CommonSale.setStart (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#438-439) should be declared external
+CommonSale.setMinInvestedLimit (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#440-444) should be declared external
+CommonSale.setDirectMintAgent (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#444-448) should be declared external
+CommonSale.setPrice (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#449-453) should be declared external
+CommonSale.setToken (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#453-455) should be declared external
+CommonSale.mintTokensExternal (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#456-460) should be declared external
+CommonSale.mintTokensByETHExternal (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#466-472) should be declared external
+StagedCrowdsale.milestonesCount (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#508-511) should be declared external
+StagedCrowdsale.addMilestone (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#511-518) should be declared external
+StagedCrowdsale.removeMilestone (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#519-532) should be declared external
+StagedCrowdsale.changeMilestone (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#532-546) should be declared external
+StagedCrowdsale.insertMilestone (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#546-559) should be declared external
+StagedCrowdsale.clearMilestones (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#559-571) should be declared external
+ICO.finish (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#626-628) should be declared external
+NextSaleAgentFeature.setNextSaleAgent (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#634-636) should be declared external
+SoftcapFeature.setSoftcap (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#651-655) should be declared external
+SoftcapFeature.refund (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#680-686) should be declared external
+PreICO.setBountyTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#702-706) should be declared external
+PreICO.setAdvisorsTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#706-709) should be declared external
+PreICO.setDevelopersTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#709-711) should be declared external
+PreICO.setBountyTokensWallet (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#712-715) should be declared external
+PreICO.setAdvisorsTokensWallet (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#716-722) should be declared external
+PreICO.setDevelopersTokensWallet (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#722-729) should be declared external
+PreICO.mintExtraTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#729-744) should be declared external
+PreICO.finish (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#754-760) should be declared external
+Configurator.deploy (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#766-790) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol:
+	- pragma solidity^0.4.18 (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#21-27) is not in mixedCase
+Parameter '_owner' of BasicToken.balanceOf (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#134-137) is not in mixedCase
+Parameter '_to' of BasicToken.transfer (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#114) is not in mixedCase
+Parameter '_value' of BasicToken.transfer (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#114-116) is not in mixedCase
+Parameter '_owner' of StandardToken.allowance (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#208) is not in mixedCase
+Parameter '_spender' of StandardToken.allowance (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#208) is not in mixedCase
+Parameter '_from' of StandardToken.transferFrom (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#170) is not in mixedCase
+Parameter '_to' of StandardToken.transferFrom (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#170-172) is not in mixedCase
+Parameter '_value' of StandardToken.transferFrom (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#172) is not in mixedCase
+Parameter '_spender' of StandardToken.approve (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#196) is not in mixedCase
+Parameter '_value' of StandardToken.approve (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#196) is not in mixedCase
+Parameter '_spender' of StandardToken.increaseApproval (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#218-219) is not in mixedCase
+Parameter '_addedValue' of StandardToken.increaseApproval (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#220-222) is not in mixedCase
+Parameter '_spender' of StandardToken.decreaseApproval (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#236) is not in mixedCase
+Parameter '_subtractedValue' of StandardToken.decreaseApproval (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#236) is not in mixedCase
+Parameter '_to' of MintableToken.transfer (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#296) is not in mixedCase
+Parameter '_value' of MintableToken.transfer (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#296-297) is not in mixedCase
+Parameter '_to' of MintableToken.mint (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#272-273) is not in mixedCase
+Parameter '_amount' of MintableToken.mint (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#273-276) is not in mixedCase
+Parameter '_to' of BuyAndSellToken.transfer (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#321-324) is not in mixedCase
+Parameter '_value' of BuyAndSellToken.transfer (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#324) is not in mixedCase
+Parameter '_from' of BuyAndSellToken.transferFrom (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#328) is not in mixedCase
+Parameter '_to' of BuyAndSellToken.transferFrom (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#328-329) is not in mixedCase
+Parameter '_value' of BuyAndSellToken.transferFrom (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#329) is not in mixedCase
+Parameter '_invested' of CommonSale.mintTokensByETHExternal (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#467) is not in mixedCase
+Parameter '_invested' of CommonSale.mintTokensByETH (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#475-478) is not in mixedCase
+Parameter '_invested' of BASCommonSale.calculateTokens (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#600) is not in mixedCase
+Constant 'SoftcapFeature.devLimit' (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#648-649) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant 'SoftcapFeature.devWallet' (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#649-651) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter '_invested' of PreICO.mintTokensByETH (/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol#748) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/40/0xf2ebc3b384464c08357e7bdf10c8e517f3ddb473.sol analyzed (21 contracts), 83 result(s) found

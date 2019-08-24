@@ -1,0 +1,103 @@
+Processing contract: /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol:DggToken
+  Attempt to decompile the contract with methods...
+  Failed to decompile methods. Attempt to decompile the contract without identifying methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol:ERC20Interface
+Processing contract: /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol:Owned
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+Processing contract: /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol:SafeMath
+  Attempt to decompile the contract with methods...
+  Success. Inlining methods...
+  Propagating constants...
+  Verifying patterns...
+[31mViolation[0m for LockedEther in contract 'DggToken':
+    |// fixed supply
+    |// ----------------------------------------------------------------------------
+  > |contract DggToken is ERC20Interface, Owned {
+    |using SafeMath for uint;
+    |
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(87)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DggToken':
+    |function transfer(address to, uint tokens) public returns (bool success) {
+    |balances[msg.sender] = balances[msg.sender].sub(tokens);
+  > |balances[to] = balances[to].add(tokens);
+    |emit Transfer(msg.sender, to, tokens);
+    |return true;
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(135)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DggToken':
+    |// ------------------------------------------------------------------------
+    |function transferFrom(address from, address to, uint tokens) public returns (bool success) {
+  > |balances[from] = balances[from].sub(tokens);
+    |allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
+    |balances[to] = balances[to].add(tokens);
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(166)
+
+[31mViolation[0m for UnrestrictedWrite in contract 'DggToken':
+    |balances[from] = balances[from].sub(tokens);
+    |allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
+  > |balances[to] = balances[to].add(tokens);
+    |emit Transfer(from, to, tokens);
+    |return true;
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(168)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DggToken':
+    |
+    |function transferOwnership(address _newOwner) public onlyOwner {
+  > |newOwner = _newOwner;
+    |}
+    |function acceptOwnership() public {
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DggToken':
+    |require(msg.sender == newOwner);
+    |emit OwnershipTransferred(owner, newOwner);
+  > |owner = newOwner;
+    |newOwner = address(0);
+    |}
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(77)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'DggToken':
+    |emit OwnershipTransferred(owner, newOwner);
+    |owner = newOwner;
+  > |newOwner = address(0);
+    |}
+    |}
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(78)
+
+[31mViolation[0m for MissingInputValidation in contract 'Owned':
+    |}
+    |
+  > |function transferOwnership(address _newOwner) public onlyOwner {
+    |newOwner = _newOwner;
+    |}
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(71)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |
+    |function transferOwnership(address _newOwner) public onlyOwner {
+  > |newOwner = _newOwner;
+    |}
+    |function acceptOwnership() public {
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(72)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |require(msg.sender == newOwner);
+    |emit OwnershipTransferred(owner, newOwner);
+  > |owner = newOwner;
+    |newOwner = address(0);
+    |}
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(77)
+
+[33mWarning[0m for UnrestrictedWrite in contract 'Owned':
+    |emit OwnershipTransferred(owner, newOwner);
+    |owner = newOwner;
+  > |newOwner = address(0);
+    |}
+    |}
+  at /unique_contracts/0xbc1d69af1c1efda4e0c8fd97c1f62e1b8ccb764f.sol(78)

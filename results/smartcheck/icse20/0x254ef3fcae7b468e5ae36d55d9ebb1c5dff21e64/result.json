@@ -1,0 +1,97 @@
+{
+  "contract": "0x254ef3fcae7b468e5ae36d55d9ebb1c5dff21e64",
+  "tool": "smartcheck",
+  "start": 1563465287.3025157,
+  "end": 1563465295.833289,
+  "duration": 8.530773162841797,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 24,
+      "column": 32,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 107,
+      "column": 19,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 8,
+      "column": 0,
+      "content": "contractERC_20_2{stringpublicname;stringpublicsymbol;uint8publicdecimals;uint256publictotalSupply;boolpubliclockAll=false;addresspubliccreator;addresspublicowner;addressinternalnewOwner=0x0;mapping(address=>uint256)publicbalanceOf;mapping(address=>mapping(address=>uint256))publicallowance;mapping(address=>bool)publicfrozens;eventTransfer(addressindexed_from,addressindexed_to,uint256_value);eventTransferExtra(addressindexed_from,addressindexed_to,uint256_value,bytes_extraData);eventApproval(addressindexed_owner,addressindexed_spender,uint256_value);eventBurn(addressindexed_from,uint256_value);eventOffer(uint256_supplyTM);eventOwnerChanged(address_oldOwner,address_newOwner);eventFreezeAddress(addressindexed_target,bool_frozen);constructor(uint256initialSupplyHM,stringtokenName,stringtokenSymbol,uint8tokenDecimals)public{name=tokenName;symbol=tokenSymbol;decimals=tokenDecimals;totalSupply=initialSupplyHM*10000*10000*10**uint256(decimals);balanceOf[msg.sender]=totalSupply;owner=msg.sender;creator=msg.sender;}modifieronlyOwner{require(msg.sender==owner,\"\u975e\u6cd5\u5408\u7ea6\u6267\u884c\u8005\");_;}functionoffer(uint256_supplyTM)onlyOwnerpublicreturns(boolsuccess){require(_supplyTM>0,\"\u65e0\u6548\u6570\u91cf\");uint256tm=_supplyTM*1000*10000*10**uint256(decimals);totalSupply+=tm;balanceOf[msg.sender]+=tm;emitOffer(_supplyTM);returntrue;}functiontransferOwnership(address_newOwner)onlyOwnerpublicreturns(boolsuccess){require(owner!=_newOwner,\"\u65e0\u6548\u5408\u7ea6\u65b0\u6240\u6709\u8005\");newOwner=_newOwner;returntrue;}functionacceptOwnership()publicreturns(boolsuccess){require(msg.sender==newOwner&&newOwner!=0x0,\"\u65e0\u6548\u5408\u7ea6\u65b0\u6240\u6709\u8005\");addressoldOwner=owner;owner=newOwner;newOwner=0x0;emitOwnerChanged(oldOwner,owner);returntrue;}functionsetLockAll(bool_lockAll)onlyOwnerpublicreturns(boolsuccess){lockAll=_lockAll;returntrue;}functionsetFreezeAddress(address_target,bool_freeze)onlyOwnerpublicreturns(boolsuccess){frozens[_target]=_freeze;emitFreezeAddress(_target,_freeze);returntrue;}function_transfer(address_from,address_to,uint256_value)internal{require(!lockAll,\"\u5408\u7ea6\u5904\u4e8e\u9501\u5b9a\u72b6\u6001\");require(_to!=0x0,\"\u65e0\u6548\u63a5\u6536\u5730\u5740\");require(_value>0,\"\u65e0\u6548\u6570\u91cf\");require(balanceOf[_from]>=_value,\"\u6301\u6709\u65b9\u8f6c\u79fb\u6570\u91cf\u4e0d\u8db3\");require(!frozens[_from],\"\u6301\u6709\u65b9\u5904\u4e8e\u51bb\u7ed3\u72b6\u6001\");uint256previousBalances=balanceOf[_from]+balanceOf[_to];balanceOf[_from]-=_value;balanceOf[_to]+=_value;emitTransfer(_from,_to,_value);assert(balanceOf[_from]+balanceOf[_to]==previousBalances);}functiontransfer(address_to,uint256_value)publicreturns(boolsuccess){_transfer(msg.sender,_to,_value);returntrue;}functiontransferExtra(address_to,uint256_value,bytes_extraData)publicreturns(boolsuccess){_transfer(msg.sender,_to,_value);emitTransferExtra(msg.sender,_to,_value,_extraData);returntrue;}functiontransferFrom(address_from,address_to,uint256_value)publicreturns(boolsuccess){require(_value<=allowance[_from][msg.sender],\"\u6388\u6743\u989d\u5ea6\u4e0d\u8db3\");allowance[_from][msg.sender]-=_value;_transfer(_from,_to,_value);returntrue;}functionapprove(address_spender,uint256_value)publicreturns(boolsuccess){allowance[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);returntrue;}functionapproveAndCall(address_spender,uint256_value,bytes_extraData)publicreturns(boolsuccess){tokenRecipientspender=tokenRecipient(_spender);if(approve(_spender,_value)){spender.receiveApproval(msg.sender,_value,this,_extraData);returntrue;}}function_burn(address_from,uint256_value)internal{require(!lockAll,\"\u5408\u7ea6\u5904\u4e8e\u9501\u5b9a\u72b6\u6001\");require(balanceOf[_from]>=_value,\"\u6301\u6709\u65b9\u4f59\u989d\u4e0d\u8db3\");require(!frozens[_from],\"\u6301\u6709\u65b9\u5904\u4e8e\u51bb\u7ed3\u72b6\u6001\");balanceOf[_from]-=_value;totalSupply-=_value;emitBurn(_from,_value);}functionburn(uint256_value)publicreturns(boolsuccess){require(_value>0,\"\u65e0\u6548\u6570\u91cf\");_burn(msg.sender,_value);returntrue;}functionburnFrom(address_from,uint256_value)publicreturns(boolsuccess){require(_value<=allowance[_from][msg.sender],\"\u6388\u6743\u989d\u5ea6\u4e0d\u8db3\");require(_value>0,\"\u65e0\u6548\u6570\u91cf\");allowance[_from][msg.sender]-=_value;_burn(_from,_value);returntrue;}function()payablepublic{}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 116,
+      "column": 4,
+      "content": "functionsetLockAll(bool_lockAll)onlyOwnerpublicreturns(boolsuccess){lockAll=_lockAll;returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 126,
+      "column": 4,
+      "content": "functionsetFreezeAddress(address_target,bool_freeze)onlyOwnerpublicreturns(boolsuccess){frozens[_target]=_freeze;emitFreezeAddress(_target,_freeze);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 279,
+      "column": 23,
+      "content": "public"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 57,
+      "column": 41,
+      "content": "stringtokenName"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 57,
+      "column": 59,
+      "content": "stringtokenSymbol"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 183,
+      "column": 56,
+      "content": "bytes_extraData"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "341gim",
+      "severity": 1,
+      "line": 224,
+      "column": 62,
+      "content": "bytes_extraData"
+    }
+  ]
+}

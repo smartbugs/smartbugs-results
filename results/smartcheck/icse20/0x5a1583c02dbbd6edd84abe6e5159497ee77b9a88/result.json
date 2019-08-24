@@ -1,0 +1,153 @@
+{
+  "contract": "0x5a1583c02dbbd6edd84abe6e5159497ee77b9a88",
+  "tool": "smartcheck",
+  "start": 1563511845.3271303,
+  "end": 1563511856.1870213,
+  "duration": 10.859890937805176,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "852kwn",
+      "severity": 1,
+      "line": 561,
+      "column": 82,
+      "content": "years"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "852kwn",
+      "severity": 1,
+      "line": 851,
+      "column": 27,
+      "content": "years"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 133,
+      "column": 2,
+      "content": "functionapprove(address_spender,uint256_value)publicreturns(bool){allowed[msg.sender][_spender]=_value;Approval(msg.sender,_spender,_value);returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 612,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)publicwhenLiquidreturns(bool){returnsuper.approve(_spender,_value);}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 875,
+      "column": 8,
+      "content": "for(uint256i=0;i<_wallets.length;i++){presaleLimit[_wallets[i]]=_weiLimit[i];}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 875,
+      "column": 8,
+      "content": "for(uint256i=0;i<_wallets.length;i++){presaleLimit[_wallets[i]]=_weiLimit[i];}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 801,
+      "column": 0,
+      "content": "contractTokensaleisCappedCrowdsale,Pausable{usingSafeMathforuint256;uint256constantpublicMAX_SUPPLY=50000000ether;uint256constantpublicSALE_TOKENS_SUPPLY=11125000ether;uint256constantpublicINVESTMENT_FUND_TOKENS_SUPPLY=10500000ether;uint256constantpublicMISCELLANEOUS_TOKENS_SUPPLY=2875000ether;uint256constantpublicTEAM_TOKENS_SUPPLY=10000000ether;uint256constantpublicRESERVE_TOKENS_SUPPLY=10000000ether;uint256constantpublicADVISORS_TOKENS_SUPPLY=5500000ether;uint256publictotalSold;uint256publicsoldDuringTokensale;uint256publicpresaleStartTime;mapping(address=>uint256)publicpresaleLimit;modifierbeforeSale(){require(now<startTime);_;}modifierduringSale(){require(now>=startTime&&!hasEnded()&&!paused);_;}functionTokensale(uint256_presaleStartTime,uint256_startTime,uint256_hardCap,address_investmentFundWallet,address_miscellaneousWallet,address_treasury,address_teamWallet,address_reserveWallet,address_advisorsWallet)CappedCrowdsale(_hardCap)Crowdsale(_startTime,_startTime+30days,SALE_TOKENS_SUPPLY.div(_hardCap),_treasury)public{require(_startTime>_presaleStartTime);require(now<_presaleStartTime);token=newCREDToken(MAX_SUPPLY,_startTime+1years,_teamWallet,_reserveWallet,_advisorsWallet);presaleStartTime=_presaleStartTime;mintInvestmentFundAndMiscellaneous(_investmentFundWallet,_miscellaneousWallet);castedToken().mintTeamTokens(TEAM_TOKENS_SUPPLY);castedToken().mintReserveTokens(RESERVE_TOKENS_SUPPLY);castedToken().mintAdvisorsTokens(ADVISORS_TOKENS_SUPPLY);}functionsetHardCap(uint256_cap)publiconlyOwner{require(now<presaleStartTime);require(_cap>0);cap=_cap;rate=SALE_TOKENS_SUPPLY.div(_cap);}functionaddPresaleWallets(address[]_wallets,uint256[]_weiLimit)externalonlyOwner{require(now<startTime);require(_wallets.length==_weiLimit.length);for(uint256i=0;i<_wallets.length;i++){presaleLimit[_wallets[i]]=_weiLimit[i];}}functionbuyTokens(addressbeneficiary)publicpayable{super.buyTokens(beneficiary);if(now<startTime){presaleLimit[msg.sender]=presaleLimit[msg.sender].sub(msg.value);}totalSold=totalSold.add(msg.value.mul(rate));}functionfinalise()public{require(hasEnded());castedToken().finalise();}functionmintInvestmentFundAndMiscellaneous(address_investmentFundWallet,address_miscellaneousWallet)internal{require(_investmentFundWallet!=address(0));require(_miscellaneousWallet!=address(0));token.mint(_investmentFundWallet,INVESTMENT_FUND_TOKENS_SUPPLY);token.mint(_miscellaneousWallet,MISCELLANEOUS_TOKENS_SUPPLY);}functioncastedToken()internalviewreturns(CREDToken){returnCREDToken(token);}functioncreateTokenContract()internalreturns(MintableToken){returnMintableToken(address(0));}functionvalidSalePurchase()internalviewreturns(bool){returnsuper.validPurchase();}functionvalidPreSalePurchase()internalviewreturns(bool){if(msg.value>presaleLimit[msg.sender]){returnfalse;}if(weiRaised.add(msg.value)>cap){returnfalse;}if(now<presaleStartTime){returnfalse;}if(now>=startTime){returnfalse;}returntrue;}functionvalidPurchase()internalviewreturns(bool){require(!paused);returnvalidSalePurchase()||validPreSalePurchase();}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 864,
+      "column": 4,
+      "content": "functionsetHardCap(uint256_cap)publiconlyOwner{require(now<presaleStartTime);require(_cap>0);cap=_cap;rate=SALE_TOKENS_SUPPLY.div(_cap);}"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 51,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 315,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 439,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 635,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 732,
+      "column": 2,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_SAFEMATH",
+      "patternId": "837cac",
+      "severity": 1,
+      "line": 802,
+      "column": 4,
+      "content": "usingSafeMathforuint256;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 53,
+      "column": 2,
+      "content": "mapping(address=>uint256)balances;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 464,
+      "column": 4,
+      "content": "uint256teamLocked;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 465,
+      "column": 4,
+      "content": "uint256reserveLocked;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 466,
+      "column": 4,
+      "content": "uint256advisorsLocked;"
+    }
+  ]
+}

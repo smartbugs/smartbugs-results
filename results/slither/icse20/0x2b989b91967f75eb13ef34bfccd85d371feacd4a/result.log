@@ -1,0 +1,85 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:
+/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:84:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Ownable() public{
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:168:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function PreFund(uint256 _startTime, uint256 _endTime, address _wallet, ElementhToken _token) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:195:5: Warning: Invoking events without "emit" prefix is deprecated.
+    AddDeposit(beneficiary, weiAmount);
+    ^--------------------------------^
+/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:209:21: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+    wallet.transfer(this.balance);
+                    ^----------^
+/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:222:5: Warning: Invoking events without "emit" prefix is deprecated.
+    LogClaim(msg.sender, tokens);
+    ^--------------------------^
+/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:252:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Refunded(_wallet, depositedValue);
+    ^-------------------------------^
+
+INFO:Detectors:[91m
+PreFund.forwardFunds (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#214-218) sends eth to arbitrary user
+	Dangerous calls:
+	- wallet.transfer(this.balance) (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#216-218)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Reentrancy in PreFund.claimToken (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#218-235):
+	External calls:
+	- token.mint(msg.sender,tokens) (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#230-231)
+	State variables written after the call(s):
+	- claimed (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#231-234)
+Reentrancy in PreFund.refundFunds (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#241-256):
+	External calls:
+	- token.burn(_wallet,claimed[_wallet]) (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#251-252)
+	State variables written after the call(s):
+	- claimed (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#255-256)
+	- deposited (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+PreFund.claimToken (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#218-235) does not use the value returned by external calls:
+	-token.mint(msg.sender,tokens) (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#230-231)
+PreFund.refundFunds (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#241-256) does not use the value returned by external calls:
+	-token.burn(_wallet,claimed[_wallet]) (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#251-252)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#unused-return[0m
+INFO:Detectors:[92m
+ElementhToken.mint (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#10-16) should be declared external
+ElementhToken.burn (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#16-24) should be declared external
+Ownable.addOwner (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#98-101) should be declared external
+Ownable.removeOwner (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#104-107) should be declared external
+Ownable.isOwner (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#112-115) should be declared external
+PreFund.setStartTime (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#152-157) should be declared external
+PreFund.setEndTime (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#157-161) should be declared external
+PreFund.setWallet (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#163-165) should be declared external
+PreFund.setRate (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#165-168) should be declared external
+PreFund.setRefundEnabled (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#168-170) should be declared external
+PreFund.addFunds (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#189-192) should be declared external
+PreFund.forwardFunds (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#214-218) should be declared external
+PreFund.claimToken (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#218-235) should be declared external
+PreFund.refundWallet (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#235-238) should be declared external
+PreFund.claimRefund (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#239-241) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol:
+	- pragma solidity^0.4.18 (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Parameter '_to' of ElementhToken.mint (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#10) is not in mixedCase
+Parameter '_amount' of ElementhToken.mint (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#10) is not in mixedCase
+Parameter '_to' of ElementhToken.burn (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#16) is not in mixedCase
+Parameter '_amount' of ElementhToken.burn (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#16) is not in mixedCase
+Function 'Ownable.Ownable' (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#89-91) is not in mixedCase
+Parameter '_startTime' of PreFund.setStartTime (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#153-156) is not in mixedCase
+Parameter '_endTime' of PreFund.setEndTime (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#160) is not in mixedCase
+Parameter '_wallet' of PreFund.setWallet (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#164) is not in mixedCase
+Parameter '_rate' of PreFund.setRate (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#166-168) is not in mixedCase
+Parameter '_refundEnabled' of PreFund.setRefundEnabled (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#168) is not in mixedCase
+Function 'PreFund.PreFund' (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#170-188) is not in mixedCase
+Parameter '_startTime' of PreFund.PreFund (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#171) is not in mixedCase
+Parameter '_endTime' of PreFund.PreFund (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#171-172) is not in mixedCase
+Parameter '_wallet' of PreFund.PreFund (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#172) is not in mixedCase
+Parameter '_token' of PreFund.PreFund (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#172-174) is not in mixedCase
+Parameter '_wallet' of PreFund.refundWallet (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#236) is not in mixedCase
+Parameter '_wallet' of PreFund.refundFunds (/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol#241-242) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x2b989b91967f75eb13ef34bfccd85d371feacd4a.sol analyzed (4 contracts), 38 result(s) found

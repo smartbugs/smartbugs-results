@@ -1,0 +1,101 @@
+{
+  "contract": "0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d",
+  "tool": "mythril",
+  "start": 1563580008.3642755,
+  "end": 1563580193.0994232,
+  "duration": 184.73514771461487,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 441,
+        "code": "              return false;\n                } \n            }\n        }\n\n        gods_name[god_address].god_name = new_name;\n        emit set_name(god_address, new_name);\n        return true;\n    }\n    event set_name (address indexed god",
+        "debug": "calldata_EthGodsName_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EthGodsName_0: 0x840ce9c200000000000000000000000000000000000000000000000000000000\ncalldatasize_EthGodsName: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x840ce9c2`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0x840ce9c2",
+        "lineno": 1786,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 805,
+        "code": "= msg.sender;\n\n    }\n\n    function finalize () public {\n        require (msg.sender == admin);\n        selfdestruct(msg.sender); \n    }\n    \n    function () public payable {\n        revert();  // if received eth for no reason, reject\n    }\n    \n    // end of constructor and destructor\n\n\n    function throw_dice (bytes32 block_hash) public pure returns (uint[]) {// 0 for prize, 1-6 for 6 numbers should be pure\n        uint[] memory dice_numbers = new uint[](7);\n        uint hash_number;\n        uint[] memory count_dice_numbers = new uint[](7);\n        uint i; // for loop\n  \n        for (i = 1; i <= 6; i++) {\n            hash_number = uint(block_hash[i]);\n            if (hash_number >= 21",
+        "debug": "calldata_EthGodsName_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_EthGodsName_0: 0xefc56c3500000000000000000000000000000000000000000000000000000000\ncalldatasize_EthGodsName: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xefc56c35`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0xefc56c35",
+        "lineno": 1828,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 2072,
+        "code": " new_name) public returns",
+        "debug": "",
+        "description": "This contract executes a message call to to another contract. Make sure that the called contract is trusted and does not execute user-supplied code.",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0xa6084db3",
+        "lineno": 1776,
+        "title": "Message call to external contract",
+        "type": "Informational"
+      },
+      {
+        "address": 2072,
+        "code": " new_name) public returns",
+        "debug": "",
+        "description": "A possible transaction order independence vulnerability exists in function _function_0xa6084db3. The value or direction of the call statement is determined from a tainted storage location",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0xa6084db3",
+        "lineno": 1776,
+        "title": "Transaction order dependence",
+        "type": "Warning"
+      },
+      {
+        "address": 2318,
+        "code": "    require (add(",
+        "debug": "",
+        "description": "The contract account state is changed after an external call. Consider that the called contract could re-enter the function before this state change takes place. This can lead to business logic vulnerabilities.",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0xa6084db3",
+        "lineno": 1778,
+        "title": "State change after external call",
+        "type": "Warning"
+      },
+      {
+        "address": 3437,
+        "code": "blic {    \n        require (contract_created == false);\n        contract_created = true;\n        contract_address = address(this);\n        admin = msg.sender;     \n        address v_god = 0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359;\n        gods_name[v_god].god_name = \"V\";\n    }\n\n    function () public payable {\n        revert();  // if received eth for no reason, reject\n    }\n\n    function finalize() public {\n        require (msg.sender == admin);\n        selfdestruct(msg.sender); \n    }\n    \n    // end of constructor and destructor\n    \n    \n    function set_god_name (string new_name) public returns (bool){\n        address god_address = msg.sender;\n        require (add(gods_name[god_address].block_number, gods_name[god_address].block_duration) < block.number );\n\n        bytes memory bs = bytes(new_name);\n        require (bs.length <= valid_length);\n        \n        for (uint i = 0; i < bs.length; i++){\n            for (uint j = 0; j < invalid_bytes.length; j++) {\n                if (bs[i] == invalid_bytes[j]){\n                    return false;\n                } \n            }\n        }\n\n        gods_name[god_address].god_name = new_name;\n        emit set_name(god_address, new_name);\n        return true;\n    }\n    event set_name (address indexed god_address, string new_name);\n\n\n    function get_god_name (address god_address) public view returns (string) {\n        return gods_name[god_address].god_name;\n    }\n\n    function block_god_name (address god_address, uint block_duration) public {\n        require (msg.sender == admin);\n        gods_name[god_address].god_name = \"Unkown\";\n        gods_name[god_address].block_number = block.number;\n        gods_name[god_address].block_duration = block_duration;\n    }\n    \n    function add (uint a, uint b) internal pure returns (uint c) {\n        c = a + b;\n        require(c >= a);\n    }\n}\n\n\ncontract EthGodsDice {\n    \n    //contract information & administration\n    bool private contract_created; // in case constructor logic change in the future\n    address private contract_address; //shown at the top of the home page\n    address private admin;\n    \n    // start of constructor and destructor\n    constructor () public {\n        require (contract_created == false);\n        contract_created = true;\n        contract_address = address(this);\n        admin = msg.sender;\n\n    }\n\n    function finalize () public {\n        require (msg.sender == admin);\n        selfdestruct(msg.sender); \n    }\n    \n    function () public payable {\n        revert();  // if received eth for no reason, reject\n    }\n    \n    // end of constructor and destructor\n\n\n    function throw_dice (bytes32 block_hash) public pure returns (uint[]) {// 0 for prize, 1-6 for 6 numbers should be pure\n        uint[] memory dice_numbers = new uint[](7);\n        uint hash_number;\n        uint[] memory count_dice_numbers = new uint[](7);\n        uint i; // for loop\n  \n        for (i = 1; i <= 6; i++) {\n            hash_number = uint(block_hash[i]);\n            if (hash_number >= 214) { // 214\n                dice_numbers[i] = 6;\n            } else if (hash_number >= 172) { // 172\n                dice_numbers[i] = 5;\n            } else if (hash_number >= 129) { // 129\n                dice_numbers[i] = 4;\n            } else if (hash_number >= 86) { // 86\n                dice_numbers[i] = 3;\n            } else if (hash_number >= 43) { // 43\n                dice_numbers[i] = 2;\n            } else {\n                dice_numbers[i] = 1;\n            }\n            count_dice_numbers[dice_numbers[i]] ++;\n        }\n\n        bool won_super_prize = false;\n        uint count_super_eth = 0;\n        for (i = 1; i <= 6; i++) {\n    ",
+        "debug": "keccac_0_+\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff13e6a7459ae5a4c49c419171c3f89100a371508000000000129200000219e2\nstorage_0 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xbac1c3147749165dd7d1977fffffffffffffffffffffffffffffffffffffffc5\nstorage_1 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0x0\nblock_number: 0x1\nstorage_2 +\nkeccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0x0\ncalldata_EthGodsName_0: 0xefc56c3500000000000000000000000000000000000000000000000000000000\ncalldatasize_EthGodsName: 0x4\ncalldata_EthGodsName_4 + calldata_EthGodsName_4: 0x0\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0xefc56c35`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0xefc56c35",
+        "lineno": 1755,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3466,
+        "code": "blic {    \n        require (contract_created == false);\n        contract_created = true;\n        contract_address = address(this);\n        admin = msg.sender;     \n        address v_god = 0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359;\n        gods_name[v_god].god_name = \"V\";\n    }\n\n    function () public payable {\n        revert();  // if received eth for no reason, reject\n    }\n\n    function finalize() public {\n        require (msg.sender == admin);\n        selfdestruct(msg.sender); \n    }\n    \n    // end of constructor and destructor\n    \n    \n    function set_god_name (string new_name) public returns (bool){\n        address god_address = msg.sender;\n        require (add(gods_name[god_address].block_number, gods_name[god_address].block_duration) < block.number );\n\n        bytes memory bs = bytes(new_name);\n        require (bs.length <= valid_length);\n        \n        for (uint i = 0; i < bs.length; i++){\n            for (uint j = 0; j < invalid_bytes.length; j++) {\n                if (bs[i] == invalid_bytes[j]){\n                    return false;\n                } \n            }\n        }\n\n        gods_name[god_address].god_name = new_name;\n        emit set_name(god_address, new_name);\n        return true;\n    }\n    event set_name (address indexed god_address, string new_name);\n\n\n    function get_god_name (address god_address) public view returns (string) {\n        return gods_name[god_address].god_name;\n    }\n\n    function block_god_name (address god_address, uint block_duration) public {\n        require (msg.sender == admin);\n        gods_name[god_address].god_name = \"Unkown\";\n        gods_name[god_address].block_number = block.number;\n        gods_name[god_address].block_duration = block_duration;\n    }\n    \n    function add (uint a, uint b) internal pure returns (uint c) {\n        c = a + b;\n        require(c >= a);\n    }\n}\n\n\ncontract EthGodsDice {\n    \n    //contract information & administration\n    bool private contract_created; // in case constructor logic change in the future\n    address private contract_address; //shown at the top of the home page\n    address private admin;\n    \n    // start of constructor and destructor\n    constructor () public {\n        require (contract_created == false);\n        contract_created = true;\n        contract_address = address(this);\n        admin = msg.sender;\n\n    }\n\n    function finalize () public {\n        require (msg.sender == admin);\n        selfdestruct(msg.sender); \n    }\n    \n    function () public payable {\n        revert();  // if received eth for no reason, reject\n    }\n    \n    // end of constructor and destructor\n\n\n    function throw_dice (bytes32 block_hash) public pure returns (uint[]) {// 0 for prize, 1-6 for 6 numbers should be pure\n        uint[] memory dice_numbers = new uint[](7);\n        uint hash_number;\n        uint[] memory count_dice_numbers = new uint[](7);\n        uint i; // for loop\n  \n        for (i = 1; i <= 6; i++) {\n            hash_number = uint(block_hash[i]);\n            if (hash_number >= 214) { // 214\n                dice_numbers[i] = 6;\n            } else if (hash_number >= 172) { // 172\n                dice_numbers[i] = 5;\n            } else if (hash_number >= 129) { // 129\n                dice_numbers[i] = 4;\n            } else if (hash_number >= 86) { // 86\n                dice_numbers[i] = 3;\n            } else if (hash_number >= 43) { // 43\n                dice_numbers[i] = 2;\n            } else {\n                dice_numbers[i] = 1;\n            }\n            count_dice_numbers[dice_numbers[i]] ++;\n        }\n\n        bool won_super_prize = false;\n        uint count_super_eth = 0;\n        for (i = 1; i <= 6; i++) {\n    ",
+        "debug": "calldata_EthGodsName_4 + calldata_EthGodsName_4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_2: 0x0\ncaller: 0x0\ncalldata_EthGodsName_0: 0x840ce9c200000000000000000000000000000000000000000000000000000000\ncalldatasize_EthGodsName: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x840ce9c2`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0x840ce9c2",
+        "lineno": 1755,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 3480,
+        "code": "blic {    \n        require (contract_created == false);\n        contract_created = true;\n        contract_address = address(this);\n        admin = msg.sender;     \n        address v_god = 0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359;\n        gods_name[v_god].god_name = \"V\";\n    }\n\n    function () public payable {\n        revert();  // if received eth for no reason, reject\n    }\n\n    function finalize() public {\n        require (msg.sender == admin);\n        selfdestruct(msg.sender); \n    }\n    \n    // end of constructor and destructor\n    \n    \n    function set_god_name (string new_name) public returns (bool){\n        address god_address = msg.sender;\n        require (add(gods_name[god_address].block_number, gods_name[god_address].block_duration) < block.number );\n\n        bytes memory bs = bytes(new_name);\n        require (bs.length <= valid_length);\n        \n        for (uint i = 0; i < bs.length; i++){\n            for (uint j = 0; j < invalid_bytes.length; j++) {\n                if (bs[i] == invalid_bytes[j]){\n                    return false;\n                } \n            }\n        }\n\n        gods_name[god_address].god_name = new_name;\n        emit set_name(god_address, new_name);\n        return true;\n    }\n    event set_name (address indexed god_address, string new_name);\n\n\n    function get_god_name (address god_address) public view returns (string) {\n        return gods_name[god_address].god_name;\n    }\n\n    function block_god_name (address god_address, uint block_duration) public {\n        require (msg.sender == admin);\n        gods_name[god_address].god_name = \"Unkown\";\n        gods_name[god_address].block_number = block.number;\n        gods_name[god_address].block_duration = block_duration;\n    }\n    \n    function add (uint a, uint b) internal pure returns (uint c) {\n        c = a + b;\n        require(c >= a);\n    }\n}\n\n\ncontract EthGodsDice {\n    \n    //contract information & administration\n    bool private contract_created; // in case constructor logic change in the future\n    address private contract_address; //shown at the top of the home page\n    address private admin;\n    \n    // start of constructor and destructor\n    constructor () public {\n        require (contract_created == false);\n        contract_created = true;\n        contract_address = address(this);\n        admin = msg.sender;\n\n    }\n\n    function finalize () public {\n        require (msg.sender == admin);\n        selfdestruct(msg.sender); \n    }\n    \n    function () public payable {\n        revert();  // if received eth for no reason, reject\n    }\n    \n    // end of constructor and destructor\n\n\n    function throw_dice (bytes32 block_hash) public pure returns (uint[]) {// 0 for prize, 1-6 for 6 numbers should be pure\n        uint[] memory dice_numbers = new uint[](7);\n        uint hash_number;\n        uint[] memory count_dice_numbers = new uint[](7);\n        uint i; // for loop\n  \n        for (i = 1; i <= 6; i++) {\n            hash_number = uint(block_hash[i]);\n            if (hash_number >= 214) { // 214\n                dice_numbers[i] = 6;\n            } else if (hash_number >= 172) { // 172\n                dice_numbers[i] = 5;\n            } else if (hash_number >= 129) { // 129\n                dice_numbers[i] = 4;\n            } else if (hash_number >= 86) { // 86\n                dice_numbers[i] = 3;\n            } else if (hash_number >= 43) { // 43\n                dice_numbers[i] = 2;\n            } else {\n                dice_numbers[i] = 1;\n            }\n            count_dice_numbers[dice_numbers[i]] ++;\n        }\n\n        bool won_super_prize = false;\n        uint count_super_eth = 0;\n        for (i = 1; i <= 6; i++) {\n    ",
+        "debug": "calldata_EthGodsName_4 + calldata_EthGodsName_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_2: 0x0\ncaller: 0x0\ncalldata_EthGodsName_0: 0x840ce9c200000000000000000000000000000000000000000000000000000000\ncalldatasize_EthGodsName: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x840ce9c2`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/18/0xcf5b3f6d55e30486fcd9b8e908d31a656e92b71d.sol",
+        "function": "_function_0x840ce9c2",
+        "lineno": 1755,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

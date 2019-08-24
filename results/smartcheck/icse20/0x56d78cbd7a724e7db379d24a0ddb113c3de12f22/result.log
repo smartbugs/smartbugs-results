@@ -1,0 +1,153 @@
+/unique_chucks/24/0x56d78cbd7a724e7db379d24a0ddb113c3de12f22.sol
+jar:file:/usr/local/lib/node_modules/@smartdec/smartcheck/jdeploy-bundle/smartcheck-2.0-jar-with-dependencies.jar!/solidity-rules.xmlruleId: SOLIDITY_ADDRESS_HARDCODED
+patternId: a91b18
+severity: 1
+line: 776
+column: 8
+content: devWallet=address(0)
+
+ruleId: SOLIDITY_ERC20_APPROVE
+patternId: af782c
+severity: 2
+line: 602
+column: 4
+content: functionapprove(address_spender,uint256_value)externalnonReentrantreturns(bool){returnapproveInternal(_spender,_value);}
+
+ruleId: SOLIDITY_EXTRA_GAS_IN_LOOPS
+patternId: d3j11j
+severity: 1
+line: 514
+column: 8
+content: for(uintj=0;j<_rewardAdresses.length;j++){rewardMint(_rewardAdresses[j],_amountOfReward[j]);rewardDistributed=rewardDistributed.add(_amountOfReward[j]);}
+
+ruleId: SOLIDITY_GAS_LIMIT_IN_LOOPS
+patternId: f6f853
+severity: 2
+line: 514
+column: 8
+content: for(uintj=0;j<_rewardAdresses.length;j++){rewardMint(_rewardAdresses[j],_amountOfReward[j]);rewardDistributed=rewardDistributed.add(_amountOfReward[j]);}
+
+ruleId: SOLIDITY_LOCKED_MONEY
+patternId: 30281d
+severity: 3
+line: 710
+column: 0
+content: contractIiinoCoinCrowdsaleisCrowdsale,Pausable,ReentrancyGuard{eventReferralAwarded(addressindexedpurchaser,addressindexedreferrer,uint256iiinoPurchased,uint256iiinoAwarded);usingSafeMathforuint256;addressdevWallet;uint256noOfTokenAlocatedForDev;uint256publicnoOfTokenAlocatedForSeedRound;uint256publicnoOfTokenAlocatedForPresaleRound;uint256publictotalNoOfTokenAlocated;uint256publicnoOfTokenAlocatedPerICOPhase;uint256publicnoOfICOPhases;uint256publicseedRoundEndTime;uint256publicthresholdEtherLimitForSeedRound;uint256publicmoreTokenPerEtherForSeedRound;uint256publicmoreTokenPerEtherForPresaleRound;uint256publicreferralTokensAvailable;uint256publicreferralPercent;uint256publicreferralTokensAllocated;uint256publicpresaleEndTime;uint256publicissueRateDecDuringICO;functionIiinoCoinCrowdsale(uint256[]_params,address_wallet,address_devTeamWallet,address_iiinoTokenAddress)publicCrowdsale(_params[0],_params[1],_params[4],_wallet){devWallet=_devTeamWallet;issueRateDecDuringICO=_params[5];seedRoundEndTime=_params[2];presaleEndTime=_params[3];moreTokenPerEtherForSeedRound=_params[13];moreTokenPerEtherForPresaleRound=_params[14];referralTokensAvailable=_params[15];referralTokensAllocated=_params[15];referralPercent=_params[16];noOfTokenAlocatedForDev=_params[6];noOfTokenAlocatedForSeedRound=_params[7];noOfTokenAlocatedForPresaleRound=_params[8];totalNoOfTokenAlocated=_params[10];noOfTokenAlocatedPerICOPhase=_params[9];noOfICOPhases=_params[11];thresholdEtherLimitForSeedRound=_params[12];token=IiinoCoin(_iiinoTokenAddress);}functioninitialTransferToDevTeam()nonReentrantonlyOwnerwhenNotPausedexternal{require(devWallet!=address(0));token.mint(devWallet,noOfTokenAlocatedForDev);devWallet=address(0);}functiongetTokenAmount(uint256weiAmount)whenNotPausedinternalviewreturns(uint256){uintcurrRate;uint256multiplierForICO;uint256amountOfIiino=0;uint256referralsDistributed=referralTokensAllocated.sub(referralTokensAvailable);uint256_totalSupply=(token.totalSupply()).sub(referralsDistributed);if(now<=seedRoundEndTime){require(weiAmount>=thresholdEtherLimitForSeedRound);require(_totalSupply<noOfTokenAlocatedForSeedRound.add(noOfTokenAlocatedForDev));(currRate,multiplierForICO)=getCurrentRateInternal();amountOfIiino=weiAmount.mul(currRate);require(_totalSupply.add(amountOfIiino)<=noOfTokenAlocatedForSeedRound.add(noOfTokenAlocatedForDev));returnamountOfIiino;}elseif(now<=presaleEndTime){require(_totalSupply<noOfTokenAlocatedForSeedRound.add(noOfTokenAlocatedForPresaleRound).add(noOfTokenAlocatedForDev));(currRate,multiplierForICO)=getCurrentRateInternal();amountOfIiino=weiAmount.mul(currRate);require(_totalSupply.add(amountOfIiino)<=noOfTokenAlocatedForSeedRound.add(noOfTokenAlocatedForPresaleRound).add(noOfTokenAlocatedForDev));returnamountOfIiino;}else{require(_totalSupply<noOfTokenAlocatedForSeedRound.add(noOfTokenAlocatedForPresaleRound).add(noOfTokenAlocatedForDev));require(now<endTime);(currRate,multiplierForICO)=getCurrentRateInternal();amountOfIiino=weiAmount*currRate;require(_totalSupply.add(amountOfIiino)<=noOfTokenAlocatedForSeedRound.add(noOfTokenAlocatedForPresaleRound).add(noOfTokenAlocatedForDev).add(noOfTokenAlocatedPerICOPhase.mul(multiplierForICO.add(1))));returnamountOfIiino;}}functiongetCurrentRateInternal()whenNotPausedinternalviewreturns(uint,uint256){uintcurrRate;uint256multiplierForICO=0;if(now<=seedRoundEndTime){currRate=rate.add(moreTokenPerEtherForSeedRound);}elseif(now<=presaleEndTime){currRate=rate.add(moreTokenPerEtherForPresaleRound);}else{multiplierForICO=(now.sub(presaleEndTime)).div(30days);currRate=rate.sub((issueRateDecDuringICO.mul(multiplierForICO)));require(multiplierForICO<noOfICOPhases);}return(currRate,multiplierForICO);}functionbuyTokensWithReferrer(addressreferrer)nonReentrantwhenNotPausedexternalpayable{addressbeneficiary=msg.sender;require(referrer!=address(0));require(beneficiary!=address(0));require(validPurchase());require(msg.value>=(0.01ether));uint256weiAmount=msg.value;uint256tokens=getTokenAmount(weiAmount);weiRaised=weiRaised.add(weiAmount);token.mint(beneficiary,tokens);emitTokenPurchase(msg.sender,beneficiary,weiAmount,tokens);uint256referrerTokens=tokens.mul(referralPercent).div(100);if(referralTokensAvailable>0){if(referrerTokens>referralTokensAvailable){referrerTokens=referralTokensAvailable;}token.mint(referrer,referrerTokens);referralTokensAvailable=referralTokensAvailable.sub(referrerTokens);emitReferralAwarded(msg.sender,referrer,tokens,referrerTokens);}forwardFunds();}functiongetCurrentRate()whenNotPausedexternalviewreturns(uint,uint256){returngetCurrentRateInternal();}functionbuyTokens(addressbeneficiary)nonReentrantwhenNotPausedexternalpayable{buyTokensInternal(beneficiary);}functionforwardFunds()whenNotPausedinternal{super.forwardFunds();}}
+
+ruleId: SOLIDITY_OVERPOWERED_ROLE
+patternId: j83hf7
+severity: 2
+line: 491
+column: 4
+content: functionsetIcoContractAddress(address_icoContractAddress)externalnonReentrantonlyOwnerwhenNotPaused{require(_icoContractAddress!=address(0));emitIcoContractAddressSet(_icoContractAddress);icoContractAddress=_icoContractAddress;}
+
+ruleId: SOLIDITY_PRAGMAS_VERSION
+patternId: 23fc32
+severity: 1
+line: 1
+column: 16
+content: ^
+
+ruleId: SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA
+patternId: 5616b2
+severity: 1
+line: 412
+column: 7
+content: private
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 113
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 449
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 630
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SAFEMATH
+patternId: 837cac
+severity: 1
+line: 713
+column: 4
+content: usingSafeMathforuint256;
+
+ruleId: SOLIDITY_SHOULD_RETURN_STRUCT
+patternId: 7d54ca
+severity: 1
+line: 876
+column: 74
+content: (uint,uint256)
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 467
+column: 8
+content: string_name
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 468
+column: 8
+content: string_symbol
+
+ruleId: SOLIDITY_UPGRADE_TO_050
+patternId: 341gim
+severity: 1
+line: 738
+column: 8
+content: uint256[]_params
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 115
+column: 4
+content: mapping(address=>uint256)balances;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 117
+column: 4
+content: uint256totalSupply_;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 715
+column: 4
+content: addressdevWallet;
+
+ruleId: SOLIDITY_VISIBILITY
+patternId: b51ce0
+severity: 1
+line: 716
+column: 4
+content: uint256noOfTokenAlocatedForDev;
+
+SOLIDITY_VISIBILITY :4
+SOLIDITY_SAFEMATH :4
+SOLIDITY_OVERPOWERED_ROLE :1
+SOLIDITY_PRAGMAS_VERSION :1
+SOLIDITY_LOCKED_MONEY :1
+SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA :1
+SOLIDITY_EXTRA_GAS_IN_LOOPS :1
+SOLIDITY_ADDRESS_HARDCODED :1
+SOLIDITY_UPGRADE_TO_050 :3
+SOLIDITY_GAS_LIMIT_IN_LOOPS :1
+SOLIDITY_SHOULD_RETURN_STRUCT :1
+SOLIDITY_ERC20_APPROVE :1

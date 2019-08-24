@@ -1,0 +1,545 @@
+{
+  "contract": "0x76430feb31888cad3695854dcc68057e68749a49",
+  "tool": "smartcheck",
+  "start": 1563772861.45014,
+  "end": 1563772871.668105,
+  "duration": 10.217964887619019,
+  "analysis": [
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "b140cd",
+      "severity": 1,
+      "line": 152,
+      "column": 44,
+      "content": "0xdead"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 419,
+      "column": 40,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 441,
+      "column": 43,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_ADDRESS_HARDCODED",
+      "patternId": "c67a09",
+      "severity": 1,
+      "line": 478,
+      "column": 40,
+      "content": "0x0"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 892,
+      "column": 8,
+      "content": "for(uinti=0;i<_labelHashes.length;i++){setPrimaryOwner(_labelHashes[i],_address);}"
+    },
+    {
+      "name": "SOLIDITY_EXTRA_GAS_IN_LOOPS",
+      "patternId": "d3j11j",
+      "severity": 1,
+      "line": 898,
+      "column": 8,
+      "content": "for(uinti=0;i<_labelHashes.length;i++){setSecondaryOwner(_labelHashes[i],_address);}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 892,
+      "column": 8,
+      "content": "for(uinti=0;i<_labelHashes.length;i++){setPrimaryOwner(_labelHashes[i],_address);}"
+    },
+    {
+      "name": "SOLIDITY_GAS_LIMIT_IN_LOOPS",
+      "patternId": "f6f853",
+      "severity": 2,
+      "line": 898,
+      "column": 8,
+      "content": "for(uinti=0;i<_labelHashes.length;i++){setSecondaryOwner(_labelHashes[i],_address);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 150,
+      "column": 0,
+      "content": "contractDeedImplementationisDeed{addresspayableconstantburn=address(0xdead);addresspayableprivate_owner;addressprivate_previousOwner;addressprivate_registrar;uintprivate_creationDate;uintprivate_value;boolactive;eventOwnerChanged(addressnewOwner);eventDeedClosed();modifieronlyRegistrar{require(msg.sender==_registrar);_;}modifieronlyActive{require(active);_;}constructor(addresspayableinitialOwner)publicpayable{_owner=initialOwner;_registrar=msg.sender;_creationDate=now;active=true;_value=msg.value;}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 306,
+      "column": 0,
+      "content": "contractHashRegistrarisRegistrar{ENSpublicens;bytes32publicrootNode;mapping(bytes32=>Entry)_entries;mapping(address=>mapping(bytes32=>Deed))publicsealedBids;uint32constanttotalAuctionLength=5days;uint32constantrevealPeriod=48hours;uint32publicconstantlaunchLength=8weeks;uintconstantminPrice=0.01ether;uintpublicregistryStarted;structEntry{Deeddeed;uintregistrationDate;uintvalue;uinthighestBid;}modifierinState(bytes32_hash,Mode_state){require(state(_hash)==_state);_;}modifieronlyOwner(bytes32_hash){require(state(_hash)==Mode.Owned&&msg.sender==_entries[_hash].deed.owner());_;}modifierregistryOpen(){require(now>=registryStarted&&now<=registryStarted+(365*4)*1days&&ens.owner(rootNode)==address(this));_;}constructor(ENS_ens,bytes32_rootNode,uint_startDate)public{ens=_ens;rootNode=_rootNode;registryStarted=_startDate>0?_startDate:now;}functionstartAuction(bytes32_hash)external{_startAuction(_hash);}functionstartAuctions(bytes32[]calldata_hashes)external{_startAuctions(_hashes);}functionnewBid(bytes32sealedBid)externalpayable{_newBid(sealedBid);}functionstartAuctionsAndBid(bytes32[]calldatahashes,bytes32sealedBid)externalpayable{_startAuctions(hashes);_newBid(sealedBid);}functionunsealBid(bytes32_hash,uint_value,bytes32_salt)external{bytes32seal=shaBid(_hash,msg.sender,_value,_salt);Deedbid=sealedBids[msg.sender][seal];require(address(bid)!=address(0x0));sealedBids[msg.sender][seal]=Deed(address(0x0));Entrystorageh=_entries[_hash];uintvalue=min(_value,bid.value());bid.setBalance(value,true);ModeauctionState=state(_hash);if(auctionState==Mode.Owned){bid.closeDeed(5);emitBidRevealed(_hash,msg.sender,value,1);}elseif(auctionState!=Mode.Reveal){revert();}elseif(value<minPrice||bid.creationDate()>h.registrationDate-revealPeriod){bid.closeDeed(995);emitBidRevealed(_hash,msg.sender,value,0);}elseif(value>h.highestBid){if(address(h.deed)!=address(0x0)){DeedpreviousWinner=h.deed;previousWinner.closeDeed(995);}h.value=h.highestBid;h.highestBid=value;h.deed=bid;emitBidRevealed(_hash,msg.sender,value,2);}elseif(value>h.value){h.value=value;bid.closeDeed(995);emitBidRevealed(_hash,msg.sender,value,3);}else{bid.closeDeed(995);emitBidRevealed(_hash,msg.sender,value,4);}}functioncancelBid(addressbidder,bytes32seal)external{Deedbid=sealedBids[bidder][seal];require(address(bid)!=address(0x0)&&now>=bid.creationDate()+totalAuctionLength+2weeks);bid.setOwner(msg.sender);bid.closeDeed(5);sealedBids[bidder][seal]=Deed(0);emitBidRevealed(seal,bidder,0,5);}functionfinalizeAuction(bytes32_hash)externalonlyOwner(_hash){Entrystorageh=_entries[_hash];h.value=max(h.value,minPrice);h.deed.setBalance(h.value,true);trySetSubnodeOwner(_hash,h.deed.owner());emitHashRegistered(_hash,h.deed.owner(),h.value,h.registrationDate);}functiontransfer(bytes32_hash,address<missing ')'>payablenewOwner)externalonlyOwner(_hash){require(newOwner!=<missing ';'>address(0x0));Entrystorageh=_entries[_hash];h.deed.setOwner(newOwner);trySetSubnodeOwner(_hash,newOwner);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 833,
+      "column": 0,
+      "content": "contractCustodialContractisWhitelistAdminRole{HashRegistrarregistrar;mapping(bytes32=>Ownership)domains;structOwnership{addressprimary;addresssecondary;}eventNewPrimaryOwner(bytes32indexedlabelHash,addressindexedowner);eventNewSecondaryOwner(bytes32indexedlabelHash,addressindexedowner);eventDomainWithdrawal(bytes32indexedlabelHash,addressindexedrecipient);function()externalpayable{}constructor(address_registrar)public{registrar=HashRegistrar(_registrar);}modifieronlyOwner(bytes32_labelHash){require(isOwner(_labelHash));_;}modifieronlyTransferred(bytes32_labelHash){require(isTransferred(_labelHash));_;}functionisTransferred(bytes32_labelHash)publicviewreturns(bool){(,addressdeedAddress,,,)=registrar.entries(_labelHash);Deeddeed=Deed(deedAddress);return(deed.owner()==address(this));}functionisOwner(bytes32_labelHash)publicviewreturns(bool){return(isPrimaryOwner(_labelHash)||isSecondaryOwner(_labelHash));}functionisPrimaryOwner(bytes32_labelHash)publicviewreturns(bool){(,addressdeedAddress,,,)=registrar.entries(_labelHash);Deeddeed=Deed(deedAddress);if(domains[_labelHash].primary==address(0)&&deed.previousOwner()==msg.sender){returntrue;}return(domains[_labelHash].primary==msg.sender);}functionisSecondaryOwner(bytes32_labelHash)publicviewreturns(bool){return(domains[_labelHash].secondary==msg.sender);}functionsetPrimaryOwners(bytes32[]memory_labelHashes,address_address)public{for(uinti=0;i<_labelHashes.length;i++){setPrimaryOwner(_labelHashes[i],_address);}}functionsetSecondaryOwners(bytes32[]memory_labelHashes,address_address)public{for(uinti=0;i<_labelHashes.length;i++){setSecondaryOwner(_labelHashes[i],_address);}}functionsetPrimaryOwner(bytes32_labelHash,address_address)publiconlyTransferred(_labelHash)onlyOwner(_labelHash){domains[_labelHash].primary=_address;emitNewPrimaryOwner(_labelHash,_address);}functionsetSecondaryOwner(bytes32_labelHash,address_address)publiconlyTransferred(_labelHash)onlyOwner(_labelHash){domains[_labelHash].secondary=_address;emitNewSecondaryOwner(_labelHash,_address);}functionsetPrimaryAndSecondaryOwner(bytes32_labelHash,address_primary,address_secondary)publiconlyTransferred(_labelHash)onlyOwner(_labelHash){setPrimaryOwner(_labelHash,_primary);setSecondaryOwner(_labelHash,_secondary);}functionwithdrawDomain(bytes32_labelHash,address<missing ')'>payable_address)publiconlyTransferred(_labelHash)onlyOwner(_labelHash){domains[_labelHash].primary=address(0);domains[_labelHash].secondary=address(0);registrar.transfer(_labelHash,_address);emitDomainWithdrawal(_labelHash,_address);}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 3,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 46,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 95,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 124,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 143,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 252,
+      "column": 16,
+      "content": ">="
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 284,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 828,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 59,
+      "column": 15,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 154,
+      "column": 20,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 155,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 156,
+      "column": 12,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 158,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_PRIVATE_MODIFIER_DONT_HIDE_DATA",
+      "patternId": "5616b2",
+      "severity": 1,
+      "line": 159,
+      "column": 9,
+      "content": "private"
+    },
+    {
+      "name": "SOLIDITY_REVERT_REQUIRE",
+      "patternId": "c56b12",
+      "severity": 1,
+      "line": 431,
+      "column": 15,
+      "content": "if(auctionState!=Mode.Reveal){revert();}elseif(value<minPrice||bid.creationDate()>h.registrationDate-revealPeriod){bid.closeDeed(995);emitBidRevealed(_hash,msg.sender,value,0);}elseif(value>h.highestBid){if(address(h.deed)!=address(0x0)){DeedpreviousWinner=h.deed;previousWinner.closeDeed(995);}h.value=h.highestBid;h.highestBid=value;h.deed=bid;emitBidRevealed(_hash,msg.sender,value,2);}elseif(value>h.value){h.value=value;bid.closeDeed(995);emitBidRevealed(_hash,msg.sender,value,3);}else{bid.closeDeed(995);emitBidRevealed(_hash,msg.sender,value,4);}"
+    },
+    {
+      "name": "SOLIDITY_SHOULD_RETURN_STRUCT",
+      "patternId": "83hf3l",
+      "severity": 1,
+      "line": 279,
+      "column": 58,
+      "content": "(Mode,address,uint,uint,uint)"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 128,
+      "column": 4,
+      "content": "functionsetOwner(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 176,
+      "column": 4,
+      "content": "constructor(addresspayable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 273,
+      "column": 4,
+      "content": "functiontransfer(bytes32_hash,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 509,
+      "column": 4,
+      "content": "functiontransfer(bytes32_hash,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 918,
+      "column": 4,
+      "content": "functionwithdrawDomain(bytes32_labelHash,address<missing ')'>payable"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 152,
+      "column": 4,
+      "content": "addresspayableconstantburn=address(0xdead);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 161,
+      "column": 4,
+      "content": "boolactive;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 178,
+      "column": 8,
+      "content": "_registrar=msg."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 178,
+      "column": 25,
+      "content": "sender;_creationDate=now;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 180,
+      "column": 8,
+      "content": "active=true;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 181,
+      "column": 8,
+      "content": "_value=msg."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 181,
+      "column": 21,
+      "content": "value;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 310,
+      "column": 4,
+      "content": "mapping(bytes32=>Entry)_entries;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 313,
+      "column": 4,
+      "content": "uint32constanttotalAuctionLength=5days;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 314,
+      "column": 4,
+      "content": "uint32constantrevealPeriod=48hours;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 317,
+      "column": 4,
+      "content": "uintconstantminPrice=0.01ether;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 509,
+      "column": 81,
+      "content": "(_hash){require"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 510,
+      "column": 15,
+      "content": "(newOwner!=<missing ';'>"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 510,
+      "column": 28,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 510,
+      "column": 35,
+      "content": "(0x0));"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 512,
+      "column": 8,
+      "content": "Entrystorageh=_entries[_hash];"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 513,
+      "column": 8,
+      "content": "h.deed.setOwner(newOwner);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 514,
+      "column": 8,
+      "content": "trySetSubnodeOwner(_hash,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 514,
+      "column": 34,
+      "content": "newOwner);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 834,
+      "column": 4,
+      "content": "HashRegistrarregistrar;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 836,
+      "column": 4,
+      "content": "mapping(bytes32=>Ownership)domains;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 918,
+      "column": 96,
+      "content": "(_labelHash)onlyOwner"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 918,
+      "column": 118,
+      "content": "(_labelHash){domains["
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 919,
+      "column": 16,
+      "content": "_labelHash]."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 919,
+      "column": 28,
+      "content": "primary="
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 919,
+      "column": 38,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 919,
+      "column": 45,
+      "content": "(0);domains["
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 920,
+      "column": 16,
+      "content": "_labelHash]."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 920,
+      "column": 28,
+      "content": "secondary="
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 920,
+      "column": 40,
+      "content": "address"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 920,
+      "column": 47,
+      "content": "(0);registrar."
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 921,
+      "column": 18,
+      "content": "transfer(_labelHash,"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 921,
+      "column": 39,
+      "content": "_address);"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 922,
+      "column": 8,
+      "content": "emitDomainWithdrawal"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 922,
+      "column": 29,
+      "content": "(_labelHash,_address);"
+    }
+  ]
+}

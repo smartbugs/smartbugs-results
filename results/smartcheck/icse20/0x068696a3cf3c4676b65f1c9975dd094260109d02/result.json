@@ -1,0 +1,169 @@
+{
+  "contract": "0x068696a3cf3c4676b65f1c9975dd094260109d02",
+  "tool": "smartcheck",
+  "start": 1563483762.633811,
+  "end": 1563483773.7015254,
+  "duration": 11.06771445274353,
+  "analysis": [
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 75,
+      "column": 2,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256balance){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 75,
+      "column": 2,
+      "content": "functionbalanceOf(address_owner)constantreturns(uint256balance){returnbalances[_owner];}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 90,
+      "column": 2,
+      "content": "functionDadaCollectible(){owner=msg.sender;totalSupply=16600;balances[owner]=totalSupply;name=\"DADA Collectible\";symbol=\"\u0189\";decimals=0;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 112,
+      "column": 2,
+      "content": "functionbuyCollectible(uintdrawingId,uintprintIndex)payable{require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));Offerstorageoffer=OfferedForSale[printIndex];require(offer.drawingId!=0);require(offer.isForSale);require(offer.onlySellTo==0x0||offer.onlySellTo==msg.sender);require(msg.value>=offer.minValue);require(offer.seller==DrawingPrintToAddress[printIndex]);require(DrawingPrintToAddress[printIndex]!=msg.sender);addressseller=offer.seller;addressbuyer=msg.sender;DrawingPrintToAddress[printIndex]=buyer;balances[seller]--;balances[buyer]++;Transfer(seller,buyer,1);if(offer.lastSellValue<msg.value&&(msg.value-offer.lastSellValue)>=100){uintprofit=msg.value-offer.lastSellValue;pendingWithdrawals[seller]+=offer.lastSellValue+(profit*60/100);pendingWithdrawals[owner]+=(profit*40/100);}else{pendingWithdrawals[seller]+=msg.value;}makeCollectibleUnavailableToSale(buyer,drawingId,printIndex,msg.value);CollectibleBought(drawingId,printIndex,msg.value,seller,buyer);Bidstoragebid=Bids[printIndex];if(bid.bidder==buyer){pendingWithdrawals[buyer]+=bid.value;Bids[printIndex]=Bid(false,collectible.drawingId,printIndex,0x0,0);}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 175,
+      "column": 2,
+      "content": "functionalt_buyCollectible(uintdrawingId,uintprintIndex)payable{require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));Offerstorageoffer=OfferedForSale[printIndex];require(offer.drawingId==0);require(msg.value>=collectible.initialPrice);require(DrawingPrintToAddress[printIndex]==0x0);addressseller=owner;addressbuyer=msg.sender;DrawingPrintToAddress[printIndex]=buyer;balances[seller]--;balances[buyer]++;Transfer(seller,buyer,1);pendingWithdrawals[owner]+=msg.value;OfferedForSale[printIndex]=Offer(false,collectible.drawingId,printIndex,buyer,msg.value,0x0,msg.value);CollectibleBought(drawingId,printIndex,msg.value,seller,buyer);Bidstoragebid=Bids[printIndex];if(bid.bidder==buyer){pendingWithdrawals[buyer]+=bid.value;Bids[printIndex]=Bid(false,collectible.drawingId,printIndex,0x0,0);}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 224,
+      "column": 2,
+      "content": "functionenterBidForCollectible(uintdrawingId,uintprintIndex)payable{require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require(DrawingPrintToAddress[printIndex]!=0x0);require(DrawingPrintToAddress[printIndex]!=msg.sender);require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));require(msg.value>0);Bidstorageexisting=Bids[printIndex];require(msg.value>=existing.value+(existing.value*5/100));if(existing.value>0){pendingWithdrawals[existing.bidder]+=existing.value;}Bids[printIndex]=Bid(true,collectible.drawingId,printIndex,msg.sender,msg.value);CollectibleBidEntered(collectible.drawingId,printIndex,msg.value,msg.sender);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 248,
+      "column": 2,
+      "content": "functionwithdrawBidForCollectible(uintdrawingId,uintprintIndex){require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));require(DrawingPrintToAddress[printIndex]!=0x0);require(DrawingPrintToAddress[printIndex]!=msg.sender);Bidstoragebid=Bids[printIndex];require(bid.bidder==msg.sender);CollectibleBidWithdrawn(drawingId,printIndex,bid.value,msg.sender);uintamount=bid.value;Bids[printIndex]=Bid(false,collectible.drawingId,printIndex,0x0,0);msg.sender.transfer(amount);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 266,
+      "column": 2,
+      "content": "functionofferCollectibleForSale(uintdrawingId,uintprintIndex,uintminSalePriceInWei){require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require(DrawingPrintToAddress[printIndex]==msg.sender);require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));uintlastSellValue=OfferedForSale[printIndex].lastSellValue;OfferedForSale[printIndex]=Offer(true,collectible.drawingId,printIndex,msg.sender,minSalePriceInWei,0x0,lastSellValue);CollectibleOffered(drawingId,printIndex,minSalePriceInWei,0x0,lastSellValue);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 277,
+      "column": 2,
+      "content": "functionwithdrawOfferForCollectible(uintdrawingId,uintprintIndex){require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require(DrawingPrintToAddress[printIndex]==msg.sender);require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));uintlastSellValue=OfferedForSale[printIndex].lastSellValue;OfferedForSale[printIndex]=Offer(false,collectible.drawingId,printIndex,msg.sender,0,0x0,lastSellValue);CollectibleNoLongerForSale(collectible.drawingId,printIndex);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 292,
+      "column": 2,
+      "content": "functionofferCollectibleForSaleToAddress(uintdrawingId,uintprintIndex,uintminSalePriceInWei,addresstoAddress){require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require(DrawingPrintToAddress[printIndex]==msg.sender);require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));uintlastSellValue=OfferedForSale[printIndex].lastSellValue;OfferedForSale[printIndex]=Offer(true,collectible.drawingId,printIndex,msg.sender,minSalePriceInWei,toAddress,lastSellValue);CollectibleOffered(drawingId,printIndex,minSalePriceInWei,toAddress,lastSellValue);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 303,
+      "column": 2,
+      "content": "functionacceptBidForCollectible(uintdrawingId,uintminPrice,uintprintIndex){require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));require(DrawingPrintToAddress[printIndex]==msg.sender);addressseller=msg.sender;Bidstoragebid=Bids[printIndex];require(bid.value>0);require(bid.value>=minPrice);DrawingPrintToAddress[printIndex]=bid.bidder;balances[seller]--;balances[bid.bidder]++;Transfer(seller,bid.bidder,1);uintamount=bid.value;Offerstorageoffer=OfferedForSale[printIndex];if(offer.lastSellValue<amount&&(amount-offer.lastSellValue)>=100){uintprofit=amount-offer.lastSellValue;pendingWithdrawals[seller]+=offer.lastSellValue+(profit*60/100);pendingWithdrawals[owner]+=(profit*40/100);}else{pendingWithdrawals[seller]+=amount;}OfferedForSale[printIndex]=Offer(false,collectible.drawingId,printIndex,bid.bidder,0,0x0,amount);CollectibleBought(collectible.drawingId,printIndex,bid.value,seller,bid.bidder);Bids[printIndex]=Bid(false,collectible.drawingId,printIndex,0x0,0);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 351,
+      "column": 2,
+      "content": "functionwithdraw(){require(isExecutionAllowed);uintamount=pendingWithdrawals[msg.sender];pendingWithdrawals[msg.sender]=0;msg.sender.transfer(amount);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 361,
+      "column": 2,
+      "content": "functiontransfer(addressto,uintdrawingId,uintprintIndex)returns(boolsuccess){require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require(DrawingPrintToAddress[printIndex]==msg.sender);require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));makeCollectibleUnavailableToSale(to,drawingId,printIndex,OfferedForSale[printIndex].lastSellValue);DrawingPrintToAddress[printIndex]=to;balances[msg.sender]--;balances[to]++;Transfer(msg.sender,to,1);CollectibleTransfer(msg.sender,to,drawingId,printIndex);Bidstoragebid=Bids[printIndex];if(bid.bidder==to){pendingWithdrawals[to]+=bid.value;Bids[printIndex]=Bid(false,drawingId,printIndex,0x0,0);}returntrue;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 387,
+      "column": 2,
+      "content": "functionmakeCollectibleUnavailableToSale(addressto,uintdrawingId,uintprintIndex,uintlastSellValue){require(isExecutionAllowed);require(drawingIdToCollectibles[drawingId].drawingId!=0);Collectiblestoragecollectible=drawingIdToCollectibles[drawingId];require(DrawingPrintToAddress[printIndex]==msg.sender);require((printIndex<(collectible.totalSupply+collectible.initialPrintIndex))&&(printIndex>=collectible.initialPrintIndex));OfferedForSale[printIndex]=Offer(false,collectible.drawingId,printIndex,to,0,0x0,lastSellValue);CollectibleNoLongerForSale(collectible.drawingId,printIndex);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 398,
+      "column": 2,
+      "content": "functionnewCollectible(uintdrawingId,stringcheckSum,uint256_totalSupply,uintinitialPrice,uintinitialPrintIndex,stringcollectionName,uintauthorUId,stringscarcity){require(owner==msg.sender);require(drawingIdToCollectibles[drawingId].drawingId==0);drawingIdToCollectibles[drawingId]=Collectible(drawingId,checkSum,_totalSupply,initialPrintIndex,false,initialPrice,initialPrintIndex,collectionName,authorUId,scarcity);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 408,
+      "column": 2,
+      "content": "functionflipSwitchTo(boolstate){require(owner==msg.sender);isExecutionAllowed=state;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 414,
+      "column": 2,
+      "content": "functionmintNewDrawings(uintamount){require(owner==msg.sender);totalSupply=totalSupply+amount;balances[owner]=balances[owner]+amount;Transfer(0,owner,amount);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 10,
+      "column": 2,
+      "content": "addressowner;"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": "b51ce0",
+      "severity": 1,
+      "line": 14,
+      "column": 2,
+      "content": "boolisExecutionAllowed=false;"
+    }
+  ]
+}

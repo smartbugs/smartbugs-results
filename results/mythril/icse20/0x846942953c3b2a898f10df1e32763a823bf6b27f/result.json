@@ -1,0 +1,24 @@
+{
+  "contract": "0x846942953c3b2a898f10df1e32763a823bf6b27f",
+  "tool": "mythril",
+  "start": 1563437597.4258647,
+  "end": 1563437949.330019,
+  "duration": 351.9041543006897,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1748,
+        "code": "34D563B4B85ADF3CE369FD9E77173E5\"\n        uint _keyCertificateValidUntil, //\n        string _firstName, //\n        string _lastName, //\n        uint _birthDate, //\n        string _nationality) public {\n\n        // (!!!) only manager can add verification data\n        require(isManager[msg.sender]);\n\n        // check input\n        // fingerprint should be uppercase 40 symbols\n        // require(bytes(_fingerprint).length == 40);\n        // require(bytes(_firstName).length <= 32);\n        // require(bytes(_lastName).length <= 32);\n        // _nationality should be like \"IL\" or \"US\"\n        // require(bytes(_nationality).length == 2);\n        // >>> if we control manager account we can make checks before sending data to smart contract (cheaper)\n\n        // check if signed string uploaded\n        require(signedStringUploadedOnUnixTime[_acc] != 0);\n        // to make possible adding verification only one time:\n        require(verificationAddedOn[_acc] == 0);\n\n        verification[_acc].fingerprint = _fingerprint;\n        fingerprint[_acc] = _fingerprintBytes20;\n\n        addressAttached[_fingerprintBytes20] = _acc;\n\n        verification[_acc].keyCertificateValidUntil = keyCertificateValidUntil[_acc] = _keyCertificateValidUntil;\n        verification[_acc].firstName = _firstName;\n        firstName[_acc] = stringToBytes32(_firstName);\n        verification[_acc].lastName = _lastName;\n        lastName[_acc] = stringToBytes32(_lastName);\n        verification[_acc].birthDate = birthDate[_acc] = _birthDate;\n        verification[_acc].nationality = _nationality;\n        nationality[_acc] = stringToBytes32(_nationality);\n        verification[_acc].verificationAddedOn = verificationAddedOn[_acc] = block.timestamp;\n\n        VerificationAdded(\n            verification[_acc].fingerprint,\n            _acc,\n        // keyCertificateValidUntil[_acc],\n        // verification[_acc].firstName,\n        // verification[_acc].lastName,\n        // birthDate[_acc],\n        // verification[_acc].nationality,\n            msg.sender\n        );\n        // return true;\n    }\n\n    event VerificationAdded (\n        string forFingerprint,\n        address indexed verifiedAccount, // (1) indexed\n    // uint keyCertificateValidUntilUnixTime,\n    // string userFirstName,\n    // string userLastName,\n    // uint u",
+        "debug": "calldata_CryptonomicaVerification_32 + 4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_CryptonomicaVerification_0: 0x735dca6600000000000000000000000000000000000000000000000000000000\ncalldatasize_CryptonomicaVerification: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x735dca66`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_contracts/0x846942953c3b2a898f10df1e32763a823bf6b27f.sol",
+        "function": "_function_0x735dca66",
+        "lineno": 186,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

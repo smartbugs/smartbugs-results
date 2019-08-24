@@ -1,0 +1,99 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:136:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Minewar() public payable
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:192:53: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        uint256 balance = SafeMath.div(SafeMath.mul(this.balance, 90), 100);
+                                                    ^----------^
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:193:58: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        administrator.transfer(SafeMath.div(SafeMath.mul(this.balance, 5), 100));
+                                                         ^----------^
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:533:16: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        return this.balance;
+               ^----------^
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:539:53: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        uint256 balance = SafeMath.div(SafeMath.mul(this.balance, 90), 100);
+                                                    ^----------^
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:540:58: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        administrator.transfer(SafeMath.div(SafeMath.mul(this.balance, 5), 100));
+                                                         ^----------^
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:426:5: Warning: Function state mutability can be restricted to view
+    function getLowestUnitPriceIdxFromBuy() public returns(uint256 lowestIdx)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:510:5: Warning: Function state mutability can be restricted to view
+    function getHighestUnitPriceIdxFromSell() public returns(uint256 highestIdx)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:527:5: Warning: Function state mutability can be restricted to pure
+    function devFee(uint256 amount) public view returns(uint256)
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:616:5: Warning: Function state mutability can be restricted to view
+    function inRankList(address addr) internal returns(bool)
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+INFO:Detectors:[91m
+Minewar.lottery (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#193-209) sends eth to arbitrary user
+	Dangerous calls:
+	- administrator.transfer(SafeMath.div(SafeMath.mul(this.balance,5),100)) (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#196-197)
+Minewar.becomeSponsor (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#212-218) sends eth to arbitrary user
+	Dangerous calls:
+	- sponsor.transfer(getCurrentPrice(sponsorLevel)) (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#215-216)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Minewar.hasBooster (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#356-364) uses a dangerous strict equality:
+	- boostData[revert_i].owner == addr
+Minewar.hasBooster (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#356-364) uses a dangerous strict equality:
+	- boostData[revert_i].owner == addr
+Minewar.isCurrentRound (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#121-124) uses a dangerous strict equality:
+	- require(bool)(players[msg.sender].round == round)
+	- require(bool)(players[msg.sender].round == round)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+Minewar.lottery has external calls inside a loop:
+	- rankList[idx].transfer(SafeMath.div(SafeMath.mul(balance,profit[idx]),100)) (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#203-207)
+Minewar.upgrade has external calls inside a loop:
+	- rankList[idx].transfer(SafeMath.div(SafeMath.mul(balance,profit[idx]),100)) (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#558-559)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Minewar.BASE_PRICE should be constant (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#58-59)
+Minewar.CRTSTAL_MINING_PERIOD should be constant (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#54)
+Minewar.HALF_TIME should be constant (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#56-57)
+Minewar.MINIMUM_LIMIT_SELL should be constant (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#61)
+Minewar.RANK_LIST_LIMIT should be constant (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#59-60)
+Minewar.ROUND_TIME should be constant (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#57-58)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+Minewar.startGame (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#160-168) should be declared external
+Minewar.lottery (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#193-209) should be declared external
+Minewar.getRankList (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#209-211) should be declared external
+Minewar.becomeSponsor (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#212-218) should be declared external
+Minewar.getFreeMiner (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#227-252) should be declared external
+Minewar.buyMiner (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#252-289) should be declared external
+Minewar.getPlayerData (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#290-306) should be declared external
+Minewar.buyBooster (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#321-336) should be declared external
+Minewar.getBoosterData (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#336-348) should be declared external
+Minewar.buyCrystalDemand (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#367-389) should be declared external
+Minewar.sellCrystal (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#389-410) should be declared external
+Minewar.withdrawBuyDemand (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#410-426) should be declared external
+Minewar.getBuyDemand (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#426-435) should be declared external
+Minewar.sellCrystalDemand (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#451-477) should be declared external
+Minewar.buyCrystal (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#478-496) should be declared external
+Minewar.withdrawSellDemand (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#496-512) should be declared external
+Minewar.getSellDemand (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#512-524) should be declared external
+Minewar.getBalance (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#544-545) should be declared external
+Minewar.upgrade (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#546-561) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol:
+	- pragma solidity^0.4.2 (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Minewar.Minewar' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#141-160) is not in mixedCase
+Variable 'Minewar.CRTSTAL_MINING_PERIOD' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#54) is not in mixedCase
+Variable 'Minewar.SHARE_CRYSTAL' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#54-56) is not in mixedCase
+Variable 'Minewar.HALF_TIME' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#56-57) is not in mixedCase
+Variable 'Minewar.ROUND_TIME' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#57-58) is not in mixedCase
+Variable 'Minewar.BASE_PRICE' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#58-59) is not in mixedCase
+Variable 'Minewar.RANK_LIST_LIMIT' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#59-60) is not in mixedCase
+Variable 'Minewar.MINIMUM_LIMIT_SELL' (/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol#61) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/5/0x781878427cf56c8ab7745ca02910a801503c6ecc.sol analyzed (2 contracts), 35 result(s) found

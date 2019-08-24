@@ -1,0 +1,78 @@
+{
+  "contract": "0x899338b84d25ac505a332adce7402d697d947494",
+  "tool": "mythril",
+  "start": 1563510153.2340748,
+  "end": 1563510340.1084743,
+  "duration": 186.87439942359924,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 1116,
+        "debug": "calldata_WINCrowdSaleToken_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_WINCrowdSaleToken_0: 0x4eee966f00000000000000000000000000000000000000000000000000000000\ncalldatasize_WINCrowdSaleToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setTokenInformation(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/5/0x899338b84d25ac505a332adce7402d697d947494.sol",
+        "function": "setTokenInformation(string,string)",
+        "lineno": 369,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 7506,
+        "code": "mbers, throws ",
+        "debug": "The exception is triggered under the following conditions:\n\ncalldata_WINCrowdSaleToken_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\nstorage_1: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_WINCrowdSaleToken_0: 0x42966c6800000000000000000000000000000000000000000000000000000000\ncalldatasize_WINCrowdSaleToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/5/0x899338b84d25ac505a332adce7402d697d947494.sol",
+        "function": "burn(uint256)",
+        "lineno": 71,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 7524,
+        "code": "uncti",
+        "debug": "calldata_WINCrowdSaleToken_32 + 4: 0x57f25cd000000000000000000000000000000000000000000000000000000000\nstorage_1: 0xa8795cd3fffffffffffffffffffffffffffffffffffffffffffffffffffffffe\nstorage_3: 0x0\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncaller: 0xff00\ncalldata_WINCrowdSaleToken_0: 0x40c10f1900000000000000000000000000000000000000000000000000000000\ncalldatasize_WINCrowdSaleToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `mint(address,uint256)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/5/0x899338b84d25ac505a332adce7402d697d947494.sol",
+        "function": "mint(address,uint256)",
+        "lineno": 81,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 7537,
+        "code": "lSupply() publ",
+        "debug": "The exception is triggered under the following conditions:\n\nstorage_keccac_1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\n1461501637330902918203684832716283019655932542975_&\ncalldata_WINCrowdSaleToken_4: 0x1\ncalldata_WINCrowdSaleToken_32 + 4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\ncalldata_WINCrowdSaleToken_0: 0xd73dd62300000000000000000000000000000000000000000000000000000000\ncalldatasize_WINCrowdSaleToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that `assert()` should only be used to check invariants. Use `require()` for regular input checking. ",
+        "filename": "/unique_chucks/5/0x899338b84d25ac505a332adce7402d697d947494.sol",
+        "function": "increaseApproval(address,uint256)",
+        "lineno": 81,
+        "title": "Exception state",
+        "type": "Informational"
+      },
+      {
+        "address": 7616,
+        "code": " be created through a team multisig wallet, so that it is owned by that wallet.\n   *\n   * @param _name Token name\n   * @param _symbol Token symbol - should be all caps\n   * @param _initialSupply How many tokens we start with\n   * @param _decimals Number of decimal places\n   * @param _mintable Are new tokens created over the crowdsale \n   */\n  function WINCrowdSaleToken(string _name, string _symbol, uint _initialSupply, uint _decimals, bool _mintable) public {\n\n    // Create any address, can be transferred\n    // to team multisig via changeOwner(),\n    // also remember to call setUpgradeMaster()\n    owner = msg.sender;\n\n    name = _name;\n    symbol = _symbol;\n\n    totalSupply_ = _initialSupply;\n\n    decimals = _decimals;\n\n    // Create initially all balance on the team multisig\n    balances[owner] = totalSupply_;\n\n    if(totalSupply_ > 0) {\n      Minted(owner, totalSupply_);\n    }\n\n    // No more new supply allowed after the token creation\n    if(!_mintable) {\n      mintingFinished = true;\n      if(totalSupply_ == 0) {\n        revert(); // Cannot create a token without supply and no minting\n      }\n    }\n  }\n\n\n  /**\n   * Owner can update token information here.\n   *\n   * It is often useful to conceal the actual token association, until\n   * the token operations, like central issuance or reissuance have been completed.\n   *\n   * This function allows the token owner to rename the token after the operations\n   * have been completed and then point the audience to use the token contract.\n   */\n  function setTokenInformation(string _name, string _symbol) public onlyOwner {\n    name = _name;\n    symbol = _symbol;\n\n    UpdatedTokenInformation(name, symbol);\n  }\n\n}",
+        "debug": "calldata_WINCrowdSaleToken_4 + calldata_WINCrowdSaleToken_4: 0x8000000000000000000000000000000000000000000000000000000000000000\nstorage_3: 0x0\ncaller: 0x0\ncalldata_WINCrowdSaleToken_0: 0x4eee966f00000000000000000000000000000000000000000000000000000000\ncalldatasize_WINCrowdSaleToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setTokenInformation(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/5/0x899338b84d25ac505a332adce7402d697d947494.sol",
+        "function": "setTokenInformation(string,string)",
+        "lineno": 314,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 7630,
+        "code": " be created through a team multisig wallet, so that it is owned by that wallet.\n   *\n   * @param _name Token name\n   * @param _symbol Token symbol - should be all caps\n   * @param _initialSupply How many tokens we start with\n   * @param _decimals Number of decimal places\n   * @param _mintable Are new tokens created over the crowdsale \n   */\n  function WINCrowdSaleToken(string _name, string _symbol, uint _initialSupply, uint _decimals, bool _mintable) public {\n\n    // Create any address, can be transferred\n    // to team multisig via changeOwner(),\n    // also remember to call setUpgradeMaster()\n    owner = msg.sender;\n\n    name = _name;\n    symbol = _symbol;\n\n    totalSupply_ = _initialSupply;\n\n    decimals = _decimals;\n\n    // Create initially all balance on the team multisig\n    balances[owner] = totalSupply_;\n\n    if(totalSupply_ > 0) {\n      Minted(owner, totalSupply_);\n    }\n\n    // No more new supply allowed after the token creation\n    if(!_mintable) {\n      mintingFinished = true;\n      if(totalSupply_ == 0) {\n        revert(); // Cannot create a token without supply and no minting\n      }\n    }\n  }\n\n\n  /**\n   * Owner can update token information here.\n   *\n   * It is often useful to conceal the actual token association, until\n   * the token operations, like central issuance or reissuance have been completed.\n   *\n   * This function allows the token owner to rename the token after the operations\n   * have been completed and then point the audience to use the token contract.\n   */\n  function setTokenInformation(string _name, string _symbol) public onlyOwner {\n    name = _name;\n    symbol = _symbol;\n\n    UpdatedTokenInformation(name, symbol);\n  }\n\n}",
+        "debug": "calldata_WINCrowdSaleToken_4 + calldata_WINCrowdSaleToken_4: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0\nstorage_3: 0x0\ncaller: 0x0\ncalldata_WINCrowdSaleToken_0: 0x4eee966f00000000000000000000000000000000000000000000000000000000\ncalldatasize_WINCrowdSaleToken: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `setTokenInformation(string,string)`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/5/0x899338b84d25ac505a332adce7402d697d947494.sol",
+        "function": "setTokenInformation(string,string)",
+        "lineno": 314,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

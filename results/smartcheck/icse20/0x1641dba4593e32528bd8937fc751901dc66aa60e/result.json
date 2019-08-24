@@ -1,0 +1,145 @@
+{
+  "contract": "0x1641dba4593e32528bd8937fc751901dc66aa60e",
+  "tool": "smartcheck",
+  "start": 1563237502.1576083,
+  "end": 1563237523.770516,
+  "duration": 21.612907648086548,
+  "analysis": [
+    {
+      "name": "SOLIDITY_CALL_WITHOUT_DATA",
+      "patternId": "lr991l",
+      "severity": 1,
+      "line": 225,
+      "column": 31,
+      "content": "call.gas(3000000).value(msg.value-sumWei)()"
+    },
+    {
+      "name": "SOLIDITY_CALL_WITHOUT_DATA",
+      "patternId": "lr991l",
+      "severity": 1,
+      "line": 289,
+      "column": 22,
+      "content": "call.gas(3000000).value(address(this).balance)()"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 63,
+      "column": 4,
+      "content": "functionbalanceOf(addresswho)publicconstantreturns(uint);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 65,
+      "column": 4,
+      "content": "functionallowance(addressowner,addressspender)publicconstantreturns(uint);"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 107,
+      "column": 4,
+      "content": "functionbalanceOf(address_who)constantpublicreturns(uint){returnholders[_who].balance;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 141,
+      "column": 4,
+      "content": "functionallowance(address_owner,address_spender)publicconstantreturns(uint256remaining){returnallowed[_owner][_spender];}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 196,
+      "column": 4,
+      "content": "functioncurrentTokenPrice()publicconstantreturns(uint){uintprice;if(!sealed&&started){uintd=(now-startTime)/1days;price=startTokenPriceWei;price+=startTokenPriceWei*d*milliPercent/100;}returnprice;}"
+    },
+    {
+      "name": "SOLIDITY_DEPRECATED_CONSTRUCTIONS",
+      "patternId": "28fa69",
+      "severity": 1,
+      "line": 299,
+      "column": 4,
+      "content": "functionfreezedBalanceOf(address_who)constantpublicreturns(uint){if(holders[_who].balanceUpdateTime<=freezedMoment){returnholders[_who].balance;}else{returnholders[_who].balanceBeforeUpdate;}}"
+    },
+    {
+      "name": "SOLIDITY_ERC20_APPROVE",
+      "patternId": "af782c",
+      "severity": 2,
+      "line": 136,
+      "column": 4,
+      "content": "functionapprove(address_spender,uint256_value)public{allowed[msg.sender][_spender]=_value;emitApproval(msg.sender,_spender,_value);}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 31,
+      "column": 0,
+      "content": "contractowned{addresspublicowner;addresspubliccandidate;functionowned()publicpayable{owner=msg.sender;}modifieronlyOwner{require(owner==msg.sender);_;}functionchangeOwner(address_owner)onlyOwnerpublic{require(_owner!=0);candidate=_owner;}functionconfirmOwner()public{require(candidate==msg.sender);owner=candidate;deletecandidate;}}"
+    },
+    {
+      "name": "SOLIDITY_LOCKED_MONEY",
+      "patternId": "30281d",
+      "severity": 3,
+      "line": 155,
+      "column": 0,
+      "content": "contractCrowdsaleisToken{addresspublicbackend;uintpublicstage;boolpublicstarted;uintpublicstartTokenPriceWei;uintpublictokensForSale;uintpublicstartTime;uintpubliclastTokenPriceWei;uintpublicmilliPercent;uintpublicpaymentsCount;boolpublicsealed;modifiernotSealed{require(sealed==false);_;}eventMint(addressindexed_who,uint_tokens,uint_coinType,bytes32_txHash);eventStage(uint_stage,boolstartNotFinish);functionCrowdsale()publicToken(){totalSupply=100000000*100000000;holders[this].balance=totalSupply;}functionstartStage(uint_startTokenPriceWei,uint_tokensForSale,uint_milliPercent)publiconlyOwnernotSealed{require(!started);require(_startTokenPriceWei>=lastTokenPriceWei);startTokenPriceWei=_startTokenPriceWei;tokensForSale=_tokensForSale*100000000;if(tokensForSale>holders[this].balance){tokensForSale=holders[this].balance;}milliPercent=_milliPercent;startTime=now;started=true;paymentsCount=0;emitStage(stage,started);}functioncurrentTokenPrice()publicconstantreturns(uint){uintprice;if(!sealed&&started){uintd=(now-startTime)/1days;price=startTokenPriceWei;price+=startTokenPriceWei*d*milliPercent/100;}returnprice;}functionstopStage()publiconlyOwnernotSealed{require(started);started=false;lastTokenPriceWei=currentTokenPrice();emitStage(stage,started);++stage;}function()payablepublicnotSealed{require(started);uintprice=currentTokenPrice();if(paymentsCount<100){price=price*90/100;}++paymentsCount;uinttokens=100000000*msg.value/price;if(tokens>tokensForSale){tokens=tokensForSale;uintsumWei=tokens*lastTokenPriceWei/100000000;require(msg.sender.call.gas(3000000).value(msg.value-sumWei)());}require(tokens>0);require(holders[msg.sender].balance+tokens>holders[msg.sender].balance);tokensForSale-=tokens;beforeBalanceChanges(msg.sender);beforeBalanceChanges(this);holders[msg.sender].balance+=tokens;holders[this].balance-=tokens;emitTransfer(this,msg.sender,tokens);}functionmintTokens1(address_who,uint_tokens,uint_coinType,bytes32_txHash)publicnotSealed{require(msg.sender==owner||msg.sender==backend);require(started);_tokens*=100000000;if(_tokens>tokensForSale){_tokens=tokensForSale;}require(_tokens>0);require(holders[_who].balance+_tokens>holders[_who].balance);tokensForSale-=_tokens;beforeBalanceChanges(_who);beforeBalanceChanges(this);holders[_who].balance+=_tokens;holders[this].balance-=_tokens;emitMint(_who,_tokens,_coinType,_txHash);emitTransfer(this,_who,_tokens);}functionmintTokens2(address_who,uint_tokens,uint_vesting)publicnotSealed{require(msg.sender==owner||msg.sender==backend);require(!started);require(_tokens>0);_tokens*=100000000;require(_tokens<=holders[this].balance);require(holders[_who].balance+_tokens>holders[_who].balance);if(_vesting!=0){vesting[_who]=_vesting;}beforeBalanceChanges(_who);beforeBalanceChanges(this);holders[_who].balance+=_tokens;holders[this].balance-=_tokens;emitMint(_who,_tokens,0,0);emitTransfer(this,_who,_tokens);}functionseal()publiconlyOwner{sealed=true;}}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 92,
+      "column": 4,
+      "content": "functionsetVestingManager(address_vestingManager)publiconlyOwner{vestingManager=_vestingManager;}"
+    },
+    {
+      "name": "SOLIDITY_OVERPOWERED_ROLE",
+      "patternId": "j83hf7",
+      "severity": 2,
+      "line": 284,
+      "column": 4,
+      "content": "functionsetBackend(address_backend)publiconlyOwner{backend=_backend;}"
+    },
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 29,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "83k1no",
+      "severity": 1,
+      "line": 225,
+      "column": 31,
+      "content": "call.gas(3000000).value(msg.value-sumWei)()"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "83k1no",
+      "severity": 1,
+      "line": 289,
+      "column": 22,
+      "content": "call.gas(3000000).value(address(this).balance)()"
+    },
+    {
+      "name": "SOLIDITY_UPGRADE_TO_050",
+      "patternId": "91h3sa",
+      "severity": 1,
+      "line": 214,
+      "column": 24,
+      "content": "public"
+    }
+  ]
+}

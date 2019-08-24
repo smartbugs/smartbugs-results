@@ -1,0 +1,133 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:7:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:288:109: Warning: This declaration shadows an existing declaration.
+ ... uint8[] hungry ... 
+     ^------------^
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:169:3: The shadowed declaration is here:
+  function hungry(uint256 _tokenId) public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:22:30: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+      contractOwner.transfer(this.balance);
+                             ^----------^
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:127:5: Warning: Invoking events without "emit" prefix is deprecated.
+    TokenSold(_tokenId, sellingPrice, 0, oldOwner, newOwner, piranhas[_tokenId].name);
+    ^-------------------------------------------------------------------------------^
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:290:2: Warning: Uninitialized storage pointer.
+	Piranha storage piranha;
+	^---------------------^
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:352:5: Warning: Invoking events without "emit" prefix is deprecated.
+    PiranhaCreated(newPiranhaId, _name, _owner);
+    ^-----------------------------------------^
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:371:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Transfer(_from, _to, _tokenId);
+    ^----------------------------^
+/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:258:28: Warning: "block.blockhash()" has been deprecated in favor of "blockhash()"
+	uint256 randNum = uint256(block.blockhash(block.number-1));
+	                          ^-------------^
+
+INFO:Detectors:[91m
+EthPiranha.buy (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#104-136) sends eth to arbitrary user
+	Dangerous calls:
+	- oldOwner.transfer(payment) (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#127-129)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+ERC721 (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#30-49) has incorrect ERC20 function interface(s):
+	-transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#35-37)
+EthPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#49-389) has incorrect ERC20 function interface(s):
+	-transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#338-340)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#348-365) uses a dangerous strict equality:
+	- require(bool)(newPiranhaId == uint256(uint32(newPiranhaId)))
+EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#348-365) uses a dangerous strict equality:
+	- require(bool)(newPiranhaId == uint256(uint32(newPiranhaId)))
+EthPiranha.breeding (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#229-293) uses a dangerous strict equality:
+	- randNum % (10 + maxGen) == 1
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[92m
+EthPiranha.allPiranhasInfo.hungry (local variable @ /unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#295-298) shadows:
+	- EthPiranha.hungry (function @ /unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#173-186)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#local-variable-shadowing[0m
+INFO:Detectors:[92m
+Deprecated standard detected @ /unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#263-265:
+	- Usage of "block.blockhash()" should be replaced with "blockhash()"
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#deprecated-standards[0m
+INFO:Detectors:[92m
+Ownable.transferContractOwnership (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#16-21) should be declared external
+Ownable.contractWithdraw (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#21-27) should be declared external
+EthPiranha.balanceOf (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#76-80) should be declared external
+ERC721.balanceOf (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#31-32) should be declared external
+EthPiranha.implementsERC721 (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#89-93) should be declared external
+ERC721.implementsERC721 (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#32-33) should be declared external
+ERC721.ownerOf (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#33-34) should be declared external
+EthPiranha.ownerOf (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#98-103) should be declared external
+EthPiranha.transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#338-340) should be declared external
+ERC721.transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#35-37) should be declared external
+EthPiranha.createPiranhaToken (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#80-88) should be declared external
+EthPiranha.name (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#93-97) should be declared external
+EthPiranha.symbol (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#97-98) should be declared external
+EthPiranha.buy (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#104-136) should be declared external
+EthPiranha.changePiranhaName (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#136-148) should be declared external
+EthPiranha.changeBeedingCost (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#148-153) should be declared external
+EthPiranha.changeBiteCost (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#153-156) should be declared external
+EthPiranha.startSelling (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#156-164) should be declared external
+EthPiranha.stopSelling (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#164-173) should be declared external
+EthPiranha.hungry (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#173-186) should be declared external
+EthPiranha.notHungry (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#188-195) should be declared external
+EthPiranha.bite (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#195-229) should be declared external
+EthPiranha.breeding (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#229-293) should be declared external
+EthPiranha.allPiranhasInfo (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#294-332) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol:
+	- pragma solidity^0.4.21 (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#7-11) is not in mixedCase
+Parameter '_newOwner' of Ownable.transferContractOwnership (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#16) is not in mixedCase
+Parameter '_owner' of EthPiranha.balanceOf (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#77) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.ownerOf (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#98-99) is not in mixedCase
+Parameter '_to' of EthPiranha.transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#338) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#338) is not in mixedCase
+Parameter '_name' of EthPiranha.createPiranhaToken (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#80) is not in mixedCase
+Parameter '_owner' of EthPiranha.createPiranhaToken (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#80-81) is not in mixedCase
+Parameter '_price' of EthPiranha.createPiranhaToken (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#81) is not in mixedCase
+Parameter '_size' of EthPiranha.createPiranhaToken (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#81-82) is not in mixedCase
+Parameter '_hungry' of EthPiranha.createPiranhaToken (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#82) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.buy (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#104) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.changePiranhaName (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#137) is not in mixedCase
+Parameter '_name' of EthPiranha.changePiranhaName (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#137-138) is not in mixedCase
+Parameter '_newCost' of EthPiranha.changeBeedingCost (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#148) is not in mixedCase
+Parameter '_newCost' of EthPiranha.changeBiteCost (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#153) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.startSelling (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#157) is not in mixedCase
+Parameter '_price' of EthPiranha.startSelling (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#157-160) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.stopSelling (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#164-166) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.hungry (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#175) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.notHungry (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#188-191) is not in mixedCase
+Parameter '_tokenId' of EthPiranha.bite (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#195-196) is not in mixedCase
+Parameter '_victimTokenId' of EthPiranha.bite (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#196) is not in mixedCase
+Parameter '_maleTokenId' of EthPiranha.breeding (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#231) is not in mixedCase
+Parameter '_femaleTokenId' of EthPiranha.breeding (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#231) is not in mixedCase
+Parameter '_startPiranhaId' of EthPiranha.allPiranhasInfo (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#294-295) is not in mixedCase
+Function 'EthPiranha._addressNotNull' (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#343-348) is not in mixedCase
+Parameter '_to' of EthPiranha._addressNotNull (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#344) is not in mixedCase
+Function 'EthPiranha._createPiranha' (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#348-365) is not in mixedCase
+Parameter '_name' of EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#348) is not in mixedCase
+Parameter '_owner' of EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#348-350) is not in mixedCase
+Parameter '_price' of EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#350) is not in mixedCase
+Parameter '_size' of EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#350) is not in mixedCase
+Parameter '_gen' of EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#350) is not in mixedCase
+Parameter '_unique' of EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#350) is not in mixedCase
+Parameter '_hungry' of EthPiranha._createPiranha (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#350) is not in mixedCase
+Function 'EthPiranha._owns' (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#365-371) is not in mixedCase
+Parameter '_checkedAddr' of EthPiranha._owns (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#365-366) is not in mixedCase
+Parameter '_tokenId' of EthPiranha._owns (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#366-367) is not in mixedCase
+Function 'EthPiranha._transfer' (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#371-389) is not in mixedCase
+Parameter '_from' of EthPiranha._transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#375) is not in mixedCase
+Parameter '_to' of EthPiranha._transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#375-377) is not in mixedCase
+Parameter '_tokenId' of EthPiranha._transfer (/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol#377) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x162e50e02b33cebd3cdfe998f9ca91d30dec128e.sol analyzed (4 contracts), 75 result(s) found

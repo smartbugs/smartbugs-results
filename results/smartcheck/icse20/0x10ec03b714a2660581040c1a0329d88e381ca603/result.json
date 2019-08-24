@@ -1,0 +1,113 @@
+{
+  "contract": "0x10ec03b714a2660581040c1a0329d88e381ca603",
+  "tool": "smartcheck",
+  "start": 1563831079.2450025,
+  "end": 1563831086.5504441,
+  "duration": 7.305441617965698,
+  "analysis": [
+    {
+      "name": "SOLIDITY_PRAGMAS_VERSION",
+      "patternId": "23fc32",
+      "severity": 1,
+      "line": 1,
+      "column": 16,
+      "content": "^"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 19,
+      "column": 4,
+      "content": "functionEthPledge(){owner=msg.sender;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 68,
+      "column": 4,
+      "content": "functioncreateCampaign(addresscharity,uintmultiplier,bytes32descriptionPart1,bytes32descriptionPart2,bytes32descriptionPart3,bytes32descriptionPart4)payable{require(msg.value>=minimumPledgeAmount);require(multiplier>0);campaign[totalCampaigns].benefactor=msg.sender;campaign[totalCampaigns].charity=charity;campaign[totalCampaigns].multiplier=multiplier;campaign[totalCampaigns].timeStarted=now;campaign[totalCampaigns].amountPledged=msg.value;campaign[totalCampaigns].active=true;campaign[totalCampaigns].descriptionPart1=descriptionPart1;campaign[totalCampaigns].descriptionPart2=descriptionPart2;campaign[totalCampaigns].descriptionPart3=descriptionPart3;campaign[totalCampaigns].descriptionPart4=descriptionPart4;campaignsStartedByUser[msg.sender].push(totalCampaigns);totalETHraised+=msg.value;totalCampaigns++;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 86,
+      "column": 4,
+      "content": "functioncancelCampaign(uintcampaignID){require(msg.sender==campaign[campaignID].benefactor);require(campaign[campaignID].active==true);campaign[campaignID].active=false;campaign[campaignID].successful=false;uintamountShort=campaign[campaignID].amountPledged-(campaign[campaignID].amountRaised*campaign[campaignID].multiplier);uintamountToSendToCharity=campaign[campaignID].amountPledged+campaign[campaignID].amountRaised-amountShort;campaign[campaignID].charity.transfer(amountToSendToCharity);campaign[campaignID].benefactor.transfer(amountShort);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 100,
+      "column": 4,
+      "content": "functioncontributeToCampaign(uintcampaignID)payable{require(msg.value>0);require(campaign[campaignID].active==true);campaignIDsDonatedToByUser[msg.sender].push(campaignID);addressToCampaignIDToFundsDonated[msg.sender][campaignID]+=msg.value;campaignIDtoDonationNumberToDonation[campaignID][campaign[campaignID].donationsReceived].donator=msg.sender;campaignIDtoDonationNumberToDonation[campaignID][campaign[campaignID].donationsReceived].amount=msg.value;campaignIDtoDonationNumberToDonation[campaignID][campaign[campaignID].donationsReceived].timeSent=now;campaign[campaignID].donationsReceived++;totalDonations++;totalETHraised+=msg.value;campaign[campaignID].amountRaised+=msg.value;if(campaign[campaignID].amountRaised>=(campaign[campaignID].amountPledged/campaign[campaignID].multiplier)){campaign[campaignID].active=false;campaign[campaignID].successful=true;campaign[campaignID].charity.transfer(campaign[campaignID].amountRaised+campaign[campaignID].amountPledged);}}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 122,
+      "column": 4,
+      "content": "functionadjustMinimumPledgeAmount(uintnewMinimum)onlyOwner{require(newMinimum>0);minimumPledgeAmount=newMinimum;}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 129,
+      "column": 4,
+      "content": "functionreturnHowMuchMoreETHNeeded(uintcampaignID)viewreturns(uint){return(campaign[campaignID].amountPledged/campaign[campaignID].multiplier-campaign[campaignID].amountRaised);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 133,
+      "column": 4,
+      "content": "functiongeneralInfo()viewreturns(uint,uint,uint){return(totalCampaigns,totalDonations,totalETHraised);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 137,
+      "column": 4,
+      "content": "functionlookupDonation(uintcampaignID,uintdonationNumber)viewreturns(address,uint,uint){return(campaignIDtoDonationNumberToDonation[campaignID][donationNumber].donator,campaignIDtoDonationNumberToDonation[campaignID][donationNumber].amount,campaignIDtoDonationNumberToDonation[campaignID][donationNumber].timeSent);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 143,
+      "column": 4,
+      "content": "functionlookupCampaignPart1(uintcampaignID)viewreturns(address,address,uint,uint,uint,bytes32,bytes32){return(campaign[campaignID].benefactor,campaign[campaignID].charity,campaign[campaignID].amountPledged,campaign[campaignID].amountRaised,campaign[campaignID].donationsReceived,campaign[campaignID].descriptionPart1,campaign[campaignID].descriptionPart2);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 147,
+      "column": 4,
+      "content": "functionlookupCampaignPart2(uintcampaignID)viewreturns(uint,bool,bool,uint,bytes32,bytes32){return(campaign[campaignID].multiplier,campaign[campaignID].active,campaign[campaignID].successful,campaign[campaignID].timeStarted,campaign[campaignID].descriptionPart3,campaign[campaignID].descriptionPart4);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 153,
+      "column": 4,
+      "content": "functionlookupUserDonationHistoryByCampaignID(addressuser)viewreturns(uint[]){return(campaignIDsDonatedToByUser[user]);}"
+    },
+    {
+      "name": "SOLIDITY_VISIBILITY",
+      "patternId": 910067,
+      "severity": 1,
+      "line": 157,
+      "column": 4,
+      "content": "functionlookupAmountUserDonatedToCampaign(addressuser,uintcampaignID)viewreturns(uint){return(addressToCampaignIDToFundsDonated[user][campaignID]);}"
+    }
+  ]
+}

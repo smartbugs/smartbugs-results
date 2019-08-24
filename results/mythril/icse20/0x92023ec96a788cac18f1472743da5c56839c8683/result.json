@@ -1,0 +1,68 @@
+{
+  "contract": "0x92023ec96a788cac18f1472743da5c56839c8683",
+  "tool": "mythril",
+  "start": 1563509041.4295208,
+  "end": 1563509221.0140815,
+  "duration": 179.5845606327057,
+  "analysis": {
+    "error": null,
+    "issues": [
+      {
+        "address": 190,
+        "code": "ions.length == _amounts.length && _amounts.length == _tokenAddresses.length);\n        // itterate in receivers\n        for (uint i = 0; i < _destinations.length; i++) {\n            address tokenAddress = _tokenAddresses[i];\n            uint amount = _amounts[i];\n            address destination = _destinations[i];\n            // eth transfer\n            if (tokenAddress == address(0)) {\n                if (this.balance < amount) {\n                    continue;\n                }\n                if (!destination.call.gas(70000).value(amount)()) {\n                    continue;\n                }\n                \n            }else {\n            // erc 20 transfer\n                if (ERC20(tokenAddress).balanceOf(this) < amount) {\n                    continue;\n                }\n                ERC20(tokenAddress).transfer(destination, amount);\n            }\n            // emit event in both cases\n            emit AmountWithdrawEvent(destination, amount, tokenAddress);                \n        }\n\n    }\n\n    modifier onlyOwnerOrWithdrawCreator() {\n        require(msg.sender == withdrawCreator || msg.sender == owner);\n        _;\n    }\n\n}",
+        "debug": "calldata_Withdrawals_4: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc\ncalldata_Withdrawals_0: 0x7970785d00000000000000000000000000000000000000000000000000000000\ncalldatasize_Withdrawals: 0x4\ncallvalue: 0x0\n",
+        "description": "A possible integer overflow exists in the function `_function_0x7970785d`.\nThe addition or multiplication may result in a value higher than the maximum representable integer.",
+        "filename": "/unique_chucks/8/0x92023ec96a788cac18f1472743da5c56839c8683.sol",
+        "function": "_function_0x7970785d",
+        "lineno": 150,
+        "title": "Integer Overflow ",
+        "type": "Warning"
+      },
+      {
+        "address": 1641,
+        "code": "er\n                if (ERC20(tokenAddress).",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/8/0x92023ec96a788cac18f1472743da5c56839c8683.sol",
+        "function": "_function_0x7970785d",
+        "lineno": 166,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 1821,
+        "code": "         }\n            // emit even",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/8/0x92023ec96a788cac18f1472743da5c56839c8683.sol",
+        "function": "_function_0x7970785d",
+        "lineno": 171,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      },
+      {
+        "address": 1821,
+        "code": "         }\n            // emit even",
+        "debug": "",
+        "description": "Multiple sends exist in one transaction, try to isolate each external call into its own transaction. As external calls can fail accidentally or deliberately.\nConsecutive calls: \nCall at address: 2054\n",
+        "filename": "/unique_chucks/8/0x92023ec96a788cac18f1472743da5c56839c8683.sol",
+        "function": "_function_0x7970785d",
+        "lineno": 171,
+        "title": "Multiple Calls",
+        "type": "Information"
+      },
+      {
+        "address": 2054,
+        "code": "ddress);                \n        }\n\n    }\n\n    mo",
+        "debug": "",
+        "description": "This contract executes a message call to an address provided as a function argument. Generally, it is not recommended to call user-supplied addresses using Solidity's call() construct. Note that attackers might leverage reentrancy attacks to exploit race conditions or manipulate this contract's state.",
+        "filename": "/unique_chucks/8/0x92023ec96a788cac18f1472743da5c56839c8683.sol",
+        "function": "_function_0x7970785d",
+        "lineno": 173,
+        "title": "Message call to external contract",
+        "type": "Warning"
+      }
+    ],
+    "success": true
+  }
+}

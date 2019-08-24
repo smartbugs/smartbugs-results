@@ -1,0 +1,171 @@
+INFO:Slither:Compilation warnings/errors on /unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:18:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+  function Ownable() public {
+  ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:660:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function ERC721DutchAuction(address _tokenAddress, uint _ownerCut) public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:946:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function DungeonTokenAuction(uint _ownerCut) ERC721DutchAuction(this, _ownerCut) public { }
+    ^-----------------------------------------------------------------------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:36:5: Warning: Invoking events without "emit" prefix is deprecated.
+    OwnershipTransferred(owner, newOwner);
+    ^-----------------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:70:5: Warning: Invoking events without "emit" prefix is deprecated.
+    AnotherOwnerAssigned(_anotherOwner);
+    ^---------------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:80:5: Warning: Invoking events without "emit" prefix is deprecated.
+    AnotherOwnerAssigned(_anotherOwner);
+    ^---------------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:119:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Pause();
+    ^-----^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:127:5: Warning: Invoking events without "emit" prefix is deprecated.
+    Unpause();
+    ^-------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:260:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Approval(msg.sender, _to, _tokenId);
+        ^---------------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:317:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Transfer(_from, _to, _tokenId);
+        ^----------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:577:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Mint(_owner, newTokenId, _difficulty, _capacity, _seedGenes);
+        ^----------------------------------------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:716:29: Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member, for example use "address(contract).balance" instead.
+        msg.sender.transfer(this.balance);
+                            ^----------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:810:9: Warning: Invoking events without "emit" prefix is deprecated.
+        AuctionCreated(
+        ^ (Relevant source part starts here and spans across multiple lines).
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:867:9: Warning: Invoking events without "emit" prefix is deprecated.
+        AuctionSuccessful(now, seller, _tokenId, price, msg.sender);
+        ^---------------------------------------------------------^
+/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:881:9: Warning: Invoking events without "emit" prefix is deprecated.
+        AuctionCancelled(now, _seller, _tokenId);
+        ^--------------------------------------^
+
+INFO:Detectors:[93m
+ERC721 (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#140-176) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#153-154)
+	-approve (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#155)
+	-transferFrom (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#158-159)
+ERC721Token (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#177-357) has incorrect ERC20 function interface(s):
+	-transfer (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#235-248)
+	-approve (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#257-267)
+	-transferFrom (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#276-291)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+DungeonToken.migrateDungeon uses tx.origin for authorization:
+	- require(bool)(now < 1520694000 && tx.origin == 0x47169f78750Be1e6ec2DEb2974458ac4F8751714) (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#617-621)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-usage-of-txorigin[0m
+INFO:Detectors:[92m
+Reentrancy in ERC721DutchAuction._createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#782-826):
+	External calls:
+	- require(bool)(nonFungibleContract.ownerOf(_tokenId) == msg.sender) (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#802-804)
+	- nonFungibleContract.transferFrom(msg.sender,this,_tokenId) (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#815-817)
+	State variables written after the call(s):
+	- tokenIdToAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#825)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Ownable.transferOwnership (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#34-45) should be declared external
+JointOwnable.assignAnotherOwner1 (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#68-76) should be declared external
+JointOwnable.assignAnotherOwner2 (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#79-89) should be declared external
+Pausable.pause (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#123-125) should be declared external
+Pausable.unpause (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#134-139) should be declared external
+ERC721Token.balanceOf (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#204-207) should be declared external
+ERC721.balanceOf (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#149-150) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol:
+	- pragma solidity^0.4.19 (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Ownable.Ownable' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#18-23) is not in mixedCase
+Parameter '_anotherOwner' of JointOwnable.assignAnotherOwner1 (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#69-70) is not in mixedCase
+Parameter '_anotherOwner' of JointOwnable.assignAnotherOwner2 (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#80) is not in mixedCase
+Parameter '_owner' of ERC721Token.balanceOf (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#206) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.ownerOf (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#213) is not in mixedCase
+Parameter '_to' of ERC721Token.transfer (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#235-236) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.transfer (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#236) is not in mixedCase
+Parameter '_to' of ERC721Token.approve (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#257-259) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.approve (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#259) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.approvedFor (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#222) is not in mixedCase
+Parameter '_from' of ERC721Token.transferFrom (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#276) is not in mixedCase
+Parameter '_to' of ERC721Token.transferFrom (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#277) is not in mixedCase
+Parameter '_tokenId' of ERC721Token.transferFrom (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#277) is not in mixedCase
+Parameter '_owner' of ERC721Token.getOwnerTokens (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#228) is not in mixedCase
+Function 'ERC721Token._transfer' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#294-329) is not in mixedCase
+Parameter '_from' of ERC721Token._transfer (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#294) is not in mixedCase
+Parameter '_to' of ERC721Token._transfer (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#294) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._transfer (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#294-296) is not in mixedCase
+Function 'ERC721Token._approve' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#336-341) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._approve (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#340) is not in mixedCase
+Parameter '_approved' of ERC721Token._approve (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#340) is not in mixedCase
+Function 'ERC721Token._owns' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#355-356) is not in mixedCase
+Parameter '_claimant' of ERC721Token._owns (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#355-356) is not in mixedCase
+Parameter '_tokenId' of ERC721Token._owns (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#356) is not in mixedCase
+Parameter '_difficulty' of DungeonToken.createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#537) is not in mixedCase
+Parameter '_capacity' of DungeonToken.createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#537) is not in mixedCase
+Parameter '_floorNumber' of DungeonToken.createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#537-538) is not in mixedCase
+Parameter '_seedGenes' of DungeonToken.createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#538) is not in mixedCase
+Parameter '_floorGenes' of DungeonToken.createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#538-539) is not in mixedCase
+Parameter '_owner' of DungeonToken.createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#539-542) is not in mixedCase
+Parameter '_id' of DungeonToken.setDungeonStatus (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#551) is not in mixedCase
+Parameter '_newStatus' of DungeonToken.setDungeonStatus (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#551) is not in mixedCase
+Parameter '_id' of DungeonToken.addDungeonRewards (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#558) is not in mixedCase
+Parameter '_additinalRewards' of DungeonToken.addDungeonRewards (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#558) is not in mixedCase
+Parameter '_id' of DungeonToken.addDungeonNewFloor (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#566) is not in mixedCase
+Parameter '_newRewards' of DungeonToken.addDungeonNewFloor (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#566) is not in mixedCase
+Parameter '_newFloorGenes' of DungeonToken.addDungeonNewFloor (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#566) is not in mixedCase
+Function 'DungeonToken._createDungeon' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#573-595) is not in mixedCase
+Parameter '_difficulty' of DungeonToken._createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#574) is not in mixedCase
+Parameter '_capacity' of DungeonToken._createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#574) is not in mixedCase
+Parameter '_floorNumber' of DungeonToken._createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#575-576) is not in mixedCase
+Parameter '_rewards' of DungeonToken._createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#576) is not in mixedCase
+Parameter '_seedGenes' of DungeonToken._createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#576-577) is not in mixedCase
+Parameter '_floorGenes' of DungeonToken._createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#577) is not in mixedCase
+Parameter '_owner' of DungeonToken._createDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#577) is not in mixedCase
+Parameter '_difficulty' of DungeonToken.migrateDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#607) is not in mixedCase
+Parameter '_capacity' of DungeonToken.migrateDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#607-609) is not in mixedCase
+Parameter '_floorNumber' of DungeonToken.migrateDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#609) is not in mixedCase
+Parameter '_rewards' of DungeonToken.migrateDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#609-611) is not in mixedCase
+Parameter '_seedGenes' of DungeonToken.migrateDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#611) is not in mixedCase
+Parameter '_floorGenes' of DungeonToken.migrateDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#611) is not in mixedCase
+Parameter '_owner' of DungeonToken.migrateDungeon (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#611-612) is not in mixedCase
+Function 'ERC721DutchAuction.ERC721DutchAuction' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#679-684) is not in mixedCase
+Parameter '_tokenAddress' of ERC721DutchAuction.ERC721DutchAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#679) is not in mixedCase
+Parameter '_ownerCut' of ERC721DutchAuction.ERC721DutchAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#679) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction.bid (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#689) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction.cancelAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#706) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction.cancelAuctionWhenPaused (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#725-726) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction.getAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#747-748) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction.getCurrentPrice (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#764-765) is not in mixedCase
+Function 'ERC721DutchAuction._createAuction' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#782-826) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction._createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#784) is not in mixedCase
+Parameter '_startingPrice' of ERC721DutchAuction._createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#784) is not in mixedCase
+Parameter '_endingPrice' of ERC721DutchAuction._createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#784-785) is not in mixedCase
+Parameter '_duration' of ERC721DutchAuction._createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#785) is not in mixedCase
+Parameter '_seller' of ERC721DutchAuction._createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#787) is not in mixedCase
+Function 'ERC721DutchAuction._addAuction' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#830-838) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction._addAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#830-831) is not in mixedCase
+Parameter '_auction' of ERC721DutchAuction._addAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#831) is not in mixedCase
+Function 'ERC721DutchAuction._bid' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#842-896) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction._bid (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#842) is not in mixedCase
+Parameter '_bidAmount' of ERC721DutchAuction._bid (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#842-843) is not in mixedCase
+Function 'ERC721DutchAuction._cancelAuction' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#898-904) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction._cancelAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#898) is not in mixedCase
+Parameter '_seller' of ERC721DutchAuction._cancelAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#898) is not in mixedCase
+Function 'ERC721DutchAuction._removeAuction' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#909-910) is not in mixedCase
+Parameter '_tokenId' of ERC721DutchAuction._removeAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#909) is not in mixedCase
+Function 'ERC721DutchAuction._computeCurrentPrice' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#917-958) is not in mixedCase
+Parameter '_auction' of ERC721DutchAuction._computeCurrentPrice (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#917) is not in mixedCase
+Function 'ERC721DutchAuction._isOnAuction' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#964-967) is not in mixedCase
+Parameter '_auction' of ERC721DutchAuction._isOnAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol#964) is not in mixedCase
+Function 'DungeonTokenAuction.DungeonTokenAuction' (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol) is not in mixedCase
+Parameter '_tokenId' of DungeonTokenAuction.createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol) is not in mixedCase
+Parameter '_startingPrice' of DungeonTokenAuction.createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol) is not in mixedCase
+Parameter '_endingPrice' of DungeonTokenAuction.createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol) is not in mixedCase
+Parameter '_duration' of DungeonTokenAuction.createAuction (/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_chucks/24/0xc99f359f73626e475ee86caab459a4b34ae93fea.sol analyzed (10 contracts), 98 result(s) found

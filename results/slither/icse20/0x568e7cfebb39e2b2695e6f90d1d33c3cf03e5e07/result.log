@@ -1,0 +1,189 @@
+INFO:Slither:Compilation warnings/errors on /unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:10:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Utils() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:98:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Owned() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:226:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function TokenHolder() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:317:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function BancorNetwork(IContractRegistry _registry) public validAddress(_registry) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:394:24: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 hash = keccak256(_block, tx.gasprice, _addr, msg.sender, _amount, _path);
+                       ^---------------------------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:403:32: Warning: This function only accepts a single "bytes" argument. Please use "abi.encodePacked(...)" or a similar function to encode the data.
+        bytes32 prefixedHash = keccak256("\x19Ethereum Signed Message:\n32", hash);
+                               ^-------------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:80:5: Warning: Function state mutability can be restricted to pure
+    function owner() public view returns (address) {}
+    ^-----------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:136:5: Warning: Function state mutability can be restricted to pure
+    function name() public view returns (string) {}
+    ^---------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:137:5: Warning: Function state mutability can be restricted to pure
+    function symbol() public view returns (string) {}
+    ^-----------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:138:5: Warning: Function state mutability can be restricted to pure
+    function decimals() public view returns (uint8) {}
+    ^------------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:139:5: Warning: Function state mutability can be restricted to pure
+    function totalSupply() public view returns (uint256) {}
+    ^-----------------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:140:5: Warning: Function state mutability can be restricted to pure
+    function balanceOf(address _owner) public view returns (uint256) { _owner; }
+    ^--------------------------------------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:141:5: Warning: Function state mutability can be restricted to pure
+    function allowance(address _owner, address _spender) public view returns (uint256) { _owner; _spender; }
+    ^------------------------------------------------------------------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:176:5: Warning: Function state mutability can be restricted to pure
+    function gasPrice() public view returns (uint256) {}
+    ^--------------------------------------------------^
+/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:263:5: Warning: Function state mutability can be restricted to pure
+    function conversionWhitelist() public view returns (IWhitelist) {}
+    ^----------------------------------------------------------------^
+
+INFO:Detectors:[91m
+BancorNetwork.convertForMultiple (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#490-527) sends eth to arbitrary user
+	Dangerous calls:
+	- IEtherToken(fromToken).deposit.value(_amounts[i])() (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#521-522)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+Contract locking ether found in /unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:
+	Contract IEtherToken has payable functions:
+	 - deposit (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#261)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#contracts-that-lock-ether[0m
+INFO:Detectors:[92m
+BancorNetwork.convertByPath has external calls inside a loop:
+	- converter = IBancorConverter(smartToken.owner()) (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#612-614)
+BancorNetwork.convertByPath has external calls inside a loop:
+	- _amount = converter.change(_fromToken,toToken,_amount,_minReturn) (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#624-625)
+BancorNetwork.convertByPath has external calls inside a loop:
+	- _amount = converter.change(_fromToken,toToken,_amount,1) (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#624-625)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+IOwned.owner (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#82-83) should be declared external
+IOwned.transferOwnership (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#83-87) should be declared external
+Owned.transferOwnership (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#117-123) should be declared external
+IOwned.acceptOwnership (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#87-89) should be declared external
+Owned.acceptOwnership (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#126-135) should be declared external
+IERC20Token.name (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#138-139) should be declared external
+IERC20Token.symbol (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#139-140) should be declared external
+IERC20Token.decimals (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#140) should be declared external
+IERC20Token.totalSupply (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#141) should be declared external
+IERC20Token.balanceOf (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#141-143) should be declared external
+IERC20Token.allowance (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#143-144) should be declared external
+IERC20Token.transfer (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#144-145) should be declared external
+IERC20Token.transferFrom (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#145-151) should be declared external
+IERC20Token.approve (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#151-153) should be declared external
+ISmartToken.disableTransfers (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#154-158) should be declared external
+ISmartToken.issue (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#159-161) should be declared external
+ISmartToken.destroy (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#161-164) should be declared external
+IContractRegistry.getAddress (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#168) should be declared external
+IContractFeatures.isSupported (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#173-176) should be declared external
+IContractFeatures.enableFeatures (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#176-177) should be declared external
+IBancorGasPriceLimit.gasPrice (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#184) should be declared external
+IBancorGasPriceLimit.validateGasPrice (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#185-189) should be declared external
+IWhitelist.isWhitelisted (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#190-193) should be declared external
+TokenHolder.withdrawTokens (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#245-258) should be declared external
+ITokenHolder.withdrawTokens (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#217-219) should be declared external
+IEtherToken.deposit (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#261) should be declared external
+IEtherToken.withdraw (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#261-262) should be declared external
+IEtherToken.withdrawTo (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#262) should be declared external
+IBancorConverter.getReturn (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#263-265) should be declared external
+IBancorConverter.convert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#265-269) should be declared external
+IBancorConverter.conversionWhitelist (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#269-272) should be declared external
+IBancorConverter.change (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#272-273) should be declared external
+IBancorNetwork.convert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#274-279) should be declared external
+BancorNetwork.convert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#683-687) should be declared external
+BancorNetwork.setContractRegistry (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#344-350) should be declared external
+BancorNetwork.setGasPriceLimit (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#360-370) should be declared external
+BancorNetwork.setSignerAddress (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#373-380) should be declared external
+BancorNetwork.registerEtherToken (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#387-393) should be declared external
+BancorNetwork.convertForMultiple (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#490-527) should be declared external
+BancorNetwork.claimAndConvert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#701-707) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Detected issues with version pragma in /unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol:
+	- pragma solidity^0.4.21 (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#1): it allows old versions
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-version-of-solidity[0m
+INFO:Detectors:[92m
+Function 'Utils.Utils' (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#10-13) is not in mixedCase
+Parameter '_x' of Utils.safeAdd (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#41) is not in mixedCase
+Parameter '_y' of Utils.safeAdd (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#41-42) is not in mixedCase
+Parameter '_x' of Utils.safeSub (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#55-56) is not in mixedCase
+Parameter '_y' of Utils.safeSub (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#56) is not in mixedCase
+Parameter '_x' of Utils.safeMul (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#69) is not in mixedCase
+Parameter '_y' of Utils.safeMul (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#69-70) is not in mixedCase
+Parameter '_newOwner' of Owned.transferOwnership (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#120-121) is not in mixedCase
+Function 'Owned.Owned' (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#102-104) is not in mixedCase
+Parameter '' of IBancorGasPriceLimit.validateGasPrice (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#188) is not in mixedCase
+Parameter '_token' of TokenHolder.withdrawTokens (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#249-251) is not in mixedCase
+Parameter '_to' of TokenHolder.withdrawTokens (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#251) is not in mixedCase
+Parameter '_amount' of TokenHolder.withdrawTokens (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#251) is not in mixedCase
+Function 'TokenHolder.TokenHolder' (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#234) is not in mixedCase
+Parameter '_path' of BancorNetwork.convert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#683) is not in mixedCase
+Parameter '_amount' of BancorNetwork.convert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#683) is not in mixedCase
+Parameter '_minReturn' of BancorNetwork.convert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#683-685) is not in mixedCase
+Parameter '_path' of BancorNetwork.convertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#433) is not in mixedCase
+Parameter '_amount' of BancorNetwork.convertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#433) is not in mixedCase
+Parameter '_minReturn' of BancorNetwork.convertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#433-434) is not in mixedCase
+Parameter '_for' of BancorNetwork.convertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#434) is not in mixedCase
+Parameter '_path' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#452) is not in mixedCase
+Parameter '_amount' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#452-454) is not in mixedCase
+Parameter '_minReturn' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#454) is not in mixedCase
+Parameter '_for' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#454) is not in mixedCase
+Parameter '_block' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#454) is not in mixedCase
+Parameter '_v' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#454) is not in mixedCase
+Parameter '_r' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#454) is not in mixedCase
+Parameter '_s' of BancorNetwork.convertForPrioritized (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#454) is not in mixedCase
+Function 'BancorNetwork.BancorNetwork' (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#323-328) is not in mixedCase
+Parameter '_registry' of BancorNetwork.BancorNetwork (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#323) is not in mixedCase
+Parameter '_registry' of BancorNetwork.setContractRegistry (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#345-346) is not in mixedCase
+Parameter '_gasPriceLimit' of BancorNetwork.setGasPriceLimit (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#360-361) is not in mixedCase
+Parameter '_signerAddress' of BancorNetwork.setSignerAddress (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#373-374) is not in mixedCase
+Parameter '_token' of BancorNetwork.registerEtherToken (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#388) is not in mixedCase
+Parameter '_register' of BancorNetwork.registerEtherToken (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#388) is not in mixedCase
+Parameter '_path' of BancorNetwork.verifyTrustedSender (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#398) is not in mixedCase
+Parameter '_amount' of BancorNetwork.verifyTrustedSender (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#398) is not in mixedCase
+Parameter '_block' of BancorNetwork.verifyTrustedSender (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#398-399) is not in mixedCase
+Parameter '_addr' of BancorNetwork.verifyTrustedSender (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#399) is not in mixedCase
+Parameter '_v' of BancorNetwork.verifyTrustedSender (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#399) is not in mixedCase
+Parameter '_r' of BancorNetwork.verifyTrustedSender (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#399) is not in mixedCase
+Parameter '_s' of BancorNetwork.verifyTrustedSender (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#399) is not in mixedCase
+Parameter '_paths' of BancorNetwork.convertForMultiple (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#490) is not in mixedCase
+Parameter '_pathStartIndex' of BancorNetwork.convertForMultiple (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#490) is not in mixedCase
+Parameter '_amounts' of BancorNetwork.convertForMultiple (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#490) is not in mixedCase
+Parameter '_minReturns' of BancorNetwork.convertForMultiple (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#490-492) is not in mixedCase
+Parameter '_for' of BancorNetwork.convertForMultiple (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#492) is not in mixedCase
+Parameter '_path' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#554) is not in mixedCase
+Parameter '_amount' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#554) is not in mixedCase
+Parameter '_minReturn' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#554-555) is not in mixedCase
+Parameter '_for' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#555) is not in mixedCase
+Parameter '_block' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#555-557) is not in mixedCase
+Parameter '_v' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#557-558) is not in mixedCase
+Parameter '_r' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#559) is not in mixedCase
+Parameter '_s' of BancorNetwork.convertForInternal (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#559) is not in mixedCase
+Parameter '_path' of BancorNetwork.convertByPath (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#599-600) is not in mixedCase
+Parameter '_amount' of BancorNetwork.convertByPath (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#600) is not in mixedCase
+Parameter '_minReturn' of BancorNetwork.convertByPath (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#601) is not in mixedCase
+Parameter '_fromToken' of BancorNetwork.convertByPath (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#601-602) is not in mixedCase
+Parameter '_for' of BancorNetwork.convertByPath (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#602) is not in mixedCase
+Parameter '_converter' of BancorNetwork.checkWhitelist (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#638-641) is not in mixedCase
+Parameter '_for' of BancorNetwork.checkWhitelist (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#641) is not in mixedCase
+Parameter '_features' of BancorNetwork.checkWhitelist (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#641) is not in mixedCase
+Parameter '_path' of BancorNetwork.claimAndConvertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#663) is not in mixedCase
+Parameter '_amount' of BancorNetwork.claimAndConvertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#663) is not in mixedCase
+Parameter '_minReturn' of BancorNetwork.claimAndConvertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#663-664) is not in mixedCase
+Parameter '_for' of BancorNetwork.claimAndConvertFor (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#664) is not in mixedCase
+Parameter '_path' of BancorNetwork.claimAndConvert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#703) is not in mixedCase
+Parameter '_amount' of BancorNetwork.claimAndConvert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#703) is not in mixedCase
+Parameter '_minReturn' of BancorNetwork.claimAndConvert (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol#703-704) is not in mixedCase
+Parameter '_token' of BancorNetwork.ensureAllowance (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol) is not in mixedCase
+Parameter '_spender' of BancorNetwork.ensureAllowance (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol) is not in mixedCase
+Parameter '_value' of BancorNetwork.ensureAllowance (/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0x568e7cfebb39e2b2695e6f90d1d33c3cf03e5e07.sol analyzed (17 contracts), 120 result(s) found

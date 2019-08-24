@@ -1,0 +1,167 @@
+INFO:Detectors:[91m
+Play0x_Gashapon_MITH.sendFunds (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#829-838) sends eth to arbitrary user
+	Dangerous calls:
+	- beneficiary.send(amount) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#832-838)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[91m
+Reentrancy in Play0x_Gashapon_MITH.settleBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#498-598):
+	External calls:
+	- (totalAmount,totalTokenAmount,totalJackpotWin) = runRotateTime(combinationParameter,_entropy,keccak256()(abi.encodePacked(uint256(_entropy),blockhash(uint256)(combinationParameter[uint8(SettleParam.LuckySeed)])))) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#531-535)
+	- ERC20(ERC20ContractAddres).balanceOf(address(this)) > 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#562-569)
+	- ERC20(ERC20ContractAddres).transfer(bet.gambler,totalTokenAmount) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#563-568)
+	- ERC20(ERC20ContractAddres).balanceOf(address(this)) > 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#571-577)
+	- ERC20(ERC20ContractAddres).transfer(bet.gambler,totalAmount) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#572-573)
+	External calls sending eth:
+	- sendFunds(bet.gambler,totalAmount,totalAmount) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#560-561)
+	State variables written after the call(s):
+	- bets (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#587)
+	- jackpotSize (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#589-593)
+	- tokenJackpotSize (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#595-598)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities[0m
+INFO:Detectors:[93m
+ERC20 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#141-154) has incorrect ERC20 function interface(s):
+	-transfer (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#146)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#incorrect-erc20-interface[0m
+INFO:Detectors:[93m
+Play0x_Gashapon_MITH.getJackpotWinBonus (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#658-724) uses a dangerous strict equality:
+	- (one ^ 0xF) == 0 && (two ^ 0xF) == 0 && (three ^ 0xF) == 0 && (four ^ 0xF) == 0
+	- (one ^ 0xF) == 0 && (two ^ 0xF) == 0 && (three ^ 0xF) == 0 && (four ^ 0xF) == 0
+	- (one ^ 0xF) == 0 && (two ^ 0xF) == 0 && (three ^ 0xF) == 0 && (four ^ 0xF) == 0
+	- (one ^ 0xF) == 0 && (two ^ 0xF) == 0 && (three ^ 0xF) == 0 && (four ^ 0xF) == 0
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#dangerous-strict-equalities[0m
+INFO:Detectors:[93m
+Reentrancy in Play0x_Gashapon_MITH.placeTokenBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#451-479):
+	External calls:
+	- require(bool)(lockedTokenInBets <= ERC20(ERC20ContractAddres).balanceOf(address(this))) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#468-469)
+	State variables written after the call(s):
+	- bets (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#470)
+	- bets (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#470-471)
+	- bets (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#471-474)
+Reentrancy in Play0x_Gashapon_MITH.settleBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#498-598):
+	External calls:
+	- (totalAmount,totalTokenAmount,totalJackpotWin) = runRotateTime(combinationParameter,_entropy,keccak256()(abi.encodePacked(uint256(_entropy),blockhash(uint256)(combinationParameter[uint8(SettleParam.LuckySeed)])))) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#531-535)
+	State variables written after the call(s):
+	- jackpotSize (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#540)
+	- tokenJackpotSize (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#545-548)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-1[0m
+INFO:Detectors:[93m
+three in Play0x_Gashapon_MITH.getJackpotWinBonus (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#661-662) is a local variable never initialiazed
+two in Play0x_Gashapon_MITH.getJackpotWinBonus (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#661) is a local variable never initialiazed
+one in Play0x_Gashapon_MITH.getJackpotWinBonus (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#660-661) is a local variable never initialiazed
+four in Play0x_Gashapon_MITH.getJackpotWinBonus (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#663) is a local variable never initialiazed
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#uninitialized-local-variables[0m
+INFO:Detectors:[92m
+Play0x_Gashapon_MITH.runRotateTime has external calls inside a loop:
+	- ERC20(ERC20ContractAddres).balanceOf(address(this)) > 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#635-644)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation/_edit#calls-inside-a-loop[0m
+INFO:Detectors:[92m
+Reentrancy in Play0x_Gashapon_MITH.settleBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#498-598):
+	External calls:
+	- (totalAmount,totalTokenAmount,totalJackpotWin) = runRotateTime(combinationParameter,_entropy,keccak256()(abi.encodePacked(uint256(_entropy),blockhash(uint256)(combinationParameter[uint8(SettleParam.LuckySeed)])))) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#531-535)
+	- ERC20(ERC20ContractAddres).balanceOf(address(this)) > 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#562-569)
+	- ERC20(ERC20ContractAddres).transfer(bet.gambler,totalTokenAmount) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#563-568)
+	- ERC20(ERC20ContractAddres).balanceOf(address(this)) > 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#571-577)
+	- ERC20(ERC20ContractAddres).transfer(bet.gambler,totalAmount) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#572-573)
+	External calls sending eth:
+	- sendFunds(bet.gambler,totalAmount,totalAmount) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#560-561)
+	State variables written after the call(s):
+	- lockedInBets (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#580-581)
+	- lockedTokenInBets (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#582-587)
+Reentrancy in Play0x_Gashapon_MITH.withdrawAlltokenFunds (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#368-376):
+	External calls:
+	- ERC20(ERC20ContractAddres).transfer(beneficiary,ERC20(ERC20ContractAddres).balanceOf(address(this))) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#369-372)
+	State variables written after the call(s):
+	- lockedTokenInBets (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#372)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#reentrancy-vulnerabilities-2[0m
+INFO:Detectors:[92m
+Play0x_Gashapon_MITH.withdrawFunds (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#335-345) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(safetyAmount <= address(this).balance) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#343)
+Play0x_Gashapon_MITH.withdrawToken (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#345-361) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)(safetyAmount <= ERC20(ERC20ContractAddres).balanceOf(address(this))) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#353-355)
+Play0x_Gashapon_MITH.settleBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#498-598) uses timestamp for comparisons
+	Dangerous comparisons:
+	- totalJackpotWin > 0 && combinationParameter[uint8(SettleParam.CurrencyType)] == 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#536-548)
+	- totalJackpotWin > 0 && combinationParameter[uint8(SettleParam.CurrencyType)] == 1 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#540-548)
+	- totalAmount != 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#557-561)
+	- totalAmount != 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#571-578)
+	- totalTokenAmount != 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#562-569)
+Play0x_Gashapon_MITH.runRotateTime (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#598-658) uses timestamp for comparisons
+	Dangerous comparisons:
+	- isGetJackpot == true && combinationParameter[uint8(SettleParam.CurrencyType)] == 1 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#655-658)
+	- isGetJackpot == false (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#644-650)
+	- isGetJackpot == true && combinationParameter[uint8(SettleParam.CurrencyType)] == 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#650-658)
+	- uint256(tmp_entropy) < uint256(combinationParameter[uint8(SettleParam.Uplimit)]) (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#619-644)
+Play0x_Gashapon_MITH.getJackpotWinBonus (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#658-724) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (one ^ 0xF) == 0 && (two ^ 0xF) == 0 && (three ^ 0xF) == 0 && (four ^ 0xF) == 0 (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#720-724)
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#block-timestamp[0m
+INFO:Detectors:[92m
+ERC20.approve (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#141-142) should be declared external
+ERC20.allowance (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#142-143) should be declared external
+ERC20.balanceOf (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#143-144) should be declared external
+ERC20.transferFrom (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#144-146) should be declared external
+ERC20.transfer (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#146) should be declared external
+Play0x_Gashapon_MITH.fallback (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#318-322) should be declared external
+Play0x_Gashapon_MITH.setMaxProfit (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#332-335) should be declared external
+Play0x_Gashapon_MITH.getContractInformation (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#387-419) should be declared external
+Play0x_Gashapon_MITH.getContractAddress (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#419-424) should be declared external
+Play0x_Gashapon_MITH.updateMIN_BET (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#862-865) should be declared external
+Play0x_Gashapon_MITH.updateMAX_BET (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#865-869) should be declared external
+Play0x_Gashapon_MITH.updateMAX_AMOUNT (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#869-870) should be declared external
+Play0x_Gashapon_MITH.updateWithdrawalModeByIndex (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#871-872) should be declared external
+Play0x_Gashapon_MITH.updateWithdrawalMode (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) should be declared external
+Play0x_Gashapon_MITH.updateBitComparisonMask (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) should be declared external
+Play0x_Gashapon_MITH.updatePlatformFeePercentage (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) should be declared external
+Play0x_Gashapon_MITH.updateJackpotFeePercentage (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) should be declared external
+Play0x_Gashapon_MITH.updateERC20rewardMultiple (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) should be declared external
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#public-function-that-could-be-declared-as-external[0m
+INFO:Detectors:[92m
+Contract 'Play0x_Gashapon_MITH' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#154-872) is not in CapWords
+Parameter '_manager' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#271-272) is not in mixedCase
+Parameter '_secretSigner' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#272) is not in mixedCase
+Parameter '_erc20tokenAddress' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#272-273) is not in mixedCase
+Parameter '_MIN_BET' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#273) is not in mixedCase
+Parameter '_MAX_BET' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#273) is not in mixedCase
+Parameter '_maxProfit' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#273-275) is not in mixedCase
+Parameter '_maxTokenProfit' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#275-276) is not in mixedCase
+Parameter '_MAX_AMOUNT' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#276) is not in mixedCase
+Parameter '_platformFeePercentage' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#276-277) is not in mixedCase
+Parameter '_jackpotFeePercentage' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#277-278) is not in mixedCase
+Parameter '_ERC20rewardMultiple' of Play0x_Gashapon_MITH.initialParameter (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#278-279) is not in mixedCase
+Parameter '_nextOwner' of Play0x_Gashapon_MITH.approveNextOwner (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#296-297) is not in mixedCase
+Parameter '_nextManager' of Play0x_Gashapon_MITH.approveNextManager (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#307-308) is not in mixedCase
+Parameter '_tokenAddress' of Play0x_Gashapon_MITH.setTokenAddress (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#325-328) is not in mixedCase
+Parameter '_maxProfit' of Play0x_Gashapon_MITH.setMaxProfit (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#332) is not in mixedCase
+Parameter '_signatureHash' of Play0x_Gashapon_MITH.placeBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#430) is not in mixedCase
+Parameter '_commitLastBlock' of Play0x_Gashapon_MITH.placeBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#430-432) is not in mixedCase
+Parameter '_commit' of Play0x_Gashapon_MITH.placeBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#432-433) is not in mixedCase
+Parameter '_signatureHash' of Play0x_Gashapon_MITH.placeTokenBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#452) is not in mixedCase
+Parameter '_commitLastBlock' of Play0x_Gashapon_MITH.placeTokenBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#453-455) is not in mixedCase
+Parameter '_commit' of Play0x_Gashapon_MITH.placeTokenBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#455) is not in mixedCase
+Parameter '_amount' of Play0x_Gashapon_MITH.placeTokenBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#455) is not in mixedCase
+Parameter '_playerAddress' of Play0x_Gashapon_MITH.placeTokenBet (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#455) is not in mixedCase
+Parameter '_entropy' of Play0x_Gashapon_MITH.runRotateTime (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#599-600) is not in mixedCase
+Parameter '_entropy2' of Play0x_Gashapon_MITH.runRotateTime (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#600-601) is not in mixedCase
+Function 'Play0x_Gashapon_MITH.updateMIN_BET' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#862-865) is not in mixedCase
+Parameter '_uintNumber' of Play0x_Gashapon_MITH.updateMIN_BET (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#862-863) is not in mixedCase
+Function 'Play0x_Gashapon_MITH.updateMAX_BET' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#865-869) is not in mixedCase
+Parameter '_uintNumber' of Play0x_Gashapon_MITH.updateMAX_BET (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#866) is not in mixedCase
+Function 'Play0x_Gashapon_MITH.updateMAX_AMOUNT' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#869-870) is not in mixedCase
+Parameter '_uintNumber' of Play0x_Gashapon_MITH.updateMAX_AMOUNT (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#869) is not in mixedCase
+Parameter '_index' of Play0x_Gashapon_MITH.updateWithdrawalModeByIndex (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) is not in mixedCase
+Parameter '_value' of Play0x_Gashapon_MITH.updateWithdrawalModeByIndex (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) is not in mixedCase
+Parameter '_withdrawalMode' of Play0x_Gashapon_MITH.updateWithdrawalMode (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) is not in mixedCase
+Parameter '_newBitComparisonMask' of Play0x_Gashapon_MITH.updateBitComparisonMask (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) is not in mixedCase
+Parameter '_platformFeePercentage' of Play0x_Gashapon_MITH.updatePlatformFeePercentage (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) is not in mixedCase
+Parameter '_jackpotFeePercentage' of Play0x_Gashapon_MITH.updateJackpotFeePercentage (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) is not in mixedCase
+Parameter '_ERC20rewardMultiple' of Play0x_Gashapon_MITH.updateERC20rewardMultiple (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol) is not in mixedCase
+Variable 'Play0x_Gashapon_MITH.MIN_BET' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#165-167) is not in mixedCase
+Variable 'Play0x_Gashapon_MITH.MAX_BET' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#167-168) is not in mixedCase
+Variable 'Play0x_Gashapon_MITH.MAX_AMOUNT' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#168) is not in mixedCase
+Variable 'Play0x_Gashapon_MITH.ERC20rewardMultiple' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#177-178) is not in mixedCase
+Constant 'Play0x_Gashapon_MITH.BetExpirationBlocks' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#181-183) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable 'Play0x_Gashapon_MITH.ERC20ContractAddres' (/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol#197-198) is not in mixedCase
+Reference: https://github.com/trailofbits/slither/wiki/Detectors-Documentation#conformance-to-solidity-naming-conventions[0m
+INFO:Slither:/unique_contracts/0xd6fc38ba353ad2fd5183c1069b0e45f1e78c1eef.sol analyzed (3 contracts), 81 result(s) found
