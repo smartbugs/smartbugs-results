@@ -1,10 +1,17 @@
-# SmartBugs Vulnerability Analysis
+# Vulnerability Analysis of Smart Contracts using SmartBugs
 
 This repository contains the RAW results of the vulnerability analysis of 9 tools on 47,587 smart contracts.
-We used two datasets of vulnerabilities: 1) 69 annotated vulnerable contracts 2) 47,518 contracts from the Ethereum network.
+We used two datasets of vulnerabilities: 1) 69 annotated vulnerable contracts 2) 47,518 contracts taken from the Ethereum network.
 
-The raw results of the analysis on the first benchmark is stored in `results/<name_tool>/curated/<contract_name>`.
-The raw results of the analysis on the first benchmark is stored in `results/<name_tool>/icse20/<contract_address>`.
+The raw results of the analysis on the first dataset are stored in `results/<name_tool>/curated/<contract_name>`.
+The raw results of the analysis on the second dataset are stored in `results/<name_tool>/icse20/<contract_address>`.
+
+These results are presented and discussed in [the following ICSE 2020 paper](https://arxiv.org/abs/1910.10601):
+
+```
+Thomas Durieux, João F. Ferreira, Rui Abreu, and Pedro Cruz. Empirical Review of Automated Analysis Tools on 47,587 Ethereum Smart Contracts. In ICSE 2020.
+```
+
 
 ## Structure of the repository
 
