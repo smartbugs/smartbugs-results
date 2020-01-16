@@ -9,7 +9,9 @@ The raw results of the analysis on the second dataset are stored in `results/<na
 These results are presented and discussed in [the following ICSE 2020 paper](https://arxiv.org/abs/1910.10601):
 
 ```
-Thomas Durieux, João F. Ferreira, Rui Abreu, and Pedro Cruz. Empirical Review of Automated Analysis Tools on 47,587 Ethereum Smart Contracts. In ICSE 2020.
+Thomas Durieux, João F. Ferreira, Rui Abreu, and Pedro Cruz.
+Empirical Review of Automated Analysis Tools on 47,587 Ethereum Smart Contracts.
+In ICSE 2020.
 ```
 
 
@@ -44,7 +46,7 @@ Thomas Durieux, João F. Ferreira, Rui Abreu, and Pedro Cruz. Empirical Review o
 
 ## SB Curated Results
 
-# Execution Time Stat
+# Execution Time Stats
 
 |  #  | Tool       | Avg. Execution Time | Total Execution Time |
 | --- | ---------- | ------------------- | -------------------- |
